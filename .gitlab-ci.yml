@@ -1,0 +1,36 @@
+image: node:15
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - "Install"
+  - "Test"
+
+install:
+  stage: "Install"
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules
+  only:
+    - branches
+    - tags
+  tags:
+    - docker-nonswiss-ok
+  interruptible: true
+
+test:unit:
+  stage: Test
+  script:
+    - npm run test:unit
+  dependencies:
+    - install
+  only:
+    - branches
+    - tags
+  tags:
+    - docker-nonswiss-ok
+  interruptible: true
