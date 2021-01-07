@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="currentColor">
+  <g id="icon-arrow">
+    <path id="icon-arrow" class="cls-1"
+          d="M20,0A20,20,0,1,0,40,20,20,20,0,0,0,20,0Zm1.217,29.556L19.611,27.95l6.419-6.419H9.677V19.26H26.03l-6.419-6.419,1.606-1.606,9.16,9.16Z"/>
+  </g>
+</svg>
