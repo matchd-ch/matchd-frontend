@@ -1,5 +1,3 @@
-const colors = require("tailwindcss/colors");
-
 module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
@@ -25,13 +23,13 @@ module.exports = {
         1: "#1FAC01",
         2: "#58B624"
       },
-      black: colors.black,
+      black: "#000",
       grey: {
         1: "#141414",
         2: "#AFAFAF",
         3: "#EDEDED"
       },
-      white: colors.white,
+      white: "#FFF",
       primaryA: "#000",
       primaryB: "#FFF",
       accent: "#1FAC01",
