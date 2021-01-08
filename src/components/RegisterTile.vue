@@ -25,10 +25,10 @@ export default class RegisterTile extends Vue {}
   @apply text-xl text-white underline;
   @apply p-10 lg:p-14;
   @apply shadow-white;
-}
 
-.register-tile::before {
-  content: "";
-  @apply lg:inline-block lg:align-top lg:pb-full lg:w-0;
+  &::before {
+    content: "";
+    @apply lg:inline-block lg:align-top lg:pb-full lg:w-0;
+  }
 }
 </style>

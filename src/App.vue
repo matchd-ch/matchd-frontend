@@ -2,8 +2,8 @@
   <router-view />
 </template>
 
-<style lang="scss">
-@import "~@/styles/index.scss";
+<style>
+@import "./styles/index.css";
 
 #app {
   -webkit-font-smoothing: antialiased;
