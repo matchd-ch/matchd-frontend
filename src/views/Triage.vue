@@ -10,7 +10,7 @@
         The Talent Factory
       </div>
       <div class="hidden lg:flex justify-center items-center shadow-white">
-        <button class="bg-white rounded-full  font-medium py-3 px-5 border border-black">
+        <button class="bg-black rounded-full font-medium py-3 px-5 text-white">
           Login
         </button>
       </div>
