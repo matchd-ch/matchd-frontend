@@ -10,9 +10,7 @@
         The Talent Factory
       </div>
       <div class="hidden lg:flex justify-center items-center shadow-white">
-        <button class="bg-black rounded-full font-medium py-3 px-5 text-white">
-          Login
-        </button>
+        <MatchdButton>Login</MatchdButton>
       </div>
       <RegisterTile class="lg:col-start-2 lg:row-start-2">
         Als Schüler*in / Lernender registrieren
@@ -38,10 +36,12 @@
 import { Options, Vue } from "vue-class-component";
 import Logo from "@/assets/logo.svg";
 import RegisterTile from "@/components/RegisterTile.vue";
+import MatchdButton from "@/components/MatchdButton.vue";
 
 @Options({
   components: {
     RegisterTile,
+    MatchdButton,
     Logo
   }
 })

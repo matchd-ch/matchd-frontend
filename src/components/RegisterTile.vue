@@ -22,7 +22,7 @@ export default class RegisterTile extends Vue {}
 <style scoped>
 .register-tile {
   @apply flex items-center;
-  @apply text-xl text-white underline;
+  @apply text-2xl text-white underline;
   @apply p-10 lg:p-14;
   @apply shadow-white;
 
