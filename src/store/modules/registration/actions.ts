@@ -6,7 +6,7 @@ import { Mutations } from "@/store/modules/registration/mutations";
 import { MutationTypes } from "@/store/modules/registration/mutation-types";
 import { State } from "@/store/modules/registration/state";
 
-import { NewAccount } from "@/models/NewAccount";
+import { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -16,7 +16,10 @@ type AugmentedActionContext = {
 } & Omit<ActionContext<State, RootState>, "commit">;
 
 export interface Actions {
-  [ActionTypes.SAVE_REGISTRATION]({ commit }: AugmentedActionContext, payload: NewAccount): void;
+  [ActionTypes.SAVE_REGISTRATION](
+    { commit }: AugmentedActionContext,
+    payload: NewCompanyAccount | NewStudentAccount
+  ): void;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -24,5 +27,5 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.SET_LOADING, true);
     // async stuff
     commit(MutationTypes.SET_LOADING, false);
-  }
+  },
 };

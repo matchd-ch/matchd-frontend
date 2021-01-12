@@ -13,8 +13,8 @@ import IconArrow from "@/assets/icons/arrow.svg";
 
 @Options({
   components: {
-    IconArrow
-  }
+    IconArrow,
+  },
 })
 export default class RegisterTile extends Vue {}
 </script>
@@ -25,7 +25,6 @@ export default class RegisterTile extends Vue {}
   @apply text-2xl text-white underline;
   @apply p-10 lg:p-14;
   @apply shadow-white;
-
   &::before {
     content: "";
     @apply lg:inline-block lg:align-top lg:pb-full lg:w-0;

@@ -14,5 +14,5 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.SET_TYPE](state: State, payload: AccountType) {
     state.type = payload;
-  }
+  },
 };

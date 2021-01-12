@@ -4,7 +4,7 @@
       <div
         class="lg:col-start-1 lg:col-span-2 lg:flex justify-center items-center text-white p-10 shadow-white"
       >
-        <Logo />
+        <Logo class="w-full" />
       </div>
       <div class="hidden lg:flex justify-center items-center text-white text-3xl shadow-white">
         The Talent Factory
@@ -27,7 +27,10 @@
       <RegisterTile class="lg:col-start-3 lg:row-start-3"
         >Als Bildungsinstitution registrieren</RegisterTile
       >
-      <RegisterTile class="lg:col-start-4 lg:row-start-3">Nichts passendes gefunden?</RegisterTile>
+      <RegisterTile class="lg:col-start-4 lg:row-start-3">Nichts Passendes gefunden?</RegisterTile>
+    </div>
+    <div class="max-w-screen-sm mx-auto min-h-screen flex items-center p-5 lg:p-0">
+      <RegisterContactForm @submit="onSubmit" class="flex-grow" />
     </div>
   </div>
 </template>
@@ -37,15 +40,21 @@ import { Options, Vue } from "vue-class-component";
 import Logo from "@/assets/logo.svg";
 import RegisterTile from "@/components/RegisterTile.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
+import RegisterContactForm from "@/components/RegisterContactForm.vue";
 
 @Options({
   components: {
     RegisterTile,
     MatchdButton,
-    Logo
-  }
+    RegisterContactForm,
+    Logo,
+  },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  onSubmit() {
+    console.log("submit");
+  }
+}
 </script>
 
 <style></style>

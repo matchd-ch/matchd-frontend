@@ -3,7 +3,7 @@ import { createLogger, createStore } from "vuex";
 import {
   store as registration,
   RegistrationStore,
-  State as RegistrationState
+  State as RegistrationState,
 } from "@/store/modules/registration";
 
 export type RootState = {
@@ -19,8 +19,8 @@ const plugins = debug ? [createLogger({})] : [];
 export const store = createStore({
   plugins,
   modules: {
-    registration
-  }
+    registration,
+  },
 });
 
 export function useStore(): Store {

@@ -1,10 +1,10 @@
 module.exports = {
   devServer: {
     headers: {
-      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Origin": "*",
     },
     disableHostCheck: true,
-    writeToDisk: true
+    writeToDisk: true,
   },
   chainWebpack: config => {
     const svgRule = config.module.rule("svg");
@@ -17,8 +17,8 @@ module.exports = {
       .loader("vue-svg-loader")
       .options({
         svgo: {
-          plugins: [{ removeTitle: false }, { cleanupIDs: false }]
-        }
+          plugins: [{ removeTitle: false }, { cleanupIDs: false }],
+        },
       });
-  }
+  },
 };

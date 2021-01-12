@@ -10,5 +10,5 @@ export type Getters = {
 export const getters: GetterTree<State, RootState> & Getters = {
   type: state => {
     return state.type;
-  }
+  },
 };
