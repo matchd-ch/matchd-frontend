@@ -1,6 +1,8 @@
 <template>
   <div class="register-contact-form">
-    <h2 id="register-contact mb-6" class="text-white">Nichts Passendes gefunden?</h2>
+    <h2 id="register-contact" class="text-white text-heading-35 mb-6">
+      Nichts Passendes gefunden?
+    </h2>
     <p class="text-white mb-9">
       Bitte schreibe uns, woher du kommst und warum du dich gerne auf Matchd registrieren möchtest.
     </p>
@@ -46,7 +48,7 @@
         />
       </div>
       <div>
-        <MatchdButton type="submit" class="block w-full">Senden</MatchdButton>
+        <MatchdButton type="submit" :disabled="loading" class="block w-full">Senden</MatchdButton>
       </div>
     </Form>
   </div>
@@ -54,8 +56,12 @@
 
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
-import { Options, Vue } from "vue-class-component";
+import { Options, prop, Vue } from "vue-class-component";
 import { Form, Field, ErrorMessage } from "vee-validate";
+
+class Props {
+  loading = prop<boolean>({});
+}
 
 @Options({
   components: {
@@ -65,7 +71,7 @@ import { Form, Field, ErrorMessage } from "vee-validate";
     ErrorMessage,
   },
 })
-export default class RegisterContactForm extends Vue {}
+export default class RegisterContactForm extends Vue.with(Props) {}
 </script>
 
 <style scoped>
@@ -78,10 +84,9 @@ export default class RegisterContactForm extends Vue {}
   }
 }
 .form-textarea {
-  @apply block w-full bg-white rounded-30 px-8 py-5;
+  @apply block w-full min-h-145px bg-white rounded-30 px-8 py-5;
   @apply text-lg placeholder-black placeholder-opacity-100 resize-none border-2 border-white;
   @apply focus:outline-none focus:ring focus:ring-white focus:ring-opacity-50;
-  height: 145px;
   &.invalid {
     @apply border-negative text-negative placeholder-negative;
   }

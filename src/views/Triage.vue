@@ -30,29 +30,49 @@
       <RegisterTile class="lg:col-start-4 lg:row-start-3">Nichts Passendes gefunden?</RegisterTile>
     </div>
     <div class="max-w-screen-sm mx-auto min-h-screen flex items-center p-5 lg:p-0">
-      <RegisterContactForm @submit="onSubmit" class="flex-grow" />
+      <RegisterContactForm
+        v-if="!contactFormSent"
+        @submit="onSubmit"
+        :loading="contactFormLoading"
+        class="flex-grow"
+      />
+      <RegisterContactFormSent v-else />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { ActionTypes } from "@/store/modules/registration/action-types";
+import { UserRequestInput } from "api";
 import { Options, Vue } from "vue-class-component";
 import Logo from "@/assets/logo.svg";
 import RegisterTile from "@/components/RegisterTile.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import RegisterContactForm from "@/components/RegisterContactForm.vue";
+import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
 
 @Options({
   components: {
     RegisterTile,
     MatchdButton,
     RegisterContactForm,
+    RegisterContactFormSent,
     Logo,
   },
 })
 export default class Home extends Vue {
-  onSubmit() {
-    console.log("submit");
+  get contactFormLoading() {
+    return this.$store.getters["contactFormLoading"];
+  }
+
+  get contactFormSent() {
+    return this.$store.getters["contactFormSent"];
+  }
+
+  onSubmit(form: UserRequestInput) {
+    this.$store.dispatch(ActionTypes.SEND_REGISTRATION_CONTACT_FORM, {
+      ...form,
+    });
   }
 }
 </script>

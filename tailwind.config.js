@@ -15,6 +15,11 @@ module.exports = {
       "3xl": "1.875rem",
       "4xl": "2.625rem",
       "5xl": "6.375rem",
+      "heading-35": ["2.1875rem", "102%"],
+      "heading-45": ["2.8125rem", "106%"],
+      "heading-58": ["5.625rem", "104%"],
+      "heading-68": ["4.25rem", "97%"],
+      "heading-90": ["5.625rem", "100%"],
     },
 
     colors: {
@@ -41,6 +46,9 @@ module.exports = {
       positive: "#05944F",
     },
     extend: {
+      minHeight: {
+        "145px": "145px",
+      },
       gridTemplateRows: {
         home: "200px",
       },
