@@ -1,35 +1,58 @@
 <template>
-  <div class="triage bg-matchd-gradient-t-b lg:bg-matchd-gradient-l-r min-h-screen">
-    <div class="grid gap-px grid-cols-1 grid-rows-home min-h-screen lg:grid-cols-4 lg:min-h-0">
+  <div class="triage bg-pink-2 xl:bg-matchd-gradient-l-r min-h-screen">
+    <div
+      class="grid gap-px grid-cols-1 grid-rows-8 xl:grid-rows-home min-h-screen xl:grid-cols-4 xl:min-h-0 xl:bg-none"
+    >
       <div
-        class="lg:col-start-1 lg:col-span-2 lg:flex justify-center items-center text-white p-10 shadow-white"
+        class="row-start-1 xl:col-start-1 xl:col-span-2 xl:flex justify-center items-center text-white p-10 shadow-white bg-green-1 xl:bg-transparent"
       >
         <Logo class="w-full" />
       </div>
-      <div class="hidden lg:flex justify-center items-center text-white text-3xl shadow-white">
+      <div
+        class="hidden row-start-1 xl:col-start-3 xl:flex justify-center items-center text-white text-center text-3xl shadow-white p-10 xl:p-14"
+      >
         The Talent Factory
       </div>
-      <div class="hidden lg:flex justify-center items-center shadow-white">
+      <div class="xl:hidden bg-matchd-gradient-t-b row-start-2 row-span-6 col-start-1"></div>
+      <div class="hidden xl:flex justify-center items-center shadow-white">
         <MatchdButton>Login</MatchdButton>
       </div>
-      <RegisterTile class="lg:col-start-2 lg:row-start-2">
+      <RegisterTile
+        class="row-start-2 col-start-1 xl:col-start-2 xl:row-start-2"
+        :to="{ path: '/registrierung/schueler*in-lernender' }"
+      >
         Als Schüler*in / Lernender registrieren
       </RegisterTile>
-      <RegisterTile class="lg:col-start-2 lg:row-start-3"
+      <RegisterTile
+        class="row-start-3 col-start-1 xl:col-start-2 xl:row-start-3"
+        :to="{ path: '/registrierung/berufseinsteiger*in' }"
         >Als Berufseinsteiger*in registrieren</RegisterTile
       >
-      <RegisterTile class="lg:col-start-1 lg:row-start-3"
+      <RegisterTile
+        class="row-start-4 col-start-1 xl:col-start-1 xl:row-start-3"
+        :to="{ path: '/registrierung/student*in' }"
         >Als Student*in FH/Uni registrieren</RegisterTile
       >
-      <RegisterTile class="lg:col-start-3 lg:row-start-2"
+      <RegisterTile
+        class="row-start-5 col-start-1 xl:col-start-3 xl:row-start-2"
+        :to="{ path: '/registrierung/unternehmung' }"
         >Als Unternehmung registrieren</RegisterTile
       >
-      <RegisterTile class="lg:col-start-3 lg:row-start-3"
+      <RegisterTile
+        class="row-start-6 col-start-1 xl:col-start-3 xl:row-start-3"
+        :to="{ path: '/registrierung/bildungsinstitution' }"
         >Als Bildungsinstitution registrieren</RegisterTile
       >
-      <RegisterTile class="lg:col-start-4 lg:row-start-3">Nichts Passendes gefunden?</RegisterTile>
+      <RegisterTile
+        class="row-start-7 col-start-1 xl:col-start-4 xl:row-start-3"
+        :to="{ path: 'registrierung', hash: '#nichts-passendes-gefunden' }"
+        >Nichts Passendes gefunden?</RegisterTile
+      >
     </div>
-    <div class="max-w-screen-sm mx-auto min-h-screen flex items-center p-5 lg:p-0">
+    <div
+      id="nichts-passendes-gefunden"
+      class="max-w-screen-sm mx-auto min-h-screen flex items-center p-10 xl:p-0"
+    >
       <RegisterContactForm
         v-if="!contactFormSent"
         @submit="onSubmit"
