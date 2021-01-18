@@ -43,7 +43,7 @@
         <MatchdButton variant="outline">Weiter</MatchdButton>
       </Form>
     </div>
-    <div class="step disabled col-start-5 col-span-8 pb-40 min-h-screen">
+    <div class="step col-start-5 col-span-8 pb-40 min-h-screen">
       <h2 class="step-heading relative text-heading-md flex items-center text-pink-1 mb-12">
         Erzähl uns mehr zu dir
       </h2>
@@ -63,8 +63,8 @@
             {{ errors.companyName }}
           </div>
         </div>
-        <div class="lg:flex mb-3">
-          <div class="lg:mr-3">
+        <div class="lg:flex">
+          <div class="lg:mr-3 mb-3 lg:w-40">
             <label for="zip" class="form-label">PLZ</label>
             <Field
               id="zip"
@@ -79,7 +79,7 @@
               {{ errors.zip }}
             </div>
           </div>
-          <div class="mb-3 lg:mb-0 lg:flex-grow">
+          <div class="mb-3 lg:flex-grow">
             <label for="city" class="form-label">Ort</label>
             <Field
               id="city"
@@ -95,19 +95,36 @@
             </div>
           </div>
         </div>
-        <div class="mb-3">
-          <label for="name" class="form-label">Ansprechperson</label>
-          <Field
-            id="name"
-            name="name"
-            as="input"
-            class="form-input"
-            label="Ansprechperson"
-            rules="required"
-            :class="{ invalid: errors.name }"
-          />
-          <div v-if="errors.name" class="text-negative text-paragraph-sm px-8 mt-2">
-            {{ errors.name }}
+        <div class="lg:flex">
+          <div class="lg:mr-3 mb-3 lg:flex-grow">
+            <label for="firstName" class="form-label">Vorname</label>
+            <Field
+              id="firstName"
+              name="firstName"
+              as="input"
+              class="form-input"
+              label="Vorname"
+              rules="required"
+              :class="{ invalid: errors.firstName }"
+            />
+            <div v-if="errors.firstName" class="text-negative text-paragraph-sm px-8 mt-2">
+              {{ errors.firstName }}
+            </div>
+          </div>
+          <div class="mb-3 lg:flex-grow">
+            <label for="lastName" class="form-label">Nachname</label>
+            <Field
+              id="lastName"
+              name="lastName"
+              as="input"
+              class="form-input"
+              label="Nachname"
+              rules="required"
+              :class="{ invalid: errors.lastName }"
+            />
+            <div v-if="errors.lastName" class="text-negative text-paragraph-sm px-8 mt-2">
+              {{ errors.lastName }}
+            </div>
           </div>
         </div>
         <div class="mb-3">
@@ -189,7 +206,7 @@ export default class Home extends Vue {
 
   onClickCompanyNo() {
     this.$store.commit(MutationTypes.REGISTRATION_COMPANY_SET_CONFIRMATION, { isCompany: false });
-    this.$router.push({ name: "Triage" });
+    this.$router.push({ name: "Triage", hash: "#nichts-passendes-gefunden" });
   }
 
   onSubmitUid(form: { uid: string }) {
@@ -224,6 +241,7 @@ export default class Home extends Vue {
   @apply border border-white focus:border-black;
   @apply text-lg placeholder-black placeholder-opacity-100;
   @apply focus:outline-none;
+  @apply transition-colors duration-300;
 
   &.invalid {
     @apply border-negative text-negative placeholder-negative;
