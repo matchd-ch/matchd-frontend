@@ -28,8 +28,8 @@ module.exports = {
       "display-lg": ["4.25rem", "97%"],
       "display-xl": ["5.625rem", "100%"],
     },
-
     colors: {
+      transparent: "transparent",
       current: "currentColor",
       pink: {
         1: "#F21D5E",
@@ -69,7 +69,7 @@ module.exports = {
       },
       backgroundImage: {
         "matchd-gradient-t-b":
-          "linear-gradient(180deg, #1EAB00 13.96%, rgba(255, 212, 129, 0.87) 50%, #FC3E77 91.04%)",
+          "linear-gradient(180deg, #1EAB00 29.69%, #66B72D 38.54%, rgba(255, 212, 129, 0.87) 50%, #FB6A7C 61.46%, #FC3E77 71.87%)",
         "matchd-gradient-l-r":
           "linear-gradient(90deg, #1EAB00 29.69%, #66B72D 38.54%, rgba(255, 212, 129, 0.87) 50%, #FB6A7C 61.46%, #FC3E77 71.87%)",
       },
