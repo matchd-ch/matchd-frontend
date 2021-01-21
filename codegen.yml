@@ -1,0 +1,8 @@
+overwrite: true
+generates:
+  types/api.d.ts:
+    schema: "src/api/remote-schema.json"
+    plugins:
+      - "typescript"
+      - "typescript-graphql-files-modules"
+      - "typescript-document-nodes"

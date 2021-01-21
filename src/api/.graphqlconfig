@@ -1,0 +1,15 @@
+{
+  "name": "Matchd API GraphQL Schema",
+  "schemaPath": "./remote-schema.json",
+  "extensions": {
+    "endpoints": {
+      "Default API GraphQL Endpoint": {
+        "url": "http://api.matchd.lo:8080/introspection/",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": true
+      }
+    }
+  }
+}

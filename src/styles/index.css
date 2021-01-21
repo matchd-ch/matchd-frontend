@@ -1,6 +1,22 @@
-@import "fonts";
-@import "base";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind screens;
+
+@layer base {
+    h1 {
+        @apply text-5xl;
+    }
+    h2 {
+        @apply text-4xl;
+    }
+
+    p {
+        @apply text-lg;
+    }
+
+    #app {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
