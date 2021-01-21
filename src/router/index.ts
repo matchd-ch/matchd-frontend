@@ -21,18 +21,18 @@ const routes: Array<RouteRecordRaw> = [
     path: "/registrierung/schueler*in-lernender",
     alias: ["/registrierung/berufseinsteiger*in", "/registrierung/student*in"],
     name: "Register-Student",
-    component: () => import(/* webpackChunkName: "register" */ "../views/Register.vue"),
+    component: () => import(/* webpackChunkName: "register" */ "../views/RegisterStudent.vue"),
   },
   {
     path: "/registrierung/unternehmung",
     alias: "/registrierung/bildungsinstitution",
     name: "Register-Company",
-    component: () => import(/* webpackChunkName: "register" */ "../views/Register.vue"),
+    component: () => import(/* webpackChunkName: "register" */ "../views/RegisterCompany.vue"),
   },
 ];
 
 const router = createRouter({
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to) {
     if (to.hash) {
       return {
         el: to.hash,

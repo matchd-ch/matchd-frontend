@@ -189,7 +189,7 @@ import { Options, Vue } from "vue-class-component";
     ErrorMessage,
   },
 })
-export default class Home extends Vue {
+export default class RegisterCompany extends Vue {
   attached = false;
   isCompany: boolean | null = null;
   passwordFieldType = "password";
@@ -253,7 +253,7 @@ export default class Home extends Vue {
     this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
   }
 
-  onSubmitUid(form: RegistrationCompanyFormUid, actions: FormActions<RegistrationCompanyFormUid>) {
+  onSubmitUid(form: RegistrationCompanyFormUid) {
     this.form = {
       ...this.form,
       ...form,
