@@ -8,6 +8,8 @@ export type Mutations<S = State> = {
   [MutationTypes.SET_LOADING](state: S, payload: boolean): void;
   [MutationTypes.SET_TYPE](state: S, payload: AccountType): void;
   [MutationTypes.REGISTRATION_CONTACT_FORM_LOADING](state: S): void;
+  [MutationTypes.REGISTRATION_COMPANY_LOADING](state: S): void;
+  [MutationTypes.REGISTRATION_COMPANY_LOADED](state: S): void;
   [MutationTypes.REGISTRATION_CONTACT_FORM_SENT](state: S, payload: UserRequest): void;
   [MutationTypes.REGISTRATION_COMPANY_SET_UID](state: S, payload: { uid: string }): void;
   [MutationTypes.REGISTRATION_COMPANY_SET_CONFIRMATION](
@@ -35,6 +37,12 @@ export const mutations: MutationTree<State> & Mutations = {
     payload: { isCompany: boolean }
   ) {
     state.registerCompany.isCompany = payload.isCompany;
+  },
+  [MutationTypes.REGISTRATION_COMPANY_LOADING](state: State) {
+    state.registerCompany.loading = true;
+  },
+  [MutationTypes.REGISTRATION_COMPANY_LOADED](state: State) {
+    state.registerCompany.loading = false;
   },
   [MutationTypes.REGISTRATION_COMPANY_SET_UID](state: State, payload: { uid: string }) {
     state.registerCompany.loading = false;

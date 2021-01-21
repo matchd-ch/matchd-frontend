@@ -1,24 +1,36 @@
 <template>
   <div class="field" :class="{ 'field-invalid': errors }">
     <label :for="id" class="label"><slot name="label"/></label>
-    <div class="form-element">
+    <div class="form-element" :class="{ 'form-element--icon-right relative': $slots.iconRight }">
       <slot />
+      <div v-if="$slots.iconRight" class="absolute right-0 top-0 h-full mr-4">
+        <slot name="iconRight" />
+      </div>
     </div>
     <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">
       {{ errors }}
     </div>
+    <p v-if="$slots.info" class="text-paragraph-sm mt-4 flex items-center px-8">
+      <IconInfo class="w-5 mr-2" />
+      <slot name="info" />
+    </p>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, prop, Vue } from "vue-class-component";
+import IconInfo from "@/assets/icons/info.svg";
 
 class Props {
   id = prop<string>({});
   errors = prop<string>({});
 }
 
-@Options({})
+@Options({
+  components: {
+    IconInfo,
+  },
+})
 export default class MatchdField extends Vue.with(Props) {}
 </script>
 
@@ -37,7 +49,13 @@ export default class MatchdField extends Vue.with(Props) {}
   @apply transition-colors duration-300;
 }
 
-.field-invalid {
+.form-element--icon-right {
+  & input {
+    @apply pr-16;
+  }
+}
+
+.form .field-invalid {
   & input,
   & textarea {
     @apply border-negative text-negative placeholder-negative;

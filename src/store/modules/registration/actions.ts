@@ -9,8 +9,9 @@ import { MutationTypes } from "@/store/modules/registration/mutation-types";
 import { State } from "@/store/modules/registration/state";
 
 import userRequestMutation from "@/api/mutations/userRequest.gql";
+import registerCompanyMutation from "@/api/mutations/registerCompany.gql";
 
-import { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
+import { NewCompanyAccount } from "@/models/NewAccount";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -22,9 +23,9 @@ type AugmentedActionContext = {
 const apiClient = createApolloClient(process.env.VUE_APP_API || "http://localhost");
 
 export interface Actions {
-  [ActionTypes.SAVE_REGISTRATION](
+  [ActionTypes.SAVE_COMPANY_REGISTRATION](
     { commit }: AugmentedActionContext,
-    payload: NewCompanyAccount | NewStudentAccount
+    payload: NewCompanyAccount
   ): void;
   [ActionTypes.SEND_REGISTRATION_CONTACT_FORM](
     { commit }: AugmentedActionContext,
@@ -33,10 +34,13 @@ export interface Actions {
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionTypes.SAVE_REGISTRATION]({ commit }) {
-    commit(MutationTypes.SET_LOADING, true);
-    // async stuff
-    commit(MutationTypes.SET_LOADING, false);
+  async [ActionTypes.SAVE_COMPANY_REGISTRATION]({ commit }, payload: NewCompanyAccount) {
+    commit(MutationTypes.REGISTRATION_COMPANY_LOADING);
+    const response = await apiClient.mutate({
+      mutation: registerCompanyMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.REGISTRATION_COMPANY_LOADED);
   },
   async [ActionTypes.SEND_REGISTRATION_CONTACT_FORM]({ commit }, payload: UserRequestInput) {
     commit(MutationTypes.REGISTRATION_CONTACT_FORM_LOADING);

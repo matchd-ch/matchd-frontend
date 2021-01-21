@@ -8,6 +8,22 @@ defineRule("required", required);
 defineRule("email", email);
 defineRule("regex", regex);
 
+defineRule("uid", value => {
+  if (!value.match(/^CHE-(\d{3}\.\d{3}\.\d{3})$/)) {
+    return `Dieses Feld muss eine gültige UID-Nr. im Format CHE-123.456.789 enthalten.`;
+  }
+
+  return true;
+});
+
+defineRule("password-strengh", value => {
+  if (!value.match(/^(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)) {
+    return `Das Passwort erfüllt die Kriterien nicht.`;
+  }
+
+  return true;
+});
+
 configure({
   validateOnBlur: false,
   validateOnChange: false,

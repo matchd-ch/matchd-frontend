@@ -7,7 +7,7 @@ export type Getters = {
   type(state: State): AccountType;
   contactFormLoading(state: State): boolean;
   contactFormSent(state: State): boolean;
-  companyRegisterFormIsCompany(state: State): boolean | null;
+  companyRegistrationLoading(state: State): boolean;
   companyRegisterFormData(state: State): any;
 };
 
@@ -21,8 +21,8 @@ export const getters: GetterTree<State, RootState> & Getters = {
   contactFormSent(state: State): boolean {
     return state.contactForm.success && !state.contactForm.loading;
   },
-  companyRegisterFormIsCompany(state: State): boolean | null {
-    return state.registerCompany.isCompany;
+  companyRegistrationLoading(state: State): boolean {
+    return state.registerCompany.loading;
   },
   companyRegisterFormData(state: State): any {
     return state.registerCompany;

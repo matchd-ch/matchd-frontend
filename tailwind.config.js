@@ -63,6 +63,7 @@ module.exports = {
       },
       gridTemplateRows: {
         home: "200px",
+        register: "1fr auto 1fr",
       },
       gridAutoRows: {
         "1fr": "1fr",

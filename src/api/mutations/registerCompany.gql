@@ -1,0 +1,24 @@
+mutation(
+  $name: String!
+  $email: String!
+  $password: String!
+  $firstName: String!
+  $lastName: String!
+  $zip: String!
+  $city: String!
+  $uid: String!,
+  $role: String!
+) {
+  registerCompany(
+    username: $email
+    email: $email
+    password1: $password
+    password2: $password
+    firstName: $firstName
+    lastName: $lastName
+    company: { name: $name, zip: $zip, city: $city, uid: $uid, role: $role }
+  ) {
+    success
+    errors
+  }
+}
