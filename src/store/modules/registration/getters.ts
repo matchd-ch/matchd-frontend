@@ -5,17 +5,18 @@ import { State } from "./state";
 
 export type Getters = {
   type(state: State): AccountType;
-  contactFormLoading(state: State): boolean;
+  contactFormSending(state: State): boolean;
   contactFormSent(state: State): boolean;
   companyRegistrationLoading(state: State): boolean;
-  companyRegisterFormData(state: State): any;
+  activationState(state: State): { success: boolean; errors: string[] };
+  activationLoading(state: State): boolean;
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
   type: state => {
     return state.type;
   },
-  contactFormLoading(state: State): boolean {
+  contactFormSending(state: State): boolean {
     return state.contactForm.loading;
   },
   contactFormSent(state: State): boolean {
@@ -24,7 +25,13 @@ export const getters: GetterTree<State, RootState> & Getters = {
   companyRegistrationLoading(state: State): boolean {
     return state.registerCompany.loading;
   },
-  companyRegisterFormData(state: State): any {
-    return state.registerCompany;
+  activationLoading(state: State): boolean {
+    return state.verifyAccount.loading;
+  },
+  activationState(state: State): { success: boolean; errors: string[] } {
+    return {
+      success: state.verifyAccount.success,
+      errors: state.verifyAccount.errors || [],
+    };
   },
 };

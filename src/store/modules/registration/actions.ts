@@ -10,6 +10,7 @@ import { State } from "@/store/modules/registration/state";
 
 import userRequestMutation from "@/api/mutations/userRequest.gql";
 import registerCompanyMutation from "@/api/mutations/registerCompany.gql";
+import verifyAccountMutation from "@/api/mutations/verifyAccount.gql";
 
 import { NewCompanyAccount } from "@/models/NewAccount";
 
@@ -31,6 +32,10 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: UserRequestInput
   ): void;
+  [ActionTypes.VERIFY_ACCOUNT_WITH_TOKEN](
+    { commit }: AugmentedActionContext,
+    payload: { token: string }
+  ): void;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -40,14 +45,22 @@ export const actions: ActionTree<State, RootState> & Actions = {
       mutation: registerCompanyMutation,
       variables: payload,
     });
-    commit(MutationTypes.REGISTRATION_COMPANY_LOADED);
+    commit(MutationTypes.REGISTRATION_COMPANY_LOADED, response.data.registerCompany);
   },
   async [ActionTypes.SEND_REGISTRATION_CONTACT_FORM]({ commit }, payload: UserRequestInput) {
-    commit(MutationTypes.REGISTRATION_CONTACT_FORM_LOADING);
+    commit(MutationTypes.REGISTRATION_CONTACT_FORM_SENDING);
     const response = await apiClient.mutate({
       mutation: userRequestMutation,
       variables: payload,
     });
     commit(MutationTypes.REGISTRATION_CONTACT_FORM_SENT, response.data.userRequest);
+  },
+  async [ActionTypes.VERIFY_ACCOUNT_WITH_TOKEN]({ commit }, payload: { token: string }) {
+    commit(MutationTypes.REGISTRATION_ACTIVATION_LOADING);
+    const response = await apiClient.mutate({
+      mutation: verifyAccountMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.REGISTRATION_ACTIVATION_LOADED, response.data.verifyAccount);
   },
 };

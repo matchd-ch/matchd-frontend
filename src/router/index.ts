@@ -13,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "register" */ "../views/Triage.vue"),
   },
   {
+    path: "/aktivierung/:token",
+    name: "Activate",
+    component: () => import(/* webpackChunkName: "register" */ "../views/Activate.vue"),
+  },
+  {
     path: "/registrierung/schueler*in-lernender",
     alias: ["/registrierung/berufseinsteiger*in", "/registrierung/student*in"],
     name: "Register-Student",

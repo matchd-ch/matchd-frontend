@@ -1,28 +1,23 @@
 import { AccountType } from "@/models/AccountType";
 import { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
+import { Maybe, Scalars } from "api";
 
 export type State = {
   loading: boolean;
   contactForm: {
     loading: boolean;
     success: boolean;
+    errors?: string[];
   };
   registerCompany: {
     loading: boolean;
     success: boolean;
-    isCompany: boolean | null;
-    data: {
-      uid: string;
-      email: string;
-      password: string;
-      firstName: string;
-      lastName: string;
-      type: string;
-      name: string;
-      role: string;
-      zip: string;
-      city: string;
-    };
+    errors?: string[];
+  };
+  verifyAccount: {
+    loading: boolean;
+    success: boolean;
+    errors?: string[];
   };
   type: AccountType;
   newAccount: NewCompanyAccount | NewStudentAccount | null;
@@ -37,19 +32,10 @@ export const state: State = {
   registerCompany: {
     loading: false,
     success: false,
-    isCompany: null,
-    data: {
-      uid: "",
-      email: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      type: "company",
-      name: "",
-      role: "",
-      zip: "",
-      city: "",
-    },
+  },
+  verifyAccount: {
+    loading: false,
+    success: false,
   },
   type: null,
   newAccount: null,
