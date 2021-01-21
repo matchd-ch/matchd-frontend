@@ -1,3 +1,4 @@
+import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { RegisterCompany, UserRequest, VerifyAccount } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
@@ -23,8 +24,10 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.REGISTRATION_COMPANY_LOADING](state: State) {
     state.registerCompany.loading = true;
   },
-  [MutationTypes.REGISTRATION_COMPANY_LOADED](state: State) {
+  [MutationTypes.REGISTRATION_COMPANY_LOADED](state: State, payload: RegisterCompany) {
     state.registerCompany.loading = false;
+    state.registerCompany.success = payload.success || false;
+    state.registerCompany.errors = errorCodeMapper(payload.errors);
   },
   [MutationTypes.REGISTRATION_ACTIVATION_LOADING](state: State) {
     state.verifyAccount.loading = true;
@@ -32,6 +35,6 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.REGISTRATION_ACTIVATION_LOADED](state: State, payload: VerifyAccount) {
     state.verifyAccount.loading = false;
     state.verifyAccount.success = payload.success || false;
-    state.verifyAccount.errors = payload.errors ? [payload.errors?.nonFieldErrors[0]?.code] : [];
+    state.verifyAccount.errors = errorCodeMapper(payload.errors);
   },
 };

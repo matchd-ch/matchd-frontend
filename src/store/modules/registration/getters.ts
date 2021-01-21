@@ -1,3 +1,4 @@
+import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
 import { AccountType } from "@/models/AccountType";
 import { GetterTree } from "vuex";
@@ -8,8 +9,9 @@ export type Getters = {
   contactFormSending(state: State): boolean;
   contactFormSent(state: State): boolean;
   companyRegistrationLoading(state: State): boolean;
-  activationState(state: State): { success: boolean; errors: string[] };
+  companyRegistrationState(state: State): { success: boolean; errors: MatchdApiError | null };
   activationLoading(state: State): boolean;
+  activationState(state: State): { success: boolean; errors: MatchdApiError | null };
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -25,13 +27,19 @@ export const getters: GetterTree<State, RootState> & Getters = {
   companyRegistrationLoading(state: State): boolean {
     return state.registerCompany.loading;
   },
+  companyRegistrationState(state: State): { success: boolean; errors: MatchdApiError | null } {
+    return {
+      success: state.registerCompany.success,
+      errors: state.registerCompany.errors || null,
+    };
+  },
   activationLoading(state: State): boolean {
     return state.verifyAccount.loading;
   },
-  activationState(state: State): { success: boolean; errors: string[] } {
+  activationState(state: State): { success: boolean; errors: MatchdApiError | null } {
     return {
       success: state.verifyAccount.success,
-      errors: state.verifyAccount.errors || [],
+      errors: state.verifyAccount.errors || null,
     };
   },
 };

@@ -9,7 +9,7 @@
       </h1>
     </div>
     <div class=" px-4 lg:px-5">
-      <MatchdStep step="1" theme="pink">
+      <MatchdStep step="1" theme="pink" :disabled="activeStep < 1">
         <template v-slot:title>Bist du ein Arbeitgeber?</template>
         <MatchdButton
           type="button"
@@ -25,6 +25,7 @@
         step="2"
         theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
+        :disabled="activeStep < 2"
       >
         <template v-slot:title
           >Bitte hinterlege als erstes die UID-Nr. deiner Unternehmung:</template
@@ -48,6 +49,7 @@
         step="3"
         theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
+        :disabled="activeStep < 3"
       >
         <template v-slot:title>
           Erzähl uns mehr zu dir
@@ -118,6 +120,7 @@
               :type="passwordFieldType"
               label="Passwort"
               rules="required|password-strengh"
+              autocomplete
             />
             <template v-slot:iconRight>
               <button
@@ -138,8 +141,8 @@
           </MatchdField>
           <MatchdButton
             variant="outline"
-            :disabled="registrationLoading"
-            :active="registrationLoading"
+            :disabled="companyRegistrationLoading"
+            :loading="companyRegistrationLoading"
             >Registrieren</MatchdButton
           >
         </Form>
@@ -148,6 +151,7 @@
         step="4"
         theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
+        :disabled="activeStep < 4"
       >
         <template v-slot:title>
           Fast geschafft!<br />Aktiviere deinen Account. Wir haben deinen Aktivierungslink per
@@ -170,7 +174,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdStep from "@/components/MatchdStep.vue";
 import IconShow from "@/assets/icons/show.svg";
 import IconHide from "@/assets/icons/hide.svg";
-import { ErrorMessage, Field, Form } from "vee-validate";
+import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -189,7 +193,8 @@ export default class Home extends Vue {
   attached = false;
   isCompany: boolean | null = null;
   passwordFieldType = "password";
-  registrationLoading = false;
+  companyUidFormValid = false;
+  companyDataFormValid = false;
   form: NewCompanyAccount = {
     uid: "",
     firstName: "",
@@ -205,6 +210,22 @@ export default class Home extends Vue {
 
   get companyRegistrationLoading() {
     return this.$store.getters["companyRegistrationLoading"];
+  }
+
+  get companyRegistrationState() {
+    return this.$store.getters["companyRegistrationState"];
+  }
+
+  get activeStep() {
+    if (!this.isCompany) {
+      return 1;
+    } else if (!this.companyUidFormValid) {
+      return 2;
+    } else if (!this.companyDataFormValid) {
+      return 3;
+    } else {
+      return 4;
+    }
   }
 
   mounted() {
@@ -232,20 +253,37 @@ export default class Home extends Vue {
     this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
   }
 
-  onSubmitUid(form: RegistrationCompanyFormUid) {
+  onSubmitUid(form: RegistrationCompanyFormUid, actions: FormActions<RegistrationCompanyFormUid>) {
     this.form = {
       ...this.form,
       ...form,
     };
+    this.companyUidFormValid = true;
     this.$router.push({ hash: "#step-3" });
   }
 
-  async onSubmitCompanyData(form: RegistrationCompanyFormData) {
+  async onSubmitCompanyData(
+    form: RegistrationCompanyFormData,
+    actions: FormActions<RegistrationCompanyFormData>
+  ) {
     this.form = {
       ...this.form,
       ...form,
     };
     await this.$store.dispatch(RegistrationActionTypes.SAVE_COMPANY_REGISTRATION, this.form);
+    if (this.companyRegistrationState.errors) {
+      actions.setErrors(this.companyRegistrationState.errors);
+      if (
+        this.companyRegistrationState.errors.username &&
+        this.companyRegistrationState.errors.username[0] === "unique"
+      ) {
+        actions.setErrors({
+          email: "Mit dieser E-Mailadresse wurde bereits ein Account registriert.",
+        });
+      }
+      return;
+    }
+    this.companyDataFormValid = true;
     this.$router.push({ hash: "#step-4" });
   }
 }
