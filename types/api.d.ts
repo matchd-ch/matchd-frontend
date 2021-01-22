@@ -10,7 +10,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  ErrorType: any;
   /**
    * 
    *     Errors messages and codes mapped to
@@ -72,11 +71,11 @@ export type MutationUserRequestArgs = {
 
 export type MutationRegisterCompanyArgs = {
   company: CompanyInput;
-  type?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   username: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  type: Scalars['String'];
   password1: Scalars['String'];
   password2: Scalars['String'];
 };
@@ -84,11 +83,11 @@ export type MutationRegisterCompanyArgs = {
 
 export type MutationRegisterStudentArgs = {
   student: StudentInput;
-  type?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   username: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  type: Scalars['String'];
   password1: Scalars['String'];
   password2: Scalars['String'];
 };
@@ -102,17 +101,17 @@ export type MutationVerifyAccountArgs = {
 export type UserRequest = {
   __typename?: 'UserRequest';
   success?: Maybe<Scalars['Boolean']>;
-  errors?: Maybe<Scalars['ErrorType']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
 };
 
 
 export type UserRequestInput = {
   /** Name */
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   /** E-Mail */
-  email?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
   /** Message */
-  message?: Maybe<Scalars['String']>;
+  message: Scalars['String'];
 };
 
 /** Creates a new user with company */
@@ -122,18 +121,17 @@ export type RegisterCompany = {
   errors?: Maybe<Scalars['ExpectedErrorType']>;
 };
 
-
 export type CompanyInput = {
   /** Role */
-  role?: Maybe<Scalars['String']>;
+  role: Scalars['String'];
   /** Name */
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   /** UID */
-  uid?: Maybe<Scalars['String']>;
+  uid: Scalars['String'];
   /** ZIP */
-  zip?: Maybe<Scalars['String']>;
+  zip: Scalars['String'];
   /** City */
-  city?: Maybe<Scalars['String']>;
+  city: Scalars['String'];
 };
 
 /** Creates a new user as student */
@@ -145,7 +143,7 @@ export type RegisterStudent = {
 
 export type StudentInput = {
   /** Mobile */
-  mobileNumber?: Maybe<Scalars['String']>;
+  mobileNumber: Scalars['String'];
 };
 
 /**
