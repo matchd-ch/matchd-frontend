@@ -14,13 +14,13 @@
         >Logge dich jetzt ein</MatchdButton
       >
     </template>
-    <template v-else-if="activationState.errors.includes('invalid_token')">
+    <template v-else-if="activationState.errors?.nonFieldErrors?.includes('invalid_token')">
       <p>Dein Aktivierungslink ist abgelaufen oder ungültig.</p>
       <MatchdButton type="button" variant="outline" @click="$router.push({ name: 'Triage' })"
         >Registriere dich erneut</MatchdButton
       >
     </template>
-    <template v-else-if="activationState.errors.includes('already_verified')">
+    <template v-else-if="activationState.errors?.nonFieldErrors?.includes('already_verified')">
       <p>Dein Account ist bereits aktiviert.</p>
       <MatchdButton type="button" variant="outline" @click="$router.push({ name: 'Login' })"
         >Logge dich jetzt ein</MatchdButton
