@@ -38,6 +38,13 @@ export type Scalars = {
    *     
    */
   ExpectedErrorType: any;
+  /**
+   * The `GenericScalar` scalar type represents a generic
+   * GraphQL scalar value that could be:
+   * String, Boolean, Int, Float, List or Object.
+   */
+  GenericScalar: any;
+  ErrorType: any;
 };
 
 export type Query = {
@@ -47,6 +54,22 @@ export type Query = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /**
+   * Obtain JSON web token for given user.
+   * 
+   * Allow to perform login with different fields,
+   * and secondary email if set. The fields are
+   * defined on settings.
+   * 
+   * Not verified users can login by default. This
+   * can be changes on settings.
+   * 
+   * If user is archived, make it unarchive and
+   * return `unarchiving=True` on output.
+   */
+  tokenAuth?: Maybe<ObtainJsonWebToken>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
+  refreshToken?: Maybe<RefreshToken>;
   /** Creates a new user user request */
   userRequest?: Maybe<UserRequest>;
   /** Creates a new user with company */
@@ -64,6 +87,18 @@ export type Mutation = {
 };
 
 
+export type MutationTokenAuthArgs = {
+  password: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationRefreshTokenArgs = {
+  refreshToken: Scalars['String'];
+};
+
+
 export type MutationUserRequestArgs = {
   input: UserRequestInput;
 };
@@ -71,11 +106,11 @@ export type MutationUserRequestArgs = {
 
 export type MutationRegisterCompanyArgs = {
   company: CompanyInput;
+  type?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   username: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
-  type: Scalars['String'];
   password1: Scalars['String'];
   password2: Scalars['String'];
 };
@@ -83,11 +118,11 @@ export type MutationRegisterCompanyArgs = {
 
 export type MutationRegisterStudentArgs = {
   student: StudentInput;
+  type?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   username: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
-  type: Scalars['String'];
   password1: Scalars['String'];
   password2: Scalars['String'];
 };
@@ -97,21 +132,96 @@ export type MutationVerifyAccountArgs = {
   token: Scalars['String'];
 };
 
+/**
+ * Obtain JSON web token for given user.
+ * 
+ * Allow to perform login with different fields,
+ * and secondary email if set. The fields are
+ * defined on settings.
+ * 
+ * Not verified users can login by default. This
+ * can be changes on settings.
+ * 
+ * If user is archived, make it unarchive and
+ * return `unarchiving=True` on output.
+ */
+export type ObtainJsonWebToken = {
+  __typename?: 'ObtainJSONWebToken';
+  token?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  user?: Maybe<UserNode>;
+  unarchiving?: Maybe<Scalars['Boolean']>;
+  refreshToken?: Maybe<Scalars['String']>;
+};
+
+
+export type UserNode = Node & {
+  __typename?: 'UserNode';
+  /** The ID of the object. */
+  id: Scalars['ID'];
+  /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
+  username: Scalars['String'];
+  email: Scalars['String'];
+  type: UserType;
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  pk?: Maybe<Scalars['Int']>;
+  archived?: Maybe<Scalars['Boolean']>;
+  verified?: Maybe<Scalars['Boolean']>;
+  secondaryEmail?: Maybe<Scalars['String']>;
+};
+
+/** An object with an ID */
+export type Node = {
+  /** The ID of the object. */
+  id: Scalars['ID'];
+};
+
+/** An enumeration. */
+export enum UserType {
+  /** Internal */
+  Internal = 'INTERNAL',
+  /** Student */
+  Student = 'STUDENT',
+  /** College Student */
+  CollegeStudent = 'COLLEGE_STUDENT',
+  /** Junior */
+  Junior = 'JUNIOR',
+  /** Company */
+  Company = 'COMPANY',
+  /** University */
+  University = 'UNIVERSITY',
+  /** Other */
+  Other = 'OTHER'
+}
+
+/** Same as `grapgql_jwt` implementation, with standard output. */
+export type RefreshToken = {
+  __typename?: 'RefreshToken';
+  token?: Maybe<Scalars['String']>;
+  payload?: Maybe<Scalars['GenericScalar']>;
+  success?: Maybe<Scalars['Boolean']>;
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  refreshToken?: Maybe<Scalars['String']>;
+};
+
+
 /** Creates a new user user request */
 export type UserRequest = {
   __typename?: 'UserRequest';
   success?: Maybe<Scalars['Boolean']>;
-  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  errors?: Maybe<Scalars['ErrorType']>;
 };
 
 
 export type UserRequestInput = {
   /** Name */
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   /** E-Mail */
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   /** Message */
-  message: Scalars['String'];
+  message?: Maybe<Scalars['String']>;
 };
 
 /** Creates a new user with company */
@@ -123,15 +233,15 @@ export type RegisterCompany = {
 
 export type CompanyInput = {
   /** Role */
-  role: Scalars['String'];
+  role?: Maybe<Scalars['String']>;
   /** Name */
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   /** UID */
-  uid: Scalars['String'];
+  uid?: Maybe<Scalars['String']>;
   /** ZIP */
-  zip: Scalars['String'];
+  zip?: Maybe<Scalars['String']>;
   /** City */
-  city: Scalars['String'];
+  city?: Maybe<Scalars['String']>;
 };
 
 /** Creates a new user as student */
@@ -143,7 +253,7 @@ export type RegisterStudent = {
 
 export type StudentInput = {
   /** Mobile */
-  mobileNumber: Scalars['String'];
+  mobileNumber?: Maybe<Scalars['String']>;
 };
 
 /**
