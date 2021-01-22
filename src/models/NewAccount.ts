@@ -9,7 +9,7 @@ export interface Account {
 }
 
 export interface NewStudentAccount extends Account {
-  handy: string;
+  mobileNumber: string;
 }
 
 export interface NewCompanyAccount extends Account {

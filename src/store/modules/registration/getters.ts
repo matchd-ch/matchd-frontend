@@ -10,6 +10,8 @@ export type Getters = {
   contactFormSent(state: State): boolean;
   companyRegistrationLoading(state: State): boolean;
   companyRegistrationState(state: State): { success: boolean; errors: MatchdApiError | null };
+  studentRegistrationLoading(state: State): boolean;
+  studentRegistrationState(state: State): { success: boolean; errors: MatchdApiError | null };
   activationLoading(state: State): boolean;
   activationState(state: State): { success: boolean; errors: MatchdApiError | null };
 };
@@ -31,6 +33,15 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return {
       success: state.registerCompany.success,
       errors: state.registerCompany.errors || null,
+    };
+  },
+  studentRegistrationLoading(state: State): boolean {
+    return state.registerStudent.loading;
+  },
+  studentRegistrationState(state: State): { success: boolean; errors: MatchdApiError | null } {
+    return {
+      success: state.registerStudent.success,
+      errors: state.registerStudent.errors || null,
     };
   },
   activationLoading(state: State): boolean {

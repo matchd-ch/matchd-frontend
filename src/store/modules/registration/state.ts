@@ -14,6 +14,11 @@ export type State = {
     success: boolean;
     errors: MatchdApiError | null;
   };
+  registerStudent: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
   verifyAccount: {
     loading: boolean;
     success: boolean;
@@ -31,6 +36,11 @@ export const state: State = {
     errors: null,
   },
   registerCompany: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  registerStudent: {
     loading: false,
     success: false,
     errors: null,

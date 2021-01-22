@@ -10,9 +10,10 @@ import { State } from "@/store/modules/registration/state";
 
 import userRequestMutation from "@/api/mutations/userRequest.gql";
 import registerCompanyMutation from "@/api/mutations/registerCompany.gql";
+import registerStudentMutation from "@/api/mutations/registerStudent.gql";
 import verifyAccountMutation from "@/api/mutations/verifyAccount.gql";
 
-import { NewCompanyAccount } from "@/models/NewAccount";
+import { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -27,6 +28,10 @@ export interface Actions {
   [ActionTypes.SAVE_COMPANY_REGISTRATION](
     { commit }: AugmentedActionContext,
     payload: NewCompanyAccount
+  ): void;
+  [ActionTypes.SAVE_STUDENT_REGISTRATION](
+    { commit }: AugmentedActionContext,
+    payload: NewStudentAccount
   ): void;
   [ActionTypes.SEND_REGISTRATION_CONTACT_FORM](
     { commit }: AugmentedActionContext,
@@ -46,6 +51,14 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.REGISTRATION_COMPANY_LOADED, response.data.registerCompany);
+  },
+  async [ActionTypes.SAVE_STUDENT_REGISTRATION]({ commit }, payload: NewStudentAccount) {
+    commit(MutationTypes.REGISTRATION_STUDENT_LOADING);
+    const response = await apiClient.mutate({
+      mutation: registerStudentMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.REGISTRATION_STUDENT_LOADED, response.data.registerStudent);
   },
   async [ActionTypes.SEND_REGISTRATION_CONTACT_FORM]({ commit }, payload: UserRequestInput) {
     commit(MutationTypes.REGISTRATION_CONTACT_FORM_SENDING);

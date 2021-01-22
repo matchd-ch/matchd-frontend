@@ -3,23 +3,240 @@
     <div class="register-student grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5">
       <h1
         class="text-heading-90 text-green-1 col-span-full lg:fixed lg:transition-all lg:top-0"
-        :class="{ 'attach-heading': attached }"
+        :class="{ 'attach-heading': registration.attached }"
       >
         Registrierung
       </h1>
+    </div>
+    <div class=" px-4 lg:px-5">
+      <MatchdStep step="1" theme="green" :disabled="activeStep < 1">
+        <template v-slot:title
+          >Besuchst du eine Schule oder Hochschule im Kanton St.Gallen?</template
+        >
+        <MatchdButton
+          type="button"
+          variant="outline"
+          :active="isSaintGallenStudent"
+          @click="onClickSaintGallenStudentYes"
+          class="mb-3 lg:mb-0 mr-3"
+          >Ja</MatchdButton
+        >
+        <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
+          >Nein</MatchdButton
+        >
+      </MatchdStep>
+      <MatchdStep
+        step="2"
+        theme="green"
+        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
+        :disabled="activeStep < 2"
+      >
+        <template v-slot:title
+          >Bist du in der Region Ostschweiz auf der Suche nach einer Lehr- oder
+          Arbeitsstelle?</template
+        >
+        <MatchdButton
+          type="button"
+          variant="outline"
+          :active="isSaintGallenPosition"
+          @click="onClickSaintGallenPositionYes"
+          class="mb-3 lg:mb-0 mr-3"
+          >Ja</MatchdButton
+        >
+        <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
+          >Nein</MatchdButton
+        >
+      </MatchdStep>
+      <MatchdStep
+        step="3"
+        theme="green"
+        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
+        :disabled="activeStep < 3"
+      >
+        <template v-slot:title>
+          Erzähl uns mehr zu dir
+        </template>
+        <Form @submit="onSubmitStudentData" v-slot="{ errors }">
+          <div class="lg:flex">
+            <MatchdField
+              id="firstName"
+              class="lg:mr-3 mb-3 lg:flex-grow"
+              :errors="errors.firstName"
+            >
+              <template v-slot:label>Vorname</template>
+              <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
+            </MatchdField>
+            <MatchdField id="lastName" class="mb-3 lg:flex-grow" :errors="errors.lastName">
+              <template v-slot:label>Nachname</template>
+              <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
+            </MatchdField>
+          </div>
+          <MatchdField id="email" class="mb-3" :errors="errors.email">
+            <template v-slot:label>E-Mail</template>
+            <Field
+              id="email"
+              name="email"
+              as="input"
+              type="email"
+              label="E-Mail"
+              rules="required|email"
+            />
+          </MatchdField>
+          <MatchdField id="password" class="mb-10" :errors="errors.password" icon-right="true">
+            <template v-slot:label>Passwort</template>
+            <Field
+              id="password"
+              name="password"
+              as="input"
+              :type="registration.passwordFieldType"
+              label="Passwort"
+              rules="required|password-strengh"
+              autocomplete
+            />
+            <template v-slot:iconRight>
+              <button
+                type="button"
+                @click="registration.onTogglePasswordVisibility"
+                class="h-full flex justify-center items-center p-2"
+              >
+                <component
+                  :is="registration.passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
+                  class="w-6"
+                />
+              </button>
+            </template>
+            <template v-slot:info
+              >Nutze mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
+              Sonderzeichen.</template
+            >
+          </MatchdField>
+          <MatchdButton
+            variant="outline"
+            :disabled="studentRegistrationLoading"
+            :loading="studentRegistrationLoading"
+            theme="green"
+            >Registrieren</MatchdButton
+          >
+        </Form>
+      </MatchdStep>
+      <MatchdStep
+        step="4"
+        theme="green"
+        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
+        :disabled="activeStep < 4"
+      >
+        <template v-slot:title>
+          Fast geschafft!<br />Aktiviere deinen Account. Wir haben deinen Aktivierungslink per
+          E-Mail an {{ form.email || "?" }} gesendet
+        </template>
+      </MatchdStep>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import IconHide from "@/assets/icons/hide.svg";
+import IconShow from "@/assets/icons/show.svg";
+import MatchdButton from "@/components/MatchdButton.vue";
+import MatchdField from "@/components/MatchdField.vue";
+import MatchdStep from "@/components/MatchdStep.vue";
+import { useRegistration } from "@/composables/Registration";
+import { NewStudentAccount } from "@/models/NewAccount";
+import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
+import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
+import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
+import { Options, setup, Vue } from "vue-class-component";
 
 @Options({
-  components: {},
+  components: {
+    MatchdButton,
+    MatchdStep,
+    MatchdField,
+    IconShow,
+    IconHide,
+    Form,
+    Field,
+    ErrorMessage,
+  },
 })
 export default class RegisterStudent extends Vue {
-  attached = false;
-  passwordFieldType = "password";
+  isSaintGallenStudent: boolean | null = null;
+  isSaintGallenPosition: boolean | null = null;
+  studentDataFormValid = false;
+  form: NewStudentAccount = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    mobileNumber: "+41123123123", // todo: remove for registration with mobilenumber
+    type: "student",
+  };
+
+  registration = setup(() => useRegistration());
+
+  get studentRegistrationLoading() {
+    return this.$store.getters["studentRegistrationLoading"];
+  }
+
+  get studentRegistrationState() {
+    return this.$store.getters["studentRegistrationState"];
+  }
+
+  get activeStep() {
+    if (!this.isSaintGallenStudent) {
+      return 1;
+    } else if (!this.isSaintGallenPosition) {
+      return 2;
+    } else if (!this.studentDataFormValid) {
+      return 3;
+    } else {
+      return 4;
+    }
+  }
+
+  mounted() {
+    this.form.type = this.registration.urlToAccountTypeMapper(this.$route.path);
+    this.registration.mounted();
+  }
+
+  beforeDestroy() {
+    this.registration.beforeDestroy();
+  }
+
+  onClickSaintGallenStudentYes() {
+    this.isSaintGallenStudent = true;
+    this.registration.scrollToStep(2);
+  }
+
+  onClickSaintGallenPositionYes() {
+    this.isSaintGallenPosition = true;
+    this.registration.scrollToStep(3);
+  }
+
+  async onSubmitStudentData(
+    form: RegistrationStudentFormData,
+    actions: FormActions<RegistrationStudentFormData>
+  ) {
+    this.form = {
+      ...this.form,
+      ...form,
+    };
+    await this.$store.dispatch(RegistrationActionTypes.SAVE_STUDENT_REGISTRATION, this.form);
+    if (this.studentRegistrationState.errors) {
+      actions.setErrors(this.studentRegistrationState.errors);
+      if (
+        this.studentRegistrationState.errors.username &&
+        this.studentRegistrationState.errors.username[0] === "unique"
+      ) {
+        actions.setErrors({
+          email: "Mit dieser E-Mailadresse wurde bereits ein Account registriert.",
+        });
+      }
+      return;
+    }
+    this.studentDataFormValid = true;
+    this.registration.scrollToStep(4);
+  }
 }
 </script>
 
@@ -30,7 +247,7 @@ export default class RegisterStudent extends Vue {
   @apply text-display-sm;
 }
 
-.register-user {
+.register-student {
   counter-reset: step;
 }
 </style>

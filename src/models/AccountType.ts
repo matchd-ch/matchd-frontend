@@ -4,5 +4,4 @@ export type AccountType =
   | "junior"
   | "company"
   | "university"
-  | "other"
   | null;
