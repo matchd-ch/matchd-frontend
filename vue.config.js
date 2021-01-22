@@ -5,14 +5,15 @@ module.exports = {
     },
     disableHostCheck: true,
     writeToDisk: true,
+    port: 8081,
   },
   chainWebpack: config => {
     // GraphQL Loader
     config.module
-      .rule('graphql')
+      .rule("graphql")
       .test(/\.(graphql|gql)$/)
-      .use('graphql-tag/loader')
-      .loader('graphql-tag/loader')
+      .use("graphql-tag/loader")
+      .loader("graphql-tag/loader")
       .end();
 
     const svgRule = config.module.rule("svg");
