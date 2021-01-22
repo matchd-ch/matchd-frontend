@@ -1605,13 +1605,13 @@
       },
       "TimerPanel": {
         "title": "Time",
-        "subtitle": "CPU: 156.26ms (157.40ms)"
+        "subtitle": "CPU: 109.38ms (109.97ms)"
       },
       "VersionsPanel": {
         "title": "Versions",
         "subtitle": "Django 3.1.5"
       }
     },
-    "storeId": "20df0df4966a460ea1afb4f4904d7b5f"
+    "storeId": "3397f29477b045638b0396a937dd6521"
   }
 }
