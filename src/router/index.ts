@@ -29,6 +29,10 @@ const routes: Array<RouteRecordRaw> = [
     name: "Register-Company",
     component: () => import(/* webpackChunkName: "register" */ "../views/RegisterCompany.vue"),
   },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/",
+  },
 ];
 
 const router = createRouter({
