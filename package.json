@@ -5,15 +5,20 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:server": "tsc --project server/tsconfig.json",
     "test:unit": "vue-cli-service test:unit --passWithNoTests",
     "lint": "vue-cli-service lint",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "start": "node dist/server/server"
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
     "@vee-validate/i18n": "^4.0.2",
     "@vee-validate/rules": "^4.0.4",
     "core-js": "^3.6.5",
+    "ejs": "^2.7.4",
+    "express": "^4.17.1",
+    "graphql": "^15.4.0",
     "register-service-worker": "^1.7.1",
     "vee-validate": "^4.1.6",
     "vue": "^3.0.0",
@@ -29,6 +34,7 @@
     "@graphql-codegen/typescript": "^1.20.0",
     "@graphql-codegen/typescript-document-nodes": "^1.17.9",
     "@graphql-codegen/typescript-graphql-files-modules": "^1.18.1",
+    "@types/ejs": "^3.0.5",
     "@types/jest": "^24.0.19",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",

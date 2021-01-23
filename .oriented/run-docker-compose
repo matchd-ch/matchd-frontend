@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+
+if [[ -z "${DOTENV}" ||
+      -z "${ENVIRONMENT}" ||
+      -z "${IMAGE_FRONTEND}" ||
+      -z "${IMAGE_FRONTEND_NGINX}" ||
+      -z "${VUE_APP_DOMAIN}" ||
+      -z "${VUE_APP_API}" ]]
+then
+    echo "ERROR: A required environment variable is not set" >&2
+    echo " " >&2
+    echo "Docker:" >&2
+    echo "    DOTENV: ${DOTENV}" >&2
+    echo "    ENVIRONMENT: ${ENVIRONMENT}" >&2
+    echo "    IMAGE_FRONTEND: ${IMAGE_FRONTEND}" >&2
+    echo "    IMAGE_FRONTEND_NGINX: ${IMAGE_FRONTEND_NGINX}" >&2
+    echo "    VUE_APP_DOMAIN: ${VUE_APP_DOMAIN}" >&2
+    echo "    VUE_APP_API: ${VUE_APP_API}" >&2
+    exit 1
+fi
+
+echo "Writing ${DOTENV}..."
+
+export TRAEFIK_ROUTER_NAME="app-${ENVIRONMENT}-router"
+
+echo "ENVIRONMENT=${ENVIRONMENT}" > $DOTENV
+echo "COMPOSE_PROJECT_NAME=${ENVIRONMENT}-frontend" >> $DOTENV
+echo "IMAGE_FRONTEND=${IMAGE_FRONTEND}" >> $DOTENV
+echo "IMAGE_FRONTEND_NGINX=${IMAGE_FRONTEND_NGINX}" >> $DOTENV
+echo "VUE_APP_DOMAIN=${VUE_APP_DOMAIN}" >> $DOTENV
+echo "VUE_APP_API=${VUE_APP_API}" >> $DOTENV
+echo "TRAEFIK_ROUTER_NAME=${TRAEFIK_ROUTER_NAME}" >> $DOTENV
+echo "GET_NETWORK_ALIAS=app-${ENVIRONMENT}" >> $DOTENV
+
+echo "Pulling images..."
+docker-compose -f .oriented/docker-compose.yml pull
+
+echo "Creating and starting containers…"
+docker-compose -f .oriented/docker-compose.yml up -d

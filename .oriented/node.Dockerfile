@@ -4,7 +4,6 @@ USER 0
 COPY dist dist
 COPY package.json package.json
 COPY package-lock.json package-lock.json
-COPY server server
 
 USER 1001
 RUN PATH=/opt/rh/rh-nodejs12/root/usr/bin/:${PATH} && npm install --production
