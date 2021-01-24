@@ -34,8 +34,10 @@ echo "VUE_APP_API=${VUE_APP_API}" >> $DOTENV
 echo "TRAEFIK_ROUTER_NAME=${TRAEFIK_ROUTER_NAME}" >> $DOTENV
 echo "GET_NETWORK_ALIAS=app-${ENVIRONMENT}" >> $DOTENV
 
+cd .oriented
+
 echo "Pulling images..."
-docker-compose -f .oriented/docker-compose.yml --env-file .oriented/.env pull
+docker-compose pull
 
 echo "Creating and starting containers…"
-docker-compose -f .oriented/docker-compose.yml --env-file .oriented/.env up -d
+docker-compose up -d
