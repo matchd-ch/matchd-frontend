@@ -3,6 +3,7 @@ version: '3.8'
 services:
   app:
     image: ${IMAGE_FRONTEND}
+    restart: always
     environment:
       VUE_APP_DOMAIN: '${VUE_APP_DOMAIN}'
       VUE_APP_API: '${VUE_APP_API}'
@@ -13,6 +14,7 @@ services:
 
   nginx:
     image: ${IMAGE_FRONTEND_NGINX}
+    restart: always
     depends_on:
       - app
     labels:
