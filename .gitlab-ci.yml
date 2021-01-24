@@ -72,6 +72,7 @@ prepare:development:
     VUE_APP_API: $DEVELOPMENT_VUE_APP_API
   only:
     - develop
+    - feature/MATCHD-46
   resource_group: development
 
 prepare:integration:
@@ -131,6 +132,7 @@ build:development:
     - not-roadrunner
   only:
     - develop
+    - feature/MATCHD-46
   resource_group: development
 
 build:integration:
@@ -203,6 +205,7 @@ deploy:development:
     VUE_APP_API: $DEVELOPMENT_VUE_APP_API
   only:
     - develop
+    - feature/MATCHD-46
   tags:
     - matchd
     - development
