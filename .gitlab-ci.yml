@@ -71,7 +71,8 @@ prepare:development:
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
     VUE_APP_API: $DEVELOPMENT_VUE_APP_API
   only:
-    - feature/MATCHD-46
+    - develop
+  resource_group: development
 
 prepare:integration:
   extends: .npm_job_build
@@ -81,6 +82,7 @@ prepare:integration:
   only:
     refs:
       - /^v?\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)(?:(?:(?:\+|\.)[a-zA-Z0-9-]+)*)?)$/
+  resource_group: integration
 
 prepare:production:
   extends: .npm_job_build
@@ -90,6 +92,7 @@ prepare:production:
   only:
     refs:
       - /^v?\d+\.\d+\.\d+$/
+  resource_group: production
 
 .build: &build
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -127,7 +130,7 @@ build:development:
     - docker-nonswiss-ok
     - not-roadrunner
   only:
-    - feature/MATCHD-46
+    - develop
   resource_group: development
 
 build:integration:
@@ -192,14 +195,14 @@ deploy:development:
   dependencies:
     - build:development
   variables:
-    DOTENV: .env
+    DOTENV: .oriented/.env
     ENVIRONMENT: development
     IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-latest
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-latest
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
     VUE_APP_API: $DEVELOPMENT_VUE_APP_API
   only:
-    - feature/MATCHD-46
+    - develop
   tags:
     - matchd
     - development
@@ -210,7 +213,7 @@ deploy:integration:
   dependencies:
     - build:integration
   variables:
-    DOTENV: .env
+    DOTENV: .oriented/.env
     ENVIRONMENT: integration
     IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-$CI_COMMIT_REF_NAME
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
@@ -229,7 +232,7 @@ deploy:production:
   dependencies:
     - build:production
   variables:
-    DOTENV: .env
+    DOTENV: .oriented/.env
     ENVIRONMENT: production
     IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-$CI_COMMIT_REF_NAME
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
