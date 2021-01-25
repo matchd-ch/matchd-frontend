@@ -1,5 +1,5 @@
 <template>
-  <div class="field" :class="{ 'field-invalid': errors }">
+  <div class="matchd-field" :class="{ 'matchd-field-invalid': errors }">
     <label :for="id" class="label"><slot name="label"/></label>
     <div class="form-element" :class="{ 'form-element--icon-right relative': $slots.iconRight }">
       <slot />
@@ -35,8 +35,8 @@ export default class MatchdField extends Vue.with(Props) {}
 </script>
 
 <style lang="css">
-.field {
-  &.field-invalid {
+.matchd-field {
+  &.matchd-field-invalid {
     & input,
     & textarea {
       @apply border-negative text-negative placeholder-negative;
@@ -48,8 +48,8 @@ export default class MatchdField extends Vue.with(Props) {}
     @apply font-medium;
   }
 
-  & .form-element input,
-  & .form-element textarea {
+  & input,
+  & textarea {
     @apply block w-full bg-white rounded-30 px-8 py-4;
     @apply border border-white focus:border-black;
     @apply text-lg placeholder-black placeholder-opacity-100;
