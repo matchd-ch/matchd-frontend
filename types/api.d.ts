@@ -82,7 +82,7 @@ export type MutationRegisterCompanyArgs = {
 
 
 export type MutationRegisterStudentArgs = {
-  student: StudentInput;
+  student?: Maybe<StudentInput>;
   email: Scalars['String'];
   username: Scalars['String'];
   firstName: Scalars['String'];
@@ -143,7 +143,7 @@ export type RegisterStudent = {
 
 export type StudentInput = {
   /** Mobile */
-  mobileNumber: Scalars['String'];
+  mobile: Scalars['String'];
 };
 
 /**
