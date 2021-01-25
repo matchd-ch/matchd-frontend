@@ -1,4 +1,5 @@
 import { fetchCsrfToken } from "@/api/csrf-token";
+import { useStore } from "@/store";
 import { ApolloClient, from, HttpLink, InMemoryCache } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 
@@ -25,9 +26,19 @@ export function createApolloClient(baseUrl: string) {
       },
     };
   });
+  const jwtLink = setContext(async (_, { headers }) => {
+    const store = useStore();
+    const jwtToken = store.getters["jwtToken"];
+    return {
+      headers: {
+        ...headers,
+        ...(jwtToken && { Authorization: `JWT ${jwtToken}` }),
+      },
+    };
+  });
 
   return new ApolloClient({
-    link: from([csrfLink, httpLink]),
+    link: from([csrfLink, jwtLink, httpLink]),
     cache: new InMemoryCache(),
     connectToDevTools: true,
   });

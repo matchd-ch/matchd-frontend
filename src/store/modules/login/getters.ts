@@ -6,6 +6,7 @@ import { State } from "./state";
 export type Getters = {
   loginLoading(state: State): boolean;
   loginState(state: State): { success: boolean; errors: MatchdApiError | null };
+  jwtToken(state: State): string;
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -17,5 +18,8 @@ export const getters: GetterTree<State, RootState> & Getters = {
       success: state.success,
       errors: state.errors || null,
     };
+  },
+  jwtToken(state: State): string {
+    return state.jwtToken;
   },
 };
