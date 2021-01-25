@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
 import ErrorIcon from "@/assets/icons/error.svg";
 
 @Options({

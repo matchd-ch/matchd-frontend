@@ -17,5 +17,9 @@ export const mutations: MutationTree<State> & Mutations = {
     state.loading = false;
     state.success = payload.success || false;
     state.errors = errorCodeMapper(payload.errors);
+    if (state.success) {
+      state.jwtToken = payload.token || "";
+      state.refreshToken = payload.refreshToken || "";
+    }
   },
 };

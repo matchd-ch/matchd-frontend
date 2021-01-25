@@ -6,6 +6,7 @@ export type State = {
   success: boolean;
   errors: MatchdApiError | null;
   jwtToken: string;
+  refreshToken: string;
   user: UserNode | null;
 };
 
@@ -14,5 +15,6 @@ export const state: State = {
   success: false,
   errors: null,
   jwtToken: "",
+  refreshToken: "",
   user: null,
 };
