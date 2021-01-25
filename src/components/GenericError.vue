@@ -2,7 +2,7 @@
   <div
     class="flex items-center rounded-full bg-negative-light border border-negative text-negative py-4 px-8 mb-10"
   >
-    <ErrorIcon class="w-8 mr-3" /> <slot />
+    <ErrorIcon class="w-8 mr-3" /> <span><slot /></span>
   </div>
 </template>
 
