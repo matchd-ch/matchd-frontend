@@ -168,7 +168,6 @@ export default class RegisterStudent extends Vue {
     lastName: "",
     email: "",
     password: "",
-    mobileNumber: "+41123123123", // todo: remove for registration with mobilenumber
     type: "student",
   };
 

@@ -205,15 +205,11 @@
               "args": [
                 {
                   "name": "student",
-                  "description": "Student is required.",
+                  "description": "Student is optional.",
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "StudentInput",
-                      "ofType": null
-                    }
+                    "kind": "INPUT_OBJECT",
+                    "name": "StudentInput",
+                    "ofType": null
                   },
                   "defaultValue": null
                 },
@@ -623,7 +619,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "mobileNumber",
+              "name": "mobile",
               "description": "Mobile",
               "type": {
                 "kind": "NON_NULL",
@@ -1605,13 +1601,13 @@
       },
       "TimerPanel": {
         "title": "Time",
-        "subtitle": "CPU: 109.38ms (109.97ms)"
+        "subtitle": "CPU: 276.03ms (282.79ms)"
       },
       "VersionsPanel": {
         "title": "Versions",
         "subtitle": "Django 3.1.5"
       }
     },
-    "storeId": "3397f29477b045638b0396a937dd6521"
+    "storeId": "56eedc3e0eaa405e9687112468461b0a"
   }
 }

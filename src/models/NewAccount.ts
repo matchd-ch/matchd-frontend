@@ -8,9 +8,7 @@ export interface Account {
   type: AccountType;
 }
 
-export interface NewStudentAccount extends Account {
-  mobileNumber: string;
-}
+export type NewStudentAccount = Account;
 
 export interface NewCompanyAccount extends Account {
   name: string;
