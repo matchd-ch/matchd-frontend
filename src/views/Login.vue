@@ -6,22 +6,14 @@
       Login
     </h1>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 row-start-2">
-      <template v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
-        <div
-          class="flex items-center rounded-full border border-negative text-negative py-4 px-8 mb-10"
-        >
-          <ErrorIcon class="w-8 mr-3" /> Aktiviere zuerst deinen Account. Hast du den
-          Aktivierungslink nicht erhalten? Melde dich
-          <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
-        </div>
-      </template>
-      <template v-else-if="loginState.errors?.nonFieldErrors?.includes('invalid_credentials')">
-        <div
-          class="flex items-center rounded-full border border-negative text-negative py-4 px-8 mb-10"
-        >
-          <ErrorIcon class="w-8 mr-3" /> Username oder Passwort ungültig.
-        </div>
-      </template>
+      <GenericError v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
+        Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
+        <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
+      </GenericError>
+
+      <GenericError v-else-if="loginState.errors?.nonFieldErrors?.includes('invalid_credentials')">
+        Username oder Passwort ungültig.
+      </GenericError>
 
       <Form @submit="onSubmit" v-slot="{ errors }">
         <MatchdField id="username" class="mb-3" :errors="errors.username">
@@ -31,7 +23,7 @@
             name="username"
             as="input"
             type="email"
-            label="Username"
+            label="E-Mail"
             rules="required"
           />
         </MatchdField>
@@ -51,7 +43,7 @@
           variant="outline"
           :disabled="loginLoading"
           :loading="loginLoading"
-          theme="green"
+          theme="neutral"
           >Login</MatchdButton
         >
       </Form>
@@ -60,13 +52,13 @@
 </template>
 
 <script lang="ts">
+import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import { LoginForm } from "@/models/LoginForm";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
-import ErrorIcon from "@/assets/icons/error.svg";
 
 @Options({
   components: {
@@ -75,7 +67,7 @@ import ErrorIcon from "@/assets/icons/error.svg";
     ErrorMessage,
     MatchdField,
     MatchdButton,
-    ErrorIcon,
+    GenericError,
   },
 })
 export default class Home extends Vue {

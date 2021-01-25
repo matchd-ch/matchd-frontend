@@ -51,6 +51,7 @@ module.exports = {
       primaryB: "#FFF",
       accent: "#1FAC01",
       negative: "#E11900",
+      "negative-light": "#FFE9E9",
       warning: "#FFC043",
       positive: "#05944F",
     },
