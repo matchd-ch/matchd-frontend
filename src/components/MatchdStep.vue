@@ -2,7 +2,7 @@
   <div
     :id="`step-${step}`"
     class="step-wrapper grid grid-cols-8 lg:grid-cols-16 grid-rows-register gap-x-4 lg:gap-x-5 min-h-screen"
-    :class="[disabled ? 'disabled' : '', theme === 'green' ? 'theme-green' : 'theme-pink']"
+    :class="`theme-${theme}`"
   >
     <div class="step-line-start"></div>
     <div
@@ -30,7 +30,6 @@ import { Options, prop, Vue } from "vue-class-component";
 class Props {
   theme = prop<string>({ default: "green" });
   step = prop<string>({ default: "0" });
-  disabled = prop<boolean>({ default: true });
 }
 
 @Options({})
@@ -56,11 +55,6 @@ export default class MatchdStep extends Vue.with(Props) {}
       }
     }
   }
-}
-
-.step-wrapper.disabled {
-  pointer-events: none;
-  opacity: 0.7;
 }
 
 .step-line-start {
@@ -95,6 +89,7 @@ export default class MatchdStep extends Vue.with(Props) {}
     }
   }
 }
+
 .step-line-start,
 .step-line-end,
 .step {
