@@ -85,7 +85,7 @@ import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
 })
 export default class Home extends Vue {
   get contactFormLoading() {
-    return this.$store.getters["contactFormLoading"];
+    return this.$store.getters["contactFormSending"];
   }
 
   get contactFormSent() {

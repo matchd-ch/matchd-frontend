@@ -15,15 +15,22 @@ module.exports = {
       "3xl": "1.875rem",
       "4xl": "2.625rem",
       "5xl": "6.375rem",
-      "heading-35": ["2.1875rem", "102%"],
-      "heading-45": ["2.8125rem", "106%"],
-      "heading-58": ["5.625rem", "104%"],
-      "heading-68": ["4.25rem", "97%"],
-      "heading-90": ["5.625rem", "100%"],
+      "paragraph-sm": ["0.875rem", "131%"],
+      "paragraph-md": ["1rem", "147%"],
+      "paragraph-lg": ["1.125rem", "131%"],
+      "heading-xs": ["1.25rem", "118%"],
+      "heading-sm": ["1.5rem", "123%"],
+      "heading-md": ["1.75rem", "108%"],
+      "heading-lg": ["2rem", "114%"],
+      "display-xs": ["2.1875rem", "102%"],
+      "display-sm": ["2.8125rem", "106%"],
+      "display-md": ["5.625rem", "104%"],
+      "display-lg": ["4.25rem", "97%"],
+      "display-xl": ["5.625rem", "100%"],
     },
     colors: {
       transparent: "transparent",
-
+      current: "currentColor",
       pink: {
         1: "#F21D5E",
         2: "#FC3F78",
@@ -37,6 +44,7 @@ module.exports = {
         1: "#141414",
         2: "#AFAFAF",
         3: "#EDEDED",
+        4: "#FAFAFA",
       },
       white: "#FFF",
       primaryA: "#000",
@@ -50,8 +58,12 @@ module.exports = {
       minHeight: {
         "145px": "145px",
       },
+      gridTemplateColumns: {
+        "16": "repeat(16, minmax(0, 1fr))",
+      },
       gridTemplateRows: {
         home: "200px",
+        register: "1fr auto 1fr",
       },
       gridAutoRows: {
         "1fr": "1fr",

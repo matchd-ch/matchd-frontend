@@ -1,4 +1,5 @@
 import { AccountType } from "@/models/AccountType";
+import { MatchdApiError } from "@/models/MatchdApiError";
 import { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
 
 export type State = {
@@ -6,6 +7,17 @@ export type State = {
   contactForm: {
     loading: boolean;
     success: boolean;
+    errors: MatchdApiError | null;
+  };
+  registerCompany: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
+  verifyAccount: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
   };
   type: AccountType;
   newAccount: NewCompanyAccount | NewStudentAccount | null;
@@ -16,6 +28,17 @@ export const state: State = {
   contactForm: {
     loading: false,
     success: false,
+    errors: null,
+  },
+  registerCompany: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  verifyAccount: {
+    loading: false,
+    success: false,
+    errors: null,
   },
   type: null,
   newAccount: null,
