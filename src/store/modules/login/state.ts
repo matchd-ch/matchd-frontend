@@ -1,5 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { UserNode } from "api";
+import { UserWithProfileNode } from "api";
 
 export type State = {
   loading: boolean;
@@ -7,7 +7,10 @@ export type State = {
   errors: MatchdApiError | null;
   jwtToken: string;
   refreshToken: string;
-  user: UserNode | null;
+  user: UserWithProfileNode | null;
+  me: {
+    loading: boolean;
+  };
 };
 
 export const state: State = {
@@ -17,4 +20,7 @@ export const state: State = {
   jwtToken: "",
   refreshToken: "",
   user: null,
+  me: {
+    loading: false,
+  },
 };

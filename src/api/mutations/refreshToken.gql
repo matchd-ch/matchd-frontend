@@ -1,0 +1,11 @@
+mutation(
+  $refreshToken: String!
+) {
+  refreshToken(refreshToken: $refreshToken
+  ) {
+    success
+    errors
+    token
+    refreshToken
+  }
+}

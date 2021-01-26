@@ -25,7 +25,7 @@ export type Store = RegistrationStore<Pick<RootState, "registration">> &
 const debug = process.env.NODE_ENV !== "production";
 const plugins = debug ? [createLogger({}), persistedLoginState] : [persistedLoginState];
 
-export const store = createStore({
+export const store = createStore<RootState>({
   modules: {
     registration,
     login,

@@ -8,6 +8,8 @@ import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { State } from "@/store/modules/login/state";
 
 import tokenAuthMutation from "@/api/mutations/tokenAuth.gql";
+import refreshTokenMutation from "@/api/mutations/refreshToken.gql";
+import meQuery from "@/api/queries/me.gql";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -22,7 +24,9 @@ export interface Actions {
   [ActionTypes.LOGIN](
     { commit }: AugmentedActionContext,
     payload: { username: string; password: string }
-  ): void;
+  ): Promise<void>;
+  [ActionTypes.REFRESH_LOGIN]({ commit, getters }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.ME]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -33,5 +37,23 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.LOGIN_LOADED, response.data.tokenAuth);
+  },
+  async [ActionTypes.REFRESH_LOGIN]({ commit, getters }) {
+    commit(MutationTypes.REFRESH_LOGIN_LOADING);
+    const response = await apiClient.mutate({
+      mutation: refreshTokenMutation,
+      variables: {
+        refreshToken: getters["refreshToken"] || "",
+      },
+    });
+    commit(MutationTypes.REFRESH_LOGIN_LOADED, response.data.refreshToken);
+  },
+  async [ActionTypes.ME]({ commit }) {
+    commit(MutationTypes.ME_LOADING);
+    const response = await apiClient.query({
+      query: meQuery,
+      fetchPolicy: "network-only",
+    });
+    commit(MutationTypes.ME_LOADED, response.data.me);
   },
 };
