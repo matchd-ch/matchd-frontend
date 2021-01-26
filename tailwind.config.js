@@ -27,6 +27,7 @@ module.exports = {
       "display-md": ["5.625rem", "104%"],
       "display-lg": ["4.25rem", "97%"],
       "display-xl": ["5.625rem", "100%"],
+      "cta-xl": ["3.875rem", "108%"],
     },
     colors: {
       transparent: "transparent",
