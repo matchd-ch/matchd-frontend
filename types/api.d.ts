@@ -74,21 +74,22 @@ type Node = {
 };
 
 /** An enumeration. */
-type UserType =
+enum UserType {
   /** Internal */
-  | "INTERNAL"
+  Internal = "INTERNAL",
   /** Student */
-  | "STUDENT"
+  Student = "STUDENT",
   /** College Student */
-  | "COLLEGE_STUDENT"
+  CollegeStudent = "COLLEGE_STUDENT",
   /** Junior */
-  | "JUNIOR"
+  Junior = "JUNIOR",
   /** Company */
-  | "COMPANY"
+  Company = "COMPANY",
   /** University */
-  | "UNIVERSITY"
+  University = "UNIVERSITY",
   /** Other */
-  | "OTHER";
+  Other = "OTHER",
+}
 
 type Mutation = {
   __typename?: "Mutation";

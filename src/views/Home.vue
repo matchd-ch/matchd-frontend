@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { UserType } from "@/models/api-enums";
+import { UserType } from "@/api/models/types";
 import { UserWithProfileNode } from "api";
 import { Options, Vue } from "vue-class-component";
 

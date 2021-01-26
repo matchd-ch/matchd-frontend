@@ -8,11 +8,12 @@ generates:
       - "typescript-document-nodes"
     config:
       noExport: true
-      enumsAsTypes: true
-  src/models/api-enums.ts:
+  src/api/models/types.ts:
     schema: "src/api/remote-schema.json"
     plugins:
       - "typescript"
+      - add:
+          content: '/* eslint-disable */'
     config:
       onlyOperationTypes: true
       typesPrefix: I
