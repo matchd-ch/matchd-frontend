@@ -74,8 +74,6 @@ export type IUserRequestInput = {
 };
 
 export type ICompanyInput = {
-  /** Role */
-  role: Scalars["String"];
   /** Name */
   name: Scalars["String"];
   /** UID */
@@ -84,6 +82,11 @@ export type ICompanyInput = {
   zip: Scalars["String"];
   /** City */
   city: Scalars["String"];
+};
+
+export type IEmployeeInput = {
+  /** Role */
+  role: Scalars["String"];
 };
 
 export type IStudentInput = {
