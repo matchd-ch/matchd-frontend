@@ -17,7 +17,7 @@ defineRule("uid", value => {
 });
 
 defineRule("password-strengh", value => {
-  if (!value.match(/^(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)) {
+  if (!value.match(/^(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[a-zA-Z]).*$/)) {
     return `Das Passwort erfüllt die Kriterien nicht.`;
   }
 
