@@ -476,6 +476,20 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "employee",
+                  "description": "Employee is required.",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "EmployeeInput",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "email",
                   "description": null,
                   "type": {
@@ -1224,20 +1238,6 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "role",
-              "description": "Role",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
               "name": "name",
               "description": "Name",
               "type": {
@@ -1282,6 +1282,31 @@
             {
               "name": "city",
               "description": "City",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "EmployeeInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "role",
+              "description": "Role",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -2322,13 +2347,13 @@
       },
       "TimerPanel": {
         "title": "Time",
-        "subtitle": "CPU: 333.58ms (402.25ms)"
+        "subtitle": "CPU: 172.16ms (312.44ms)"
       },
       "VersionsPanel": {
         "title": "Versions",
         "subtitle": "Django 3.1.5"
       }
     },
-    "storeId": "120e77d638c945689afde0136c556291"
+    "storeId": "afc10aa7f2684d3e997445686797de5f"
   }
 }

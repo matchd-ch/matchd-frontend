@@ -6,7 +6,7 @@ mutation(
   $lastName: String!
   $zip: String!
   $city: String!
-  $uid: String!,
+  $uid: String!
   $role: String!
   $type: String!
 ) {
@@ -18,7 +18,8 @@ mutation(
     firstName: $firstName
     lastName: $lastName
     type: $type
-    company: { name: $name, zip: $zip, city: $city, uid: $uid, role: $role }
+    company: { name: $name, zip: $zip, city: $city, uid: $uid }
+    employee: { role: $role }
   ) {
     success
     errors
