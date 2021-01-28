@@ -1255,13 +1255,9 @@
               "name": "uid",
               "description": "UID",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -2347,13 +2343,13 @@
       },
       "TimerPanel": {
         "title": "Time",
-        "subtitle": "CPU: 172.16ms (312.44ms)"
+        "subtitle": "CPU: 386.71ms (639.68ms)"
       },
       "VersionsPanel": {
         "title": "Versions",
         "subtitle": "Django 3.1.5"
       }
     },
-    "storeId": "afc10aa7f2684d3e997445686797de5f"
+    "storeId": "a908f034c269472e91d52b83188eb08c"
   }
 }
