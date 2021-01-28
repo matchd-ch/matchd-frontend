@@ -6,13 +6,22 @@
       Passwort vergessen
     </h1>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
-      <GenericError v-if="passwordForgottenState.errors?.nonFieldErrors?.includes('not_verified')">
-        Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
+      <GenericSuccess v-if="passwordForgottenState.success">
+        Du hast eine E-Mail erhalten, mit welcher du dein Passwort resetten kannst. Falls du in den
+        nächsten Minuten keine E-Mail erhältst, melde dich
+        <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
+      </GenericSuccess>
+
+      <GenericError
+        v-else-if="passwordResetState.tokenVerificationComplete && !passwordResetState.tokenIsValid"
+      >
+        Dein Passwort-Reset Link ist abgelaufen oder ungültig. Fordere einen neuen Link an oder
+        melde dich
         <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
       </GenericError>
 
       <Form @submit="onSubmit" v-slot="{ errors }">
-        <MatchdField id="email" class="mb-3" :errors="errors.email">
+        <MatchdField id="email" class="mb-10" :errors="errors.email">
           <template v-slot:label>E-Mail</template>
           <Field
             id="email"
@@ -22,6 +31,9 @@
             label="E-Mail"
             rules="required|email"
           />
+          <template v-slot:info
+            >Gib die E-Mail ein, mit welcher du dich bei Matchd registriert hast.</template
+          >
         </MatchdField>
         <MatchdButton
           variant="outline"
@@ -37,13 +49,15 @@
 </template>
 
 <script lang="ts">
+import GenericSuccess from "@/components/GenericSuccess.vue";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import { LoginForm } from "@/models/LoginForm";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
+
+Vue.registerHooks(["beforeRouteEnter"]);
 
 @Options({
   components: {
@@ -52,23 +66,28 @@ import { Options, Vue } from "vue-class-component";
     ErrorMessage,
     MatchdField,
     MatchdButton,
+    GenericSuccess,
     GenericError,
   },
 })
-export default class Home extends Vue {
+export default class PasswordForgotten extends Vue {
   get passwordForgottenLoading() {
-    return this.$store.getters["loginLoading"];
+    return this.$store.getters["sendPasswordResetEmailLoading"];
   }
 
   get passwordForgottenState() {
-    return this.$store.getters["loginState"];
+    return this.$store.getters["sendPasswordResetEmailState"];
   }
 
-  async onSubmit(form: LoginForm) {
-    // todo
-    // await this.$store.dispatch(ActionTypes.LOGIN, {
-    //   ...form,
-    // });
+  get passwordResetState() {
+    return this.$store.getters["passwordResetState"];
+  }
+
+  async onSubmit(form: { email: string }, { resetForm }: { resetForm: Function }) {
+    await this.$store.dispatch(ActionTypes.SEND_PASSWORD_RESET_EMAIL, {
+      ...form,
+    });
+    resetForm();
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="passwordResetState.tokenIsValid"
     class="password-forgotten min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
   >
     <h1 class="text-heading-90 text-black col-start-1 col-span-full">
@@ -58,7 +59,6 @@ import IconShow from "@/assets/icons/show.svg";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import { LoginForm } from "@/models/LoginForm";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -77,21 +77,25 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class PasswordReset extends Vue {
   passwordFieldType = "password";
+  token = "";
 
   get passwordResetLoading() {
-    return this.$store.getters["loginLoading"];
+    return this.$store.getters["passwordResetLoading"];
   }
 
   get passwordResetState() {
-    return this.$store.getters["loginState"];
+    return this.$store.getters["passwordResetState"];
   }
 
-  mounted() {
+  async mounted() {
     if (this.$route.params?.token && typeof this.$route.params.token === "string") {
-      // todo
-      // this.$store.dispatch(ActionTypes.VERIFY_ACCOUNT_WITH_TOKEN, {
-      //   token: this.$route.params.token,
-      // });
+      this.token = this.$route.params.token;
+      await this.$store.dispatch(ActionTypes.VERIFY_PASSWORD_RESET_TOKEN, {
+        token: this.token,
+      });
+      if (!this.passwordResetState.tokenIsValid) {
+        this.$router.replace({ name: "PasswordForgotten" });
+      }
     }
   }
 
@@ -99,11 +103,13 @@ export default class PasswordReset extends Vue {
     this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
   }
 
-  async onSubmit(form: LoginForm) {
-    // todo
-    // await this.$store.dispatch(ActionTypes.LOGIN, {
-    //   ...form,
-    // });
+  async onSubmit(form: { password: string }, { resetForm }: { resetForm: Function }) {
+    await this.$store.dispatch(ActionTypes.PASSWORD_RESET, {
+      ...form,
+      token: this.token,
+    });
+    resetForm();
+    this.$router.replace({ name: "Login" });
   }
 }
 </script>

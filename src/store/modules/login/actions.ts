@@ -9,7 +9,10 @@ import { State } from "@/store/modules/login/state";
 
 import tokenAuthMutation from "@/api/mutations/tokenAuth.gql";
 import refreshTokenMutation from "@/api/mutations/refreshToken.gql";
+import sendPasswordResetEmailMutation from "@/api/mutations/sendPasswordResetEmail.gql";
+import passwordResetMutation from "@/api/mutations/passwordReset.gql";
 import meQuery from "@/api/queries/me.gql";
+import verifyPasswordResetTokenQuery from "@/api/queries/verifyPasswordResetToken.gql";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -27,6 +30,18 @@ export interface Actions {
   ): Promise<void>;
   [ActionTypes.REFRESH_LOGIN]({ commit, getters }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ME]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.VERIFY_PASSWORD_RESET_TOKEN](
+    { commit }: AugmentedActionContext,
+    payload: { token: string }
+  ): Promise<void>;
+  [ActionTypes.SEND_PASSWORD_RESET_EMAIL](
+    { commit }: AugmentedActionContext,
+    payload: { email: string }
+  ): Promise<void>;
+  [ActionTypes.PASSWORD_RESET](
+    { commit }: AugmentedActionContext,
+    payload: { token: string; password: string }
+  ): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -55,5 +70,32 @@ export const actions: ActionTree<State, RootState> & Actions = {
       fetchPolicy: "network-only",
     });
     commit(MutationTypes.ME_LOADED, response.data.me);
+  },
+  async [ActionTypes.VERIFY_PASSWORD_RESET_TOKEN]({ commit }, payload: { token: string }) {
+    commit(MutationTypes.VERIFY_PASSWORD_RESET_TOKEN_LOADING);
+    const response = await apiClient.query({
+      query: verifyPasswordResetTokenQuery,
+      variables: payload,
+      fetchPolicy: "network-only",
+    });
+    commit(MutationTypes.VERIFY_PASSWORD_RESET_TOKEN_LOADED, {
+      valid: response.data.verifyPasswordResetToken,
+    });
+  },
+  async [ActionTypes.SEND_PASSWORD_RESET_EMAIL]({ commit }, payload: { email: string }) {
+    commit(MutationTypes.SEND_PASSWORD_RESET_EMAIL_LOADING);
+    const response = await apiClient.mutate({
+      mutation: sendPasswordResetEmailMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.SEND_PASSWORD_RESET_EMAIL_LOADED, response.data.sendPasswordResetEmail);
+  },
+  async [ActionTypes.PASSWORD_RESET]({ commit }, payload: { token: string; password: string }) {
+    commit(MutationTypes.PASSWORD_RESET_LOADING);
+    const response = await apiClient.mutate({
+      mutation: passwordResetMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.PASSWORD_RESET_LOADED, response.data.passwordReset);
   },
 };

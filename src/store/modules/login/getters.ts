@@ -10,6 +10,17 @@ export type Getters = {
   user(state: State): UserWithProfileNode | null;
   jwtToken(state: State): string;
   refreshToken(state: State): string;
+  sendPasswordResetEmailLoading(state: State): boolean;
+  sendPasswordResetEmailState(state: State): { success: boolean; errors: MatchdApiError | null };
+  passwordResetLoading(state: State): boolean;
+  passwordResetState(
+    state: State
+  ): {
+    success: boolean;
+    errors: MatchdApiError | null;
+    tokenVerificationComplete: boolean;
+    tokenIsValid: boolean;
+  };
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -30,5 +41,32 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   refreshToken(state: State): string {
     return state.refreshToken;
+  },
+  sendPasswordResetEmailLoading(state: State): boolean {
+    return state.sendPasswordResetEmail.loading;
+  },
+  sendPasswordResetEmailState(state: State): { success: boolean; errors: MatchdApiError | null } {
+    return {
+      success: state.sendPasswordResetEmail.success,
+      errors: state.sendPasswordResetEmail.errors || null,
+    };
+  },
+  passwordResetLoading(state: State): boolean {
+    return state.passwordReset.loading;
+  },
+  passwordResetState(
+    state: State
+  ): {
+    success: boolean;
+    errors: MatchdApiError | null;
+    tokenVerificationComplete: boolean;
+    tokenIsValid: boolean;
+  } {
+    return {
+      success: state.passwordReset.success,
+      errors: state.passwordReset.errors || null,
+      tokenVerificationComplete: state.passwordReset.tokenVerificationComplete,
+      tokenIsValid: state.passwordReset.tokenIsValid,
+    };
   },
 };
