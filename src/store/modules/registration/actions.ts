@@ -28,19 +28,19 @@ export interface Actions {
   [ActionTypes.SAVE_COMPANY_REGISTRATION](
     { commit }: AugmentedActionContext,
     payload: NewCompanyAccount
-  ): void;
+  ): Promise<void>;
   [ActionTypes.SAVE_STUDENT_REGISTRATION](
     { commit }: AugmentedActionContext,
     payload: NewStudentAccount
-  ): void;
+  ): Promise<void>;
   [ActionTypes.SEND_REGISTRATION_CONTACT_FORM](
     { commit }: AugmentedActionContext,
     payload: UserRequestInput
-  ): void;
+  ): Promise<void>;
   [ActionTypes.VERIFY_ACCOUNT_WITH_TOKEN](
     { commit }: AugmentedActionContext,
     payload: { token: string }
-  ): void;
+  ): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {

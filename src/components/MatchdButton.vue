@@ -65,6 +65,12 @@ export default class MatchdButton extends Vue.with(Props) {}
       @apply text-green-1;
     }
   }
+
+  &.theme-neutral {
+    & svg {
+      @apply text-white;
+    }
+  }
 }
 
 .fill {
