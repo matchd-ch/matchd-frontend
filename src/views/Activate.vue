@@ -1,31 +1,45 @@
 <template>
-  <div class="activate grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5">
-    <h1 class="text-heading-90 text-pink-1 col-span-full">
+  <div
+    class="activate min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
+  >
+    <h1 class="text-heading-90 text-black col-start-1 col-span-2">
       Aktivierung
     </h1>
-  </div>
-  <div class="px-4 lg:px-5">
-    <template v-if="activationLoading">
-      <p>Bitte warte während dein Account aktiviert wird</p>
-    </template>
-    <template v-else-if="activationState.success">
-      <p>Dein Account wurde erfolgreich aktiviert.</p>
-      <MatchdButton type="button" variant="outline" @click="$router.push({ name: 'Login' })"
-        >Logge dich jetzt ein</MatchdButton
-      >
-    </template>
-    <template v-else-if="activationState.errors.includes('invalid_token')">
-      <p>Dein Aktivierungslink ist abgelaufen oder ungültig.</p>
-      <MatchdButton type="button" variant="outline" @click="$router.push({ name: 'Triage' })"
-        >Registriere dich erneut</MatchdButton
-      >
-    </template>
-    <template v-else-if="activationState.errors.includes('already_verified')">
-      <p>Dein Account ist bereits aktiviert.</p>
-      <MatchdButton type="button" variant="outline" @click="$router.push({ name: 'Login' })"
-        >Logge dich jetzt ein</MatchdButton
-      >
-    </template>
+    <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
+      <template v-if="activationLoading">
+        <p class="text-heading-md">Bitte warte während dein Account aktiviert wird</p>
+      </template>
+      <template v-else-if="activationState.success">
+        <p class="text-heading-md mb-6">Dein Account wurde erfolgreich aktiviert.</p>
+        <MatchdButton
+          type="button"
+          variant="outline"
+          size="xl"
+          @click="$router.push({ name: 'Login' })"
+          >Logge dich jetzt ein</MatchdButton
+        >
+      </template>
+      <template v-else-if="activationState.errors?.nonFieldErrors?.includes('invalid_token')">
+        <p class="text-heading-md mb-6">Dein Aktivierungslink ist abgelaufen oder ungültig.</p>
+        <MatchdButton
+          type="button"
+          variant="outline"
+          size="xl"
+          @click="$router.push({ name: 'Triage' })"
+          >Registriere dich erneut</MatchdButton
+        >
+      </template>
+      <template v-else-if="activationState.errors?.nonFieldErrors?.includes('already_verified')">
+        <p class="text-heading-md mb-6">Dein Account ist bereits aktiviert.</p>
+        <MatchdButton
+          type="button"
+          variant="outline"
+          size="xl"
+          @click="$router.push({ name: 'Login' })"
+          >Logge dich jetzt ein</MatchdButton
+        >
+      </template>
+    </div>
   </div>
 </template>
 

@@ -11,7 +11,7 @@
       {{ errors }}
     </div>
     <p v-if="$slots.info" class="text-paragraph-sm mt-4 flex items-center px-8">
-      <IconInfo class="w-5 mr-2" />
+      <IconInfo class="flex-shrink-0 w-5 mr-2" />
       <slot name="info" />
     </p>
   </div>
@@ -35,30 +35,32 @@ export default class MatchdField extends Vue.with(Props) {}
 </script>
 
 <style lang="css">
-.label {
-  @apply block px-8 mb-2;
-  @apply font-medium;
-}
-
-.form-element input,
-.form-element textarea {
-  @apply block w-full bg-white rounded-30 px-8 py-4;
-  @apply border border-white focus:border-black;
-  @apply text-lg placeholder-black placeholder-opacity-100;
-  @apply focus:outline-none;
-  @apply transition-colors duration-300;
-}
-
-.form-element--icon-right {
-  & input {
-    @apply pr-16;
+.field {
+  &.field-invalid {
+    & input,
+    & textarea {
+      @apply border-negative text-negative placeholder-negative;
+    }
   }
-}
 
-.form .field-invalid {
-  & input,
-  & textarea {
-    @apply border-negative text-negative placeholder-negative;
+  & .label {
+    @apply block px-8 mb-2;
+    @apply font-medium;
+  }
+
+  & .form-element input,
+  & .form-element textarea {
+    @apply block w-full bg-white rounded-30 px-8 py-4;
+    @apply border border-white focus:border-black;
+    @apply text-lg placeholder-black placeholder-opacity-100;
+    @apply focus:outline-none;
+    @apply transition-colors duration-300;
+  }
+
+  & .form-element--icon-right {
+    & input {
+      @apply pr-16;
+    }
   }
 }
 </style>

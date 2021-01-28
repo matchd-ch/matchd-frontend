@@ -3,13 +3,13 @@
     <div class="register-company grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5">
       <h1
         class="text-heading-90 text-pink-1 col-span-full lg:fixed lg:transition-all lg:top-0"
-        :class="{ 'attach-heading': attached }"
+        :class="{ 'attach-heading': registration.attached }"
       >
         Registrierung
       </h1>
     </div>
     <div class=" px-4 lg:px-5">
-      <MatchdStep step="1" theme="pink" :disabled="activeStep < 1">
+      <MatchdStep step="1" theme="pink">
         <template v-slot:title>Bist du ein Arbeitgeber?</template>
         <MatchdButton
           type="button"
@@ -19,13 +19,15 @@
           class="mb-3 lg:mb-0 mr-3"
           >Ja</MatchdButton
         >
-        <MatchdButton type="button" variant="outline" @click="onClickCompanyNo">Nein</MatchdButton>
+        <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
+          >Nein</MatchdButton
+        >
       </MatchdStep>
       <MatchdStep
+        v-show="activeStep >= 2"
         step="2"
         theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
-        :disabled="activeStep < 2"
       >
         <template v-slot:title
           >Bitte hinterlege als erstes die UID-Nr. deiner Unternehmung:</template
@@ -46,10 +48,10 @@
         </Form>
       </MatchdStep>
       <MatchdStep
+        v-show="activeStep >= 3"
         step="3"
         theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
-        :disabled="activeStep < 3"
       >
         <template v-slot:title>
           Erzähl uns mehr zu dir
@@ -117,7 +119,7 @@
               id="password"
               name="password"
               as="input"
-              :type="passwordFieldType"
+              :type="registration.passwordFieldType"
               label="Passwort"
               rules="required|password-strengh"
               autocomplete
@@ -125,11 +127,11 @@
             <template v-slot:iconRight>
               <button
                 type="button"
-                @click="onTogglePasswordVisibility"
+                @click="registration.onTogglePasswordVisibility"
                 class="h-full flex justify-center items-center p-2"
               >
                 <component
-                  :is="passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
+                  :is="registration.passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
                   class="w-6"
                 />
               </button>
@@ -143,15 +145,16 @@
             variant="outline"
             :disabled="companyRegistrationLoading"
             :loading="companyRegistrationLoading"
+            theme="pink"
             >Registrieren</MatchdButton
           >
         </Form>
       </MatchdStep>
       <MatchdStep
+        v-show="activeStep >= 4"
         step="4"
         theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
-        :disabled="activeStep < 4"
       >
         <template v-slot:title>
           Fast geschafft!<br />Aktiviere deinen Account. Wir haben deinen Aktivierungslink per
@@ -163,6 +166,7 @@
 </template>
 
 <script lang="ts">
+import { useRegistration } from "@/composables/Registration";
 import { NewCompanyAccount } from "@/models/NewAccount";
 import {
   RegistrationCompanyFormData,
@@ -175,7 +179,7 @@ import MatchdStep from "@/components/MatchdStep.vue";
 import IconShow from "@/assets/icons/show.svg";
 import IconHide from "@/assets/icons/hide.svg";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
 
 @Options({
   components: {
@@ -190,9 +194,7 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class RegisterCompany extends Vue {
-  attached = false;
   isCompany: boolean | null = null;
-  passwordFieldType = "password";
   companyUidFormValid = false;
   companyDataFormValid = false;
   form: NewCompanyAccount = {
@@ -207,6 +209,8 @@ export default class RegisterCompany extends Vue {
     password: "",
     type: "company",
   };
+
+  registration = setup(() => useRegistration());
 
   get companyRegistrationLoading() {
     return this.$store.getters["companyRegistrationLoading"];
@@ -229,28 +233,17 @@ export default class RegisterCompany extends Vue {
   }
 
   mounted() {
-    window.addEventListener("scroll", this.onScroll);
+    this.form.type = this.registration.urlToAccountTypeMapper(this.$route.path);
+    this.registration.mounted();
   }
 
   beforeDestroy() {
-    window.removeEventListener("scroll", this.onScroll);
-  }
-
-  onScroll() {
-    this.attached = window.top.scrollY > 100;
+    this.registration.beforeDestroy();
   }
 
   onClickCompanyYes() {
     this.isCompany = true;
-    this.$router.push({ hash: "#step-2" });
-  }
-
-  onClickCompanyNo() {
-    this.$router.push({ name: "Triage", hash: "#nichts-passendes-gefunden" });
-  }
-
-  onTogglePasswordVisibility() {
-    this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
+    this.registration.scrollToStep(2);
   }
 
   onSubmitUid(form: RegistrationCompanyFormUid) {
@@ -259,7 +252,7 @@ export default class RegisterCompany extends Vue {
       ...form,
     };
     this.companyUidFormValid = true;
-    this.$router.push({ hash: "#step-3" });
+    this.registration.scrollToStep(3);
   }
 
   async onSubmitCompanyData(
@@ -284,7 +277,7 @@ export default class RegisterCompany extends Vue {
       return;
     }
     this.companyDataFormValid = true;
-    this.$router.push({ hash: "#step-4" });
+    this.registration.scrollToStep(4);
   }
 }
 </script>

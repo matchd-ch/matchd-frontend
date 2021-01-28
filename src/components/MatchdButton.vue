@@ -2,7 +2,7 @@
   <component
     :is="tag"
     class="btn relative overflow-hidden rounded-full font-medium text-xl py-3 px-10 focus:outline-none focus:ring focus:ring-black focus:ring-opacity-50"
-    :class="{ outline: variant === 'outline', fill: variant === 'fill', active: active }"
+    :class="[variant, size, active ? 'active' : '', `theme-${theme}`]"
   >
     <Loading v-if="loading" />
     <slot v-else />
@@ -15,9 +15,11 @@ import Loading from "@/assets/icons/loading.svg";
 
 class Props {
   tag = prop<string>({ default: "button" });
+  theme = prop<string>({ default: "green" });
   variant = prop<string>({ default: "fill" });
   loading = prop<boolean>({ default: false });
   active = prop<boolean>({ default: false });
+  size = prop<string>({ default: "" });
 }
 
 @Options({
@@ -40,9 +42,27 @@ export default class MatchdButton extends Vue.with(Props) {}
     transition: fill 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  &.xl {
+    @apply text-cta-xl font-normal;
+    @apply py-8 px-14;
+    @apply border-2;
+  }
+
   &.fill {
     & svg {
       fill: white;
+    }
+  }
+
+  &.theme-pink {
+    & svg {
+      @apply text-pink-1;
+    }
+  }
+
+  &.theme-green {
+    & svg {
+      @apply text-green-1;
     }
   }
 }
