@@ -17,7 +17,7 @@
           type="button"
           variant="outline"
           :active="isSaintGallenStudent === true"
-          @click="onClickSaintGallenStudentYes"
+          @click="onClickSaintGallenStudent(true)"
           class="mb-3 lg:mb-0 mr-3"
           >Ja</MatchdButton
         >
@@ -25,7 +25,7 @@
           type="button"
           variant="outline"
           :active="isSaintGallenStudent === false"
-          @click="onClickSaintGallenStudentNo"
+          @click="onClickSaintGallenStudent(false)"
           >Nein</MatchdButton
         >
       </MatchdStep>
@@ -44,7 +44,7 @@
           type="button"
           variant="outline"
           :active="isSaintGallenPosition"
-          @click="onClickSaintGallenPositionYes"
+          @click="onClickSaintGallenPosition(true)"
           class="mb-3 lg:mb-0 mr-3"
           >Ja</MatchdButton
         >
@@ -207,20 +207,15 @@ export default class RegisterStudent extends Vue {
     this.registration.beforeDestroy();
   }
 
-  onClickSaintGallenStudentYes() {
-    this.isSaintGallenStudent = true;
+  onClickSaintGallenStudent(response: boolean) {
+    const nextStep = response ? 3 : 2;
+    this.isSaintGallenStudent = response;
     this.isSaintGallenPosition = null;
-    this.registration.scrollToStep(3);
+    this.registration.scrollToStep(nextStep);
   }
 
-  onClickSaintGallenStudentNo() {
-    this.isSaintGallenStudent = false;
-    this.isSaintGallenPosition = null;
-    this.registration.scrollToStep(2);
-  }
-
-  onClickSaintGallenPositionYes() {
-    this.isSaintGallenPosition = true;
+  onClickSaintGallenPosition(response: boolean) {
+    this.isSaintGallenPosition = response;
     this.registration.scrollToStep(3);
   }
 
