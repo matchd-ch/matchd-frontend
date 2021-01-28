@@ -74,7 +74,7 @@ import { Options, Vue } from "vue-class-component";
     GenericError,
   },
 })
-export default class Home extends Vue {
+export default class Login extends Vue {
   get loginLoading() {
     return this.$store.getters["loginLoading"];
   }
@@ -87,6 +87,9 @@ export default class Home extends Vue {
     await this.$store.dispatch(ActionTypes.LOGIN, {
       ...form,
     });
+    if (this.$store.getters["jwtToken"]) {
+      this.$router.push({ name: "Home" });
+    }
   }
 }
 </script>

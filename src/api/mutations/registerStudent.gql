@@ -4,7 +4,6 @@ mutation(
   $firstName: String!
   $lastName: String!
   $type: String!
-  $mobileNumber: String!
 ) {
   registerStudent(
     username: $email
@@ -14,9 +13,6 @@ mutation(
     firstName: $firstName
     lastName: $lastName
     type: $type
-    student: {
-      mobileNumber: $mobileNumber
-    }
   ) {
     success
     errors

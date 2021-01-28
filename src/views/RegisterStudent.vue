@@ -9,7 +9,7 @@
       </h1>
     </div>
     <div class=" px-4 lg:px-5">
-      <MatchdStep step="1" theme="green" :disabled="activeStep < 1">
+      <MatchdStep step="1" theme="green">
         <template v-slot:title
           >Besuchst du eine Schule oder Hochschule im Kanton St.Gallen?</template
         >
@@ -26,10 +26,10 @@
         >
       </MatchdStep>
       <MatchdStep
+        v-show="activeStep >= 2"
         step="2"
         theme="green"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
-        :disabled="activeStep < 2"
       >
         <template v-slot:title
           >Bist du in der Region Ostschweiz auf der Suche nach einer Lehr- oder
@@ -48,10 +48,10 @@
         >
       </MatchdStep>
       <MatchdStep
+        v-show="activeStep >= 3"
         step="3"
         theme="green"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
-        :disabled="activeStep < 3"
       >
         <template v-slot:title>
           Erzähl uns mehr zu dir
@@ -120,10 +120,10 @@
         </Form>
       </MatchdStep>
       <MatchdStep
+        v-show="activeStep >= 3"
         step="4"
         theme="green"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
-        :disabled="activeStep < 4"
       >
         <template v-slot:title>
           Fast geschafft!<br />Aktiviere deinen Account. Wir haben deinen Aktivierungslink per
@@ -168,7 +168,6 @@ export default class RegisterStudent extends Vue {
     lastName: "",
     email: "",
     password: "",
-    mobileNumber: "+41123123123", // todo: remove for registration with mobilenumber
     type: "student",
   };
 

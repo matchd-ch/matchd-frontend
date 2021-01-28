@@ -6,8 +6,9 @@ mutation(
   $lastName: String!
   $zip: String!
   $city: String!
-  $uid: String!,
+  $uid: String!
   $role: String!
+  $type: String!
 ) {
   registerCompany(
     username: $email
@@ -16,7 +17,9 @@ mutation(
     password2: $password
     firstName: $firstName
     lastName: $lastName
-    company: { name: $name, zip: $zip, city: $city, uid: $uid, role: $role }
+    type: $type
+    company: { name: $name, zip: $zip, city: $city, uid: $uid }
+    employee: { role: $role }
   ) {
     success
     errors

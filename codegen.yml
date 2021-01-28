@@ -6,3 +6,18 @@ generates:
       - "typescript"
       - "typescript-graphql-files-modules"
       - "typescript-document-nodes"
+    config:
+      noExport: true
+  src/api/models/types.ts:
+    schema: "src/api/remote-schema.json"
+    plugins:
+      - "typescript"
+      - add:
+          content: '/* eslint-disable */'
+    config:
+      onlyOperationTypes: true
+      typesPrefix: I
+      enumPrefix: false
+hooks:
+  afterOneFileWrite:
+    - prettier --write
