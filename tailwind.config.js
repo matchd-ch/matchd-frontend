@@ -35,10 +35,14 @@ module.exports = {
       pink: {
         1: "#F21D5E",
         2: "#FC3F78",
+        3: "#FB617B",
+        5: "#FFE9E9",
       },
       green: {
         1: "#1FAC01",
         2: "#58B624",
+        3: "#95CC3C",
+        5: "#E0F3DE",
       },
       black: "#000",
       grey: {
@@ -52,7 +56,6 @@ module.exports = {
       primaryB: "#FFF",
       accent: "#1FAC01",
       negative: "#E11900",
-      "negative-light": "#FFE9E9",
       warning: "#FFC043",
       positive: "#05944F",
     },

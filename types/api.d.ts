@@ -48,7 +48,12 @@ type Scalars = {
 
 type Query = {
   __typename?: "Query";
+  verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
   me?: Maybe<UserWithProfileNode>;
+};
+
+type QueryVerifyPasswordResetTokenArgs = {
+  token: Scalars["String"];
 };
 
 type UserWithProfileNode = Node & {
@@ -110,6 +115,30 @@ type Mutation = {
   /** Same as `grapgql_jwt` implementation, with standard output. */
   refreshToken?: Maybe<RefreshToken>;
   revokeToken?: Maybe<Revoke>;
+  /**
+   * Send password reset email.
+   *
+   * For non verified users, send an activation
+   * email instead.
+   *
+   * Accepts both primary and secondary email.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
+  sendPasswordResetEmail?: Maybe<SendPasswordResetEmail>;
+  /**
+   * Change user password without old password.
+   *
+   * Receive the token that was sent by email.
+   *
+   * If token and new passwords are valid, update
+   * user password and in case of using refresh
+   * tokens, revoke all of them.
+   *
+   * Also, if user has not been verified yet, verify it.
+   */
+  passwordReset?: Maybe<PasswordReset>;
   /** Creates a new user user request */
   userRequest?: Maybe<UserRequest>;
   /** Creates a new user with company */
@@ -138,6 +167,16 @@ type MutationRefreshTokenArgs = {
 
 type MutationRevokeTokenArgs = {
   refreshToken: Scalars["String"];
+};
+
+type MutationSendPasswordResetEmailArgs = {
+  email: Scalars["String"];
+};
+
+type MutationPasswordResetArgs = {
+  token: Scalars["String"];
+  newPassword1: Scalars["String"];
+  newPassword2: Scalars["String"];
 };
 
 type MutationUserRequestArgs = {
@@ -223,6 +262,40 @@ type RefreshToken = {
 type Revoke = {
   __typename?: "Revoke";
   revoked?: Maybe<Scalars["Int"]>;
+};
+
+/**
+ * Send password reset email.
+ *
+ * For non verified users, send an activation
+ * email instead.
+ *
+ * Accepts both primary and secondary email.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
+type SendPasswordResetEmail = {
+  __typename?: "SendPasswordResetEmail";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+/**
+ * Change user password without old password.
+ *
+ * Receive the token that was sent by email.
+ *
+ * If token and new passwords are valid, update
+ * user password and in case of using refresh
+ * tokens, revoke all of them.
+ *
+ * Also, if user has not been verified yet, verify it.
+ */
+type PasswordReset = {
+  __typename?: "PasswordReset";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };
 
 /** Creates a new user user request */
