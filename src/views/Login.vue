@@ -15,6 +15,10 @@
         E-Mail oder Passwort ungültig.
       </GenericError>
 
+      <GenericSuccess v-else-if="passwordResetState.success">
+        Dein neues Passwort wurde gespeichert. Du kannst dich nun einloggen.
+      </GenericSuccess>
+
       <Form @submit="onSubmit" v-slot="{ errors }">
         <MatchdField id="username" class="mb-3" :errors="errors.username">
           <template v-slot:label>E-Mail</template>
@@ -27,7 +31,7 @@
             rules="required"
           />
         </MatchdField>
-        <MatchdField id="password" class="mb-10" :errors="errors.password">
+        <MatchdField id="password" class="mb-5" :errors="errors.password">
           <template v-slot:label>Passwort</template>
           <Field
             id="password"
@@ -39,6 +43,9 @@
             autocomplete
           />
         </MatchdField>
+        <p class="mb-5 px-8 text-paragraph-md mb-10">
+          <router-link :to="{ name: 'PasswordForgotten' }">Passwort vergessen</router-link>
+        </p>
         <MatchdButton
           variant="outline"
           :disabled="loginLoading"
@@ -54,10 +61,12 @@
 
 <script lang="ts">
 import GenericError from "@/components/GenericError.vue";
+import GenericSuccess from "@/components/GenericSuccess.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import { LoginForm } from "@/models/LoginForm";
 import { ActionTypes } from "@/store/modules/login/action-types";
+import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -69,6 +78,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdField,
     MatchdButton,
     GenericError,
+    GenericSuccess,
   },
 })
 export default class Login extends Vue {
@@ -80,7 +90,12 @@ export default class Login extends Vue {
     return this.$store.getters["loginState"];
   }
 
+  get passwordResetState() {
+    return this.$store.getters["passwordResetState"];
+  }
+
   async onSubmit(form: LoginForm) {
+    this.$store.commit(MutationTypes.RESET_PASSWORD_RESET_STATE);
     await this.$store.dispatch(ActionTypes.LOGIN, {
       ...form,
     });

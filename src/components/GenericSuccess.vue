@@ -1,0 +1,19 @@
+<template>
+  <div
+    class="flex items-center rounded-full bg-green-5 border border-green-1 text-green-1 py-4 px-8 mb-10"
+  >
+    <OKIcon class="w-8 mr-3 flex-shrink-0" /> <span><slot /></span>
+  </div>
+</template>
+
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+import OKIcon from "@/assets/icons/ok.svg";
+
+@Options({
+  components: {
+    OKIcon,
+  },
+})
+export default class GenericSuccess extends Vue {}
+</script>
