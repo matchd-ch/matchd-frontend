@@ -16,16 +16,21 @@
         <MatchdButton
           type="button"
           variant="outline"
-          :active="isSaintGallenStudent"
+          :active="isSaintGallenStudent === true"
           @click="onClickSaintGallenStudentYes"
           class="mb-3 lg:mb-0 mr-3"
           >Ja</MatchdButton
         >
-        <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
+        <MatchdButton
+          type="button"
+          variant="outline"
+          :active="isSaintGallenStudent === false"
+          @click="onClickSaintGallenStudentNo"
           >Nein</MatchdButton
         >
       </MatchdStep>
       <MatchdStep
+        v-if="isSaintGallenStudent === false"
         v-show="activeStep >= 2"
         step="2"
         theme="green"
@@ -182,9 +187,9 @@ export default class RegisterStudent extends Vue {
   }
 
   get activeStep() {
-    if (!this.isSaintGallenStudent) {
+    if (this.isSaintGallenStudent === null) {
       return 1;
-    } else if (!this.isSaintGallenPosition) {
+    } else if (!this.isSaintGallenStudent && !this.isSaintGallenPosition) {
       return 2;
     } else if (!this.studentDataFormValid) {
       return 3;
@@ -204,6 +209,13 @@ export default class RegisterStudent extends Vue {
 
   onClickSaintGallenStudentYes() {
     this.isSaintGallenStudent = true;
+    this.isSaintGallenPosition = null;
+    this.registration.scrollToStep(3);
+  }
+
+  onClickSaintGallenStudentNo() {
+    this.isSaintGallenStudent = false;
+    this.isSaintGallenPosition = null;
     this.registration.scrollToStep(2);
   }
 
