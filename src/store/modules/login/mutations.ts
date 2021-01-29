@@ -13,6 +13,8 @@ import { State } from "@/store/modules/login/state";
 export type Mutations<S = State> = {
   [MutationTypes.LOGIN_LOADING](state: S): void;
   [MutationTypes.LOGIN_LOADED](state: S, payload: ObtainJsonWebToken): void;
+  [MutationTypes.LOGOUT_LOADING](state: S): void;
+  [MutationTypes.LOGOUT_LOADED](state: S, payload: ObtainJsonWebToken): void;
   [MutationTypes.REFRESH_LOGIN_LOADING](state: S): void;
   [MutationTypes.REFRESH_LOGIN_LOADED](state: S, payload: RefreshToken): void;
   [MutationTypes.ME_LOADING](state: S): void;
@@ -28,22 +30,33 @@ export type Mutations<S = State> = {
 
 export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.LOGIN_LOADING](state: State) {
-    state.loading = true;
+    state.login.loading = true;
   },
   [MutationTypes.LOGIN_LOADED](state: State, payload: ObtainJsonWebToken) {
-    state.loading = false;
-    state.success = payload.success || false;
-    state.errors = errorCodeMapper(payload.errors);
+    state.login.loading = false;
+    state.login.success = payload.success || false;
+    state.login.errors = errorCodeMapper(payload.errors);
+    state.jwtToken = "";
+    state.refreshToken = "";
+    state.user = null;
+  },
+  [MutationTypes.LOGOUT_LOADING](state: State) {
+    state.logout.loading = true;
+  },
+  [MutationTypes.LOGOUT_LOADED](state: State, payload: ObtainJsonWebToken) {
+    state.logout.loading = false;
+    state.logout.success = payload.success || false;
+    state.logout.errors = errorCodeMapper(payload.errors);
     state.jwtToken = payload.token || "";
     state.refreshToken = payload.refreshToken || "";
   },
   [MutationTypes.REFRESH_LOGIN_LOADING](state: State) {
-    state.loading = true;
+    state.login.loading = true;
   },
   [MutationTypes.REFRESH_LOGIN_LOADED](state: State, payload: RefreshToken) {
-    state.loading = false;
-    state.success = payload.success || false;
-    state.errors = errorCodeMapper(payload.errors);
+    state.login.loading = false;
+    state.login.success = payload.success || false;
+    state.login.errors = errorCodeMapper(payload.errors);
     state.jwtToken = payload.token || "";
     state.refreshToken = payload.refreshToken || "";
   },

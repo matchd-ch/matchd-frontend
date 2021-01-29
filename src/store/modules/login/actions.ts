@@ -28,6 +28,7 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: { username: string; password: string }
   ): Promise<void>;
+  [ActionTypes.LOGOUT]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.REFRESH_LOGIN]({ commit, getters }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ME]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.VERIFY_PASSWORD_RESET_TOKEN](
@@ -52,6 +53,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.LOGIN_LOADED, response.data.tokenAuth);
+  },
+  async [ActionTypes.LOGOUT]({ commit }) {
+    commit(MutationTypes.LOGOUT_LOADING);
+    const response = await apiClient.mutate({
+      mutation: tokenAuthMutation,
+    });
+    commit(MutationTypes.LOGOUT_LOADED, response.data.logout);
   },
   async [ActionTypes.REFRESH_LOGIN]({ commit, getters }) {
     commit(MutationTypes.REFRESH_LOGIN_LOADING);

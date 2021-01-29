@@ -7,6 +7,8 @@ import { State } from "./state";
 export type Getters = {
   loginLoading(state: State): boolean;
   loginState(state: State): { success: boolean; errors: MatchdApiError | null };
+  logoutLoading(state: State): boolean;
+  logoutState(state: State): { success: boolean; errors: MatchdApiError | null };
   user(state: State): UserWithProfileNode | null;
   jwtToken(state: State): string;
   refreshToken(state: State): string;
@@ -25,12 +27,21 @@ export type Getters = {
 
 export const getters: GetterTree<State, RootState> & Getters = {
   loginLoading(state: State): boolean {
-    return state.loading;
+    return state.login.loading;
   },
   loginState(state: State): { success: boolean; errors: MatchdApiError | null } {
     return {
-      success: state.success,
-      errors: state.errors || null,
+      success: state.login.success,
+      errors: state.login.errors || null,
+    };
+  },
+  logoutLoading(state: State): boolean {
+    return state.logout.loading;
+  },
+  logoutState(state: State): { success: boolean; errors: MatchdApiError | null } {
+    return {
+      success: state.logout.success,
+      errors: state.logout.errors || null,
     };
   },
   user(state: State): UserWithProfileNode | null {
