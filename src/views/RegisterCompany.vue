@@ -15,8 +15,8 @@
         <MatchdButton
           type="button"
           variant="outline"
-          :active="isCompany"
-          @click="onClickCompany(true)"
+          :active="isValidCompany"
+          @click="onClickConfirmCompany(true)"
           class="mb-3 lg:mb-0 mr-3"
           >Ja</MatchdButton
         >
@@ -201,9 +201,9 @@ import { Options, setup, Vue } from "vue-class-component";
   },
 })
 export default class RegisterCompany extends Vue {
-  isCompany: boolean | null = null;
-  companyUidFormValid = false;
-  companyDataFormValid = false;
+  isValidCompany: boolean | null = null;
+  isCompanyUidFormValid = false;
+  isCompanyDataFormValid = false;
   form: NewCompanyAccount = {
     uid: "",
     firstName: "",
@@ -228,11 +228,11 @@ export default class RegisterCompany extends Vue {
   }
 
   get activeStep() {
-    if (!this.isCompany) {
+    if (!this.isValidCompany) {
       return 1;
-    } else if (this.form.type === "company" && !this.companyUidFormValid) {
+    } else if (this.form.type === "company" && !this.isCompanyUidFormValid) {
       return 2;
-    } else if (!this.companyDataFormValid) {
+    } else if (!this.isCompanyDataFormValid) {
       return 3;
     } else {
       return 4;
@@ -248,9 +248,9 @@ export default class RegisterCompany extends Vue {
     this.registration.beforeDestroy();
   }
 
-  onClickCompany(response: boolean) {
+  onClickConfirmCompany(response: boolean) {
     const nextStep = this.form.type === "company" ? 2 : 3;
-    this.isCompany = response;
+    this.isValidCompany = response;
     this.registration.scrollToStep(nextStep);
   }
 
@@ -259,7 +259,7 @@ export default class RegisterCompany extends Vue {
       ...this.form,
       ...form,
     };
-    this.companyUidFormValid = true;
+    this.isCompanyUidFormValid = true;
     this.registration.scrollToStep(3);
   }
 
@@ -284,7 +284,7 @@ export default class RegisterCompany extends Vue {
       }
       return;
     }
-    this.companyDataFormValid = true;
+    this.isCompanyDataFormValid = true;
     this.registration.scrollToStep(4);
   }
 }
