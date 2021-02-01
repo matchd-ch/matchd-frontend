@@ -4,8 +4,6 @@ services:
   nginx:
     image: ${IMAGE_FRONTEND_NGINX}
     restart: always
-    depends_on:
-      - app
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${TRAEFIK_ROUTER_NAME}.rule=Host(`${VUE_APP_DOMAIN}`)"
