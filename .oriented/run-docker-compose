@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+if [[ -z "${ENVIRONMENT}" ||
+      -z "${IMAGE_FRONTEND_NGINX}" ]]
+then
+    echo "ERROR: A required environment variable is not set" >&2
+    echo " " >&2
+    echo "Docker:" >&2
+    echo "    ENVIRONMENT: ${ENVIRONMENT}" >&2
+    echo "    IMAGE_FRONTEND_NGINX: ${IMAGE_FRONTEND_NGINX}" >&2
+    exit 1
+fi
+
+echo "Writing ${DOTENV}..."
+
+export TRAEFIK_ROUTER_NAME="app-${ENVIRONMENT}-router"
+export DOTENV=".oriented/.env"
+
+echo "ENVIRONMENT=${ENVIRONMENT}" > $DOTENV
+echo "COMPOSE_PROJECT_NAME=${ENVIRONMENT}-frontend" >> $DOTENV
+echo "IMAGE_FRONTEND_NGINX=${IMAGE_FRONTEND_NGINX}" >> $DOTENV
+echo "TRAEFIK_ROUTER_NAME=${TRAEFIK_ROUTER_NAME}" >> $DOTENV
+
+cd .oriented
+
+echo "Pulling images..."
+docker-compose pull
+
+echo "Creating and starting containers…"
+docker-compose up -d
