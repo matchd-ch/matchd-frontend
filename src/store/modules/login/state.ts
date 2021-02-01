@@ -2,12 +2,16 @@ import { MatchdApiError } from "@/models/MatchdApiError";
 import { UserWithProfileNode } from "api";
 
 export type State = {
-  loading: boolean;
-  success: boolean;
-  errors: MatchdApiError | null;
-  jwtToken: string;
-  refreshToken: string;
-  user: UserWithProfileNode | null;
+  login: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
+  logout: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
   sendPasswordResetEmail: {
     loading: boolean;
     success: boolean;
@@ -24,15 +28,22 @@ export type State = {
   me: {
     loading: boolean;
   };
+  isLoggedIn: boolean;
+  refreshToken: string;
+  user: UserWithProfileNode | null;
 };
 
 export const state: State = {
-  loading: false,
-  success: false,
-  errors: null,
-  jwtToken: "",
-  refreshToken: "",
-  user: null,
+  login: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  logout: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
   sendPasswordResetEmail: {
     loading: false,
     success: false,
@@ -49,4 +60,7 @@ export const state: State = {
   me: {
     loading: false,
   },
+  isLoggedIn: false,
+  refreshToken: "",
+  user: null,
 };

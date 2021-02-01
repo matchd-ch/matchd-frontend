@@ -1,5 +1,6 @@
 export enum ActionTypes {
   LOGIN = "LOGIN",
+  LOGOUT = "LOGOUT",
   REFRESH_LOGIN = "REFRESH_LOGIN",
   ME = "ME",
   PASSWORD_RESET = "PASSWORD_RESET",

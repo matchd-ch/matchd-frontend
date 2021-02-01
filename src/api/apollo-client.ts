@@ -29,17 +29,6 @@ export function createApolloClient(baseUrl: string) {
     };
   });
 
-  const jwtLink = setContext(async (_, { headers }) => {
-    const store = useStore();
-    const jwtToken = store.getters["jwtToken"];
-    return {
-      headers: {
-        ...headers,
-        ...(jwtToken && { Authorization: `JWT ${jwtToken}` }),
-      },
-    };
-  });
-
   const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       const store = useStore();
@@ -59,7 +48,7 @@ export function createApolloClient(baseUrl: string) {
     }
   });
 
-  const link = from([csrfLink, jwtLink, httpLink]);
+  const link = from([csrfLink, httpLink]);
   return new ApolloClient({
     link: errorLink.concat(link),
     cache: new InMemoryCache(),

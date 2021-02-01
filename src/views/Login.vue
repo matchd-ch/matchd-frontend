@@ -99,7 +99,7 @@ export default class Login extends Vue {
     await this.$store.dispatch(ActionTypes.LOGIN, {
       ...form,
     });
-    if (this.$store.getters["jwtToken"]) {
+    if (this.$store.getters["isLoggedIn"]) {
       this.$router.push({ name: "Home" });
     }
   }

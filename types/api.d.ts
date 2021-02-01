@@ -48,8 +48,8 @@ type Scalars = {
 
 type Query = {
   __typename?: "Query";
-  verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
   me?: Maybe<UserWithProfileNode>;
+  verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
 };
 
 type QueryVerifyPasswordResetTokenArgs = {
@@ -98,6 +98,7 @@ enum UserType {
 
 type Mutation = {
   __typename?: "Mutation";
+  logout?: Maybe<Scalars["Boolean"]>;
   /**
    * Obtain JSON web token for given user.
    *

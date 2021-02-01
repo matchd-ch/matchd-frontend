@@ -10,7 +10,7 @@ export async function isLoggedIn(
   const store = useStore();
   if (to.meta?.public) {
     next();
-  } else if (store.getters["jwtToken"] === "" || store.getters["refreshToken"] === "") {
+  } else if (!store.getters["isLoggedIn"] || store.getters["refreshToken"] === "") {
     next({ name: "Login" });
   } else {
     try {
