@@ -10,7 +10,7 @@ export type Getters = {
   logoutLoading(state: State): boolean;
   logoutState(state: State): { success: boolean; errors: MatchdApiError | null };
   user(state: State): UserWithProfileNode | null;
-  jwtToken(state: State): string;
+  isLoggedIn(state: State): boolean;
   refreshToken(state: State): string;
   sendPasswordResetEmailLoading(state: State): boolean;
   sendPasswordResetEmailState(state: State): { success: boolean; errors: MatchdApiError | null };
@@ -47,8 +47,8 @@ export const getters: GetterTree<State, RootState> & Getters = {
   user(state: State): UserWithProfileNode | null {
     return state.user;
   },
-  jwtToken(state: State): string {
-    return state.jwtToken;
+  isLoggedIn(state: State): boolean {
+    return state.isLoggedIn;
   },
   refreshToken(state: State): string {
     return state.refreshToken;

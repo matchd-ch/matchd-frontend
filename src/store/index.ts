@@ -10,7 +10,7 @@ import {
 import { store as login, LoginStore, State as LoginState } from "@/store/modules/login";
 
 const persistedLoginState = createPersistedState({
-  paths: ["login.jwtToken", "login.refreshToken"],
+  paths: ["login.isLoggedIn", "login.refreshToken"],
 });
 
 export type RootState = {

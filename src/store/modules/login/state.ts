@@ -28,7 +28,7 @@ export type State = {
   me: {
     loading: boolean;
   };
-  jwtToken: string;
+  isLoggedIn: boolean;
   refreshToken: string;
   user: UserWithProfileNode | null;
 };
@@ -60,7 +60,7 @@ export const state: State = {
   me: {
     loading: false,
   },
-  jwtToken: "",
+  isLoggedIn: false,
   refreshToken: "",
   user: null,
 };
