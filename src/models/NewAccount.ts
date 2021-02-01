@@ -12,7 +12,7 @@ export type NewStudentAccount = Account;
 
 export interface NewCompanyAccount extends Account {
   name: string;
-  uid: string;
+  uid?: string;
   zip: string;
   city: string;
   role: string;

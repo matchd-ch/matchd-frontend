@@ -10,12 +10,13 @@
     </div>
     <div class=" px-4 lg:px-5">
       <MatchdStep step="1" theme="pink">
-        <template v-slot:title>Bist du ein Arbeitgeber?</template>
+        <template v-if="form.type === 'company'" v-slot:title>Bist du ein Arbeitgeber?</template>
+        <template v-else v-slot:title>Bist du eine Bildungsinstitution?</template>
         <MatchdButton
           type="button"
           variant="outline"
-          :active="isCompany"
-          @click="onClickCompanyYes"
+          :active="isValidCompany"
+          @click="onClickConfirmCompany(true)"
           class="mb-3 lg:mb-0 mr-3"
           >Ja</MatchdButton
         >
@@ -24,6 +25,7 @@
         >
       </MatchdStep>
       <MatchdStep
+        v-if="form.type === 'company'"
         v-show="activeStep >= 2"
         step="2"
         theme="pink"
@@ -58,12 +60,17 @@
         </template>
         <Form @submit="onSubmitCompanyData" v-slot="{ errors }">
           <MatchdField id="name" class="mb-3" :errors="errors.name">
-            <template v-slot:label>Vollständiger Name der Unternehmung</template>
+            <template v-if="form.type === 'company'" v-slot:label
+              >Vollständiger Name der Unternehmung</template
+            >
+            <template v-else v-slot:label>Vollständiger Name der Bildungsinstitution</template>
             <Field
               id="name"
               name="name"
               as="input"
-              label="Name der Unternehmung"
+              :label="
+                form.type === 'company' ? 'Name der Unternehmung' : 'Name der Bildungsinstitution'
+              "
               rules="required"
             />
           </MatchdField>
@@ -194,9 +201,9 @@ import { Options, setup, Vue } from "vue-class-component";
   },
 })
 export default class RegisterCompany extends Vue {
-  isCompany: boolean | null = null;
-  companyUidFormValid = false;
-  companyDataFormValid = false;
+  isValidCompany: boolean | null = null;
+  isCompanyUidFormValid = false;
+  isCompanyDataFormValid = false;
   form: NewCompanyAccount = {
     uid: "",
     firstName: "",
@@ -221,11 +228,11 @@ export default class RegisterCompany extends Vue {
   }
 
   get activeStep() {
-    if (!this.isCompany) {
+    if (!this.isValidCompany) {
       return 1;
-    } else if (!this.companyUidFormValid) {
+    } else if (this.form.type === "company" && !this.isCompanyUidFormValid) {
       return 2;
-    } else if (!this.companyDataFormValid) {
+    } else if (!this.isCompanyDataFormValid) {
       return 3;
     } else {
       return 4;
@@ -241,9 +248,10 @@ export default class RegisterCompany extends Vue {
     this.registration.beforeDestroy();
   }
 
-  onClickCompanyYes() {
-    this.isCompany = true;
-    this.registration.scrollToStep(2);
+  onClickConfirmCompany(response: boolean) {
+    const nextStep = this.form.type === "company" ? 2 : 3;
+    this.isValidCompany = response;
+    this.registration.scrollToStep(nextStep);
   }
 
   onSubmitUid(form: RegistrationCompanyFormUid) {
@@ -251,7 +259,7 @@ export default class RegisterCompany extends Vue {
       ...this.form,
       ...form,
     };
-    this.companyUidFormValid = true;
+    this.isCompanyUidFormValid = true;
     this.registration.scrollToStep(3);
   }
 
@@ -276,7 +284,7 @@ export default class RegisterCompany extends Vue {
       }
       return;
     }
-    this.companyDataFormValid = true;
+    this.isCompanyDataFormValid = true;
     this.registration.scrollToStep(4);
   }
 }
