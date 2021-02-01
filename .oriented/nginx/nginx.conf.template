@@ -120,27 +120,8 @@ http {
 
         location / {
             satisfy any;
-            try_files $uri $uri.html @proxy;
+            try_files $uri $uri.html;
             expires off;
-        }
-
-        location @proxy {
-            expires off;
-            add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
-            add_header X-Frame-Options "SAMEORIGIN";
-            add_header X-Cache-Status $upstream_cache_status;
-
-            proxy_redirect                      off;
-            proxy_set_header Host               $host;
-            proxy_set_header X-Real-IP          $remote_addr;
-            proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto  $scheme;
-            proxy_ignore_headers        Cache-Control;
-            proxy_http_version          1.1;
-            proxy_read_timeout          1m;
-            proxy_connect_timeout       1m;
-            # PROXY_URL gets replaced during build
-            proxy_pass                  $PROXY_URL; # set the address of the python instance here
         }
 
         location ~* \.(?:manifest|appcache|manifest.json)$ {
@@ -159,7 +140,7 @@ http {
             log_not_found off;
             expires 1M;
             add_header Cache-Control "public";
-            try_files $uri @proxy;
+            try_files $uri;
         }
 
         location ~ \.map$ {

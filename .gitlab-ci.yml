@@ -1,7 +1,7 @@
 variables:
   DOCKER_COMPOSE_SCRIPT: ./.oriented/run-docker-compose
 
-image: node:12
+image: node:15
 
 cache:
   paths:
@@ -107,13 +107,7 @@ prepare:production:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - >
       docker build
-      -t "$CI_REGISTRY/matchd/frontend:node-$APP_TAG"
-      -f ".oriented/node.Dockerfile" .
-    - docker push $CI_REGISTRY/matchd/frontend:node-$APP_TAG
-    - >
-      docker build
       -t "$CI_REGISTRY/matchd/frontend:nginx-$APP_TAG"
-      --build-arg PROXY_URL="$PROXY_URL"
       -f ".oriented/nginx.Dockerfile" .
     - docker push $CI_REGISTRY/matchd/frontend:nginx-$APP_TAG
     - docker logout $CI_REGISTRY
@@ -127,7 +121,6 @@ build:development:
   variables:
     ENVIRONMENT: development
     APP_TAG: latest
-    PROXY_URL: http://app-development:4000
   dependencies:
     - prepare:development
   only:
@@ -139,7 +132,6 @@ build:integration:
   variables:
     ENVIRONMENT: integration
     APP_TAG: $CI_COMMIT_REF_NAME
-    PROXY_URL: http://app-integration:4000
   dependencies:
     - prepare:integration
   only:
@@ -152,7 +144,6 @@ build:production:
   variables:
     ENVIRONMENT: production
     APP_TAG: $CI_COMMIT_REF_NAME
-    PROXY_URL: http://app-production:4000
   dependencies:
     - prepare:production
   only:
@@ -173,10 +164,7 @@ deploy:development:
     - build:development
   variables:
     ENVIRONMENT: development
-    IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-latest
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-latest
-    VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
-    VUE_APP_API: $DEVELOPMENT_VUE_APP_API
   only:
     - develop
   tags:
@@ -190,10 +178,7 @@ deploy:integration:
     - build:integration
   variables:
     ENVIRONMENT: integration
-    IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-$CI_COMMIT_REF_NAME
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
-    VUE_APP_DOMAIN: $INTEGRATION_VUE_APP_DOMAIN
-    VUE_APP_API: $INTEGRATION_VUE_APP_API
   only:
     refs:
       - /^v?\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)(?:(?:(?:\+|\.)[a-zA-Z0-9-]+)*)?)$/
@@ -208,10 +193,7 @@ deploy:production:
     - build:production
   variables:
     ENVIRONMENT: production
-    IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-$CI_COMMIT_REF_NAME
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
-    VUE_APP_DOMAIN: $PRODUCTION_VUE_APP_DOMAIN
-    VUE_APP_API: $PRODUCTION_VUE_APP_API
   only:
     refs:
       - /^v?\d+\.\d+\.\d+$/

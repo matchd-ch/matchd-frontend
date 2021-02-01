@@ -1,17 +1,6 @@
 version: '3.8'
 
 services:
-  app:
-    image: ${IMAGE_FRONTEND}
-    restart: always
-    environment:
-      VUE_APP_DOMAIN: '${VUE_APP_DOMAIN}'
-      VUE_APP_API: '${VUE_APP_API}'
-    networks:
-      matchd_matchd:
-        aliases:
-          - '${GET_NETWORK_ALIAS}'
-
   nginx:
     image: ${IMAGE_FRONTEND_NGINX}
     restart: always
