@@ -72,7 +72,6 @@ prepare:development:
     VUE_APP_API: $DEVELOPMENT_VUE_APP_API
   only:
     - develop
-    - feature/MATCHD-46
   resource_group: development
 
 prepare:integration:
@@ -95,22 +94,7 @@ prepare:production:
       - /^v?\d+\.\d+\.\d+$/
   resource_group: production
 
-.build: &build
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  - >
-    docker build
-    -t "$CI_REGISTRY/matchd/frontend:node-$APP_TAG"
-    -f ".oriented/node.Dockerfile" .
-  - docker push $CI_REGISTRY/matchd/frontend:node-$APP_TAG
-  - >
-    docker build
-    -t "$CI_REGISTRY/matchd/frontend:nginx-$APP_TAG"
-    --build-arg PROXY_URL="$PROXY_URL"
-    -f ".oriented/nginx.Dockerfile" .
-  - docker push $CI_REGISTRY/matchd/frontend:nginx-$APP_TAG
-  - docker logout $CI_REGISTRY
-
-build:development:
+.build:
   stage: "Build"
   image: docker:19.03.11
   services:
@@ -119,67 +103,58 @@ build:development:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - >
+      docker build
+      -t "$CI_REGISTRY/matchd/frontend:node-$APP_TAG"
+      -f ".oriented/node.Dockerfile" .
+    - docker push $CI_REGISTRY/matchd/frontend:node-$APP_TAG
+    - >
+      docker build
+      -t "$CI_REGISTRY/matchd/frontend:nginx-$APP_TAG"
+      --build-arg PROXY_URL="$PROXY_URL"
+      -f ".oriented/nginx.Dockerfile" .
+    - docker push $CI_REGISTRY/matchd/frontend:nginx-$APP_TAG
+    - docker logout $CI_REGISTRY
+  tags:
+    - docker
+    - docker-nonswiss-ok
+    - not-roadrunner
+
+build:development:
+  extends: .build
+  variables:
     ENVIRONMENT: development
     APP_TAG: latest
     PROXY_URL: http://app-development:4000
-  script:
-    - *build
   dependencies:
     - prepare:development
-  tags:
-    - docker
-    - docker-nonswiss-ok
-    - not-roadrunner
   only:
     - develop
-    - feature/MATCHD-46
   resource_group: development
 
 build:integration:
-  stage: "Build"
-  image: docker:19.03.11
-  services:
-    - docker:19.03.11-dind
+  extends: .build
   variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
     ENVIRONMENT: integration
     APP_TAG: $CI_COMMIT_REF_NAME
     PROXY_URL: http://app-integration:4000
-  script:
-    - *build
   dependencies:
     - prepare:integration
-  tags:
-    - docker
-    - docker-nonswiss-ok
-    - not-roadrunner
   only:
     refs:
       - /^v?\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)(?:(?:(?:\+|\.)[a-zA-Z0-9-]+)*)?)$/
   resource_group: integration
 
 build:production:
-  stage: "Build"
-  image: docker:19.03.11
-  services:
-    - docker:19.03.11-dind
+  extends: .build
   variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
     ENVIRONMENT: production
     APP_TAG: $CI_COMMIT_REF_NAME
     PROXY_URL: http://app-production:4000
-  script:
-    - *build
   dependencies:
     - prepare:production
-  tags:
-    - docker
-    - docker-nonswiss-ok
-    - not-roadrunner
   only:
     refs:
       - /^v?\d+\.\d+\.\d+$/
@@ -205,7 +180,6 @@ deploy:development:
     VUE_APP_API: $DEVELOPMENT_VUE_APP_API
   only:
     - develop
-    - feature/MATCHD-46
   tags:
     - matchd
     - development
