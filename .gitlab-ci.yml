@@ -168,6 +168,7 @@ deploy:development:
   variables:
     ENVIRONMENT: development
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-latest
+    VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
   only:
     - develop
   tags:
@@ -182,6 +183,7 @@ deploy:integration:
   variables:
     ENVIRONMENT: integration
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
+    VUE_APP_DOMAIN: $INTEGRATION_VUE_APP_DOMAIN
   only:
     refs:
       - /^v?\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)(?:(?:(?:\+|\.)[a-zA-Z0-9-]+)*)?)$/
@@ -197,6 +199,7 @@ deploy:production:
   variables:
     ENVIRONMENT: production
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
+    VUE_APP_DOMAIN: $PRODUCTION_VUE_APP_DOMAIN
   only:
     refs:
       - /^v?\d+\.\d+\.\d+$/
