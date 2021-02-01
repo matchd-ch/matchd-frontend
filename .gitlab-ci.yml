@@ -121,6 +121,7 @@ build:development:
   variables:
     ENVIRONMENT: development
     APP_TAG: latest
+    VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
   dependencies:
     - prepare:development
   only:
@@ -132,6 +133,7 @@ build:integration:
   variables:
     ENVIRONMENT: integration
     APP_TAG: $CI_COMMIT_REF_NAME
+    VUE_APP_DOMAIN: $INTEGRATION_VUE_APP_DOMAIN
   dependencies:
     - prepare:integration
   only:
@@ -144,6 +146,7 @@ build:production:
   variables:
     ENVIRONMENT: production
     APP_TAG: $CI_COMMIT_REF_NAME
+    VUE_APP_DOMAIN: $PRODUCTION_VUE_APP_DOMAIN
   dependencies:
     - prepare:production
   only:
