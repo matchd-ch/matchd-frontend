@@ -6,7 +6,7 @@ mutation(
   $lastName: String!
   $zip: String!
   $city: String!
-  $uid: String!
+  $uid: String
   $role: String!
   $type: String!
 ) {

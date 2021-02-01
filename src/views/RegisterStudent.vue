@@ -16,16 +16,21 @@
         <MatchdButton
           type="button"
           variant="outline"
-          :active="isSaintGallenStudent"
-          @click="onClickSaintGallenStudentYes"
+          :active="isValidStudent === true"
+          @click="onClickConfirmStudent(true)"
           class="mb-3 lg:mb-0 mr-3"
           >Ja</MatchdButton
         >
-        <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
+        <MatchdButton
+          type="button"
+          variant="outline"
+          :active="isValidStudent === false"
+          @click="onClickConfirmStudent(false)"
           >Nein</MatchdButton
         >
       </MatchdStep>
       <MatchdStep
+        v-if="isValidStudent === false"
         v-show="activeStep >= 2"
         step="2"
         theme="green"
@@ -38,8 +43,8 @@
         <MatchdButton
           type="button"
           variant="outline"
-          :active="isSaintGallenPosition"
-          @click="onClickSaintGallenPositionYes"
+          :active="isValidPosition"
+          @click="onClickConfirmPosition(true)"
           class="mb-3 lg:mb-0 mr-3"
           >Ja</MatchdButton
         >
@@ -160,9 +165,9 @@ import { Options, setup, Vue } from "vue-class-component";
   },
 })
 export default class RegisterStudent extends Vue {
-  isSaintGallenStudent: boolean | null = null;
-  isSaintGallenPosition: boolean | null = null;
-  studentDataFormValid = false;
+  isValidStudent: boolean | null = null;
+  isValidPosition: boolean | null = null;
+  isStudentDataFormValid = false;
   form: NewStudentAccount = {
     firstName: "",
     lastName: "",
@@ -182,11 +187,11 @@ export default class RegisterStudent extends Vue {
   }
 
   get activeStep() {
-    if (!this.isSaintGallenStudent) {
+    if (this.isValidStudent === null) {
       return 1;
-    } else if (!this.isSaintGallenPosition) {
+    } else if (!this.isValidStudent && !this.isValidPosition) {
       return 2;
-    } else if (!this.studentDataFormValid) {
+    } else if (!this.isStudentDataFormValid) {
       return 3;
     } else {
       return 4;
@@ -202,13 +207,15 @@ export default class RegisterStudent extends Vue {
     this.registration.beforeDestroy();
   }
 
-  onClickSaintGallenStudentYes() {
-    this.isSaintGallenStudent = true;
-    this.registration.scrollToStep(2);
+  onClickConfirmStudent(response: boolean) {
+    const nextStep = response ? 3 : 2;
+    this.isValidStudent = response;
+    this.isValidPosition = null;
+    this.registration.scrollToStep(nextStep);
   }
 
-  onClickSaintGallenPositionYes() {
-    this.isSaintGallenPosition = true;
+  onClickConfirmPosition(response: boolean) {
+    this.isValidPosition = response;
     this.registration.scrollToStep(3);
   }
 
@@ -233,7 +240,7 @@ export default class RegisterStudent extends Vue {
       }
       return;
     }
-    this.studentDataFormValid = true;
+    this.isStudentDataFormValid = true;
     this.registration.scrollToStep(4);
   }
 }

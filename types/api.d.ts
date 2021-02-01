@@ -325,7 +325,7 @@ type CompanyInput = {
   /** Name */
   name: Scalars["String"];
   /** UID */
-  uid: Scalars["String"];
+  uid?: Maybe<Scalars["String"]>;
   /** ZIP */
   zip: Scalars["String"];
   /** City */
