@@ -7,6 +7,7 @@ import { Mutations } from "@/store/modules/login/mutations";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { State } from "@/store/modules/login/state";
 
+import logoutMutation from "@/api/mutations/logout.gql";
 import tokenAuthMutation from "@/api/mutations/tokenAuth.gql";
 import refreshTokenMutation from "@/api/mutations/refreshToken.gql";
 import sendPasswordResetEmailMutation from "@/api/mutations/sendPasswordResetEmail.gql";
@@ -57,7 +58,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.LOGOUT]({ commit }) {
     commit(MutationTypes.LOGOUT_LOADING);
     const response = await apiClient.mutate({
-      mutation: tokenAuthMutation,
+      mutation: logoutMutation,
     });
     commit(MutationTypes.LOGOUT_LOADED, response.data.logout);
   },

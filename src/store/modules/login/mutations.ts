@@ -36,9 +36,8 @@ export const mutations: MutationTree<State> & Mutations = {
     state.login.loading = false;
     state.login.success = payload.success || false;
     state.login.errors = errorCodeMapper(payload.errors);
-    state.jwtToken = "";
-    state.refreshToken = "";
-    state.user = null;
+    state.jwtToken = payload.token || "";
+    state.refreshToken = payload.refreshToken || "";
   },
   [MutationTypes.LOGOUT_LOADING](state: State) {
     state.logout.loading = true;
@@ -47,8 +46,9 @@ export const mutations: MutationTree<State> & Mutations = {
     state.logout.loading = false;
     state.logout.success = payload.success || false;
     state.logout.errors = errorCodeMapper(payload.errors);
-    state.jwtToken = payload.token || "";
-    state.refreshToken = payload.refreshToken || "";
+    state.jwtToken = "";
+    state.refreshToken = "";
+    state.user = null;
   },
   [MutationTypes.REFRESH_LOGIN_LOADING](state: State) {
     state.login.loading = true;
