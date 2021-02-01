@@ -15,7 +15,7 @@
       </div>
       <div class="xl:hidden bg-matchd-gradient-t-b row-start-2 row-span-6 col-start-1"></div>
       <div class="hidden xl:flex justify-center items-center shadow-white">
-        <MatchdButton>Login</MatchdButton>
+        <MatchdButton @click="$router.push({ name: 'Login' })">Login</MatchdButton>
       </div>
       <RegisterTile
         class="row-start-2 col-start-1 xl:col-start-2 xl:row-start-2"
@@ -85,7 +85,7 @@ import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
 })
 export default class Home extends Vue {
   get contactFormLoading() {
-    return this.$store.getters["contactFormLoading"];
+    return this.$store.getters["contactFormSending"];
   }
 
   get contactFormSent() {

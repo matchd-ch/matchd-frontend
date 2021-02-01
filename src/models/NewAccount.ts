@@ -5,18 +5,15 @@ export interface Account {
   lastName: string;
   email: string;
   password: string;
-}
-
-export interface NewStudentAccount extends Account {
-  handy: string;
   type: AccountType;
 }
 
+export type NewStudentAccount = Account;
+
 export interface NewCompanyAccount extends Account {
-  company: string;
+  name: string;
   uid: string;
   zip: string;
   city: string;
   role: string;
-  type: AccountType;
 }

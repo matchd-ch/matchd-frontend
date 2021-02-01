@@ -48,7 +48,9 @@
         />
       </div>
       <div>
-        <MatchdButton type="submit" :disabled="loading" class="block w-full">Senden</MatchdButton>
+        <MatchdButton type="submit" :disabled="loading" :loading="loading" class="block w-full"
+          >Senden</MatchdButton
+        >
       </div>
     </Form>
   </div>
