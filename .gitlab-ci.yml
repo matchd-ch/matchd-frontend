@@ -172,7 +172,6 @@ deploy:development:
   dependencies:
     - build:development
   variables:
-    DOTENV: .oriented/.env
     ENVIRONMENT: development
     IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-latest
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-latest
@@ -190,7 +189,6 @@ deploy:integration:
   dependencies:
     - build:integration
   variables:
-    DOTENV: .oriented/.env
     ENVIRONMENT: integration
     IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-$CI_COMMIT_REF_NAME
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
@@ -209,7 +207,6 @@ deploy:production:
   dependencies:
     - build:production
   variables:
-    DOTENV: .oriented/.env
     ENVIRONMENT: production
     IMAGE_FRONTEND: $CI_REGISTRY/matchd/frontend:node-$CI_COMMIT_REF_NAME
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
