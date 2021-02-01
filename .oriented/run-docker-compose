@@ -3,13 +3,15 @@
 set -e
 
 if [[ -z "${ENVIRONMENT}" ||
-      -z "${IMAGE_FRONTEND_NGINX}" ]]
+      -z "${IMAGE_FRONTEND_NGINX}" ||
+      -z "${VUE_APP_DOMAIN}" ]]
 then
     echo "ERROR: A required environment variable is not set" >&2
     echo " " >&2
     echo "Docker:" >&2
     echo "    ENVIRONMENT: ${ENVIRONMENT}" >&2
     echo "    IMAGE_FRONTEND_NGINX: ${IMAGE_FRONTEND_NGINX}" >&2
+    echo "    VUE_APP_DOMAIN: ${VUE_APP_DOMAIN}" >&2
     exit 1
 fi
 
@@ -22,6 +24,7 @@ echo "ENVIRONMENT=${ENVIRONMENT}" > $DOTENV
 echo "COMPOSE_PROJECT_NAME=${ENVIRONMENT}-frontend" >> $DOTENV
 echo "IMAGE_FRONTEND_NGINX=${IMAGE_FRONTEND_NGINX}" >> $DOTENV
 echo "TRAEFIK_ROUTER_NAME=${TRAEFIK_ROUTER_NAME}" >> $DOTENV
+echo "VUE_APP_DOMAIN=${VUE_APP_DOMAIN}" >> $DOTENV
 
 cd .oriented
 
