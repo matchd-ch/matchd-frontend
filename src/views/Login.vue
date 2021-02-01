@@ -100,7 +100,6 @@ export default class Login extends Vue {
       ...form,
     });
     if (this.$store.getters["isLoggedIn"]) {
-      console.log(this.$store.getters["isLoggedIn"]);
       this.$router.push({ name: "Home" });
     }
   }
