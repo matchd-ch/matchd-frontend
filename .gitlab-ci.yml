@@ -1,7 +1,7 @@
 variables:
   DOCKER_COMPOSE_SCRIPT: ./.oriented/run-docker-compose
 
-image: node:15
+image: node:12
 
 cache:
   paths:
