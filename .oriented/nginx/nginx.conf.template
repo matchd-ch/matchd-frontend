@@ -115,12 +115,12 @@ http {
         client_max_body_size 0;
 
         listen      8080 default_server;
-        root        /opt/app-root/src/dist;
+        root        /opt/app-root/src;
         index       index.html;
 
         location / {
             satisfy any;
-            try_files $uri $uri.html;
+            try_files $uri $uri/ /index.html;
             expires off;
         }
 
@@ -140,7 +140,7 @@ http {
             log_not_found off;
             expires 1M;
             add_header Cache-Control "public";
-            try_files $uri;
+            try_files $uri =404;
         }
 
         location ~ \.map$ {
