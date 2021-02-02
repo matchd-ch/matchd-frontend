@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: ${IMAGE_FRONTEND_NGINX}
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${TRAEFIK_ROUTER_NAME}.rule=Host(`${VUE_APP_DOMAIN}`)"
+      - "traefik.http.routers.${TRAEFIK_ROUTER_NAME}.tls=true"
+      - "traefik.http.routers.${TRAEFIK_ROUTER_NAME}.tls.certresolver=letsencrypt"
+    networks:
+      matchd_matchd:
+        aliases:
+          - nginx
+
+networks:
+  matchd_matchd:
+    external: true
