@@ -8,8 +8,7 @@
     "build:server": "tsc --project server/tsconfig.json",
     "test:unit": "vue-cli-service test:unit --passWithNoTests",
     "lint": "vue-cli-service lint",
-    "codegen": "graphql-codegen --config codegen.yml",
-    "start": "node dist/server/server"
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
