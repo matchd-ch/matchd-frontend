@@ -2,10 +2,10 @@ mutation(
   $firstName: String!
   $lastName: String!
   $dateOfBirth: String!
-  $zip: String!
-  $city: String!
-  $street: String!
-  $mobile: String!
+  $zip: String
+  $city: String
+  $street: String
+  $mobile: String
 ) {
   studentProfileStep1(
     step1: {

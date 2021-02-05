@@ -8,6 +8,7 @@ export type Getters = {
   onboardingLoading(state: State): boolean;
   onboardingState(state: State): { success: boolean; errors: MatchdApiError | null };
   cityByZip(state: State): (payload: { zip: string }) => string;
+  nickNameSuggestions(state: State): string[];
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -23,5 +24,8 @@ export const getters: GetterTree<State, RootState> & Getters = {
   cityByZip: (state: State) => (payload: { zip: string }) => {
     const match = state.zipCity.data.find((location: ZipCityType) => location.zip === payload.zip);
     return match?.city || "";
+  },
+  nickNameSuggestions(state: State): string[] {
+    return state.profile.nickNameSuggestions;
   },
 };

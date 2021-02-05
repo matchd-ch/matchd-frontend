@@ -6,7 +6,7 @@ export type State = {
     loading: boolean;
     success: boolean;
     errors: MatchdApiError | null;
-    step: number;
+    nickNameSuggestions: string[];
   };
   zipCity: {
     loading: boolean;
@@ -19,7 +19,7 @@ export const state: State = {
     loading: false,
     success: false,
     errors: null,
-    step: 1,
+    nickNameSuggestions: [],
   },
   zipCity: {
     loading: false,

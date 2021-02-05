@@ -1,5 +1,5 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { StudentProfileStep1, ZipCityType } from "api";
+import { StudentProfileStep1, StudentProfileStep5, ZipCityType } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 import { State } from "@/store/modules/profile/state";
@@ -7,6 +7,8 @@ import { State } from "@/store/modules/profile/state";
 export type Mutations<S = State> = {
   [MutationTypes.ONBOARDING_STEP1_LOADING](state: S): void;
   [MutationTypes.ONBOARDING_STEP1_LOADED](state: S, payload: StudentProfileStep1): void;
+  [MutationTypes.ONBOARDING_STEP5_LOADING](state: S): void;
+  [MutationTypes.ONBOARDING_STEP5_LOADED](state: S, payload: StudentProfileStep5): void;
   [MutationTypes.ZIP_CITY_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_LOADED](state: S, payload: ZipCityType[]): void;
 };
@@ -19,6 +21,15 @@ export const mutations: MutationTree<State> & Mutations = {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
     state.profile.errors = errorCodeMapper(payload.errors);
+  },
+  [MutationTypes.ONBOARDING_STEP5_LOADING](state: State) {
+    state.profile.loading = true;
+  },
+  [MutationTypes.ONBOARDING_STEP5_LOADED](state: State, payload: StudentProfileStep5) {
+    state.profile.loading = false;
+    state.profile.success = payload.success || false;
+    state.profile.errors = errorCodeMapper(payload.errors);
+    state.profile.nickNameSuggestions = (payload.nicknameSuggestions as string[]) || [];
   },
   [MutationTypes.ZIP_CITY_LOADING](state: State) {
     state.zipCity.loading = true;
