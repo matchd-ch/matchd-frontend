@@ -11,6 +11,12 @@ type Scalars = {
   Int: number;
   Float: number;
   /**
+   * The `Date` scalar type represents a Date
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  Date: any;
+  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -48,12 +54,41 @@ type Scalars = {
 
 type Query = {
   __typename?: "Query";
+  zipCity?: Maybe<Array<Maybe<ZipCityType>>>;
+  languageLevels?: Maybe<Array<Maybe<LevelType>>>;
+  languages?: Maybe<Array<Maybe<LanguageType>>>;
+  skills?: Maybe<Array<Maybe<SkillType>>>;
   me?: Maybe<UserWithProfileNode>;
   verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
 };
 
 type QueryVerifyPasswordResetTokenArgs = {
   token: Scalars["String"];
+};
+
+type ZipCityType = {
+  __typename?: "ZipCityType";
+  zip?: Maybe<Scalars["String"]>;
+  city?: Maybe<Scalars["String"]>;
+  canton?: Maybe<Scalars["String"]>;
+};
+
+type LevelType = {
+  __typename?: "LevelType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+type LanguageType = {
+  __typename?: "LanguageType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+type SkillType = {
+  __typename?: "SkillType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
 };
 
 type UserWithProfileNode = Node & {
@@ -66,6 +101,9 @@ type UserWithProfileNode = Node & {
   type: UserType;
   firstName: Scalars["String"];
   lastName: Scalars["String"];
+  state: UserState;
+  profileStep: Scalars["Int"];
+  student?: Maybe<Student>;
   pk?: Maybe<Scalars["Int"]>;
   archived?: Maybe<Scalars["Boolean"]>;
   verified?: Maybe<Scalars["Boolean"]>;
@@ -96,8 +134,34 @@ enum UserType {
   Other = "OTHER",
 }
 
+/** An enumeration. */
+enum UserState {
+  /** Incomplete */
+  Incomplete = "INCOMPLETE",
+  /** Anonymous */
+  Anonymous = "ANONYMOUS",
+  /** Public */
+  Public = "PUBLIC",
+}
+
+type Student = {
+  __typename?: "Student";
+  mobile: Scalars["String"];
+  street: Scalars["String"];
+  zip: Scalars["String"];
+  city: Scalars["String"];
+  dateOfBirth?: Maybe<Scalars["Date"]>;
+  nickname?: Maybe<Scalars["String"]>;
+};
+
 type Mutation = {
   __typename?: "Mutation";
+  /** Updates the profile of a student */
+  studentProfileStep1?: Maybe<StudentProfileStep1>;
+  /** Updates the nickname of a student */
+  studentProfileStep5?: Maybe<StudentProfileStep5>;
+  /** Updates the state of a student */
+  studentProfileStep6?: Maybe<StudentProfileStep6>;
   logout?: Maybe<Scalars["Boolean"]>;
   /**
    * Obtain JSON web token for given user.
@@ -156,6 +220,18 @@ type Mutation = {
   verifyAccount?: Maybe<VerifyAccount>;
 };
 
+type MutationStudentProfileStep1Args = {
+  step1: StudentProfileInputStep1;
+};
+
+type MutationStudentProfileStep5Args = {
+  step5: StudentProfileInputStep5;
+};
+
+type MutationStudentProfileStep6Args = {
+  step6: StudentProfileInputStep6;
+};
+
 type MutationTokenAuthArgs = {
   password: Scalars["String"];
   email?: Maybe<Scalars["String"]>;
@@ -211,6 +287,55 @@ type MutationVerifyAccountArgs = {
   token: Scalars["String"];
 };
 
+/** Updates the profile of a student */
+type StudentProfileStep1 = {
+  __typename?: "StudentProfileStep1";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type StudentProfileInputStep1 = {
+  /** First name */
+  firstName: Scalars["String"];
+  /** Last name */
+  lastName: Scalars["String"];
+  /** street */
+  street?: Maybe<Scalars["String"]>;
+  /** Zip */
+  zip?: Maybe<Scalars["String"]>;
+  /** City */
+  city?: Maybe<Scalars["String"]>;
+  /** Date of birth */
+  dateOfBirth: Scalars["String"];
+  /** Date of birth */
+  mobile?: Maybe<Scalars["String"]>;
+};
+
+/** Updates the nickname of a student */
+type StudentProfileStep5 = {
+  __typename?: "StudentProfileStep5";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  nicknameSuggestions?: Maybe<Array<Maybe<Scalars["String"]>>>;
+};
+
+type StudentProfileInputStep5 = {
+  /** Nickname */
+  nickname: Scalars["String"];
+};
+
+/** Updates the state of a student */
+type StudentProfileStep6 = {
+  __typename?: "StudentProfileStep6";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type StudentProfileInputStep6 = {
+  /** State */
+  state: Scalars["String"];
+};
+
 /**
  * Obtain JSON web token for given user.
  *
@@ -244,6 +369,9 @@ type UserNode = Node & {
   type: UserType;
   firstName: Scalars["String"];
   lastName: Scalars["String"];
+  state: UserState;
+  profileStep: Scalars["Int"];
+  student?: Maybe<Student>;
   pk?: Maybe<Scalars["Int"]>;
   archived?: Maybe<Scalars["Boolean"]>;
   verified?: Maybe<Scalars["Boolean"]>;

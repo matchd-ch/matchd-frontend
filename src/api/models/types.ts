@@ -11,6 +11,12 @@ export type Scalars = {
   Int: number;
   Float: number;
   /**
+   * The `Date` scalar type represents a Date
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  Date: any;
+  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -63,6 +69,43 @@ export enum UserType {
   /** Other */
   Other = "OTHER",
 }
+
+/** An enumeration. */
+export enum UserState {
+  /** Incomplete */
+  Incomplete = "INCOMPLETE",
+  /** Anonymous */
+  Anonymous = "ANONYMOUS",
+  /** Public */
+  Public = "PUBLIC",
+}
+
+export type IStudentProfileInputStep1 = {
+  /** First name */
+  firstName: Scalars["String"];
+  /** Last name */
+  lastName: Scalars["String"];
+  /** street */
+  street?: Maybe<Scalars["String"]>;
+  /** Zip */
+  zip?: Maybe<Scalars["String"]>;
+  /** City */
+  city?: Maybe<Scalars["String"]>;
+  /** Date of birth */
+  dateOfBirth: Scalars["String"];
+  /** Date of birth */
+  mobile?: Maybe<Scalars["String"]>;
+};
+
+export type IStudentProfileInputStep5 = {
+  /** Nickname */
+  nickname: Scalars["String"];
+};
+
+export type IStudentProfileInputStep6 = {
+  /** State */
+  state: Scalars["String"];
+};
 
 export type IUserRequestInput = {
   /** Name */
