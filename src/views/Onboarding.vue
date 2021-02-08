@@ -9,7 +9,15 @@
       <h2
         class="text-display-xs flex items-center col-start-5 col-span-8 row-start-1 border-r flex items-center px-8"
       >
-        <span class="text-display-xl mr-8">1</span>Vervollständige deine persönlichen Daten
+        <span class="text-display-xl mr-8">{{ currentStep }}</span>
+        <template v-if="currentStep === 1">Vervollständige deine persönlichen Daten</template>
+        <template v-else-if="currentStep === 2">Welche Schule oder Uni besuchst du?</template>
+        <template v-else-if="currentStep === 3">Wonach suchst du?</template>
+        <template v-else-if="currentStep === 4"
+          >Ergänze deine Skills und zeige, was du drauf hast.</template
+        >
+        <template v-else-if="currentStep === 5">Kreiere dein Matchd Profil</template>
+        <template v-else-if="currentStep === 6">Veröffentliche dein Profil</template>
       </h2>
       <div class="col-start-13 col-span-4"></div>
     </div>
@@ -23,7 +31,11 @@
 import { Options, Vue } from "vue-class-component";
 
 @Options({})
-export default class Onboarding extends Vue {}
+export default class Onboarding extends Vue {
+  get currentStep() {
+    return this.$store.getters["user"]?.profileStep;
+  }
+}
 </script>
 
 <style></style>

@@ -29,7 +29,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
     state.profile.errors = errorCodeMapper(payload.errors);
-    state.profile.nickNameSuggestions = (payload.nicknameSuggestions as string[]) || [];
+    state.profile.nicknameSuggestions = (payload.nicknameSuggestions as string[]) || [];
   },
   [MutationTypes.ZIP_CITY_LOADING](state: State) {
     state.zipCity.loading = true;

@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
           import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step5.vue"),
       },
     ],
-    // beforeEnter: redirectToCurrentOnboardingStep,
+    beforeEnter: redirectToCurrentOnboardingStep,
   },
   {
     path: "/passwort-vergessen",

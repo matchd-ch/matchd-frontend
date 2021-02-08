@@ -10,7 +10,7 @@
     <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">
       {{ errors }}
     </div>
-    <p v-if="$slots.info" class="text-paragraph-sm mt-4 flex items-center px-8">
+    <p v-if="$slots.info" class="text-paragraph-sm text-black mt-4 flex items-center px-8">
       <IconInfo class="flex-shrink-0 w-5 mr-2" />
       <slot name="info" />
     </p>

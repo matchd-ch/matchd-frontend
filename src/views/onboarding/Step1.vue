@@ -92,6 +92,10 @@
         rules="phone"
         v-model="form.mobile"
       />
+      <template v-slot:info
+        >Wir teilen deine Mobile-Nummer nur mit Firmen, für welche du dich ebenfalls
+        interessierst.</template
+      >
     </MatchdField>
     <MatchdButton
       variant="outline"
@@ -183,6 +187,7 @@ export default class Step1 extends Vue {
       ...form,
       dateOfBirth: `${form.day}.${form.month}.${form.year}`,
     });
+    this.$router.push({ name: "Onboarding" });
   }
 }
 </script>
