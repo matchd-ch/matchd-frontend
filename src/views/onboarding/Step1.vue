@@ -32,7 +32,7 @@
           name="day"
           as="select"
           label="Tag"
-          class="lg:mr-3"
+          class="mr-3"
           rules="required"
           v-model="form.day"
         >
@@ -46,7 +46,7 @@
           name="month"
           as="select"
           label="Monat"
-          class="lg:mr-3"
+          class="mr-3"
           rules="required"
           v-model="form.month"
         >

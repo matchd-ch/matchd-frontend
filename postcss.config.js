@@ -3,6 +3,7 @@ module.exports = {
     "postcss-import": {},
     tailwindcss: {},
     "postcss-nesting": {},
+    "rucksack-css": {},
     autoprefixer: {},
   },
 };
