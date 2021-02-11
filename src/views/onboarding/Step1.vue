@@ -164,8 +164,8 @@ export default class Step1 extends Vue {
     return this.$store.getters["user"];
   }
 
-  async mounted() {
-    await this.$store.dispatch(ActionTypes.CITY_BY_ZIP);
+  mounted() {
+    this.$store.dispatch(ActionTypes.CITY_BY_ZIP);
     if (this.user) {
       this.form = {
         ...this.form,
