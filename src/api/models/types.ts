@@ -53,6 +53,14 @@ export type Scalars = {
 };
 
 /** An enumeration. */
+export enum JobOptionMode {
+  /** Date from */
+  DateFrom = "DATE_FROM",
+  /** Date range */
+  DateRange = "DATE_RANGE",
+}
+
+/** An enumeration. */
 export enum UserType {
   /** Internal */
   Internal = "INTERNAL",
@@ -95,6 +103,33 @@ export type IStudentProfileInputStep1 = {
   dateOfBirth: Scalars["String"];
   /** Date of birth */
   mobile?: Maybe<Scalars["String"]>;
+};
+
+export type IStudentProfileInputStep2 = {
+  /** School name */
+  schoolName?: Maybe<Scalars["String"]>;
+  /** Field of study */
+  fieldOfStudy?: Maybe<Scalars["String"]>;
+  /** Graduation */
+  graduation?: Maybe<Scalars["String"]>;
+};
+
+export type IStudentProfileInputStep3 = {
+  jobOption: IJobOptionInputType;
+  jobFromDate?: Maybe<Scalars["String"]>;
+  jobToDate?: Maybe<Scalars["String"]>;
+  jobPosition?: Maybe<IJobPositionInputType>;
+};
+
+export type IJobOptionInputType = {
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars["String"]>;
+};
+
+export type IJobPositionInputType = {
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type IStudentProfileInputStep5 = {

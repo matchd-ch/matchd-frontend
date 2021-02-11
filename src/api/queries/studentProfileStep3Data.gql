@@ -1,0 +1,12 @@
+query {
+  jobOptions {
+    id
+    name
+    mode
+  }
+  jobPositions {
+    id
+    name
+
+  }
+}

@@ -54,6 +54,8 @@ type Scalars = {
 
 type Query = {
   __typename?: "Query";
+  jobPositions?: Maybe<Array<Maybe<JobPositionType>>>;
+  jobOptions?: Maybe<Array<Maybe<JobOptionType>>>;
   zipCity?: Maybe<Array<Maybe<ZipCityType>>>;
   languageLevels?: Maybe<Array<Maybe<LevelType>>>;
   languages?: Maybe<Array<Maybe<LanguageType>>>;
@@ -65,6 +67,27 @@ type Query = {
 type QueryVerifyPasswordResetTokenArgs = {
   token: Scalars["String"];
 };
+
+type JobPositionType = {
+  __typename?: "JobPositionType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+type JobOptionType = {
+  __typename?: "JobOptionType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  mode: JobOptionMode;
+};
+
+/** An enumeration. */
+enum JobOptionMode {
+  /** Date from */
+  DateFrom = "DATE_FROM",
+  /** Date range */
+  DateRange = "DATE_RANGE",
+}
 
 type ZipCityType = {
   __typename?: "ZipCityType";
@@ -152,12 +175,19 @@ type Student = {
   city: Scalars["String"];
   dateOfBirth?: Maybe<Scalars["Date"]>;
   nickname?: Maybe<Scalars["String"]>;
+  schoolName?: Maybe<Scalars["String"]>;
+  fieldOfStudy: Scalars["String"];
+  graduation?: Maybe<Scalars["Date"]>;
 };
 
 type Mutation = {
   __typename?: "Mutation";
   /** Updates the profile of a student */
   studentProfileStep1?: Maybe<StudentProfileStep1>;
+  /** Updates school name, field of study and graduation */
+  studentProfileStep2?: Maybe<StudentProfileStep2>;
+  /** Updates job option, date (start or range) and job position of a student */
+  studentProfileStep3?: Maybe<StudentProfileStep3>;
   /** Updates the nickname of a student */
   studentProfileStep5?: Maybe<StudentProfileStep5>;
   /** Updates the state of a student */
@@ -222,6 +252,14 @@ type Mutation = {
 
 type MutationStudentProfileStep1Args = {
   step1: StudentProfileInputStep1;
+};
+
+type MutationStudentProfileStep2Args = {
+  step2: StudentProfileInputStep2;
+};
+
+type MutationStudentProfileStep3Args = {
+  step3: StudentProfileInputStep3;
 };
 
 type MutationStudentProfileStep5Args = {
@@ -309,6 +347,47 @@ type StudentProfileInputStep1 = {
   dateOfBirth: Scalars["String"];
   /** Date of birth */
   mobile?: Maybe<Scalars["String"]>;
+};
+
+/** Updates school name, field of study and graduation */
+type StudentProfileStep2 = {
+  __typename?: "StudentProfileStep2";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type StudentProfileInputStep2 = {
+  /** School name */
+  schoolName?: Maybe<Scalars["String"]>;
+  /** Field of study */
+  fieldOfStudy?: Maybe<Scalars["String"]>;
+  /** Graduation */
+  graduation?: Maybe<Scalars["String"]>;
+};
+
+/** Updates job option, date (start or range) and job position of a student */
+type StudentProfileStep3 = {
+  __typename?: "StudentProfileStep3";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type StudentProfileInputStep3 = {
+  jobOption: JobOptionInputType;
+  jobFromDate?: Maybe<Scalars["String"]>;
+  jobToDate?: Maybe<Scalars["String"]>;
+  jobPosition?: Maybe<JobPositionInputType>;
+};
+
+type JobOptionInputType = {
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars["String"]>;
+};
+
+type JobPositionInputType = {
+  id: Scalars["Int"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 /** Updates the nickname of a student */

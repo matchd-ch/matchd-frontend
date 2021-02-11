@@ -19,7 +19,7 @@ class Props {
 export default class NicknameSuggestions extends Vue.with(Props) {}
 </script>
 
-<style>
+<style lang="postcss" scoped>
 .nickname-suggestions {
   @apply inline-flex flex-wrap;
 

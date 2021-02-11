@@ -34,7 +34,7 @@ class Props {
 export default class MatchdField extends Vue.with(Props) {}
 </script>
 
-<style lang="css">
+<style lang="postcss" scoped>
 .matchd-field {
   &.matchd-field-invalid {
     & input,

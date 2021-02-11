@@ -187,7 +187,7 @@ export default class Step1 extends Vue {
       ...form,
       dateOfBirth: `${form.day}.${form.month}.${form.year}`,
     });
-    this.$router.push({ name: "Onboarding" });
+    this.$router.push({ name: "OnboardingStep2" });
   }
 }
 </script>

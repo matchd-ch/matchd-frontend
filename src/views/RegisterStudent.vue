@@ -246,7 +246,7 @@ export default class RegisterStudent extends Vue {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .attach-heading {
   top: 50%;
   transform: translateY(-50%);

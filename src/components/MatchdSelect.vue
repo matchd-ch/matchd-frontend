@@ -31,7 +31,7 @@ class Props {
 export default class MatchdSelect extends Vue.with(Props) {}
 </script>
 
-<style lang="css">
+<style lang="postcss" scoped>
 .matchd-select {
   &.matchd-select-invalid {
     & select {

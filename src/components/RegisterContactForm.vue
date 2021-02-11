@@ -76,7 +76,7 @@ class Props {
 export default class RegisterContactForm extends Vue.with(Props) {}
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .form-input {
   @apply block w-full bg-white rounded-30 px-8 py-4;
   @apply text-lg placeholder-black placeholder-opacity-100 border-2 border-white;

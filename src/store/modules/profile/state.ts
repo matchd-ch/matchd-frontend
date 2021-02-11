@@ -1,5 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { ZipCityType } from "api";
+import { JobOptionType, JobPositionType, ZipCityType } from "api";
 
 export type State = {
   profile: {
@@ -12,6 +12,14 @@ export type State = {
     loading: boolean;
     data: ZipCityType[];
   };
+  jobOptions: {
+    loading: boolean;
+    data: JobOptionType[];
+  };
+  jobPositions: {
+    loading: boolean;
+    data: JobPositionType[];
+  };
 };
 
 export const state: State = {
@@ -22,6 +30,14 @@ export const state: State = {
     nicknameSuggestions: [],
   },
   zipCity: {
+    loading: false,
+    data: [],
+  },
+  jobOptions: {
+    loading: false,
+    data: [],
+  },
+  jobPositions: {
     loading: false,
     data: [],
   },
