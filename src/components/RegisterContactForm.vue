@@ -72,6 +72,7 @@ class Props {
     Field,
     ErrorMessage,
   },
+  emits: ["submit"],
 })
 export default class RegisterContactForm extends Vue.with(Props) {}
 </script>

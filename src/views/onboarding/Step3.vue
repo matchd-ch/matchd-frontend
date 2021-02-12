@@ -98,27 +98,32 @@
         </fieldset>
       </MatchdSelect>
     </div>
-    <SelectPillGroup :errors="errors.jobPositionId" class="mb-10">
-      <template v-slot:label>In diesem Bereich suche ich meine Stelle / mein Projekt</template>
-      <template v-slot:field>
-        <Field
-          id="jobPositionId"
-          name="jobPositionId"
-          as="input"
-          label="In diesem Bereich suche ich meine Stelle / mein Projekt"
-          type="hidden"
-          v-model="form.jobPositionId"
-        />
-      </template>
-      <SelectPill
-        name="jobOptionPill"
-        v-for="option in jobPositions"
-        :key="option.id"
-        :value="option.id"
-        :checked="option.id === form.jobPositionId"
-        @change="form.jobPositionId = $event"
-        >{{ option.name }}</SelectPill
+    <MatchdAutocomplete
+      id="fieldOfStudy"
+      class="mb-3"
+      :class="{ 'mb-10': !selectedJobPosition }"
+      :errors="errors.fieldOfStudy"
+      :items="filteredJobPositions"
+      @select="onSelectJobPosition"
+    >
+      <template v-slot:label>Fachrichtung</template>
+      <Field
+        id="jobPositionInput"
+        name="jobPositionInput"
+        as="input"
+        autocomplete="off"
+        label="Fachrichtung"
+        v-model="jobPositionInput"
+        @input="onInputJobPositions"
+      />
+      <template v-if="!selectedJobPosition" v-slot:info
+        >Unternehmen können Dich leichter finden, wenn du dieses Feld ausfüllst.</template
       >
+    </MatchdAutocomplete>
+    <SelectPillGroup v-if="selectedJobPosition" class="mb-10">
+      <SelectPill hasDelete="true" @remove="form.jobPositionId = ''">{{
+        selectedJobPosition.name
+      }}</SelectPill>
     </SelectPillGroup>
     <MatchdButton
       variant="outline"
@@ -133,6 +138,7 @@
 
 <script lang="ts">
 import { JobOptionMode } from "@/api/models/types";
+import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
@@ -140,7 +146,7 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { UserWithProfileNode } from "api";
+import { JobPositionType, UserWithProfileNode } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -153,6 +159,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
     MatchdField,
     MatchdSelect,
+    MatchdAutocomplete,
     SelectPill,
     SelectPillGroup,
   },
@@ -166,6 +173,9 @@ export default class Step3 extends Vue {
     jobToDateMonth: "",
     jobToDateYear: "",
   };
+
+  jobPositionInput = "";
+  filteredJobPositions: JobPositionType[] = [];
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
@@ -182,6 +192,13 @@ export default class Step3 extends Vue {
       this.jobOptions?.find(option => option.id === this.form.jobOptionId)?.mode ===
       JobOptionMode.DateRange
     );
+  }
+
+  get selectedJobPosition() {
+    if (!this.form.jobPositionId) {
+      return "";
+    }
+    return this.jobPositions?.find(jobPosition => jobPosition.id === this.form.jobPositionId);
   }
 
   get jobOptions() {
@@ -202,6 +219,22 @@ export default class Step3 extends Vue {
 
   get user(): UserWithProfileNode | null {
     return this.$store.getters["user"];
+  }
+
+  onInputJobPositions() {
+    if (this.jobPositionInput.length < 3) {
+      this.filteredJobPositions = [];
+      return;
+    }
+    this.filteredJobPositions = this.jobPositions.filter(item =>
+      item.name.toLowerCase().includes(this.jobPositionInput.toLowerCase())
+    );
+  }
+
+  onSelectJobPosition(item: JobPositionType) {
+    this.jobPositionInput = "";
+    this.form.jobPositionId = item.id;
+    this.onInputJobPositions();
   }
 
   async mounted() {
@@ -234,7 +267,7 @@ export default class Step3 extends Vue {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3, {
       ...form,
       jobOption: { id: +form.jobOptionId },
-      jobPosition: form.jobPositionId ? { id: +this.form.jobPositionId } : null,
+      jobPosition: this.form.jobPositionId ? { id: +this.form.jobPositionId } : null,
       jobFromDate:
         form.jobFromDateMonth && form.jobFromDateYear
           ? `${form.jobFromDateMonth}.${form.jobFromDateYear}`

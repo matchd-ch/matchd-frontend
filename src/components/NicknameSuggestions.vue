@@ -15,7 +15,9 @@ class Props {
   suggestions = prop<string[]>({ default: [] });
 }
 
-@Options({})
+@Options({
+  emits: ["clickNicknames"],
+})
 export default class NicknameSuggestions extends Vue.with(Props) {}
 </script>
 

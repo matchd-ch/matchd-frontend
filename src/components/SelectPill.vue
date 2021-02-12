@@ -1,7 +1,7 @@
 <template>
   <li class="select-pill flex-shrink-0 m-2">
     <label
-      class="block rounded-full border border-current font-medium text-sm py-3 px-8 cursor-pointer"
+      class="flex items-center rounded-full border border-current font-medium text-sm py-3 px-8 cursor-pointer"
       :class="{ 'border-black text-black': checked }"
     >
       <input
@@ -12,21 +12,29 @@
         @change="$emit('change', value)"
       />
       <slot />
+      <button v-if="hasDelete" type="button" @click.stop="$emit('remove', value)">
+        <IconClose class="w-6 ml-4" />
+      </button>
     </label>
   </li>
 </template>
 
 <script lang="ts">
 import { Options, prop, Vue } from "vue-class-component";
+import IconClose from "@/assets/icons/close.svg";
 
 class Props {
   value = prop<string>({ default: "" });
   name = prop<string>({ default: "" });
   checked = prop<boolean>({ default: false });
+  hasDelete = prop<boolean>({ default: false });
 }
 
 @Options({
-  emits: ["change"],
+  components: {
+    IconClose,
+  },
+  emits: ["change", "remove"],
 })
 export default class SelectPill extends Vue.with(Props) {}
 </script>
