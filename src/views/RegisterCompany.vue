@@ -135,7 +135,7 @@
               <button
                 type="button"
                 @click="registration.onTogglePasswordVisibility"
-                class="h-full flex justify-center items-center p-2"
+                class="h-full flex justify-center items-center p-2 mr-4"
               >
                 <component
                   :is="registration.passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"

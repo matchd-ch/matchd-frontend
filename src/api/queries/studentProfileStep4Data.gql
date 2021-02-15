@@ -1,0 +1,18 @@
+query {
+  skills {
+    id
+    name
+  }
+  languages {
+    id
+    name
+  }
+  languageLevels {
+    id
+    name
+  }
+  hobby {
+    id
+    name
+  }
+}

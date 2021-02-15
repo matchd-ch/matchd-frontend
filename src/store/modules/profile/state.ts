@@ -1,5 +1,13 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { JobOptionType, JobPositionType, ZipCityType } from "api";
+import {
+  HobbyType,
+  JobOptionType,
+  JobPositionType,
+  LanguageType,
+  LevelType,
+  SkillType,
+  ZipCityType,
+} from "api";
 
 export type State = {
   profile: {
@@ -20,6 +28,19 @@ export type State = {
     loading: boolean;
     data: JobPositionType[];
   };
+  skills: {
+    loading: boolean;
+    data: SkillType[];
+  };
+  languages: {
+    loading: boolean;
+    data: LanguageType[];
+    levels: LevelType[];
+  };
+  hobby: {
+    loading: boolean;
+    data: HobbyType[];
+  };
 };
 
 export const state: State = {
@@ -38,6 +59,19 @@ export const state: State = {
     data: [],
   },
   jobPositions: {
+    loading: false,
+    data: [],
+  },
+  skills: {
+    loading: false,
+    data: [],
+  },
+  languages: {
+    loading: false,
+    data: [],
+    levels: [],
+  },
+  hobby: {
     loading: false,
     data: [],
   },

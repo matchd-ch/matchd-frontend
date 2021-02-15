@@ -1,7 +1,11 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import {
+  HobbyType,
   JobOptionType,
   JobPositionType,
+  LanguageType,
+  LevelType,
+  SkillType,
   StudentProfileStep1,
   StudentProfileStep2,
   StudentProfileStep3,
@@ -25,6 +29,16 @@ export type Mutations<S = State> = {
   [MutationTypes.ONBOARDING_STEP3_DATA_LOADED](
     state: S,
     payload: { jobOptions: JobOptionType[]; jobPositions: JobPositionType[] }
+  ): void;
+  [MutationTypes.ONBOARDING_STEP4_DATA_LOADING](state: S): void;
+  [MutationTypes.ONBOARDING_STEP4_DATA_LOADED](
+    state: S,
+    payload: {
+      skills: SkillType[];
+      languages: LanguageType[];
+      languageLevels: LevelType[];
+      hobby: HobbyType[];
+    }
   ): void;
   [MutationTypes.ZIP_CITY_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_LOADED](state: S, payload: ZipCityType[]): void;
@@ -76,6 +90,28 @@ export const mutations: MutationTree<State> & Mutations = {
     state.jobPositions.loading = false;
     state.jobOptions.data = payload.jobOptions;
     state.jobPositions.data = payload.jobPositions;
+  },
+  [MutationTypes.ONBOARDING_STEP4_DATA_LOADING](state: State) {
+    state.skills.loading = true;
+    state.languages.loading = true;
+    state.hobby.loading = true;
+  },
+  [MutationTypes.ONBOARDING_STEP4_DATA_LOADED](
+    state: State,
+    payload: {
+      skills: SkillType[];
+      languages: LanguageType[];
+      languageLevels: LevelType[];
+      hobby: HobbyType[];
+    }
+  ) {
+    state.skills.loading = false;
+    state.languages.loading = false;
+    state.hobby.loading = false;
+    state.skills.data = payload.skills;
+    state.languages.data = payload.languages;
+    state.languages.levels = payload.languageLevels;
+    state.hobby.data = payload.hobby;
   },
   [MutationTypes.ZIP_CITY_LOADING](state: State) {
     state.zipCity.loading = true;

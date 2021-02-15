@@ -11,12 +11,6 @@ type Scalars = {
   Int: number;
   Float: number;
   /**
-   * The `Date` scalar type represents a Date
-   * value as specified by
-   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
-   */
-  Date: any;
-  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -57,6 +51,7 @@ type Query = {
   jobPositions?: Maybe<Array<Maybe<JobPositionType>>>;
   jobOptions?: Maybe<Array<Maybe<JobOptionType>>>;
   zipCity?: Maybe<Array<Maybe<ZipCityType>>>;
+  hobby?: Maybe<Array<Maybe<HobbyType>>>;
   languageLevels?: Maybe<Array<Maybe<LevelType>>>;
   languages?: Maybe<Array<Maybe<LanguageType>>>;
   skills?: Maybe<Array<Maybe<SkillType>>>;
@@ -96,22 +91,47 @@ type ZipCityType = {
   canton?: Maybe<Scalars["String"]>;
 };
 
-type LevelType = {
-  __typename?: "LevelType";
+type HobbyType = {
+  __typename?: "HobbyType";
   id: Scalars["ID"];
   name: Scalars["String"];
+  student: Student;
 };
 
-type LanguageType = {
-  __typename?: "LanguageType";
-  id: Scalars["ID"];
-  name: Scalars["String"];
+type Student = {
+  __typename?: "Student";
+  mobile: Scalars["String"];
+  skills: Array<SkillType>;
+  hobbies?: Maybe<Array<Maybe<HobbyType>>>;
 };
 
 type SkillType = {
   __typename?: "SkillType";
   id: Scalars["ID"];
   name: Scalars["String"];
+  skills: Array<Student>;
+};
+
+type LevelType = {
+  __typename?: "LevelType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  userlanguagerelationSet: Array<UserLanguageRelationType>;
+};
+
+type UserLanguageRelationType = {
+  __typename?: "UserLanguageRelationType";
+  id: Scalars["ID"];
+  student: Student;
+  language: LanguageType;
+  languageLevel: LevelType;
+};
+
+type LanguageType = {
+  __typename?: "LanguageType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  userlanguagerelationSet: Array<UserLanguageRelationType>;
 };
 
 type UserWithProfileNode = Node & {
@@ -167,19 +187,6 @@ enum UserState {
   Public = "PUBLIC",
 }
 
-type Student = {
-  __typename?: "Student";
-  mobile: Scalars["String"];
-  street: Scalars["String"];
-  zip: Scalars["String"];
-  city: Scalars["String"];
-  dateOfBirth?: Maybe<Scalars["Date"]>;
-  nickname?: Maybe<Scalars["String"]>;
-  schoolName?: Maybe<Scalars["String"]>;
-  fieldOfStudy: Scalars["String"];
-  graduation?: Maybe<Scalars["Date"]>;
-};
-
 type Mutation = {
   __typename?: "Mutation";
   /** Updates the profile of a student */
@@ -188,6 +195,8 @@ type Mutation = {
   studentProfileStep2?: Maybe<StudentProfileStep2>;
   /** Updates job option, date (start or range) and job position of a student */
   studentProfileStep3?: Maybe<StudentProfileStep3>;
+  /** Updates the profile of a student */
+  studentProfileStep4?: Maybe<StudentProfileStep4>;
   /** Updates the nickname of a student */
   studentProfileStep5?: Maybe<StudentProfileStep5>;
   /** Updates the state of a student */
@@ -260,6 +269,10 @@ type MutationStudentProfileStep2Args = {
 
 type MutationStudentProfileStep3Args = {
   step3: StudentProfileInputStep3;
+};
+
+type MutationStudentProfileStep4Args = {
+  step4?: Maybe<StudentProfileInputStep4>;
 };
 
 type MutationStudentProfileStep5Args = {
@@ -388,6 +401,51 @@ type JobOptionInputType = {
 type JobPositionInputType = {
   id: Scalars["Int"];
   name?: Maybe<Scalars["String"]>;
+};
+
+/** Updates the profile of a student */
+type StudentProfileStep4 = {
+  __typename?: "StudentProfileStep4";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type StudentProfileInputStep4 = {
+  /** Skills */
+  skills?: Maybe<Array<Maybe<SkillInputType>>>;
+  /** Hobbies */
+  hobbies?: Maybe<Array<Maybe<HobbyInputType>>>;
+  /** Distinctions */
+  distinctions?: Maybe<Array<Maybe<DistinctionInputType>>>;
+  /** Online_Projects */
+  onlineProjects?: Maybe<Array<Maybe<OnlineProjectInputType>>>;
+  /** Languages */
+  languages: Array<Maybe<UserLanguageRelationInputType>>;
+};
+
+type SkillInputType = {
+  id: Scalars["Int"];
+};
+
+type HobbyInputType = {
+  id?: Maybe<Scalars["Int"]>;
+  name?: Maybe<Scalars["String"]>;
+};
+
+type DistinctionInputType = {
+  id?: Maybe<Scalars["Int"]>;
+  text?: Maybe<Scalars["String"]>;
+};
+
+type OnlineProjectInputType = {
+  id?: Maybe<Scalars["Int"]>;
+  url?: Maybe<Scalars["String"]>;
+};
+
+type UserLanguageRelationInputType = {
+  id?: Maybe<Scalars["Int"]>;
+  language?: Maybe<Scalars["Int"]>;
+  languageLevel?: Maybe<Scalars["Int"]>;
 };
 
 /** Updates the nickname of a student */

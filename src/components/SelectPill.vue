@@ -1,7 +1,7 @@
 <template>
   <li class="select-pill flex-shrink-0 m-2">
     <label
-      class="flex items-center rounded-full border border-current font-medium text-sm py-3 px-8 cursor-pointer"
+      class="flex items-center rounded-full bg-white border border-current font-medium text-sm py-3 px-8 cursor-pointer"
       :class="{ 'border-black text-black': checked }"
     >
       <input

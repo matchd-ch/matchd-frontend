@@ -18,6 +18,7 @@ import studentProfileStep2Mutation from "@/api/mutations/studentProfileStep2.gql
 import studentProfileStep3Mutation from "@/api/mutations/studentProfileStep3.gql";
 import studentProfileStep5Mutation from "@/api/mutations/studentProfileStep5.gql";
 import studentProfileStep3DataQuery from "@/api/queries/studentProfileStep3Data.gql";
+import studentProfileStep4DataQuery from "@/api/queries/studentProfileStep4Data.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
 
 type AugmentedActionContext = {
@@ -47,6 +48,7 @@ export interface Actions {
     payload: IStudentProfileInputStep5
   ): Promise<void>;
   [ActionTypes.ONBOARDING_STEP3_DATA]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.ONBOARDING_STEP4_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
@@ -91,6 +93,18 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.ONBOARDING_STEP3_DATA_LOADED, {
       jobPositions: response.data.jobPositions,
       jobOptions: response.data.jobOptions,
+    });
+  },
+  async [ActionTypes.ONBOARDING_STEP4_DATA]({ commit }) {
+    commit(MutationTypes.ONBOARDING_STEP4_DATA_LOADING);
+    const response = await apiClient.query({
+      query: studentProfileStep4DataQuery,
+    });
+    commit(MutationTypes.ONBOARDING_STEP4_DATA_LOADED, {
+      skills: response.data.skills,
+      languages: response.data.languages,
+      languageLevels: response.data.languageLevels,
+      hobby: response.data.hobby,
     });
   },
   async [ActionTypes.CITY_BY_ZIP]({ commit }) {
