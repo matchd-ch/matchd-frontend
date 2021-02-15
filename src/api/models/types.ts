@@ -11,6 +11,12 @@ export type Scalars = {
   Int: number;
   Float: number;
   /**
+   * The `Date` scalar type represents a Date
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  Date: any;
+  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -116,13 +122,13 @@ export type IStudentProfileInputStep3 = {
 };
 
 export type IJobOptionInputType = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   mode?: Maybe<Scalars["String"]>;
 };
 
 export type IJobPositionInputType = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
 };
 
@@ -140,28 +146,28 @@ export type IStudentProfileInputStep4 = {
 };
 
 export type ISkillInputType = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
 };
 
 export type IHobbyInputType = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
 };
 
 export type IDistinctionInputType = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: Maybe<Scalars["ID"]>;
   text?: Maybe<Scalars["String"]>;
 };
 
 export type IOnlineProjectInputType = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: Maybe<Scalars["ID"]>;
   url?: Maybe<Scalars["String"]>;
 };
 
 export type IUserLanguageRelationInputType = {
-  id?: Maybe<Scalars["Int"]>;
-  language?: Maybe<Scalars["Int"]>;
-  languageLevel?: Maybe<Scalars["Int"]>;
+  id?: Maybe<Scalars["ID"]>;
+  language?: Maybe<Scalars["ID"]>;
+  languageLevel?: Maybe<Scalars["ID"]>;
 };
 
 export type IStudentProfileInputStep5 = {

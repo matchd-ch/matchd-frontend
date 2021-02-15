@@ -14,7 +14,13 @@
       </select>
       <select v-model="levelSelect" class="mb-3 lg:mr-3 lg:mb-0" :disabled="!languageSelect">
         <option value="" disabled selected hidden>Niveau</option>
-        <option v-for="level in levels" :key="level.id" :value="level.id">{{ level.name }}</option>
+        <option
+          v-for="languageLevel in languageLevels"
+          :key="languageLevel.id"
+          :value="languageLevel.id"
+          >{{ languageLevel.level }}
+          {{ languageLevel.description ? `- ${languageLevel.description}` : "" }}</option
+        >
       </select>
       <button
         type="button"
@@ -31,7 +37,7 @@
         :key="selectedLanguage.name"
         :hasDelete="true"
         @remove="$emit('clickRemoveLanguage', selectedLanguage)"
-        >{{ selectedLanguage.language.name }} {{ selectedLanguage.level.name }}</SelectPill
+        >{{ selectedLanguage.language.name }} {{ selectedLanguage.level.level }}</SelectPill
       >
     </SelectPillGroup>
   </div>
@@ -41,13 +47,14 @@
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
+import { LanguageType, LevelType } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   id = prop<string>({});
   errors = prop<string>({});
-  languages = prop<{ id: string; name: string }[]>({ default: [] });
-  levels = prop<{ id: string; name: string }[]>({ default: [] });
+  languages = prop<LanguageType[]>({ default: [] });
+  languageLevels = prop<LevelType[]>({ default: [] });
   selectedLanguages = prop<SelectedLanguage[]>({ default: [] });
 }
 
@@ -73,7 +80,7 @@ export default class LanguagePicker extends Vue.with(Props) {
   onClickAppend() {
     this.$emit("clickAppendLanguage", {
       language: this.languages.find(language => language.id === this.languageSelect),
-      level: this.levels.find(level => level.id === this.levelSelect),
+      level: this.languageLevels.find(level => level.id === this.levelSelect),
     });
     this.languageSelect = "";
     this.levelSelect = "";

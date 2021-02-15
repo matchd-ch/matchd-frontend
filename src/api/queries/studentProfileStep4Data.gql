@@ -9,10 +9,7 @@ query {
   }
   languageLevels {
     id
-    name
-  }
-  hobby {
-    id
-    name
+    level
+    description
   }
 }

@@ -266,8 +266,8 @@ export default class Step3 extends Vue {
 
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3, {
       ...form,
-      jobOption: { id: +form.jobOptionId },
-      jobPosition: this.form.jobPositionId ? { id: +this.form.jobPositionId } : null,
+      jobOption: { id: form.jobOptionId },
+      jobPosition: this.form.jobPositionId ? { id: this.form.jobPositionId } : null,
       jobFromDate:
         form.jobFromDateMonth && form.jobFromDateYear
           ? `${form.jobFromDateMonth}.${form.jobFromDateYear}`

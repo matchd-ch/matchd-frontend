@@ -22,7 +22,6 @@ export type Getters = {
   skills(state: State): SkillType[];
   languages(state: State): LanguageType[];
   languageLevels(state: State): LevelType[];
-  hobby(state: State): HobbyType[];
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -56,8 +55,5 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   languageLevels(state: State): LevelType[] {
     return state.languages.levels;
-  },
-  hobby(state: State): HobbyType[] {
-    return state.hobby.data;
   },
 };

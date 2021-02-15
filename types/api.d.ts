@@ -11,6 +11,12 @@ type Scalars = {
   Int: number;
   Float: number;
   /**
+   * The `Date` scalar type represents a Date
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  Date: any;
+  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -48,19 +54,24 @@ type Scalars = {
 
 type Query = {
   __typename?: "Query";
+  skills?: Maybe<Array<Maybe<SkillType>>>;
   jobPositions?: Maybe<Array<Maybe<JobPositionType>>>;
   jobOptions?: Maybe<Array<Maybe<JobOptionType>>>;
   zipCity?: Maybe<Array<Maybe<ZipCityType>>>;
-  hobby?: Maybe<Array<Maybe<HobbyType>>>;
   languageLevels?: Maybe<Array<Maybe<LevelType>>>;
   languages?: Maybe<Array<Maybe<LanguageType>>>;
-  skills?: Maybe<Array<Maybe<SkillType>>>;
   me?: Maybe<UserWithProfileNode>;
   verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
 };
 
 type QueryVerifyPasswordResetTokenArgs = {
   token: Scalars["String"];
+};
+
+type SkillType = {
+  __typename?: "SkillType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
 };
 
 type JobPositionType = {
@@ -91,31 +102,11 @@ type ZipCityType = {
   canton?: Maybe<Scalars["String"]>;
 };
 
-type HobbyType = {
-  __typename?: "HobbyType";
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  student: Student;
-};
-
-type Student = {
-  __typename?: "Student";
-  mobile: Scalars["String"];
-  skills: Array<SkillType>;
-  hobbies?: Maybe<Array<Maybe<HobbyType>>>;
-};
-
-type SkillType = {
-  __typename?: "SkillType";
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  skills: Array<Student>;
-};
-
 type LevelType = {
   __typename?: "LevelType";
   id: Scalars["ID"];
-  name: Scalars["String"];
+  level: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   userlanguagerelationSet: Array<UserLanguageRelationType>;
 };
 
@@ -125,6 +116,27 @@ type UserLanguageRelationType = {
   student: Student;
   language: LanguageType;
   languageLevel: LevelType;
+};
+
+type Student = {
+  __typename?: "Student";
+  mobile: Scalars["String"];
+  street: Scalars["String"];
+  zip: Scalars["String"];
+  city: Scalars["String"];
+  dateOfBirth?: Maybe<Scalars["Date"]>;
+  nickname?: Maybe<Scalars["String"]>;
+  schoolName?: Maybe<Scalars["String"]>;
+  fieldOfStudy: Scalars["String"];
+  graduation?: Maybe<Scalars["Date"]>;
+  skills: Array<SkillType>;
+  hobbies?: Maybe<Array<Maybe<HobbyType>>>;
+};
+
+type HobbyType = {
+  __typename?: "HobbyType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
 };
 
 type LanguageType = {
@@ -393,13 +405,13 @@ type StudentProfileInputStep3 = {
 };
 
 type JobOptionInputType = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   mode?: Maybe<Scalars["String"]>;
 };
 
 type JobPositionInputType = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
 };
 
@@ -424,28 +436,28 @@ type StudentProfileInputStep4 = {
 };
 
 type SkillInputType = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
 };
 
 type HobbyInputType = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
 };
 
 type DistinctionInputType = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: Maybe<Scalars["ID"]>;
   text?: Maybe<Scalars["String"]>;
 };
 
 type OnlineProjectInputType = {
-  id?: Maybe<Scalars["Int"]>;
+  id?: Maybe<Scalars["ID"]>;
   url?: Maybe<Scalars["String"]>;
 };
 
 type UserLanguageRelationInputType = {
-  id?: Maybe<Scalars["Int"]>;
-  language?: Maybe<Scalars["Int"]>;
-  languageLevel?: Maybe<Scalars["Int"]>;
+  id?: Maybe<Scalars["ID"]>;
+  language?: Maybe<Scalars["ID"]>;
+  languageLevel?: Maybe<Scalars["ID"]>;
 };
 
 /** Updates the nickname of a student */

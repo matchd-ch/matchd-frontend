@@ -37,10 +37,6 @@ export type State = {
     data: LanguageType[];
     levels: LevelType[];
   };
-  hobby: {
-    loading: boolean;
-    data: HobbyType[];
-  };
 };
 
 export const state: State = {
@@ -70,9 +66,5 @@ export const state: State = {
     loading: false,
     data: [],
     levels: [],
-  },
-  hobby: {
-    loading: false,
-    data: [],
   },
 };
