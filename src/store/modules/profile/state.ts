@@ -1,6 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
 import {
-  HobbyType,
   JobOptionType,
   JobPositionType,
   LanguageType,

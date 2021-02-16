@@ -99,10 +99,10 @@
       </MatchdSelect>
     </div>
     <MatchdAutocomplete
-      id="fieldOfStudy"
+      id="jobPosition"
       class="mb-3"
       :class="{ 'mb-10': !selectedJobPosition }"
-      :errors="errors.fieldOfStudy"
+      :errors="errors.jobPosition"
       :items="filteredJobPositions"
       @select="onSelectJobPosition"
     >

@@ -1,7 +1,6 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
 import {
-  HobbyType,
   JobOptionType,
   JobPositionType,
   LanguageType,

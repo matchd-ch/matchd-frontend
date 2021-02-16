@@ -2,18 +2,17 @@
   <Form
     v-if="skills.length > 0 && languages.length > 0 && languageLevels.length > 0"
     @submit="onSubmit"
-    v-slot="{ errors }"
   >
     <!-- Skills Field -->
     <MatchdAutocomplete
       id="skills"
       class="mb-3"
       :class="{ 'mb-10': form.skills.length === 0 }"
-      :errors="errors.fieldOfStudy"
+      :errors="errors.skills"
       :items="filteredSkills"
       @select="onSelectSkill"
     >
-      <template v-slot:label>Technische Skills</template>
+      <template v-slot:label>Technische Skills*</template>
       <Field
         id="skillInput"
         name="skillInput"
@@ -40,9 +39,10 @@
       :languages="languages"
       :languageLevels="languageLevels"
       :selectedLanguages="form.languages"
+      :errors="errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Diese Sprachen spreche ich</template></LanguagePicker
+      ><template v-slot:label>Diese Sprachen spreche ich*</template></LanguagePicker
     >
     <!-- Distinction Field -->
     <MatchdField id="distinction" class="mb-3" :class="{ 'mb-10': form.distinctions.length === 0 }">
@@ -198,6 +198,7 @@ export default class Step4 extends Vue {
     onlineProjects: [],
     hobbies: [],
   };
+  errors: { [k: string]: string } = {};
 
   filteredSkills: SkillType[] = [];
 
@@ -245,6 +246,7 @@ export default class Step4 extends Vue {
   }
 
   onSelectSkill(skill: SkillType) {
+    delete this.errors["skills"];
     this.skillInput = "";
     this.form.skills.push(skill);
     this.onInputSkill();
@@ -262,6 +264,7 @@ export default class Step4 extends Vue {
 
   onClickAppendLanguage(language: SelectedLanguage) {
     if (language && language.level) {
+      delete this.errors["languages"];
       this.form.languages.push(language);
     }
   }
@@ -313,21 +316,32 @@ export default class Step4 extends Vue {
   }
 
   async onSubmit() {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP4, {
-      skills: this.form.skills.map(skill => {
-        return { id: skill.id };
-      }),
-      languages: this.form.languages.map(selectedLanguage => {
-        return {
-          language: selectedLanguage.language.id,
-          languageLevel: selectedLanguage.level.id,
-        };
-      }),
-      distinctions: this.form.distinctions,
-      onlineProjects: this.form.onlineProjects,
-      hobbies: this.form.hobbies,
-    });
-    this.$router.push({ name: "OnboardingStep5" });
+    delete this.errors["skills"];
+    delete this.errors["languages"];
+    if (this.form.skills.length === 0) {
+      this.errors["skills"] = "Bitte wähle mindestens einen Skill";
+    }
+    if (this.form.languages.length === 0) {
+      this.errors["languages"] = "Bitte wähle mindestens eine Sprache";
+    }
+
+    if (this.form.skills.length > 0 && this.form.languages.length > 0) {
+      await this.$store.dispatch(ActionTypes.ONBOARDING_STEP4, {
+        skills: this.form.skills.map(skill => {
+          return { id: skill.id };
+        }),
+        languages: this.form.languages.map(selectedLanguage => {
+          return {
+            language: selectedLanguage.language.id,
+            languageLevel: selectedLanguage.level.id,
+          };
+        }),
+        distinctions: this.form.distinctions,
+        onlineProjects: this.form.onlineProjects,
+        hobbies: this.form.hobbies,
+      });
+      this.$router.push({ name: "OnboardingStep5" });
+    }
   }
 }
 </script>

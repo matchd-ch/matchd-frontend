@@ -1,5 +1,5 @@
 <template>
-  <div class="matchd-autocomplete">
+  <div class="matchd-autocomplete" :class="{ 'matchd-autocomplete--invalid': errors }">
     <label :for="id" class="matchd-autocomplete__label"><slot name="label"/></label>
     <div class="matchd-autocomplete__form-element">
       <slot />
@@ -28,7 +28,9 @@ import { Options, prop, Vue } from "vue-class-component";
 import IconInfo from "@/assets/icons/info.svg";
 
 class Props {
+  id = prop<string>({});
   items = prop<{ id: string; name: string }[]>({});
+  errors = prop<string>({ default: "" });
 }
 
 @Options({
@@ -42,6 +44,12 @@ export default class MatchdAutocomplete extends Vue.with(Props) {}
 
 <style lang="postcss" scoped>
 @block matchd-autocomplete {
+  @modifier invalid {
+    & input {
+      @apply text-negative border-current;
+    }
+  }
+
   @element result-list {
     @apply absolute top-full w-full z-50 overflow-hidden;
     @apply bg-white;

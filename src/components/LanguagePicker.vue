@@ -1,5 +1,5 @@
 <template>
-  <div class="language-picker">
+  <div class="language-picker" :class="{ 'language-picker--invalid': errors }">
     <label :for="id" class="language-picker__label"><slot name="label"/></label>
     <div class="languagepicker__fields mb-3 lg:flex">
       <select
@@ -24,12 +24,15 @@
       </select>
       <button
         type="button"
-        class="block w-full bg-green-1 text-white rounded-full flex justify-center items-center px-8 py-4 disabled:opacity-60"
+        class="block bg-green-1 text-white rounded-full flex justify-center items-center px-8 py-4 disabled:opacity-60"
         :disabled="!languageSelect || !levelSelect"
         @click="onClickAppend"
       >
         Hinzufügen
       </button>
+    </div>
+    <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">
+      {{ errors }}
     </div>
     <SelectPillGroup v-if="selectedLanguages.length > 0">
       <SelectPill
@@ -90,6 +93,16 @@ export default class LanguagePicker extends Vue.with(Props) {
 
 <style lang="postcss" scoped>
 @block language-picker {
+  @modifier invalid {
+    & select {
+      @apply text-negative border-current;
+    }
+
+    & button {
+      @apply bg-negative;
+    }
+  }
+
   @element label {
     @apply block px-8 mb-2;
     @apply font-medium;

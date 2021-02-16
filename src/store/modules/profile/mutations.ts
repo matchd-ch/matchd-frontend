@@ -1,6 +1,5 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import {
-  HobbyType,
   JobOptionType,
   JobPositionType,
   LanguageType,
