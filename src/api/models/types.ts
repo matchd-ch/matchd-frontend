@@ -122,14 +122,52 @@ export type IStudentProfileInputStep3 = {
 };
 
 export type IJobOptionInputType = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   mode?: Maybe<Scalars["String"]>;
 };
 
 export type IJobPositionInputType = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
+};
+
+export type IStudentProfileInputStep4 = {
+  /** Skills */
+  skills?: Maybe<Array<Maybe<ISkillInputType>>>;
+  /** Hobbies */
+  hobbies?: Maybe<Array<Maybe<IHobbyInputType>>>;
+  /** Distinctions */
+  distinctions?: Maybe<Array<Maybe<IDistinctionInputType>>>;
+  /** Online_Projects */
+  onlineProjects?: Maybe<Array<Maybe<IOnlineProjectInputType>>>;
+  /** Languages */
+  languages: Array<Maybe<IUserLanguageRelationInputType>>;
+};
+
+export type ISkillInputType = {
+  id: Scalars["ID"];
+};
+
+export type IHobbyInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type IDistinctionInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  text?: Maybe<Scalars["String"]>;
+};
+
+export type IOnlineProjectInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  url?: Maybe<Scalars["String"]>;
+};
+
+export type IUserLanguageRelationInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  language?: Maybe<Scalars["ID"]>;
+  languageLevel?: Maybe<Scalars["ID"]>;
 };
 
 export type IStudentProfileInputStep5 = {

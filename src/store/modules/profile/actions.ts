@@ -3,6 +3,7 @@ import {
   IStudentProfileInputStep1,
   IStudentProfileInputStep2,
   IStudentProfileInputStep3,
+  IStudentProfileInputStep4,
   IStudentProfileInputStep5,
 } from "@/api/models/types";
 import { RootState } from "@/store";
@@ -16,8 +17,10 @@ import { State } from "@/store/modules/profile/state";
 import studentProfileStep1Mutation from "@/api/mutations/studentProfileStep1.gql";
 import studentProfileStep2Mutation from "@/api/mutations/studentProfileStep2.gql";
 import studentProfileStep3Mutation from "@/api/mutations/studentProfileStep3.gql";
+import studentProfileStep4Mutation from "@/api/mutations/studentProfileStep4.gql";
 import studentProfileStep5Mutation from "@/api/mutations/studentProfileStep5.gql";
 import studentProfileStep3DataQuery from "@/api/queries/studentProfileStep3Data.gql";
+import studentProfileStep4DataQuery from "@/api/queries/studentProfileStep4Data.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
 
 type AugmentedActionContext = {
@@ -42,11 +45,16 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: IStudentProfileInputStep3
   ): Promise<void>;
+  [ActionTypes.ONBOARDING_STEP4](
+    { commit }: AugmentedActionContext,
+    payload: IStudentProfileInputStep4
+  ): Promise<void>;
   [ActionTypes.ONBOARDING_STEP5](
     { commit }: AugmentedActionContext,
     payload: IStudentProfileInputStep5
   ): Promise<void>;
   [ActionTypes.ONBOARDING_STEP3_DATA]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.ONBOARDING_STEP4_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
@@ -75,6 +83,14 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.ONBOARDING_STEP3_LOADED, response.data.studentProfileStep3);
   },
+  async [ActionTypes.ONBOARDING_STEP4]({ commit }, payload: IStudentProfileInputStep4) {
+    commit(MutationTypes.ONBOARDING_STEP4_LOADING);
+    const response = await apiClient.mutate({
+      mutation: studentProfileStep4Mutation,
+      variables: payload,
+    });
+    commit(MutationTypes.ONBOARDING_STEP4_LOADED, response.data.studentProfileStep4);
+  },
   async [ActionTypes.ONBOARDING_STEP5]({ commit }, payload: IStudentProfileInputStep5) {
     commit(MutationTypes.ONBOARDING_STEP5_LOADING);
     const response = await apiClient.mutate({
@@ -91,6 +107,17 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.ONBOARDING_STEP3_DATA_LOADED, {
       jobPositions: response.data.jobPositions,
       jobOptions: response.data.jobOptions,
+    });
+  },
+  async [ActionTypes.ONBOARDING_STEP4_DATA]({ commit }) {
+    commit(MutationTypes.ONBOARDING_STEP4_DATA_LOADING);
+    const response = await apiClient.query({
+      query: studentProfileStep4DataQuery,
+    });
+    commit(MutationTypes.ONBOARDING_STEP4_DATA_LOADED, {
+      skills: response.data.skills,
+      languages: response.data.languages,
+      languageLevels: response.data.languageLevels,
     });
   },
   async [ActionTypes.CITY_BY_ZIP]({ commit }) {

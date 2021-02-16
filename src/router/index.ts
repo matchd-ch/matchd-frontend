@@ -60,6 +60,12 @@ const routes: Array<RouteRecordRaw> = [
           import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step3.vue"),
       },
       {
+        path: "schritt4",
+        name: "OnboardingStep4",
+        component: () =>
+          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step4.vue"),
+      },
+      {
         path: "schritt5",
         name: "OnboardingStep5",
         component: () =>

@@ -3,7 +3,7 @@
     <label :for="id" class="label"><slot name="label"/></label>
     <div class="form-element" :class="{ 'form-element--icon-right relative': $slots.iconRight }">
       <slot />
-      <div v-if="$slots.iconRight" class="absolute right-0 top-0 h-full mr-4">
+      <div v-if="$slots.iconRight" class="absolute right-0 top-0 h-full">
         <slot name="iconRight" />
       </div>
     </div>
