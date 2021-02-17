@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { configure, defineRule } from "vee-validate";
 import { localize, setLocale } from "@vee-validate/i18n";
 import de from "@vee-validate/i18n/dist/locale/de.json";
@@ -22,6 +23,36 @@ defineRule("password-strengh", value => {
   }
 
   return true;
+});
+
+defineRule("phone", (value, _, ctx) => {
+  if (!value) {
+    return true;
+  }
+  if (!value.match(/^\+(\d+)$/)) {
+    return `${ctx.field} muss eine gültige Telefonnummer im Format +41711234567 enthalten`;
+  }
+
+  return true;
+});
+
+defineRule("birthday", (value, fields, ctx) => {
+  const [day, month, year] = fields as string[];
+
+  if (ctx.form[day] && ctx.form[month] && ctx.form[year]) {
+    const date = DateTime.fromObject({
+      month: ctx.form[month],
+      day: ctx.form[day],
+      year: ctx.form[year],
+    });
+    if (date.isValid) {
+      return true;
+    } else {
+      return "Geburtstag muss ein gültiges Datum sein";
+    }
+  }
+
+  return "Geburtstag muss aus Tag, Monat und Jahr bestehen";
 });
 
 configure({

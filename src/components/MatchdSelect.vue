@@ -1,16 +1,13 @@
 <template>
-  <div class="matchd-field" :class="{ 'matchd-field-invalid': errors }">
+  <div class="matchd-select" :class="{ 'matchd-select-invalid': errors }">
     <label :for="id" class="label"><slot name="label"/></label>
-    <div class="form-element" :class="{ 'form-element--icon-right relative': $slots.iconRight }">
+    <div class="form-element">
       <slot />
-      <div v-if="$slots.iconRight" class="absolute right-0 top-0 h-full">
-        <slot name="iconRight" />
-      </div>
     </div>
     <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">
       {{ errors }}
     </div>
-    <p v-if="$slots.info" class="text-paragraph-sm text-black mt-4 flex items-center px-8">
+    <p v-if="$slots.info" class="text-paragraph-sm mt-4 flex items-center px-8">
       <IconInfo class="flex-shrink-0 w-5 mr-2" />
       <slot name="info" />
     </p>
@@ -31,14 +28,13 @@ class Props {
     IconInfo,
   },
 })
-export default class MatchdField extends Vue.with(Props) {}
+export default class MatchdSelect extends Vue.with(Props) {}
 </script>
 
 <style lang="postcss" scoped>
-.matchd-field {
-  &.matchd-field-invalid {
-    & input,
-    & textarea {
+.matchd-select {
+  &.matchd-select-invalid {
+    & select {
       @apply border-negative text-negative placeholder-negative;
     }
   }
@@ -48,19 +44,13 @@ export default class MatchdField extends Vue.with(Props) {}
     @apply font-medium;
   }
 
-  & input,
-  & textarea {
+  & select {
     @apply block w-full bg-white rounded-30 px-8 py-4;
     @apply border border-white focus:border-black;
     @apply text-lg placeholder-black placeholder-opacity-100;
     @apply focus:outline-none;
     @apply transition-colors duration-300;
-  }
-
-  & .form-element--icon-right {
-    & input {
-      @apply pr-16;
-    }
+    @apply appearance-none;
   }
 }
 </style>

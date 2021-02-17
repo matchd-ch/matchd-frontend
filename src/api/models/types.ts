@@ -11,6 +11,12 @@ export type Scalars = {
   Int: number;
   Float: number;
   /**
+   * The `Date` scalar type represents a Date
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  Date: any;
+  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -47,6 +53,14 @@ export type Scalars = {
 };
 
 /** An enumeration. */
+export enum JobOptionMode {
+  /** Date from */
+  DateFrom = "DATE_FROM",
+  /** Date range */
+  DateRange = "DATE_RANGE",
+}
+
+/** An enumeration. */
 export enum UserType {
   /** Internal */
   Internal = "INTERNAL",
@@ -63,6 +77,108 @@ export enum UserType {
   /** Other */
   Other = "OTHER",
 }
+
+/** An enumeration. */
+export enum UserState {
+  /** Incomplete */
+  Incomplete = "INCOMPLETE",
+  /** Anonymous */
+  Anonymous = "ANONYMOUS",
+  /** Public */
+  Public = "PUBLIC",
+}
+
+export type IStudentProfileInputStep1 = {
+  /** First name */
+  firstName: Scalars["String"];
+  /** Last name */
+  lastName: Scalars["String"];
+  /** street */
+  street?: Maybe<Scalars["String"]>;
+  /** Zip */
+  zip?: Maybe<Scalars["String"]>;
+  /** City */
+  city?: Maybe<Scalars["String"]>;
+  /** Date of birth */
+  dateOfBirth: Scalars["String"];
+  /** Date of birth */
+  mobile?: Maybe<Scalars["String"]>;
+};
+
+export type IStudentProfileInputStep2 = {
+  /** School name */
+  schoolName?: Maybe<Scalars["String"]>;
+  /** Field of study */
+  fieldOfStudy?: Maybe<Scalars["String"]>;
+  /** Graduation */
+  graduation?: Maybe<Scalars["String"]>;
+};
+
+export type IStudentProfileInputStep3 = {
+  jobOption: IJobOptionInputType;
+  jobFromDate?: Maybe<Scalars["String"]>;
+  jobToDate?: Maybe<Scalars["String"]>;
+  jobPosition?: Maybe<IJobPositionInputType>;
+};
+
+export type IJobOptionInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars["String"]>;
+};
+
+export type IJobPositionInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type IStudentProfileInputStep4 = {
+  /** Skills */
+  skills?: Maybe<Array<Maybe<ISkillInputType>>>;
+  /** Hobbies */
+  hobbies?: Maybe<Array<Maybe<IHobbyInputType>>>;
+  /** Distinctions */
+  distinctions?: Maybe<Array<Maybe<IDistinctionInputType>>>;
+  /** Online_Projects */
+  onlineProjects?: Maybe<Array<Maybe<IOnlineProjectInputType>>>;
+  /** Languages */
+  languages: Array<Maybe<IUserLanguageRelationInputType>>;
+};
+
+export type ISkillInputType = {
+  id: Scalars["ID"];
+};
+
+export type IHobbyInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type IDistinctionInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  text?: Maybe<Scalars["String"]>;
+};
+
+export type IOnlineProjectInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  url?: Maybe<Scalars["String"]>;
+};
+
+export type IUserLanguageRelationInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  language?: Maybe<Scalars["ID"]>;
+  languageLevel?: Maybe<Scalars["ID"]>;
+};
+
+export type IStudentProfileInputStep5 = {
+  /** Nickname */
+  nickname: Scalars["String"];
+};
+
+export type IStudentProfileInputStep6 = {
+  /** State */
+  state: Scalars["String"];
+};
 
 export type IUserRequestInput = {
   /** Name */

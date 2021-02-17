@@ -6,5 +6,6 @@ query {
     username
     email
     type
+    profileStep
   }
 }

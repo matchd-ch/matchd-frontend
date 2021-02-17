@@ -1,0 +1,7 @@
+query {
+  zipCity {
+    zip
+    city
+    canton
+  }
+}

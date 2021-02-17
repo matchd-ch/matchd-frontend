@@ -2,7 +2,7 @@
   <div class="bg-grey-4">
     <div class="register-company grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5">
       <h1
-        class="text-heading-90 text-pink-1 col-span-full lg:fixed lg:transition-all lg:top-0"
+        class="text-display-xl-fluid text-pink-1 col-span-full lg:fixed lg:transition-all lg:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
         Registrierung
@@ -135,7 +135,7 @@
               <button
                 type="button"
                 @click="registration.onTogglePasswordVisibility"
-                class="h-full flex justify-center items-center p-2"
+                class="h-full flex justify-center items-center p-2 mr-4"
               >
                 <component
                   :is="registration.passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
@@ -290,7 +290,7 @@ export default class RegisterCompany extends Vue {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .attach-heading {
   top: 50%;
   transform: translateY(-50%);
