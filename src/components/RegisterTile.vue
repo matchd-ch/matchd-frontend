@@ -23,12 +23,13 @@ class Props {
 export default class RegisterTile extends Vue.with(Props) {}
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .register-tile {
   @apply flex items-center;
   @apply text-2xl text-white underline;
   @apply p-10 xl:p-14;
   @apply shadow-white outline-none;
+
   &::before {
     content: "";
     @apply xl:inline-block xl:align-top xl:pb-full xl:w-0;
