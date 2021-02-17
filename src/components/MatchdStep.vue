@@ -36,7 +36,7 @@ class Props {
 export default class MatchdStep extends Vue.with(Props) {}
 </script>
 
-<style lang="css">
+<style lang="postcss" scoped>
 .step-wrapper {
   &:first-child {
     & .step-line-start {
