@@ -72,4 +72,4 @@ export default class Home extends Vue {
 }
 </script>
 
-<style lang="css" scoped></style>
+<style lang="postcss" scoped></style>
