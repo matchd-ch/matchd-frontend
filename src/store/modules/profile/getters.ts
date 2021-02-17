@@ -1,6 +1,13 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
-import { JobOptionType, JobPositionType, ZipCityType } from "api";
+import {
+  JobOptionType,
+  JobPositionType,
+  LanguageType,
+  LevelType,
+  SkillType,
+  ZipCityType,
+} from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
@@ -11,6 +18,9 @@ export type Getters = {
   nicknameSuggestions(state: State): string[];
   jobOptions(state: State): JobOptionType[];
   jobPositions(state: State): JobPositionType[];
+  skills(state: State): SkillType[];
+  languages(state: State): LanguageType[];
+  languageLevels(state: State): LevelType[];
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -35,5 +45,14 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   jobPositions(state: State): JobPositionType[] {
     return state.jobPositions.data;
+  },
+  skills(state: State): SkillType[] {
+    return state.skills.data;
+  },
+  languages(state: State): LanguageType[] {
+    return state.languages.data;
+  },
+  languageLevels(state: State): LevelType[] {
+    return state.languages.levels;
   },
 };

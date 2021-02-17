@@ -1,6 +1,6 @@
 <template>
   <div class="select-pill-group" :class="{ 'select-pill-group--invalid': errors }">
-    <label class="label"><slot name="label"/></label>
+    <label v-if="$slots.label" class="label"><slot name="label"/></label>
     <slot name="field" />
     <ul class="flex flex-wrap -m-2">
       <slot />

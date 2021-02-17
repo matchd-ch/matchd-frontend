@@ -1,0 +1,20 @@
+mutation(
+  $skills: [SkillInputType]!
+  $languages: [UserLanguageRelationInputType]!
+  $distinctions: [DistinctionInputType]!
+  $onlineProjects: [OnlineProjectInputType]
+  $hobbies: [HobbyInputType]
+) {
+  studentProfileStep4(
+    step4: {
+      skills: $skills
+      languages: $languages
+      distinctions: $distinctions
+      onlineProjects: $onlineProjects
+      hobbies: $hobbies
+    }
+  ) {
+    success
+    errors
+  }
+}
