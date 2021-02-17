@@ -7,6 +7,8 @@ import {
   State as RegistrationState,
 } from "@/store/modules/registration";
 
+import { store as profile, ProfileStore, State as ProfileState } from "@/store/modules/profile";
+
 import { store as login, LoginStore, State as LoginState } from "@/store/modules/login";
 
 const persistedLoginState = createPersistedState({
@@ -16,10 +18,12 @@ const persistedLoginState = createPersistedState({
 export type RootState = {
   registration: RegistrationState;
   login: LoginState;
+  profile: ProfileState;
 };
 
 export type Store = RegistrationStore<Pick<RootState, "registration">> &
-  LoginStore<Pick<RootState, "login">>;
+  LoginStore<Pick<RootState, "login">> &
+  ProfileStore<Pick<RootState, "profile">>;
 
 // Plug in logger when in development environment
 const debug = process.env.NODE_ENV !== "production";
@@ -29,6 +33,7 @@ export const store = createStore<RootState>({
   modules: {
     registration,
     login,
+    profile,
   },
   plugins,
 });

@@ -1,0 +1,16 @@
+mutation(
+  $schoolName: String
+  $fieldOfStudy: String
+  $graduation: String
+) {
+  studentProfileStep2(
+    step2: {
+      schoolName: $schoolName
+      fieldOfStudy: $fieldOfStudy
+      graduation: $graduation
+    }
+  ) {
+    success
+    errors
+  }
+}

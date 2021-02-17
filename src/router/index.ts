@@ -1,13 +1,8 @@
 import { isLoggedIn } from "@/router/authenticationGuard";
-import { useStore } from "@/store";
-import { MutationTypes } from "@/store/modules/login/mutation-types";
-import {
-  createRouter,
-  createWebHistory,
-  NavigationGuardNext,
-  RouteLocationNormalized,
-  RouteRecordRaw,
-} from "vue-router";
+import { isCompleteProfile } from "@/router/homeGuard";
+import { redirectToCurrentOnboardingStep } from "@/router/onboardingGuard";
+import { needsStateResetBeforePasswordReset } from "@/router/passwordResetGuard";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -15,6 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "Home",
     component: Home,
+    beforeEnter: isCompleteProfile,
   },
   {
     path: "/login",
@@ -41,24 +37,51 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/onboarding",
+    name: "Onboarding",
+    component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
+    children: [
+      {
+        path: "schritt1",
+        name: "OnboardingStep1",
+        component: () =>
+          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step1.vue"),
+      },
+      {
+        path: "schritt2",
+        name: "OnboardingStep2",
+        component: () =>
+          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step2.vue"),
+      },
+      {
+        path: "schritt3",
+        name: "OnboardingStep3",
+        component: () =>
+          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step3.vue"),
+      },
+      {
+        path: "schritt4",
+        name: "OnboardingStep4",
+        component: () =>
+          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step4.vue"),
+      },
+      {
+        path: "schritt5",
+        name: "OnboardingStep5",
+        component: () =>
+          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step5.vue"),
+      },
+    ],
+    beforeEnter: redirectToCurrentOnboardingStep,
+  },
+  {
     path: "/passwort-vergessen",
     name: "PasswordForgotten",
     component: () => import(/* webpackChunkName: "login" */ "../views/PasswordForgotten.vue"),
     meta: {
       public: true,
     },
-    beforeEnter(
-      to: RouteLocationNormalized,
-      from: RouteLocationNormalized,
-      next: NavigationGuardNext
-    ) {
-      const store = useStore();
-      // don't reset state when entering from the PasswordReset route to maintain potential errors
-      if (from.name !== "PasswordReset") {
-        store.commit(MutationTypes.RESET_PASSWORD_RESET_STATE);
-      }
-      next();
-    },
+    beforeEnter: needsStateResetBeforePasswordReset,
   },
   {
     path: "/passwort-reset/:token",
