@@ -44,42 +44,6 @@
       @clickRemoveLanguage="onClickRemoveLanguage"
       ><template v-slot:label>Diese Sprachen spreche ich*</template></LanguagePicker
     >
-    <!-- Distinction Field -->
-    <MatchdField id="distinction" class="mb-3" :class="{ 'mb-10': form.distinctions.length === 0 }">
-      <template v-slot:label>Das zeichnet mich sonst noch aus</template>
-      <Field
-        id="distinction"
-        name="distinction"
-        as="input"
-        label="Das zeichnet mich sonst noch aus"
-        maxlength="100"
-        v-model="distinctionInput"
-        @keypress.enter.prevent="onAppendDistinction"
-      />
-      <template v-slot:iconRight>
-        <button
-          type="button"
-          class="h-full bg-green-1 text-white rounded-full flex justify-center items-center py-2 px-8 disabled:opacity-60"
-          :disabled="!distinctionInput"
-          @click="onAppendDistinction"
-        >
-          Hinzufügen
-        </button>
-      </template>
-      <template v-if="form.distinctions.length === 0" v-slot:info
-        >Hast du dir etwas selber beigebracht? Zeichnet dich etwas speziell aus? Erzähle hier
-        davon!</template
-      >
-    </MatchdField>
-    <SelectPillGroup v-if="form.distinctions.length > 0" class="mb-10">
-      <SelectPill
-        v-for="distinction in form.distinctions"
-        :key="distinction.text"
-        @remove="onRemoveDistinction(distinction)"
-        hasDelete="true"
-        >{{ distinction.text }}</SelectPill
-      >
-    </SelectPillGroup>
     <!-- Online Projects Field -->
     <MatchdField
       id="onlineProjects"
@@ -150,6 +114,19 @@
         >{{ hobby.name }}</SelectPill
       >
     </SelectPillGroup>
+    <!-- Distinction Field -->
+    <MatchdField id="distinction" class="mb-10">
+      <template v-slot:label>Das zeichnet mich sonst noch aus</template>
+      <Field
+        id="distinction"
+        name="distinction"
+        as="textarea"
+        maxlength="1000"
+        label="Das zeichnet mich sonst noch aus"
+        v-model="form.distinction"
+        class="h-72"
+      />
+    </MatchdField>
     <MatchdButton
       variant="outline"
       :disabled="onboardingLoading"
@@ -194,7 +171,7 @@ export default class Step4 extends Vue {
   form: StudentProfileStep4Form = {
     skills: [],
     languages: [],
-    distinctions: [],
+    distinction: "",
     onlineProjects: [],
     hobbies: [],
   };
@@ -203,7 +180,6 @@ export default class Step4 extends Vue {
   filteredSkills: SkillType[] = [];
 
   skillInput = "";
-  distinctionInput = "";
   onlineProjectInput = "";
   hobbyInput = "";
 
@@ -274,19 +250,6 @@ export default class Step4 extends Vue {
     );
   }
 
-  onAppendDistinction() {
-    if (this.distinctionInput.length > 0) {
-      this.form.distinctions.push({ text: this.distinctionInput });
-      this.distinctionInput = "";
-    }
-  }
-
-  onRemoveDistinction(distinction: string) {
-    this.form.distinctions = this.form.distinctions.filter(
-      selectedDistinction => selectedDistinction.text !== distinction
-    );
-  }
-
   onAppendOnlineProject() {
     if (this.isValidOnlineProjectUrl) {
       this.form.onlineProjects.push({ url: this.onlineProjectInput });
@@ -336,7 +299,7 @@ export default class Step4 extends Vue {
             languageLevel: selectedLanguage.level.id,
           };
         }),
-        distinctions: this.form.distinctions,
+        distinction: this.form.distinction,
         onlineProjects: this.form.onlineProjects,
         hobbies: this.form.hobbies,
       });
