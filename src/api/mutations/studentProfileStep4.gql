@@ -1,7 +1,7 @@
 mutation(
   $skills: [SkillInputType]!
   $languages: [UserLanguageRelationInputType]!
-  $distinctions: [DistinctionInputType]!
+  $distinction: String!
   $onlineProjects: [OnlineProjectInputType]
   $hobbies: [HobbyInputType]
 ) {
@@ -9,7 +9,7 @@ mutation(
     step4: {
       skills: $skills
       languages: $languages
-      distinctions: $distinctions
+      distinction: $distinction
       onlineProjects: $onlineProjects
       hobbies: $hobbies
     }

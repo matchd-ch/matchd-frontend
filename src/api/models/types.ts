@@ -137,12 +137,12 @@ export type IStudentProfileInputStep4 = {
   skills?: Maybe<Array<Maybe<ISkillInputType>>>;
   /** Hobbies */
   hobbies?: Maybe<Array<Maybe<IHobbyInputType>>>;
-  /** Distinctions */
-  distinctions?: Maybe<Array<Maybe<IDistinctionInputType>>>;
   /** Online_Projects */
   onlineProjects?: Maybe<Array<Maybe<IOnlineProjectInputType>>>;
   /** Languages */
   languages: Array<Maybe<IUserLanguageRelationInputType>>;
+  /** Distinction */
+  distinction?: Maybe<Scalars["String"]>;
 };
 
 export type ISkillInputType = {
@@ -152,11 +152,6 @@ export type ISkillInputType = {
 export type IHobbyInputType = {
   id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
-};
-
-export type IDistinctionInputType = {
-  id?: Maybe<Scalars["ID"]>;
-  text?: Maybe<Scalars["String"]>;
 };
 
 export type IOnlineProjectInputType = {
