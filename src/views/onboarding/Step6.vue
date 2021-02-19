@@ -1,5 +1,8 @@
 <template>
   <Form @submit="onSubmit">
+    <GenericError v-if="onboardingState.errors"
+      >Beim Speichern ist etwas schief gelaufen.</GenericError
+    >
     <p>
       Hier kannst du dein Profil für alle Matchd-User*innen freischalten und deine Daten sichtbar
       machen.
@@ -53,7 +56,7 @@
 
 <script lang="ts">
 import { UserState } from "@/api/models/types";
-import GenericSuccess from "@/components/GenericSuccess.vue";
+import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import { StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
@@ -66,7 +69,7 @@ import { Options, Vue } from "vue-class-component";
     Form,
     Field,
     ErrorMessage,
-    GenericSuccess,
+    GenericError,
     MatchdButton,
   },
 })
@@ -98,7 +101,7 @@ export default class Step6 extends Vue {
   async onSubmit() {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP6, this.form);
     if (this.onboardingState.success) {
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "OnboardingFinish" });
     }
   }
 }

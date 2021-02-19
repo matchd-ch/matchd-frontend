@@ -11,6 +11,6 @@ export async function isCompleteProfile(
   if (profileStep && profileStep <= 6) {
     next({ name: "Onboarding" });
   } else {
-    next({ name: "Home" });
+    next();
   }
 }

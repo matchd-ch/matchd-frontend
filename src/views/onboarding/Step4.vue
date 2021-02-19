@@ -3,6 +3,9 @@
     v-if="skills.length > 0 && languages.length > 0 && languageLevels.length > 0"
     @submit="onSubmit"
   >
+    <GenericError v-if="onboardingState.errors">
+      Beim Speichern ist etwas schief gelaufen.
+    </GenericError>
     <!-- Skills Field -->
     <MatchdAutocomplete
       id="skills"
@@ -139,6 +142,7 @@
 </template>
 
 <script lang="ts">
+import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -158,6 +162,7 @@ import { Options, Vue } from "vue-class-component";
     Form,
     Field,
     ErrorMessage,
+    GenericError,
     MatchdButton,
     MatchdField,
     MatchdSelect,
@@ -303,7 +308,10 @@ export default class Step4 extends Vue {
         onlineProjects: this.form.onlineProjects,
         hobbies: this.form.hobbies,
       });
-      this.$router.push({ name: "OnboardingStep5" });
+
+      if (this.onboardingState.success) {
+        this.$router.push({ name: "OnboardingStep5" });
+      }
     }
   }
 }
