@@ -32,6 +32,7 @@ module.exports = {
       "display-md-fluid": ["responsive 2.2rem 3.625rem", "97%"],
       "display-lg-fluid": ["responsive 2.5rem 4.25rem", "97%"],
       "display-xl-fluid": ["responsive 3rem 5.625rem", "100%"],
+      "link-md": ["1.3125rem", "127%"],
       "cta-xl": ["3.875rem", "108%"],
     },
     colors: {

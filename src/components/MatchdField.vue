@@ -1,16 +1,19 @@
 <template>
-  <div class="matchd-field" :class="{ 'matchd-field-invalid': errors }">
-    <label :for="id" class="label"><slot name="label"/></label>
-    <div class="form-element" :class="{ 'form-element--icon-right relative': $slots.iconRight }">
+  <div class="matchd-field" :class="{ 'matchd-field--invalid': errors }">
+    <label :for="id" class="matchd-field__label"><slot name="label"/></label>
+    <div
+      class="matchd-field__form-element"
+      :class="{ 'matchd-field__form-element relative': $slots.iconRight }"
+    >
       <slot />
       <div v-if="$slots.iconRight" class="absolute right-0 top-0 h-full">
         <slot name="iconRight" />
       </div>
     </div>
-    <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">
+    <div v-if="errors" class="matchd-field__errors">
       {{ errors }}
     </div>
-    <p v-if="$slots.info" class="text-paragraph-sm text-black mt-4 flex items-center px-8">
+    <p v-if="$slots.info" class="matchd-field__info">
       <IconInfo class="flex-shrink-0 w-5 mr-2" />
       <slot name="info" />
     </p>
@@ -35,32 +38,44 @@ export default class MatchdField extends Vue.with(Props) {}
 </script>
 
 <style lang="postcss" scoped>
-.matchd-field {
-  &.matchd-field-invalid {
+@block matchd-field {
+  @modifier invalid {
     & input,
     & textarea {
       @apply border-negative text-negative placeholder-negative;
     }
   }
 
-  & .label {
+  @element label {
     @apply block px-8 mb-2;
     @apply font-medium;
   }
 
-  & input,
-  & textarea {
+  @element form-element {
+    @modifier icon-right {
+      & input {
+        @apply pr-16;
+      }
+    }
+  }
+
+  @element info {
+    @apply mt-4 flex items-center px-8;
+    @apply text-paragraph-sm text-black;
+  }
+
+  @element errors {
+    @apply px-8 mt-2;
+    @apply text-negative text-paragraph-sm;
+  }
+
+  & :deep(input),
+  & :deep(textarea) {
     @apply block w-full bg-white rounded-30 px-8 py-4;
     @apply border border-white focus:border-black;
     @apply text-lg placeholder-black placeholder-opacity-100;
     @apply focus:outline-none;
     @apply transition-colors duration-300;
-  }
-
-  & .form-element--icon-right {
-    & input {
-      @apply pr-16;
-    }
   }
 }
 </style>

@@ -37,7 +37,7 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
         <template v-slot:title
-          >Bist du in der Region Ostschweiz auf der Suche nach einer Lehr- oder
+          >Bist du in der Region Ostschweiz auf der Suche nach einem Praktikum, einer Lehr- oder
           Arbeitsstelle?</template
         >
         <MatchdButton
