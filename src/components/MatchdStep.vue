@@ -42,6 +42,12 @@ export default class MatchdStep extends Vue.with(Props) {}
     & .step-line-start {
       @apply hidden;
     }
+
+    & .step {
+      &::before {
+        @apply top-1/4;
+      }
+    }
   }
 
   &:last-child {
