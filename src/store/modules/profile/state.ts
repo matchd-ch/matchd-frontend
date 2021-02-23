@@ -5,6 +5,7 @@ import {
   LanguageType,
   LevelType,
   SkillType,
+  UploadConfiguration,
   ZipCityType,
 } from "api";
 
@@ -36,6 +37,13 @@ export type State = {
     data: LanguageType[];
     levels: LevelType[];
   };
+  uploadConfigurations: {
+    loading: boolean;
+    data: UploadConfiguration[];
+  };
+  uploadFile: {
+    loading: boolean;
+  };
 };
 
 export const state: State = {
@@ -65,5 +73,12 @@ export const state: State = {
     loading: false,
     data: [],
     levels: [],
+  },
+  uploadConfigurations: {
+    loading: false,
+    data: [],
+  },
+  uploadFile: {
+    loading: false,
   },
 };

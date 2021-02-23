@@ -10,28 +10,38 @@
       Home
     </h1>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
-      Hello {{ user.firstName }} {{ user.lastName }} {{ user.type }}
-      <MatchdButton
-        variant="outline"
-        @click="onClickLogout"
-        :disabled="isLogoutLoading"
-        :loading="isLogoutLoading"
-        >Logout</MatchdButton
-      >
+      <div>
+        Hello {{ user.firstName }} {{ user.lastName }} {{ user.type }}
+        <MatchdButton
+          variant="outline"
+          @click="onClickLogout"
+          :disabled="isLogoutLoading"
+          :loading="isLogoutLoading"
+          >Logout</MatchdButton
+        >
+      </div>
+      <MatchdFileUpload
+        v-if="studentAvatarUploadConfigurations"
+        :uploadConfiguration="studentAvatarUploadConfigurations"
+        @selectFile="onSelectFile"
+      ></MatchdFileUpload>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { UserType } from "@/api/models/types";
+import { AttachmentKey, UserType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
+import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
+import { ActionTypes as ProfileActionTypes } from "@/store/modules/profile/action-types";
 import { UserWithProfileNode } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
   components: {
     MatchdButton,
+    MatchdFileUpload,
   },
 })
 export default class Home extends Vue {
@@ -52,9 +62,27 @@ export default class Home extends Vue {
     return this.$store.getters["user"];
   }
 
+  get studentAvatarUploadConfigurations() {
+    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar });
+  }
+
   async onClickLogout() {
     await this.$store.dispatch(ActionTypes.LOGOUT);
     this.$router.push({ name: "Login" });
+  }
+
+  async mounted() {
+    await this.$store.dispatch(ProfileActionTypes.UPLOAD_CONFIGURATIONS);
+  }
+
+  async onSelectFile(event: Event) {
+    const fileList = (event.target as HTMLInputElement).files;
+    if (fileList && fileList.length > 0) {
+      await this.$store.dispatch(ProfileActionTypes.UPLOAD_FILE, {
+        key: AttachmentKey.StudentAvatar,
+        file: fileList[0],
+      });
+    }
   }
 }
 </script>

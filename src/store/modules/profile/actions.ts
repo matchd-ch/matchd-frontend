@@ -19,9 +19,11 @@ import studentProfileStep2Mutation from "@/api/mutations/studentProfileStep2.gql
 import studentProfileStep3Mutation from "@/api/mutations/studentProfileStep3.gql";
 import studentProfileStep4Mutation from "@/api/mutations/studentProfileStep4.gql";
 import studentProfileStep5Mutation from "@/api/mutations/studentProfileStep5.gql";
+import uploadMutation from "@/api/mutations/upload.gql";
 import studentProfileStep3DataQuery from "@/api/queries/studentProfileStep3Data.gql";
 import studentProfileStep4DataQuery from "@/api/queries/studentProfileStep4Data.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
+import uploadTypesQuery from "@/api/queries/uploadConfigurations.gql";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -56,6 +58,11 @@ export interface Actions {
   [ActionTypes.ONBOARDING_STEP3_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ONBOARDING_STEP4_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.UPLOAD_CONFIGURATIONS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.UPLOAD_FILE](
+    { commit }: AugmentedActionContext,
+    payload: { key: string; file: File }
+  ): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -126,5 +133,20 @@ export const actions: ActionTree<State, RootState> & Actions = {
       query: zipCityQuery,
     });
     commit(MutationTypes.ZIP_CITY_LOADED, response.data.zipCity);
+  },
+  async [ActionTypes.UPLOAD_CONFIGURATIONS]({ commit }) {
+    commit(MutationTypes.UPLOAD_CONFIGURATIONS_LOADING);
+    const response = await apiClient.query({
+      query: uploadTypesQuery,
+    });
+    commit(MutationTypes.UPLOAD_CONFIGURATIONS_LOADED, response.data.uploadConfigurations);
+  },
+  async [ActionTypes.UPLOAD_FILE]({ commit }, payload: { key: string; file: File }) {
+    commit(MutationTypes.UPLOAD_FILE_LOADING);
+    const response = await apiClient.mutate({
+      mutation: uploadMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.UPLOAD_FILE_LOADED, response.data.upload);
   },
 };
