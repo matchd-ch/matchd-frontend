@@ -2,6 +2,7 @@ import { AttachmentKey } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
 import {
+  AttachmentType,
   JobOptionType,
   JobPositionType,
   LanguageType,
@@ -26,6 +27,7 @@ export type Getters = {
   uploadConfigurationByKey(
     state: State
   ): (payload: { key: AttachmentKey }) => UploadConfiguration | undefined;
+  attachmentsByKey(state: State): (payload: { key: AttachmentKey }) => AttachmentType[];
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -64,5 +66,8 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return state.uploadConfigurations.data.find(
       attachmentType => attachmentType.key === payload.key
     );
+  },
+  attachmentsByKey: (state: State) => (payload: { key: AttachmentKey }) => {
+    return state.attachments[payload.key]?.data || [];
   },
 };

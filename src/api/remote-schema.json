@@ -47,6 +47,16 @@
                     }
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "userId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -381,7 +391,7 @@
               "deprecationReason": null
             },
             {
-              "name": "type",
+              "name": "mimeType",
               "description": null,
               "args": [],
               "type": {
@@ -1531,6 +1541,29 @@
           "description": null,
           "fields": [
             {
+              "name": "deleteAttachment",
+              "description": null,
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "DeleteAttachment",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "upload",
               "description": null,
               "args": [
@@ -2246,7 +2279,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "UserUpload",
+          "name": "DeleteAttachment",
           "description": null,
           "fields": [
             {
@@ -2286,6 +2319,41 @@
           "fields": null,
           "inputFields": null,
           "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "UserUpload",
+          "description": null,
+          "fields": [
+            {
+              "name": "success",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "errors",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -4785,13 +4853,13 @@
       },
       "TimerPanel": {
         "title": "Time",
-        "subtitle": "CPU: 622.04ms (977.66ms)"
+        "subtitle": "CPU: 565.06ms (670.49ms)"
       },
       "VersionsPanel": {
         "title": "Versions",
         "subtitle": "Django 3.1.5"
       }
     },
-    "storeId": "cfe1022448a246c7b03fb76efb2020c1"
+    "storeId": "7c33ce6d1cf942ae88b247daa2f64ef0"
   }
 }

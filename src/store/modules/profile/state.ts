@@ -1,5 +1,7 @@
+import { AttachmentKey } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
 import {
+  AttachmentType,
   JobOptionType,
   JobPositionType,
   LanguageType,
@@ -44,6 +46,13 @@ export type State = {
   uploadFile: {
     loading: boolean;
   };
+  attachments: {
+    [k: string]: {
+      loading: boolean;
+      deleting: boolean;
+      data: AttachmentType[];
+    };
+  };
 };
 
 export const state: State = {
@@ -81,4 +90,5 @@ export const state: State = {
   uploadFile: {
     loading: false,
   },
+  attachments: {},
 };

@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="user"
-    class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
+    class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
   >
     <h1
       class="text-display-xl-fluid col-start-1 col-span-2"
@@ -20,11 +20,26 @@
           >Logout</MatchdButton
         >
       </div>
+      <MatchdFileView :files="studentAvatar" @deleteFile="onDeleteStudentAvatar" />
       <MatchdFileUpload
         v-if="studentAvatarUploadConfigurations"
         :uploadConfiguration="studentAvatarUploadConfigurations"
-        @selectFile="onSelectFile"
-      ></MatchdFileUpload>
+        @selectFiles="onSelectStudentAvatar"
+        class="mt-3"
+        >Bild hochladen</MatchdFileUpload
+      >
+      <MatchdFileView
+        :files="studentDocuments"
+        class="mt-10"
+        @deleteFile="onDeleteStudentDocument"
+      />
+      <MatchdFileUpload
+        v-if="StudentDocumentsUploadConfigurations"
+        :uploadConfiguration="StudentDocumentsUploadConfigurations"
+        @selectFiles="onSelectStudentDocuments"
+        class="mt-3"
+        >Dokumente hochladen</MatchdFileUpload
+      >
     </div>
   </div>
 </template>
@@ -33,15 +48,17 @@
 import { AttachmentKey, UserType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
+import MatchdFileView from "@/components/MatchdFileView.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ActionTypes as ProfileActionTypes } from "@/store/modules/profile/action-types";
-import { UserWithProfileNode } from "api";
+import { AttachmentType, UserWithProfileNode } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
   components: {
     MatchdButton,
     MatchdFileUpload,
+    MatchdFileView,
   },
 })
 export default class Home extends Vue {
@@ -62,8 +79,20 @@ export default class Home extends Vue {
     return this.$store.getters["user"];
   }
 
+  get studentAvatar() {
+    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar });
+  }
+
+  get studentDocuments() {
+    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments });
+  }
+
   get studentAvatarUploadConfigurations() {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar });
+  }
+
+  get StudentDocumentsUploadConfigurations() {
+    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentDocuments });
   }
 
   async onClickLogout() {
@@ -72,17 +101,39 @@ export default class Home extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch(ProfileActionTypes.UPLOAD_CONFIGURATIONS);
+    this.$store.dispatch(ProfileActionTypes.UPLOAD_CONFIGURATIONS);
+    this.$store.dispatch(ProfileActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar });
+    this.$store.dispatch(ProfileActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.StudentDocuments,
+    });
   }
 
-  async onSelectFile(event: Event) {
-    const fileList = (event.target as HTMLInputElement).files;
-    if (fileList && fileList.length > 0) {
-      await this.$store.dispatch(ProfileActionTypes.UPLOAD_FILE, {
-        key: AttachmentKey.StudentAvatar,
-        file: fileList[0],
-      });
-    }
+  async onSelectStudentAvatar(files: FileList) {
+    await this.$store.dispatch(ProfileActionTypes.UPLOAD_FILE, {
+      key: AttachmentKey.StudentAvatar,
+      files,
+    });
+  }
+
+  async onSelectStudentDocuments(files: FileList) {
+    await this.$store.dispatch(ProfileActionTypes.UPLOAD_FILE, {
+      key: AttachmentKey.StudentDocuments,
+      files,
+    });
+  }
+
+  async onDeleteStudentAvatar(file: AttachmentType) {
+    await this.$store.dispatch(ProfileActionTypes.DELETE_FILE, {
+      key: AttachmentKey.StudentAvatar,
+      id: file.id,
+    });
+  }
+
+  async onDeleteStudentDocument(file: AttachmentType) {
+    await this.$store.dispatch(ProfileActionTypes.DELETE_FILE, {
+      key: AttachmentKey.StudentDocuments,
+      id: file.id,
+    });
   }
 }
 </script>
