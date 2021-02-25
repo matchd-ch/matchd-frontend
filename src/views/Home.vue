@@ -50,7 +50,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
-import { ActionTypes as ProfileActionTypes } from "@/store/modules/profile/action-types";
+import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { AttachmentType, UserWithProfileNode } from "api";
 import { Options, Vue } from "vue-class-component";
 
@@ -101,36 +101,36 @@ export default class Home extends Vue {
   }
 
   async mounted() {
-    this.$store.dispatch(ProfileActionTypes.UPLOAD_CONFIGURATIONS);
-    this.$store.dispatch(ProfileActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar });
-    this.$store.dispatch(ProfileActionTypes.UPLOADED_FILES, {
+    this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS);
+    this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar });
+    this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
       key: AttachmentKey.StudentDocuments,
     });
   }
 
   async onSelectStudentAvatar(files: FileList) {
-    await this.$store.dispatch(ProfileActionTypes.UPLOAD_FILE, {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.StudentAvatar,
       files,
     });
   }
 
   async onSelectStudentDocuments(files: FileList) {
-    await this.$store.dispatch(ProfileActionTypes.UPLOAD_FILE, {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.StudentDocuments,
       files,
     });
   }
 
   async onDeleteStudentAvatar(file: AttachmentType) {
-    await this.$store.dispatch(ProfileActionTypes.DELETE_FILE, {
+    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.StudentAvatar,
       id: file.id,
     });
   }
 
   async onDeleteStudentDocument(file: AttachmentType) {
-    await this.$store.dispatch(ProfileActionTypes.DELETE_FILE, {
+    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.StudentDocuments,
       id: file.id,
     });

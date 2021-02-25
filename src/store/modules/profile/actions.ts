@@ -1,6 +1,5 @@
 import { createApolloClient } from "@/api/apollo-client";
 import {
-  AttachmentKey,
   IStudentProfileInputStep1,
   IStudentProfileInputStep2,
   IStudentProfileInputStep3,
@@ -20,14 +19,9 @@ import studentProfileStep2Mutation from "@/api/mutations/studentProfileStep2.gql
 import studentProfileStep3Mutation from "@/api/mutations/studentProfileStep3.gql";
 import studentProfileStep4Mutation from "@/api/mutations/studentProfileStep4.gql";
 import studentProfileStep5Mutation from "@/api/mutations/studentProfileStep5.gql";
-import uploadMutation from "@/api/mutations/upload.gql";
 import studentProfileStep3DataQuery from "@/api/queries/studentProfileStep3Data.gql";
 import studentProfileStep4DataQuery from "@/api/queries/studentProfileStep4Data.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
-import uploadTypesQuery from "@/api/queries/uploadConfigurations.gql";
-import attachmentsQuery from "@/api/queries/attachments.gql";
-import deleteAttachmentMutation from "@/api/mutations/deleteAttachment.gql";
-
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,
@@ -61,19 +55,6 @@ export interface Actions {
   [ActionTypes.ONBOARDING_STEP3_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ONBOARDING_STEP4_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
-  [ActionTypes.UPLOAD_CONFIGURATIONS]({ commit }: AugmentedActionContext): Promise<void>;
-  [ActionTypes.UPLOAD_FILE](
-    { commit, dispatch }: AugmentedActionContext,
-    payload: { key: AttachmentKey; files: FileList }
-  ): Promise<void>;
-  [ActionTypes.UPLOADED_FILES](
-    { commit }: AugmentedActionContext,
-    payload: { key: AttachmentKey }
-  ): Promise<void>;
-  [ActionTypes.DELETE_FILE](
-    { commit, dispatch }: AugmentedActionContext,
-    payload: { key: AttachmentKey; id: string }
-  ): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -144,60 +125,5 @@ export const actions: ActionTree<State, RootState> & Actions = {
       query: zipCityQuery,
     });
     commit(MutationTypes.ZIP_CITY_LOADED, response.data.zipCity);
-  },
-  async [ActionTypes.UPLOAD_CONFIGURATIONS]({ commit }) {
-    commit(MutationTypes.UPLOAD_CONFIGURATIONS_LOADING);
-    const response = await apiClient.query({
-      query: uploadTypesQuery,
-    });
-    commit(MutationTypes.UPLOAD_CONFIGURATIONS_LOADED, response.data.uploadConfigurations);
-  },
-  async [ActionTypes.UPLOAD_FILE](
-    { commit, dispatch },
-    payload: { key: AttachmentKey; files: FileList }
-  ) {
-    for (const file of payload.files) {
-      commit(MutationTypes.UPLOAD_FILE_LOADING);
-      const response = await apiClient.mutate({
-        mutation: uploadMutation,
-        variables: {
-          key: payload.key,
-          file: file,
-        },
-      });
-      commit(MutationTypes.UPLOAD_FILE_LOADED, response.data.upload);
-      if (response.data.upload?.success) {
-        await dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
-      }
-    }
-  },
-  async [ActionTypes.UPLOADED_FILES]({ commit }, payload: { key: AttachmentKey }) {
-    commit(MutationTypes.UPLOADED_FILES_LOADING, payload);
-    const response = await apiClient.query({
-      query: attachmentsQuery,
-      variables: payload,
-      fetchPolicy: "network-only",
-    });
-    commit(MutationTypes.UPLOADED_FILES_LOADED, {
-      key: payload.key,
-      data: response.data.attachments,
-    });
-  },
-  async [ActionTypes.DELETE_FILE](
-    { commit, dispatch },
-    payload: { key: AttachmentKey; id: string }
-  ) {
-    commit(MutationTypes.DELETE_FILE_LOADING, payload);
-    const response = await apiClient.mutate({
-      mutation: deleteAttachmentMutation,
-      variables: payload,
-    });
-    commit(MutationTypes.DELETE_FILE_LOADED, {
-      key: payload.key,
-      data: response.data.deleteAttachment,
-    });
-    if (response.data.deleteAttachment?.success) {
-      dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
-    }
   },
 };

@@ -1,13 +1,10 @@
-import { AttachmentKey } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
 import {
-  AttachmentType,
   JobOptionType,
   JobPositionType,
   LanguageType,
   LevelType,
   SkillType,
-  UploadConfiguration,
   ZipCityType,
 } from "api";
 
@@ -39,20 +36,6 @@ export type State = {
     data: LanguageType[];
     levels: LevelType[];
   };
-  uploadConfigurations: {
-    loading: boolean;
-    data: UploadConfiguration[];
-  };
-  uploadFile: {
-    loading: boolean;
-  };
-  attachments: {
-    [k: string]: {
-      loading: boolean;
-      deleting: boolean;
-      data: AttachmentType[];
-    };
-  };
 };
 
 export const state: State = {
@@ -83,12 +66,4 @@ export const state: State = {
     data: [],
     levels: [],
   },
-  uploadConfigurations: {
-    loading: false,
-    data: [],
-  },
-  uploadFile: {
-    loading: false,
-  },
-  attachments: {},
 };

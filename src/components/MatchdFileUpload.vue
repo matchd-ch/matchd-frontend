@@ -80,7 +80,7 @@ export default class MatchdFileUpload extends Vue.with(Props) {
 
   get allowedMimeTypes() {
     const allowedMimeTypes: string[] = [];
-    this.uploadConfiguration?.contentTypesConfiguration?.forEach((configuration, index) => {
+    this.uploadConfiguration?.contentTypesConfiguration?.forEach(configuration => {
       configuration?.contentTypes?.forEach(type => {
         if (type) {
           allowedMimeTypes.push(type);

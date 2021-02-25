@@ -1,14 +1,11 @@
-import { AttachmentKey } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
 import {
-  AttachmentType,
   JobOptionType,
   JobPositionType,
   LanguageType,
   LevelType,
   SkillType,
-  UploadConfiguration,
   ZipCityType,
 } from "api";
 import { GetterTree } from "vuex";
@@ -24,10 +21,6 @@ export type Getters = {
   skills(state: State): SkillType[];
   languages(state: State): LanguageType[];
   languageLevels(state: State): LevelType[];
-  uploadConfigurationByKey(
-    state: State
-  ): (payload: { key: AttachmentKey }) => UploadConfiguration | undefined;
-  attachmentsByKey(state: State): (payload: { key: AttachmentKey }) => AttachmentType[];
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -61,13 +54,5 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   languageLevels(state: State): LevelType[] {
     return state.languages.levels;
-  },
-  uploadConfigurationByKey: (state: State) => (payload: { key: AttachmentKey }) => {
-    return state.uploadConfigurations.data.find(
-      attachmentType => attachmentType.key === payload.key
-    );
-  },
-  attachmentsByKey: (state: State) => (payload: { key: AttachmentKey }) => {
-    return state.attachments[payload.key]?.data || [];
   },
 };
