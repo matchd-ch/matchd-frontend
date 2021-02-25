@@ -20,7 +20,12 @@
           >Logout</MatchdButton
         >
       </div>
-      <MatchdFileView :files="studentAvatar" @deleteFile="onDeleteStudentAvatar" />
+      <MatchdFileView
+        v-if="studentAvatar.length > 0 || studentAvatarQueue.length > 0"
+        :files="studentAvatar"
+        :queuedFiles="studentAvatarQueue"
+        @deleteFile="onDeleteStudentAvatar"
+      />
       <MatchdFileUpload
         v-if="studentAvatarUploadConfigurations"
         :uploadConfiguration="studentAvatarUploadConfigurations"
@@ -29,7 +34,9 @@
         >Bild hochladen</MatchdFileUpload
       >
       <MatchdFileView
+        v-if="studentDocuments.length > 0 || studentDocumentsQueue.length > 0"
         :files="studentDocuments"
+        :queuedFiles="studentDocumentsQueue"
         class="mt-10"
         @deleteFile="onDeleteStudentDocument"
       />
@@ -77,6 +84,14 @@ export default class Home extends Vue {
 
   get user(): UserWithProfileNode | null {
     return this.$store.getters["user"];
+  }
+
+  get studentAvatarQueue() {
+    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentAvatar });
+  }
+
+  get studentDocumentsQueue() {
+    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentDocuments });
   }
 
   get studentAvatar() {

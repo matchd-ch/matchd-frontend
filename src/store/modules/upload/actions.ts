@@ -40,18 +40,19 @@ export interface Actions {
 
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.UPLOAD_CONFIGURATIONS]({ commit }) {
-    commit(MutationTypes.UPLOAD_CONFIGURATIONS_LOADING);
+    commit(MutationTypes.CONFIGURATIONS_LOADING);
     const response = await apiClient.query({
       query: uploadTypesQuery,
     });
-    commit(MutationTypes.UPLOAD_CONFIGURATIONS_LOADED, response.data.uploadConfigurations);
+    commit(MutationTypes.CONFIGURATIONS_LOADED, response.data.uploadConfigurations);
   },
   async [ActionTypes.UPLOAD_FILE](
     { commit, dispatch },
     payload: { key: AttachmentKey; files: FileList }
   ) {
+    commit(MutationTypes.ADD_FILE_TO_QUEUE, payload);
     for (const file of payload.files) {
-      commit(MutationTypes.UPLOAD_FILE_LOADING);
+      commit(MutationTypes.UPLOAD_FILE_START, { key: payload.key, file });
       const response = await apiClient.mutate({
         mutation: uploadMutation,
         variables: {
@@ -59,10 +60,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
           file: file,
         },
       });
-      commit(MutationTypes.UPLOAD_FILE_LOADED, response.data.upload);
-      if (response.data.upload?.success) {
-        await dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
-      }
+      commit(MutationTypes.UPLOAD_FILE_COMPLETE, {
+        key: payload.key,
+        file,
+        response: response.data.upload,
+      });
+      await dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
     }
   },
   async [ActionTypes.UPLOADED_FILES]({ commit }, payload: { key: AttachmentKey }) {
@@ -70,7 +73,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.query({
       query: attachmentsQuery,
       variables: payload,
-      fetchPolicy: "network-only",
+      fetchPolicy: "no-cache",
     });
     commit(MutationTypes.UPLOADED_FILES_LOADED, {
       key: payload.key,

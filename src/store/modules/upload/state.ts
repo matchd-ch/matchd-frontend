@@ -1,4 +1,12 @@
+import { MatchdApiError } from "@/models/MatchdApiError";
 import { AttachmentType, UploadConfiguration } from "api";
+
+export interface QueuedFile {
+  file: File;
+  uploading: boolean;
+  success: boolean;
+  errors: MatchdApiError | null;
+}
 
 export type State = {
   uploadConfigurations: {
@@ -6,7 +14,7 @@ export type State = {
     data: UploadConfiguration[];
   };
   uploadFile: {
-    loading: boolean;
+    [k: string]: QueuedFile[];
   };
   attachments: {
     [k: string]: {
@@ -22,8 +30,6 @@ export const state: State = {
     loading: false,
     data: [],
   },
-  uploadFile: {
-    loading: false,
-  },
+  uploadFile: {},
   attachments: {},
 };

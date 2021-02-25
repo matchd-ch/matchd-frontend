@@ -1,10 +1,14 @@
 <template>
   <label
-    class="matchd-file-upload block border border-dashed p-14 rounded-30 text-green-1 text-center cursor-pointer bg-"
-    :class="{ 'border-black bg-grey-3': isDragOver, 'border-green-1 bg-white': !isDragOver }"
+    class="matchd-file-upload block border border-dashed p-14 rounded-30 text-green-1 text-center cursor-pointer"
+    :class="{
+      'border-black bg-grey-3': isDragOver,
+      'border-green-1 bg-white': !isDragOver,
+      'border-negative text-negative': hasError,
+    }"
     @drop.prevent="onDrop"
-    @dragover.prevent="onDragOver"
-    @dragleave.prevent="onDragLeave"
+    @dragover.prevent="isDragOver = true"
+    @dragleave.prevent="isDragOver = false"
   >
     <input
       type="file"
@@ -18,7 +22,6 @@
       <template v-if="uploadConfiguration.maxFiles > 1"
         >Wähle maximal {{ uploadConfiguration.maxFiles }} Dateien aus
         <span v-for="(allowedFile, index) in allowedFiles" :key="index" class="block">
-          {{ allowedFile.mime }}
           {{ allowedFile.types.join(", ") }}, max. {{ formatSize(allowedFile.size)
           }}<template v-if="allowedFiles.length > 1 && index < allowedFiles.length - 1">
             oder
@@ -62,6 +65,7 @@ class Props {
 })
 export default class MatchdFileUpload extends Vue.with(Props) {
   isDragOver = false;
+  hasError = false;
 
   get allowedFiles() {
     const allowedFiles: { size: number; types: string[] }[] = [];
@@ -94,35 +98,43 @@ export default class MatchdFileUpload extends Vue.with(Props) {
     return prettyBytes(size);
   }
 
-  onDragOver() {
-    this.isDragOver = true;
-  }
-  onDragLeave() {
-    this.isDragOver = false;
-  }
-
   onDrop(event: DragEvent) {
     this.isDragOver = false;
-    const validFiles = this.filterValidFiles(event?.dataTransfer?.files);
-    if (validFiles && validFiles.length > 0) {
-      this.$emit("selectFiles", validFiles);
-    }
+    this.onSelect(event?.dataTransfer?.files || new FileList());
   }
 
   onChange(event: Event) {
-    const validFiles = this.filterValidFiles((event.target as HTMLInputElement).files);
+    this.onSelect((event.target as HTMLInputElement).files || new FileList());
+  }
+
+  onSelect(files: FileList) {
+    const validFiles = this.filterValidFiles(files);
     if (validFiles && validFiles.length > 0) {
+      this.hasError = false;
       this.$emit("selectFiles", validFiles);
+    } else if (files.length > 0) {
+      this.hasError = true;
     }
+  }
+
+  getMaxSizeForType(mimeType: string) {
+    let maxSize = 0;
+    this.uploadConfiguration?.contentTypesConfiguration?.forEach(config => {
+      if (config?.contentTypes?.includes(mimeType)) {
+        return (maxSize = config.maxSize || 0);
+      }
+    });
+    return maxSize;
   }
 
   filterValidFiles(fileList: FileList | null | undefined) {
     if (!fileList) {
       return [];
     }
-    const validFiles = [...fileList].filter(file => this.allowedMimeTypes.includes(file.type));
-    // todo: filter for size
-    return validFiles.splice(0, this.uploadConfiguration?.maxFiles || 0);
+    return [...fileList]
+      .filter(file => this.allowedMimeTypes.includes(file.type))
+      .filter(file => file.size <= this.getMaxSizeForType(file.type))
+      .splice(0, this.uploadConfiguration?.maxFiles || 0);
   }
 }
 </script>
