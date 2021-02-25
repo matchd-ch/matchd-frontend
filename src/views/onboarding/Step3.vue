@@ -4,6 +4,9 @@
     @submit="onSubmit"
     v-slot="{ errors }"
   >
+    <GenericError v-if="onboardingState.errors">
+      Beim Speichern ist etwas schief gelaufen.
+    </GenericError>
     <SelectPillGroup :errors="errors.jobOptionId" class="mb-10">
       <template v-slot:label>Ich suche nach*</template>
       <template v-slot:field>
@@ -138,6 +141,7 @@
 
 <script lang="ts">
 import { JobOptionMode } from "@/api/models/types";
+import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -156,6 +160,7 @@ import { Options, Vue } from "vue-class-component";
     Form,
     Field,
     ErrorMessage,
+    GenericError,
     MatchdButton,
     MatchdField,
     MatchdSelect,
@@ -277,7 +282,9 @@ export default class Step3 extends Vue {
           ? `${form.jobToDateMonth}.${form.jobToDateYear}`
           : null,
     });
-    this.$router.push({ name: "OnboardingStep4" });
+    if (this.onboardingState.success) {
+      this.$router.push({ name: "OnboardingStep4" });
+    }
   }
 }
 </script>
