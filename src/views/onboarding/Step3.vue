@@ -68,7 +68,7 @@
       <MatchdSelect
         v-if="modeIsDateRange"
         id="searchDateTo"
-        class="mb-10 ml-3 flex-grow"
+        class="mb-10 lg:ml-3 flex-grow"
         :errors="errors.jobToDateMonth || errors.jobToDateYear"
       >
         <template v-slot:label>Bis</template>
@@ -148,7 +148,6 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
-import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
 import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { JobPositionType, UserWithProfileNode } from "api";
@@ -185,7 +184,7 @@ export default class Step3 extends Vue {
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
-    const maxYear = currentYear + 4;
+    const maxYear = currentYear + 10;
     const validYears = [];
     for (let i = currentYear; maxYear > i; i++) {
       validYears.push(i);
@@ -288,6 +287,14 @@ export default class Step3 extends Vue {
     });
     if (this.onboardingState.success) {
       this.$router.push({ name: "OnboardingStep4" });
+    } else if (this.onboardingState.errors) {
+      actions.setErrors(this.onboardingState.errors);
+      if (this.onboardingState.errors.jobFromDate) {
+        actions.setErrors({ jobFromDateMonth: "Ab darf nicht leer sein." });
+      }
+      if (this.onboardingState.errors.jobToDate) {
+        actions.setErrors({ jobToDateMonth: "Bis darf nicht leer sein." });
+      }
     }
   }
 }
