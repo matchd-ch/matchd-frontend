@@ -31,7 +31,7 @@
       </h2>
       <div class="col-start-13 col-span-4 hidden lg:block"></div>
     </div>
-    <div class="grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-home gap-x-4 lg:gap-x-5">
+    <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <router-view
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:px-8 px-4 lg:px-5 py-12"
       />
