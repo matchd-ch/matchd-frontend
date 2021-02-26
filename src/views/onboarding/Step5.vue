@@ -44,6 +44,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
+import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { UserWithProfileNode } from "api";
@@ -87,7 +88,10 @@ export default class Step5 extends Vue {
     this.form.nickname = nickname;
   }
 
-  async onSubmit(form: StudentProfileStep5Form, actions: FormActions<StudentProfileStep5Form>) {
+  async onSubmit(
+    form: StudentProfileStep5Form,
+    actions: FormActions<Partial<StudentProfileStep5Form>>
+  ) {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP5, form);
     if (this.onboardingState?.errors?.nickname[0] === "unique") {
       actions.setErrors({

@@ -169,10 +169,6 @@ type UserWithProfileNode = Node & {
   state: UserState;
   profileStep: Scalars["Int"];
   student?: Maybe<Student>;
-  pk?: Maybe<Scalars["Int"]>;
-  archived?: Maybe<Scalars["Boolean"]>;
-  verified?: Maybe<Scalars["Boolean"]>;
-  secondaryEmail?: Maybe<Scalars["String"]>;
 };
 
 /** An object with an ID */
@@ -221,9 +217,9 @@ type Student = {
   fieldOfStudy: Scalars["String"];
   graduation?: Maybe<Scalars["Date"]>;
   skills: Array<SkillType>;
+  distinction: Scalars["String"];
   hobbies: Array<HobbyType>;
   onlineProjects: Array<OnlineProjectType>;
-  distinctions: Array<DistinctionType>;
   languages: Array<UserLanguageRelationType>;
 };
 
@@ -237,12 +233,6 @@ type OnlineProjectType = {
   __typename?: "OnlineProjectType";
   id: Scalars["ID"];
   url: Scalars["String"];
-};
-
-type DistinctionType = {
-  __typename?: "DistinctionType";
-  id: Scalars["ID"];
-  text: Scalars["String"];
 };
 
 type UserLanguageRelationType = {
@@ -503,12 +493,12 @@ type StudentProfileInputStep4 = {
   skills?: Maybe<Array<Maybe<SkillInputType>>>;
   /** Hobbies */
   hobbies?: Maybe<Array<Maybe<HobbyInputType>>>;
-  /** Distinctions */
-  distinctions?: Maybe<Array<Maybe<DistinctionInputType>>>;
   /** Online_Projects */
   onlineProjects?: Maybe<Array<Maybe<OnlineProjectInputType>>>;
   /** Languages */
   languages: Array<Maybe<UserLanguageRelationInputType>>;
+  /** Distinction */
+  distinction?: Maybe<Scalars["String"]>;
 };
 
 type SkillInputType = {
@@ -518,11 +508,6 @@ type SkillInputType = {
 type HobbyInputType = {
   id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
-};
-
-type DistinctionInputType = {
-  id?: Maybe<Scalars["ID"]>;
-  text?: Maybe<Scalars["String"]>;
 };
 
 type OnlineProjectInputType = {

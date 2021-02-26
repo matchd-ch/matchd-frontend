@@ -179,6 +179,7 @@ import {
   RegistrationCompanyFormData,
   RegistrationCompanyFormUid,
 } from "@/models/RegistrationCompanyForm";
+import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
 import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -265,7 +266,7 @@ export default class RegisterCompany extends Vue {
 
   async onSubmitCompanyData(
     form: RegistrationCompanyFormData,
-    actions: FormActions<RegistrationCompanyFormData>
+    actions: FormActions<Partial<RegistrationCompanyFormData>>
   ) {
     this.form = {
       ...this.form,

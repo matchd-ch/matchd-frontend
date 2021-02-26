@@ -148,6 +148,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
 import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { JobPositionType, UserWithProfileNode } from "api";
@@ -246,7 +247,10 @@ export default class Step3 extends Vue {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3_DATA);
   }
 
-  async onSubmit(form: StudentProfileStep3Form, actions: FormActions<StudentProfileStep3Form>) {
+  async onSubmit(
+    form: StudentProfileStep3Form,
+    actions: FormActions<Partial<StudentProfileStep3Form>>
+  ) {
     if (
       form.jobFromDateMonth &&
       form.jobFromDateYear &&
