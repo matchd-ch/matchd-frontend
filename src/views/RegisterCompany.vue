@@ -2,14 +2,14 @@
   <div class="bg-grey-4">
     <div class="register-company grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5">
       <h1
-        class="text-display-xl-fluid text-pink-1 col-span-full lg:fixed lg:transition-all lg:top-0"
+        class="text-display-xl-fluid text-primary-1 col-span-full lg:fixed lg:transition-all lg:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
         Registrierung
       </h1>
     </div>
     <div class=" px-4 lg:px-5">
-      <MatchdStep step="1" theme="pink">
+      <MatchdStep step="1">
         <template v-if="form.type === 'company'" v-slot:title
           >Ihr Unternehmen möchte Teil der Matchd-Community werden? Dann halten Sie für den nächsten
           Schritt die UID-Nr. bereit.</template
@@ -33,7 +33,6 @@
         v-if="form.type === 'company'"
         v-show="activeStep >= 2"
         step="2"
-        theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
         <template v-slot:title
@@ -57,7 +56,6 @@
       <MatchdStep
         v-show="activeStep >= 3"
         step="3"
-        theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
         <template v-slot:title>
@@ -157,7 +155,6 @@
             variant="outline"
             :disabled="companyRegistrationLoading"
             :loading="companyRegistrationLoading"
-            theme="pink"
             >Registrieren</MatchdButton
           >
         </Form>
@@ -165,7 +162,6 @@
       <MatchdStep
         v-show="activeStep >= 4"
         step="4"
-        theme="pink"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
@@ -246,11 +242,11 @@ export default class RegisterCompany extends Vue {
 
   mounted() {
     this.form.type = this.registration.urlToAccountTypeMapper(this.$route.path);
-    this.registration.mounted();
+    this.registration.mounted("theme-company");
   }
 
-  beforeDestroy() {
-    this.registration.beforeDestroy();
+  beforeUnmount() {
+    this.registration.beforeUnmount("theme-company");
   }
 
   onClickConfirmCompany(response: boolean) {

@@ -57,6 +57,12 @@ module.exports = {
         3: "#EDEDED",
         4: "#FAFAFA",
       },
+      primary: {
+        1: "var(--color-primary-1)",
+        2: "var(--color-primary-2)",
+        3: "var(--color-primary-3)",
+        4: "var(--color-primary-5)",
+      },
       white: "#FFF",
       primaryA: "#000",
       primaryB: "#FFF",

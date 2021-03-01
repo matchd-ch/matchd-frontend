@@ -1,4 +1,27 @@
 @tailwind base;
+
+.theme-student {
+    --color-primary-1: #FFF;
+    --color-primary-2: #FFF;
+    --color-primary-3: #FFF;
+    --color-primary-5: #FFF;
+}
+
+.theme-student {
+    --color-primary-1: #1FAC01;
+    --color-primary-2: #58B624;
+    --color-primary-3: #95CC3C;
+    --color-primary-5: #E0F3DE;
+}
+
+.theme-university,
+.theme-company {
+    --color-primary-1: #F21D5E;
+    --color-primary-2: #FC3F78;
+    --color-primary-3: #FB617B;
+    --color-primary-5: #FFE9E9;
+}
+
 @tailwind components;
 @tailwind utilities;
 @tailwind screens;

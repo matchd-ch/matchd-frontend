@@ -50,7 +50,6 @@
           variant="outline"
           :disabled="loginLoading"
           :loading="loginLoading"
-          theme="neutral"
           class="block w-full"
           >Login</MatchdButton
         >

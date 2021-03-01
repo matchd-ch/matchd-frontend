@@ -1,9 +1,9 @@
 <template>
   <label
-    class="matchd-file-upload block border border-dashed p-14 rounded-30 text-green-1 text-center cursor-pointer"
+    class="matchd-file-upload block border border-dashed p-14 rounded-30 text-primary-1 text-center cursor-pointer"
     :class="{
       'border-black bg-grey-3': isDragOver,
-      'border-green-1 bg-white': !isDragOver,
+      'border-primary-1 bg-white': !isDragOver,
       'border-negative text-negative': hasError,
     }"
     @drop.prevent="onDrop"
@@ -40,7 +40,7 @@
     </span>
 
     <span
-      class="inline-block font-medium bg-green-1 rounded-full text-white text-xl py-3 px-10 text-center mt-4"
+      class="inline-block font-medium bg-primary-1 rounded-full text-white text-xl py-3 px-10 text-center mt-4"
     >
       <slot />
     </span>
