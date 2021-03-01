@@ -1,10 +1,11 @@
 <template>
   <div class="register-contact-form">
-    <h2 id="register-contact" class="text-white text-heading-35 mb-6">
-      Nichts Passendes gefunden?
+    <h2 id="register-contact" class="text-white text-display-xs mb-6">
+      Du hast nichts Passendes gefunden? Kein Problem!
     </h2>
     <p class="text-white mb-9">
-      Bitte schreibe uns, woher du kommst und warum du dich gerne auf Matchd registrieren möchtest.
+      Schreibe uns, woher du kommst und warum du gerne Teil der Matchd-Community werden möchtest.<br />
+      Wir freuen uns auf dich! Dein Matchd-Team.
     </p>
     <Form @submit="$emit('submit', $event)" v-slot="{ errors }">
       <div class="mb-6">

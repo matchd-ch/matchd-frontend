@@ -24,7 +24,7 @@
       </select>
       <button
         type="button"
-        class="block bg-green-1 text-white rounded-full flex justify-center items-center px-8 py-4 disabled:opacity-60"
+        class="block bg-primary-1 text-white rounded-full flex justify-center items-center px-8 py-4 disabled:opacity-60"
         :disabled="!languageSelect || !levelSelect"
         @click="onClickAppend"
       >

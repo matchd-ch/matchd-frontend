@@ -70,7 +70,7 @@
       <template v-slot:iconRight>
         <button
           type="button"
-          class="h-full bg-green-1 text-white rounded-full flex justify-center items-center py-2 px-8 disabled:opacity-60"
+          class="h-full bg-primary-1 text-white rounded-full flex justify-center items-center py-2 px-8 disabled:opacity-60"
           :disabled="!isValidOnlineProjectUrl"
           @click="onAppendOnlineProject"
         >
@@ -126,7 +126,7 @@
       <template v-slot:iconRight>
         <button
           type="button"
-          class="h-full bg-green-1 text-white rounded-full flex justify-center items-center py-2 px-8 disabled:opacity-60"
+          class="h-full bg-primary-1 text-white rounded-full flex justify-center items-center py-2 px-8 disabled:opacity-60"
           :disabled="!hobbyInput"
           @click="onAppendHobby"
         >
@@ -160,7 +160,6 @@
       variant="outline"
       :disabled="onboardingLoading"
       :loading="onboardingLoading"
-      theme="neutral"
       class="block w-full"
       >Speichern und weiter</MatchdButton
     >

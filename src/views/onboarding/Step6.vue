@@ -12,7 +12,7 @@
       <div class="flex-grow w-40" :class="{ 'font-medium': isAnonymous }">Profil anonymisieren</div>
       <button
         type="button"
-        class="border border-green-1 relative inline-flex flex-shrink-0 h-9 w-20 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
+        class="border border-primary-1 relative inline-flex flex-shrink-0 h-9 w-20 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
         aria-pressed="false"
         @click="onToggleUserState"
       >
@@ -47,7 +47,6 @@
       variant="outline"
       :disabled="onboardingLoading"
       :loading="onboardingLoading"
-      theme="neutral"
       class="block w-full"
       >Speichern</MatchdButton
     >
