@@ -1,5 +1,8 @@
 <template>
   <Form @submit="onSubmit" v-slot="{ errors }">
+    <GenericError v-if="onboardingState.errors">
+      Beim Speichern ist etwas schief gelaufen.
+    </GenericError>
     <MatchdField id="nickname" class="mb-10" :errors="errors.nickname">
       <template v-slot:label>Dein Nickname*</template>
       <Field
@@ -36,6 +39,7 @@
 </template>
 
 <script lang="ts">
+import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
@@ -51,13 +55,14 @@ import { Options, Vue } from "vue-class-component";
     Form,
     Field,
     ErrorMessage,
+    GenericError,
     MatchdButton,
     MatchdField,
     MatchdSelect,
     NicknameSuggestions,
   },
 })
-export default class Step1 extends Vue {
+export default class Step5 extends Vue {
   form: StudentProfileStep5Form = {
     nickname: "",
   };
@@ -89,7 +94,7 @@ export default class Step1 extends Vue {
         nickname: "Dieser Nickname ist bereits vergeben.",
       });
     } else if (this.onboardingState.success) {
-      this.$router.push({ name: "Onboarding" });
+      this.$router.push({ name: "OnboardingStep6" });
     }
   }
 }

@@ -107,43 +107,12 @@ type LevelType = {
   id: Scalars["ID"];
   level: Scalars["String"];
   description?: Maybe<Scalars["String"]>;
-  userlanguagerelationSet: Array<UserLanguageRelationType>;
-};
-
-type UserLanguageRelationType = {
-  __typename?: "UserLanguageRelationType";
-  id: Scalars["ID"];
-  student: Student;
-  language: LanguageType;
-  languageLevel: LevelType;
-};
-
-type Student = {
-  __typename?: "Student";
-  mobile: Scalars["String"];
-  street: Scalars["String"];
-  zip: Scalars["String"];
-  city: Scalars["String"];
-  dateOfBirth?: Maybe<Scalars["Date"]>;
-  nickname?: Maybe<Scalars["String"]>;
-  schoolName?: Maybe<Scalars["String"]>;
-  fieldOfStudy: Scalars["String"];
-  graduation?: Maybe<Scalars["Date"]>;
-  skills: Array<SkillType>;
-  hobbies?: Maybe<Array<Maybe<HobbyType>>>;
-};
-
-type HobbyType = {
-  __typename?: "HobbyType";
-  id: Scalars["ID"];
-  name: Scalars["String"];
 };
 
 type LanguageType = {
   __typename?: "LanguageType";
   id: Scalars["ID"];
   name: Scalars["String"];
-  userlanguagerelationSet: Array<UserLanguageRelationType>;
 };
 
 type UserWithProfileNode = Node & {
@@ -198,6 +167,43 @@ enum UserState {
   /** Public */
   Public = "PUBLIC",
 }
+
+type Student = {
+  __typename?: "Student";
+  mobile: Scalars["String"];
+  street: Scalars["String"];
+  zip: Scalars["String"];
+  city: Scalars["String"];
+  dateOfBirth?: Maybe<Scalars["Date"]>;
+  nickname?: Maybe<Scalars["String"]>;
+  schoolName?: Maybe<Scalars["String"]>;
+  fieldOfStudy: Scalars["String"];
+  graduation?: Maybe<Scalars["Date"]>;
+  skills: Array<SkillType>;
+  distinction: Scalars["String"];
+  hobbies: Array<HobbyType>;
+  onlineProjects: Array<OnlineProjectType>;
+  languages: Array<UserLanguageRelationType>;
+};
+
+type HobbyType = {
+  __typename?: "HobbyType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+type OnlineProjectType = {
+  __typename?: "OnlineProjectType";
+  id: Scalars["ID"];
+  url: Scalars["String"];
+};
+
+type UserLanguageRelationType = {
+  __typename?: "UserLanguageRelationType";
+  id: Scalars["ID"];
+  language: LanguageType;
+  languageLevel: LevelType;
+};
 
 type Mutation = {
   __typename?: "Mutation";
@@ -427,12 +433,12 @@ type StudentProfileInputStep4 = {
   skills?: Maybe<Array<Maybe<SkillInputType>>>;
   /** Hobbies */
   hobbies?: Maybe<Array<Maybe<HobbyInputType>>>;
-  /** Distinctions */
-  distinctions?: Maybe<Array<Maybe<DistinctionInputType>>>;
   /** Online_Projects */
   onlineProjects?: Maybe<Array<Maybe<OnlineProjectInputType>>>;
   /** Languages */
   languages: Array<Maybe<UserLanguageRelationInputType>>;
+  /** Distinction */
+  distinction?: Maybe<Scalars["String"]>;
 };
 
 type SkillInputType = {
@@ -442,11 +448,6 @@ type SkillInputType = {
 type HobbyInputType = {
   id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
-};
-
-type DistinctionInputType = {
-  id?: Maybe<Scalars["ID"]>;
-  text?: Maybe<Scalars["String"]>;
 };
 
 type OnlineProjectInputType = {

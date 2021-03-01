@@ -77,5 +77,15 @@ export default class MatchdField extends Vue.with(Props) {}
     @apply focus:outline-none;
     @apply transition-colors duration-300;
   }
+
+  & :deep(textarea) {
+    @apply resize-none;
+  }
+
+  & .form-element--icon-right {
+    & input {
+      @apply pr-16;
+    }
+  }
 }
 </style>
