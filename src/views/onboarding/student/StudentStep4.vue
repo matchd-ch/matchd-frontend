@@ -205,7 +205,7 @@ import { Options, Vue } from "vue-class-component";
     SelectPillGroup,
   },
 })
-export default class Step4 extends Vue {
+export default class StudentStep4 extends Vue {
   form: StudentProfileStep4Form = {
     skills: [],
     languages: [],
@@ -376,7 +376,7 @@ export default class Step4 extends Vue {
       });
 
       if (this.onboardingState.success) {
-        this.$router.push({ name: "OnboardingStep5" });
+        this.$router.push({ params: { step: "schritt5" } });
       }
     }
   }

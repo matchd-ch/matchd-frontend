@@ -72,7 +72,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
   },
 })
-export default class Step6 extends Vue {
+export default class StudentStep6 extends Vue {
   form: StudentProfileStep6Form = {
     state: UserState.Anonymous,
   };
@@ -100,7 +100,7 @@ export default class Step6 extends Vue {
   async onSubmit() {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP6, this.form);
     if (this.onboardingState.success) {
-      this.$router.push({ name: "OnboardingFinish" });
+      this.$router.push({ params: { step: "finish" } });
     }
   }
 }

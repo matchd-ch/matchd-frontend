@@ -26,7 +26,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
   },
 })
-export default class Finish extends Vue {
+export default class CompanyFinish extends Vue {
   onClickFindTraineePosition() {
     this.$router.push({ name: "Home" });
   }

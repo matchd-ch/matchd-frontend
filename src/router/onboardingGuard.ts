@@ -12,13 +12,13 @@ export async function redirectToCurrentOnboardingStep(
   if (!profileStep) {
     next({ name: "Error" });
   } else if (
-    to.name === `OnboardingStep${profileStep}` ||
-    (to.name === "OnboardingFinish" && profileStep === 7)
+    (to.name === `Onboarding` && to.params.step === `schritt${profileStep}`) ||
+    (to.name === "Onboarding" && profileStep === 7)
   ) {
     next(); // prevent infinite redirect
   } else if (profileStep <= 6) {
-    next({ name: `OnboardingStep${profileStep}` });
+    next({ name: `Onboarding`, params: { step: `schritt${profileStep}` } });
   } else {
-    next({ name: "OnboardingFinish" });
+    next({ name: "Onboarding", params: { step: "finish" } });
   }
 }

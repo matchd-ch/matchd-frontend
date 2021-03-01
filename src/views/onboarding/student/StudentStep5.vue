@@ -86,7 +86,7 @@ import { Options, Vue } from "vue-class-component";
     NicknameSuggestions,
   },
 })
-export default class Step5 extends Vue {
+export default class StudentStep5 extends Vue {
   form: StudentProfileStep5Form = {
     nickname: "",
   };
@@ -157,7 +157,7 @@ export default class Step5 extends Vue {
         nickname: "Dieser Nickname ist bereits vergeben.",
       });
     } else if (this.onboardingState.success) {
-      this.$router.push({ name: "OnboardingStep6" });
+      this.$router.push({ params: { step: "schritt6" } });
     }
   }
 }

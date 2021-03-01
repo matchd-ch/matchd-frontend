@@ -168,7 +168,7 @@ import { Options, Vue } from "vue-class-component";
     SelectPillGroup,
   },
 })
-export default class Step3 extends Vue {
+export default class StudentStep3 extends Vue {
   form: StudentProfileStep3Form = {
     jobOptionId: "",
     jobPositionId: "",
@@ -285,7 +285,7 @@ export default class Step3 extends Vue {
           : null,
     });
     if (this.onboardingState.success) {
-      this.$router.push({ name: "OnboardingStep4" });
+      this.$router.push({ params: { step: "schritt4" } });
     } else if (this.onboardingState.errors) {
       actions.setErrors(this.onboardingState.errors);
       if (this.onboardingState.errors.jobFromDate) {

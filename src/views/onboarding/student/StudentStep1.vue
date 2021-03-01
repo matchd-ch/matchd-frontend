@@ -132,7 +132,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdSelect,
   },
 })
-export default class Step1 extends Vue {
+export default class StudentStep1 extends Vue {
   form: StudentProfileStep1Form = {
     firstName: "",
     lastName: "",
@@ -192,7 +192,7 @@ export default class Step1 extends Vue {
       dateOfBirth: `${form.day}.${form.month}.${form.year}`,
     });
     if (this.onboardingState.success) {
-      this.$router.push({ name: "OnboardingStep2" });
+      this.$router.push({ params: { step: "schritt2" } });
     }
   }
 }

@@ -1,3 +1,4 @@
+import { UserType } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
 import { UserWithProfileNode } from "api";
@@ -10,6 +11,9 @@ export type Getters = {
   logoutLoading(state: State): boolean;
   logoutState(state: State): { success: boolean; errors: MatchdApiError | null };
   user(state: State): UserWithProfileNode | null;
+  isStudent(state: State): boolean;
+  isCompany(state: State): boolean;
+  isUniversity(state: State): boolean;
   isLoggedIn(state: State): boolean;
   refreshToken(state: State): string;
   sendPasswordResetEmailLoading(state: State): boolean;
@@ -46,6 +50,26 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   user(state: State): UserWithProfileNode | null {
     return state.user;
+  },
+  isStudent(state: State): boolean {
+    if (!state.user?.type) {
+      return false;
+    }
+    return [UserType.Student, UserType.CollegeStudent, UserType.Internal, UserType.Junior].includes(
+      state.user.type
+    );
+  },
+  isCompany(state: State): boolean {
+    if (!state.user?.type) {
+      return false;
+    }
+    return [UserType.Company].includes(state.user.type);
+  },
+  isUniversity(state: State): boolean {
+    if (!state.user?.type) {
+      return false;
+    }
+    return [UserType.University].includes(state.user.type);
   },
   isLoggedIn(state: State): boolean {
     return state.isLoggedIn;

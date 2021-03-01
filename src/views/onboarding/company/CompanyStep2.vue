@@ -89,7 +89,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdSelect,
   },
 })
-export default class Step2 extends Vue {
+export default class CompanyStep2 extends Vue {
   form: StudentProfileStep2Form = {
     schoolName: "",
     fieldOfStudy: "",
@@ -131,7 +131,7 @@ export default class Step2 extends Vue {
           : null,
     });
     if (this.onboardingState.success) {
-      this.$router.push({ name: "OnboardingStep3" });
+      this.$router.push({ params: { step: "schritt3" } });
     } else if (this.onboardingState.errors) {
       actions.setErrors(this.onboardingState.errors);
     }

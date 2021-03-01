@@ -9,33 +9,21 @@
 </template>
 
 <script lang="ts">
-import { UserType } from "@/api/models/types";
 import { UserWithProfileNode } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({})
 export default class App extends Vue {
   get isStudent(): boolean {
-    if (!this.user?.type) {
-      return false;
-    }
-    return [UserType.Student, UserType.CollegeStudent, UserType.Internal, UserType.Junior].includes(
-      this.user.type
-    );
+    return this.$store.getters["isStudent"];
   }
 
   get isCompany(): boolean {
-    if (!this.user?.type) {
-      return false;
-    }
-    return [UserType.Company].includes(this.user.type);
+    return this.$store.getters["isCompany"];
   }
 
   get isUniversity(): boolean {
-    if (!this.user?.type) {
-      return false;
-    }
-    return [UserType.University].includes(this.user.type);
+    return this.$store.getters["isUniversity"];
   }
 
   get user(): UserWithProfileNode | null {
