@@ -45,6 +45,11 @@ type Scalars = {
    */
   ExpectedErrorType: any;
   /**
+   * Create scalar that ignores normal serialization/deserialization, since
+   * that will be handled by the multipart request spec
+   */
+  Upload: any;
+  /**
    * The `GenericScalar` scalar type represents a generic
    * GraphQL scalar value that could be:
    * String, Boolean, Int, Float, List or Object.
@@ -54,6 +59,8 @@ type Scalars = {
 
 type Query = {
   __typename?: "Query";
+  uploadConfigurations?: Maybe<Array<Maybe<UploadConfiguration>>>;
+  attachments?: Maybe<Array<Maybe<AttachmentType>>>;
   skills?: Maybe<Array<Maybe<SkillType>>>;
   jobPositions?: Maybe<Array<Maybe<JobPositionType>>>;
   jobOptions?: Maybe<Array<Maybe<JobOptionType>>>;
@@ -64,8 +71,43 @@ type Query = {
   verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
 };
 
+type QueryAttachmentsArgs = {
+  key: AttachmentKey;
+  userId?: Maybe<Scalars["Int"]>;
+};
+
 type QueryVerifyPasswordResetTokenArgs = {
   token: Scalars["String"];
+};
+
+type UploadConfiguration = {
+  __typename?: "UploadConfiguration";
+  contentTypesConfiguration?: Maybe<Array<Maybe<UploadTypeConfiguration>>>;
+  maxFiles?: Maybe<Scalars["Int"]>;
+  key?: Maybe<AttachmentKey>;
+};
+
+type UploadTypeConfiguration = {
+  __typename?: "UploadTypeConfiguration";
+  contentTypes?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  maxSize?: Maybe<Scalars["Int"]>;
+};
+
+/** An enumeration. */
+enum AttachmentKey {
+  StudentAvatar = "STUDENT_AVATAR",
+  StudentDocuments = "STUDENT_DOCUMENTS",
+  CompanyAvatar = "COMPANY_AVATAR",
+  CompanyDocuments = "COMPANY_DOCUMENTS",
+}
+
+type AttachmentType = {
+  __typename?: "AttachmentType";
+  id: Scalars["ID"];
+  url?: Maybe<Scalars["String"]>;
+  mimeType?: Maybe<Scalars["String"]>;
+  fileSize?: Maybe<Scalars["Int"]>;
+  fileName?: Maybe<Scalars["String"]>;
 };
 
 type SkillType = {
@@ -128,10 +170,6 @@ type UserWithProfileNode = Node & {
   state: UserState;
   profileStep: Scalars["Int"];
   student?: Maybe<Student>;
-  pk?: Maybe<Scalars["Int"]>;
-  archived?: Maybe<Scalars["Boolean"]>;
-  verified?: Maybe<Scalars["Boolean"]>;
-  secondaryEmail?: Maybe<Scalars["String"]>;
 };
 
 /** An object with an ID */
@@ -207,6 +245,8 @@ type UserLanguageRelationType = {
 
 type Mutation = {
   __typename?: "Mutation";
+  deleteAttachment?: Maybe<DeleteAttachment>;
+  upload?: Maybe<UserUpload>;
   /** Updates the profile of a student */
   studentProfileStep1?: Maybe<StudentProfileStep1>;
   /** Updates school name, field of study and graduation */
@@ -275,6 +315,15 @@ type Mutation = {
    * by making the `user.status.verified` field true.
    */
   verifyAccount?: Maybe<VerifyAccount>;
+};
+
+type MutationDeleteAttachmentArgs = {
+  id?: Maybe<Scalars["ID"]>;
+};
+
+type MutationUploadArgs = {
+  file: Scalars["Upload"];
+  key: AttachmentKey;
 };
 
 type MutationStudentProfileStep1Args = {
@@ -354,6 +403,18 @@ type MutationRegisterStudentArgs = {
 
 type MutationVerifyAccountArgs = {
   token: Scalars["String"];
+};
+
+type DeleteAttachment = {
+  __typename?: "DeleteAttachment";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type UserUpload = {
+  __typename?: "UserUpload";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };
 
 /** Updates the profile of a student */
