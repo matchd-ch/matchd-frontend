@@ -179,7 +179,6 @@ import {
   RegistrationCompanyFormData,
   RegistrationCompanyFormUid,
 } from "@/models/RegistrationCompanyForm";
-import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
 import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";

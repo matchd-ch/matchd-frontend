@@ -2,6 +2,7 @@ query($key: AttachmentKey!) {
   attachments(key: $key) {
     id
     fileSize
+    fileName
     mimeType
     url
   }

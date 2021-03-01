@@ -17,7 +17,7 @@
         </template>
         <template v-else>
           <div class="px-8">
-            <a :href="file.url" target="_blank">Dokument</a>
+            <a :href="file.url" target="_blank">{{ file.fileName }}</a>
           </div>
         </template>
         <div class="flex-grow flex justify-end py-4 px-4">

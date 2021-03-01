@@ -107,6 +107,7 @@ type AttachmentType = {
   url?: Maybe<Scalars["String"]>;
   mimeType?: Maybe<Scalars["String"]>;
   fileSize?: Maybe<Scalars["Int"]>;
+  fileName?: Maybe<Scalars["String"]>;
 };
 
 type SkillType = {
