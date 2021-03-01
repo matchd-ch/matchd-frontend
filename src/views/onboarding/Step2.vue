@@ -76,7 +76,7 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { UserWithProfileNode } from "api";
-import { ErrorMessage, Field, Form } from "vee-validate";
+import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -100,7 +100,7 @@ export default class Step2 extends Vue {
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
-    const maxYear = currentYear + 5;
+    const maxYear = currentYear + 10;
     const validYears = [];
     for (let i = currentYear; maxYear > i; i++) {
       validYears.push(i);
@@ -120,7 +120,10 @@ export default class Step2 extends Vue {
     return this.$store.getters["user"];
   }
 
-  async onSubmit(form: StudentProfileStep2Form) {
+  async onSubmit(
+    form: StudentProfileStep2Form,
+    actions: FormActions<Partial<StudentProfileStep2Form>>
+  ) {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP2, {
       ...form,
       graduation:
@@ -130,6 +133,8 @@ export default class Step2 extends Vue {
     });
     if (this.onboardingState.success) {
       this.$router.push({ name: "OnboardingStep3" });
+    } else if (this.onboardingState.errors) {
+      actions.setErrors(this.onboardingState.errors);
     }
   }
 }

@@ -221,7 +221,7 @@ export default class RegisterStudent extends Vue {
 
   async onSubmitStudentData(
     form: RegistrationStudentFormData,
-    actions: FormActions<RegistrationStudentFormData>
+    actions: FormActions<Partial<RegistrationStudentFormData>>
   ) {
     this.form = {
       ...this.form,

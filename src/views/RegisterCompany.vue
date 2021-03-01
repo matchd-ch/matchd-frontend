@@ -270,7 +270,7 @@ export default class RegisterCompany extends Vue {
 
   async onSubmitCompanyData(
     form: RegistrationCompanyFormData,
-    actions: FormActions<RegistrationCompanyFormData>
+    actions: FormActions<Partial<RegistrationCompanyFormData>>
   ) {
     this.form = {
       ...this.form,

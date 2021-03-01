@@ -1,6 +1,11 @@
 <template>
   <Form
-    v-if="skills.length > 0 && languages.length > 0 && languageLevels.length > 0"
+    v-if="
+      skills.length > 0 &&
+        languages.length > 0 &&
+        languageLevels.length > 0 &&
+        studentDocumentsUploadConfigurations
+    "
     @submit="onSubmit"
   >
     <GenericError v-if="onboardingState.errors">
@@ -85,6 +90,27 @@
         >{{ onlineProject.url }}</SelectPill
       >
     </SelectPillGroup>
+    <!-- Certificates Field -->
+    <MatchdFileBlock>
+      <template v-slot:label>Lade hier deine Zertifikate hoch</template>
+      <MatchdFileView
+        v-if="studentDocuments.length > 0 || studentDocumentsQueue.length > 0"
+        :files="studentDocuments"
+        :queuedFiles="studentDocumentsQueue"
+        class="mb-3"
+        :class="{
+          'mb-10': studentDocumentsUploadConfigurations.maxFiles <= studentDocuments.length,
+        }"
+        @deleteFile="onDeleteStudentDocument"
+      />
+      <MatchdFileUpload
+        v-if="studentDocumentsUploadConfigurations.maxFiles > studentDocuments.length"
+        :uploadConfiguration="studentDocumentsUploadConfigurations"
+        @selectFiles="onSelectStudentDocuments"
+        class="mb-10"
+        >Zertifikate auswählen</MatchdFileUpload
+      >
+    </MatchdFileBlock>
     <!-- Hobbies Field -->
     <MatchdField id="hobbies" class="mb-3" :class="{ 'mb-10': form.hobbies.length === 0 }">
       <template v-slot:label>Interessen & Hobbies</template>
@@ -142,10 +168,14 @@
 </template>
 
 <script lang="ts">
+import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
+import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
+import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
@@ -153,7 +183,8 @@ import LanguagePicker from "@/components/LanguagePicker.vue";
 import { isValidUrl } from "@/helpers/isValidUrl";
 import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { SkillType, UserWithProfileNode } from "api";
+import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { AttachmentType, SkillType, UserWithProfileNode } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -167,6 +198,9 @@ import { Options, Vue } from "vue-class-component";
     MatchdField,
     MatchdSelect,
     MatchdAutocomplete,
+    MatchdFileUpload,
+    MatchdFileView,
+    MatchdFileBlock,
     LanguagePicker,
     SelectPill,
     SelectPillGroup,
@@ -214,6 +248,29 @@ export default class Step4 extends Vue {
 
   get isValidOnlineProjectUrl() {
     return this.onlineProjectInput.length > 0 && isValidUrl(this.onlineProjectInput);
+  }
+
+  get studentDocumentsQueue() {
+    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentDocuments });
+  }
+
+  get studentDocuments() {
+    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments });
+  }
+
+  get studentDocumentsUploadConfigurations() {
+    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentDocuments });
+  }
+
+  async mounted() {
+    await Promise.all([
+      this.$store.dispatch(ActionTypes.ONBOARDING_STEP4_DATA),
+      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.StudentDocuments,
+      }),
+    ]);
   }
 
   onInputSkill() {
@@ -279,8 +336,18 @@ export default class Step4 extends Vue {
     this.form.hobbies = this.form.hobbies.filter(selectedHobby => selectedHobby.name !== hobby);
   }
 
-  async mounted() {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP4_DATA);
+  async onSelectStudentDocuments(files: FileList) {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+      key: AttachmentKey.StudentDocuments,
+      files,
+    });
+  }
+
+  async onDeleteStudentDocument(file: AttachmentType) {
+    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
+      key: AttachmentKey.StudentDocuments,
+      id: file.id,
+    });
   }
 
   async onSubmit() {

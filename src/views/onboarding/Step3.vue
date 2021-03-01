@@ -68,7 +68,7 @@
       <MatchdSelect
         v-if="modeIsDateRange"
         id="searchDateTo"
-        class="mb-10 ml-3 flex-grow"
+        class="mb-10 lg:ml-3 flex-grow"
         :errors="errors.jobToDateMonth || errors.jobToDateYear"
       >
         <template v-slot:label>Bis</template>
@@ -184,7 +184,7 @@ export default class Step3 extends Vue {
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
-    const maxYear = currentYear + 4;
+    const maxYear = currentYear + 10;
     const validYears = [];
     for (let i = currentYear; maxYear > i; i++) {
       validYears.push(i);
@@ -246,7 +246,10 @@ export default class Step3 extends Vue {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3_DATA);
   }
 
-  async onSubmit(form: StudentProfileStep3Form, actions: FormActions<StudentProfileStep3Form>) {
+  async onSubmit(
+    form: StudentProfileStep3Form,
+    actions: FormActions<Partial<StudentProfileStep3Form>>
+  ) {
     if (
       form.jobFromDateMonth &&
       form.jobFromDateYear &&
@@ -284,6 +287,14 @@ export default class Step3 extends Vue {
     });
     if (this.onboardingState.success) {
       this.$router.push({ name: "OnboardingStep4" });
+    } else if (this.onboardingState.errors) {
+      actions.setErrors(this.onboardingState.errors);
+      if (this.onboardingState.errors.jobFromDate) {
+        actions.setErrors({ jobFromDateMonth: "Ab darf nicht leer sein." });
+      }
+      if (this.onboardingState.errors.jobToDate) {
+        actions.setErrors({ jobToDateMonth: "Bis darf nicht leer sein." });
+      }
     }
   }
 }
