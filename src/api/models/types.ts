@@ -45,12 +45,25 @@ export type Scalars = {
    */
   ExpectedErrorType: any;
   /**
+   * Create scalar that ignores normal serialization/deserialization, since
+   * that will be handled by the multipart request spec
+   */
+  Upload: any;
+  /**
    * The `GenericScalar` scalar type represents a generic
    * GraphQL scalar value that could be:
    * String, Boolean, Int, Float, List or Object.
    */
   GenericScalar: any;
 };
+
+/** An enumeration. */
+export enum AttachmentKey {
+  StudentAvatar = "STUDENT_AVATAR",
+  StudentDocuments = "STUDENT_DOCUMENTS",
+  CompanyAvatar = "COMPANY_AVATAR",
+  CompanyDocuments = "COMPANY_DOCUMENTS",
+}
 
 /** An enumeration. */
 export enum JobOptionMode {

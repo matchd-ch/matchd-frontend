@@ -9,7 +9,7 @@ defineRule("required", required);
 defineRule("email", email);
 defineRule("regex", regex);
 
-defineRule("uid", value => {
+defineRule("uid", (value: string) => {
   if (!value.match(/^CHE-(\d{3}\.\d{3}\.\d{3})$/)) {
     return `Dieses Feld muss eine gültige UID-Nr. im Format CHE-123.456.789 enthalten.`;
   }
@@ -17,7 +17,7 @@ defineRule("uid", value => {
   return true;
 });
 
-defineRule("password-strengh", value => {
+defineRule("password-strengh", (value: string) => {
   if (!value.match(/^(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[a-zA-Z]).*$/)) {
     return `Das Passwort erfüllt die Kriterien nicht.`;
   }
@@ -25,7 +25,7 @@ defineRule("password-strengh", value => {
   return true;
 });
 
-defineRule("phone", (value, _, ctx) => {
+defineRule("phone", (value: string, _, ctx) => {
   if (!value) {
     return true;
   }
@@ -36,14 +36,14 @@ defineRule("phone", (value, _, ctx) => {
   return true;
 });
 
-defineRule("birthday", (value, fields, ctx) => {
+defineRule("birthday", (value: string, fields, ctx) => {
   const [day, month, year] = fields as string[];
 
   if (ctx.form[day] && ctx.form[month] && ctx.form[year]) {
     const date = DateTime.fromObject({
-      month: ctx.form[month],
-      day: ctx.form[day],
-      year: ctx.form[year],
+      month: ctx.form[month] as number,
+      day: ctx.form[day] as number,
+      year: ctx.form[year] as number,
     });
     if (date.isValid) {
       return true;

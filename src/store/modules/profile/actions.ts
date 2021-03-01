@@ -24,7 +24,6 @@ import studentProfileStep6Mutation from "@/api/mutations/studentProfileStep6.gql
 import studentProfileStep3DataQuery from "@/api/queries/studentProfileStep3Data.gql";
 import studentProfileStep4DataQuery from "@/api/queries/studentProfileStep4Data.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
-
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,

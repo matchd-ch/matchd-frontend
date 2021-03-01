@@ -1,14 +1,15 @@
 import { fetchCsrfToken } from "@/api/csrf-token";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/login/action-types";
-import { ApolloClient, from, fromPromise, HttpLink, InMemoryCache } from "@apollo/client/core";
+import { ApolloClient, from, fromPromise, InMemoryCache } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
+import { createUploadLink } from "apollo-upload-client";
 
 export function createApolloClient(baseUrl: string) {
   let csrfTokenPromise: Promise<string | undefined>;
 
-  const httpLink = new HttpLink({
+  const httpLink = createUploadLink({
     uri: `${baseUrl}/graphql/`,
     credentials: "include",
   });
