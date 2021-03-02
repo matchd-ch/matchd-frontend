@@ -1,18 +1,14 @@
 <template>
   <div>
-    <MatchdButton variant="outline" theme="neutral" class="block w-full" @click="onClickFindCompany"
+    <MatchdButton variant="outline" class="block w-full" @click="onClickFindCompany"
       >Unternehmen finden</MatchdButton
     >
-    <MatchdButton
-      variant="outline"
-      theme="neutral"
-      class="block w-full mt-5"
-      @click="onClickFindTraineePosition"
+    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickFindTraineePosition"
       >Stelle oder Thema für Projektarbeit finden</MatchdButton
     >
     <p class="mt-5 text-black text-center">
       Falls du noch Fragen hast,
-      <router-link :to="{ name: 'Home' }" class="text-green-1">schreib uns</router-link>
+      <router-link :to="{ name: 'Home' }" class="text-primary-1">schreib uns</router-link>
     </p>
   </div>
 </template>

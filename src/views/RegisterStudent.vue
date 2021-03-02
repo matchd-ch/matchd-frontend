@@ -2,14 +2,14 @@
   <div class="bg-grey-4">
     <div class="register-student grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5">
       <h1
-        class="text-display-xl-fluid text-green-1 col-span-full lg:fixed lg:transition-all lg:top-0"
+        class="text-display-xl-fluid text-primary-1 col-span-full lg:fixed lg:transition-all lg:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
         Registrierung
       </h1>
     </div>
     <div class=" px-4 lg:px-5">
-      <MatchdStep step="1" theme="green">
+      <MatchdStep step="1">
         <template v-slot:title
           >Besuchst du eine Schule oder Hochschule im Kanton St.Gallen?</template
         >
@@ -33,11 +33,10 @@
         v-if="isValidStudent === false"
         v-show="activeStep >= 2"
         step="2"
-        theme="green"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
         <template v-slot:title
-          >Bist du in der Region Ostschweiz auf der Suche nach einer Lehr- oder
+          >Bist du in der Region Ostschweiz auf der Suche nach einem Praktikum, einer Lehr- oder
           Arbeitsstelle?</template
         >
         <MatchdButton
@@ -55,7 +54,6 @@
       <MatchdStep
         v-show="activeStep >= 3"
         step="3"
-        theme="green"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
         <template v-slot:title>
@@ -119,7 +117,6 @@
             variant="outline"
             :disabled="studentRegistrationLoading"
             :loading="studentRegistrationLoading"
-            theme="green"
             >Registrieren</MatchdButton
           >
         </Form>
@@ -127,7 +124,6 @@
       <MatchdStep
         v-show="activeStep >= 3"
         step="4"
-        theme="green"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
@@ -200,11 +196,15 @@ export default class RegisterStudent extends Vue {
 
   mounted() {
     this.form.type = this.registration.urlToAccountTypeMapper(this.$route.path);
-    this.registration.mounted();
+    this.registration.mounted("theme-student");
   }
 
-  beforeDestroy() {
-    this.registration.beforeDestroy();
+  beforeUnmount() {
+    this.registration.beforeUnmount("theme-student");
+  }
+
+  unmounted() {
+    document.getElementById("app")?.classList.remove("theme-student");
   }
 
   onClickConfirmStudent(response: boolean) {

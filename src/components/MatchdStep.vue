@@ -2,7 +2,6 @@
   <div
     :id="`step-${step}`"
     class="step-wrapper grid grid-cols-8 lg:grid-cols-16 grid-rows-register gap-x-4 lg:gap-x-5 min-h-screen"
-    :class="`theme-${theme}`"
   >
     <div class="step-line-start"></div>
     <div
@@ -28,7 +27,6 @@
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
-  theme = prop<string>({ default: "green" });
   step = prop<string>({ default: "0" });
 }
 
@@ -41,6 +39,12 @@ export default class MatchdStep extends Vue.with(Props) {}
   &:first-child {
     & .step-line-start {
       @apply hidden;
+    }
+
+    & .step {
+      &::before {
+        @apply top-1/4;
+      }
     }
   }
 
@@ -72,6 +76,7 @@ export default class MatchdStep extends Vue.with(Props) {}
     @apply inline-flex justify-center items-center;
     @apply rounded-full;
     @apply text-white text-heading-xs;
+    @apply bg-primary-1;
 
     counter-increment: step;
     content: counter(step);
@@ -95,11 +100,13 @@ export default class MatchdStep extends Vue.with(Props) {}
 .step {
   margin-left: 58px;
   @apply relative;
+  @apply text-primary-1;
 
   &::before {
     content: "";
     @apply absolute;
     @apply top-0 bottom-0;
+    @apply bg-primary-1;
     width: 2px;
     left: -41px;
     @screen lg {
@@ -109,40 +116,6 @@ export default class MatchdStep extends Vue.with(Props) {}
 
   @screen lg {
     margin-left: 98px;
-  }
-}
-
-.theme-pink {
-  & .step {
-    &::before {
-      @apply bg-pink-1;
-    }
-  }
-  & .step-heading,
-  & .step-line-start,
-  & .step-line-end {
-    @apply text-pink-1;
-
-    &::before {
-      @apply bg-pink-1;
-    }
-  }
-}
-
-.theme-green {
-  & .step {
-    &::before {
-      @apply bg-green-1;
-    }
-  }
-  & .step-heading,
-  & .step-line-start,
-  & .step-line-end {
-    @apply text-green-1;
-
-    &::before {
-      @apply bg-green-1;
-    }
   }
 }
 </style>

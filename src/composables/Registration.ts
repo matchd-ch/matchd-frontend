@@ -27,13 +27,15 @@ export function useRegistration() {
     router.replace({ hash: `#step-${stepNumber}` });
   }
 
-  function mounted() {
+  function mounted(className: string) {
     onScroll(); // trigger on mount to assure proper title position
     window.addEventListener("scroll", onScroll);
+    document.getElementById("app")?.classList.add(className);
   }
 
-  function beforeDestroy() {
+  function beforeUnmount(className: string) {
     window.removeEventListener("scroll", onScroll);
+    document.getElementById("app")?.classList.remove(className);
   }
 
   function urlToAccountTypeMapper(path: string): AccountType {
@@ -52,7 +54,7 @@ export function useRegistration() {
     attached,
     passwordFieldType,
     mounted,
-    beforeDestroy,
+    beforeUnmount,
     urlToAccountTypeMapper,
     scrollToStep,
     onClickNo,
