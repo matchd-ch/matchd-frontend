@@ -122,7 +122,7 @@
         </Form>
       </MatchdStep>
       <MatchdStep
-        v-show="activeStep >= 3"
+        v-show="activeStep >= 4"
         step="4"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
