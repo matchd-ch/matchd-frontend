@@ -187,7 +187,7 @@ export default class StudentStep1 extends Vue {
   }
 
   async onSubmit(form: StudentProfileStep1Form) {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP1, {
+    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP1, {
       ...form,
       dateOfBirth: `${form.day}.${form.month}.${form.year}`,
     });

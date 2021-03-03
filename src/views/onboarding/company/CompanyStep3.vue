@@ -7,100 +7,6 @@
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <SelectPillGroup :errors="errors.jobOptionId" class="mb-10">
-      <template v-slot:label>Ich suche nach*</template>
-      <template v-slot:field>
-        <Field
-          id="jobOptionId"
-          name="jobOptionId"
-          as="input"
-          label="Ich suche nach"
-          type="hidden"
-          v-model="form.jobOptionId"
-          rules="required"
-        />
-      </template>
-      <SelectPill
-        name="jobOptionPill"
-        v-for="option in jobOptions"
-        :key="option.id"
-        :value="option.id"
-        :checked="option.id === form.jobOptionId"
-        @change="form.jobOptionId = $event"
-        >{{ option.name }}</SelectPill
-      >
-    </SelectPillGroup>
-    <div class="lg:flex">
-      <MatchdSelect
-        id="searchDateFrom"
-        class="mb-10 flex-grow"
-        :errors="errors.jobFromDateMonth || errors.jobFromDateYear"
-      >
-        <template v-slot:label>Ab</template>
-        <fieldset id="searchDateFrom" class="flex">
-          <Field
-            id="jobFromDateMonth"
-            name="jobFromDateMonth"
-            as="select"
-            label="Monat"
-            class="mr-3"
-            :rules="form.jobFromDateYear !== '' ? 'required' : ''"
-            v-model="form.jobFromDateMonth"
-          >
-            <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">{{
-              String(n).padStart(2, "0")
-            }}</option>
-          </Field>
-          <Field
-            id="jobFromDateYear"
-            name="jobFromDateYear"
-            as="select"
-            label="Jahr"
-            v-model="form.jobFromDateYear"
-            :rules="form.jobFromDateMonth !== '' ? 'required' : ''"
-          >
-            <option value="" disabled selected hidden>Jahr</option>
-            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
-          </Field>
-        </fieldset>
-      </MatchdSelect>
-      <MatchdSelect
-        v-if="modeIsDateRange"
-        id="searchDateTo"
-        class="mb-10 lg:ml-3 flex-grow"
-        :errors="errors.jobToDateMonth || errors.jobToDateYear"
-      >
-        <template v-slot:label>Bis</template>
-        <fieldset id="searchDateTo" class="flex">
-          <Field
-            id="jobToDateMonth"
-            name="jobToDateMonth"
-            as="select"
-            label="Monat"
-            class="mr-3"
-            :rules="form.jobToDateYear !== '' ? 'required' : ''"
-            v-model="form.jobToDateMonth"
-          >
-            <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">{{
-              String(n).padStart(2, "0")
-            }}</option>
-          </Field>
-          <Field
-            id="jobToDateYear"
-            name="jobToDateYear"
-            as="select"
-            label="Jahr"
-            :rules="form.jobToDateMonth !== '' ? 'required' : ''"
-            v-model="form.jobToDateYear"
-          >
-            <option value="" disabled selected hidden>Jahr</option>
-            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
-          </Field>
-        </fieldset>
-      </MatchdSelect>
-    </div>
     <MatchdAutocomplete
       id="jobPosition"
       class="mb-3"
@@ -242,7 +148,7 @@ export default class CompanyStep3 extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3_DATA);
+    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP3_DATA);
   }
 
   async onSubmit(
@@ -271,7 +177,7 @@ export default class CompanyStep3 extends Vue {
       }
     }
 
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3, {
+    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP3, {
       ...form,
       jobOption: { id: form.jobOptionId },
       jobPosition: this.form.jobPositionId ? { id: this.form.jobPositionId } : null,

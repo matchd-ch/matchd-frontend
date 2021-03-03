@@ -61,6 +61,7 @@ type Query = {
   __typename?: "Query";
   uploadConfigurations?: Maybe<Array<Maybe<UploadConfiguration>>>;
   attachments?: Maybe<Array<Maybe<AttachmentType>>>;
+  benefits?: Maybe<Array<Maybe<BenefitType>>>;
   skills?: Maybe<Array<Maybe<SkillType>>>;
   jobPositions?: Maybe<Array<Maybe<JobPositionType>>>;
   jobOptions?: Maybe<Array<Maybe<JobOptionType>>>;
@@ -108,6 +109,12 @@ type AttachmentType = {
   mimeType?: Maybe<Scalars["String"]>;
   fileSize?: Maybe<Scalars["Int"]>;
   fileName?: Maybe<Scalars["String"]>;
+};
+
+type BenefitType = {
+  __typename?: "BenefitType";
+  id: Scalars["ID"];
+  icon: Scalars["String"];
 };
 
 type SkillType = {
@@ -167,6 +174,7 @@ type UserWithProfileNode = Node & {
   type: UserType;
   firstName: Scalars["String"];
   lastName: Scalars["String"];
+  company?: Maybe<Company>;
   state: UserState;
   profileStep: Scalars["Int"];
   student?: Maybe<Student>;
@@ -195,6 +203,22 @@ enum UserType {
   /** Other */
   Other = "OTHER",
 }
+
+type Company = {
+  __typename?: "Company";
+  uid: Scalars["String"];
+  name: Scalars["String"];
+  zip: Scalars["String"];
+  city: Scalars["String"];
+  street: Scalars["String"];
+  phone: Scalars["String"];
+  website: Scalars["String"];
+  description: Scalars["String"];
+  services: Scalars["String"];
+  memberItStGallen: Scalars["Boolean"];
+  benefits: Array<BenefitType>;
+  jobPositions: Array<JobPositionType>;
+};
 
 /** An enumeration. */
 enum UserState {
@@ -247,6 +271,12 @@ type Mutation = {
   __typename?: "Mutation";
   deleteAttachment?: Maybe<DeleteAttachment>;
   upload?: Maybe<UserUpload>;
+  /** Updates the profile of a Company */
+  companyProfileStep1?: Maybe<CompanyProfileStep1>;
+  /** Updates website url, branch, description, services, member IT St.Gallen */
+  companyProfileStep2?: Maybe<CompanyProfileStep2>;
+  /** Updates the Company Profile with benefits and Job Positions */
+  companyProfileStep3?: Maybe<CompanyProfileStep3>;
   /** Updates the profile of a student */
   studentProfileStep1?: Maybe<StudentProfileStep1>;
   /** Updates school name, field of study and graduation */
@@ -324,6 +354,18 @@ type MutationDeleteAttachmentArgs = {
 type MutationUploadArgs = {
   file: Scalars["Upload"];
   key: AttachmentKey;
+};
+
+type MutationCompanyProfileStep1Args = {
+  step1: CompanyProfileInputStep1;
+};
+
+type MutationCompanyProfileStep2Args = {
+  step2: CompanyProfileInputStep2;
+};
+
+type MutationCompanyProfileStep3Args = {
+  step3: CompanyProfileInputStep3;
 };
 
 type MutationStudentProfileStep1Args = {
@@ -417,6 +459,81 @@ type UserUpload = {
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };
 
+/** Updates the profile of a Company */
+type CompanyProfileStep1 = {
+  __typename?: "CompanyProfileStep1";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type CompanyProfileInputStep1 = {
+  /** First name */
+  firstName: Scalars["String"];
+  /** Last name */
+  lastName: Scalars["String"];
+  /** Name */
+  name?: Maybe<Scalars["String"]>;
+  /** Street */
+  street: Scalars["String"];
+  /** Zip */
+  zip: Scalars["String"];
+  /** City */
+  city: Scalars["String"];
+  /** Phone Number */
+  phone?: Maybe<Scalars["String"]>;
+  /** role */
+  role: Scalars["String"];
+};
+
+/** Updates website url, branch, description, services, member IT St.Gallen */
+type CompanyProfileStep2 = {
+  __typename?: "CompanyProfileStep2";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type CompanyProfileInputStep2 = {
+  /** website */
+  website: Scalars["String"];
+  /** branch */
+  branch?: Maybe<BranchInputType>;
+  /** description */
+  description?: Maybe<Scalars["String"]>;
+  /** services */
+  services?: Maybe<Scalars["String"]>;
+  /** memeber IT St. Gallen */
+  memberItStGallen: Scalars["Boolean"];
+};
+
+type BranchInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+/** Updates the Company Profile with benefits and Job Positions */
+type CompanyProfileStep3 = {
+  __typename?: "CompanyProfileStep3";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type CompanyProfileInputStep3 = {
+  /** Job Position */
+  jobPosition?: Maybe<Array<Maybe<JobPositionInputType>>>;
+  /** Benefits */
+  benefits?: Maybe<Array<Maybe<BenefitInputType>>>;
+};
+
+type JobPositionInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+type BenefitInputType = {
+  id: Scalars["ID"];
+  icon?: Maybe<Scalars["String"]>;
+};
+
 /** Updates the profile of a student */
 type StudentProfileStep1 = {
   __typename?: "StudentProfileStep1";
@@ -475,11 +592,6 @@ type JobOptionInputType = {
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   mode?: Maybe<Scalars["String"]>;
-};
-
-type JobPositionInputType = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
 };
 
 /** Updates the profile of a student */
@@ -580,6 +692,7 @@ type UserNode = Node & {
   type: UserType;
   firstName: Scalars["String"];
   lastName: Scalars["String"];
+  company?: Maybe<Company>;
   state: UserState;
   profileStep: Scalars["Int"];
   student?: Maybe<Student>;

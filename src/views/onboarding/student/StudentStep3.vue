@@ -242,7 +242,7 @@ export default class StudentStep3 extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3_DATA);
+    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP3_DATA);
   }
 
   async onSubmit(
@@ -271,7 +271,7 @@ export default class StudentStep3 extends Vue {
       }
     }
 
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3, {
+    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP3, {
       ...form,
       jobOption: { id: form.jobOptionId },
       jobPosition: this.form.jobPositionId ? { id: this.form.jobPositionId } : null,

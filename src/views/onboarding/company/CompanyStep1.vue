@@ -3,102 +3,81 @@
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
+    <MatchdField id="name" class="mb-10" :errors="errors.name">
+      <template v-slot:label>Vollständiger Name der Unternehmung*</template>
+      <Field
+        id="name"
+        name="name"
+        as="input"
+        label="Vollständiger Name der Unternehmung"
+        rules="required"
+        v-model="form.name"
+      />
+    </MatchdField>
+    <div class="lg:flex">
+      <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="errors.zip">
+        <template v-slot:label>PLZ</template>
+        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip" v-model="form.zip" />
+      </MatchdField>
+      <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="errors.city">
+        <template v-slot:label>Ort</template>
+        <Field id="city" name="city" as="input" label="Ort" v-model="form.city" />
+      </MatchdField>
+    </div>
+    <MatchdField id="street" class="mb-10" :errors="errors.street">
+      <template v-slot:label>Adresse*</template>
+      <Field
+        id="street"
+        name="street"
+        as="input"
+        label="Adresse"
+        v-model="form.street"
+        rules="required"
+      />
+    </MatchdField>
     <MatchdField id="firstName" class="mb-10" :errors="errors.firstName">
-      <template v-slot:label>Dein Vorname*</template>
+      <template v-slot:label>Vorname*</template>
       <Field
         id="firstName"
         name="firstName"
         as="input"
-        type="firstName"
         label="Vorname"
         rules="required"
         v-model="form.firstName"
       />
     </MatchdField>
     <MatchdField id="lastName" class="mb-10" :errors="errors.lastName">
-      <template v-slot:label>Dein Nachname*</template>
+      <template v-slot:label>Nachname*</template>
       <Field
         id="lastName"
         name="lastName"
         as="input"
-        type="lastName"
         label="Nachname"
         rules="required"
         v-model="form.lastName"
       />
     </MatchdField>
-    <MatchdSelect id="birthdate" class="mb-10" :errors="errors.year">
-      <template v-slot:label>Dein Geburtstag*</template>
-      <fieldset id="birthdate" class="flex">
-        <Field
-          id="day"
-          name="day"
-          as="select"
-          label="Tag"
-          class="mr-3"
-          rules="required"
-          v-model="form.day"
-        >
-          <option value="" disabled selected hidden>Tag</option>
-          <option v-for="(n, index) in 31" :value="n" :key="index">{{
-            String(n).padStart(2, "0")
-          }}</option>
-        </Field>
-        <Field
-          id="month"
-          name="month"
-          as="select"
-          label="Monat"
-          class="mr-3"
-          rules="required"
-          v-model="form.month"
-        >
-          <option value="" disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :value="n" :key="index">{{
-            String(n).padStart(2, "0")
-          }}</option>
-        </Field>
-        <Field
-          id="year"
-          name="year"
-          as="select"
-          label="Jahr"
-          rules="birthday:day,month,year"
-          v-model="form.year"
-        >
-          <option value="" disabled selected hidden>Jahr</option>
-          <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
-        </Field>
-      </fieldset>
-    </MatchdSelect>
-    <div class="lg:flex">
-      <MatchdField id="zip" class="lg:mr-3 mb-3 lg:w-40" :errors="errors.zip">
-        <template v-slot:label>PLZ</template>
-        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip" v-model="form.zip" />
-      </MatchdField>
-      <MatchdField id="city" class="mb-3 lg:flex-grow" :errors="errors.city">
-        <template v-slot:label>Ort</template>
-        <Field id="city" name="city" as="input" label="Ort" v-model="form.city" />
-      </MatchdField>
-    </div>
-    <MatchdField id="street" class="mb-3" :errors="errors.street">
-      <template v-slot:label>Adresse</template>
-      <Field id="street" name="street" as="input" label="Adresse" v-model="form.street" />
+    <MatchdField id="role" class="mb-10" :errors="errors.role">
+      <template v-slot:label>Funktion*</template>
+      <Field
+        id="role"
+        name="role"
+        as="input"
+        label="Funktion"
+        rules="required"
+        v-model="form.role"
+      />
     </MatchdField>
-    <MatchdField id="mobile" class="mb-10" :errors="errors.mobile">
-      <template v-slot:label>Deine Mobile-Nummer</template>
+    <MatchdField id="mobile" class="mb-10" :errors="errors.phone">
+      <template v-slot:label>Telefonnummer</template>
       <Field
         id="mobile"
-        name="mobile"
+        name="phone"
         as="input"
-        label="Mobile-Nummer"
-        rules="phone"
-        v-model="form.mobile"
+        label="Telefonnummer"
+        rules="required|phone"
+        v-model="form.phone"
       />
-      <template v-slot:info
-        >Wir teilen deine Mobile-Nummer nur mit Firmen, für welche du dich ebenfalls
-        interessierst.</template
-      >
     </MatchdField>
     <MatchdButton
       variant="outline"
@@ -114,8 +93,7 @@
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
-import { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
+import { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { UserWithProfileNode } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
@@ -129,32 +107,19 @@ import { Options, Vue } from "vue-class-component";
     GenericError,
     MatchdButton,
     MatchdField,
-    MatchdSelect,
   },
 })
 export default class CompanyStep1 extends Vue {
-  form: StudentProfileStep1Form = {
-    firstName: "",
-    lastName: "",
+  form: CompanyProfileStep1Form = {
+    name: "",
     zip: "",
     city: "",
-    mobile: "",
     street: "",
-    day: "",
-    month: "",
-    year: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+    phone: "",
   };
-
-  get validYears(): number[] {
-    const currentYear = new Date().getFullYear();
-    const minAge = 13;
-    const maxAge = 40;
-    const validYears = [];
-    for (let i = currentYear - minAge; currentYear - maxAge <= i; i--) {
-      validYears.push(i);
-    }
-    return validYears;
-  }
 
   get onboardingLoading() {
     return this.$store.getters["onboardingLoading"];
@@ -173,6 +138,10 @@ export default class CompanyStep1 extends Vue {
     if (this.user) {
       this.form = {
         ...this.form,
+        name: this.user.company?.name || "",
+        zip: this.user.company?.zip || "",
+        city: this.user.company?.city || "",
+        street: this.user.company?.street || "",
         firstName: this.user.firstName,
         lastName: this.user.lastName,
       };
@@ -186,11 +155,8 @@ export default class CompanyStep1 extends Vue {
     }
   }
 
-  async onSubmit(form: StudentProfileStep1Form) {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP1, {
-      ...form,
-      dateOfBirth: `${form.day}.${form.month}.${form.year}`,
-    });
+  async onSubmit(form: CompanyProfileStep1Form) {
+    await this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP1, form);
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt2" } });
     }

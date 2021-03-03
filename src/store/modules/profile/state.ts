@@ -1,5 +1,6 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
 import {
+  BenefitType,
   JobOptionType,
   JobPositionType,
   LanguageType,
@@ -26,6 +27,10 @@ export type State = {
   jobPositions: {
     loading: boolean;
     data: JobPositionType[];
+  };
+  benefits: {
+    loading: boolean;
+    data: BenefitType[];
   };
   skills: {
     loading: boolean;
@@ -54,6 +59,10 @@ export const state: State = {
     data: [],
   },
   jobPositions: {
+    loading: false,
+    data: [],
+  },
+  benefits: {
     loading: false,
     data: [],
   },

@@ -98,7 +98,7 @@ export default class StudentStep6 extends Vue {
   }
 
   async onSubmit() {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP6, this.form);
+    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP6, this.form);
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "finish" } });
     }

@@ -123,7 +123,7 @@ export default class StudentStep2 extends Vue {
     form: StudentProfileStep2Form,
     actions: FormActions<Partial<StudentProfileStep2Form>>
   ) {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP2, {
+    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP2, {
       ...form,
       graduation:
         form.graduationMonth && form.graduationYear

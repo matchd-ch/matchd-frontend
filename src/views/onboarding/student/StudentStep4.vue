@@ -263,7 +263,7 @@ export default class StudentStep4 extends Vue {
 
   async mounted() {
     await Promise.all([
-      this.$store.dispatch(ActionTypes.ONBOARDING_STEP4_DATA),
+      this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP4_DATA),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
@@ -360,7 +360,7 @@ export default class StudentStep4 extends Vue {
     }
 
     if (this.form.skills.length > 0 && this.form.languages.length > 0) {
-      await this.$store.dispatch(ActionTypes.ONBOARDING_STEP4, {
+      await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP4, {
         skills: this.form.skills.map(skill => {
           return { id: skill.id };
         }),

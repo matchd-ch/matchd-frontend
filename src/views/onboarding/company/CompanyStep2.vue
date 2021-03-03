@@ -3,60 +3,66 @@
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <MatchdField id="schoolName" class="mb-10" :errors="errors.schoolName">
-      <template v-slot:label>Aktuelle Schule / Hochschule</template>
+    <!-- Website Field -->
+    <MatchdField id="website" class="mb-10" :errors="errors.website">
+      <template v-slot:label>Website</template>
       <Field
-        id="schoolName"
-        name="schoolName"
+        id="website"
+        name="website"
         as="input"
-        label="Aktuelle Schule / Hochschule"
-        v-model="form.schoolName"
+        label="Website"
+        v-model="form.website"
+        rules="required"
       />
     </MatchdField>
-    <MatchdField id="fieldOfStudy" class="mb-10" :errors="errors.fieldOfStudy">
-      <template v-slot:label>Fachrichtung</template>
+    <!-- Description Field -->
+    <MatchdField id="description" class="mb-10">
+      <template v-slot:label>Kurzbeschreibung unserer Unternehmung</template>
       <Field
-        id="fieldOfStudy"
-        name="fieldOfStudy"
+        id="description"
+        name="description"
+        as="textarea"
+        maxlength="1000"
+        label="Das zeichnet mich sonst noch aus"
+        v-model="form.description"
+        class="h-72"
+      />
+      <template v-slot:info>Maximal 1000 Zeichen</template>
+    </MatchdField>
+    <!-- Logo -->
+    <MatchdFileBlock>
+      <template v-slot:label>Logo</template>
+      <MatchdFileView
+        v-if="companyAvatar.length > 0 || companyAvatarQueue.length > 0"
+        :files="companyAvatar"
+        :queuedFiles="companyAvatarQueue"
+        @deleteFile="onDeleteCompanyAvatar"
+        class="mb-3"
+      />
+      <MatchdFileUpload
+        v-if="companyAvatar.length === 0"
+        :uploadConfiguration="companyAvatarUploadConfigurations"
+        @selectFiles="onSelectCompanyAvatar"
+        class="mb-10"
+        >Logo auswählen</MatchdFileUpload
+      >
+    </MatchdFileBlock>
+    <!-- Products & Services Field -->
+    <MatchdField id="services" class="mb-10" :errors="errors.services">
+      <template v-slot:label>Unsere Produkte und Services</template>
+      <Field id="services" name="services" as="input" label="Services" v-model="form.services" />
+    </MatchdField>
+    <!-- ITrockt Field -->
+    <MatchdField id="memberItStGallen" class="mb-10" :errors="errors.memberItStGallen">
+      <template v-slot:label>Wir sind Mitglied im Verein IT St.Gallen "IT rockt!"</template>
+      <Field
+        id="memberItStGallen"
+        name="memberItStGallen"
         as="input"
-        label="Fachrichtung"
-        v-model="form.fieldOfStudy"
+        label="MemberItStGallen"
+        v-model="form.memberItStGallen"
       />
     </MatchdField>
-    <MatchdSelect
-      id="graduation"
-      class="mb-10 mr-3 flex-grow"
-      :errors="errors.graduationMonth || errors.graduationYear"
-    >
-      <template v-slot:label>Voraussichtliches Abschlussjahr</template>
-      <fieldset id="graduation" class="flex">
-        <Field
-          id="graduationMonth"
-          name="graduationMonth"
-          as="select"
-          label="Monat"
-          class="mr-3"
-          :rules="form.graduationYear !== '' ? 'required' : ''"
-          v-model="form.graduationMonth"
-        >
-          <option value="" disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :value="n" :key="index">{{
-            String(n).padStart(2, "0")
-          }}</option>
-        </Field>
-        <Field
-          id="graduationYear"
-          name="graduationYear"
-          as="select"
-          label="Jahr"
-          :rules="form.graduationMonth !== '' ? 'required' : ''"
-          v-model="form.graduationYear"
-        >
-          <option value="" disabled selected hidden>Jahr</option>
-          <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
-        </Field>
-      </fieldset>
-    </MatchdSelect>
     <MatchdButton
       variant="outline"
       :disabled="onboardingLoading"
@@ -68,13 +74,18 @@
 </template>
 
 <script lang="ts">
+import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
+import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
+import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
-import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
+import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { UserWithProfileNode } from "api";
+import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { AttachmentType, UserWithProfileNode } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -87,25 +98,19 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
     MatchdField,
     MatchdSelect,
+    MatchdFileBlock,
+    MatchdFileView,
+    MatchdFileUpload,
   },
 })
 export default class CompanyStep2 extends Vue {
-  form: StudentProfileStep2Form = {
-    schoolName: "",
-    fieldOfStudy: "",
-    graduationMonth: "",
-    graduationYear: "",
+  form: CompanyProfileStep2Form = {
+    website: "",
+    description: "",
+    services: "",
+    branch: "",
+    memberItStGallen: false,
   };
-
-  get validYears(): number[] {
-    const currentYear = new Date().getFullYear();
-    const maxYear = currentYear + 10;
-    const validYears = [];
-    for (let i = currentYear; maxYear > i; i++) {
-      validYears.push(i);
-    }
-    return validYears;
-  }
 
   get onboardingLoading() {
     return this.$store.getters["onboardingLoading"];
@@ -119,16 +124,48 @@ export default class CompanyStep2 extends Vue {
     return this.$store.getters["user"];
   }
 
+  get companyAvatarQueue() {
+    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar });
+  }
+
+  get companyAvatar() {
+    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
+  }
+
+  get companyAvatarUploadConfigurations() {
+    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar });
+  }
+
+  async mounted() {
+    await Promise.all([
+      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
+    ]);
+  }
+
+  async onSelectCompanyAvatar(files: FileList) {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+      key: AttachmentKey.CompanyAvatar,
+      files,
+    });
+  }
+
+  async onDeleteCompanyAvatar(file: AttachmentType) {
+    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
+      key: AttachmentKey.CompanyAvatar,
+      id: file.id,
+    });
+  }
+
   async onSubmit(
-    form: StudentProfileStep2Form,
-    actions: FormActions<Partial<StudentProfileStep2Form>>
+    form: CompanyProfileStep2Form,
+    actions: FormActions<Partial<CompanyProfileStep2Form>>
   ) {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP2, {
+    await this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP2, {
       ...form,
-      graduation:
-        form.graduationMonth && form.graduationYear
-          ? `${form.graduationMonth}.${form.graduationYear}`
-          : null,
+      branch: {
+        id: "1", // todo
+      },
     });
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt3" } });

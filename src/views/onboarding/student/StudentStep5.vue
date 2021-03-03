@@ -151,7 +151,7 @@ export default class StudentStep5 extends Vue {
     form: StudentProfileStep5Form,
     actions: FormActions<Partial<StudentProfileStep5Form>>
   ) {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP5, form);
+    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP5, form);
     if (this.onboardingState?.errors?.nickname[0] === "unique") {
       actions.setErrors({
         nickname: "Dieser Nickname ist bereits vergeben.",
