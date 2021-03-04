@@ -1,6 +1,6 @@
 <template>
-  <div class="matchd-select" :class="{ 'matchd-select-invalid': errors }">
-    <label :for="id" class="label"><slot name="label"/></label>
+  <div class="matchd-select" :class="{ 'matchd-select--invalid': errors }">
+    <label :for="id" class="matchd-select__label"><slot name="label"/></label>
     <div class="form-element">
       <slot />
     </div>
@@ -32,19 +32,19 @@ export default class MatchdSelect extends Vue.with(Props) {}
 </script>
 
 <style lang="postcss" scoped>
-.matchd-select {
-  &.matchd-select-invalid {
+@block matchd-select {
+  @modifier invalid {
     & select {
       @apply border-negative text-negative placeholder-negative;
     }
   }
 
-  & .label {
+  @element label {
     @apply block px-8 mb-2;
     @apply font-medium;
   }
 
-  & select {
+  & :deep(select) {
     @apply block w-full bg-white rounded-30 px-8 py-4;
     @apply border border-white focus:border-black;
     @apply text-lg placeholder-black placeholder-opacity-100;

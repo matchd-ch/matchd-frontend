@@ -67,7 +67,7 @@ export default class MatchdAutocomplete extends Vue.with(Props) {}
 
       &:hover,
       &:focus {
-        @apply bg-green-1 text-white;
+        @apply bg-primary-1 text-white;
       }
     }
   }

@@ -26,7 +26,7 @@ export default class RegisterTile extends Vue.with(Props) {}
 <style lang="postcss" scoped>
 .register-tile {
   @apply flex items-center;
-  @apply text-2xl text-white underline;
+  @apply text-link-md text-white underline;
   @apply p-10 xl:p-14;
   @apply shadow-white outline-none;
 
