@@ -11,7 +11,7 @@
       <div
         class="hidden row-start-1 xl:col-start-3 xl:flex justify-center items-center text-white text-center text-3xl shadow-white p-10 xl:p-14"
       >
-        The Talent Factory
+        Tech meets Talents
       </div>
       <div class="xl:hidden bg-matchd-gradient-t-b row-start-2 row-span-6 col-start-1"></div>
       <div class="hidden xl:flex justify-center items-center shadow-white">
@@ -23,28 +23,26 @@
       >
         Als Schüler*in / Lernender registrieren
       </RegisterTile>
+      <div
+        class="row-start-3 col-start-1 xl:col-start-2 xl:row-start-3 shadow-white hidden xl:block"
+      ></div>
       <RegisterTile
-        class="row-start-3 col-start-1 xl:col-start-2 xl:row-start-3"
-        :to="{ path: '/registrierung/berufseinsteiger*in' }"
-        >Als Berufseinsteiger*in registrieren</RegisterTile
-      >
-      <RegisterTile
-        class="row-start-4 col-start-1 xl:col-start-1 xl:row-start-3"
+        class="row-start-3 col-start-1 xl:col-start-1 xl:row-start-3"
         :to="{ path: '/registrierung/student*in' }"
         >Als Student*in FH/Uni registrieren</RegisterTile
       >
       <RegisterTile
-        class="row-start-5 col-start-1 xl:col-start-3 xl:row-start-2"
+        class="row-start-4 col-start-1 xl:col-start-3 xl:row-start-2"
         :to="{ path: '/registrierung/unternehmung' }"
         >Als Unternehmung registrieren</RegisterTile
       >
       <RegisterTile
-        class="row-start-6 col-start-1 xl:col-start-3 xl:row-start-3"
+        class="row-start-5 col-start-1 xl:col-start-3 xl:row-start-3"
         :to="{ path: '/registrierung/bildungsinstitution' }"
         >Als Bildungsinstitution registrieren</RegisterTile
       >
       <RegisterTile
-        class="row-start-7 col-start-1 xl:col-start-4 xl:row-start-3"
+        class="row-start-6 col-start-1 xl:col-start-4 xl:row-start-3"
         :to="{ path: 'registrierung', hash: '#nichts-passendes-gefunden' }"
         >Nichts Passendes gefunden?</RegisterTile
       >

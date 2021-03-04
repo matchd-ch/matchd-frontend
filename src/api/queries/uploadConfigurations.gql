@@ -1,0 +1,10 @@
+query {
+  uploadConfigurations {
+    key
+    contentTypesConfiguration {
+      contentTypes
+      maxSize
+    }
+    maxFiles
+  }
+}

@@ -1,5 +1,8 @@
 <template>
   <Form @submit="onSubmit" v-slot="{ errors }">
+    <GenericError v-if="onboardingState.errors">
+      Beim Speichern ist etwas schief gelaufen.
+    </GenericError>
     <MatchdField id="schoolName" class="mb-10" :errors="errors.schoolName">
       <template v-slot:label>Aktuelle Schule / Hochschule</template>
       <Field
@@ -58,7 +61,6 @@
       variant="outline"
       :disabled="onboardingLoading"
       :loading="onboardingLoading"
-      theme="neutral"
       class="block w-full"
       >Speichern und weiter</MatchdButton
     >
@@ -66,13 +68,14 @@
 </template>
 
 <script lang="ts">
+import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { UserWithProfileNode } from "api";
-import { ErrorMessage, Field, Form } from "vee-validate";
+import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -80,6 +83,7 @@ import { Options, Vue } from "vue-class-component";
     Form,
     Field,
     ErrorMessage,
+    GenericError,
     MatchdButton,
     MatchdField,
     MatchdSelect,
@@ -95,7 +99,7 @@ export default class Step2 extends Vue {
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
-    const maxYear = currentYear + 5;
+    const maxYear = currentYear + 10;
     const validYears = [];
     for (let i = currentYear; maxYear > i; i++) {
       validYears.push(i);
@@ -115,7 +119,10 @@ export default class Step2 extends Vue {
     return this.$store.getters["user"];
   }
 
-  async onSubmit(form: StudentProfileStep2Form) {
+  async onSubmit(
+    form: StudentProfileStep2Form,
+    actions: FormActions<Partial<StudentProfileStep2Form>>
+  ) {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP2, {
       ...form,
       graduation:
@@ -123,7 +130,11 @@ export default class Step2 extends Vue {
           ? `${form.graduationMonth}.${form.graduationYear}`
           : null,
     });
-    this.$router.push({ name: "OnboardingStep3" });
+    if (this.onboardingState.success) {
+      this.$router.push({ name: "OnboardingStep3" });
+    } else if (this.onboardingState.errors) {
+      actions.setErrors(this.onboardingState.errors);
+    }
   }
 }
 </script>

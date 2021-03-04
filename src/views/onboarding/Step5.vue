@@ -1,5 +1,8 @@
 <template>
-  <Form @submit="onSubmit" v-slot="{ errors }">
+  <Form v-if="studentAvatarUploadConfigurations" @submit="onSubmit" v-slot="{ errors }">
+    <GenericError v-if="onboardingState.errors">
+      Beim Speichern ist etwas schief gelaufen.
+    </GenericError>
     <MatchdField id="nickname" class="mb-10" :errors="errors.nickname">
       <template v-slot:label>Dein Nickname*</template>
       <Field
@@ -24,11 +27,27 @@
           /></div
       ></template>
     </MatchdField>
+    <MatchdFileBlock>
+      <template v-slot:label>Foto</template>
+      <MatchdFileView
+        v-if="studentAvatar.length > 0 || studentAvatarQueue.length > 0"
+        :files="studentAvatar"
+        :queuedFiles="studentAvatarQueue"
+        @deleteFile="onDeleteStudentAvatar"
+        class="mb-3"
+      />
+      <MatchdFileUpload
+        v-if="studentAvatar.length === 0"
+        :uploadConfiguration="studentAvatarUploadConfigurations"
+        @selectFiles="onSelectStudentAvatar"
+        class="mb-10"
+        >Bild auswählen</MatchdFileUpload
+      >
+    </MatchdFileBlock>
     <MatchdButton
       variant="outline"
       :disabled="onboardingLoading"
       :loading="onboardingLoading"
-      theme="neutral"
       class="block w-full"
       >Speichern und weiter</MatchdButton
     >
@@ -36,13 +55,19 @@
 </template>
 
 <script lang="ts">
+import { AttachmentKey } from "@/api/models/types";
+import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
+import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
+import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { UserWithProfileNode } from "api";
+import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { AttachmentType, UserWithProfileNode } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -51,13 +76,17 @@ import { Options, Vue } from "vue-class-component";
     Form,
     Field,
     ErrorMessage,
+    GenericError,
     MatchdButton,
     MatchdField,
     MatchdSelect,
+    MatchdFileUpload,
+    MatchdFileView,
+    MatchdFileBlock,
     NicknameSuggestions,
   },
 })
-export default class Step1 extends Vue {
+export default class Step5 extends Vue {
   form: StudentProfileStep5Form = {
     nickname: "",
   };
@@ -78,18 +107,57 @@ export default class Step1 extends Vue {
     return this.$store.getters["user"];
   }
 
+  get studentAvatarQueue() {
+    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentAvatar });
+  }
+
+  get studentAvatar() {
+    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar });
+  }
+
+  get studentAvatarUploadConfigurations() {
+    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar });
+  }
+
+  async mounted() {
+    await Promise.all([
+      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.StudentDocuments,
+      }),
+    ]);
+  }
+
   onClickNickname(nickname: string) {
     this.form.nickname = nickname;
   }
 
-  async onSubmit(form: StudentProfileStep5Form, actions: FormActions<StudentProfileStep5Form>) {
+  async onSelectStudentAvatar(files: FileList) {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+      key: AttachmentKey.StudentAvatar,
+      files,
+    });
+  }
+
+  async onDeleteStudentAvatar(file: AttachmentType) {
+    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
+      key: AttachmentKey.StudentAvatar,
+      id: file.id,
+    });
+  }
+
+  async onSubmit(
+    form: StudentProfileStep5Form,
+    actions: FormActions<Partial<StudentProfileStep5Form>>
+  ) {
     await this.$store.dispatch(ActionTypes.ONBOARDING_STEP5, form);
     if (this.onboardingState?.errors?.nickname[0] === "unique") {
       actions.setErrors({
         nickname: "Dieser Nickname ist bereits vergeben.",
       });
     } else if (this.onboardingState.success) {
-      this.$router.push({ name: "Onboarding" });
+      this.$router.push({ name: "OnboardingStep6" });
     }
   }
 }

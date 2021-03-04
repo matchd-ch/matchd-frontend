@@ -39,7 +39,6 @@
           variant="outline"
           :disabled="passwordForgottenLoading"
           :loading="passwordForgottenLoading"
-          theme="neutral"
           class="block w-full"
           >Passwort-Reset anfordern</MatchdButton
         >

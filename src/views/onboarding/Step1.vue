@@ -1,5 +1,8 @@
 <template>
   <Form @submit="onSubmit" v-slot="{ errors }">
+    <GenericError v-if="onboardingState.errors">
+      Beim Speichern ist etwas schief gelaufen.
+    </GenericError>
     <MatchdField id="firstName" class="mb-10" :errors="errors.firstName">
       <template v-slot:label>Dein Vorname*</template>
       <Field
@@ -101,7 +104,6 @@
       variant="outline"
       :disabled="onboardingLoading"
       :loading="onboardingLoading"
-      theme="neutral"
       class="block w-full"
       >Speichern und weiter</MatchdButton
     >
@@ -109,6 +111,7 @@
 </template>
 
 <script lang="ts">
+import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
@@ -123,6 +126,7 @@ import { Options, Vue } from "vue-class-component";
     Form,
     Field,
     ErrorMessage,
+    GenericError,
     MatchdButton,
     MatchdField,
     MatchdSelect,
@@ -187,7 +191,9 @@ export default class Step1 extends Vue {
       ...form,
       dateOfBirth: `${form.day}.${form.month}.${form.year}`,
     });
-    this.$router.push({ name: "OnboardingStep2" });
+    if (this.onboardingState.success) {
+      this.$router.push({ name: "OnboardingStep2" });
+    }
   }
 }
 </script>

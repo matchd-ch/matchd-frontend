@@ -44,7 +44,6 @@
           variant="outline"
           :disabled="passwordResetLoading"
           :loading="passwordResetLoading"
-          theme="neutral"
           class="block w-full"
           >Passwort speichern</MatchdButton
         >

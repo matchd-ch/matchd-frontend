@@ -32,6 +32,7 @@ module.exports = {
       "display-md-fluid": ["responsive 2.2rem 3.625rem", "97%"],
       "display-lg-fluid": ["responsive 2.5rem 4.25rem", "97%"],
       "display-xl-fluid": ["responsive 3rem 5.625rem", "100%"],
+      "link-md": ["1.3125rem", "127%"],
       "cta-xl": ["3.875rem", "108%"],
     },
     colors: {
@@ -55,6 +56,12 @@ module.exports = {
         2: "#AFAFAF",
         3: "#EDEDED",
         4: "#FAFAFA",
+      },
+      primary: {
+        1: "var(--color-primary-1)",
+        2: "var(--color-primary-2)",
+        3: "var(--color-primary-3)",
+        4: "var(--color-primary-5)",
       },
       white: "#FFF",
       primaryA: "#000",

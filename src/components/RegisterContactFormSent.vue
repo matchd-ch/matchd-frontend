@@ -1,10 +1,11 @@
 <template>
   <div class="register-contact-form-sent">
-    <h2 class="text-white text-heading-35">
-      Deine Anfrage wurde verschickt
+    <h2 class="text-white text-display-xs mb-6">
+      Vielen Dank für deine Anfrage.
     </h2>
     <p class="text-white mb-9">
-      Wir prüfen dein Anliegen und melden uns in den nächsten Tagen bei dir.
+      Wir melden uns umgehend bei dir.<br />
+      Stay tuned! Dein Matchd-Team
     </p>
   </div>
 </template>
