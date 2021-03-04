@@ -1,3 +1,4 @@
+import { isValidUrl } from "@/helpers/isValidUrl";
 import { DateTime } from "luxon";
 import { configure, defineRule } from "vee-validate";
 import { localize, setLocale } from "@vee-validate/i18n";
@@ -31,6 +32,17 @@ defineRule("phone", (value: string, _, ctx) => {
   }
   if (!value.match(/^\+(\d+)$/)) {
     return `${ctx.field} muss eine gültige Telefonnummer im Format +41711234567 enthalten`;
+  }
+
+  return true;
+});
+
+defineRule("url", (value: string, _, ctx) => {
+  if (!value) {
+    return true;
+  }
+  if (!isValidUrl(value)) {
+    return `${ctx.field} muss eine gültige URL enthalten`;
   }
 
   return true;

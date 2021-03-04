@@ -29,6 +29,7 @@ import studentProfileStep4DataQuery from "@/api/queries/studentProfileStep4Data.
 import companyProfileStep1Mutation from "@/api/mutations/companyProfileStep1.gql";
 import companyProfileStep2Mutation from "@/api/mutations/companyProfileStep2.gql";
 import companyProfileStep3Mutation from "@/api/mutations/companyProfileStep3.gql";
+import companyProfileStep2DataQuery from "@/api/queries/companyProfileStep2Data.gql";
 import companyProfileStep3DataQuery from "@/api/queries/companyProfileStep3Data.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
 
@@ -80,6 +81,7 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: ICompanyProfileInputStep3
   ): Promise<void>;
+  [ActionTypes.COMPANY_ONBOARDING_STEP2_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP3_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
 }
@@ -177,6 +179,15 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.COMPANY_ONBOARDING_STEP3_LOADED, response.data.companyProfileStep3);
+  },
+  async [ActionTypes.COMPANY_ONBOARDING_STEP2_DATA]({ commit }) {
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADING);
+    const response = await apiClient.query({
+      query: companyProfileStep2DataQuery,
+    });
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADED, {
+      branches: response.data.branches,
+    });
   },
   async [ActionTypes.COMPANY_ONBOARDING_STEP3_DATA]({ commit }) {
     commit(MutationTypes.COMPANY_ONBOARDING_STEP3_DATA_LOADING);

@@ -1,6 +1,7 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
 import {
   BenefitType,
+  BranchType,
   JobOptionType,
   JobPositionType,
   LanguageType,
@@ -41,6 +42,10 @@ export type State = {
     data: LanguageType[];
     levels: LevelType[];
   };
+  branches: {
+    loading: boolean;
+    data: BranchType[];
+  };
 };
 
 export const state: State = {
@@ -74,5 +79,9 @@ export const state: State = {
     loading: false,
     data: [],
     levels: [],
+  },
+  branches: {
+    loading: false,
+    data: [],
   },
 };

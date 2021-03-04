@@ -21,6 +21,7 @@ export type Getters = {
   skills(state: State): SkillType[];
   languages(state: State): LanguageType[];
   languageLevels(state: State): LevelType[];
+  branches(state: State): { id: string; name: string }[]; // todo
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -54,5 +55,8 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   languageLevels(state: State): LevelType[] {
     return state.languages.levels;
+  },
+  branches(state: State): { id: string; name: string }[] {
+    return state.branches.data;
   },
 };

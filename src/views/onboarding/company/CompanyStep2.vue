@@ -1,20 +1,43 @@
 <template>
-  <Form @submit="onSubmit" v-slot="{ errors }">
+  <Form v-if="companyAvatarUploadConfigurations" @submit="onSubmit" v-slot="{ errors }">
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
     <!-- Website Field -->
     <MatchdField id="website" class="mb-10" :errors="errors.website">
-      <template v-slot:label>Website</template>
+      <template v-slot:label>Website*</template>
       <Field
         id="website"
         name="website"
         as="input"
         label="Website"
         v-model="form.website"
-        rules="required"
+        rules="required|url"
       />
     </MatchdField>
+    <!-- Branch Field -->
+    <SelectPillGroup :errors="errors.branchId" class="mb-10">
+      <template v-slot:label>Branche</template>
+      <template v-slot:field>
+        <Field
+          id="branchId"
+          name="branchId"
+          as="input"
+          label="Branche"
+          type="hidden"
+          v-model="form.branchId"
+        />
+      </template>
+      <SelectPill
+        name="branchPill"
+        v-for="branch in branches"
+        :key="branch.id"
+        :value="branch.id"
+        :checked="branch.id === form.branchId"
+        @change="form.branchId = $event"
+        >{{ branch.name }}</SelectPill
+      >
+    </SelectPillGroup>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
       <template v-slot:label>Kurzbeschreibung unserer Unternehmung</template>
@@ -53,16 +76,16 @@
       <Field id="services" name="services" as="input" label="Services" v-model="form.services" />
     </MatchdField>
     <!-- ITrockt Field -->
-    <MatchdField id="memberItStGallen" class="mb-10" :errors="errors.memberItStGallen">
+    <MatchdToggle id="memberItStGallen" class="mb-10" :errors="errors.memberItStGallen">
       <template v-slot:label>Wir sind Mitglied im Verein IT St.Gallen "IT rockt!"</template>
-      <Field
+      <input
         id="memberItStGallen"
         name="memberItStGallen"
-        as="input"
-        label="MemberItStGallen"
+        type="checkbox"
         v-model="form.memberItStGallen"
       />
-    </MatchdField>
+    </MatchdToggle>
+
     <MatchdButton
       variant="outline"
       :disabled="onboardingLoading"
@@ -82,6 +105,9 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
+import MatchdToggle from "@/components/MatchdToggle.vue";
+import SelectPill from "@/components/SelectPill.vue";
+import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
@@ -96,11 +122,14 @@ import { Options, Vue } from "vue-class-component";
     ErrorMessage,
     GenericError,
     MatchdButton,
+    MatchdToggle,
     MatchdField,
     MatchdSelect,
     MatchdFileBlock,
     MatchdFileView,
     MatchdFileUpload,
+    SelectPillGroup,
+    SelectPill,
   },
 })
 export default class CompanyStep2 extends Vue {
@@ -108,7 +137,7 @@ export default class CompanyStep2 extends Vue {
     website: "",
     description: "",
     services: "",
-    branch: "",
+    branchId: "",
     memberItStGallen: false,
   };
 
@@ -136,8 +165,13 @@ export default class CompanyStep2 extends Vue {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
+  get branches() {
+    return this.$store.getters["branches"];
+  }
+
   async mounted() {
     await Promise.all([
+      this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP2_DATA),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
     ]);
@@ -162,9 +196,9 @@ export default class CompanyStep2 extends Vue {
     actions: FormActions<Partial<CompanyProfileStep2Form>>
   ) {
     await this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP2, {
-      ...form,
+      ...this.form,
       branch: {
-        id: "1", // todo
+        id: this.form.branchId || "",
       },
     });
     if (this.onboardingState.success) {

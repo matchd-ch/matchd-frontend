@@ -61,6 +61,7 @@ type Query = {
   __typename?: "Query";
   uploadConfigurations?: Maybe<Array<Maybe<UploadConfiguration>>>;
   attachments?: Maybe<Array<Maybe<AttachmentType>>>;
+  branches?: Maybe<Array<Maybe<BranchType>>>;
   benefits?: Maybe<Array<Maybe<BenefitType>>>;
   skills?: Maybe<Array<Maybe<SkillType>>>;
   jobPositions?: Maybe<Array<Maybe<JobPositionType>>>;
@@ -109,6 +110,12 @@ type AttachmentType = {
   mimeType?: Maybe<Scalars["String"]>;
   fileSize?: Maybe<Scalars["Int"]>;
   fileName?: Maybe<Scalars["String"]>;
+};
+
+type BranchType = {
+  __typename?: "BranchType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
 };
 
 type BenefitType = {
@@ -178,6 +185,7 @@ type UserWithProfileNode = Node & {
   state: UserState;
   profileStep: Scalars["Int"];
   student?: Maybe<Student>;
+  employee?: Maybe<Employee>;
 };
 
 /** An object with an ID */
@@ -265,6 +273,12 @@ type UserLanguageRelationType = {
   id: Scalars["ID"];
   language: LanguageType;
   languageLevel: LevelType;
+};
+
+type Employee = {
+  __typename?: "Employee";
+  id: Scalars["ID"];
+  role: Scalars["String"];
 };
 
 type Mutation = {
@@ -696,6 +710,7 @@ type UserNode = Node & {
   state: UserState;
   profileStep: Scalars["Int"];
   student?: Maybe<Student>;
+  employee?: Maybe<Employee>;
   pk?: Maybe<Scalars["Int"]>;
   archived?: Maybe<Scalars["Boolean"]>;
   verified?: Maybe<Scalars["Boolean"]>;

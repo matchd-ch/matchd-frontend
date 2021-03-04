@@ -1,6 +1,6 @@
 export interface CompanyProfileStep2Form {
   memberItStGallen: boolean;
-  branch: string;
+  branchId?: string;
   services?: string;
   website: string;
   description: string;

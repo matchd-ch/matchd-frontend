@@ -1,6 +1,7 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import {
   BenefitType,
+  BranchType,
   CompanyProfileStep1,
   CompanyProfileStep2,
   CompanyProfileStep3,
@@ -54,6 +55,11 @@ export type Mutations<S = State> = {
   [MutationTypes.COMPANY_ONBOARDING_STEP2_LOADED](state: S, payload: CompanyProfileStep2): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP3_LOADING](state: S): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP3_LOADED](state: S, payload: CompanyProfileStep3): void;
+  [MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADING](state: S): void;
+  [MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADED](
+    state: S,
+    payload: { branches: BranchType[] }
+  ): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP3_DATA_LOADING](state: S): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP3_DATA_LOADED](
     state: S,
@@ -167,6 +173,16 @@ export const mutations: MutationTree<State> & Mutations = {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
     state.profile.errors = errorCodeMapper(payload.errors);
+  },
+  [MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADING](state: State) {
+    state.branches.loading = true;
+  },
+  [MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADED](
+    state: State,
+    payload: { branches: BranchType[] }
+  ) {
+    state.branches.loading = false;
+    state.branches.data = payload.branches;
   },
   [MutationTypes.COMPANY_ONBOARDING_STEP3_DATA_LOADING](state: State) {
     state.jobPositions.loading = true;

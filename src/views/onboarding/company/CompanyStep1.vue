@@ -69,7 +69,7 @@
       />
     </MatchdField>
     <MatchdField id="mobile" class="mb-10" :errors="errors.phone">
-      <template v-slot:label>Telefonnummer</template>
+      <template v-slot:label>Telefonnummer*</template>
       <Field
         id="mobile"
         name="phone"
@@ -142,6 +142,7 @@ export default class CompanyStep1 extends Vue {
         zip: this.user.company?.zip || "",
         city: this.user.company?.city || "",
         street: this.user.company?.street || "",
+        role: this.user.employee?.role || "",
         firstName: this.user.firstName,
         lastName: this.user.lastName,
       };
