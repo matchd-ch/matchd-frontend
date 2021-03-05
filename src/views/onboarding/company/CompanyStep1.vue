@@ -90,6 +90,7 @@
 </template>
 
 <script lang="ts">
+import { companyProfileStep1Mapper } from "@/api/mappers/companyProfileStep1InputMapper";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -157,7 +158,10 @@ export default class CompanyStep1 extends Vue {
   }
 
   async onSubmit(form: CompanyProfileStep1Form) {
-    await this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP1, form);
+    await this.$store.dispatch(
+      ActionTypes.COMPANY_ONBOARDING_STEP1,
+      companyProfileStep1Mapper(form)
+    );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt2" } });
     }

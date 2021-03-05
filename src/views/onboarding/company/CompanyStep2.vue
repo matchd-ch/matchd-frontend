@@ -97,6 +97,7 @@
 </template>
 
 <script lang="ts">
+import { companyProfileStep2InputMapper } from "@/api/mappers/companyProfileStep2InputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -195,12 +196,10 @@ export default class CompanyStep2 extends Vue {
     form: CompanyProfileStep2Form,
     actions: FormActions<Partial<CompanyProfileStep2Form>>
   ) {
-    await this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP2, {
-      ...this.form,
-      branch: {
-        id: this.form.branchId || "",
-      },
-    });
+    await this.$store.dispatch(
+      ActionTypes.COMPANY_ONBOARDING_STEP2,
+      companyProfileStep2InputMapper(this.form)
+    );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt3" } });
     } else if (this.onboardingState.errors) {

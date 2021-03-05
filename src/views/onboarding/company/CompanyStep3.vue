@@ -68,6 +68,7 @@
 </template>
 
 <script lang="ts">
+import { companyProfileStep3InputMapper } from "@/api/mappers/companyProfileStep3InputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
@@ -222,14 +223,10 @@ export default class CompanyStep3 extends Vue {
     form: CompanyProfileStep3Form,
     actions: FormActions<Partial<CompanyProfileStep3Form>>
   ) {
-    await this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP3, {
-      jobPositions: this.form.jobPositions.map(jobPosition => {
-        return { id: jobPosition.id };
-      }),
-      benefits: this.form.benefits.map(benefit => {
-        return { id: benefit.id };
-      }),
-    });
+    await this.$store.dispatch(
+      ActionTypes.COMPANY_ONBOARDING_STEP3,
+      companyProfileStep3InputMapper(this.form)
+    );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt4" } });
     } else if (this.onboardingState.errors) {

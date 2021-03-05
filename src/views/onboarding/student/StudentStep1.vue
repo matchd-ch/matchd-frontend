@@ -111,6 +111,7 @@
 </template>
 
 <script lang="ts">
+import { studentProfileStep1InputMapper } from "@/api/mappers/studentProfileStep1InputMapper";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -187,10 +188,10 @@ export default class StudentStep1 extends Vue {
   }
 
   async onSubmit(form: StudentProfileStep1Form) {
-    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP1, {
-      ...form,
-      dateOfBirth: `${form.day}.${form.month}.${form.year}`,
-    });
+    await this.$store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP1,
+      studentProfileStep1InputMapper(this.form)
+    );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt2" } });
     }

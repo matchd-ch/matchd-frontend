@@ -54,6 +54,7 @@
 </template>
 
 <script lang="ts">
+import { studentProfileStep6InputMapper } from "@/api/mappers/studentProfileStep6InputMapper";
 import { UserState } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -98,7 +99,10 @@ export default class StudentStep6 extends Vue {
   }
 
   async onSubmit() {
-    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP6, this.form);
+    await this.$store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP6,
+      studentProfileStep6InputMapper(this.form)
+    );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "finish" } });
     }
