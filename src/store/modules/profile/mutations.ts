@@ -65,6 +65,10 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.ZIP_CITY_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_LOADED](state: S, payload: ZipCityType[]): void;
+  [MutationTypes.STUDENT_ONBOARDING_NICKNAME_SUGGESTIONS](
+    state: S,
+    payload: { nicknameSuggestions: string[] }
+  ): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -156,5 +160,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ZIP_CITY_LOADED](state: State, payload: ZipCityType[]) {
     state.zipCity.loading = false;
     state.zipCity.data = payload;
+  },
+  [MutationTypes.STUDENT_ONBOARDING_NICKNAME_SUGGESTIONS](
+    state: State,
+    payload: { nicknameSuggestions: string[] }
+  ) {
+    state.profile.nicknameSuggestions = payload.nicknameSuggestions;
   },
 };

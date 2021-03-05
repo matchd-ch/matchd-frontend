@@ -126,6 +126,9 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep5);
+    commit(MutationTypes.STUDENT_ONBOARDING_NICKNAME_SUGGESTIONS, {
+      nicknameSuggestions: response.data.studentProfileStep5?.nicknameSuggestions,
+    });
   },
   async [ActionTypes.STUDENT_ONBOARDING_STEP6]({ commit }, payload: IStudentProfileInputStep6) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
