@@ -23,18 +23,17 @@ import { MutationTypes } from "./mutation-types";
 import { State } from "@/store/modules/profile/state";
 
 export type Mutations<S = State> = {
-  [MutationTypes.STUDENT_ONBOARDING_STEP1_LOADING](state: S): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP1_LOADED](state: S, payload: StudentProfileStep1): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP2_LOADING](state: S): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP2_LOADED](state: S, payload: StudentProfileStep2): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP3_LOADING](state: S): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP3_LOADED](state: S, payload: StudentProfileStep3): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP4_LOADING](state: S): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP4_LOADED](state: S, payload: StudentProfileStep4): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP5_LOADING](state: S): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP5_LOADED](state: S, payload: StudentProfileStep5): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP6_LOADING](state: S): void;
-  [MutationTypes.STUDENT_ONBOARDING_STEP6_LOADED](state: S, payload: StudentProfileStep6): void;
+  [MutationTypes.STUDENT_ONBOARDING_STEP_LOADING](state: S): void;
+  [MutationTypes.STUDENT_ONBOARDING_STEP_LOADED](
+    state: S,
+    payload:
+      | StudentProfileStep1
+      | StudentProfileStep2
+      | StudentProfileStep3
+      | StudentProfileStep4
+      | StudentProfileStep5
+      | StudentProfileStep6
+  ): void;
   [MutationTypes.STUDENT_ONBOARDING_STEP3_DATA_LOADING](state: S): void;
   [MutationTypes.STUDENT_ONBOARDING_STEP3_DATA_LOADED](
     state: S,
@@ -49,12 +48,11 @@ export type Mutations<S = State> = {
       languageLevels: LevelType[];
     }
   ): void;
-  [MutationTypes.COMPANY_ONBOARDING_STEP1_LOADING](state: S): void;
-  [MutationTypes.COMPANY_ONBOARDING_STEP1_LOADED](state: S, payload: CompanyProfileStep1): void;
-  [MutationTypes.COMPANY_ONBOARDING_STEP2_LOADING](state: S): void;
-  [MutationTypes.COMPANY_ONBOARDING_STEP2_LOADED](state: S, payload: CompanyProfileStep2): void;
-  [MutationTypes.COMPANY_ONBOARDING_STEP3_LOADING](state: S): void;
-  [MutationTypes.COMPANY_ONBOARDING_STEP3_LOADED](state: S, payload: CompanyProfileStep3): void;
+  [MutationTypes.COMPANY_ONBOARDING_STEP_LOADING](state: S): void;
+  [MutationTypes.COMPANY_ONBOARDING_STEP_LOADED](
+    state: S,
+    payload: CompanyProfileStep1 | CompanyProfileStep2 | CompanyProfileStep3
+  ): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADING](state: S): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADED](
     state: S,
@@ -70,51 +68,19 @@ export type Mutations<S = State> = {
 };
 
 export const mutations: MutationTree<State> & Mutations = {
-  [MutationTypes.STUDENT_ONBOARDING_STEP1_LOADING](state: State) {
+  [MutationTypes.STUDENT_ONBOARDING_STEP_LOADING](state: State) {
     state.profile.loading = true;
   },
-  [MutationTypes.STUDENT_ONBOARDING_STEP1_LOADED](state: State, payload: StudentProfileStep1) {
-    state.profile.loading = false;
-    state.profile.success = payload.success || false;
-    state.profile.errors = errorCodeMapper(payload.errors);
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP2_LOADING](state: State) {
-    state.profile.loading = true;
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP2_LOADED](state: State, payload: StudentProfileStep2) {
-    state.profile.loading = false;
-    state.profile.success = payload.success || false;
-    state.profile.errors = errorCodeMapper(payload.errors);
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP3_LOADING](state: State) {
-    state.profile.loading = true;
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP3_LOADED](state: State, payload: StudentProfileStep3) {
-    state.profile.loading = false;
-    state.profile.success = payload.success || false;
-    state.profile.errors = errorCodeMapper(payload.errors);
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP4_LOADING](state: State) {
-    state.profile.loading = true;
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP4_LOADED](state: State, payload: StudentProfileStep4) {
-    state.profile.loading = false;
-    state.profile.success = payload.success || false;
-    state.profile.errors = errorCodeMapper(payload.errors);
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP5_LOADING](state: State) {
-    state.profile.loading = true;
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP5_LOADED](state: State, payload: StudentProfileStep5) {
-    state.profile.loading = false;
-    state.profile.success = payload.success || false;
-    state.profile.errors = errorCodeMapper(payload.errors);
-    state.profile.nicknameSuggestions = (payload.nicknameSuggestions as string[]) || [];
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP6_LOADING](state: State) {
-    state.profile.loading = true;
-  },
-  [MutationTypes.STUDENT_ONBOARDING_STEP6_LOADED](state: State, payload: StudentProfileStep6) {
+  [MutationTypes.STUDENT_ONBOARDING_STEP_LOADED](
+    state: State,
+    payload:
+      | StudentProfileStep1
+      | StudentProfileStep2
+      | StudentProfileStep3
+      | StudentProfileStep4
+      | StudentProfileStep5
+      | StudentProfileStep6
+  ) {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
     state.profile.errors = errorCodeMapper(payload.errors);
@@ -150,26 +116,13 @@ export const mutations: MutationTree<State> & Mutations = {
     state.languages.data = payload.languages;
     state.languages.levels = payload.languageLevels;
   },
-  [MutationTypes.COMPANY_ONBOARDING_STEP1_LOADING](state: State) {
+  [MutationTypes.COMPANY_ONBOARDING_STEP_LOADING](state: State) {
     state.profile.loading = true;
   },
-  [MutationTypes.COMPANY_ONBOARDING_STEP1_LOADED](state: State, payload: CompanyProfileStep1) {
-    state.profile.loading = false;
-    state.profile.success = payload.success || false;
-    state.profile.errors = errorCodeMapper(payload.errors);
-  },
-  [MutationTypes.COMPANY_ONBOARDING_STEP2_LOADING](state: State) {
-    state.profile.loading = true;
-  },
-  [MutationTypes.COMPANY_ONBOARDING_STEP2_LOADED](state: State, payload: CompanyProfileStep2) {
-    state.profile.loading = false;
-    state.profile.success = payload.success || false;
-    state.profile.errors = errorCodeMapper(payload.errors);
-  },
-  [MutationTypes.COMPANY_ONBOARDING_STEP3_LOADING](state: State) {
-    state.profile.loading = true;
-  },
-  [MutationTypes.COMPANY_ONBOARDING_STEP3_LOADED](state: State, payload: CompanyProfileStep3) {
+  [MutationTypes.COMPANY_ONBOARDING_STEP_LOADED](
+    state: State,
+    payload: CompanyProfileStep1 | CompanyProfileStep2 | CompanyProfileStep3
+  ) {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
     state.profile.errors = errorCodeMapper(payload.errors);
