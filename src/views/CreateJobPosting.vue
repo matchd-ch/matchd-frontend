@@ -9,7 +9,7 @@
       <div
         class="col-start-5 col-span-4 row-start-1 text-display-xl-fluid lg:hidden flex items-center justify-center px-4 lg:px-5 py-10"
       >
-        <template v-if="currentStep <= 6">{{ currentStep }}</template>
+        <template v-if="currentStep <= 3">{{ currentStep }}</template>
       </div>
       <h2
         class="text-display-xs-fluid flex items-center col-start-1 lg:col-start-5 col-span-8 row-start-3 lg:row-start-1 border-t lg:border-t-0 lg:border-r flex items-center px-4 lg:px-8 py-10"
@@ -28,13 +28,16 @@
 </template>
 
 <script lang="ts">
+import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
-  components: {},
+  components: {
+    JobPostingStep1,
+  },
 })
 export default class JobPosting extends Vue {
-  currentJobpostingComponent = "";
+  currentJobpostingComponent = "JobPostingStep1";
   get currentStep() {
     return this.$store.getters["user"]?.profileStep;
   }

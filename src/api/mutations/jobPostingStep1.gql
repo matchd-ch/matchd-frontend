@@ -1,0 +1,23 @@
+mutation JobPostingMutation(
+  $description: String!
+  $jobOption: JobPositionInputType!
+  $workload: String
+  $jobFromDate: String!
+  $jobToDate: String
+  $url: String
+) {
+  jobPostingStep1(
+    step1: {
+      description: $description
+      jobOption: $jobOption
+      workload: $workload
+      jobFromDate: $jobFromDate
+      jobToDate: $jobToDate
+      url: $url
+    }
+  ) {
+    success
+    errors
+    jobPostingId
+  }
+}

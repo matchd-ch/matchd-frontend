@@ -1,0 +1,3 @@
+export enum ActionTypes {
+  SAVE_JOBPOSTING_STEP1 = "SAVE_JOBPOSTING_STEP1",
+}
