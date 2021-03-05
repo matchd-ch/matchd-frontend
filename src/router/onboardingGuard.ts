@@ -8,15 +8,17 @@ export async function redirectToCurrentOnboardingStep(
 ) {
   const store = useStore();
   const profileStep = store.getters["user"]?.profileStep;
-
+  const isCompany = store.getters["isCompany"];
+  const isStudent = store.getters["isStudent"];
   if (!profileStep) {
     next({ name: "Error" });
   } else if (
     (to.name === `Onboarding` && to.params.step === `schritt${profileStep}`) ||
-    (to.name === "Onboarding" && profileStep === 7)
+    (to.name === "Onboarding" &&
+      ((isStudent && profileStep === 7) || (isCompany && profileStep === 4)))
   ) {
     next(); // prevent infinite redirect
-  } else if (profileStep <= 6) {
+  } else if ((isStudent && profileStep <= 6) || (isCompany && profileStep <= 3)) {
     next({ name: `Onboarding`, params: { step: `schritt${profileStep}` } });
   } else {
     next({ name: "Onboarding", params: { step: "finish" } });
