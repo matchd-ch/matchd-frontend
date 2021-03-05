@@ -11,11 +11,10 @@
     <div class=" px-4 lg:px-5">
       <MatchdStep step="1">
         <template v-if="form.type === 'company'" v-slot:title
-          >Ihr Unternehmen möchte Teil der Matchd-Community werden? Dann halten Sie für den nächsten
-          Schritt die UID-Nr. bereit.</template
+          >Möchte ihr Unternehmen Teil der Matchd-Community werden?</template
         >
         <template v-else v-slot:title
-          >Ihre Organisation will Teil der Matchd-Community werden?</template
+          >Möchte ihre Organisation Teil der Matchd-Community werden?</template
         >
         <MatchdButton
           type="button"
@@ -35,9 +34,7 @@
         step="2"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
-        <template v-slot:title
-          >Und schon gehts weiter: hinterlegen Sie hier die UID-Nr. ihrer Unternehmung.</template
-        >
+        <template v-slot:title>Hinterlegen Sie hier die UID-Nr. ihrer Unternehmung:</template>
         <Form @submit="onSubmitUid" v-slot="{ errors }">
           <MatchdField id="uid" class="mb-10" :errors="errors.uid">
             <template v-slot:label>UID-Nr.</template>
