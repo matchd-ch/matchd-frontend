@@ -1,6 +1,6 @@
 <template>
   <Form v-if="studentAvatarUploadConfigurations" @submit="onSubmit" v-slot="{ errors }">
-    <GenericError v-if="onboardingState.errors">
+    <GenericError v-if="onboardingState.errors && !this.onboardingState?.errors?.nickname">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
     <MatchdField id="nickname" class="mb-10" :errors="errors.nickname">
