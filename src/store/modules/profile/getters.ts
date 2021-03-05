@@ -1,6 +1,8 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
 import {
+  BenefitType,
+  BranchType,
   JobOptionType,
   JobPositionType,
   LanguageType,
@@ -21,7 +23,8 @@ export type Getters = {
   skills(state: State): SkillType[];
   languages(state: State): LanguageType[];
   languageLevels(state: State): LevelType[];
-  branches(state: State): { id: string; name: string }[]; // todo
+  benefits(state: State): BenefitType[];
+  branches(state: State): BranchType[];
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -56,7 +59,10 @@ export const getters: GetterTree<State, RootState> & Getters = {
   languageLevels(state: State): LevelType[] {
     return state.languages.levels;
   },
-  branches(state: State): { id: string; name: string }[] {
+  benefits(state: State): BenefitType[] {
+    return state.benefits.data;
+  },
+  branches(state: State): BranchType[] {
     return state.branches.data;
   },
 };

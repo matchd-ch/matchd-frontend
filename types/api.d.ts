@@ -533,7 +533,7 @@ type CompanyProfileStep3 = {
 
 type CompanyProfileInputStep3 = {
   /** Job Position */
-  jobPosition?: Maybe<Array<Maybe<JobPositionInputType>>>;
+  jobPositions?: Maybe<Array<Maybe<JobPositionInputType>>>;
   /** Benefits */
   benefits?: Maybe<Array<Maybe<BenefitInputType>>>;
 };

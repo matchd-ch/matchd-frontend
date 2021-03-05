@@ -140,7 +140,7 @@ export type IBranchInputType = {
 
 export type ICompanyProfileInputStep3 = {
   /** Job Position */
-  jobPosition?: Maybe<Array<Maybe<IJobPositionInputType>>>;
+  jobPositions?: Maybe<Array<Maybe<IJobPositionInputType>>>;
   /** Benefits */
   benefits?: Maybe<Array<Maybe<IBenefitInputType>>>;
 };
