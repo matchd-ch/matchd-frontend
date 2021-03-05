@@ -1,10 +1,10 @@
 <template>
   <div>
     <h2 class="text-heading-lg mb-10">Was wollen Sie als nächstes tun?</h2>
-    <MatchdButton variant="outline" class="block w-full" @click="onClickCreateJobPosting"
+    <MatchdButton variant="outline" class="block w-full" @click="onClickFindTalent"
       >Talente finden</MatchdButton
     >
-    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickFindTalent"
+    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickCreateJobPosting"
       >Stellen und Projekte ausschreiben</MatchdButton
     >
     <p class="mt-5 text-black text-center">
@@ -33,7 +33,7 @@ export default class CompanyFinish extends Vue {
   }
 
   onClickCreateJobPosting() {
-    this.$router.push({ name: "Home" });
+    this.$router.push({ name: "CreateJobPosting" });
   }
 }
 </script>
