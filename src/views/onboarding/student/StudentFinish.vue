@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2 class="text-heading-lg mb-10">Was willst du als nächstes tun?</h2>
     <MatchdButton variant="outline" class="block w-full" @click="onClickFindCompany"
       >Unternehmen finden</MatchdButton
     >

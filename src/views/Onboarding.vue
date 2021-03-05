@@ -42,6 +42,9 @@
             >Zeigen Sie der Community Bilder und Videos von ihrem Unternehmen und von Ihrer
             Crew</template
           >
+          <template v-if="currentStep === 4"
+            >Herzliche Gratulation und willkommen in der Matchd-Community!</template
+          >
         </template>
       </h2>
       <div class="col-start-13 col-span-4 hidden lg:block"></div>

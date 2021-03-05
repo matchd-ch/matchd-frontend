@@ -1,10 +1,11 @@
 <template>
   <div>
-    <MatchdButton variant="outline" class="block w-full" @click="onClickFindCompany"
-      >Unternehmen finden</MatchdButton
+    <h2 class="text-heading-lg mb-10">Was wollen Sie als nächstes tun?</h2>
+    <MatchdButton variant="outline" class="block w-full" @click="onClickCreateJobPosting"
+      >Talente finden</MatchdButton
     >
-    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickFindTraineePosition"
-      >Stelle oder Thema für Projektarbeit finden</MatchdButton
+    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickFindTalent"
+      >Stellen und Projekte ausschreiben</MatchdButton
     >
     <p class="mt-5 text-black text-center">
       Falls du noch Fragen hast,
@@ -27,11 +28,11 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class CompanyFinish extends Vue {
-  onClickFindTraineePosition() {
+  onClickFindTalent() {
     this.$router.push({ name: "Home" });
   }
 
-  onClickFindCompany() {
+  onClickCreateJobPosting() {
     this.$router.push({ name: "Home" });
   }
 }
