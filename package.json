@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "graphql": "^15.4.0",
     "luxon": "^1.25.0",
+    "omit-deep": "^0.3.0",
     "pretty-bytes": "^5.5.0",
     "register-service-worker": "^1.7.1",
     "vee-validate": "^4.2.2",
