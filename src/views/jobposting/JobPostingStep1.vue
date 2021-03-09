@@ -131,7 +131,7 @@
         as="input"
         label="Link zur Ausschreibung"
         v-model="form.url"
-        rules="required|url"
+        rules="url"
       />
       <template v-slot:info>Weitere Informationen findest du hier.</template>
     </MatchdField>
