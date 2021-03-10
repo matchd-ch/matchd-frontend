@@ -1,5 +1,9 @@
 <template>
-  <Form v-if="jobPositions.length > 0" @submit="onSubmit" v-slot="{ errors }">
+  <Form
+    v-if="jobPositions.length > 0 && companyDocumentsUploadConfigurations"
+    @submit="onSubmit"
+    v-slot="{ errors }"
+  >
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
@@ -48,9 +52,12 @@
         :queuedFiles="companyDocumentsQueue"
         @deleteFile="onDeleteCompanyDocuments"
         class="mb-3"
+        :class="{
+          'mb-10': companyDocumentsUploadConfigurations.maxFiles < companyDocuments.length,
+        }"
       />
       <MatchdFileUpload
-        v-if="companyDocuments.length === 0"
+        v-if="companyDocumentsUploadConfigurations.maxFiles >= companyDocuments.length"
         :uploadConfiguration="companyDocumentsUploadConfigurations"
         @selectFiles="onSelectCompanyDocuments"
         class="mb-10"

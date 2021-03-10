@@ -5,6 +5,7 @@ import { ApolloClient, ApolloLink, from, fromPromise, InMemoryCache } from "@apo
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
+import * as omitDeep from "omit-deep";
 
 export function createApolloClient(baseUrl: string) {
   let csrfTokenPromise: Promise<string | undefined>;
@@ -32,9 +33,7 @@ export function createApolloClient(baseUrl: string) {
 
   const cleanTypeNameLink = new ApolloLink((operation, forward) => {
     if (operation.variables) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const omitTypename = (key: string, value: any) => (key === "__typename" ? undefined : value);
-      operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
+      omitDeep(operation.variables, "__typename");
     }
     return forward(operation).map(data => {
       return data;
