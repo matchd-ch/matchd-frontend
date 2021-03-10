@@ -1,5 +1,5 @@
 <template>
-  <Form @submit="onSubmit" v-slot="{ errors }">
+  <Form v-if="branches.length > 0 && jobOptions.length > 0" @submit="onSubmit" v-slot="{ errors }">
     <GenericError v-if="jobPostingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
@@ -37,6 +37,30 @@
         :checked="option.id === form.jobOptionId"
         @change="form.jobOptionId = $event"
         >{{ option.name }}</SelectPill
+      >
+    </SelectPillGroup>
+    <!-- Branch Field -->
+    <SelectPillGroup :errors="errors.branchId" class="mb-10">
+      <template v-slot:label>In diesem Bereich wird das junge Talent tätig sein*</template>
+      <template v-slot:field>
+        <Field
+          id="branchId"
+          name="branchId"
+          as="input"
+          label="In diesem Bereich wird das junge Talent tätig sein"
+          type="hidden"
+          v-model="form.branchId"
+          rules="required"
+        />
+      </template>
+      <SelectPill
+        name="branchPill"
+        v-for="branch in branches"
+        :key="branch.id"
+        :value="branch.id"
+        :checked="branch.id === form.branchId"
+        @change="form.branchId = $event"
+        >{{ branch.name }}</SelectPill
       >
     </SelectPillGroup>
     <!-- Arbeitspensum Field -->
@@ -179,6 +203,7 @@ export default class JobPostingStep1 extends Vue {
     description: "",
     workload: "",
     jobOptionId: "",
+    branchId: "",
     jobFromDateMonth: "",
     jobFromDateYear: "",
     jobToDateMonth: "",
@@ -188,6 +213,10 @@ export default class JobPostingStep1 extends Vue {
 
   get jobOptions() {
     return this.$store.getters["contentJobOptions"];
+  }
+
+  get branches() {
+    return this.$store.getters["contentBranches"];
   }
 
   get jobPostingLoading() {
@@ -213,7 +242,10 @@ export default class JobPostingStep1 extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch(ContentActionsTypes.JOB_POSITIONS);
+    await Promise.all([
+      this.$store.dispatch(ContentActionsTypes.JOB_POSITIONS),
+      this.$store.dispatch(ContentActionsTypes.BRANCHES),
+    ]);
   }
 
   async onSubmit(form: JobPostingStep1Form, actions: FormActions<Partial<JobPostingStep1Form>>) {
@@ -244,7 +276,7 @@ export default class JobPostingStep1 extends Vue {
       jobPostingStep1InputMapper(this.form)
     );
     if (this.jobPostingState.success) {
-      this.$router.push({ params: { step: "schritt2" } });
+      this.$router.push({ params: { step: "schritt2", id: this.jobPostingState.id } });
     } else if (this.jobPostingState.errors) {
       actions.setErrors(this.jobPostingState.errors);
       if (this.jobPostingState.errors.jobFromDate) {

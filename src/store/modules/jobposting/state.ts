@@ -5,6 +5,7 @@ export type State = {
     loading: boolean;
     success: boolean;
     errors: MatchdApiError | null;
+    id: string;
   };
 };
 
@@ -13,5 +14,6 @@ export const state: State = {
     loading: false,
     success: false,
     errors: null,
+    id: "",
   },
 };

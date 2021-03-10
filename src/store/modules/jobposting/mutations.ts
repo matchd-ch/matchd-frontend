@@ -1,4 +1,5 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
+import { JobPostingStep1 } from "api";
 
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
@@ -13,9 +14,12 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.JOBPOSTING_STEP_LOADING](state: State) {
     state.jobPosting.loading = true;
   },
-  [MutationTypes.JOBPOSTING_STEP_LOADED](state: State, payload: any) {
+  [MutationTypes.JOBPOSTING_STEP_LOADED](state: State, payload: JobPostingStep1) {
     state.jobPosting.loading = false;
     state.jobPosting.success = payload.success || false;
     state.jobPosting.errors = errorCodeMapper(payload.errors);
+    if (payload.success) {
+      state.jobPosting.id = payload.jobPostingId || "";
+    }
   },
 };

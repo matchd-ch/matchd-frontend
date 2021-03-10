@@ -5,17 +5,18 @@ import { State } from "./state";
 
 export type Getters = {
   jobPostingLoading(state: State): boolean;
-  jobPostingState(state: State): { success: boolean; errors: MatchdApiError | null };
+  jobPostingState(state: State): { success: boolean; errors: MatchdApiError | null; id: string };
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
   jobPostingLoading(state: State): boolean {
     return state.jobPosting.loading;
   },
-  jobPostingState(state: State): { success: boolean; errors: MatchdApiError | null } {
+  jobPostingState(state: State): { success: boolean; errors: MatchdApiError | null; id: string } {
     return {
       success: state.jobPosting.success,
       errors: state.jobPosting.errors || null,
+      id: state.jobPosting.id,
     };
   },
 };

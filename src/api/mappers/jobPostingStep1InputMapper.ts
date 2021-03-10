@@ -11,6 +11,9 @@ export function jobPostingStep1InputMapper(
     jobOption: {
       id: jobPostingForm.jobOptionId,
     },
+    branch: {
+      id: jobPostingForm.branchId,
+    },
     jobFromDate: `${jobPostingForm.jobFromDateMonth}.${jobPostingForm.jobFromDateYear}`,
     jobToDate:
       jobPostingForm.jobToDateMonth && jobPostingForm.jobToDateYear

@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: redirectToCurrentOnboardingStep,
   },
   {
-    path: "/stelle/ausschreiben/:step?",
+    path: "/stelle/ausschreiben/:step/:id?",
     name: "CreateJobPosting",
     component: () =>
       import(/* webpackChunkName: "create-jobposting" */ "../views/CreateJobPosting.vue"),
