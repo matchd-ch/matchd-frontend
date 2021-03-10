@@ -57,7 +57,7 @@
         class="mb-10 flex-grow"
         :errors="errors.jobFromDateMonth || errors.jobFromDateYear"
       >
-        <template v-slot:label>Ab</template>
+        <template v-slot:label>Stellenantritt</template>
         <fieldset id="positionDateFrom" class="flex">
           <Field
             id="jobFromDateMonth"
@@ -92,7 +92,7 @@
         class="mb-10 lg:ml-3 flex-grow"
         :errors="errors.jobToDateMonth || errors.jobToDateYear"
       >
-        <template v-slot:label>Bis</template>
+        <template v-slot:label>Endtermin</template>
         <fieldset id="positionDateTo" class="flex">
           <Field
             id="jobToDateMonth"
@@ -150,8 +150,12 @@ import { jobPostingStep1InputMapper } from "@/api/mappers/jobPostingStep1InputMa
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import MatchdSelect from "@/components/MatchdSelect.vue";
+import SelectPill from "@/components/SelectPill.vue";
+import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
+import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { UserWithProfileNode } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
@@ -165,6 +169,9 @@ import { Options, Vue } from "vue-class-component";
     GenericError,
     MatchdButton,
     MatchdField,
+    MatchdSelect,
+    SelectPill,
+    SelectPillGroup,
   },
 })
 export default class JobPostingStep1 extends Vue {
@@ -180,7 +187,7 @@ export default class JobPostingStep1 extends Vue {
   };
 
   get jobOptions() {
-    return this.$store.getters["jobOptions"];
+    return this.$store.getters["contentJobOptions"];
   }
 
   get jobPostingLoading() {
@@ -205,6 +212,10 @@ export default class JobPostingStep1 extends Vue {
     return validYears;
   }
 
+  async mounted() {
+    await this.$store.dispatch(ContentActionsTypes.JOB_POSITIONS);
+  }
+
   async onSubmit(form: JobPostingStep1Form, actions: FormActions<Partial<JobPostingStep1Form>>) {
     if (
       form.jobFromDateMonth &&
@@ -222,7 +233,7 @@ export default class JobPostingStep1 extends Vue {
       });
       if (toDate <= fromDate) {
         actions.setErrors({
-          jobToDateMonth: 'Muss später als Feld "Ab" sein',
+          jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
         });
         return;
       }
@@ -237,10 +248,10 @@ export default class JobPostingStep1 extends Vue {
     } else if (this.jobPostingState.errors) {
       actions.setErrors(this.jobPostingState.errors);
       if (this.jobPostingState.errors.jobFromDate) {
-        actions.setErrors({ jobFromDateMonth: "Ab darf nicht leer sein." });
+        actions.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
       }
       if (this.jobPostingState.errors.jobToDate) {
-        actions.setErrors({ jobToDateMonth: "Bis darf nicht leer sein." });
+        actions.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
       }
     }
   }

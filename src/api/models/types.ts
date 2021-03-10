@@ -58,19 +58,19 @@ export type Scalars = {
 };
 
 /** An enumeration. */
-export enum AttachmentKey {
-  StudentAvatar = "STUDENT_AVATAR",
-  StudentDocuments = "STUDENT_DOCUMENTS",
-  CompanyAvatar = "COMPANY_AVATAR",
-  CompanyDocuments = "COMPANY_DOCUMENTS",
-}
-
-/** An enumeration. */
 export enum JobOptionMode {
   /** Date from */
   DateFrom = "DATE_FROM",
   /** Date range */
   DateRange = "DATE_RANGE",
+}
+
+/** An enumeration. */
+export enum AttachmentKey {
+  StudentAvatar = "STUDENT_AVATAR",
+  StudentDocuments = "STUDENT_DOCUMENTS",
+  CompanyAvatar = "COMPANY_AVATAR",
+  CompanyDocuments = "COMPANY_DOCUMENTS",
 }
 
 /** An enumeration. */
@@ -100,6 +100,23 @@ export enum UserState {
   /** Public */
   Public = "PUBLIC",
 }
+
+export type IJobPostingInputStep1 = {
+  /** Description */
+  description: Scalars["String"];
+  jobOption: IJobOptionInputType;
+  /** Workload */
+  workload: Scalars["String"];
+  jobFromDate: Scalars["String"];
+  jobToDate?: Maybe<Scalars["String"]>;
+  url?: Maybe<Scalars["String"]>;
+};
+
+export type IJobOptionInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars["String"]>;
+};
 
 export type ICompanyProfileInputStep1 = {
   /** First name */
@@ -186,12 +203,6 @@ export type IStudentProfileInputStep3 = {
   jobFromDate?: Maybe<Scalars["String"]>;
   jobToDate?: Maybe<Scalars["String"]>;
   jobPosition?: Maybe<IJobPositionInputType>;
-};
-
-export type IJobOptionInputType = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
-  mode?: Maybe<Scalars["String"]>;
 };
 
 export type IStudentProfileInputStep4 = {

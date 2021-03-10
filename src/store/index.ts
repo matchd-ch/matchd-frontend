@@ -19,6 +19,8 @@ import {
   State as JobPostingState,
 } from "@/store/modules/jobposting";
 
+import { store as content, ContentStore, State as ContentState } from "@/store/modules/content";
+
 const persistedLoginState = createPersistedState({
   paths: ["login.isLoggedIn", "login.refreshToken"],
 });
@@ -29,13 +31,15 @@ export type RootState = {
   profile: ProfileState;
   upload: UploadState;
   jobPosting: JobPostingState;
+  content: ContentState;
 };
 
 export type Store = RegistrationStore<Pick<RootState, "registration">> &
   LoginStore<Pick<RootState, "login">> &
   ProfileStore<Pick<RootState, "profile">> &
   UploadStore<Pick<RootState, "upload">> &
-  JobPostingStore<Pick<RootState, "jobPosting">>;
+  JobPostingStore<Pick<RootState, "jobPosting">> &
+  ContentStore<Pick<RootState, "content">>;
 
 // Plug in logger when in development environment
 const debug = process.env.NODE_ENV !== "production";
@@ -48,6 +52,7 @@ export const store = createStore<RootState>({
     profile,
     upload,
     jobPosting,
+    content,
   },
   plugins,
 });

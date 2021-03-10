@@ -2,18 +2,37 @@ import { fetchCsrfToken } from "@/api/csrf-token";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ApolloClient, ApolloLink, from, fromPromise, InMemoryCache } from "@apollo/client/core";
+import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
+import { RetryLink } from "@apollo/client/link/retry";
 import { createUploadLink } from "apollo-upload-client";
 import * as omitDeep from "omit-deep";
 
+let client: ApolloClient<any>;
+
 export function createApolloClient(baseUrl: string) {
+  if (client) {
+    return client;
+  }
+
   let csrfTokenPromise: Promise<string | undefined>;
 
   const httpLink = createUploadLink({
     uri: `${baseUrl}/graphql/`,
     credentials: "include",
   });
+
+  const batchLink = new BatchHttpLink({
+    uri: `${baseUrl}/graphql/`,
+    credentials: "include",
+  });
+
+  const directionalLink = new RetryLink().split(
+    operation => operation.variables.file,
+    httpLink,
+    batchLink
+  );
 
   const csrfLink = setContext(async (_, { headers }) => {
     if (!csrfTokenPromise) {
@@ -59,10 +78,10 @@ export function createApolloClient(baseUrl: string) {
     }
   });
 
-  const link = from([cleanTypeNameLink, csrfLink, httpLink]);
-  return new ApolloClient({
+  const link = from([cleanTypeNameLink, csrfLink, batchLink]);
+  return (client = new ApolloClient({
     link: errorLink.concat(link),
     cache: new InMemoryCache(),
     connectToDevTools: true,
-  });
+  }));
 }

@@ -1,5 +1,6 @@
 import { createApolloClient } from "@/api/apollo-client";
 import { RootState } from "@/store";
+import { JobPostingInputStep1 } from "api";
 import { ActionContext, ActionTree } from "vuex";
 
 import { ActionTypes } from "./action-types";
@@ -17,18 +18,6 @@ type AugmentedActionContext = {
 } & Omit<ActionContext<State, RootState>, "commit">;
 
 const apiClient = createApolloClient(process.env.VUE_APP_API || "http://localhost");
-
-export interface JobPostingInputStep1 {
-  // todo: only dummy
-  description: string;
-  jobOptionId: string;
-  workload: string;
-  jobFromDateMonth: string;
-  jobFromDateYear: string;
-  jobToDateMonth: string;
-  jobToDateYear: string;
-  url: string;
-}
 
 export interface Actions {
   [ActionTypes.SAVE_JOBPOSTING_STEP1](
