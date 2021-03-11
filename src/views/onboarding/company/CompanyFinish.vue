@@ -33,7 +33,7 @@ export default class CompanyFinish extends Vue {
   }
 
   onClickCreateJobPosting() {
-    this.$router.push({ name: "CreateJobPosting" });
+    this.$router.push({ name: "CreateJobPosting", params: { step: "schritt1" } });
   }
 }
 </script>

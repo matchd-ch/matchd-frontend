@@ -8,6 +8,7 @@ import { Mutations } from "@/store/modules/jobposting/mutations";
 import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import { State } from "@/store/modules/jobPosting/state";
 
+import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingStep1Mutation from "@/api/mutations/jobPostingStep1.gql";
 
 type AugmentedActionContext = {
@@ -24,6 +25,10 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: JobPostingInputStep1
   ): Promise<void>;
+  [ActionTypes.JOBPOSTING](
+    { commit }: AugmentedActionContext,
+    payload: { id: string }
+  ): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -34,5 +39,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data.jobPostingStep1);
+  },
+  async [ActionTypes.JOBPOSTING]({ commit }, payload: { id: string }) {
+    commit(MutationTypes.JOBPOSTING_LOADING);
+    const response = await apiClient.query({
+      query: jobPostingQuery,
+      variables: payload,
+    });
+    commit(MutationTypes.JOBPOSTING_LOADED, response.data.jobPosting);
   },
 };

@@ -1,5 +1,5 @@
 query {
-  branches {
+  skills {
     id
     name
   }

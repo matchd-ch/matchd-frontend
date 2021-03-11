@@ -146,6 +146,12 @@ export type IJobPostingLanguageRelationInputType = {
   languageLevel?: Maybe<Scalars["ID"]>;
 };
 
+export type IJobPostingInputStep3 = {
+  id?: Maybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
 export type ICompanyProfileInputStep1 = {
   /** First name */
   firstName: Scalars["String"];

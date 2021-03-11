@@ -81,7 +81,7 @@ type QueryJobPostingsArgs = {
 };
 
 type QueryJobPostingArgs = {
-  id: Scalars["Int"];
+  id: Scalars["ID"];
 };
 
 type QueryAttachmentsArgs = {
@@ -108,6 +108,7 @@ type JobPostingType = {
   id: Scalars["ID"];
   description: Scalars["String"];
   jobOption: JobOptionType;
+  branch: BranchType;
   workload?: Maybe<Scalars["String"]>;
   company: Company;
   jobFromDate: Scalars["Date"];
@@ -133,6 +134,12 @@ enum JobOptionMode {
   /** Date range */
   DateRange = "DATE_RANGE",
 }
+
+type BranchType = {
+  __typename?: "BranchType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
 
 type Company = {
   __typename?: "Company";
@@ -217,12 +224,6 @@ type AttachmentType = {
   mimeType?: Maybe<Scalars["String"]>;
   fileSize?: Maybe<Scalars["Int"]>;
   fileName?: Maybe<Scalars["String"]>;
-};
-
-type BranchType = {
-  __typename?: "BranchType";
-  id: Scalars["ID"];
-  name: Scalars["String"];
 };
 
 type ZipCityType = {
@@ -332,6 +333,8 @@ type Mutation = {
   jobPostingStep1?: Maybe<JobPostingStep1>;
   /** Updates a job posting */
   jobPostingStep2?: Maybe<JobPostingStep2>;
+  /** Updates a job posting */
+  jobPostingStep3?: Maybe<JobPostingStep3>;
   deleteAttachment?: Maybe<DeleteAttachment>;
   upload?: Maybe<UserUpload>;
   /** Updates the profile of a Company */
@@ -416,6 +419,10 @@ type MutationJobPostingStep1Args = {
 
 type MutationJobPostingStep2Args = {
   step2: JobPostingInputStep2;
+};
+
+type MutationJobPostingStep3Args = {
+  step3: JobPostingInputStep3;
 };
 
 type MutationDeleteAttachmentArgs = {
@@ -577,6 +584,20 @@ type JobPostingLanguageRelationInputType = {
   id?: Maybe<Scalars["ID"]>;
   language?: Maybe<Scalars["ID"]>;
   languageLevel?: Maybe<Scalars["ID"]>;
+};
+
+/** Updates a job posting */
+type JobPostingStep3 = {
+  __typename?: "JobPostingStep3";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  jobPostingId?: Maybe<Scalars["ID"]>;
+};
+
+type JobPostingInputStep3 = {
+  id?: Maybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
 };
 
 type DeleteAttachment = {

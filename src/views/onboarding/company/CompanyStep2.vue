@@ -112,6 +112,7 @@ import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { AttachmentType, UserWithProfileNode } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -172,7 +173,7 @@ export default class CompanyStep2 extends Vue {
 
   async mounted() {
     await Promise.all([
-      this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP2_DATA),
+      this.$store.dispatch(ContentActionTypes.BRANCHES),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
     ]);

@@ -211,12 +211,16 @@ export default class JobPostingStep1 extends Vue {
     url: "",
   };
 
+  get currentJobPosting() {
+    return this.$store.getters["currentJobPosting"];
+  }
+
   get jobOptions() {
-    return this.$store.getters["contentJobOptions"];
+    return this.$store.getters["jobOptions"];
   }
 
   get branches() {
-    return this.$store.getters["contentBranches"];
+    return this.$store.getters["branches"];
   }
 
   get jobPostingLoading() {
@@ -243,9 +247,35 @@ export default class JobPostingStep1 extends Vue {
 
   async mounted() {
     await Promise.all([
-      this.$store.dispatch(ContentActionsTypes.JOB_POSITIONS),
+      this.$store.dispatch(ContentActionsTypes.JOB_OPTIONS),
       this.$store.dispatch(ContentActionsTypes.BRANCHES),
     ]);
+
+    if (this.currentJobPosting) {
+      this.populateForm();
+    }
+  }
+
+  populateForm() {
+    this.form = {
+      description: this.currentJobPosting?.description || "",
+      url: this.currentJobPosting?.url || "",
+      workload: this.currentJobPosting?.workload || "",
+      jobOptionId: this.currentJobPosting?.jobOption?.id || "",
+      branchId: this.currentJobPosting?.branch?.id || "",
+      jobFromDateMonth: this.currentJobPosting?.jobFromDate
+        ? DateTime.fromSQL(this.currentJobPosting?.jobFromDate).month.toString()
+        : "",
+      jobFromDateYear: this.currentJobPosting?.jobFromDate
+        ? DateTime.fromSQL(this.currentJobPosting?.jobFromDate).year.toString()
+        : "",
+      jobToDateMonth: this.currentJobPosting?.jobToDate
+        ? DateTime.fromSQL(this.currentJobPosting?.jobToDate).toString()
+        : "",
+      jobToDateYear: this.currentJobPosting?.jobToDate
+        ? DateTime.fromSQL(this.currentJobPosting?.jobToDate).year.toString()
+        : "",
+    };
   }
 
   async onSubmit(form: JobPostingStep1Form, actions: FormActions<Partial<JobPostingStep1Form>>) {

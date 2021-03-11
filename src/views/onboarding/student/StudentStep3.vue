@@ -150,6 +150,7 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { JobPositionType, UserWithProfileNode } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
@@ -243,7 +244,10 @@ export default class StudentStep3 extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP3_DATA);
+    await Promise.all([
+      this.$store.dispatch(ContentActionTypes.JOB_OPTIONS),
+      this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
+    ]);
   }
 
   async onSubmit(

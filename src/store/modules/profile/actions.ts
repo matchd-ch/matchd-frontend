@@ -24,13 +24,9 @@ import studentProfileStep3Mutation from "@/api/mutations/studentProfileStep3.gql
 import studentProfileStep4Mutation from "@/api/mutations/studentProfileStep4.gql";
 import studentProfileStep5Mutation from "@/api/mutations/studentProfileStep5.gql";
 import studentProfileStep6Mutation from "@/api/mutations/studentProfileStep6.gql";
-import studentProfileStep3DataQuery from "@/api/queries/studentProfileStep3Data.gql";
-import studentProfileStep4DataQuery from "@/api/queries/studentProfileStep4Data.gql";
 import companyProfileStep1Mutation from "@/api/mutations/companyProfileStep1.gql";
 import companyProfileStep2Mutation from "@/api/mutations/companyProfileStep2.gql";
 import companyProfileStep3Mutation from "@/api/mutations/companyProfileStep3.gql";
-import companyProfileStep2DataQuery from "@/api/queries/companyProfileStep2Data.gql";
-import companyProfileStep3DataQuery from "@/api/queries/companyProfileStep3Data.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
 
 type AugmentedActionContext = {
@@ -67,8 +63,6 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: IStudentProfileInputStep6
   ): Promise<void>;
-  [ActionTypes.STUDENT_ONBOARDING_STEP3_DATA]({ commit }: AugmentedActionContext): Promise<void>;
-  [ActionTypes.STUDENT_ONBOARDING_STEP4_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
     payload: ICompanyProfileInputStep1
@@ -81,8 +75,6 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: ICompanyProfileInputStep3
   ): Promise<void>;
-  [ActionTypes.COMPANY_ONBOARDING_STEP2_DATA]({ commit }: AugmentedActionContext): Promise<void>;
-  [ActionTypes.COMPANY_ONBOARDING_STEP3_DATA]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
@@ -138,27 +130,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep6);
   },
-  async [ActionTypes.STUDENT_ONBOARDING_STEP3_DATA]({ commit }) {
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP3_DATA_LOADING);
-    const response = await apiClient.query({
-      query: studentProfileStep3DataQuery,
-    });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP3_DATA_LOADED, {
-      jobPositions: response.data.jobPositions,
-      jobOptions: response.data.jobOptions,
-    });
-  },
-  async [ActionTypes.STUDENT_ONBOARDING_STEP4_DATA]({ commit }) {
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP4_DATA_LOADING);
-    const response = await apiClient.query({
-      query: studentProfileStep4DataQuery,
-    });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP4_DATA_LOADED, {
-      skills: response.data.skills,
-      languages: response.data.languages,
-      languageLevels: response.data.languageLevels,
-    });
-  },
   async [ActionTypes.COMPANY_ONBOARDING_STEP1]({ commit }, payload: ICompanyProfileInputStep1) {
     commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
@@ -182,25 +153,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep3);
-  },
-  async [ActionTypes.COMPANY_ONBOARDING_STEP2_DATA]({ commit }) {
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADING);
-    const response = await apiClient.query({
-      query: companyProfileStep2DataQuery,
-    });
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP2_DATA_LOADED, {
-      branches: response.data.branches,
-    });
-  },
-  async [ActionTypes.COMPANY_ONBOARDING_STEP3_DATA]({ commit }) {
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP3_DATA_LOADING);
-    const response = await apiClient.query({
-      query: companyProfileStep3DataQuery,
-    });
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP3_DATA_LOADED, {
-      jobPositions: response.data.jobPositions,
-      benefits: response.data.benefits,
-    });
   },
   async [ActionTypes.CITY_BY_ZIP]({ commit }) {
     commit(MutationTypes.ZIP_CITY_LOADING);

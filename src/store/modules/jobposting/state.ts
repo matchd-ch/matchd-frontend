@@ -1,4 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
+import { JobPostingType } from "api";
 
 export type State = {
   jobPosting: {
@@ -7,6 +8,7 @@ export type State = {
     errors: MatchdApiError | null;
     id: string;
   };
+  currentJobPosting: JobPostingType | null;
 };
 
 export const state: State = {
@@ -16,4 +18,5 @@ export const state: State = {
     errors: null,
     id: "",
   },
+  currentJobPosting: null,
 };
