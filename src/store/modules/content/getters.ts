@@ -2,6 +2,7 @@ import { RootState } from "@/store";
 import {
   BenefitType,
   BranchType,
+  ExpectationType,
   JobOptionType,
   JobPositionType,
   LanguageType,
@@ -14,6 +15,7 @@ import { State } from "./state";
 export type Getters = {
   benefits(state: State): BenefitType[];
   branches(state: State): BranchType[];
+  expectations(state: State): ExpectationType[];
   jobOptions(state: State): JobOptionType[];
   jobPositions(state: State): JobPositionType[];
   languages(state: State): LanguageType[];
@@ -27,6 +29,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   branches(state: State): BranchType[] {
     return state.branches.data;
+  },
+  expectations(state: State): ExpectationType[] {
+    return state.expectations.data;
   },
   jobOptions(state: State): JobOptionType[] {
     return state.jobOptions.data;

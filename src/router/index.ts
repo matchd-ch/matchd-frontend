@@ -1,5 +1,6 @@
 import { isLoggedIn } from "@/router/authenticationGuard";
 import { isCompleteProfile } from "@/router/homeGuard";
+import { redirectToCurrentJobPostingStep } from "@/router/jobPostingGuard";
 import { redirectToCurrentOnboardingStep } from "@/router/onboardingGuard";
 import { needsStateResetBeforePasswordReset } from "@/router/passwordResetGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
@@ -46,6 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "CreateJobPosting",
     component: () =>
       import(/* webpackChunkName: "create-jobposting" */ "../views/CreateJobPosting.vue"),
+    beforeEnter: redirectToCurrentJobPostingStep,
   },
   {
     path: "/passwort-vergessen",
