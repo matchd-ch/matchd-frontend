@@ -78,18 +78,18 @@
     <div class="lg:flex">
       <MatchdSelect
         id="positionDateFrom"
-        class="mb-10 flex-grow"
+        class="mb-10 flex-grow w-1/2"
         :errors="errors.jobFromDateMonth || errors.jobFromDateYear"
       >
-        <template v-slot:label>Stellenantritt</template>
+        <template v-slot:label>Stellenantritt*</template>
         <fieldset id="positionDateFrom" class="flex">
           <Field
             id="jobFromDateMonth"
             name="jobFromDateMonth"
             as="select"
-            label="Monat"
+            label="Stellenantritt Monat"
             class="mr-3"
-            :rules="form.jobFromDateYear !== '' ? 'required' : ''"
+            rules="required"
             v-model="form.jobFromDateMonth"
           >
             <option value="" disabled selected hidden>Monat</option>
@@ -101,9 +101,9 @@
             id="jobFromDateYear"
             name="jobFromDateYear"
             as="select"
-            label="Jahr"
+            label="Stellenantritt Jahr"
             v-model="form.jobFromDateYear"
-            :rules="form.jobFromDateMonth !== '' ? 'required' : ''"
+            rules="required"
           >
             <option value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
@@ -113,7 +113,7 @@
       <!-- Endtermin -->
       <MatchdSelect
         id="positionDateTo"
-        class="mb-10 lg:ml-3 flex-grow"
+        class="mb-10 lg:ml-3 flex-grow w-1/2"
         :errors="errors.jobToDateMonth || errors.jobToDateYear"
       >
         <template v-slot:label>Endtermin</template>
@@ -123,7 +123,7 @@
             name="jobToDateMonth"
             as="select"
             label="Monat"
-            class="mr-3"
+            class="mr-3 l"
             :rules="form.jobToDateYear !== '' ? 'required' : ''"
             v-model="form.jobToDateMonth"
           >
