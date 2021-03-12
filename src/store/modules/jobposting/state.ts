@@ -8,7 +8,10 @@ export type State = {
     errors: MatchdApiError | null;
     id: string;
   };
-  currentJobPosting: JobPostingType | null;
+  currentJobPosting: {
+    loading: boolean;
+    data: JobPostingType | null;
+  };
 };
 
 export const state: State = {
@@ -18,5 +21,8 @@ export const state: State = {
     errors: null,
     id: "",
   },
-  currentJobPosting: null,
+  currentJobPosting: {
+    loading: false,
+    data: null,
+  },
 };

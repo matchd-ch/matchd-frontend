@@ -9,6 +9,7 @@ export async function redirectToCurrentJobPostingStep(
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) {
+  const store = useStore();
   if (
     !to.params.id ||
     !to.params.step ||
@@ -19,7 +20,6 @@ export async function redirectToCurrentJobPostingStep(
       params: { step: `${ParamStrings.STEP}1`, id: ParamStrings.NEW },
     });
   } else if (Number(to.params.id) && to.params.step) {
-    const store = useStore();
     await store.dispatch(ActionTypes.JOBPOSTING, { id: `${to.params.id}` });
     const currentStep = store.getters["currentJobPostingStep"];
     // Prevent user to go to a step which is beyond the state of the job posting

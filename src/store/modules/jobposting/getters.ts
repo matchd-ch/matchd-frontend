@@ -27,9 +27,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return state.jobPosting.id;
   },
   currentJobPostingStep(state: State): number {
-    return state.currentJobPosting?.formStep || 1;
+    return state.currentJobPosting.data?.formStep || 1;
   },
   currentJobPosting(state: State): JobPostingType | null {
-    return state.currentJobPosting;
+    return state.currentJobPosting.data;
   },
 };

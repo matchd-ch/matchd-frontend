@@ -39,8 +39,10 @@
 import { parseStepName } from "@/helpers/parseStepName";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
+import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
 import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
+import JobPostingStep3 from "@/views/jobposting/JobPostingStep3.vue";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
@@ -50,6 +52,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   components: {
     JobPostingStep1,
     JobPostingStep2,
+    JobPostingStep3,
   },
 })
 export default class JobPosting extends Vue {
@@ -87,19 +90,26 @@ export default class JobPosting extends Vue {
     this.urlStepNumber = parseStepName(String(to.params.step));
     if (to.params.id && Number(to.params.id)) {
       await this.loadJobPostingWithId(String(to.params.id));
+    } else if (to.params.id && to.params.id === ParamStrings.NEW) {
+      this.clearCurrentJobPosting();
     }
     next();
   }
 
   mounted() {
     this.urlStepNumber = parseStepName(String(this.$route.params.step));
+    if (this.$route.params.id && this.$route.params.id === ParamStrings.NEW) {
+      this.clearCurrentJobPosting();
+    }
+  }
+
+  clearCurrentJobPosting() {
+    this.$store.commit(MutationTypes.CLEAR_CURRENT_JOBPOSTING);
   }
 
   async loadJobPostingWithId(jobPostingId: string) {
-    if (jobPostingId && jobPostingId !== ParamStrings.NEW) {
-      this.requestedCurrentJobPosting = true;
-      await this.$store.dispatch(ActionTypes.JOBPOSTING, { id: jobPostingId });
-    }
+    this.requestedCurrentJobPosting = true;
+    await this.$store.dispatch(ActionTypes.JOBPOSTING, { id: jobPostingId });
   }
 }
 </script>

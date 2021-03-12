@@ -166,6 +166,14 @@
       class="block w-full"
       >Speichern und weiter</MatchdButton
     >
+    <MatchdButton
+      type="button"
+      variant="outline"
+      :disabled="jobPostingLoading"
+      class="block w-full mt-5"
+      @click="$router.push({ name: 'Home' })"
+      >Abbrechen</MatchdButton
+    >
   </Form>
 </template>
 
@@ -180,6 +188,7 @@ import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
+import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import { UserWithProfileNode } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";

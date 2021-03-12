@@ -1,0 +1,15 @@
+mutation(
+  $id: ID!
+  $state: String!
+) {
+  jobPostingStep3(
+    step3: {
+      id: $id,
+      state: $state
+    }
+  ) {
+    success
+    errors
+    jobPostingId
+  }
+}

@@ -10,6 +10,7 @@ export type Mutations<S = State> = {
   [MutationTypes.JOBPOSTING_STEP_LOADED](state: S, payload: JobPostingStep1): void;
   [MutationTypes.JOBPOSTING_LOADING](state: S): void;
   [MutationTypes.JOBPOSTING_LOADED](state: S, payload: JobPostingType): void;
+  [MutationTypes.CLEAR_CURRENT_JOBPOSTING](state: S): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -25,10 +26,13 @@ export const mutations: MutationTree<State> & Mutations = {
     }
   },
   [MutationTypes.JOBPOSTING_LOADING](state: State) {
-    state.jobPosting.loading = true; // todo
+    state.currentJobPosting.loading = true;
   },
   [MutationTypes.JOBPOSTING_LOADED](state: State, payload: JobPostingType) {
-    state.jobPosting.loading = false; // todo
-    state.currentJobPosting = payload;
+    state.currentJobPosting.loading = false;
+    state.currentJobPosting.data = payload;
+  },
+  [MutationTypes.CLEAR_CURRENT_JOBPOSTING](state: State) {
+    state.currentJobPosting.data = null;
   },
 };
