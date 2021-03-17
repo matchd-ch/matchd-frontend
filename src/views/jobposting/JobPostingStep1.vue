@@ -83,7 +83,7 @@
           :errors="errors.workload"
           class="mt-3"
         >
-          <template v-slot:label class="sr-only">Teilzeit Pensum</template>
+          <template v-slot:label>Teilzeit Pensum</template>
           <Field
             id="workload"
             name="workload"
