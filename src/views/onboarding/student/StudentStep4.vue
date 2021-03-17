@@ -104,7 +104,7 @@
         @deleteFile="onDeleteStudentDocument"
       />
       <MatchdFileUpload
-        v-if="studentDocumentsUploadConfigurations.maxFiles > studentDocuments.length"
+        v-if="studentDocumentsUploadConfigurations.maxFiles >= studentDocuments.length"
         :uploadConfiguration="studentDocumentsUploadConfigurations"
         @selectFiles="onSelectStudentDocuments"
         class="mb-10"
@@ -167,6 +167,7 @@
 </template>
 
 <script lang="ts">
+import { studentProfileStep4InputMapper } from "@/api/mappers/studentProfileStep4InputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
@@ -205,7 +206,7 @@ import { Options, Vue } from "vue-class-component";
     SelectPillGroup,
   },
 })
-export default class Step4 extends Vue {
+export default class StudentStep4 extends Vue {
   form: StudentProfileStep4Form = {
     skills: [],
     languages: [],
@@ -263,7 +264,7 @@ export default class Step4 extends Vue {
 
   async mounted() {
     await Promise.all([
-      this.$store.dispatch(ActionTypes.ONBOARDING_STEP4_DATA),
+      this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP4_DATA),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
@@ -360,23 +361,13 @@ export default class Step4 extends Vue {
     }
 
     if (this.form.skills.length > 0 && this.form.languages.length > 0) {
-      await this.$store.dispatch(ActionTypes.ONBOARDING_STEP4, {
-        skills: this.form.skills.map(skill => {
-          return { id: skill.id };
-        }),
-        languages: this.form.languages.map(selectedLanguage => {
-          return {
-            language: selectedLanguage.language.id,
-            languageLevel: selectedLanguage.level.id,
-          };
-        }),
-        distinction: this.form.distinction,
-        onlineProjects: this.form.onlineProjects,
-        hobbies: this.form.hobbies,
-      });
+      await this.$store.dispatch(
+        ActionTypes.STUDENT_ONBOARDING_STEP4,
+        studentProfileStep4InputMapper(this.form)
+      );
 
       if (this.onboardingState.success) {
-        this.$router.push({ name: "OnboardingStep5" });
+        this.$router.push({ params: { step: "schritt5" } });
       }
     }
   }

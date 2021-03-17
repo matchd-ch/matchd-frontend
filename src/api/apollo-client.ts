@@ -1,10 +1,11 @@
 import { fetchCsrfToken } from "@/api/csrf-token";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/login/action-types";
-import { ApolloClient, from, fromPromise, InMemoryCache } from "@apollo/client/core";
+import { ApolloClient, ApolloLink, from, fromPromise, InMemoryCache } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
+import * as omitDeep from "omit-deep";
 
 export function createApolloClient(baseUrl: string) {
   let csrfTokenPromise: Promise<string | undefined>;
@@ -30,6 +31,15 @@ export function createApolloClient(baseUrl: string) {
     };
   });
 
+  const cleanTypeNameLink = new ApolloLink((operation, forward) => {
+    if (operation.variables) {
+      omitDeep(operation.variables, "__typename");
+    }
+    return forward(operation).map(data => {
+      return data;
+    });
+  });
+
   const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       const store = useStore();
@@ -49,7 +59,7 @@ export function createApolloClient(baseUrl: string) {
     }
   });
 
-  const link = from([csrfLink, httpLink]);
+  const link = from([cleanTypeNameLink, csrfLink, httpLink]);
   return new ApolloClient({
     link: errorLink.concat(link),
     cache: new InMemoryCache(),

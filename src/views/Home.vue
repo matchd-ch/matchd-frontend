@@ -43,12 +43,7 @@ export default class Home extends Vue {
   }
 
   get isStudent(): boolean {
-    if (!this.user?.type) {
-      return false;
-    }
-    return [UserType.Student, UserType.CollegeStudent, UserType.Internal, UserType.Junior].includes(
-      this.user.type
-    );
+    return this.$store.getters["isStudent"];
   }
 
   get user(): UserWithProfileNode | null {

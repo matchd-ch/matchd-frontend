@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2 class="text-heading-lg mb-10">Was willst du als nächstes tun?</h2>
     <MatchdButton variant="outline" class="block w-full" @click="onClickFindCompany"
       >Unternehmen finden</MatchdButton
     >
@@ -26,7 +27,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
   },
 })
-export default class Finish extends Vue {
+export default class StudentFinish extends Vue {
   onClickFindTraineePosition() {
     this.$router.push({ name: "Home" });
   }

@@ -1,0 +1,10 @@
+query {
+  jobPositions {
+    id
+    name
+  }
+  benefits {
+    id
+    icon
+  }
+}
