@@ -63,17 +63,40 @@
         >{{ branch.name }}</SelectPill
       >
     </SelectPillGroup>
-    <!-- Arbeitspensum Field -->
-    <MatchdField id="workload" class="mb-10" :errors="errors.workload">
-      <template v-slot:label>Arbeitspensum</template>
-      <Field
-        id="workload"
-        name="workload"
-        as="input"
-        label="Arbeitspensum"
-        v-model="form.workload"
-      />
-    </MatchdField>
+    <fieldset class="mb-10">
+      <label class="block px-8 mb-2 font-medium">Arbeitspensum</label>
+      <div>
+        <!-- Vollzeit-Teilzeit Field -->
+        <MatchdToggle id="fullTime" :errors="errors.fullTime">
+          <input
+            id="fullTime"
+            name="fullTime"
+            type="checkbox"
+            v-model="form.fullTime"
+            @change="onChangeFullTime"
+          />
+        </MatchdToggle>
+        <!-- Arbeitspensum Field -->
+        <MatchdSelect
+          v-if="form.fullTime === false"
+          id="workload"
+          :errors="errors.workload"
+          class="mt-3"
+        >
+          <template v-slot:label class="sr-only">Teilzeit Pensum</template>
+          <Field
+            id="workload"
+            name="workload"
+            as="select"
+            label="Pensum"
+            rules="required"
+            v-model="form.workload"
+          >
+            <option v-for="(n, index) in 9" :value="n * 10" :key="index">{{ n * 10 }}%</option>
+          </Field>
+        </MatchdSelect>
+      </div>
+    </fieldset>
     <!-- Stellenantritt -->
     <div class="lg:flex">
       <MatchdSelect
@@ -183,12 +206,12 @@ import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
+import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
-import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import { UserWithProfileNode } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
@@ -203,6 +226,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
     MatchdField,
     MatchdSelect,
+    MatchdToggle,
     SelectPill,
     SelectPillGroup,
   },
@@ -210,7 +234,8 @@ import { Options, Vue } from "vue-class-component";
 export default class JobPostingStep1 extends Vue {
   form: JobPostingStep1Form = {
     description: "",
-    workload: "",
+    fullTime: true,
+    workload: "90",
     jobOptionId: "",
     branchId: "",
     jobFromDateMonth: "",
@@ -269,7 +294,8 @@ export default class JobPostingStep1 extends Vue {
     this.form = {
       description: this.currentJobPosting?.description || "",
       url: this.currentJobPosting?.url || "",
-      workload: this.currentJobPosting?.workload || "",
+      fullTime: this.currentJobPosting?.workload === "100",
+      workload: this.currentJobPosting?.workload || "90",
       jobOptionId: this.currentJobPosting?.jobOption?.id || "",
       branchId: this.currentJobPosting?.branch?.id || "",
       jobFromDateMonth: this.currentJobPosting?.jobFromDate
@@ -285,6 +311,12 @@ export default class JobPostingStep1 extends Vue {
         ? DateTime.fromSQL(this.currentJobPosting?.jobToDate).year.toString()
         : "",
     };
+  }
+
+  onChangeFullTime() {
+    if (!this.form.fullTime) {
+      this.form.workload = "90";
+    }
   }
 
   async onSubmit(form: JobPostingStep1Form, actions: FormActions<Partial<JobPostingStep1Form>>) {
