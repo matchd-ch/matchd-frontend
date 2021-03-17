@@ -10,7 +10,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "Home",
     component: Home,
-    beforeEnter: isCompleteProfile,
   },
   {
     path: "/login",
@@ -41,6 +40,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "Onboarding",
     component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
     beforeEnter: redirectToCurrentOnboardingStep,
+  },
+  {
+    path: "/stelle/ausschreiben/:id?/:step?",
+    name: "CreateJobPosting",
+    component: () =>
+      import(/* webpackChunkName: "create-jobposting" */ "../views/CreateJobPosting.vue"),
   },
   {
     path: "/passwort-vergessen",
@@ -97,5 +102,6 @@ const router = createRouter({
 });
 
 router.beforeEach(isLoggedIn);
+router.beforeEach(isCompleteProfile);
 
 export default router;

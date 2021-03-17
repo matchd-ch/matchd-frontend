@@ -9,6 +9,15 @@
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
       <div>
         Hello {{ user.firstName }} {{ user.lastName }} {{ user.type }}
+
+        <ul v-if="isCompany">
+          <li>
+            <router-link :to="{ name: 'CreateJobPosting', params: { step: 'schritt1' } }"
+              >Stelle ausschreiben</router-link
+            >
+          </li>
+        </ul>
+
         <MatchdButton
           variant="outline"
           @click="onClickLogout"
@@ -44,6 +53,10 @@ export default class Home extends Vue {
 
   get isStudent(): boolean {
     return this.$store.getters["isStudent"];
+  }
+
+  get isCompany(): boolean {
+    return this.$store.getters["isCompany"];
   }
 
   get user(): UserWithProfileNode | null {

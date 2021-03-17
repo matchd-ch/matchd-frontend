@@ -58,19 +58,19 @@ export type Scalars = {
 };
 
 /** An enumeration. */
-export enum AttachmentKey {
-  StudentAvatar = "STUDENT_AVATAR",
-  StudentDocuments = "STUDENT_DOCUMENTS",
-  CompanyAvatar = "COMPANY_AVATAR",
-  CompanyDocuments = "COMPANY_DOCUMENTS",
-}
-
-/** An enumeration. */
 export enum JobOptionMode {
   /** Date from */
   DateFrom = "DATE_FROM",
   /** Date range */
   DateRange = "DATE_RANGE",
+}
+
+/** An enumeration. */
+export enum AttachmentKey {
+  StudentAvatar = "STUDENT_AVATAR",
+  StudentDocuments = "STUDENT_DOCUMENTS",
+  CompanyAvatar = "COMPANY_AVATAR",
+  CompanyDocuments = "COMPANY_DOCUMENTS",
 }
 
 /** An enumeration. */
@@ -100,6 +100,57 @@ export enum UserState {
   /** Public */
   Public = "PUBLIC",
 }
+
+export type IJobPostingInputStep1 = {
+  /** Description */
+  description: Scalars["String"];
+  jobOption: IJobOptionInputType;
+  branch: IBranchInputType;
+  /** Workload */
+  workload?: Maybe<Scalars["String"]>;
+  jobFromDate: Scalars["String"];
+  jobToDate?: Maybe<Scalars["String"]>;
+  url?: Maybe<Scalars["String"]>;
+};
+
+export type IJobOptionInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars["String"]>;
+};
+
+export type IBranchInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type IJobPostingInputStep2 = {
+  id?: Maybe<Scalars["ID"]>;
+  expectations?: Maybe<Array<Maybe<IExpectationInputType>>>;
+  skills?: Maybe<Array<Maybe<ISkillInputType>>>;
+  languages?: Maybe<Array<Maybe<IJobPostingLanguageRelationInputType>>>;
+};
+
+export type IExpectationInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type ISkillInputType = {
+  id: Scalars["ID"];
+};
+
+export type IJobPostingLanguageRelationInputType = {
+  id?: Maybe<Scalars["ID"]>;
+  language?: Maybe<Scalars["ID"]>;
+  languageLevel?: Maybe<Scalars["ID"]>;
+};
+
+export type IJobPostingInputStep3 = {
+  id?: Maybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
+};
 
 export type ICompanyProfileInputStep1 = {
   /** First name */
@@ -131,11 +182,6 @@ export type ICompanyProfileInputStep2 = {
   services?: Maybe<Scalars["String"]>;
   /** memeber IT St. Gallen */
   memberItStGallen: Scalars["Boolean"];
-};
-
-export type IBranchInputType = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
 };
 
 export type ICompanyProfileInputStep3 = {
@@ -188,12 +234,6 @@ export type IStudentProfileInputStep3 = {
   jobPosition?: Maybe<IJobPositionInputType>;
 };
 
-export type IJobOptionInputType = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
-  mode?: Maybe<Scalars["String"]>;
-};
-
 export type IStudentProfileInputStep4 = {
   /** Skills */
   skills?: Maybe<Array<Maybe<ISkillInputType>>>;
@@ -205,10 +245,6 @@ export type IStudentProfileInputStep4 = {
   languages: Array<Maybe<IUserLanguageRelationInputType>>;
   /** Distinction */
   distinction?: Maybe<Scalars["String"]>;
-};
-
-export type ISkillInputType = {
-  id: Scalars["ID"];
 };
 
 export type IHobbyInputType = {
