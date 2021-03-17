@@ -68,6 +68,7 @@
 </template>
 
 <script lang="ts">
+import { studentProfileStep2InputMapper } from "@/api/mappers/studentProfileStep2InputMapper";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -89,7 +90,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdSelect,
   },
 })
-export default class Step2 extends Vue {
+export default class StudentStep2 extends Vue {
   form: StudentProfileStep2Form = {
     schoolName: "",
     fieldOfStudy: "",
@@ -123,15 +124,12 @@ export default class Step2 extends Vue {
     form: StudentProfileStep2Form,
     actions: FormActions<Partial<StudentProfileStep2Form>>
   ) {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP2, {
-      ...form,
-      graduation:
-        form.graduationMonth && form.graduationYear
-          ? `${form.graduationMonth}.${form.graduationYear}`
-          : null,
-    });
+    await this.$store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP2,
+      studentProfileStep2InputMapper(this.form)
+    );
     if (this.onboardingState.success) {
-      this.$router.push({ name: "OnboardingStep3" });
+      this.$router.push({ params: { step: "schritt3" } });
     } else if (this.onboardingState.errors) {
       actions.setErrors(this.onboardingState.errors);
     }

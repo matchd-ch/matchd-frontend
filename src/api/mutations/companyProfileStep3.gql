@@ -1,0 +1,14 @@
+mutation(
+  $jobPositions: [JobPositionInputType],
+  $benefits: [BenefitInputType]
+) {
+  companyProfileStep3(
+    step3: {
+      jobPositions: $jobPositions
+      benefits: $benefits
+    }
+  ) {
+    success
+    errors
+  }
+}

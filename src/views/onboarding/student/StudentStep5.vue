@@ -1,6 +1,6 @@
 <template>
   <Form v-if="studentAvatarUploadConfigurations" @submit="onSubmit" v-slot="{ errors }">
-    <GenericError v-if="onboardingState.errors">
+    <GenericError v-if="onboardingState.errors && !this.onboardingState?.errors?.nickname">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
     <MatchdField id="nickname" class="mb-10" :errors="errors.nickname">
@@ -55,6 +55,7 @@
 </template>
 
 <script lang="ts">
+import { studentProfileStep5InputMapper } from "@/api/mappers/studentProfileStep5InputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -86,7 +87,7 @@ import { Options, Vue } from "vue-class-component";
     NicknameSuggestions,
   },
 })
-export default class Step5 extends Vue {
+export default class StudentStep5 extends Vue {
   form: StudentProfileStep5Form = {
     nickname: "",
   };
@@ -151,13 +152,16 @@ export default class Step5 extends Vue {
     form: StudentProfileStep5Form,
     actions: FormActions<Partial<StudentProfileStep5Form>>
   ) {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP5, form);
+    await this.$store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP5,
+      studentProfileStep5InputMapper(this.form)
+    );
     if (this.onboardingState?.errors?.nickname[0] === "unique") {
       actions.setErrors({
         nickname: "Dieser Nickname ist bereits vergeben.",
       });
     } else if (this.onboardingState.success) {
-      this.$router.push({ name: "OnboardingStep6" });
+      this.$router.push({ params: { step: "schritt6" } });
     }
   }
 }

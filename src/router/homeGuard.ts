@@ -8,7 +8,9 @@ export async function isCompleteProfile(
 ) {
   const store = useStore();
   const profileStep = store.getters["user"]?.profileStep;
-  if (profileStep && profileStep <= 6) {
+  const isCompany = store.getters["isCompany"];
+  const isStudent = store.getters["isStudent"];
+  if (profileStep && ((isStudent && profileStep <= 6) || (isCompany && profileStep <= 3))) {
     next({ name: "Onboarding" });
   } else {
     next();

@@ -101,6 +101,60 @@ export enum UserState {
   Public = "PUBLIC",
 }
 
+export type ICompanyProfileInputStep1 = {
+  /** First name */
+  firstName: Scalars["String"];
+  /** Last name */
+  lastName: Scalars["String"];
+  /** Name */
+  name?: Maybe<Scalars["String"]>;
+  /** Street */
+  street: Scalars["String"];
+  /** Zip */
+  zip: Scalars["String"];
+  /** City */
+  city: Scalars["String"];
+  /** Phone Number */
+  phone?: Maybe<Scalars["String"]>;
+  /** role */
+  role: Scalars["String"];
+};
+
+export type ICompanyProfileInputStep2 = {
+  /** website */
+  website: Scalars["String"];
+  /** branch */
+  branch?: Maybe<IBranchInputType>;
+  /** description */
+  description?: Maybe<Scalars["String"]>;
+  /** services */
+  services?: Maybe<Scalars["String"]>;
+  /** memeber IT St. Gallen */
+  memberItStGallen: Scalars["Boolean"];
+};
+
+export type IBranchInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type ICompanyProfileInputStep3 = {
+  /** Job Position */
+  jobPositions?: Maybe<Array<Maybe<IJobPositionInputType>>>;
+  /** Benefits */
+  benefits?: Maybe<Array<Maybe<IBenefitInputType>>>;
+};
+
+export type IJobPositionInputType = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type IBenefitInputType = {
+  id: Scalars["ID"];
+  icon?: Maybe<Scalars["String"]>;
+};
+
 export type IStudentProfileInputStep1 = {
   /** First name */
   firstName: Scalars["String"];
@@ -138,11 +192,6 @@ export type IJobOptionInputType = {
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   mode?: Maybe<Scalars["String"]>;
-};
-
-export type IJobPositionInputType = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
 };
 
 export type IStudentProfileInputStep4 = {
