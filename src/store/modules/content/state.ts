@@ -1,6 +1,7 @@
 import {
   BenefitType,
   BranchType,
+  Company,
   ExpectationType,
   JobOptionType,
   JobPositionType,
@@ -21,6 +22,10 @@ export type State = {
   benefits: {
     loading: boolean;
     data: BenefitType[];
+  };
+  company: {
+    loading: boolean;
+    data: Company | null;
   };
   skills: {
     loading: boolean;
@@ -53,6 +58,10 @@ export const state: State = {
   benefits: {
     loading: false,
     data: [],
+  },
+  company: {
+    loading: false,
+    data: null,
   },
   skills: {
     loading: false,

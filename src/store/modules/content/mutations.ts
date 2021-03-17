@@ -1,6 +1,7 @@
 import {
   BenefitType,
   BranchType,
+  Company,
   ExpectationType,
   JobOptionType,
   JobPositionType,
@@ -17,6 +18,8 @@ export type Mutations<S = State> = {
   [MutationTypes.BENEFITS_LOADED](state: S, payload: { benefits: BenefitType[] }): void;
   [MutationTypes.BRANCHES_LOADING](state: S): void;
   [MutationTypes.BRANCHES_LOADED](state: S, payload: { branches: BranchType[] }): void;
+  [MutationTypes.COMPANY_LOADING](state: S): void;
+  [MutationTypes.COMPANY_LOADED](state: S, payload: { company: Company }): void;
   [MutationTypes.EXPECTATIONS_LOADING](state: S): void;
   [MutationTypes.EXPECTATIONS_LOADED](state: S, payload: { expectations: ExpectationType[] }): void;
   [MutationTypes.JOB_OPTIONS_LOADING](state: S): void;
@@ -48,6 +51,13 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.BRANCHES_LOADED](state: State, payload: { branches: BranchType[] }) {
     state.branches.loading = false;
     state.branches.data = payload.branches;
+  },
+  [MutationTypes.COMPANY_LOADING](state: State) {
+    state.company.loading = true;
+  },
+  [MutationTypes.COMPANY_LOADED](state: State, payload: { company: Company }) {
+    state.company.loading = false;
+    state.company.data = payload.company;
   },
   [MutationTypes.EXPECTATIONS_LOADING](state: State) {
     state.expectations.loading = true;
