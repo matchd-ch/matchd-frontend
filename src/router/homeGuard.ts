@@ -13,10 +13,13 @@ export async function isCompleteProfile(
     const profileStep = store.getters["user"]?.profileStep;
     const isCompany = store.getters["isCompany"];
     const isStudent = store.getters["isStudent"];
+    const isUniversity = store.getters["isUniversity"];
     if (
       to.name !== "Onboarding" &&
       profileStep &&
-      ((isStudent && profileStep <= 6) || (isCompany && profileStep <= 3))
+      ((isStudent && profileStep <= 6) ||
+        (isCompany && profileStep <= 3) ||
+        (isUniversity && profileStep <= 3))
     ) {
       next({ name: "Onboarding" });
     } else {

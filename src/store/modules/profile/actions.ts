@@ -154,6 +154,14 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep3);
   },
+  async [ActionTypes.UNIVERSITY_ONBOARDING_STEP1]({ commit }, payload: ICompanyProfileInputStep1) {
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
+    const response = await apiClient.mutate({
+      mutation: companyProfileStep1Mutation,
+      variables: payload,
+    });
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep1);
+  },
   async [ActionTypes.CITY_BY_ZIP]({ commit }) {
     commit(MutationTypes.ZIP_CITY_LOADING);
     const response = await apiClient.query({
