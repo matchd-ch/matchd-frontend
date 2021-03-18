@@ -3,30 +3,34 @@
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <MatchdField id="firstName" class="mb-10" :errors="errors.firstName">
-      <template v-slot:label>Dein Vorname*</template>
-      <Field
-        id="firstName"
-        name="firstName"
-        as="input"
-        type="firstName"
-        label="Vorname"
-        rules="required"
-        v-model="form.firstName"
-      />
-    </MatchdField>
-    <MatchdField id="lastName" class="mb-10" :errors="errors.lastName">
-      <template v-slot:label>Dein Nachname*</template>
-      <Field
-        id="lastName"
-        name="lastName"
-        as="input"
-        type="lastName"
-        label="Nachname"
-        rules="required"
-        v-model="form.lastName"
-      />
-    </MatchdField>
+    <div class="lg:flex">
+      <MatchdField id="firstName" class="lg:mr-3 mb-10 flex-grow" :errors="errors.firstName">
+        <template v-slot:label>Dein Vorname*</template>
+        <Field
+          id="firstName"
+          name="firstName"
+          as="input"
+          type="firstName"
+          label="Vorname"
+          rules="required"
+          v-model="form.firstName"
+          readonly
+        />
+      </MatchdField>
+      <MatchdField id="lastName" class="mb-10 flex-grow" :errors="errors.lastName">
+        <template v-slot:label>Dein Nachname*</template>
+        <Field
+          id="lastName"
+          name="lastName"
+          as="input"
+          type="lastName"
+          label="Nachname"
+          rules="required"
+          v-model="form.lastName"
+          readonly
+        />
+      </MatchdField>
+    </div>
     <MatchdSelect id="birthdate" class="mb-10" :errors="errors.year">
       <template v-slot:label>Dein Geburtstag*</template>
       <fieldset id="birthdate" class="flex">
@@ -71,20 +75,20 @@
         </Field>
       </fieldset>
     </MatchdSelect>
+    <MatchdField id="street" class="mb-10" :errors="errors.street">
+      <template v-slot:label>Adresse</template>
+      <Field id="street" name="street" as="input" label="Adresse" v-model="form.street" />
+    </MatchdField>
     <div class="lg:flex">
-      <MatchdField id="zip" class="lg:mr-3 mb-3 lg:w-40" :errors="errors.zip">
+      <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="errors.zip">
         <template v-slot:label>PLZ</template>
         <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip" v-model="form.zip" />
       </MatchdField>
-      <MatchdField id="city" class="mb-3 lg:flex-grow" :errors="errors.city">
+      <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="errors.city">
         <template v-slot:label>Ort</template>
         <Field id="city" name="city" as="input" label="Ort" v-model="form.city" />
       </MatchdField>
     </div>
-    <MatchdField id="street" class="mb-3" :errors="errors.street">
-      <template v-slot:label>Adresse</template>
-      <Field id="street" name="street" as="input" label="Adresse" v-model="form.street" />
-    </MatchdField>
     <MatchdField id="mobile" class="mb-10" :errors="errors.mobile">
       <template v-slot:label>Deine Mobile-Nummer</template>
       <Field
@@ -96,8 +100,8 @@
         v-model="form.mobile"
       />
       <template v-slot:info
-        >Wir teilen deine Mobile-Nummer nur mit Firmen, für welche du dich ebenfalls
-        interessierst.</template
+        >Matchd gibt deine Mobile-Nummer nicht weiter. Du entscheidest selber, wann und mit wem du
+        sie teilst.</template
       >
     </MatchdField>
     <MatchdButton
