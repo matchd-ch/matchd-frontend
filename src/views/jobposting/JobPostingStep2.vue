@@ -68,6 +68,14 @@
       class="block w-full"
       >Speichern und weiter</MatchdButton
     >
+    <MatchdButton
+      type="button"
+      variant="outline"
+      :disabled="jobPostingLoading"
+      @click="onClickBack"
+      class="block w-full mt-5"
+      >Zurück zu Schritt 1</MatchdButton
+    >
   </Form>
 </template>
 
@@ -84,6 +92,7 @@ import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { ExpectationWithStatus, JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
+import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { ExpectationType, SkillType } from "api";
@@ -240,6 +249,10 @@ export default class JobPostingStep2 extends Vue {
           };
         }) || [],
     };
+  }
+
+  onClickBack() {
+    this.$router.push({ params: { step: `${ParamStrings.STEP}1` } });
   }
 
   async onSubmit(form: JobPostingStep2Form, actions: FormActions<Partial<JobPostingStep2Form>>) {

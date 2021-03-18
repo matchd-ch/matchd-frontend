@@ -66,14 +66,6 @@ export enum JobOptionMode {
 }
 
 /** An enumeration. */
-export enum AttachmentKey {
-  StudentAvatar = "STUDENT_AVATAR",
-  StudentDocuments = "STUDENT_DOCUMENTS",
-  CompanyAvatar = "COMPANY_AVATAR",
-  CompanyDocuments = "COMPANY_DOCUMENTS",
-}
-
-/** An enumeration. */
 export enum UserType {
   /** Internal */
   Internal = "INTERNAL",
@@ -100,6 +92,29 @@ export enum UserState {
   /** Public */
   Public = "PUBLIC",
 }
+
+/** An enumeration. */
+export enum JobPostingState {
+  /** Draft */
+  Draft = "DRAFT",
+  /** Public */
+  Public = "PUBLIC",
+}
+
+/** An enumeration. */
+export enum AttachmentKey {
+  StudentAvatar = "STUDENT_AVATAR",
+  StudentDocuments = "STUDENT_DOCUMENTS",
+  CompanyAvatar = "COMPANY_AVATAR",
+  CompanyDocuments = "COMPANY_DOCUMENTS",
+}
+
+export type IAddEmployeeInput = {
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  role: Scalars["String"];
+  email: Scalars["String"];
+};
 
 export type IJobPostingInputStep1 = {
   id?: Maybe<Scalars["ID"]>;
@@ -151,6 +166,13 @@ export type IJobPostingInputStep3 = {
   id?: Maybe<Scalars["ID"]>;
   /** State */
   state: Scalars["String"];
+  employee: IEmployeeInput;
+};
+
+export type IEmployeeInput = {
+  id?: Maybe<Scalars["ID"]>;
+  /** Role */
+  role?: Maybe<Scalars["String"]>;
 };
 
 export type ICompanyProfileInputStep1 = {
@@ -292,11 +314,6 @@ export type ICompanyInput = {
   zip: Scalars["String"];
   /** City */
   city: Scalars["String"];
-};
-
-export type IEmployeeInput = {
-  /** Role */
-  role: Scalars["String"];
 };
 
 export type IStudentInput = {

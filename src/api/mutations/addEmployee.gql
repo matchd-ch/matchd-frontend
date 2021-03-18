@@ -1,0 +1,27 @@
+mutation(
+  $firstName: String!
+  $lastName: String!
+  $email: String!
+  $role: String!
+) {
+  addEmployee(
+    addEmployee: {
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      role: $role
+    }
+  ) {
+    success
+    errors
+    employee {
+      id
+      role
+      user {
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+}
