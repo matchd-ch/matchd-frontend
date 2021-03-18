@@ -184,6 +184,7 @@ import { isValidUrl } from "@/helpers/isValidUrl";
 import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { AttachmentType, SkillType, UserWithProfileNode } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -264,7 +265,9 @@ export default class StudentStep4 extends Vue {
 
   async mounted() {
     await Promise.all([
-      this.$store.dispatch(ActionTypes.STUDENT_ONBOARDING_STEP4_DATA),
+      this.$store.dispatch(ContentActionTypes.SKILLS),
+      this.$store.dispatch(ContentActionTypes.LANGUAGES),
+      this.$store.dispatch(ContentActionTypes.LANGUAGE_LEVELS),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {

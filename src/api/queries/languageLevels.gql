@@ -1,12 +1,4 @@
 query {
-  skills {
-    id
-    name
-  }
-  languages {
-    id
-    name
-  }
   languageLevels {
     id
     level

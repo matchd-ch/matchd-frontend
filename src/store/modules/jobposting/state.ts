@@ -1,28 +1,22 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { ZipCityType } from "api";
+import { JobPostingType } from "api";
 
 export type State = {
-  profile: {
+  jobPosting: {
     loading: boolean;
     success: boolean;
     errors: MatchdApiError | null;
-    nicknameSuggestions: string[];
+    id: string;
   };
-  zipCity: {
-    loading: boolean;
-    data: ZipCityType[];
-  };
+  currentJobPosting: JobPostingType | null;
 };
 
 export const state: State = {
-  profile: {
+  jobPosting: {
     loading: false,
     success: false,
     errors: null,
-    nicknameSuggestions: [],
+    id: "",
   },
-  zipCity: {
-    loading: false,
-    data: [],
-  },
+  currentJobPosting: null,
 };

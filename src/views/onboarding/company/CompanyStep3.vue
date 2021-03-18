@@ -91,6 +91,7 @@ import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { BenefitWithStatus, CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { AttachmentType, BenefitType, JobPositionType, UserWithProfileNode } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -218,7 +219,8 @@ export default class CompanyStep3 extends Vue {
 
   async mounted() {
     await Promise.all([
-      this.$store.dispatch(ActionTypes.COMPANY_ONBOARDING_STEP3_DATA),
+      this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
+      this.$store.dispatch(ContentActionTypes.BENEFITS),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.CompanyDocuments,
