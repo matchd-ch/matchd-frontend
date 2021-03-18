@@ -303,9 +303,12 @@ export default class JobPostingStep1 extends Vue {
 
     await this.$store.dispatch(
       ActionTypes.SAVE_JOBPOSTING_STEP1,
-      jobPostingStep1InputMapper(this.form)
+      jobPostingStep1InputMapper(this.currentJobPosting?.id, this.form)
     );
     if (this.jobPostingState.success) {
+      if (!Number(this.$route.params?.id)) {
+        await this.$router.replace({ params: { step: "schritt1", id: this.jobPostingState.id } });
+      }
       this.$router.push({ params: { step: "schritt2", id: this.jobPostingState.id } });
     } else if (this.jobPostingState.errors) {
       actions.setErrors(this.jobPostingState.errors);

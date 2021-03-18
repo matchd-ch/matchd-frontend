@@ -1,0 +1,19 @@
+mutation(
+  $id: ID!
+  $expectations: [ExpectationInputType]
+  $skills: [SkillInputType]
+  $languages: [JobPostingLanguageRelationInputType]
+) {
+  jobPostingStep2(
+    step2: {
+      id: $id
+      expectations: $expectations
+      skills: $skills
+      languages: $languages
+    }
+  ) {
+    success
+    errors
+    jobPostingId
+  }
+}

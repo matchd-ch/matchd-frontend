@@ -102,6 +102,7 @@ export enum UserState {
 }
 
 export type IJobPostingInputStep1 = {
+  id?: Maybe<Scalars["ID"]>;
   /** Description */
   description: Scalars["String"];
   jobOption: IJobOptionInputType;

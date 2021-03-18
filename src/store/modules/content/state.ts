@@ -1,6 +1,7 @@
 import {
   BenefitType,
   BranchType,
+  ExpectationType,
   JobOptionType,
   JobPositionType,
   LanguageType,
@@ -34,6 +35,10 @@ export type State = {
     loading: boolean;
     data: BranchType[];
   };
+  expectations: {
+    loading: boolean;
+    data: ExpectationType[];
+  };
 };
 
 export const state: State = {
@@ -59,6 +64,10 @@ export const state: State = {
     levels: [],
   },
   branches: {
+    loading: false,
+    data: [],
+  },
+  expectations: {
     loading: false,
     data: [],
   },

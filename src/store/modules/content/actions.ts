@@ -9,6 +9,7 @@ import { State } from "@/store/modules/content/state";
 
 import benefitsQuery from "@/api/queries/benefits.gql";
 import branchesQuery from "@/api/queries/branches.gql";
+import expectationsQuery from "@/api/queries/expectations.gql";
 import jobOptionsQuery from "@/api/queries/jobOptions.gql";
 import jobPositionsQuery from "@/api/queries/jobPositions.gql";
 import languagesQuery from "@/api/queries/languages.gql";
@@ -27,9 +28,13 @@ const apiClient = createApolloClient(process.env.VUE_APP_API || "http://localhos
 export interface Actions {
   [ActionTypes.BENEFITS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.BRANCHES]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.EXPECTATIONS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_OPTIONS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_POSITIONS]({ commit }: AugmentedActionContext): Promise<void>;
-  [ActionTypes.LANGUAGES]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.LANGUAGES](
+    { commit }: AugmentedActionContext,
+    payload: { shortList: boolean }
+  ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
 }
@@ -55,6 +60,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.BRANCHES_LOADED, { branches: response.data.branches });
   },
+  async [ActionTypes.EXPECTATIONS]({ commit }) {
+    commit(MutationTypes.EXPECTATIONS_LOADING);
+    const response = await apiClient.query({
+      query: expectationsQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.EXPECTATIONS_LOADED, { expectations: response.data.expectations });
+  },
   async [ActionTypes.JOB_OPTIONS]({ commit }) {
     commit(MutationTypes.JOB_OPTIONS_LOADING);
     const response = await apiClient.query({
@@ -75,10 +90,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.JOB_POSITIONS_LOADED, { jobPositions: response.data.jobPositions });
   },
-  async [ActionTypes.LANGUAGES]({ commit }) {
+  async [ActionTypes.LANGUAGES]({ commit }, payload: { shortList: boolean }) {
     commit(MutationTypes.LANGUAGES_LOADING);
     const response = await apiClient.query({
       query: languagesQuery,
+      variables: {
+        shortList: payload.shortList || false,
+      },
       context: {
         batch: true,
       },
