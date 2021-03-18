@@ -7,6 +7,7 @@ query($id: ID!) {
     url
     workload
     formStep
+    state
     company {
       name
       zip
@@ -39,6 +40,9 @@ query($id: ID!) {
         level
         description
       }
+    }
+    employee {
+      id
     }
   }
 }

@@ -9,6 +9,7 @@ query {
     profileStep
     state
     employee {
+      id
       role
     }
     company {

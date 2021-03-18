@@ -1,0 +1,16 @@
+query {
+  me {
+    company {
+      employees {
+        id
+        role
+        user {
+          id
+          firstName
+          lastName
+          email
+        }
+      }
+    }
+  }
+}
