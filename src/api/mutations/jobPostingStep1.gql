@@ -1,4 +1,5 @@
 mutation(
+  $id: ID
   $description: String!
   $workload: String!
   $jobFromDate: String!
@@ -9,6 +10,7 @@ mutation(
 ) {
   jobPostingStep1(
     step1: {
+      id: $id
       description: $description
       branch: $branch
       workload: $workload

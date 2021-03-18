@@ -534,6 +534,7 @@ type JobPostingStep1 = {
 };
 
 type JobPostingInputStep1 = {
+  id?: Maybe<Scalars["ID"]>;
   /** Description */
   description: Scalars["String"];
   jobOption: JobOptionInputType;

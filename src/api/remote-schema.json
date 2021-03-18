@@ -3254,6 +3254,16 @@
           "fields": null,
           "inputFields": [
             {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "description",
               "description": "Description",
               "type": {
@@ -6565,13 +6575,13 @@
       },
       "TimerPanel": {
         "title": "Time",
-        "subtitle": "CPU: 573.25ms (707.17ms)"
+        "subtitle": "CPU: 498.28ms (637.42ms)"
       },
       "VersionsPanel": {
         "title": "Versions",
         "subtitle": "Django 3.1.5"
       }
     },
-    "storeId": "8f2ef18482034765811bf420e466e219"
+    "storeId": "dae8a7a1096949efa6fccef2316fdd58"
   }
 }

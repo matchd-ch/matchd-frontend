@@ -36,21 +36,24 @@
 </template>
 
 <script lang="ts">
+import { parseStepName } from "@/helpers/parseStepName";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
+import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
 import { Options, Vue } from "vue-class-component";
-import { RouteLocationNormalized } from "vue-router";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
 @Options({
   components: {
     JobPostingStep1,
+    JobPostingStep2,
   },
 })
 export default class JobPosting extends Vue {
-  urlStepNumber = 1;
+  urlStepNumber: number | null = null;
   requestedCurrentJobPosting = false;
 
   get paramStrings() {
@@ -62,7 +65,10 @@ export default class JobPosting extends Vue {
   }
 
   get createJobPostingComponent(): string {
-    return `JobPostingStep${this.currentStep}`;
+    if (this.urlStepNumber) {
+      return `JobPostingStep${this.currentStep}`;
+    }
+    return "";
   }
 
   get currentJobPosting() {
@@ -73,38 +79,27 @@ export default class JobPosting extends Vue {
     return this.$store.getters["jobPostingId"];
   }
 
-  async beforeRouteEnter(to: RouteLocationNormalized) {
-    this.init(to.params);
-  }
-
-  async mounted() {
-    this.init(this.$route?.params);
-  }
-
-  async init(params: { id?: string; step?: string }) {
-    this.urlStepNumber = this.parseStepName(params.step || `${ParamStrings.STEP}1`);
-    if (params.id && Number(params.id)) {
-      await this.loadJobPostingWithId(params.id);
-    } else {
-      this.$router.replace({ params: { id: ParamStrings.NEW, step: `${ParamStrings.STEP}1` } });
+  async beforeRouteUpdate(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ) {
+    this.urlStepNumber = parseStepName(String(to.params.step));
+    if (to.params.id && Number(to.params.id)) {
+      await this.loadJobPostingWithId(String(to.params.id));
     }
+    next();
+  }
+
+  mounted() {
+    this.urlStepNumber = parseStepName(String(this.$route.params.step));
   }
 
   async loadJobPostingWithId(jobPostingId: string) {
     if (jobPostingId && jobPostingId !== ParamStrings.NEW) {
       this.requestedCurrentJobPosting = true;
       await this.$store.dispatch(ActionTypes.JOBPOSTING, { id: jobPostingId });
-
-      this.urlStepNumber =
-        this.currentJobPosting?.formStep && this.currentStep > this.currentJobPosting?.formStep
-          ? this.currentJobPosting?.formStep
-          : this.currentStep;
-      this.$router.replace({ params: { step: `${ParamStrings.STEP}${this.urlStepNumber}` } });
     }
-  }
-
-  parseStepName(name: string) {
-    return parseInt(name.replace(ParamStrings.STEP, ""));
   }
 }
 </script>

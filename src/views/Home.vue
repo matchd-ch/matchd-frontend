@@ -12,9 +12,7 @@
 
         <ul v-if="isCompany">
           <li>
-            <router-link :to="{ name: 'CreateJobPosting', params: { step: 'schritt1' } }"
-              >Stelle ausschreiben</router-link
-            >
+            <router-link :to="{ name: 'CreateJobPosting' }">Stelle ausschreiben</router-link>
           </li>
         </ul>
 
