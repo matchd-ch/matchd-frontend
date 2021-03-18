@@ -1,4 +1,5 @@
 import {
+  AttachmentType,
   BenefitType,
   BranchType,
   Company,
@@ -19,7 +20,10 @@ export type Mutations<S = State> = {
   [MutationTypes.BRANCHES_LOADING](state: S): void;
   [MutationTypes.BRANCHES_LOADED](state: S, payload: { branches: BranchType[] }): void;
   [MutationTypes.COMPANY_LOADING](state: S): void;
-  [MutationTypes.COMPANY_LOADED](state: S, payload: { company: Company }): void;
+  [MutationTypes.COMPANY_LOADED](
+    state: S,
+    payload: { company: Company; logo: AttachmentType; media: AttachmentType[] }
+  ): void;
   [MutationTypes.EXPECTATIONS_LOADING](state: S): void;
   [MutationTypes.EXPECTATIONS_LOADED](state: S, payload: { expectations: ExpectationType[] }): void;
   [MutationTypes.JOB_OPTIONS_LOADING](state: S): void;
@@ -55,9 +59,14 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.COMPANY_LOADING](state: State) {
     state.company.loading = true;
   },
-  [MutationTypes.COMPANY_LOADED](state: State, payload: { company: Company }) {
+  [MutationTypes.COMPANY_LOADED](
+    state: State,
+    payload: { company: Company; logo: AttachmentType; media: AttachmentType[] }
+  ) {
     state.company.loading = false;
     state.company.data = payload.company;
+    state.company.logo = payload.logo;
+    state.company.media = payload.media;
   },
   [MutationTypes.EXPECTATIONS_LOADING](state: State) {
     state.expectations.loading = true;

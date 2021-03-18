@@ -1,5 +1,6 @@
 import { createApolloClient } from "@/api/apollo-client";
 import { RootState } from "@/store";
+import { useRouter } from "vue-router";
 import { ActionContext, ActionTree } from "vuex";
 
 import { ActionTypes } from "./action-types";
@@ -44,6 +45,8 @@ export interface Actions {
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
+const router = useRouter();
+
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.BENEFITS]({ commit }) {
     commit(MutationTypes.BENEFITS_LOADING);
@@ -74,7 +77,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
         batch: true,
       },
     });
-    commit(MutationTypes.COMPANY_LOADED, { company: response.data.company });
+
+    commit(MutationTypes.COMPANY_LOADED, {
+      company: response.data.company,
+      logo: response.data.logo,
+      media: response.data.media,
+    });
   },
   async [ActionTypes.EXPECTATIONS]({ commit }) {
     commit(MutationTypes.EXPECTATIONS_LOADING);

@@ -92,6 +92,7 @@ type QueryCompanyArgs = {
 type QueryAttachmentsArgs = {
   key: AttachmentKey;
   userId?: Maybe<Scalars["Int"]>;
+  slug?: Maybe<Scalars["String"]>;
 };
 
 type QueryLanguagesArgs = {
@@ -150,6 +151,7 @@ type BranchType = {
 
 type Company = {
   __typename?: "Company";
+  id: Scalars["ID"];
   uid: Scalars["String"];
   name: Scalars["String"];
   zip: Scalars["String"];

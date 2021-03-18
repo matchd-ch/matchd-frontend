@@ -1,5 +1,6 @@
 query($slug: String) {
   company(slug: $slug) {
+    id
     uid
     name
     description
@@ -9,22 +10,33 @@ query($slug: String) {
     city
     phone
     website
+    employees {
+      id
+      user {
+        id
+        firstName
+        lastName
+        email
+      }
+    }
     benefits {
       id
       icon
       name
     }
+    jobPositions {
+      id
+      name
+    }
   }
-  icon: attachments(key: COMPANY_AVATAR) {
+  logo: attachments(key: COMPANY_AVATAR, slug: $slug) {
     id
     url
-    fileName
     mimeType
   }
-  media: attachments(key: COMPANY_AVATAR) {
+  media: attachments(key: COMPANY_DOCUMENTS, slug: $slug) {
     id
     url
-    fileName
     mimeType
   }
 }

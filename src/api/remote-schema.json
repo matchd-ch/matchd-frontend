@@ -154,6 +154,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "slug",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -804,6 +814,22 @@
           "name": "Company",
           "description": null,
           "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "uid",
               "description": "",
@@ -6801,50 +6827,5 @@
         }
       ]
     }
-  },
-  "debugToolbar": {
-    "panels": {
-      "LoggingPanel": {
-        "title": "Log messages",
-        "subtitle": "0 messages"
-      },
-      "SignalsPanel": {
-        "title": "Signals",
-        "subtitle": "40 receivers of 12 signals"
-      },
-      "CachePanel": {
-        "title": "Cache calls from 1 backend",
-        "subtitle": "0 calls in 0.00ms"
-      },
-      "StaticFilesPanel": {
-        "title": "Static files (334 found, 0 used)",
-        "subtitle": "0 files used"
-      },
-      "SQLPanel": {
-        "title": "SQL queries from 0 connections",
-        "subtitle": "0 queries in 0.00ms"
-      },
-      "RequestPanel": {
-        "title": "Request",
-        "subtitle": "GraphQLView"
-      },
-      "HeadersPanel": {
-        "title": "Headers",
-        "subtitle": ""
-      },
-      "SettingsPanel": {
-        "title": "Settings from <code>app.settings.dev</code>",
-        "subtitle": ""
-      },
-      "TimerPanel": {
-        "title": "Time",
-        "subtitle": "CPU: 886.32ms (1138.44ms)"
-      },
-      "VersionsPanel": {
-        "title": "Versions",
-        "subtitle": "Django 3.1.5"
-      }
-    },
-    "storeId": "e7655e5182af4cfb87f1cc5a4e60fd49"
   }
 }
