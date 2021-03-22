@@ -3,6 +3,7 @@
     <GenericError v-if="jobPostingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
+    {{ form }}
     <!-- Bezeichnung Field -->
     <MatchdField id="description" class="mb-10" :errors="errors.description">
       <template v-slot:label>Geben Sie der Stelle eine passende Bezeichnung*</template>
@@ -90,7 +91,7 @@
             as="select"
             label="Pensum"
             rules="required"
-            v-model="form.workload"
+            v-model.number="form.workload"
           >
             <option v-for="(n, index) in 9" :value="n * 10" :key="index">{{ n * 10 }}%</option>
           </Field>
@@ -235,7 +236,7 @@ export default class JobPostingStep1 extends Vue {
   form: JobPostingStep1Form = {
     description: "",
     fullTime: true,
-    workload: "90",
+    workload: 90,
     jobOptionId: "",
     branchId: "",
     jobFromDateMonth: "",
@@ -294,8 +295,8 @@ export default class JobPostingStep1 extends Vue {
     this.form = {
       description: this.currentJobPosting?.description || "",
       url: this.currentJobPosting?.url || "",
-      fullTime: this.currentJobPosting?.workload === "100",
-      workload: this.currentJobPosting?.workload || "90",
+      fullTime: this.currentJobPosting?.workload === 100,
+      workload: this.currentJobPosting?.workload || 90,
       jobOptionId: this.currentJobPosting?.jobOption?.id || "",
       branchId: this.currentJobPosting?.branch?.id || "",
       jobFromDateMonth: this.currentJobPosting?.jobFromDate
@@ -315,7 +316,7 @@ export default class JobPostingStep1 extends Vue {
 
   onChangeFullTime() {
     if (!this.form.fullTime) {
-      this.form.workload = "90";
+      this.form.workload = 90;
     }
   }
 

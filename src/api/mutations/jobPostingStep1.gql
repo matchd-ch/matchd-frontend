@@ -1,7 +1,7 @@
 mutation(
   $id: ID
   $description: String!
-  $workload: String!
+  $workload: Int!
   $jobFromDate: String!
   $jobToDate: String
   $jobOption: JobOptionInputType!
