@@ -6,17 +6,22 @@ query {
     username
     email
     type
-    profileStep
-    state
+    student {
+      profileStep
+      state
+    }
     employee {
       id
       role
     }
     company {
+      id
       name
       city
       zip
       street
+      profileStep
+      state
     }
   }
 }

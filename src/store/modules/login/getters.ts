@@ -11,6 +11,7 @@ export type Getters = {
   logoutLoading(state: State): boolean;
   logoutState(state: State): { success: boolean; errors: MatchdApiError | null };
   user(state: State): UserWithProfileNode | null;
+  profileStep(state: State, getters: Getters): number | undefined;
   isStudent(state: State): boolean;
   isCompany(state: State): boolean;
   isUniversity(state: State): boolean;
@@ -50,6 +51,15 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   user(state: State): UserWithProfileNode | null {
     return state.user;
+  },
+  profileStep(state: State, getters: Getters): number | undefined {
+    if (getters["isStudent"]) {
+      return state.user?.student?.profileStep;
+    } else if (getters["isCompany"] || getters["isUniversity"]) {
+      return state.user?.company?.profileStep;
+    } else {
+      return;
+    }
   },
   isStudent(state: State): boolean {
     if (!state.user?.type) {

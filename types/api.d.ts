@@ -179,6 +179,9 @@ type Company = {
   memberItStGallen: Scalars["Boolean"];
   benefits: Array<BenefitType>;
   jobPositions: Array<JobPositionType>;
+  slug: Scalars["String"];
+  state: CompanyState;
+  profileStep: Scalars["Int"];
   employees?: Maybe<Array<Maybe<Employee>>>;
 };
 
@@ -194,6 +197,16 @@ type JobPositionType = {
   id: Scalars["ID"];
   name: Scalars["String"];
 };
+
+/** An enumeration. */
+enum CompanyState {
+  /** Incomplete */
+  Incomplete = "INCOMPLETE",
+  /** Anonymous */
+  Anonymous = "ANONYMOUS",
+  /** Public */
+  Public = "PUBLIC",
+}
 
 type Employee = {
   __typename?: "Employee";
@@ -213,8 +226,6 @@ type UserWithProfileNode = Node & {
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   company?: Maybe<Company>;
-  state: UserState;
-  profileStep: Scalars["Int"];
   student?: Maybe<Student>;
   employee?: Maybe<Employee>;
 };
@@ -243,16 +254,6 @@ enum UserType {
   Other = "OTHER",
 }
 
-/** An enumeration. */
-enum UserState {
-  /** Incomplete */
-  Incomplete = "INCOMPLETE",
-  /** Anonymous */
-  Anonymous = "ANONYMOUS",
-  /** Public */
-  Public = "PUBLIC",
-}
-
 type Student = {
   __typename?: "Student";
   mobile: Scalars["String"];
@@ -266,6 +267,8 @@ type Student = {
   graduation?: Maybe<Scalars["Date"]>;
   skills: Array<SkillType>;
   distinction: Scalars["String"];
+  state: StudentState;
+  profileStep: Scalars["Int"];
   hobbies: Array<HobbyType>;
   onlineProjects: Array<OnlineProjectType>;
   languages: Array<UserLanguageRelationType>;
@@ -276,6 +279,16 @@ type SkillType = {
   id: Scalars["ID"];
   name: Scalars["String"];
 };
+
+/** An enumeration. */
+enum StudentState {
+  /** Incomplete */
+  Incomplete = "INCOMPLETE",
+  /** Anonymous */
+  Anonymous = "ANONYMOUS",
+  /** Public */
+  Public = "PUBLIC",
+}
 
 type HobbyType = {
   __typename?: "HobbyType";
@@ -894,8 +907,6 @@ type UserNode = Node & {
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   company?: Maybe<Company>;
-  state: UserState;
-  profileStep: Scalars["Int"];
   student?: Maybe<Student>;
   employee?: Maybe<Employee>;
   pk?: Maybe<Scalars["Int"]>;

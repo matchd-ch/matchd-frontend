@@ -118,7 +118,7 @@ export default class Onboarding extends Vue {
   }
 
   get currentStep() {
-    return this.$store.getters["user"]?.profileStep;
+    return this.$store.getters["profileStep"];
   }
 
   get isStudent(): boolean {

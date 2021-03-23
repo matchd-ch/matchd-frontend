@@ -66,6 +66,16 @@ export enum JobOptionMode {
 }
 
 /** An enumeration. */
+export enum CompanyState {
+  /** Incomplete */
+  Incomplete = "INCOMPLETE",
+  /** Anonymous */
+  Anonymous = "ANONYMOUS",
+  /** Public */
+  Public = "PUBLIC",
+}
+
+/** An enumeration. */
 export enum UserType {
   /** Internal */
   Internal = "INTERNAL",
@@ -84,7 +94,7 @@ export enum UserType {
 }
 
 /** An enumeration. */
-export enum UserState {
+export enum StudentState {
   /** Incomplete */
   Incomplete = "INCOMPLETE",
   /** Anonymous */

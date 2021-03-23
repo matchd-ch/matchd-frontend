@@ -10,7 +10,7 @@ export async function isCompleteProfile(
     next();
   } else {
     const store = useStore();
-    const profileStep = store.getters["user"]?.profileStep;
+    const profileStep = store.getters["profileStep"];
     const isCompany = store.getters["isCompany"];
     const isStudent = store.getters["isStudent"];
     const isUniversity = store.getters["isUniversity"];
