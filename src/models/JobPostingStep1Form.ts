@@ -2,7 +2,8 @@ export interface JobPostingStep1Form {
   description: string;
   jobOptionId: string;
   branchId: string;
-  workload: string;
+  fullTime: boolean;
+  workload: number;
   jobFromDateMonth: string;
   jobFromDateYear: string;
   jobToDateMonth: string;

@@ -59,6 +59,8 @@ type Scalars = {
 
 type Query = {
   __typename?: "Query";
+  softSkills?: Maybe<Array<Maybe<SoftSkillType>>>;
+  faqCategories?: Maybe<Array<Maybe<FaqCategoryType>>>;
   expectations?: Maybe<Array<Maybe<ExpectationType>>>;
   jobPostings?: Maybe<Array<Maybe<JobPostingType>>>;
   jobPosting?: Maybe<JobPostingType>;
@@ -92,6 +94,7 @@ type QueryCompanyArgs = {
 type QueryAttachmentsArgs = {
   key: AttachmentKey;
   userId?: Maybe<Scalars["Int"]>;
+  slug?: Maybe<Scalars["String"]>;
 };
 
 type QueryLanguagesArgs = {
@@ -100,6 +103,19 @@ type QueryLanguagesArgs = {
 
 type QueryVerifyPasswordResetTokenArgs = {
   token: Scalars["String"];
+};
+
+type SoftSkillType = {
+  __typename?: "SoftSkillType";
+  id: Scalars["ID"];
+  student: Scalars["String"];
+  company: Scalars["String"];
+};
+
+type FaqCategoryType = {
+  __typename?: "FAQCategoryType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
 };
 
 type ExpectationType = {
@@ -114,7 +130,7 @@ type JobPostingType = {
   description: Scalars["String"];
   jobOption: JobOptionType;
   branch: BranchType;
-  workload?: Maybe<Scalars["String"]>;
+  workload?: Maybe<Scalars["Int"]>;
   company: Company;
   jobFromDate: Scalars["Date"];
   jobToDate?: Maybe<Scalars["Date"]>;
@@ -150,6 +166,7 @@ type BranchType = {
 
 type Company = {
   __typename?: "Company";
+  id: Scalars["ID"];
   uid: Scalars["String"];
   name: Scalars["String"];
   zip: Scalars["String"];
@@ -578,7 +595,7 @@ type JobPostingInputStep1 = {
   jobOption: JobOptionInputType;
   branch: BranchInputType;
   /** Workload */
-  workload?: Maybe<Scalars["String"]>;
+  workload: Scalars["Int"];
   jobFromDate: Scalars["String"];
   jobToDate?: Maybe<Scalars["String"]>;
   url?: Maybe<Scalars["String"]>;
