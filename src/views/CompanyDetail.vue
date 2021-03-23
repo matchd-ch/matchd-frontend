@@ -26,7 +26,7 @@
           <a :href="`tel:${company.data.phone}`">{{ company.data.phone }}</a>
         </address>
       </div>
-      <div class="square-image mt-8 relative">
+      <div v-if="company.media[0]" class="square-image mt-8 relative">
         <img
           :src="company.media[0].url.replace('{stack}', 'company-detail-media')"
           class="w-full h-full absolute"
@@ -36,38 +36,47 @@
     </div>
     <div class="text-pink-1 flex flex-col min-h-full">
       <section class="flex-grow border-b border-pink-1 p-9">
-        <h2 class="text-heading-lg mb-2">Über uns</h2>
-        <p>{{ company.data.description }}</p>
-        <template v-if="company.data.services">
-          <h3 class="text-heading-md mt-8 mb-2">Services</h3>
-          <p>{{ company.data.services }}</p>
-        </template>
+        <h2 class="text-heading-lg mb-8">Über uns</h2>
+        <p v-html="nl2br(company.data.description)"></p>
+      </section>
+      <section v-if="company.data.services" class="flex-grow border-b border-pink-1 p-9 xl:flex">
+        <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">
+          Unsere Produkte und Services
+        </h2>
+        <p class="xl:w-1/2">{{ company.data.services }}</p>
+      </section>
+      <section
+        v-if="company.data.jobPositions && company.data.jobPositions.length > 0"
+        class="flex-grow border-b border-pink-1 p-9 xl:flex"
+      >
+        <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">
+          In diesen Bereichen kannst du bei uns tätig sein
+        </h2>
+        <ul class="w-1/2 list-inside list-disc">
+          <li v-for="jobPosition in company.data.jobPositions" :key="jobPosition.id">
+            {{ jobPosition.name }}
+          </li>
+        </ul>
+      </section>
+      <section class="flex-grow border-b border-pink-1 p-9 xl:flex">
+        <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">
+          Das erwartet dich bei uns
+        </h2>
         <template v-if="company.data.benefits.length > 0">
-          <h3 class="text-heading-md mt-8 mb-2">Benefits</h3>
-          <ul>
+          <ul class="xl:w-1/2 flex flex-wrap content-start items-start -mb-1">
             <li
               v-for="benefit in company.data.benefits"
               :key="benefit.id"
-              class="flex items-center"
+              class="flex items-center border border-pink-1 rounded-full font-medium text-sm py-3 px-4 mx-1 mb-2"
             >
-              <span class="material-icons text-icon-lg mr-2">{{ benefit.icon }}</span>
+              <span class="material-icons mr-2">{{ benefit.icon }}</span>
               {{ benefit.name }}
             </li>
           </ul>
         </template>
       </section>
-      <section class="flex-grow border-b border-pink-1 p-9">
-        <h2 class="text-heading-lg mb-2">
-          In folgenden Bereichen sind wir tätig
-        </h2>
-        <p>Platzhaltertext</p>
-      </section>
-      <section class="flex-grow border-b border-pink-1 p-9 xl:flex">
-        <h2 class="text-heading-lg mb-2 xl:mb-0 w-1/2">Aufgaben und Projekte</h2>
-        <p class=" w-1/2">Platzhaltertext</p>
-      </section>
-      <section class="flex-grow border-b border-pink-1 p-9">
-        <h2 class="text-heading-lg mb-2">Offene Stellen</h2>
+      <section class="flex-grow p-9">
+        <h2 class="text-heading-lg mb-8">Offene Stellen</h2>
         <ul>
           <li class="text-link-md underline">
             <router-link :to="{ name: 'Home' }">Platzhaltertext</router-link>
@@ -98,6 +107,10 @@ Vue.registerHooks(["beforeRouteUpdate"]);
 export default class CompanyDetail extends Vue {
   get company() {
     return this.$store.getters["company"];
+  }
+
+  nl2br(text: string) {
+    return text.replace(new RegExp(/\n/, "g"), "<br />");
   }
 
   async beforeRouteUpdate(

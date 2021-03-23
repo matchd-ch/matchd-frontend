@@ -96,6 +96,8 @@ module.exports = {
       },
       padding: {
         full: "100%",
+        "1/2": "50%",
+        "1/4": "25%",
       },
       boxShadow: {
         white: "0 0 0 1px #fff",
