@@ -5,13 +5,13 @@
         class="text-display-xl-fluid text-primary-1 col-span-full lg:fixed lg:transition-all lg:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
-        Registrierung
+        Match beitreten
       </h1>
     </div>
     <div class=" px-4 lg:px-5">
       <MatchdStep step="1">
         <template v-slot:title
-          >Besuchst du eine Schule oder Hochschule im Kanton St.Gallen?</template
+          >Besuchst du im Kanton St.Gallen eine Schule oder Hochschule?</template
         >
         <MatchdButton
           type="button"
@@ -36,8 +36,7 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
         <template v-slot:title
-          >Bist du in der Region Ostschweiz auf der Suche nach einem Praktikum, einer Lehr- oder
-          Arbeitsstelle?</template
+          >Suchst du in der Ostschweiz ein Praktikum, eine Lehrstelle oder Festanstellung?</template
         >
         <MatchdButton
           type="button"
@@ -57,7 +56,7 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
         <template v-slot:title>
-          Erzähl uns mehr zu dir
+          Bei Matchd bist du genau richtig!<br />Schreib dich ein und die Job-Suche kann starten.
         </template>
         <Form @submit="onSubmitStudentData" v-slot="{ errors }">
           <div class="lg:flex">
@@ -117,7 +116,7 @@
             variant="outline"
             :disabled="studentRegistrationLoading"
             :loading="studentRegistrationLoading"
-            >Registrieren</MatchdButton
+            >Ich bin dabei!</MatchdButton
           >
         </Form>
       </MatchdStep>
@@ -127,8 +126,8 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Fast geschafft!<br />Aktiviere deinen Account. Wir haben deinen Aktivierungslink per
-          E-Mail an {{ form.email || "?" }} gesendet
+          Fast geschafft:<br />Aktiviere deinen Account mit dem Link, den wir dir per Mail an
+          {{ form.email || "?" }} geschickt haben.
         </template>
       </MatchdStep>
     </div>

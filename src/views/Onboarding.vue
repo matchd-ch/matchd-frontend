@@ -19,15 +19,15 @@
             currentStep
           }}</span>
           <template v-if="currentStep === 1">Vervollständige deine persönlichen Daten</template>
-          <template v-else-if="currentStep === 2">Welche Schule oder Uni besuchst du?</template>
-          <template v-else-if="currentStep === 3">Wonach suchst du?</template>
-          <template v-else-if="currentStep === 4"
-            >Ergänze deine Skills und zeige, was du drauf hast.</template
+          <template v-else-if="currentStep === 2"
+            >Welche Schule oder Hochschule besuchst du?</template
           >
-          <template v-else-if="currentStep === 5">Kreiere dein Matchd Profil</template>
+          <template v-else-if="currentStep === 3">Wonach suchst du?</template>
+          <template v-else-if="currentStep === 4">Sag uns, was du drauf hast.</template>
+          <template v-else-if="currentStep === 5">Kreiere dein Profil</template>
           <template v-else-if="currentStep === 6">Veröffentliche dein Profil</template>
           <template v-else-if="currentStep > 6"
-            >Herzliche Gratulation!<br />Dein Matchd-Profil ist vollständig!
+            >Willkommen bei Matchd! Was willst du als nächstes tun?
           </template>
         </template>
         <template v-else-if="isCompany">

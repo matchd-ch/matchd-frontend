@@ -14,16 +14,6 @@
         v-model="form.name"
       />
     </MatchdField>
-    <div class="lg:flex">
-      <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="errors.zip">
-        <template v-slot:label>PLZ</template>
-        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip" v-model="form.zip" />
-      </MatchdField>
-      <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="errors.city">
-        <template v-slot:label>Ort</template>
-        <Field id="city" name="city" as="input" label="Ort" v-model="form.city" />
-      </MatchdField>
-    </div>
     <MatchdField id="street" class="mb-10" :errors="errors.street">
       <template v-slot:label>Adresse*</template>
       <Field
@@ -35,6 +25,16 @@
         rules="required"
       />
     </MatchdField>
+    <div class="lg:flex">
+      <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="errors.zip">
+        <template v-slot:label>PLZ</template>
+        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip" v-model="form.zip" />
+      </MatchdField>
+      <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="errors.city">
+        <template v-slot:label>Ort</template>
+        <Field id="city" name="city" as="input" label="Ort" v-model="form.city" />
+      </MatchdField>
+    </div>
     <MatchdField id="firstName" class="mb-10" :errors="errors.firstName">
       <template v-slot:label>Vorname*</template>
       <Field
