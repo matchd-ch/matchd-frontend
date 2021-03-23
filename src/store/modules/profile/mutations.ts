@@ -1,21 +1,15 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import {
-  BenefitType,
-  BranchType,
   CompanyProfileStep1,
   CompanyProfileStep2,
   CompanyProfileStep3,
-  JobOptionType,
-  JobPositionType,
-  LanguageType,
-  LevelType,
-  SkillType,
   StudentProfileStep1,
   StudentProfileStep2,
   StudentProfileStep3,
   StudentProfileStep4,
   StudentProfileStep5,
   StudentProfileStep6,
+  UniversityProfileStep1,
   ZipCityType,
 } from "api";
 import { MutationTree } from "vuex";
@@ -38,6 +32,11 @@ export type Mutations<S = State> = {
   [MutationTypes.COMPANY_ONBOARDING_STEP_LOADED](
     state: S,
     payload: CompanyProfileStep1 | CompanyProfileStep2 | CompanyProfileStep3
+  ): void;
+  [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING](state: S): void;
+  [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED](
+    state: S,
+    payload: UniversityProfileStep1
   ): void;
   [MutationTypes.ZIP_CITY_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_LOADED](state: S, payload: ZipCityType[]): void;
@@ -72,6 +71,14 @@ export const mutations: MutationTree<State> & Mutations = {
     state: State,
     payload: CompanyProfileStep1 | CompanyProfileStep2 | CompanyProfileStep3
   ) {
+    state.profile.loading = false;
+    state.profile.success = payload.success || false;
+    state.profile.errors = errorCodeMapper(payload.errors);
+  },
+  [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING](state: State) {
+    state.profile.loading = true;
+  },
+  [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED](state: State, payload: UniversityProfileStep1) {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
     state.profile.errors = errorCodeMapper(payload.errors);

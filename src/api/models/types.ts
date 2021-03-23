@@ -66,6 +66,24 @@ export enum JobOptionMode {
 }
 
 /** An enumeration. */
+export enum CompanyType {
+  /** Internal */
+  Internal = "INTERNAL",
+  /** Student */
+  Student = "STUDENT",
+  /** College Student */
+  CollegeStudent = "COLLEGE_STUDENT",
+  /** Junior */
+  Junior = "JUNIOR",
+  /** Company */
+  Company = "COMPANY",
+  /** University */
+  University = "UNIVERSITY",
+  /** Other */
+  Other = "OTHER",
+}
+
+/** An enumeration. */
 export enum CompanyState {
   /** Incomplete */
   Incomplete = "INCOMPLETE",
@@ -183,6 +201,31 @@ export type IEmployeeInput = {
   id?: Maybe<Scalars["ID"]>;
   /** Role */
   role?: Maybe<Scalars["String"]>;
+};
+
+export type IUniversityProfileInputStep1 = {
+  /** First name */
+  firstName: Scalars["String"];
+  /** Last name */
+  lastName: Scalars["String"];
+  /** Name */
+  name?: Maybe<Scalars["String"]>;
+  /** Street */
+  street: Scalars["String"];
+  /** Zip */
+  zip: Scalars["String"];
+  /** City */
+  city: Scalars["String"];
+  /** Phone Number */
+  phone?: Maybe<Scalars["String"]>;
+  /** role */
+  role: Scalars["String"];
+  /** website */
+  website: Scalars["String"];
+  /** description */
+  topLevelOrganisationDescription?: Maybe<Scalars["String"]>;
+  /** website dachorganisation */
+  topLevelOrganisationWebsite?: Maybe<Scalars["String"]>;
 };
 
 export type ICompanyProfileInputStep1 = {

@@ -167,7 +167,10 @@ type BranchType = {
 type Company = {
   __typename?: "Company";
   id: Scalars["ID"];
-  uid: Scalars["String"];
+  type?: Maybe<CompanyType>;
+  state: CompanyState;
+  profileStep: Scalars["Int"];
+  slug: Scalars["String"];
   name: Scalars["String"];
   zip: Scalars["String"];
   city: Scalars["String"];
@@ -175,15 +178,43 @@ type Company = {
   phone: Scalars["String"];
   website: Scalars["String"];
   description: Scalars["String"];
+  uid: Scalars["String"];
   services: Scalars["String"];
   memberItStGallen: Scalars["Boolean"];
   benefits: Array<BenefitType>;
   jobPositions: Array<JobPositionType>;
-  slug: Scalars["String"];
-  state: CompanyState;
-  profileStep: Scalars["Int"];
+  topLevelOrganisationDescription: Scalars["String"];
+  topLevelOrganisationWebsite: Scalars["String"];
   employees?: Maybe<Array<Maybe<Employee>>>;
 };
+
+/** An enumeration. */
+enum CompanyType {
+  /** Internal */
+  Internal = "INTERNAL",
+  /** Student */
+  Student = "STUDENT",
+  /** College Student */
+  CollegeStudent = "COLLEGE_STUDENT",
+  /** Junior */
+  Junior = "JUNIOR",
+  /** Company */
+  Company = "COMPANY",
+  /** University */
+  University = "UNIVERSITY",
+  /** Other */
+  Other = "OTHER",
+}
+
+/** An enumeration. */
+enum CompanyState {
+  /** Incomplete */
+  Incomplete = "INCOMPLETE",
+  /** Anonymous */
+  Anonymous = "ANONYMOUS",
+  /** Public */
+  Public = "PUBLIC",
+}
 
 type BenefitType = {
   __typename?: "BenefitType";
@@ -197,16 +228,6 @@ type JobPositionType = {
   id: Scalars["ID"];
   name: Scalars["String"];
 };
-
-/** An enumeration. */
-enum CompanyState {
-  /** Incomplete */
-  Incomplete = "INCOMPLETE",
-  /** Anonymous */
-  Anonymous = "ANONYMOUS",
-  /** Public */
-  Public = "PUBLIC",
-}
 
 type Employee = {
   __typename?: "Employee";
@@ -386,6 +407,8 @@ type Mutation = {
   jobPostingStep3?: Maybe<JobPostingStep3>;
   deleteAttachment?: Maybe<DeleteAttachment>;
   upload?: Maybe<UserUpload>;
+  /** Updates the profile of a university */
+  universityProfileStep1?: Maybe<UniversityProfileStep1>;
   /** Updates the profile of a Company */
   companyProfileStep1?: Maybe<CompanyProfileStep1>;
   /** Updates website url, branch, description, services, member IT St.Gallen */
@@ -485,6 +508,10 @@ type MutationDeleteAttachmentArgs = {
 type MutationUploadArgs = {
   file: Scalars["Upload"];
   key: AttachmentKey;
+};
+
+type MutationUniversityProfileStep1Args = {
+  step1: UniversityProfileInputStep1;
 };
 
 type MutationCompanyProfileStep1Args = {
@@ -686,6 +713,38 @@ type UserUpload = {
   __typename?: "UserUpload";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+/** Updates the profile of a university */
+type UniversityProfileStep1 = {
+  __typename?: "UniversityProfileStep1";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type UniversityProfileInputStep1 = {
+  /** First name */
+  firstName: Scalars["String"];
+  /** Last name */
+  lastName: Scalars["String"];
+  /** Name */
+  name?: Maybe<Scalars["String"]>;
+  /** Street */
+  street: Scalars["String"];
+  /** Zip */
+  zip: Scalars["String"];
+  /** City */
+  city: Scalars["String"];
+  /** Phone Number */
+  phone?: Maybe<Scalars["String"]>;
+  /** role */
+  role: Scalars["String"];
+  /** website */
+  website: Scalars["String"];
+  /** description */
+  topLevelOrganisationDescription?: Maybe<Scalars["String"]>;
+  /** website dachorganisation */
+  topLevelOrganisationWebsite?: Maybe<Scalars["String"]>;
 };
 
 /** Updates the profile of a Company */

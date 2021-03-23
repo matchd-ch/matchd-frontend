@@ -92,14 +92,18 @@
       />
     </MatchdField>
     <!-- TopLevel Organisation Field -->
-    <MatchdField id="topLevelOrganisation" class="mb-10" :errors="errors.topLevelOrganisation">
+    <MatchdField
+      id="topLevelOrganisationDescription"
+      class="mb-10"
+      :errors="errors.topLevelOrganisationDescription"
+    >
       <template v-slot:label>Unsere Dachorganisation</template>
       <Field
-        id="topLevelOrganisation"
-        name="topLevelOrganisation"
+        id="topLevelOrganisationDescription"
+        name="topLevelOrganisationDescription"
         as="input"
         label="Unsere Dachorganisation"
-        v-model="form.topLevelOrganisation"
+        v-model="form.topLevelOrganisationDescription"
       />
       <template v-slot:info
         >Hier können sie angeben, zu welcher Bildungseinrichtung ihre Organisation gehört.</template
@@ -132,11 +136,10 @@
 </template>
 
 <script lang="ts">
-import { companyProfileStep1Mapper } from "@/api/mappers/companyProfileStep1InputMapper";
+import { universityProfileStep1Mapper } from "@/api/mappers/universityProfileStep1InputMapper";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
 import { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { UserWithProfileNode } from "api";
@@ -164,7 +167,7 @@ export default class UniversityStep1 extends Vue {
     role: "",
     phone: "",
     website: "",
-    topLevelOrganisation: "",
+    topLevelOrganisationDescription: "",
     topLevelOrganisationWebsite: "",
   };
 
@@ -203,10 +206,10 @@ export default class UniversityStep1 extends Vue {
     }
   }
 
-  async onSubmit(form: CompanyProfileStep1Form) {
+  async onSubmit(form: UniversityProfileStep1Form) {
     await this.$store.dispatch(
-      ActionTypes.COMPANY_ONBOARDING_STEP1,
-      companyProfileStep1Mapper(form)
+      ActionTypes.UNIVERSITY_ONBOARDING_STEP1,
+      universityProfileStep1Mapper(form)
     );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt2" } });

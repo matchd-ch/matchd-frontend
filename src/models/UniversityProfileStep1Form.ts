@@ -8,6 +8,6 @@ export interface UniversityProfileStep1Form {
   role: string;
   phone: string;
   website: string;
-  topLevelOrganisation: string;
+  topLevelOrganisationDescription: string;
   topLevelOrganisationWebsite: string;
 }
