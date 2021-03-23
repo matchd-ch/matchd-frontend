@@ -56,6 +56,10 @@
           <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
         </Field>
       </fieldset>
+      <template v-slot:info
+        >Wir wollen das so genau wissen, damit wir dir die richtigen Jobs vorschlagen
+        können.</template
+      >
     </MatchdSelect>
     <MatchdButton
       variant="outline"

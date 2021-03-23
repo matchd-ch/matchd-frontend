@@ -30,6 +30,7 @@
         v-model="skillInput"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
+        placeholder="Tippe, um Vorschläge zu erhalten"
       />
     </MatchdAutocomplete>
     <SelectPillGroup v-if="form.skills.length > 0" class="mb-10">
@@ -50,15 +51,16 @@
       :errors="errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Diese Sprachen spreche ich*</template></LanguagePicker
+      ><template v-slot:label>Sprachliche Skills*</template></LanguagePicker
     >
+    <h2 class="text-heading-md mb-9">Was zeichnet dich sonst noch aus?</h2>
     <!-- Online Projects Field -->
     <MatchdField
       id="onlineProjects"
       class="mb-3"
       :class="{ 'mb-10': form.onlineProjects.length === 0 }"
     >
-      <template v-slot:label>Verknüpfe deine Onlineprojekte</template>
+      <template v-slot:label>Deine Onlineprojekte</template>
       <Field
         id="onlineProjects"
         name="onlineProjects"
@@ -66,6 +68,7 @@
         label="Verknüpfe deine Onlineprojekte"
         v-model="onlineProjectInput"
         @keypress.enter.prevent="onAppendOnlineProject"
+        placeholder="Github-URL, Unity-URL, etc."
       />
       <template v-slot:iconRight>
         <button
@@ -77,9 +80,6 @@
           Hinzufügen
         </button>
       </template>
-      <template v-if="form.onlineProjects.length === 0" v-slot:info
-        >URLs zu deinen Projekten, z.B. auf Github / Unity</template
-      >
     </MatchdField>
     <SelectPillGroup v-if="form.onlineProjects.length > 0" class="mb-10">
       <SelectPill
@@ -92,7 +92,7 @@
     </SelectPillGroup>
     <!-- Certificates Field -->
     <MatchdFileBlock>
-      <template v-slot:label>Lade hier deine Zertifikate hoch</template>
+      <template v-slot:label>Deine Zeugnisse, Diplome und Zertifikate</template>
       <MatchdFileView
         v-if="studentDocuments.length > 0 || studentDocumentsQueue.length > 0"
         :files="studentDocuments"
@@ -108,12 +108,12 @@
         :uploadConfiguration="studentDocumentsUploadConfigurations"
         @selectFiles="onSelectStudentDocuments"
         class="mb-10"
-        >Zertifikate auswählen</MatchdFileUpload
+        >Hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
     <!-- Hobbies Field -->
     <MatchdField id="hobbies" class="mb-3" :class="{ 'mb-10': form.hobbies.length === 0 }">
-      <template v-slot:label>Interessen & Hobbies</template>
+      <template v-slot:label>Deine Interessen und Hobbies</template>
       <Field
         id="hobbies"
         name="hobbies"
@@ -122,6 +122,7 @@
         maxlength="100"
         v-model="hobbyInput"
         @keypress.enter.prevent="onAppendHobby"
+        placeholder="Biken, Video Games, Kochen, etc."
       />
       <template v-slot:iconRight>
         <button
@@ -145,7 +146,7 @@
     </SelectPillGroup>
     <!-- Distinction Field -->
     <MatchdField id="distinction" class="mb-10">
-      <template v-slot:label>Das zeichnet mich sonst noch aus</template>
+      <template v-slot:label>Dein Talent</template>
       <Field
         id="distinction"
         name="distinction"
@@ -154,6 +155,7 @@
         label="Das zeichnet mich sonst noch aus"
         v-model="form.distinction"
         class="h-72"
+        placeholder="4-5 Sätze zu deiner Spezialität"
       />
     </MatchdField>
     <MatchdButton

@@ -28,7 +28,7 @@
       ></template>
     </MatchdField>
     <MatchdFileBlock>
-      <template v-slot:label>Foto</template>
+      <template v-slot:label>Dein Profilbild</template>
       <MatchdFileView
         v-if="studentAvatar.length > 0 || studentAvatarQueue.length > 0"
         :files="studentAvatar"
@@ -41,7 +41,7 @@
         :uploadConfiguration="studentAvatarUploadConfigurations"
         @selectFiles="onSelectStudentAvatar"
         class="mb-10"
-        >Bild auswählen</MatchdFileUpload
+        >Bild hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
     <MatchdButton
