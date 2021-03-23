@@ -34,7 +34,7 @@
         step="2"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
-        <template v-slot:title>Hinterlegen Sie hier die UID-Nr. ihrer Unternehmung:</template>
+        <template v-slot:title>Bitte hinterlegen sie die UID-Nummer ihres Unternehmens:</template>
         <Form @submit="onSubmitUid" v-slot="{ errors }">
           <MatchdField id="uid" class="mb-10" :errors="errors.uid">
             <template v-slot:label>UID-Nr.</template>
@@ -56,7 +56,7 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
       >
         <template v-slot:title>
-          Erzählen sie uns, wer sie sind.
+          Erzählen sie, wer sie sind. Diese Angaben erscheinen später auf ihrem Profil.
         </template>
         <Form @submit="onSubmitCompanyData" v-slot="{ errors }">
           <MatchdField id="name" class="mb-3" :errors="errors.name">
@@ -144,7 +144,7 @@
               </button>
             </template>
             <template v-slot:info
-              >Nutze mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
+              >Nutzen sie mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
               Sonderzeichen.</template
             >
           </MatchdField>
@@ -162,8 +162,8 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Fast geschafft!<br />Aktiviere deinen Account. Wir haben deinen Aktivierungslink per
-          E-Mail an {{ form.email || "?" }} gesendet
+          Fast geschafft:<br />Aktivieren sie ihren Account mit dem Link, den wir ihnen per Mail an
+          {{ form.email || "?" }} geschickt haben.
         </template>
       </MatchdStep>
     </div>
