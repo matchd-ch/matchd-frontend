@@ -5,7 +5,6 @@ import {
   ICompanyProfileInputStep3,
   IStudentProfileInputStep1,
   IStudentProfileInputStep2,
-  IStudentProfileInputStep3,
   IStudentProfileInputStep4,
   IStudentProfileInputStep5,
   IStudentProfileInputStep6,
@@ -20,7 +19,6 @@ import { State } from "@/store/modules/profile/state";
 
 import studentProfileStep1Mutation from "@/api/mutations/studentProfileStep1.gql";
 import studentProfileStep2Mutation from "@/api/mutations/studentProfileStep2.gql";
-import studentProfileStep3Mutation from "@/api/mutations/studentProfileStep3.gql";
 import studentProfileStep4Mutation from "@/api/mutations/studentProfileStep4.gql";
 import studentProfileStep5Mutation from "@/api/mutations/studentProfileStep5.gql";
 import studentProfileStep6Mutation from "@/api/mutations/studentProfileStep6.gql";
@@ -46,10 +44,6 @@ export interface Actions {
   [ActionTypes.STUDENT_ONBOARDING_STEP2](
     { commit }: AugmentedActionContext,
     payload: IStudentProfileInputStep2
-  ): Promise<void>;
-  [ActionTypes.STUDENT_ONBOARDING_STEP3](
-    { commit }: AugmentedActionContext,
-    payload: IStudentProfileInputStep3
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP4](
     { commit }: AugmentedActionContext,
@@ -94,14 +88,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep2);
-  },
-  async [ActionTypes.STUDENT_ONBOARDING_STEP3]({ commit }, payload: IStudentProfileInputStep3) {
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
-    const response = await apiClient.mutate({
-      mutation: studentProfileStep3Mutation,
-      variables: payload,
-    });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep3);
   },
   async [ActionTypes.STUDENT_ONBOARDING_STEP4]({ commit }, payload: IStudentProfileInputStep4) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);

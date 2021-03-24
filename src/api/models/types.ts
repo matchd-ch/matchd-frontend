@@ -123,7 +123,7 @@ export type IJobPostingInputStep1 = {
   jobOption: IJobOptionInputType;
   branch: IBranchInputType;
   /** Workload */
-  workload: Scalars["Int"];
+  workload?: Maybe<Scalars["String"]>;
   jobFromDate: Scalars["String"];
   jobToDate?: Maybe<Scalars["String"]>;
   url?: Maybe<Scalars["String"]>;
@@ -242,19 +242,15 @@ export type IStudentProfileInputStep1 = {
 };
 
 export type IStudentProfileInputStep2 = {
-  /** School name */
-  schoolName?: Maybe<Scalars["String"]>;
-  /** Field of study */
-  fieldOfStudy?: Maybe<Scalars["String"]>;
-  /** Graduation */
-  graduation?: Maybe<Scalars["String"]>;
-};
-
-export type IStudentProfileInputStep3 = {
   jobOption: IJobOptionInputType;
   jobFromDate?: Maybe<Scalars["String"]>;
   jobToDate?: Maybe<Scalars["String"]>;
   jobPosition?: Maybe<IJobPositionInputType>;
+  softSkills?: Maybe<Array<Maybe<ISoftSkillInputType>>>;
+};
+
+export type ISoftSkillInputType = {
+  id: Scalars["ID"];
 };
 
 export type IStudentProfileInputStep4 = {

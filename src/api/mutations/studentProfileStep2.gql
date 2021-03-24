@@ -1,13 +1,15 @@
 mutation(
-  $schoolName: String
-  $fieldOfStudy: String
-  $graduation: String
+  $jobOption: JobOptionInputType!
+  $jobFromDate: String
+  $jobToDate: String
+  $jobPosition: JobPositionInputType
 ) {
   studentProfileStep2(
     step2: {
-      schoolName: $schoolName
-      fieldOfStudy: $fieldOfStudy
-      graduation: $graduation
+      jobOption: $jobOption
+      jobPosition: $jobPosition
+      jobFromDate: $jobFromDate
+      jobToDate: $jobToDate
     }
   ) {
     success

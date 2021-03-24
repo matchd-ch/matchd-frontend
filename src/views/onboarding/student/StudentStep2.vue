@@ -1,66 +1,133 @@
 <template>
-  <Form @submit="onSubmit" v-slot="{ errors }">
+  <Form
+    v-if="jobOptions.length > 0 && jobPositions.length > 0"
+    @submit="onSubmit"
+    v-slot="{ errors }"
+  >
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <MatchdField id="schoolName" class="mb-10" :errors="errors.schoolName">
-      <template v-slot:label>Aktuelle Schule / Hochschule</template>
-      <Field
-        id="schoolName"
-        name="schoolName"
-        as="input"
-        label="Aktuelle Schule / Hochschule"
-        v-model="form.schoolName"
-      />
-    </MatchdField>
-    <MatchdField id="fieldOfStudy" class="mb-10" :errors="errors.fieldOfStudy">
+    <SelectPillGroup :errors="errors.jobOptionId" class="mb-10">
+      <template v-slot:label>Ich suche nach*</template>
+      <template v-slot:field>
+        <Field
+          id="jobOptionId"
+          name="jobOptionId"
+          as="input"
+          label="Ich suche nach"
+          type="hidden"
+          v-model="form.jobOptionId"
+          rules="required"
+        />
+      </template>
+      <SelectPill
+        name="jobOptionPill"
+        v-for="option in jobOptions"
+        :key="option.id"
+        :value="option.id"
+        :checked="option.id === form.jobOptionId"
+        @change="form.jobOptionId = $event"
+        >{{ option.name }}</SelectPill
+      >
+    </SelectPillGroup>
+    <div class="lg:flex">
+      <MatchdSelect
+        id="searchDateFrom"
+        class="mb-10 flex-grow"
+        :errors="errors.jobFromDateMonth || errors.jobFromDateYear"
+      >
+        <template v-slot:label>Ab</template>
+        <fieldset id="searchDateFrom" class="flex">
+          <Field
+            id="jobFromDateMonth"
+            name="jobFromDateMonth"
+            as="select"
+            label="Monat"
+            class="mr-3"
+            :rules="form.jobFromDateYear !== '' ? 'required' : ''"
+            v-model="form.jobFromDateMonth"
+          >
+            <option value="" disabled selected hidden>Monat</option>
+            <option v-for="(n, index) in 12" :value="n" :key="index">{{
+              String(n).padStart(2, "0")
+            }}</option>
+          </Field>
+          <Field
+            id="jobFromDateYear"
+            name="jobFromDateYear"
+            as="select"
+            label="Jahr"
+            v-model="form.jobFromDateYear"
+            :rules="form.jobFromDateMonth !== '' ? 'required' : ''"
+          >
+            <option value="" disabled selected hidden>Jahr</option>
+            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
+          </Field>
+        </fieldset>
+      </MatchdSelect>
+      <MatchdSelect
+        v-if="modeIsDateRange"
+        id="searchDateTo"
+        class="mb-10 lg:ml-3 flex-grow"
+        :errors="errors.jobToDateMonth || errors.jobToDateYear"
+      >
+        <template v-slot:label>Bis</template>
+        <fieldset id="searchDateTo" class="flex">
+          <Field
+            id="jobToDateMonth"
+            name="jobToDateMonth"
+            as="select"
+            label="Monat"
+            class="mr-3"
+            :rules="form.jobToDateYear !== '' ? 'required' : ''"
+            v-model="form.jobToDateMonth"
+          >
+            <option value="" disabled selected hidden>Monat</option>
+            <option v-for="(n, index) in 12" :value="n" :key="index">{{
+              String(n).padStart(2, "0")
+            }}</option>
+          </Field>
+          <Field
+            id="jobToDateYear"
+            name="jobToDateYear"
+            as="select"
+            label="Jahr"
+            :rules="form.jobToDateMonth !== '' ? 'required' : ''"
+            v-model="form.jobToDateYear"
+          >
+            <option value="" disabled selected hidden>Jahr</option>
+            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
+          </Field>
+        </fieldset>
+      </MatchdSelect>
+    </div>
+    <MatchdAutocomplete
+      id="jobPosition"
+      class="mb-3"
+      :class="{ 'mb-10': !selectedJobPosition }"
+      :errors="errors.jobPosition"
+      :items="filteredJobPositions"
+      @select="onSelectJobPosition"
+    >
       <template v-slot:label>Fachrichtung</template>
       <Field
-        id="fieldOfStudy"
-        name="fieldOfStudy"
+        id="jobPositionInput"
+        name="jobPositionInput"
         as="input"
+        autocomplete="off"
         label="Fachrichtung"
-        v-model="form.fieldOfStudy"
+        v-model="jobPositionInput"
+        @input="onInputJobPositions"
       />
-    </MatchdField>
-    <MatchdSelect
-      id="graduation"
-      class="mb-10 mr-3 flex-grow"
-      :errors="errors.graduationMonth || errors.graduationYear"
-    >
-      <template v-slot:label>Voraussichtliches Abschlussjahr</template>
-      <fieldset id="graduation" class="flex">
-        <Field
-          id="graduationMonth"
-          name="graduationMonth"
-          as="select"
-          label="Monat"
-          class="mr-3"
-          :rules="form.graduationYear !== '' ? 'required' : ''"
-          v-model="form.graduationMonth"
-        >
-          <option value="" disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :value="n" :key="index">{{
-            String(n).padStart(2, "0")
-          }}</option>
-        </Field>
-        <Field
-          id="graduationYear"
-          name="graduationYear"
-          as="select"
-          label="Jahr"
-          :rules="form.graduationMonth !== '' ? 'required' : ''"
-          v-model="form.graduationYear"
-        >
-          <option value="" disabled selected hidden>Jahr</option>
-          <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
-        </Field>
-      </fieldset>
-      <template v-slot:info
-        >Wir wollen das so genau wissen, damit wir dir die richtigen Jobs vorschlagen
-        können.</template
+      <template v-if="!selectedJobPosition" v-slot:info
+        >Unternehmen können Dich leichter finden, wenn du dieses Feld ausfüllst.</template
       >
-    </MatchdSelect>
+    </MatchdAutocomplete>
+    <SelectPillGroup v-if="selectedJobPosition" class="mb-10">
+      <SelectPill hasDelete="true" @remove="form.jobPositionId = ''">{{
+        selectedJobPosition.name
+      }}</SelectPill>
+    </SelectPillGroup>
     <MatchdButton
       variant="outline"
       :disabled="onboardingLoading"
@@ -73,13 +140,19 @@
 
 <script lang="ts">
 import { studentProfileStep2InputMapper } from "@/api/mappers/studentProfileStep2InputMapper";
+import { JobOptionMode } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
+import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
+import SelectPill from "@/components/SelectPill.vue";
+import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { UserWithProfileNode } from "api";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
+import { JobPositionType, UserWithProfileNode } from "api";
+import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -92,15 +165,23 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
     MatchdField,
     MatchdSelect,
+    MatchdAutocomplete,
+    SelectPill,
+    SelectPillGroup,
   },
 })
 export default class StudentStep2 extends Vue {
   form: StudentProfileStep2Form = {
-    schoolName: "",
-    fieldOfStudy: "",
-    graduationMonth: "",
-    graduationYear: "",
+    jobOptionId: "",
+    jobPositionId: "",
+    jobFromDateMonth: "",
+    jobFromDateYear: "",
+    jobToDateMonth: "",
+    jobToDateYear: "",
   };
+
+  jobPositionInput = "";
+  filteredJobPositions: JobPositionType[] = [];
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
@@ -110,6 +191,28 @@ export default class StudentStep2 extends Vue {
       validYears.push(i);
     }
     return validYears;
+  }
+
+  get modeIsDateRange() {
+    return (
+      this.jobOptions?.find(option => option.id === this.form.jobOptionId)?.mode ===
+      JobOptionMode.DateRange
+    );
+  }
+
+  get selectedJobPosition() {
+    if (!this.form.jobPositionId) {
+      return "";
+    }
+    return this.jobPositions?.find(jobPosition => jobPosition.id === this.form.jobPositionId);
+  }
+
+  get jobOptions() {
+    return this.$store.getters["jobOptions"];
+  }
+
+  get jobPositions() {
+    return this.$store.getters["jobPositions"];
   }
 
   get onboardingLoading() {
@@ -124,18 +227,69 @@ export default class StudentStep2 extends Vue {
     return this.$store.getters["user"];
   }
 
+  onInputJobPositions() {
+    if (this.jobPositionInput.length < 3) {
+      this.filteredJobPositions = [];
+      return;
+    }
+    this.filteredJobPositions = this.jobPositions.filter(item =>
+      item.name.toLowerCase().includes(this.jobPositionInput.toLowerCase())
+    );
+  }
+
+  onSelectJobPosition(item: JobPositionType) {
+    this.jobPositionInput = "";
+    this.form.jobPositionId = item.id;
+    this.onInputJobPositions();
+  }
+
+  async mounted() {
+    await Promise.all([
+      this.$store.dispatch(ContentActionTypes.JOB_OPTIONS),
+      this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
+    ]);
+  }
+
   async onSubmit(
     form: StudentProfileStep2Form,
     actions: FormActions<Partial<StudentProfileStep2Form>>
   ) {
+    if (
+      form.jobFromDateMonth &&
+      form.jobFromDateYear &&
+      form.jobToDateMonth &&
+      form.jobToDateYear
+    ) {
+      const toDate = DateTime.fromObject({
+        month: +form.jobToDateMonth,
+        year: +form.jobToDateYear,
+      });
+      const fromDate = DateTime.fromObject({
+        month: +form.jobFromDateMonth,
+        year: +form.jobFromDateYear,
+      });
+      if (toDate <= fromDate) {
+        actions.setErrors({
+          jobToDateMonth: 'Muss später als Feld "Ab" sein',
+        });
+        return;
+      }
+    }
+
     await this.$store.dispatch(
-      ActionTypes.STUDENT_ONBOARDING_STEP2,
+      ActionTypes.STUDENT_ONBOARDING_STEP3,
       studentProfileStep2InputMapper(this.form)
     );
     if (this.onboardingState.success) {
-      this.$router.push({ params: { step: "schritt3" } });
+      this.$router.push({ params: { step: "schritt4" } });
     } else if (this.onboardingState.errors) {
       actions.setErrors(this.onboardingState.errors);
+      if (this.onboardingState.errors.jobFromDate) {
+        actions.setErrors({ jobFromDateMonth: "Ab darf nicht leer sein." });
+      }
+      if (this.onboardingState.errors.jobToDate) {
+        actions.setErrors({ jobToDateMonth: "Bis darf nicht leer sein." });
+      }
     }
   }
 }
