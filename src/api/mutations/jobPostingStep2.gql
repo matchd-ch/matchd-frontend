@@ -1,8 +1,8 @@
 mutation(
   $id: ID!
-  $expectations: [ExpectationInputType]
-  $skills: [SkillInputType]
-  $languages: [JobPostingLanguageRelationInputType]
+  $expectations: [ExpectationInput]
+  $skills: [SkillInput]
+  $languages: [JobPostingLanguageRelationInput]
 ) {
   jobPostingStep2(
     step2: {
