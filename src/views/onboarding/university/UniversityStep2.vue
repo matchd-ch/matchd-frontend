@@ -57,7 +57,7 @@
       <MatchdFileUpload
         v-if="universityAvatar.length === 0"
         :uploadConfiguration="universityAvatarUploadConfigurations"
-        @selectFiles="onDeleteUniversityAvatar"
+        @selectFiles="onSelectUniversityAvatar"
         class="mb-10"
         >Logo auswählen</MatchdFileUpload
       >
