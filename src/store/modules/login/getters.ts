@@ -1,7 +1,7 @@
-import { UserType } from "@/api/models/types";
+import { ProfileType } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
-import { UserWithProfileNode } from "api";
+import { User } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
@@ -10,7 +10,7 @@ export type Getters = {
   loginState(state: State): { success: boolean; errors: MatchdApiError | null };
   logoutLoading(state: State): boolean;
   logoutState(state: State): { success: boolean; errors: MatchdApiError | null };
-  user(state: State): UserWithProfileNode | null;
+  user(state: State): User | null;
   profileStep(state: State, getters: Getters): number | undefined;
   isStudent(state: State): boolean;
   isCompany(state: State): boolean;
@@ -49,7 +49,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       errors: state.logout.errors || null,
     };
   },
-  user(state: State): UserWithProfileNode | null {
+  user(state: State): User | null {
     return state.user;
   },
   profileStep(state: State, getters: Getters): number | undefined {
@@ -65,7 +65,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
     if (!state.user?.type) {
       return false;
     }
-    return [UserType.Student, UserType.CollegeStudent, UserType.Internal, UserType.Junior].includes(
+    return [ProfileType.Student, ProfileType.CollegeStudent, ProfileType.Internal, ProfileType.Junior].includes(
       state.user.type
     );
   },
@@ -73,13 +73,13 @@ export const getters: GetterTree<State, RootState> & Getters = {
     if (!state.user?.type) {
       return false;
     }
-    return [UserType.Company].includes(state.user.type);
+    return [ProfileType.Company].includes(state.user.type);
   },
   isUniversity(state: State): boolean {
     if (!state.user?.type) {
       return false;
     }
-    return [UserType.University].includes(state.user.type);
+    return [ProfileType.University].includes(state.user.type);
   },
   isLoggedIn(state: State): boolean {
     return state.isLoggedIn;

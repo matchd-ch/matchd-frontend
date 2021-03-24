@@ -68,7 +68,7 @@ import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { AttachmentType, UserWithProfileNode } from "api";
+import { Attachment, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -104,7 +104,7 @@ export default class StudentStep5 extends Vue {
     return this.$store.getters["nicknameSuggestions"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
@@ -141,7 +141,7 @@ export default class StudentStep5 extends Vue {
     });
   }
 
-  async onDeleteStudentAvatar(file: AttachmentType) {
+  async onDeleteStudentAvatar(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.StudentAvatar,
       id: file.id,

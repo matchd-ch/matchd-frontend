@@ -10,7 +10,7 @@ import {
   StudentProfileStep5,
   StudentProfileStep6,
   UniversityProfileStep1,
-  ZipCityType,
+  ZipCity,
 } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
@@ -39,7 +39,7 @@ export type Mutations<S = State> = {
     payload: UniversityProfileStep1
   ): void;
   [MutationTypes.ZIP_CITY_LOADING](state: S): void;
-  [MutationTypes.ZIP_CITY_LOADED](state: S, payload: ZipCityType[]): void;
+  [MutationTypes.ZIP_CITY_LOADED](state: S, payload: ZipCity[]): void;
   [MutationTypes.STUDENT_ONBOARDING_NICKNAME_SUGGESTIONS](
     state: S,
     payload: { nicknameSuggestions: string[] }
@@ -86,7 +86,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ZIP_CITY_LOADING](state: State) {
     state.zipCity.loading = true;
   },
-  [MutationTypes.ZIP_CITY_LOADED](state: State, payload: ZipCityType[]) {
+  [MutationTypes.ZIP_CITY_LOADED](state: State, payload: ZipCity[]) {
     state.zipCity.loading = false;
     state.zipCity.data = payload;
   },

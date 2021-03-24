@@ -1,6 +1,6 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
-import { Employee, JobPostingType } from "api";
+import { Employee, JobPosting } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
@@ -9,7 +9,7 @@ export type Getters = {
   jobPostingState(state: State): { success: boolean; errors: MatchdApiError | null; id: string };
   jobPostingId(state: State): string;
   currentJobPostingStep(state: State): number;
-  currentJobPosting(state: State): JobPostingType | null;
+  currentJobPosting(state: State): JobPosting | null;
   employees(state: State): Employee[];
   addEmployeeLoading(state: State): boolean;
   addEmployeeState(state: State): { success: boolean; errors: MatchdApiError | null };
@@ -32,7 +32,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   currentJobPostingStep(state: State): number {
     return state.currentJobPosting.data?.formStep || 1;
   },
-  currentJobPosting(state: State): JobPostingType | null {
+  currentJobPosting(state: State): JobPosting | null {
     return state.currentJobPosting.data;
   },
   employees(state: State): Employee[] {

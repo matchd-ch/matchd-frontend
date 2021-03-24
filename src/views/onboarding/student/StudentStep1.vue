@@ -122,7 +122,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { UserWithProfileNode } from "api";
+import { User } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -169,7 +169,7 @@ export default class StudentStep1 extends Vue {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 

@@ -123,7 +123,7 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 import { AddEmployeeSubForm, JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import { UserWithProfileNode } from "api";
+import { User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -178,7 +178,7 @@ export default class JobPostingStep3 extends Vue {
     return this.$store.getters["employees"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 

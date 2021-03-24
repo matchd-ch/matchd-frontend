@@ -50,14 +50,14 @@
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
-import { LanguageType, LevelType } from "api";
+import { Language, LanguageLevel } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   id = prop<string>({});
   errors = prop<string>({});
-  languages = prop<LanguageType[]>({ default: [] });
-  languageLevels = prop<LevelType[]>({ default: [] });
+  languages = prop<Language[]>({ default: [] });
+  languageLevels = prop<LanguageLevel[]>({ default: [] });
   selectedLanguages = prop<SelectedLanguage[]>({ default: [] });
 }
 
