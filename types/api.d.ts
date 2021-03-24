@@ -130,7 +130,7 @@ type JobPostingType = {
   description: Scalars["String"];
   jobOption: JobOptionType;
   branch: BranchType;
-  workload?: Maybe<Scalars["String"]>;
+  workload?: Maybe<Scalars["Int"]>;
   company: Company;
   jobFromDate: Scalars["Date"];
   jobToDate?: Maybe<Scalars["Date"]>;
@@ -590,7 +590,7 @@ type JobPostingInputStep1 = {
   jobOption: JobOptionInputType;
   branch: BranchInputType;
   /** Workload */
-  workload?: Maybe<Scalars["String"]>;
+  workload: Scalars["Int"];
   jobFromDate: Scalars["String"];
   jobToDate?: Maybe<Scalars["String"]>;
   url?: Maybe<Scalars["String"]>;

@@ -123,7 +123,7 @@ export type IJobPostingInputStep1 = {
   jobOption: IJobOptionInputType;
   branch: IBranchInputType;
   /** Workload */
-  workload?: Maybe<Scalars["String"]>;
+  workload: Scalars["Int"];
   jobFromDate: Scalars["String"];
   jobToDate?: Maybe<Scalars["String"]>;
   url?: Maybe<Scalars["String"]>;

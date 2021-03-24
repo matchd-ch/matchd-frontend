@@ -277,7 +277,7 @@ export default class StudentStep2 extends Vue {
     }
 
     await this.$store.dispatch(
-      ActionTypes.STUDENT_ONBOARDING_STEP3,
+      ActionTypes.STUDENT_ONBOARDING_STEP2,
       studentProfileStep2InputMapper(this.form)
     );
     if (this.onboardingState.success) {
