@@ -1,69 +1,58 @@
 <template>
-  <Form
-    v-if="jobPositions.length > 0 && companyDocumentsUploadConfigurations"
-    @submit="onSubmit"
-    v-slot="{ errors }"
-  >
+  <Form @submit="onSubmit" v-slot="{ errors }">
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <!-- JobPosition Field -->
-    <MatchdAutocomplete
-      id="jobPositionInput"
-      class="mb-3"
-      :class="{ 'mb-10': form.jobPositions.length === 0 }"
-      :errors="errors.jobPosition"
-      :items="filteredJobPositions"
-      @select="onSelectJobPosition"
-    >
-      <template v-slot:label
-        >In diesen Bereichen und Projekten kannst du bei uns tätig sein</template
-      >
+    <!-- Description Field -->
+    <MatchdField id="services" class="mb-10">
+      <template v-slot:label>Unser Angebot</template>
       <Field
-        id="jobPositionInput"
-        name="jobPositionInput"
+        id="services"
+        name="services"
+        as="textarea"
+        maxlength="300"
+        label="Services"
+        v-model="form.services"
+        class="h-72"
+      />
+      <template v-slot:info>Maximal 300 Zeichen</template>
+    </MatchdField>
+    <!-- Link Education Field -->
+    <MatchdField id="linkEducation" class="mb-10" :errors="errors.linkEducation">
+      <template v-slot:label>Wissenswertes zur Aus- und Weiterbildung</template>
+      <Field
+        id="linkEducation"
+        name="linkEducation"
         as="input"
-        autocomplete="off"
-        label="In diesen Bereichen und Projekten kannst du bei uns tätig sein"
-        v-model="jobPositionInput"
-        @input="onInputJobPositions"
-        @keydown.enter.prevent="onPressEnterJobPosition"
+        label="Wissenswertes zur Aus- und Weiterbildung"
+        v-model="form.linkEducation"
+        rules="url"
       />
-    </MatchdAutocomplete>
-    <SelectPillGroup v-if="form.jobPositions.length > 0" class="mb-10">
-      <SelectPill
-        v-for="selectedJobPosition in form.jobPositions"
-        :key="selectedJobPosition.id"
-        hasDelete="true"
-        @remove="onRemoveJobPosition(selectedJobPosition)"
-        >{{ selectedJobPosition.name }}</SelectPill
-      >
-    </SelectPillGroup>
-    <!-- Benefits Field -->
-    <SelectIconGroup class="mb-10" :icons="benefits" name="benefits" @change="onChangeBenefits">
-      <template v-slot:label>Das erwartet dich bei uns</template>
-    </SelectIconGroup>
-    <!-- Media -->
-    <MatchdFileBlock>
-      <template v-slot:label>So sieht es bei uns aus</template>
-      <MatchdFileView
-        v-if="companyDocuments.length > 0 || companyDocumentsQueue.length > 0"
-        :files="companyDocuments"
-        :queuedFiles="companyDocumentsQueue"
-        @deleteFile="onDeleteCompanyDocuments"
-        class="mb-3"
-        :class="{
-          'mb-10': companyDocumentsUploadConfigurations.maxFiles < companyDocuments.length,
-        }"
+    </MatchdField>
+    <!-- Link Projects Field -->
+    <MatchdField id="linkProjects" class="mb-10" :errors="errors.linkProjects">
+      <template v-slot:label>Wissenswertes zum Thema Praxisprojekte</template>
+      <Field
+        id="linkProjects"
+        name="linkProjects"
+        as="input"
+        label="Wissenswertes zum Thema Praxisprojekte"
+        v-model="form.linkProjects"
+        rules="url"
       />
-      <MatchdFileUpload
-        v-if="companyDocumentsUploadConfigurations.maxFiles >= companyDocuments.length"
-        :uploadConfiguration="companyDocumentsUploadConfigurations"
-        @selectFiles="onSelectCompanyDocuments"
-        class="mb-10"
-        >Fotos oder Videos auswählen</MatchdFileUpload
-      >
-    </MatchdFileBlock>
+    </MatchdField>
+    <!-- Link Thesis Field -->
+    <MatchdField id="linkThesis" class="mb-10" :errors="errors.linkThesis">
+      <template v-slot:label>Wissenswertes zur Thema Abschlussarbeiten</template>
+      <Field
+        id="linkThesis"
+        name="linkThesis"
+        as="input"
+        label="Wissenswertes zur Thema Abschlussarbeiten"
+        v-model="form.linkThesis"
+        rules="url"
+      />
+    </MatchdField>
     <MatchdButton
       variant="outline"
       :disabled="onboardingLoading"
@@ -75,24 +64,13 @@
 </template>
 
 <script lang="ts">
-import { companyProfileStep3InputMapper } from "@/api/mappers/companyProfileStep3InputMapper";
-import { AttachmentKey } from "@/api/models/types";
+import { universityProfileStep3Mapper } from "@/api/mappers/universityProfileStep3InputMapper";
 import GenericError from "@/components/GenericError.vue";
-import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
-import SelectIconGroup from "@/components/SelectIconGroup.vue";
-import SelectPill from "@/components/SelectPill.vue";
-import SelectPillGroup from "@/components/SelectPillGroup.vue";
-import { BenefitWithStatus, CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
+import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { Attachment, Benefit, JobPosition, User } from "api";
+import { User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -104,38 +82,15 @@ import { Options, Vue } from "vue-class-component";
     GenericError,
     MatchdButton,
     MatchdField,
-    MatchdSelect,
-    MatchdAutocomplete,
-    SelectPill,
-    SelectPillGroup,
-    SelectIconGroup,
-    MatchdFileBlock,
-    MatchdFileView,
-    MatchdFileUpload,
   },
 })
 export default class UniversityStep3 extends Vue {
-  form: CompanyProfileStep3Form = {
-    jobPositions: [],
-    benefits: [],
+  form: UniversityProfileStep3Form = {
+    services: "",
+    linkEducation: "",
+    linkProjects: "",
+    linkThesis: "",
   };
-
-  jobPositionInput = "";
-  filteredJobPositions: JobPosition[] = [];
-  errors: { [k: string]: string } = {};
-
-  get jobPositions() {
-    return this.$store.getters["jobPositions"];
-  }
-
-  get benefits(): BenefitWithStatus[] {
-    return this.$store.getters["benefits"].map(benefit => {
-      return {
-        ...benefit,
-        checked: !!this.form.benefits.find(selectedBenefit => selectedBenefit.id === benefit.id),
-      };
-    });
-  }
 
   get onboardingLoading() {
     return this.$store.getters["onboardingLoading"];
@@ -149,92 +104,13 @@ export default class UniversityStep3 extends Vue {
     return this.$store.getters["user"];
   }
 
-  get companyDocumentsQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  get companyDocuments() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  get companyDocumentsUploadConfigurations() {
-    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  onInputJobPositions() {
-    if (this.jobPositionInput.length < 3) {
-      this.filteredJobPositions = [];
-      return;
-    }
-    this.filteredJobPositions = this.jobPositions.filter(item =>
-      item.name.toLowerCase().includes(this.jobPositionInput.toLowerCase())
-    );
-  }
-
-  onPressEnterJobPosition() {
-    if (this.filteredJobPositions.length === 1) {
-      this.onSelectJobPosition(this.filteredJobPositions[0]);
-    }
-  }
-
-  onSelectJobPosition(jobPosition: JobPosition) {
-    delete this.errors["jobPositions"];
-    this.jobPositionInput = "";
-    this.form.jobPositions.push(jobPosition);
-    this.onInputJobPositions();
-  }
-
-  onRemoveJobPosition(jobPosition: JobPosition) {
-    this.form.jobPositions = this.form.jobPositions.filter(
-      selectedSkill => selectedSkill.id !== jobPosition.id
-    );
-  }
-
-  onChangeBenefits(benefit: Benefit) {
-    const benefitExists = !!this.form.benefits.find(
-      selectedBenefit => selectedBenefit.id === benefit.id
-    );
-    if (benefitExists) {
-      this.form.benefits = this.form.benefits.filter(
-        selectedBenefit => selectedBenefit.id !== benefit.id
-      );
-    } else {
-      this.form.benefits.push(benefit);
-    }
-  }
-
-  async onSelectCompanyDocuments(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
-      key: AttachmentKey.CompanyDocuments,
-      files,
-    });
-  }
-
-  async onDeleteCompanyDocuments(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
-      key: AttachmentKey.CompanyDocuments,
-      id: file.id,
-    });
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
-      this.$store.dispatch(ContentActionTypes.BENEFITS),
-      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyDocuments,
-      }),
-    ]);
-  }
-
   async onSubmit(
-    form: CompanyProfileStep3Form,
-    actions: FormActions<Partial<CompanyProfileStep3Form>>
+    form: UniversityProfileStep3Form,
+    actions: FormActions<Partial<UniversityProfileStep3Form>>
   ) {
     await this.$store.dispatch(
-      ActionTypes.COMPANY_ONBOARDING_STEP3,
-      companyProfileStep3InputMapper(this.form)
+      ActionTypes.UNIVERSITY_ONBOARDING_STEP3,
+      universityProfileStep3Mapper(this.form)
     );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt4" } });
