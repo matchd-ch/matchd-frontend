@@ -1,11 +1,15 @@
 <template>
-  <Form v-if="companyAvatarUploadConfigurations" @submit="onSubmit" v-slot="{ errors }">
+  <Form
+    v-if="universityAvatarUploadConfigurations && universityDocumentsUploadConfigurations"
+    @submit="onSubmit"
+    v-slot="{ errors }"
+  >
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
     <!-- Branch Field -->
     <SelectPillGroup :errors="errors.branchId" class="mb-10">
-      <template v-slot:label>Branche</template>
+      <template v-slot:label>Fachbereich</template>
       <template v-slot:field>
         <Field
           id="branchId"
@@ -28,7 +32,7 @@
     </SelectPillGroup>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
-      <template v-slot:label>Kurzbeschreibung unserer Unternehmung</template>
+      <template v-slot:label>Kurzbeschreibung der Bildungsinstitution</template>
       <Field
         id="description"
         name="description"
@@ -44,36 +48,41 @@
     <MatchdFileBlock>
       <template v-slot:label>Logo</template>
       <MatchdFileView
-        v-if="companyAvatar.length > 0 || companyAvatarQueue.length > 0"
-        :files="companyAvatar"
-        :queuedFiles="companyAvatarQueue"
-        @deleteFile="onDeleteCompanyAvatar"
+        v-if="universityAvatar.length > 0 || universityAvatarQueue.length > 0"
+        :files="universityAvatar"
+        :queuedFiles="universityAvatarQueue"
+        @deleteFile="onDeleteUniversityAvatar"
         class="mb-3"
       />
       <MatchdFileUpload
-        v-if="companyAvatar.length === 0"
-        :uploadConfiguration="companyAvatarUploadConfigurations"
-        @selectFiles="onSelectCompanyAvatar"
+        v-if="universityAvatar.length === 0"
+        :uploadConfiguration="universityAvatarUploadConfigurations"
+        @selectFiles="onDeleteUniversityAvatar"
         class="mb-10"
         >Logo auswählen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <!-- Products & Services Field -->
-    <MatchdField id="services" class="mb-10" :errors="errors.services">
-      <template v-slot:label>Unsere Produkte und Services</template>
-      <Field id="services" name="services" as="input" label="Services" v-model="form.services" />
-    </MatchdField>
-    <!-- ITrockt Field -->
-    <MatchdToggle id="memberItStGallen" class="mb-10" :errors="errors.memberItStGallen">
-      <template v-slot:label>Wir sind Mitglied im Verein IT St.Gallen "IT rockt!"</template>
-      <input
-        id="memberItStGallen"
-        name="memberItStGallen"
-        type="checkbox"
-        v-model="form.memberItStGallen"
+    <!-- Media -->
+    <MatchdFileBlock>
+      <template v-slot:label>So sieht es bei uns aus</template>
+      <MatchdFileView
+        v-if="universityDocuments.length > 0 || universityDocumentsQueue.length > 0"
+        :files="universityDocuments"
+        :queuedFiles="universityDocumentsQueue"
+        @deleteFile="onDeleteUniversityDocuments"
+        class="mb-3"
+        :class="{
+          'mb-10': universityDocumentsUploadConfigurations.maxFiles < universityDocuments.length,
+        }"
       />
-    </MatchdToggle>
-
+      <MatchdFileUpload
+        v-if="universityDocumentsUploadConfigurations.maxFiles >= universityDocuments.length"
+        :uploadConfiguration="universityDocumentsUploadConfigurations"
+        @selectFiles="onSelectUniversityDocuments"
+        class="mb-10"
+        >Fotos oder Videos auswählen</MatchdFileUpload
+      >
+    </MatchdFileBlock>
     <MatchdButton
       variant="outline"
       :disabled="onboardingLoading"
@@ -85,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { companyProfileStep2InputMapper } from "@/api/mappers/companyProfileStep2InputMapper";
+import { universityProfileStep2Mapper } from "@/api/mappers/universityProfileStep2InputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -97,7 +106,7 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
-import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
+import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
@@ -123,12 +132,9 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class UniversityStep2 extends Vue {
-  form: CompanyProfileStep2Form = {
-    website: "",
+  form: UniversityProfileStep2Form = {
     description: "",
-    services: "",
     branchId: "",
-    memberItStGallen: false,
   };
 
   get onboardingLoading() {
@@ -143,16 +149,28 @@ export default class UniversityStep2 extends Vue {
     return this.$store.getters["user"];
   }
 
-  get companyAvatarQueue() {
+  get universityAvatarQueue() {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get companyAvatar() {
+  get universityAvatar() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get companyAvatarUploadConfigurations() {
+  get universityAvatarUploadConfigurations() {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar });
+  }
+
+  get universityDocumentsQueue() {
+    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments });
+  }
+
+  get universityDocuments() {
+    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
+  }
+
+  get universityDocumentsUploadConfigurations() {
+    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
   get branches() {
@@ -164,30 +182,47 @@ export default class UniversityStep2 extends Vue {
       this.$store.dispatch(ContentActionTypes.BRANCHES),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.CompanyDocuments,
+      }),
     ]);
   }
 
-  async onSelectCompanyAvatar(files: FileList) {
+  async onSelectUniversityAvatar(files: FileList) {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.CompanyAvatar,
       files,
     });
   }
 
-  async onDeleteCompanyAvatar(file: Attachment) {
+  async onDeleteUniversityAvatar(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyAvatar,
       id: file.id,
     });
   }
 
+  async onSelectUniversityDocuments(files: FileList) {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+      key: AttachmentKey.CompanyDocuments,
+      files,
+    });
+  }
+
+  async onDeleteUniversityDocuments(file: Attachment) {
+    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
+      key: AttachmentKey.CompanyDocuments,
+      id: file.id,
+    });
+  }
+
   async onSubmit(
-    form: CompanyProfileStep2Form,
-    actions: FormActions<Partial<CompanyProfileStep2Form>>
+    form: UniversityProfileStep2Form,
+    actions: FormActions<Partial<UniversityProfileStep2Form>>
   ) {
     await this.$store.dispatch(
-      ActionTypes.COMPANY_ONBOARDING_STEP2,
-      companyProfileStep2InputMapper(this.form)
+      ActionTypes.UNIVERSITY_ONBOARDING_STEP2,
+      universityProfileStep2Mapper(this.form)
     );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt3" } });
