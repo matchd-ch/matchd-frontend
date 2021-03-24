@@ -10,6 +10,7 @@ import {
   IStudentProfileInputStep5,
   IStudentProfileInputStep6,
   IUniversityProfileInputStep1,
+  IUniversityProfileInputStep2,
 } from "@/api/models/types";
 import { RootState } from "@/store";
 import { ActionContext, ActionTree } from "vuex";
@@ -29,6 +30,7 @@ import companyProfileStep1Mutation from "@/api/mutations/companyProfileStep1.gql
 import companyProfileStep2Mutation from "@/api/mutations/companyProfileStep2.gql";
 import companyProfileStep3Mutation from "@/api/mutations/companyProfileStep3.gql";
 import universityProfileStep1Mutation from "@/api/mutations/universityProfileStep1.gql";
+import universityProfileStep2Mutation from "@/api/mutations/universityProfileStep2.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
 
 type AugmentedActionContext = {
@@ -80,6 +82,10 @@ export interface Actions {
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
     payload: IUniversityProfileInputStep1
+  ): Promise<void>;
+  [ActionTypes.UNIVERSITY_ONBOARDING_STEP2](
+    { commit }: AugmentedActionContext,
+    payload: IUniversityProfileInputStep2
   ): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
 }
@@ -170,6 +176,17 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED, response.data.universityProfileStep1);
+  },
+  async [ActionTypes.UNIVERSITY_ONBOARDING_STEP2](
+    { commit },
+    payload: IUniversityProfileInputStep2
+  ) {
+    commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
+    const response = await apiClient.mutate({
+      mutation: universityProfileStep2Mutation,
+      variables: payload,
+    });
+    commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED, response.data.universityProfileStep2);
   },
   async [ActionTypes.CITY_BY_ZIP]({ commit }) {
     commit(MutationTypes.ZIP_CITY_LOADING);
