@@ -17,9 +17,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return state.uploadFile[payload.key]?.filter(queuedFile => !queuedFile.success) || [];
   },
   uploadConfigurationByKey: (state: State) => (payload: { key: AttachmentKey }) => {
-    return state.uploadConfigurations.data.find(
-      Attachment => Attachment.key === payload.key
-    );
+    return state.uploadConfigurations.data.find(Attachment => Attachment.key === payload.key);
   },
   attachmentsByKey: (state: State) => (payload: { key: AttachmentKey }) => {
     return state.attachments[payload.key]?.data || [];

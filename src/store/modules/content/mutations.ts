@@ -22,14 +22,14 @@ export type Mutations<S = State> = {
   [MutationTypes.JOB_OPTIONS_LOADING](state: S): void;
   [MutationTypes.JOB_OPTIONS_LOADED](state: S, payload: { jobOptions: JobOption[] }): void;
   [MutationTypes.JOB_POSITIONS_LOADING](state: S): void;
-  [MutationTypes.JOB_POSITIONS_LOADED](
-    state: S,
-    payload: { jobPositions: JobPosition[] }
-  ): void;
+  [MutationTypes.JOB_POSITIONS_LOADED](state: S, payload: { jobPositions: JobPosition[] }): void;
   [MutationTypes.LANGUAGES_LOADING](state: S): void;
   [MutationTypes.LANGUAGES_LOADED](state: S, payload: { languages: Language[] }): void;
   [MutationTypes.LANGUAGE_LEVELS_LOADING](state: S): void;
-  [MutationTypes.LANGUAGE_LEVELS_LOADED](state: S, payload: { languageLevels: LanguageLevel[] }): void;
+  [MutationTypes.LANGUAGE_LEVELS_LOADED](
+    state: S,
+    payload: { languageLevels: LanguageLevel[] }
+  ): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
 };
@@ -80,7 +80,10 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.LANGUAGE_LEVELS_LOADING](state: State) {
     state.languages.loading = true;
   },
-  [MutationTypes.LANGUAGE_LEVELS_LOADED](state: State, payload: { languageLevels: LanguageLevel[] }) {
+  [MutationTypes.LANGUAGE_LEVELS_LOADED](
+    state: State,
+    payload: { languageLevels: LanguageLevel[] }
+  ) {
     state.languages.loading = false;
     state.languages.levels = payload.languageLevels;
   },

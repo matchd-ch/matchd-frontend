@@ -15,6 +15,7 @@ import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
 import * as omitDeep from "omit-deep";
 
+// eslint-disable-next-line
 let client: ApolloClient<any>;
 
 export function createApolloClient(baseUrl: string) {

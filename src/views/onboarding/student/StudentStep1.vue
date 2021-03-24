@@ -191,7 +191,7 @@ export default class StudentStep1 extends Vue {
     }
   }
 
-  async onSubmit(form: StudentProfileStep1Form) {
+  async onSubmit() {
     await this.$store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP1,
       studentProfileStep1InputMapper(this.form)
