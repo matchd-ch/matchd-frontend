@@ -1,12 +1,12 @@
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
-import { ExpectationType, SkillType } from "api";
+import { Expectation, Skill } from "api";
 
-export interface ExpectationWithStatus extends ExpectationType {
+export interface ExpectationWithStatus extends Expectation {
   checked: boolean;
 }
 
 export interface JobPostingStep2Form {
-  expectations: ExpectationType[];
-  skills: SkillType[];
+  expectations: Expectation[];
+  skills: Skill[];
   languages: SelectedLanguage[];
 }
