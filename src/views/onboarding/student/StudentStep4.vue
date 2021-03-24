@@ -187,7 +187,7 @@ import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfi
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { AttachmentType, SkillType, UserWithProfileNode } from "api";
+import { Attachment, Skill, User } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -219,7 +219,7 @@ export default class StudentStep4 extends Vue {
   };
   errors: { [k: string]: string } = {};
 
-  filteredSkills: SkillType[] = [];
+  filteredSkills: Skill[] = [];
 
   skillInput = "";
   onlineProjectInput = "";
@@ -245,7 +245,7 @@ export default class StudentStep4 extends Vue {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
@@ -288,7 +288,7 @@ export default class StudentStep4 extends Vue {
     );
   }
 
-  onSelectSkill(skill: SkillType) {
+  onSelectSkill(skill: Skill) {
     delete this.errors["skills"];
     this.skillInput = "";
     this.form.skills.push(skill);
@@ -301,7 +301,7 @@ export default class StudentStep4 extends Vue {
     }
   }
 
-  onRemoveSkill(skill: SkillType) {
+  onRemoveSkill(skill: Skill) {
     this.form.skills = this.form.skills.filter(selectedSkill => selectedSkill.id !== skill.id);
   }
 
@@ -348,7 +348,7 @@ export default class StudentStep4 extends Vue {
     });
   }
 
-  async onDeleteStudentDocument(file: AttachmentType) {
+  async onDeleteStudentDocument(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.StudentDocuments,
       id: file.id,

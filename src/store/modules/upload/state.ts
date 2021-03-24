@@ -1,5 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { AttachmentType, UploadConfiguration } from "api";
+import { Attachment, UploadConfiguration } from "api";
 
 export interface QueuedFile {
   file: File;
@@ -20,7 +20,7 @@ export type State = {
     [k: string]: {
       loading: boolean;
       deleting: boolean;
-      data: AttachmentType[];
+      data: Attachment[];
     };
   };
 };

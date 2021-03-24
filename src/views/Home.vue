@@ -29,12 +29,11 @@
 </template>
 
 <script lang="ts">
-import { UserType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
-import { UserWithProfileNode } from "api";
+import { User } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -57,7 +56,7 @@ export default class Home extends Vue {
     return this.$store.getters["isCompany"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 

@@ -151,7 +151,7 @@ import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { JobPositionType, UserWithProfileNode } from "api";
+import { JobPosition, User } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -181,7 +181,7 @@ export default class StudentStep3 extends Vue {
   };
 
   jobPositionInput = "";
-  filteredJobPositions: JobPositionType[] = [];
+  filteredJobPositions: JobPosition[] = [];
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
@@ -223,7 +223,7 @@ export default class StudentStep3 extends Vue {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
@@ -237,7 +237,7 @@ export default class StudentStep3 extends Vue {
     );
   }
 
-  onSelectJobPosition(item: JobPositionType) {
+  onSelectJobPosition(item: JobPosition) {
     this.jobPositionInput = "";
     this.form.jobPositionId = item.id;
     this.onInputJobPositions();

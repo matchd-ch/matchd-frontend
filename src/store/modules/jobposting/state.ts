@@ -1,5 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { Employee, JobPostingType } from "api";
+import { Employee, JobPosting } from "api";
 
 export type State = {
   jobPosting: {
@@ -10,7 +10,7 @@ export type State = {
   };
   currentJobPosting: {
     loading: boolean;
-    data: JobPostingType | null;
+    data: JobPosting | null;
   };
   employees: {
     loading: boolean;
