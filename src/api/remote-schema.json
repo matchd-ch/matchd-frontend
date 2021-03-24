@@ -23,7 +23,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "SoftSkillType",
+                  "name": "SoftSkill",
                   "ofType": null
                 }
               },
@@ -39,7 +39,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "FAQCategoryType",
+                  "name": "FAQCategory",
                   "ofType": null
                 }
               },
@@ -55,7 +55,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "ExpectationType",
+                  "name": "Expectation",
                   "ofType": null
                 }
               },
@@ -86,7 +86,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "JobPostingType",
+                  "name": "JobPosting",
                   "ofType": null
                 }
               },
@@ -114,7 +114,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "JobPostingType",
+                "name": "JobPosting",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -203,7 +203,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "AttachmentType",
+                  "name": "Attachment",
                   "ofType": null
                 }
               },
@@ -219,7 +219,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "BranchType",
+                  "name": "Branch",
                   "ofType": null
                 }
               },
@@ -235,7 +235,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "BenefitType",
+                  "name": "Benefit",
                   "ofType": null
                 }
               },
@@ -251,7 +251,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "SkillType",
+                  "name": "Skill",
                   "ofType": null
                 }
               },
@@ -267,7 +267,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "JobPositionType",
+                  "name": "JobPosition",
                   "ofType": null
                 }
               },
@@ -283,7 +283,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "JobOptionType",
+                  "name": "JobOption",
                   "ofType": null
                 }
               },
@@ -295,12 +295,20 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ZipCityType",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "ZipCity",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -315,7 +323,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "LevelType",
+                  "name": "LanguageLevel",
                   "ofType": null
                 }
               },
@@ -342,7 +350,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "LanguageType",
+                  "name": "Language",
                   "ofType": null
                 }
               },
@@ -355,7 +363,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "UserWithProfileNode",
+                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -396,7 +404,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "SoftSkillType",
+          "name": "SoftSkill",
           "description": null,
           "fields": [
             {
@@ -475,7 +483,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "FAQCategoryType",
+          "name": "FAQCategory",
           "description": null,
           "fields": [
             {
@@ -518,7 +526,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "ExpectationType",
+          "name": "Expectation",
           "description": null,
           "fields": [
             {
@@ -561,7 +569,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "JobPostingType",
+          "name": "JobPosting",
           "description": null,
           "fields": [
             {
@@ -605,7 +613,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "JobOptionType",
+                  "name": "JobOption",
                   "ofType": null
                 }
               },
@@ -621,7 +629,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "BranchType",
+                  "name": "Branch",
                   "ofType": null
                 }
               },
@@ -630,12 +638,16 @@
             },
             {
               "name": "workload",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -711,7 +723,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "ExpectationType",
+                      "name": "Expectation",
                       "ofType": null
                     }
                   }
@@ -735,7 +747,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "SkillType",
+                      "name": "Skill",
                       "ofType": null
                     }
                   }
@@ -762,7 +774,7 @@
             },
             {
               "name": "state",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -778,12 +790,16 @@
             },
             {
               "name": "employee",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "Employee",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Employee",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -803,7 +819,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "JobPostingLanguageRelationType",
+                      "name": "JobPostingLanguageRelation",
                       "ofType": null
                     }
                   }
@@ -820,7 +836,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "JobOptionType",
+          "name": "JobOption",
           "description": null,
           "fields": [
             {
@@ -857,7 +873,7 @@
             },
             {
               "name": "mode",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -887,13 +903,13 @@
           "enumValues": [
             {
               "name": "DATE_FROM",
-              "description": "Date from",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "DATE_RANGE",
-              "description": "Date range",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -902,7 +918,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "BranchType",
+          "name": "Branch",
           "description": null,
           "fields": [
             {
@@ -976,26 +992,30 @@
             },
             {
               "name": "type",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "ENUM",
-                "name": "CompanyType",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "state",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "CompanyState",
+                  "name": "ProfileType",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "ProfileState",
                   "ofType": null
                 }
               },
@@ -1131,6 +1151,18 @@
               "deprecationReason": null
             },
             {
+              "name": "branch",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Branch",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "description",
               "description": "",
               "args": [],
@@ -1209,7 +1241,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "BenefitType",
+                      "name": "Benefit",
                       "ofType": null
                     }
                   }
@@ -1233,7 +1265,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "JobPositionType",
+                      "name": "JobPosition",
                       "ofType": null
                     }
                   }
@@ -1275,16 +1307,60 @@
               "deprecationReason": null
             },
             {
+              "name": "linkEducation",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "linkProjects",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "linkThesis",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "employees",
               "description": null,
               "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Employee",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Employee",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -1298,7 +1374,7 @@
         },
         {
           "kind": "ENUM",
-          "name": "CompanyType",
+          "name": "ProfileType",
           "description": "An enumeration.",
           "fields": null,
           "inputFields": null,
@@ -1306,43 +1382,43 @@
           "enumValues": [
             {
               "name": "INTERNAL",
-              "description": "Internal",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "STUDENT",
-              "description": "Student",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "COLLEGE_STUDENT",
-              "description": "College Student",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "JUNIOR",
-              "description": "Junior",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "COMPANY",
-              "description": "Company",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "UNIVERSITY",
-              "description": "University",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "OTHER",
-              "description": "Other",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -1351,7 +1427,7 @@
         },
         {
           "kind": "ENUM",
-          "name": "CompanyState",
+          "name": "ProfileState",
           "description": "An enumeration.",
           "fields": null,
           "inputFields": null,
@@ -1359,19 +1435,19 @@
           "enumValues": [
             {
               "name": "INCOMPLETE",
-              "description": "Incomplete",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "ANONYMOUS",
-              "description": "Anonymous",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "PUBLIC",
-              "description": "Public",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -1390,7 +1466,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "BenefitType",
+          "name": "Benefit",
           "description": null,
           "fields": [
             {
@@ -1449,7 +1525,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "JobPositionType",
+          "name": "JobPosition",
           "description": null,
           "fields": [
             {
@@ -1516,9 +1592,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "UserWithProfileNode",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1547,7 +1627,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "UserWithProfileNode",
+          "name": "User",
           "description": null,
           "fields": [
             {
@@ -1600,14 +1680,14 @@
             },
             {
               "name": "type",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "UserType",
+                  "name": "ProfileType",
                   "ofType": null
                 }
               },
@@ -1722,7 +1802,7 @@
           "possibleTypes": [
             {
               "kind": "OBJECT",
-              "name": "UserWithProfileNode",
+              "name": "User",
               "ofType": null
             },
             {
@@ -1731,59 +1811,6 @@
               "ofType": null
             }
           ]
-        },
-        {
-          "kind": "ENUM",
-          "name": "UserType",
-          "description": "An enumeration.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "INTERNAL",
-              "description": "Internal",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "STUDENT",
-              "description": "Student",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "COLLEGE_STUDENT",
-              "description": "College Student",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JUNIOR",
-              "description": "Junior",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "COMPANY",
-              "description": "Company",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "UNIVERSITY",
-              "description": "University",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "OTHER",
-              "description": "Other",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "possibleTypes": null
         },
         {
           "kind": "OBJECT",
@@ -1933,7 +1960,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "SkillType",
+                      "name": "Skill",
                       "ofType": null
                     }
                   }
@@ -1960,14 +1987,14 @@
             },
             {
               "name": "state",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "StudentState",
+                  "name": "ProfileState",
                   "ofType": null
                 }
               },
@@ -2005,7 +2032,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "HobbyType",
+                      "name": "Hobby",
                       "ofType": null
                     }
                   }
@@ -2029,7 +2056,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "OnlineProjectType",
+                      "name": "OnlineProject",
                       "ofType": null
                     }
                   }
@@ -2053,7 +2080,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "UserLanguageRelationType",
+                      "name": "UserLanguageRelation",
                       "ofType": null
                     }
                   }
@@ -2080,79 +2107,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "SkillType",
-          "description": null,
-          "fields": [
-            {
-              "name": "id",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "StudentState",
-          "description": "An enumeration.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "INCOMPLETE",
-              "description": "Incomplete",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "ANONYMOUS",
-              "description": "Anonymous",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "PUBLIC",
-              "description": "Public",
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "HobbyType",
+          "name": "Skill",
           "description": null,
           "fields": [
             {
@@ -2195,7 +2150,50 @@
         },
         {
           "kind": "OBJECT",
-          "name": "OnlineProjectType",
+          "name": "Hobby",
+          "description": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "OnlineProject",
           "description": null,
           "fields": [
             {
@@ -2238,7 +2236,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "UserLanguageRelationType",
+          "name": "UserLanguageRelation",
           "description": null,
           "fields": [
             {
@@ -2266,7 +2264,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "LanguageType",
+                  "name": "Language",
                   "ofType": null
                 }
               },
@@ -2282,7 +2280,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "LevelType",
+                  "name": "LanguageLevel",
                   "ofType": null
                 }
               },
@@ -2297,7 +2295,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "LanguageType",
+          "name": "Language",
           "description": null,
           "fields": [
             {
@@ -2340,7 +2338,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "LevelType",
+          "name": "LanguageLevel",
           "description": null,
           "fields": [
             {
@@ -2403,13 +2401,13 @@
           "enumValues": [
             {
               "name": "DRAFT",
-              "description": "Draft",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "PUBLIC",
-              "description": "Public",
+              "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             }
@@ -2418,7 +2416,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "JobPostingLanguageRelationType",
+          "name": "JobPostingLanguageRelation",
           "description": null,
           "fields": [
             {
@@ -2446,7 +2444,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "LanguageType",
+                  "name": "Language",
                   "ofType": null
                 }
               },
@@ -2462,7 +2460,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "LevelType",
+                  "name": "LanguageLevel",
                   "ofType": null
                 }
               },
@@ -2485,12 +2483,20 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "UploadTypeConfiguration",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "UploadTypeConfiguration",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -2501,9 +2507,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2513,9 +2523,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "ENUM",
-                "name": "AttachmentKey",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "AttachmentKey",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2536,12 +2550,20 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -2552,9 +2574,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2602,7 +2628,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "AttachmentType",
+          "name": "Attachment",
           "description": null,
           "fields": [
             {
@@ -2626,9 +2652,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2638,9 +2668,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2650,9 +2684,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2662,9 +2700,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2677,7 +2719,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "ZipCityType",
+          "name": "ZipCity",
           "description": null,
           "fields": [
             {
@@ -2685,9 +2727,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2697,9 +2743,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2709,9 +2759,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2921,6 +2975,60 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "UniversityProfileStep1",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "universityProfileStep2",
+              "description": "Updates website branch and description",
+              "args": [
+                {
+                  "name": "step2",
+                  "description": "Profile Input Step 2 is required.",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "UniversityProfileInputStep2",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "UniversityProfileStep2",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "universityProfileStep3",
+              "description": "Updates website services",
+              "args": [
+                {
+                  "name": "step3",
+                  "description": "Profile Input Step 3 is required.",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "UniversityProfileInputStep3",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "UniversityProfileStep3",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3889,7 +3997,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobOptionInputType",
+                  "name": "JobOptionInput",
                   "ofType": null
                 }
               },
@@ -3903,7 +4011,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "BranchInputType",
+                  "name": "BranchInput",
                   "ofType": null
                 }
               },
@@ -3964,7 +4072,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "JobOptionInputType",
+          "name": "JobOptionInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -4009,7 +4117,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "BranchInputType",
+          "name": "BranchInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -4113,7 +4221,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "ExpectationInputType",
+                  "name": "ExpectationInput",
                   "ofType": null
                 }
               },
@@ -4127,7 +4235,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "SkillInputType",
+                  "name": "SkillInput",
                   "ofType": null
                 }
               },
@@ -4141,7 +4249,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobPostingLanguageRelationInputType",
+                  "name": "JobPostingLanguageRelationInput",
                   "ofType": null
                 }
               },
@@ -4154,7 +4262,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "ExpectationInputType",
+          "name": "ExpectationInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -4189,7 +4297,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "SkillInputType",
+          "name": "SkillInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -4206,6 +4314,16 @@
                 }
               },
               "defaultValue": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -4214,7 +4332,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "JobPostingLanguageRelationInputType",
+          "name": "JobPostingLanguageRelationInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -4646,6 +4764,158 @@
         },
         {
           "kind": "OBJECT",
+          "name": "UniversityProfileStep2",
+          "description": "Updates website branch and description",
+          "fields": [
+            {
+              "name": "success",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "errors",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "UniversityProfileInputStep2",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "branch",
+              "description": "branch",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BranchInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "description",
+              "description": "description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "UniversityProfileStep3",
+          "description": "Updates website services",
+          "fields": [
+            {
+              "name": "success",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "errors",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "UniversityProfileInputStep3",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "services",
+              "description": "services",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "linkEducation",
+              "description": "website education",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "linkProjects",
+              "description": "website projects",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "linkThesis",
+              "description": "website thesis",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "CompanyProfileStep1",
           "description": "Updates the profile of a Company",
           "fields": [
@@ -4854,7 +5124,7 @@
               "description": "branch",
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "BranchInputType",
+                "name": "BranchInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -4947,7 +5217,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobPositionInputType",
+                  "name": "JobPositionInput",
                   "ofType": null
                 }
               },
@@ -4961,7 +5231,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "BenefitInputType",
+                  "name": "BenefitInput",
                   "ofType": null
                 }
               },
@@ -4974,7 +5244,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "JobPositionInputType",
+          "name": "JobPositionInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5009,7 +5279,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "BenefitInputType",
+          "name": "BenefitInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5295,7 +5565,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobOptionInputType",
+                  "name": "JobOptionInput",
                   "ofType": null
                 }
               },
@@ -5326,7 +5596,7 @@
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "JobPositionInputType",
+                "name": "JobPositionInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -5385,7 +5655,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "SkillInputType",
+                  "name": "SkillInput",
                   "ofType": null
                 }
               },
@@ -5399,7 +5669,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "HobbyInputType",
+                  "name": "HobbyInput",
                   "ofType": null
                 }
               },
@@ -5413,7 +5683,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "OnlineProjectInputType",
+                  "name": "OnlineProjectInput",
                   "ofType": null
                 }
               },
@@ -5430,7 +5700,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "UserLanguageRelationInputType",
+                    "name": "UserLanguageRelationInput",
                     "ofType": null
                   }
                 }
@@ -5454,7 +5724,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "HobbyInputType",
+          "name": "HobbyInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5485,7 +5755,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "OnlineProjectInputType",
+          "name": "OnlineProjectInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5516,7 +5786,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "UserLanguageRelationInputType",
+          "name": "UserLanguageRelationInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5835,8 +6105,8 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "ENUM",
-                  "name": "UserType",
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               },
