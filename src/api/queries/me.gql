@@ -8,5 +8,15 @@ query {
     type
     profileStep
     state
+    employee {
+      id
+      role
+    }
+    company {
+      name
+      city
+      zip
+      street
+    }
   }
 }

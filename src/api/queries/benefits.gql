@@ -1,0 +1,6 @@
+query {
+  benefits {
+    id
+    icon
+  }
+}

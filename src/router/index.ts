@@ -1,5 +1,6 @@
 import { isLoggedIn } from "@/router/authenticationGuard";
 import { isCompleteProfile } from "@/router/homeGuard";
+import { redirectToCurrentJobPostingStep } from "@/router/jobPostingGuard";
 import { redirectToCurrentOnboardingStep } from "@/router/onboardingGuard";
 import { needsStateResetBeforePasswordReset } from "@/router/passwordResetGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
@@ -10,7 +11,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "Home",
     component: Home,
-    beforeEnter: isCompleteProfile,
   },
   {
     path: "/login",
@@ -37,54 +37,17 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/onboarding",
+    path: "/onboarding/:step?",
     name: "Onboarding",
     component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
-    children: [
-      {
-        path: "schritt1",
-        name: "OnboardingStep1",
-        component: () =>
-          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step1.vue"),
-      },
-      {
-        path: "schritt2",
-        name: "OnboardingStep2",
-        component: () =>
-          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step2.vue"),
-      },
-      {
-        path: "schritt3",
-        name: "OnboardingStep3",
-        component: () =>
-          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step3.vue"),
-      },
-      {
-        path: "schritt4",
-        name: "OnboardingStep4",
-        component: () =>
-          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step4.vue"),
-      },
-      {
-        path: "schritt5",
-        name: "OnboardingStep5",
-        component: () =>
-          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step5.vue"),
-      },
-      {
-        path: "schritt6",
-        name: "OnboardingStep6",
-        component: () =>
-          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Step6.vue"),
-      },
-      {
-        path: "erledigt",
-        name: "OnboardingFinish",
-        component: () =>
-          import(/* webpackChunkName: "onboarding" */ "../views/onboarding/Finish.vue"),
-      },
-    ],
     beforeEnter: redirectToCurrentOnboardingStep,
+  },
+  {
+    path: "/stelle/ausschreiben/:id?/:step?",
+    name: "CreateJobPosting",
+    component: () =>
+      import(/* webpackChunkName: "create-jobposting" */ "../views/CreateJobPosting.vue"),
+    beforeEnter: redirectToCurrentJobPostingStep,
   },
   {
     path: "/passwort-vergessen",
@@ -141,5 +104,6 @@ const router = createRouter({
 });
 
 router.beforeEach(isLoggedIn);
+router.beforeEach(isCompleteProfile);
 
 export default router;
