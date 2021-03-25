@@ -1,0 +1,48 @@
+query($id: ID!) {
+  jobPosting(id: $id) {
+    id
+    description
+    jobFromDate
+    jobToDate
+    url
+    workload
+    formStep
+    state
+    company {
+      name
+      zip
+      city
+    }
+    jobOption {
+      id
+      name
+    }
+    branch {
+      id
+      name
+    }
+    skills {
+      id
+      name
+    }
+    expectations {
+      id
+      name
+    }
+    languages {
+      id
+      language {
+        id
+        name
+      }
+      languageLevel {
+        id
+        level
+        description
+      }
+    }
+    employee {
+      id
+    }
+  }
+}

@@ -30,6 +30,7 @@
         v-model="skillInput"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
+        placeholder="Tippe, um Vorschläge zu erhalten"
       />
     </MatchdAutocomplete>
     <SelectPillGroup v-if="form.skills.length > 0" class="mb-10">
@@ -50,15 +51,16 @@
       :errors="errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Diese Sprachen spreche ich*</template></LanguagePicker
+      ><template v-slot:label>Sprachliche Skills*</template></LanguagePicker
     >
+    <h2 class="text-heading-md mb-9">Was zeichnet dich sonst noch aus?</h2>
     <!-- Online Projects Field -->
     <MatchdField
       id="onlineProjects"
       class="mb-3"
       :class="{ 'mb-10': form.onlineProjects.length === 0 }"
     >
-      <template v-slot:label>Verknüpfe deine Onlineprojekte</template>
+      <template v-slot:label>Deine Onlineprojekte</template>
       <Field
         id="onlineProjects"
         name="onlineProjects"
@@ -66,6 +68,7 @@
         label="Verknüpfe deine Onlineprojekte"
         v-model="onlineProjectInput"
         @keypress.enter.prevent="onAppendOnlineProject"
+        placeholder="Github-URL, Unity-URL, etc."
       />
       <template v-slot:iconRight>
         <button
@@ -77,9 +80,6 @@
           Hinzufügen
         </button>
       </template>
-      <template v-if="form.onlineProjects.length === 0" v-slot:info
-        >URLs zu deinen Projekten, z.B. auf Github / Unity</template
-      >
     </MatchdField>
     <SelectPillGroup v-if="form.onlineProjects.length > 0" class="mb-10">
       <SelectPill
@@ -92,7 +92,7 @@
     </SelectPillGroup>
     <!-- Certificates Field -->
     <MatchdFileBlock>
-      <template v-slot:label>Lade hier deine Zertifikate hoch</template>
+      <template v-slot:label>Deine Zeugnisse, Diplome und Zertifikate</template>
       <MatchdFileView
         v-if="studentDocuments.length > 0 || studentDocumentsQueue.length > 0"
         :files="studentDocuments"
@@ -104,16 +104,16 @@
         @deleteFile="onDeleteStudentDocument"
       />
       <MatchdFileUpload
-        v-if="studentDocumentsUploadConfigurations.maxFiles > studentDocuments.length"
+        v-if="studentDocumentsUploadConfigurations.maxFiles >= studentDocuments.length"
         :uploadConfiguration="studentDocumentsUploadConfigurations"
         @selectFiles="onSelectStudentDocuments"
         class="mb-10"
-        >Zertifikate auswählen</MatchdFileUpload
+        >Hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
     <!-- Hobbies Field -->
     <MatchdField id="hobbies" class="mb-3" :class="{ 'mb-10': form.hobbies.length === 0 }">
-      <template v-slot:label>Interessen & Hobbies</template>
+      <template v-slot:label>Deine Interessen und Hobbies</template>
       <Field
         id="hobbies"
         name="hobbies"
@@ -122,6 +122,7 @@
         maxlength="100"
         v-model="hobbyInput"
         @keypress.enter.prevent="onAppendHobby"
+        placeholder="Biken, Video Games, Kochen, etc."
       />
       <template v-slot:iconRight>
         <button
@@ -145,7 +146,7 @@
     </SelectPillGroup>
     <!-- Distinction Field -->
     <MatchdField id="distinction" class="mb-10">
-      <template v-slot:label>Das zeichnet mich sonst noch aus</template>
+      <template v-slot:label>Dein Talent</template>
       <Field
         id="distinction"
         name="distinction"
@@ -154,6 +155,7 @@
         label="Das zeichnet mich sonst noch aus"
         v-model="form.distinction"
         class="h-72"
+        placeholder="4-5 Sätze zu deiner Spezialität"
       />
     </MatchdField>
     <MatchdButton
@@ -167,6 +169,7 @@
 </template>
 
 <script lang="ts">
+import { studentProfileStep4InputMapper } from "@/api/mappers/studentProfileStep4InputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
@@ -183,6 +186,7 @@ import { isValidUrl } from "@/helpers/isValidUrl";
 import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { AttachmentType, SkillType, UserWithProfileNode } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -205,7 +209,7 @@ import { Options, Vue } from "vue-class-component";
     SelectPillGroup,
   },
 })
-export default class Step4 extends Vue {
+export default class StudentStep4 extends Vue {
   form: StudentProfileStep4Form = {
     skills: [],
     languages: [],
@@ -263,7 +267,9 @@ export default class Step4 extends Vue {
 
   async mounted() {
     await Promise.all([
-      this.$store.dispatch(ActionTypes.ONBOARDING_STEP4_DATA),
+      this.$store.dispatch(ContentActionTypes.SKILLS),
+      this.$store.dispatch(ContentActionTypes.LANGUAGES),
+      this.$store.dispatch(ContentActionTypes.LANGUAGE_LEVELS),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
@@ -360,23 +366,13 @@ export default class Step4 extends Vue {
     }
 
     if (this.form.skills.length > 0 && this.form.languages.length > 0) {
-      await this.$store.dispatch(ActionTypes.ONBOARDING_STEP4, {
-        skills: this.form.skills.map(skill => {
-          return { id: skill.id };
-        }),
-        languages: this.form.languages.map(selectedLanguage => {
-          return {
-            language: selectedLanguage.language.id,
-            languageLevel: selectedLanguage.level.id,
-          };
-        }),
-        distinction: this.form.distinction,
-        onlineProjects: this.form.onlineProjects,
-        hobbies: this.form.hobbies,
-      });
+      await this.$store.dispatch(
+        ActionTypes.STUDENT_ONBOARDING_STEP4,
+        studentProfileStep4InputMapper(this.form)
+      );
 
       if (this.onboardingState.success) {
-        this.$router.push({ name: "OnboardingStep5" });
+        this.$router.push({ params: { step: "schritt5" } });
       }
     }
   }

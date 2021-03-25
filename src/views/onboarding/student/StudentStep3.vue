@@ -139,6 +139,7 @@
 </template>
 
 <script lang="ts">
+import { studentProfileStep3InputMapper } from "@/api/mappers/studentProfileStep3InputMapper";
 import { JobOptionMode } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
@@ -149,6 +150,7 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { JobPositionType, UserWithProfileNode } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
@@ -168,7 +170,7 @@ import { Options, Vue } from "vue-class-component";
     SelectPillGroup,
   },
 })
-export default class Step3 extends Vue {
+export default class StudentStep3 extends Vue {
   form: StudentProfileStep3Form = {
     jobOptionId: "",
     jobPositionId: "",
@@ -242,7 +244,10 @@ export default class Step3 extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3_DATA);
+    await Promise.all([
+      this.$store.dispatch(ContentActionTypes.JOB_OPTIONS),
+      this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
+    ]);
   }
 
   async onSubmit(
@@ -271,21 +276,12 @@ export default class Step3 extends Vue {
       }
     }
 
-    await this.$store.dispatch(ActionTypes.ONBOARDING_STEP3, {
-      ...form,
-      jobOption: { id: form.jobOptionId },
-      jobPosition: this.form.jobPositionId ? { id: this.form.jobPositionId } : null,
-      jobFromDate:
-        form.jobFromDateMonth && form.jobFromDateYear
-          ? `${form.jobFromDateMonth}.${form.jobFromDateYear}`
-          : null,
-      jobToDate:
-        form.jobToDateMonth && form.jobToDateYear
-          ? `${form.jobToDateMonth}.${form.jobToDateYear}`
-          : null,
-    });
+    await this.$store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP3,
+      studentProfileStep3InputMapper(this.form)
+    );
     if (this.onboardingState.success) {
-      this.$router.push({ name: "OnboardingStep4" });
+      this.$router.push({ params: { step: "schritt4" } });
     } else if (this.onboardingState.errors) {
       actions.setErrors(this.onboardingState.errors);
       if (this.onboardingState.errors.jobFromDate) {

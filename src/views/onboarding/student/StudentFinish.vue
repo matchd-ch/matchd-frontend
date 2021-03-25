@@ -1,14 +1,16 @@
 <template>
   <div>
+    <h2 class="text-heading-lg mb-10">Was willst du als nächstes tun?</h2>
     <MatchdButton variant="outline" class="block w-full" @click="onClickFindCompany"
       >Unternehmen finden</MatchdButton
     >
     <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickFindTraineePosition"
-      >Stelle oder Thema für Projektarbeit finden</MatchdButton
+      >Stelle und Projekte finden</MatchdButton
     >
     <p class="mt-5 text-black text-center">
-      Falls du noch Fragen hast,
-      <router-link :to="{ name: 'Home' }" class="text-primary-1">schreib uns</router-link>
+      Du hast Fragen oder möchtest uns etwas mitteilen?
+      <router-link :to="{ name: 'Home' }" class="text-primary-1">Kontaktiere uns</router-link>, wir
+      freuen uns von dir zu hören.
     </p>
   </div>
 </template>
@@ -26,7 +28,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
   },
 })
-export default class Finish extends Vue {
+export default class StudentFinish extends Vue {
   onClickFindTraineePosition() {
     this.$router.push({ name: "Home" });
   }

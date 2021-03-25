@@ -6,11 +6,21 @@ export async function isCompleteProfile(
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) {
-  const store = useStore();
-  const profileStep = store.getters["user"]?.profileStep;
-  if (profileStep && profileStep <= 6) {
-    next({ name: "Onboarding" });
-  } else {
+  if (to.meta?.public) {
     next();
+  } else {
+    const store = useStore();
+    const profileStep = store.getters["user"]?.profileStep;
+    const isCompany = store.getters["isCompany"];
+    const isStudent = store.getters["isStudent"];
+    if (
+      to.name !== "Onboarding" &&
+      profileStep &&
+      ((isStudent && profileStep <= 6) || (isCompany && profileStep <= 3))
+    ) {
+      next({ name: "Onboarding" });
+    } else {
+      next();
+    }
   }
 }
