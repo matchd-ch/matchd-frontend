@@ -5,7 +5,7 @@ export async function isCompleteProfile(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
-) {
+): Promise<void> {
   if (to.meta?.public) {
     next();
   } else {

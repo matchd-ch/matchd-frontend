@@ -1,5 +1,5 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import {
+import type {
   CompanyProfileStep1,
   CompanyProfileStep2,
   CompanyProfileStep3,

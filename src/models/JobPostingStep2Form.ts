@@ -1,5 +1,5 @@
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
-import { Expectation, Skill } from "api";
+import type { Expectation, Skill } from "api";
 
 export interface ExpectationWithStatus extends Expectation {
   checked: boolean;

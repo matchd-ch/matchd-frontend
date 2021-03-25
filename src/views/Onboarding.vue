@@ -115,7 +115,7 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class Onboarding extends Vue {
-  get currentOnboardingComponent() {
+  get currentOnboardingComponent(): string {
     if (this.isUniversity) {
       return `UniversityStep${this.currentStep}`;
     } else if (this.isCompany) {
@@ -125,7 +125,7 @@ export default class Onboarding extends Vue {
     }
   }
 
-  get currentStep() {
+  get currentStep(): number | undefined {
     return this.$store.getters["profileStep"];
   }
 

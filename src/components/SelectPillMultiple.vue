@@ -1,6 +1,6 @@
 <template>
   <div class="select-pill-multiple">
-    <label v-if="$slots.label" class="select-pill-multiple__label"><slot name="label"/></label>
+    <label v-if="$slots.label" class="select-pill-multiple__label"><slot name="label" /></label>
     <ul class="flex flex-wrap -m-2">
       <li
         v-for="option in options"

@@ -1,6 +1,6 @@
 import { AttachmentKey } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { Attachment, DeleteAttachment, UploadConfiguration, UserUpload } from "api";
+import type { Attachment, DeleteAttachment, UploadConfiguration, UserUpload } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 import { State } from "@/store/modules/upload/state";
@@ -41,7 +41,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state: State,
     payload: { key: AttachmentKey; files: FileList }
   ) {
-    state.uploadFile[payload.key] = [...payload.files].map(file => {
+    state.uploadFile[payload.key] = [...payload.files].map((file) => {
       return {
         uploading: false,
         success: false,
@@ -51,7 +51,7 @@ export const mutations: MutationTree<State> & Mutations = {
     });
   },
   [MutationTypes.UPLOAD_FILE_START](state: State, payload: { key: AttachmentKey; file: File }) {
-    state.uploadFile[payload.key] = state.uploadFile[payload.key].map(queuedFile => {
+    state.uploadFile[payload.key] = state.uploadFile[payload.key].map((queuedFile) => {
       if (queuedFile.file === payload.file) {
         return {
           ...queuedFile,
@@ -65,7 +65,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state: State,
     payload: { key: AttachmentKey; file: File; response: UserUpload }
   ) {
-    state.uploadFile[payload.key] = state.uploadFile[payload.key].map(queuedFile => {
+    state.uploadFile[payload.key] = state.uploadFile[payload.key].map((queuedFile) => {
       if (queuedFile.file === payload.file) {
         return {
           ...queuedFile,

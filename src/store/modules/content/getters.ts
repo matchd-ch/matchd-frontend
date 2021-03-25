@@ -1,5 +1,5 @@
 import { RootState } from "@/store";
-import {
+import type {
   Benefit,
   Branch,
   Expectation,
