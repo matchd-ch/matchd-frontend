@@ -10,6 +10,8 @@ import type {
   StudentProfileStep5,
   StudentProfileStep6,
   UniversityProfileStep1,
+  UniversityProfileStep2,
+  UniversityProfileStep3,
   ZipCity,
 } from "api";
 import { MutationTree } from "vuex";
@@ -36,7 +38,7 @@ export type Mutations<S = State> = {
   [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING](state: S): void;
   [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED](
     state: S,
-    payload: UniversityProfileStep1
+    payload: UniversityProfileStep1 | UniversityProfileStep2 | UniversityProfileStep3
   ): void;
   [MutationTypes.ZIP_CITY_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_LOADED](state: S, payload: ZipCity[]): void;
@@ -78,7 +80,10 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING](state: State) {
     state.profile.loading = true;
   },
-  [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED](state: State, payload: UniversityProfileStep1) {
+  [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED](
+    state: State,
+    payload: UniversityProfileStep1 | UniversityProfileStep2 | UniversityProfileStep3
+  ) {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
     state.profile.errors = errorCodeMapper(payload.errors);
