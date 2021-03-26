@@ -36,9 +36,15 @@
 import { Options, prop, Vue } from "vue-class-component";
 import IconInfo from "@/assets/icons/info.svg";
 
+export interface SelectPillMultipleItem {
+  id: string;
+  name: string;
+  checked: boolean;
+}
+
 class Props {
   name = prop<string>({ default: "" });
-  options = prop<{ id: string; name: string; checked: boolean }[]>({});
+  options = prop<SelectPillMultipleItem[]>({});
 }
 
 @Options({

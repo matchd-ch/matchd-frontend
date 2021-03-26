@@ -91,7 +91,8 @@ import { OnboardingState } from "@/models/OnboardingState";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import type { Attachment, Benefit, JobPosition, User } from "api";
+import { QueuedFile } from "@/store/modules/upload/state";
+import type { Attachment, Benefit, JobPosition, UploadConfiguration } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 

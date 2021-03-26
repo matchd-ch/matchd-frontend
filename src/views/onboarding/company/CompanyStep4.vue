@@ -9,12 +9,12 @@
       name="softSkills"
       class="mb-10"
     >
-      <template v-slot:label>Unser ideales Talent mag es ...</template>
+      <template v-slot:label>Die Kandidat*in mag es ...</template>
       <template v-if="remainingSoftSkillCount > 0" v-slot:info>
         <template v-if="remainingSoftSkillCount === 1">
           Wählen sie noch 1 für sie passende Aussage aus
         </template>
-        <template v-else-if="remainingSoftSkillCount > 0">
+        <template v-else>
           Wählen sie {{ this.minSoftSkills - form.softSkills.length }} für sie passende Aussage aus
         </template></template
       >
@@ -33,11 +33,12 @@
 import { companyProfileStep4InputMapper } from "@/api/mappers/companyProfileStep4InputMapper";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { CompanyProfileStep4Form } from "@/models/CompanyProfileStep4Form";
+import { OnboardingState } from "@/models/OnboardingState";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { SoftSkill } from "api";
+import type { SoftSkill } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -65,7 +66,7 @@ export default class CompanyStep4 extends Vue {
     return this.$store.getters["isStudent"];
   }
 
-  get softSkills() {
+  get softSkills(): SelectPillMultipleItem[] {
     return this.$store.getters["softSkills"].map((softSkill) => {
       return {
         id: softSkill.id,
@@ -77,15 +78,15 @@ export default class CompanyStep4 extends Vue {
     });
   }
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  onChangeSoftSkill(softSkill: SoftSkill) {
+  onChangeSoftSkill(softSkill: SoftSkill): void {
     const softSkillExists = !!this.form.softSkills.find(
       (selectedSoftSkill) => selectedSoftSkill.id === softSkill.id
     );
@@ -93,16 +94,16 @@ export default class CompanyStep4 extends Vue {
       this.form.softSkills = this.form.softSkills.filter(
         (selectedSoftSkill) => selectedSoftSkill.id !== softSkill.id
       );
-    } else if(this.remainingSoftSkillCount > 0) {
+    } else if (this.remainingSoftSkillCount > 0) {
       this.form.softSkills.push(softSkill);
     }
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([this.$store.dispatch(ContentActionTypes.SOFT_SKILLS)]);
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.COMPANY_ONBOARDING_STEP4,
       companyProfileStep4InputMapper(this.form)
