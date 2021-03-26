@@ -2,7 +2,8 @@ import { createApolloClient } from "@/api/apollo-client";
 import {
   ICompanyProfileInputStep1,
   ICompanyProfileInputStep2,
-  ICompanyProfileInputStep3, ICompanyProfileInputStep4,
+  ICompanyProfileInputStep3,
+  ICompanyProfileInputStep4,
   IStudentProfileInputStep1,
   IStudentProfileInputStep2,
   IStudentProfileInputStep3,

@@ -6,9 +6,9 @@ export function companyProfileStep4InputMapper(
 ): ICompanyProfileInputStep4 {
   return {
     softSkills: companyProfileForm.softSkills.map((softSkill) => {
-      return{
-        id: softSkill.id
-      }
-    })
+      return {
+        id: softSkill.id,
+      };
+    }),
   };
 }
