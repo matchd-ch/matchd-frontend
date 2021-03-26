@@ -1,0 +1,18 @@
+mutation(
+  $jobOption: JobOptionInput!
+  $jobFromDate: String
+  $jobToDate: String
+  $jobPosition: JobPositionInput
+) {
+  studentProfileStep3(
+    step3: {
+      jobOption: $jobOption
+      jobPosition: $jobPosition
+      jobFromDate: $jobFromDate
+      jobToDate: $jobToDate
+    }
+  ) {
+    success
+    errors
+  }
+}

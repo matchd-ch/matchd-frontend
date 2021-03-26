@@ -28,16 +28,29 @@
           </template>
         </template>
         <template v-else-if="isCompany">
-          <span v-if="currentStep <= 6" class="text-display-xl-fluid mr-8 hidden lg:inline">{{
+          <span v-if="currentStep <= 4" class="text-display-xl-fluid mr-8 hidden lg:inline">{{
             currentStep
           }}</span>
-          <template v-if="currentStep === 1">Vervollständigen Sie Ihre Kontaktdaten</template>
+          <template v-if="currentStep === 1">Vervollständigen sie ihre Kontaktdaten</template>
           <template v-if="currentStep === 2"
-            >Erzählen Sie von Ihrem Unternehmen, Ihren Produkten und Services</template
+            >Erzählen sie von ihrem Unternehmen, ihren Produkten und Services</template
           >
           <template v-if="currentStep === 3"
-            >Zeigen Sie der Community Bilder und Videos von ihrem Unternehmen und von Ihrer
+            >Zeigen sie der Community Bilder und Videos von ihrem Unternehmen und von ihrer
             Crew</template
+          >
+          <template v-if="currentStep === 4"
+            >Herzliche Gratulation und willkommen in der Matchd-Community!</template
+          >
+        </template>
+        <template v-else-if="isUniversity">
+          <span v-if="currentStep <= 4" class="text-display-xl-fluid mr-8 hidden lg:inline">{{
+            currentStep
+          }}</span>
+          <template v-if="currentStep === 1">Vervollständigen sie ihre Kontaktdaten</template>
+          <template v-if="currentStep === 2">Erzählen sie von ihrer Bildungsinstitution</template>
+          <template v-if="currentStep === 3"
+            >Weitere Informationen ihrer Bildungsinstitution</template
           >
           <template v-if="currentStep === 4"
             >Herzliche Gratulation und willkommen in der Matchd-Community!</template
@@ -63,6 +76,12 @@ import {
   CompanyFinish as CompanyStep4,
 } from "@/views/onboarding/company";
 import {
+  UniversityStep1,
+  UniversityStep2,
+  UniversityStep3,
+  UniversityFinish as UniversityStep4,
+} from "@/views/onboarding/university";
+import {
   StudentStep1,
   StudentStep2,
   StudentStep4,
@@ -84,10 +103,14 @@ import { Options, Vue } from "vue-class-component";
     CompanyStep2,
     CompanyStep3,
     CompanyStep4,
+    UniversityStep1,
+    UniversityStep2,
+    UniversityStep3,
+    UniversityStep4,
   },
 })
 export default class Onboarding extends Vue {
-  get currentOnboardingComponent() {
+  get currentOnboardingComponent(): string {
     if (this.isUniversity) {
       return `UniversityStep${this.currentStep}`;
     } else if (this.isCompany) {
@@ -97,8 +120,8 @@ export default class Onboarding extends Vue {
     }
   }
 
-  get currentStep() {
-    return this.$store.getters["user"]?.profileStep;
+  get currentStep(): number | undefined {
+    return this.$store.getters["profileStep"];
   }
 
   get isStudent(): boolean {

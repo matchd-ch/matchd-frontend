@@ -89,10 +89,12 @@ import SelectIconGroup from "@/components/SelectIconGroup.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { BenefitWithStatus, CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
+import { OnboardingState } from "@/models/OnboardingState";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { AttachmentType, BenefitType, JobPositionType, UserWithProfileNode } from "api";
+import { QueuedFile } from "@/store/modules/upload/state";
+import type { Attachment, Benefit, JobPosition, UploadConfiguration, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -121,103 +123,103 @@ export default class CompanyStep3 extends Vue {
   };
 
   jobPositionInput = "";
-  filteredJobPositions: JobPositionType[] = [];
+  filteredJobPositions: JobPosition[] = [];
   errors: { [k: string]: string } = {};
 
-  get jobPositions() {
+  get jobPositions(): JobPosition[] {
     return this.$store.getters["jobPositions"];
   }
 
   get benefits(): BenefitWithStatus[] {
-    return this.$store.getters["benefits"].map(benefit => {
+    return this.$store.getters["benefits"].map((benefit) => {
       return {
         ...benefit,
-        checked: !!this.form.benefits.find(selectedBenefit => selectedBenefit.id === benefit.id),
+        checked: !!this.form.benefits.find((selectedBenefit) => selectedBenefit.id === benefit.id),
       };
     });
   }
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
-  get companyDocumentsQueue() {
+  get companyDocumentsQueue(): QueuedFile[] {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get companyDocuments() {
+  get companyDocuments(): Attachment[] {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get companyDocumentsUploadConfigurations() {
+  get companyDocumentsUploadConfigurations(): UploadConfiguration | undefined {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  onInputJobPositions() {
+  onInputJobPositions(): void {
     if (this.jobPositionInput.length < 3) {
       this.filteredJobPositions = [];
       return;
     }
-    this.filteredJobPositions = this.jobPositions.filter(item =>
+    this.filteredJobPositions = this.jobPositions.filter((item) =>
       item.name.toLowerCase().includes(this.jobPositionInput.toLowerCase())
     );
   }
 
-  onPressEnterJobPosition() {
+  onPressEnterJobPosition(): void {
     if (this.filteredJobPositions.length === 1) {
       this.onSelectJobPosition(this.filteredJobPositions[0]);
     }
   }
 
-  onSelectJobPosition(jobPosition: JobPositionType) {
+  onSelectJobPosition(jobPosition: JobPosition): void {
     delete this.errors["jobPositions"];
     this.jobPositionInput = "";
     this.form.jobPositions.push(jobPosition);
     this.onInputJobPositions();
   }
 
-  onRemoveJobPosition(jobPosition: JobPositionType) {
+  onRemoveJobPosition(jobPosition: JobPosition): void {
     this.form.jobPositions = this.form.jobPositions.filter(
-      selectedSkill => selectedSkill.id !== jobPosition.id
+      (selectedSkill) => selectedSkill.id !== jobPosition.id
     );
   }
 
-  onChangeBenefits(benefit: BenefitType) {
+  onChangeBenefits(benefit: Benefit): void {
     const benefitExists = !!this.form.benefits.find(
-      selectedBenefit => selectedBenefit.id === benefit.id
+      (selectedBenefit) => selectedBenefit.id === benefit.id
     );
     if (benefitExists) {
       this.form.benefits = this.form.benefits.filter(
-        selectedBenefit => selectedBenefit.id !== benefit.id
+        (selectedBenefit) => selectedBenefit.id !== benefit.id
       );
     } else {
       this.form.benefits.push(benefit);
     }
   }
 
-  async onSelectCompanyDocuments(files: FileList) {
+  async onSelectCompanyDocuments(files: FileList): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.CompanyDocuments,
       files,
     });
   }
 
-  async onDeleteCompanyDocuments(file: AttachmentType) {
+  async onDeleteCompanyDocuments(file: Attachment): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyDocuments,
       id: file.id,
     });
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
       this.$store.dispatch(ContentActionTypes.BENEFITS),
@@ -231,7 +233,7 @@ export default class CompanyStep3 extends Vue {
   async onSubmit(
     form: CompanyProfileStep3Form,
     actions: FormActions<Partial<CompanyProfileStep3Form>>
-  ) {
+  ): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.COMPANY_ONBOARDING_STEP3,
       companyProfileStep3InputMapper(this.form)
