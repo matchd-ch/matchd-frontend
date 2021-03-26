@@ -48,9 +48,9 @@
             v-model="form.jobFromDateMonth"
           >
             <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">{{
-              String(n).padStart(2, "0")
-            }}</option>
+            <option v-for="(n, index) in 12" :value="n" :key="index">
+              {{ String(n).padStart(2, "0") }}
+            </option>
           </Field>
           <Field
             id="jobFromDateYear"
@@ -83,9 +83,9 @@
             v-model="form.jobToDateMonth"
           >
             <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">{{
-              String(n).padStart(2, "0")
-            }}</option>
+            <option v-for="(n, index) in 12" :value="n" :key="index">
+              {{ String(n).padStart(2, "0") }}
+            </option>
           </Field>
           <Field
             id="jobToDateYear"
@@ -148,10 +148,11 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { JobPositionType, UserWithProfileNode } from "api";
+import type { JobOption, JobPosition, User } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -181,7 +182,7 @@ export default class StudentStep2 extends Vue {
   };
 
   jobPositionInput = "";
-  filteredJobPositions: JobPositionType[] = [];
+  filteredJobPositions: JobPosition[] = [];
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
@@ -193,57 +194,57 @@ export default class StudentStep2 extends Vue {
     return validYears;
   }
 
-  get modeIsDateRange() {
+  get modeIsDateRange(): boolean {
     return (
-      this.jobOptions?.find(option => option.id === this.form.jobOptionId)?.mode ===
+      this.jobOptions?.find((option) => option.id === this.form.jobOptionId)?.mode ===
       JobOptionMode.DateRange
     );
   }
 
-  get selectedJobPosition() {
+  get selectedJobPosition(): JobPosition | undefined {
     if (!this.form.jobPositionId) {
-      return "";
+      return { id: "0", name: "Fehler" };
     }
-    return this.jobPositions?.find(jobPosition => jobPosition.id === this.form.jobPositionId);
+    return this.jobPositions?.find((jobPosition) => jobPosition.id === this.form.jobPositionId);
   }
 
-  get jobOptions() {
+  get jobOptions(): JobOption[] {
     return this.$store.getters["jobOptions"];
   }
 
-  get jobPositions() {
+  get jobPositions(): JobPosition[] {
     return this.$store.getters["jobPositions"];
   }
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
-  onInputJobPositions() {
+  onInputJobPositions(): void {
     if (this.jobPositionInput.length < 3) {
       this.filteredJobPositions = [];
       return;
     }
-    this.filteredJobPositions = this.jobPositions.filter(item =>
+    this.filteredJobPositions = this.jobPositions.filter((item) =>
       item.name.toLowerCase().includes(this.jobPositionInput.toLowerCase())
     );
   }
 
-  onSelectJobPosition(item: JobPositionType) {
+  onSelectJobPosition(item: JobPosition): void {
     this.jobPositionInput = "";
     this.form.jobPositionId = item.id;
     this.onInputJobPositions();
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(ContentActionTypes.JOB_OPTIONS),
       this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
@@ -253,7 +254,7 @@ export default class StudentStep2 extends Vue {
   async onSubmit(
     form: StudentProfileStep2Form,
     actions: FormActions<Partial<StudentProfileStep2Form>>
-  ) {
+  ): Promise<void> {
     if (
       form.jobFromDateMonth &&
       form.jobFromDateYear &&
@@ -281,7 +282,7 @@ export default class StudentStep2 extends Vue {
       studentProfileStep2InputMapper(this.form)
     );
     if (this.onboardingState.success) {
-      this.$router.push({ params: { step: "schritt4" } });
+      this.$router.push({ params: { step: "schritt3" } });
     } else if (this.onboardingState.errors) {
       actions.setErrors(this.onboardingState.errors);
       if (this.onboardingState.errors.jobFromDate) {
