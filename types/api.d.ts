@@ -177,6 +177,7 @@ type Company = {
   website: Scalars["String"];
   branch?: Maybe<Branch>;
   description: Scalars["String"];
+  softSkills: Array<SoftSkill>;
   uid: Scalars["String"];
   services: Scalars["String"];
   memberItStGallen: Scalars["Boolean"];
@@ -381,6 +382,8 @@ type Mutation = {
   companyProfileStep2?: Maybe<CompanyProfileStep2>;
   /** Updates the Company Profile with benefits and Job Positions */
   companyProfileStep3?: Maybe<CompanyProfileStep3>;
+  /** Updates the Company Profile with Soft Skills */
+  companyProfileStep4?: Maybe<CompanyProfileStep4>;
   /** Updates the profile of a student */
   studentProfileStep1?: Maybe<StudentProfileStep1>;
   /** Updates school name, field of study and graduation */
@@ -498,6 +501,10 @@ type MutationCompanyProfileStep2Args = {
 
 type MutationCompanyProfileStep3Args = {
   step3: CompanyProfileInputStep3;
+};
+
+type MutationCompanyProfileStep4Args = {
+  step4: CompanyProfileInputStep4;
 };
 
 type MutationStudentProfileStep1Args = {
@@ -822,6 +829,22 @@ type JobPositionInput = {
 type BenefitInput = {
   id: Scalars["ID"];
   icon?: Maybe<Scalars["String"]>;
+};
+
+/** Updates the Company Profile with Soft Skills */
+type CompanyProfileStep4 = {
+  __typename?: "CompanyProfileStep4";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+type CompanyProfileInputStep4 = {
+  /** Soft Skills */
+  softSkills?: Maybe<Array<Maybe<SoftSkillInputType>>>;
+};
+
+type SoftSkillInputType = {
+  id: Scalars["ID"];
 };
 
 /** Updates the profile of a student */

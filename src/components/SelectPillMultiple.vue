@@ -25,11 +25,16 @@
         </label>
       </li>
     </ul>
+    <p v-if="$slots.info" class="select-pill-multiple__info">
+      <IconInfo class="flex-shrink-0 w-5 mr-2" />
+      <slot name="info" />
+    </p>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, prop, Vue } from "vue-class-component";
+import IconInfo from "@/assets/icons/info.svg";
 
 class Props {
   name = prop<string>({ default: "" });
@@ -38,6 +43,9 @@ class Props {
 
 @Options({
   emits: ["change"],
+  components: {
+    IconInfo,
+  },
 })
 export default class SelectPillMultiple extends Vue.with(Props) {}
 </script>
@@ -49,6 +57,11 @@ export default class SelectPillMultiple extends Vue.with(Props) {}
   @element label {
     @apply block px-8 mb-2;
     @apply font-medium;
+  }
+
+  @element info {
+    @apply mt-4 flex items-center px-8;
+    @apply text-paragraph-sm text-black;
   }
 }
 </style>

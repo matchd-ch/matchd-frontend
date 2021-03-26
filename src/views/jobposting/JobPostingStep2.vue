@@ -9,6 +9,9 @@
     @submit="onSubmit"
     v-slot="{ errors }"
   >
+    <GenericError v-if="jobPostingState.errors">
+      Beim Speichern ist etwas schief gelaufen.
+    </GenericError>
     <SelectPillMultiple
       :options="expectations"
       @change="onChangeExpectations"
@@ -17,9 +20,6 @@
     >
       <template v-slot:label>Allgemeine Anforderungen</template>
     </SelectPillMultiple>
-    <GenericError v-if="jobPostingState.errors">
-      Beim Speichern ist etwas schief gelaufen.
-    </GenericError>
     <!-- Skills Field -->
     <MatchdAutocomplete
       id="skills"

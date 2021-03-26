@@ -7,6 +7,7 @@ import {
   Language,
   LanguageLevel,
   Skill,
+  SoftSkill,
 } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
@@ -32,6 +33,8 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
+  [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
+  [MutationTypes.SOFT_SKILLS_LOADED](state: S, payload: { softSkills: SoftSkill[] }): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -88,10 +91,17 @@ export const mutations: MutationTree<State> & Mutations = {
     state.languages.levels = payload.languageLevels;
   },
   [MutationTypes.SKILLS_LOADING](state: State) {
-    state.jobOptions.loading = true;
+    state.skills.loading = true;
   },
   [MutationTypes.SKILLS_LOADED](state: State, payload: { skills: Skill[] }) {
     state.skills.loading = false;
     state.skills.data = payload.skills;
+  },
+  [MutationTypes.SOFT_SKILLS_LOADING](state: State) {
+    state.jobOptions.loading = true;
+  },
+  [MutationTypes.SOFT_SKILLS_LOADED](state: State, payload: { softSkills: SoftSkill[] }) {
+    state.softSkills.loading = false;
+    state.softSkills.data = payload.softSkills;
   },
 };

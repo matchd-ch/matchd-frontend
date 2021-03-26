@@ -42,7 +42,8 @@
             >Zeigen sie der Community Bilder und Videos von ihrem Unternehmen und von ihrer
             Crew</template
           >
-          <template v-if="currentStep === 4"
+          <template v-if="currentStep === 4">Arbeitskultur</template>
+          <template v-if="currentStep === 5"
             >Herzliche Gratulation und willkommen in der Matchd-Community!</template
           >
         </template>
@@ -76,7 +77,8 @@ import {
   CompanyStep1,
   CompanyStep2,
   CompanyStep3,
-  CompanyFinish as CompanyStep4,
+  CompanyStep4,
+  CompanyFinish as CompanyStep5,
 } from "@/views/onboarding/company";
 import {
   UniversityStep1,
@@ -108,6 +110,7 @@ import { Options, Vue } from "vue-class-component";
     CompanyStep2,
     CompanyStep3,
     CompanyStep4,
+    CompanyStep5,
     UniversityStep1,
     UniversityStep2,
     UniversityStep3,

@@ -8,6 +8,7 @@ import {
   Language,
   LanguageLevel,
   Skill,
+  SoftSkill,
 } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
@@ -21,6 +22,7 @@ export type Getters = {
   languages(state: State): Language[];
   languageLevels(state: State): LanguageLevel[];
   skills(state: State): Skill[];
+  softSkills(state: State): SoftSkill[];
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -47,5 +49,8 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   skills(state: State): Skill[] {
     return state.skills.data;
+  },
+  softSkills(state: State): SoftSkill[] {
+    return state.softSkills.data;
   },
 };

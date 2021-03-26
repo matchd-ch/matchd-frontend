@@ -80,11 +80,9 @@ import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
@@ -92,7 +90,7 @@ import { BenefitWithStatus, CompanyProfileStep3Form } from "@/models/CompanyProf
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { Attachment, Benefit, JobPosition, User } from "api";
+import { Attachment, Benefit, JobPosition } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -103,8 +101,6 @@ import { Options, Vue } from "vue-class-component";
     ErrorMessage,
     GenericError,
     MatchdButton,
-    MatchdField,
-    MatchdSelect,
     MatchdAutocomplete,
     SelectPill,
     SelectPillGroup,
@@ -143,10 +139,6 @@ export default class CompanyStep3 extends Vue {
 
   get onboardingState() {
     return this.$store.getters["onboardingState"];
-  }
-
-  get user(): User | null {
-    return this.$store.getters["user"];
   }
 
   get companyDocumentsQueue() {
