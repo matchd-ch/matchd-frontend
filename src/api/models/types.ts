@@ -224,6 +224,15 @@ export type IBenefitInputType = {
   icon?: Maybe<Scalars["String"]>;
 };
 
+export type ICompanyProfileInputStep4 = {
+  /** Soft Skills */
+  softSkills?: Maybe<Array<Maybe<ISoftSkillInputType>>>;
+};
+
+export type ISoftSkillInputType = {
+  id: Scalars["ID"];
+};
+
 export type IStudentProfileInputStep1 = {
   /** First name */
   firstName: Scalars["String"];
