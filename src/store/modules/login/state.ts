@@ -1,5 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { User } from "api";
+import type { User } from "api";
 
 export type State = {
   login: {

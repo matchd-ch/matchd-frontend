@@ -117,9 +117,9 @@
             v-model="form.jobFromDateMonth"
           >
             <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">{{
-              String(n).padStart(2, "0")
-            }}</option>
+            <option v-for="(n, index) in 12" :value="n" :key="index">
+              {{ String(n).padStart(2, "0") }}
+            </option>
           </Field>
           <Field
             id="jobFromDateYear"
@@ -152,9 +152,9 @@
             v-model="form.jobToDateMonth"
           >
             <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">{{
-              String(n).padStart(2, "0")
-            }}</option>
+            <option v-for="(n, index) in 12" :value="n" :key="index">
+              {{ String(n).padStart(2, "0") }}
+            </option>
           </Field>
           <Field
             id="jobToDateYear"
@@ -210,10 +210,11 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
-import { User } from "api";
+import type { Branch, JobOption, JobPosting as JobPostingType, User } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -246,23 +247,23 @@ export default class JobPostingStep1 extends Vue {
     url: "",
   };
 
-  get currentJobPosting() {
+  get currentJobPosting(): JobPostingType | null {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get jobOptions() {
+  get jobOptions(): JobOption[] {
     return this.$store.getters["jobOptions"];
   }
 
-  get branches() {
+  get branches(): Branch[] {
     return this.$store.getters["branches"];
   }
 
-  get jobPostingLoading() {
+  get jobPostingLoading(): boolean {
     return this.$store.getters["jobPostingLoading"];
   }
 
-  get jobPostingState() {
+  get jobPostingState(): JobPostingState {
     return this.$store.getters["jobPostingState"];
   }
 
@@ -280,7 +281,7 @@ export default class JobPostingStep1 extends Vue {
     return validYears;
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(ContentActionsTypes.JOB_OPTIONS),
       this.$store.dispatch(ContentActionsTypes.BRANCHES),
@@ -291,7 +292,7 @@ export default class JobPostingStep1 extends Vue {
     }
   }
 
-  populateForm() {
+  populateForm(): void {
     this.form = {
       description: this.currentJobPosting?.description || "",
       url: this.currentJobPosting?.url || "",
@@ -314,13 +315,16 @@ export default class JobPostingStep1 extends Vue {
     };
   }
 
-  onChangeFullTime() {
+  onChangeFullTime(): void {
     if (!this.form.fullTime) {
       this.form.workload = 90;
     }
   }
 
-  async onSubmit(form: JobPostingStep1Form, actions: FormActions<Partial<JobPostingStep1Form>>) {
+  async onSubmit(
+    form: JobPostingStep1Form,
+    actions: FormActions<Partial<JobPostingStep1Form>>
+  ): Promise<void> {
     if (
       form.jobFromDateMonth &&
       form.jobFromDateYear &&

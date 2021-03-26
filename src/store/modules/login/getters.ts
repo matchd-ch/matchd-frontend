@@ -1,15 +1,18 @@
 import { ProfileType } from "@/api/models/types";
-import { MatchdApiError } from "@/models/MatchdApiError";
+import type { LoginState } from "@/models/LoginState";
+import type { LogoutState } from "@/models/LogoutState";
+import { PasswordResetState } from "@/models/PasswordResetState";
+import type { SendPasswordResetEmailState } from "@/models/SendPasswordResetEmailState";
 import { RootState } from "@/store";
-import { User } from "api";
+import type { User } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
 export type Getters = {
   loginLoading(state: State): boolean;
-  loginState(state: State): { success: boolean; errors: MatchdApiError | null };
+  loginState(state: State): LoginState;
   logoutLoading(state: State): boolean;
-  logoutState(state: State): { success: boolean; errors: MatchdApiError | null };
+  logoutState(state: State): LogoutState;
   user(state: State): User | null;
   profileStep(state: State, getters: Getters): number | undefined;
   isStudent(state: State): boolean;
@@ -18,23 +21,16 @@ export type Getters = {
   isLoggedIn(state: State): boolean;
   refreshToken(state: State): string;
   sendPasswordResetEmailLoading(state: State): boolean;
-  sendPasswordResetEmailState(state: State): { success: boolean; errors: MatchdApiError | null };
+  sendPasswordResetEmailState(state: State): SendPasswordResetEmailState;
   passwordResetLoading(state: State): boolean;
-  passwordResetState(
-    state: State
-  ): {
-    success: boolean;
-    errors: MatchdApiError | null;
-    tokenVerificationComplete: boolean;
-    tokenIsValid: boolean;
-  };
+  passwordResetState(state: State): PasswordResetState;
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
   loginLoading(state: State): boolean {
     return state.login.loading;
   },
-  loginState(state: State): { success: boolean; errors: MatchdApiError | null } {
+  loginState(state: State): LoginState {
     return {
       success: state.login.success,
       errors: state.login.errors || null,
@@ -43,7 +39,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   logoutLoading(state: State): boolean {
     return state.logout.loading;
   },
-  logoutState(state: State): { success: boolean; errors: MatchdApiError | null } {
+  logoutState(state: State): LogoutState {
     return {
       success: state.logout.success,
       errors: state.logout.errors || null,
@@ -93,7 +89,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   sendPasswordResetEmailLoading(state: State): boolean {
     return state.sendPasswordResetEmail.loading;
   },
-  sendPasswordResetEmailState(state: State): { success: boolean; errors: MatchdApiError | null } {
+  sendPasswordResetEmailState(state: State): SendPasswordResetEmailState {
     return {
       success: state.sendPasswordResetEmail.success,
       errors: state.sendPasswordResetEmail.errors || null,
@@ -102,14 +98,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   passwordResetLoading(state: State): boolean {
     return state.passwordReset.loading;
   },
-  passwordResetState(
-    state: State
-  ): {
-    success: boolean;
-    errors: MatchdApiError | null;
-    tokenVerificationComplete: boolean;
-    tokenIsValid: boolean;
-  } {
+  passwordResetState(state: State): PasswordResetState {
     return {
       success: state.passwordReset.success,
       errors: state.passwordReset.errors || null,

@@ -1,6 +1,6 @@
 <template>
   <div class="matchd-autocomplete" :class="{ 'matchd-autocomplete--invalid': errors }">
-    <label :for="id" class="matchd-autocomplete__label"><slot name="label"/></label>
+    <label :for="id" class="matchd-autocomplete__label"><slot name="label" /></label>
     <div class="matchd-autocomplete__form-element">
       <slot />
       <ul v-if="items.length > 0" class="matchd-autocomplete__result-list">

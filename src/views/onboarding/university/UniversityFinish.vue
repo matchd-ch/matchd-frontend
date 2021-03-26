@@ -28,11 +28,11 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class UniversityFinish extends Vue {
-  onClickFindTalent() {
+  onClickFindTalent(): void {
     this.$router.push({ name: "Home" });
   }
 
-  onClickCreateJobPosting() {
+  onClickCreateJobPosting(): void {
     this.$router.push({ name: "CreateJobPosting", params: { step: "schritt1" } });
   }
 }

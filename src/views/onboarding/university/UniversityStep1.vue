@@ -140,9 +140,10 @@ import { universityProfileStep1Mapper } from "@/api/mappers/universityProfileSte
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { User } from "api";
+import type { User } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -171,11 +172,11 @@ export default class UniversityStep1 extends Vue {
     topLevelOrganisationWebsite: "",
   };
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
@@ -183,7 +184,7 @@ export default class UniversityStep1 extends Vue {
     return this.$store.getters["user"];
   }
 
-  mounted() {
+  async mounted(): Promise<void> {
     this.$store.dispatch(ActionTypes.CITY_BY_ZIP);
     if (this.user) {
       this.form = {
@@ -199,14 +200,14 @@ export default class UniversityStep1 extends Vue {
     }
   }
 
-  async onBlurZip() {
+  async onBlurZip(): Promise<void> {
     const city = this.$store.getters["cityByZip"]({ zip: this.form.zip });
     if (city) {
       this.form.city = city;
     }
   }
 
-  async onSubmit(form: UniversityProfileStep1Form) {
+  async onSubmit(form: UniversityProfileStep1Form): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.UNIVERSITY_ONBOARDING_STEP1,
       universityProfileStep1Mapper(form)

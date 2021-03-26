@@ -1,4 +1,4 @@
-import { Benefit, JobPosition } from "api";
+import type { Benefit, JobPosition } from "api";
 
 export interface BenefitWithStatus extends Benefit {
   checked: boolean;

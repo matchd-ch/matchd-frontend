@@ -40,9 +40,9 @@
           v-model="form.graduationMonth"
         >
           <option value="" disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :value="n" :key="index">{{
-            String(n).padStart(2, "0")
-          }}</option>
+          <option v-for="(n, index) in 12" :value="n" :key="index">
+            {{ String(n).padStart(2, "0") }}
+          </option>
         </Field>
         <Field
           id="graduationYear"
@@ -77,9 +77,10 @@ import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
+import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { User } from "api";
+import type { User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -112,11 +113,11 @@ export default class StudentStep2 extends Vue {
     return validYears;
   }
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
@@ -127,7 +128,7 @@ export default class StudentStep2 extends Vue {
   async onSubmit(
     form: StudentProfileStep2Form,
     actions: FormActions<Partial<StudentProfileStep2Form>>
-  ) {
+  ): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP2,
       studentProfileStep2InputMapper(this.form)

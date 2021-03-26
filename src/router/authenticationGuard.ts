@@ -6,7 +6,7 @@ export async function isLoggedIn(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
-) {
+): Promise<void> {
   const store = useStore();
   if (to.meta?.public) {
     next();
