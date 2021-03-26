@@ -92,7 +92,7 @@ import { BenefitWithStatus, CompanyProfileStep3Form } from "@/models/CompanyProf
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { AttachmentType, BenefitType, JobPositionType, UserWithProfileNode } from "api";
+import { Attachment, Benefit, JobPosition, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -121,7 +121,7 @@ export default class CompanyStep3 extends Vue {
   };
 
   jobPositionInput = "";
-  filteredJobPositions: JobPositionType[] = [];
+  filteredJobPositions: JobPosition[] = [];
   errors: { [k: string]: string } = {};
 
   get jobPositions() {
@@ -145,7 +145,7 @@ export default class CompanyStep3 extends Vue {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
@@ -177,20 +177,20 @@ export default class CompanyStep3 extends Vue {
     }
   }
 
-  onSelectJobPosition(jobPosition: JobPositionType) {
+  onSelectJobPosition(jobPosition: JobPosition) {
     delete this.errors["jobPositions"];
     this.jobPositionInput = "";
     this.form.jobPositions.push(jobPosition);
     this.onInputJobPositions();
   }
 
-  onRemoveJobPosition(jobPosition: JobPositionType) {
+  onRemoveJobPosition(jobPosition: JobPosition) {
     this.form.jobPositions = this.form.jobPositions.filter(
       selectedSkill => selectedSkill.id !== jobPosition.id
     );
   }
 
-  onChangeBenefits(benefit: BenefitType) {
+  onChangeBenefits(benefit: Benefit) {
     const benefitExists = !!this.form.benefits.find(
       selectedBenefit => selectedBenefit.id === benefit.id
     );
@@ -210,7 +210,7 @@ export default class CompanyStep3 extends Vue {
     });
   }
 
-  async onDeleteCompanyDocuments(file: AttachmentType) {
+  async onDeleteCompanyDocuments(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyDocuments,
       id: file.id,

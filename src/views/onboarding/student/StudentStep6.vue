@@ -55,12 +55,12 @@
 
 <script lang="ts">
 import { studentProfileStep6InputMapper } from "@/api/mappers/studentProfileStep6InputMapper";
-import { StudentState } from "@/api/models/types";
+import { ProfileState } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import { StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { UserWithProfileNode } from "api";
+import { User } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -75,11 +75,11 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class StudentStep6 extends Vue {
   form: StudentProfileStep6Form = {
-    state: StudentState.Anonymous,
+    state: ProfileState.Anonymous,
   };
 
   get isAnonymous() {
-    return this.form.state === StudentState.Anonymous;
+    return this.form.state === ProfileState.Anonymous;
   }
 
   get onboardingLoading() {
@@ -90,12 +90,12 @@ export default class StudentStep6 extends Vue {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
   onToggleUserState() {
-    this.form.state = this.isAnonymous ? StudentState.Public : StudentState.Anonymous;
+    this.form.state = this.isAnonymous ? ProfileState.Public : ProfileState.Anonymous;
   }
 
   async onSubmit() {

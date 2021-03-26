@@ -1,11 +1,5 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import {
-  ObtainJsonWebToken,
-  PasswordReset,
-  RefreshToken,
-  SendPasswordResetEmail,
-  UserWithProfileNode,
-} from "api";
+import { ObtainJsonWebToken, PasswordReset, RefreshToken, SendPasswordResetEmail, User } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 import { State } from "@/store/modules/login/state";
@@ -18,7 +12,7 @@ export type Mutations<S = State> = {
   [MutationTypes.REFRESH_LOGIN_LOADING](state: S): void;
   [MutationTypes.REFRESH_LOGIN_LOADED](state: S, payload: RefreshToken): void;
   [MutationTypes.ME_LOADING](state: S): void;
-  [MutationTypes.ME_LOADED](state: S, payload: UserWithProfileNode): void;
+  [MutationTypes.ME_LOADED](state: S, payload: User): void;
   [MutationTypes.SEND_PASSWORD_RESET_EMAIL_LOADING](state: S): void;
   [MutationTypes.SEND_PASSWORD_RESET_EMAIL_LOADED](state: S, payload: SendPasswordResetEmail): void;
   [MutationTypes.PASSWORD_RESET_LOADING](state: S): void;
@@ -63,7 +57,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ME_LOADING](state: State) {
     state.me.loading = true;
   },
-  [MutationTypes.ME_LOADED](state: State, payload: UserWithProfileNode) {
+  [MutationTypes.ME_LOADED](state: State, payload: User) {
     state.me.loading = false;
     state.user = {
       ...payload,

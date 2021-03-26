@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { UserWithProfileNode } from "api";
+import { User } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({})
@@ -26,7 +26,7 @@ export default class App extends Vue {
     return this.$store.getters["isUniversity"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 }

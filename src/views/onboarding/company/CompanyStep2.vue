@@ -113,7 +113,7 @@ import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { AttachmentType, UserWithProfileNode } from "api";
+import { Attachment, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -151,7 +151,7 @@ export default class CompanyStep2 extends Vue {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
@@ -186,7 +186,7 @@ export default class CompanyStep2 extends Vue {
     });
   }
 
-  async onDeleteCompanyAvatar(file: AttachmentType) {
+  async onDeleteCompanyAvatar(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyAvatar,
       id: file.id,

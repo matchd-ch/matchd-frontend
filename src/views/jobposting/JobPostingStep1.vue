@@ -213,7 +213,7 @@ import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
-import { UserWithProfileNode } from "api";
+import { User } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -266,7 +266,7 @@ export default class JobPostingStep1 extends Vue {
     return this.$store.getters["jobPostingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 

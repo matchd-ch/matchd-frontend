@@ -1,6 +1,6 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
 import { RootState } from "@/store";
-import { ZipCityType } from "api";
+import { ZipCity } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
@@ -22,7 +22,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
     };
   },
   cityByZip: (state: State) => (payload: { zip: string }) => {
-    const match = state.zipCity.data.find((location: ZipCityType) => location.zip === payload.zip);
+    const match = state.zipCity.data.find((location: ZipCity) => location.zip === payload.zip);
     return match?.city || "";
   },
   nicknameSuggestions(state: State): string[] {

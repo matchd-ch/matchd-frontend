@@ -1,6 +1,6 @@
 import { AttachmentKey } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { AttachmentType, DeleteAttachment, UploadConfiguration, UserUpload } from "api";
+import { Attachment, DeleteAttachment, UploadConfiguration, UserUpload } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 import { State } from "@/store/modules/upload/state";
@@ -20,7 +20,7 @@ export type Mutations<S = State> = {
   [MutationTypes.UPLOADED_FILES_LOADING](state: S, payload: { key: AttachmentKey }): void;
   [MutationTypes.UPLOADED_FILES_LOADED](
     state: S,
-    payload: { key: AttachmentKey; data: AttachmentType[] }
+    payload: { key: AttachmentKey; data: Attachment[] }
   ): void;
   [MutationTypes.DELETE_FILE_LOADING](state: S, payload: { key: AttachmentKey }): void;
   [MutationTypes.DELETE_FILE_LOADED](
@@ -86,7 +86,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.UPLOADED_FILES_LOADED](
     state: State,
-    payload: { key: AttachmentKey; data: AttachmentType[] }
+    payload: { key: AttachmentKey; data: Attachment[] }
   ) {
     state.attachments[payload.key].loading = false;
     state.attachments[payload.key].data = payload.data;

@@ -95,7 +95,7 @@ import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
-import { ExpectationType, SkillType } from "api";
+import { Expectation, Skill } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -123,7 +123,7 @@ export default class JobPostingStep2 extends Vue {
   };
   errors: { [k: string]: string } = {};
 
-  filteredSkills: SkillType[] = [];
+  filteredSkills: Skill[] = [];
   skillInput = "";
 
   get currentJobPosting() {
@@ -161,7 +161,7 @@ export default class JobPostingStep2 extends Vue {
     return this.$store.getters["jobPostingState"];
   }
 
-  onChangeExpectations(expectation: ExpectationType) {
+  onChangeExpectations(expectation: Expectation) {
     const expectationExists = !!this.form.expectations.find(
       selectedExpectation => selectedExpectation.id === expectation.id
     );
@@ -184,7 +184,7 @@ export default class JobPostingStep2 extends Vue {
     );
   }
 
-  onSelectSkill(skill: SkillType) {
+  onSelectSkill(skill: Skill) {
     delete this.errors["skills"];
     this.skillInput = "";
     this.form.skills.push(skill);
@@ -197,7 +197,7 @@ export default class JobPostingStep2 extends Vue {
     }
   }
 
-  onRemoveSkill(skill: SkillType) {
+  onRemoveSkill(skill: Skill) {
     this.form.skills = this.form.skills.filter(selectedSkill => selectedSkill.id !== skill.id);
   }
 

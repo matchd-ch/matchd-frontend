@@ -4,8 +4,8 @@ mutation(
   $workload: Int!
   $jobFromDate: String!
   $jobToDate: String
-  $jobOption: JobOptionInputType!
-  $branch: BranchInputType!
+  $jobOption: JobOptionInput!
+  $branch: BranchInput!
   $url: String
 ) {
   jobPostingStep1(
