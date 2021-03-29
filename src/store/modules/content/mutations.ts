@@ -23,7 +23,7 @@ export type Mutations<S = State> = {
   [MutationTypes.COMPANY_LOADING](state: S): void;
   [MutationTypes.COMPANY_LOADED](
     state: S,
-    payload: { company: Company; logo: Attachment; media: Attachment[] }
+    payload: { company: Company; logo: Attachment[]; media: Attachment[] }
   ): void;
   [MutationTypes.EXPECTATIONS_LOADING](state: S): void;
   [MutationTypes.EXPECTATIONS_LOADED](state: S, payload: { expectations: Expectation[] }): void;
@@ -64,11 +64,11 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.COMPANY_LOADED](
     state: State,
-    payload: { company: Company; logo: Attachment; media: Attachment[] }
+    payload: { company: Company; logo: Attachment[]; media: Attachment[] }
   ) {
     state.company.loading = false;
     state.company.data = payload.company;
-    state.company.logo = payload.logo;
+    state.company.logo = payload.logo[0];
     state.company.media = payload.media;
   },
   [MutationTypes.EXPECTATIONS_LOADING](state: State) {
