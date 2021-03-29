@@ -1,6 +1,5 @@
 import { createApolloClient } from "@/api/apollo-client";
 import { RootState } from "@/store";
-import { useRouter } from "vue-router";
 import { ActionContext, ActionTree } from "vuex";
 
 import { ActionTypes } from "./action-types";
@@ -46,8 +45,6 @@ export interface Actions {
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
 }
-
-const router = useRouter();
 
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.BENEFITS]({ commit }) {

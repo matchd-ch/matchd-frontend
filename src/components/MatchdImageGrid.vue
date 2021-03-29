@@ -43,6 +43,7 @@ export default class MatchdImageGrid extends Vue.with(Props) {}
 <style lang="postcss">
 @block matchd-image-grid {
   @apply -mx-2 -mb-4;
+
   @element item {
     @apply mx-2 mb-4;
   }

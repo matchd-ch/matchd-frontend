@@ -130,7 +130,7 @@ export default class CompanyDetail extends Vue {
     return text.replace(new RegExp(/\n/, "g"), "<br />");
   }
 
-  onClickMedia(item: Attachment) {
+  onClickMedia(item: Attachment): void {
     this.currentMedia = item;
   }
 
