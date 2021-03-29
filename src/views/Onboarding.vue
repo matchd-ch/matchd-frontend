@@ -19,10 +19,10 @@
             currentStep
           }}</span>
           <template v-if="currentStep === 1">Vervollständige deine persönlichen Daten</template>
-          <template v-else-if="currentStep === 2"
-            >Welche Schule oder Hochschule besuchst du?</template
+          <template v-else-if="currentStep === 2">Wonach suchst du?</template>
+          <template v-else-if="currentStep === 3"
+            >Zeige uns doch, wie du als Mensch so bist.</template
           >
-          <template v-else-if="currentStep === 3">Wonach suchst du?</template>
           <template v-else-if="currentStep === 4">Sag uns, was du drauf hast.</template>
           <template v-else-if="currentStep === 5">Kreiere dein Profil</template>
           <template v-else-if="currentStep === 6">Veröffentliche dein Profil</template>

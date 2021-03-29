@@ -3195,7 +3195,7 @@
             },
             {
               "name": "studentProfileStep2",
-              "description": "Updates school name, field of study and graduation",
+              "description": "Updates job option, date (start or range) and job position of a student",
               "args": [
                 {
                   "name": "step2",
@@ -3222,7 +3222,7 @@
             },
             {
               "name": "studentProfileStep3",
-              "description": "Updates job option, date (start or range) and job position of a student",
+              "description": "Updates Soft Skill of a student",
               "args": [
                 {
                   "name": "step3",
@@ -5412,7 +5412,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "SoftSkillInputType",
+                  "name": "SoftSkillInput",
                   "ofType": null
                 }
               },
@@ -5425,7 +5425,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "SoftSkillInputType",
+          "name": "SoftSkillInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5579,82 +5579,6 @@
         {
           "kind": "OBJECT",
           "name": "StudentProfileStep2",
-          "description": "Updates school name, field of study and graduation",
-          "fields": [
-            {
-              "name": "success",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "errors",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "ExpectedErrorType",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "StudentProfileInputStep2",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "schoolName",
-              "description": "School name",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "fieldOfStudy",
-              "description": "Field of study",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "graduation",
-              "description": "Graduation",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "StudentProfileStep3",
           "description": "Updates job option, date (start or range) and job position of a student",
           "fields": [
             {
@@ -5689,7 +5613,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "StudentProfileInputStep3",
+          "name": "StudentProfileInputStep2",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5734,6 +5658,66 @@
                 "kind": "INPUT_OBJECT",
                 "name": "JobPositionInput",
                 "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "StudentProfileStep3",
+          "description": "Updates Soft Skill of a student",
+          "fields": [
+            {
+              "name": "success",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "errors",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "StudentProfileInputStep3",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "softSkills",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "SoftSkillInput",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             }
