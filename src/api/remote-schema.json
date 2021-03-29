@@ -2042,6 +2042,30 @@
               "deprecationReason": null
             },
             {
+              "name": "softSkills",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "SoftSkill",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "hobbies",
               "description": "",
               "args": [],
@@ -5618,14 +5642,14 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "jobOption",
+              "name": "softSkills",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobOptionInput",
+                  "name": "SoftSkillInput",
                   "ofType": null
                 }
               },
@@ -5645,8 +5669,8 @@
               "name": "jobToDate",
               "description": null,
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "INPUT_OBJECT",
+                "name": "JobPositionInput",
                 "ofType": null
               },
               "defaultValue": null

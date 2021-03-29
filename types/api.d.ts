@@ -265,6 +265,7 @@ type Student = {
   distinction: Scalars["String"];
   state: ProfileState;
   profileStep: Scalars["Int"];
+  softSkills: Array<SoftSkill>;
   hobbies: Array<Hobby>;
   onlineProjects: Array<OnlineProject>;
   languages: Array<UserLanguageRelation>;
