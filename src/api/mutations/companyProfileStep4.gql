@@ -1,8 +1,8 @@
 mutation(
   $softSkills: [SoftSkillInput]
 ) {
-  studentProfileStep3(
-    step3: {
+  companyProfileStep4(
+    step4: {
       softSkills: $softSkills
     }
   ) {

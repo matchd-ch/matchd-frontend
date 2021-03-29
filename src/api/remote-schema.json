@@ -1179,6 +1179,30 @@
               "deprecationReason": null
             },
             {
+              "name": "softSkills",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "SoftSkill",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "uid",
               "description": "",
               "args": [],
@@ -2012,6 +2036,30 @@
                   "kind": "SCALAR",
                   "name": "Int",
                   "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "softSkills",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "SoftSkill",
+                      "ofType": null
+                    }
+                  }
                 }
               },
               "isDeprecated": false,
@@ -3116,6 +3164,33 @@
               "deprecationReason": null
             },
             {
+              "name": "companyProfileStep4",
+              "description": "Updates the Company Profile with Soft Skills",
+              "args": [
+                {
+                  "name": "step4",
+                  "description": "Profile Input Step 4 is required.",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "CompanyProfileInputStep4",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "CompanyProfileStep4",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "studentProfileStep1",
               "description": "Updates the profile of a student",
               "args": [
@@ -3144,7 +3219,7 @@
             },
             {
               "name": "studentProfileStep2",
-              "description": "Updates school name, field of study and graduation",
+              "description": "Updates job option, date (start or range) and job position of a student",
               "args": [
                 {
                   "name": "step2",
@@ -3171,7 +3246,7 @@
             },
             {
               "name": "studentProfileStep3",
-              "description": "Updates job option, date (start or range) and job position of a student",
+              "description": "Updates Soft Skill of a student",
               "args": [
                 {
                   "name": "step3",
@@ -5314,6 +5389,91 @@
         },
         {
           "kind": "OBJECT",
+          "name": "CompanyProfileStep4",
+          "description": "Updates the Company Profile with Soft Skills",
+          "fields": [
+            {
+              "name": "success",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "errors",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "CompanyProfileInputStep4",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "softSkills",
+              "description": "Soft Skills",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "SoftSkillInput",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "SoftSkillInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "StudentProfileStep1",
           "description": "Updates the profile of a student",
           "fields": [
@@ -5443,7 +5603,7 @@
         {
           "kind": "OBJECT",
           "name": "StudentProfileStep2",
-          "description": "Updates school name, field of study and graduation",
+          "description": "Updates job option, date (start or range) and job position of a student",
           "fields": [
             {
               "name": "success",
@@ -5482,8 +5642,22 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "schoolName",
-              "description": "School name",
+              "name": "softSkills",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "SoftSkillInput",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "jobFromDate",
+              "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5492,21 +5666,21 @@
               "defaultValue": null
             },
             {
-              "name": "fieldOfStudy",
-              "description": "Field of study",
+              "name": "jobToDate",
+              "description": null,
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "INPUT_OBJECT",
+                "name": "JobPositionInput",
                 "ofType": null
               },
               "defaultValue": null
             },
             {
-              "name": "graduation",
-              "description": "Graduation",
+              "name": "jobPosition",
+              "description": null,
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "INPUT_OBJECT",
+                "name": "JobPositionInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -5519,7 +5693,7 @@
         {
           "kind": "OBJECT",
           "name": "StudentProfileStep3",
-          "description": "Updates job option, date (start or range) and job position of a student",
+          "description": "Updates Soft Skill of a student",
           "fields": [
             {
               "name": "success",
@@ -5558,46 +5732,16 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "jobOption",
+              "name": "softSkills",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobOptionInput",
+                  "name": "SoftSkillInput",
                   "ofType": null
                 }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "jobFromDate",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "jobToDate",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "jobPosition",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "JobPositionInput",
-                "ofType": null
               },
               "defaultValue": null
             }

@@ -18,7 +18,7 @@ export async function isCompleteProfile(
       to.name !== "Onboarding" &&
       profileStep &&
       ((isStudent && profileStep <= 6) ||
-        (isCompany && profileStep <= 3) ||
+        (isCompany && profileStep <= 4) ||
         (isUniversity && profileStep <= 3))
     ) {
       next({ name: "Onboarding" });

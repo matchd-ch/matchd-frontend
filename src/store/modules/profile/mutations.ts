@@ -5,7 +5,6 @@ import type {
   CompanyProfileStep3,
   StudentProfileStep1,
   StudentProfileStep2,
-  StudentProfileStep3,
   StudentProfileStep4,
   StudentProfileStep5,
   StudentProfileStep6,
@@ -25,7 +24,6 @@ export type Mutations<S = State> = {
     payload:
       | StudentProfileStep1
       | StudentProfileStep2
-      | StudentProfileStep3
       | StudentProfileStep4
       | StudentProfileStep5
       | StudentProfileStep6
@@ -57,7 +55,6 @@ export const mutations: MutationTree<State> & Mutations = {
     payload:
       | StudentProfileStep1
       | StudentProfileStep2
-      | StudentProfileStep3
       | StudentProfileStep4
       | StudentProfileStep5
       | StudentProfileStep6

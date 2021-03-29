@@ -3,7 +3,6 @@
     <GenericError v-if="jobPostingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    {{ form }}
     <!-- Bezeichnung Field -->
     <MatchdField id="description" class="mb-10" :errors="errors.description">
       <template v-slot:label>Geben Sie der Stelle eine passende Bezeichnung*</template>

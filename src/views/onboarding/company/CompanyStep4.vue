@@ -9,13 +9,13 @@
       name="softSkills"
       class="mb-10"
     >
-      <template v-slot:label>Ich mag es ...</template>
+      <template v-slot:label>Die Kandidat*in mag es ...</template>
       <template v-if="remainingSoftSkillCount > 0" v-slot:info>
         <template v-if="remainingSoftSkillCount === 1">
-          Wähle noch 1 für dich passende Aussage aus
+          Wählen sie noch 1 für sie passende Aussage aus
         </template>
         <template v-else>
-          Wähle {{ this.minSoftSkills - form.softSkills.length }} für dich passende Aussagen aus
+          Wählen sie {{ this.minSoftSkills - form.softSkills.length }} für sie passende Aussagen aus
         </template></template
       >
     </SelectPillMultiple>
@@ -30,11 +30,11 @@
 </template>
 
 <script lang="ts">
-import { studentProfileStep3InputMapper } from "@/api/mappers/studentProfileStep3InputMapper";
+import { companyProfileStep4InputMapper } from "@/api/mappers/companyProfileStep4InputMapper";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
-import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
+import { CompanyProfileStep4Form } from "@/models/CompanyProfileStep4Form";
 import { OnboardingState } from "@/models/OnboardingState";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
@@ -52,8 +52,8 @@ import { Options, Vue } from "vue-class-component";
     SelectPillMultiple,
   },
 })
-export default class StudentStep3 extends Vue {
-  form: StudentProfileStep3Form = {
+export default class CompanyStep4 extends Vue {
+  form: CompanyProfileStep4Form = {
     softSkills: [],
   };
   minSoftSkills = 6;
@@ -62,11 +62,15 @@ export default class StudentStep3 extends Vue {
     return this.minSoftSkills - this.form.softSkills.length;
   }
 
+  get isStudent(): boolean {
+    return this.$store.getters["isStudent"];
+  }
+
   get softSkills(): SelectPillMultipleItem[] {
     return this.$store.getters["softSkills"].map((softSkill) => {
       return {
         id: softSkill.id,
-        name: softSkill.student,
+        name: this.isStudent ? softSkill.student : softSkill.company,
         checked: !!this.form.softSkills.find(
           (selectedSoftSkill) => selectedSoftSkill.id === softSkill.id
         ),
@@ -101,8 +105,8 @@ export default class StudentStep3 extends Vue {
 
   async onSubmit(): Promise<void> {
     await this.$store.dispatch(
-      ActionTypes.STUDENT_ONBOARDING_STEP3,
-      studentProfileStep3InputMapper(this.form)
+      ActionTypes.COMPANY_ONBOARDING_STEP4,
+      companyProfileStep4InputMapper(this.form)
     );
     if (this.onboardingState.success) {
       this.$router.push({ params: { step: "schritt5" } });
