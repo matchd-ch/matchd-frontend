@@ -55,7 +55,7 @@
         <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">
           In diesen Bereichen kannst du bei uns tätig sein
         </h2>
-        <ul class="w-1/2 list-inside list-disc">
+        <ul class="list list-disc pl-4 xl:w-1/2">
           <li v-for="jobPosition in company.data.jobPositions" :key="jobPosition.id">
             {{ jobPosition.name }}
           </li>
@@ -68,7 +68,7 @@
             <li
               v-for="benefit in company.data.benefits"
               :key="benefit.id"
-              class="flex items-center border border-pink-1 rounded-full font-medium text-sm py-3 px-4 mx-1 mb-2"
+              class="flex items-center border border-pink-1 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2"
             >
               <span class="material-icons mr-2">{{ benefit.icon }}</span>
               {{ benefit.name }}
