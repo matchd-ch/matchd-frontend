@@ -24,7 +24,7 @@
       :disabled="onboardingLoading || form.softSkills.length < this.minSoftSkills"
       :loading="onboardingLoading"
       class="block w-full"
-      >Speichern und weiter</MatchdButton
+    >Speichern und weiter</MatchdButton
     >
   </Form>
 </template>
