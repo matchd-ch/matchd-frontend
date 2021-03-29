@@ -1,5 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { ZipCityType } from "api";
+import type { ZipCity } from "api";
 
 export type State = {
   profile: {
@@ -10,7 +10,7 @@ export type State = {
   };
   zipCity: {
     loading: boolean;
-    data: ZipCityType[];
+    data: ZipCity[];
   };
 };
 
