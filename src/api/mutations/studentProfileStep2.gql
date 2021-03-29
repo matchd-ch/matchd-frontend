@@ -1,8 +1,8 @@
 mutation(
-  $jobOption: JobOptionInputType!
+  $jobOption: JobOptionInput!
   $jobFromDate: String
   $jobToDate: String
-  $jobPosition: JobPositionInputType
+  $jobPosition: JobPositionInput
 ) {
   studentProfileStep2(
     step2: {
