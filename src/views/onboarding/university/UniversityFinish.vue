@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h2 class="text-heading-lg mb-10">Was wollen Sie als nächstes tun?</h2>
+    <h2 class="text-heading-lg mb-10">Was wollen sie als nächstes tun?</h2>
     <MatchdButton variant="outline" class="block w-full" @click="onClickFindTalent"
       >Talente finden</MatchdButton
     >
     <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickCreateJobPosting"
-      >Stellen und Projekte ausschreiben</MatchdButton
+      >Projekte ausschreiben</MatchdButton
     >
     <p class="mt-5 text-black text-center">
-      Falls du noch Fragen hast,
-      <router-link :to="{ name: 'Home' }" class="text-primary-1">schreib uns</router-link>
+      Falls sie noch Fragen haben,
+      <router-link :to="{ name: 'Home' }" class="text-primary-1">schreiben sie uns</router-link>
     </p>
   </div>
 </template>

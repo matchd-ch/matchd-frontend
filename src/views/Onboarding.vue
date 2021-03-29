@@ -78,7 +78,12 @@ import {
   CompanyStep3,
   CompanyFinish as CompanyStep4,
 } from "@/views/onboarding/company";
-import { UniversityStep1, UniversityStep2 } from "@/views/onboarding/university";
+import {
+  UniversityStep1,
+  UniversityStep2,
+  UniversityStep3,
+  UniversityFinish as UniversityStep4,
+} from "@/views/onboarding/university";
 import {
   StudentStep1,
   StudentStep2,
@@ -105,6 +110,8 @@ import { Options, Vue } from "vue-class-component";
     CompanyStep4,
     UniversityStep1,
     UniversityStep2,
+    UniversityStep3,
+    UniversityStep4,
   },
 })
 export default class Onboarding extends Vue {
