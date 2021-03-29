@@ -79,7 +79,7 @@ module.exports = {
         "145px": "145px",
       },
       gridTemplateColumns: {
-        "16": "repeat(16, minmax(0, 1fr))",
+        16: "repeat(16, minmax(0, 1fr))",
       },
       gridTemplateRows: {
         home: "200px",

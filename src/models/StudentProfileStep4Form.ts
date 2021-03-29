@@ -1,4 +1,4 @@
-import { HobbyInput, Language, LanguageLevel, OnlineProjectInput, Skill } from "api";
+import type { HobbyInput, Language, LanguageLevel, OnlineProjectInput, Skill } from "api";
 
 export interface SelectedLanguage {
   language: Language;

@@ -1,0 +1,12 @@
+mutation(
+  $softSkills: [SoftSkillInput]
+) {
+  companyProfileStep4(
+    step4: {
+      softSkills: $softSkills
+    }
+  ) {
+    success
+    errors
+  }
+}

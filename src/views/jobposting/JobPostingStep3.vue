@@ -79,9 +79,8 @@
             v-model="form.employeeId"
           >
             <option v-for="employee in employees" :value="employee.id" :key="employee.id">
-              {{ employee.user.firstName }} {{ employee.user.lastName }} -
-              {{ employee.role }}</option
-            >
+              {{ employee.user.firstName }} {{ employee.user.lastName }} - {{ employee.role }}
+            </option>
           </Field>
         </MatchdSelect>
 
@@ -120,10 +119,12 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
+import { AddEmployeeState } from "@/models/AddEmployeeState";
+import { JobPostingState } from "@/models/JobPostingState";
 import { AddEmployeeSubForm, JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import { User } from "api";
+import type { Employee, JobPosting as JobPostingType, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -154,27 +155,27 @@ export default class JobPostingStep3 extends Vue {
     email: "",
   };
 
-  get jobPostingLoading() {
+  get jobPostingLoading(): boolean {
     return this.$store.getters["jobPostingLoading"];
   }
 
-  get jobPostingState() {
+  get jobPostingState(): JobPostingState {
     return this.$store.getters["jobPostingState"];
   }
 
-  get addEmployeeLoading() {
+  get addEmployeeLoading(): boolean {
     return this.$store.getters["addEmployeeLoading"];
   }
 
-  get addEmployeeState() {
+  get addEmployeeState(): AddEmployeeState {
     return this.$store.getters["addEmployeeState"];
   }
 
-  get currentJobPosting() {
+  get currentJobPosting(): JobPostingType | null {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get employees() {
+  get employees(): Employee[] {
     return this.$store.getters["employees"];
   }
 
@@ -182,7 +183,7 @@ export default class JobPostingStep3 extends Vue {
     return this.$store.getters["user"];
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await this.$store.dispatch(ActionTypes.EMPLOYEES);
 
     if (this.currentJobPosting) {
@@ -190,7 +191,7 @@ export default class JobPostingStep3 extends Vue {
     }
   }
 
-  populateForm() {
+  populateForm(): void {
     this.form = {
       ...this.form,
       public: this.currentJobPosting?.state === "PUBLIC",
@@ -198,18 +199,18 @@ export default class JobPostingStep3 extends Vue {
     };
   }
 
-  onClickShowEmployeeForm() {
+  onClickShowEmployeeForm(): void {
     this.showEmployeeForm = !this.showEmployeeForm;
   }
 
-  onClickBack() {
+  onClickBack(): void {
     this.$router.push({ params: { step: `${ParamStrings.STEP}2` } });
   }
 
   async onAddNewEmployee(
     form: AddEmployeeSubForm,
     actions: FormActions<Partial<AddEmployeeSubForm>>
-  ) {
+  ): Promise<void> {
     await this.$store.dispatch(ActionTypes.ADD_EMPLOYEE, this.employeeForm);
     if (this.addEmployeeState.errors) {
       actions.setErrors(this.addEmployeeState.errors);
@@ -227,7 +228,7 @@ export default class JobPostingStep3 extends Vue {
     }
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     if (this.currentJobPosting) {
       await this.$store.dispatch(
         ActionTypes.SAVE_JOBPOSTING_STEP3,

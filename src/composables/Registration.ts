@@ -6,6 +6,7 @@ interface AccountTypeMap {
   [key: string]: AccountType;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useRegistration() {
   const attached = ref(false);
   const passwordFieldType = ref("password");

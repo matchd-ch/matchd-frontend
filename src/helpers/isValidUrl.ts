@@ -1,4 +1,4 @@
-export function isValidUrl(url: string) {
+export function isValidUrl(url: string): boolean {
   const regexp = new RegExp(
     "^" +
       // protocol identifier (optional)
@@ -42,5 +42,5 @@ export function isValidUrl(url: string) {
     "i"
   );
 
-  return url.match(regexp);
+  return !!url.match(regexp);
 }

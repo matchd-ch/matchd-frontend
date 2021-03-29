@@ -106,11 +106,13 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { Attachment, User } from "api";
+import { QueuedFile } from "@/store/modules/upload/state";
+import type { Attachment, Branch, UploadConfiguration, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -137,11 +139,11 @@ export default class UniversityStep2 extends Vue {
     branchId: "",
   };
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
@@ -149,35 +151,35 @@ export default class UniversityStep2 extends Vue {
     return this.$store.getters["user"];
   }
 
-  get universityAvatarQueue() {
+  get universityAvatarQueue(): QueuedFile[] {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get universityAvatar() {
+  get universityAvatar(): Attachment[] {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get universityAvatarUploadConfigurations() {
+  get universityAvatarUploadConfigurations(): UploadConfiguration | undefined {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get universityDocumentsQueue() {
+  get universityDocumentsQueue(): QueuedFile[] {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get universityDocuments() {
+  get universityDocuments(): Attachment[] {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get universityDocumentsUploadConfigurations() {
+  get universityDocumentsUploadConfigurations(): UploadConfiguration | undefined {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get branches() {
+  get branches(): Branch[] {
     return this.$store.getters["branches"];
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(ContentActionTypes.BRANCHES),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
@@ -188,28 +190,28 @@ export default class UniversityStep2 extends Vue {
     ]);
   }
 
-  async onSelectUniversityAvatar(files: FileList) {
+  async onSelectUniversityAvatar(files: FileList): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.CompanyAvatar,
       files,
     });
   }
 
-  async onDeleteUniversityAvatar(file: Attachment) {
+  async onDeleteUniversityAvatar(file: Attachment): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyAvatar,
       id: file.id,
     });
   }
 
-  async onSelectUniversityDocuments(files: FileList) {
+  async onSelectUniversityDocuments(files: FileList): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.CompanyDocuments,
       files,
     });
   }
 
-  async onDeleteUniversityDocuments(file: Attachment) {
+  async onDeleteUniversityDocuments(file: Attachment): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyDocuments,
       id: file.id,
@@ -219,7 +221,7 @@ export default class UniversityStep2 extends Vue {
   async onSubmit(
     form: UniversityProfileStep2Form,
     actions: FormActions<Partial<UniversityProfileStep2Form>>
-  ) {
+  ): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.UNIVERSITY_ONBOARDING_STEP2,
       universityProfileStep2Mapper(this.form)

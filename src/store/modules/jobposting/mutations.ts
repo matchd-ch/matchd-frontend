@@ -1,5 +1,5 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { AddEmployee, Employee, JobPostingStep1, JobPosting } from "api";
+import type { AddEmployee, Employee, JobPostingStep1, JobPosting } from "api";
 
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
