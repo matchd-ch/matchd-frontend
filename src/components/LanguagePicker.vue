@@ -1,6 +1,6 @@
 <template>
   <div class="language-picker" :class="{ 'language-picker--invalid': errors }">
-    <label :for="id" class="language-picker__label"><slot name="label"/></label>
+    <label :for="id" class="language-picker__label"><slot name="label" /></label>
     <div class="languagepicker__fields mb-3 lg:flex">
       <select
         v-model="languageSelect"
@@ -8,9 +8,9 @@
         :disabled="availableLanguages.length === 0"
       >
         <option value="" disabled selected hidden>Sprache</option>
-        <option v-for="language in availableLanguages" :key="language.id" :value="language.id">{{
-          language.name
-        }}</option>
+        <option v-for="language in availableLanguages" :key="language.id" :value="language.id">
+          {{ language.name }}
+        </option>
       </select>
       <select v-model="levelSelect" class="mb-3 lg:mr-3 lg:mb-0" :disabled="!languageSelect">
         <option value="" disabled selected hidden>Niveau</option>
@@ -18,9 +18,10 @@
           v-for="languageLevel in languageLevels"
           :key="languageLevel.id"
           :value="languageLevel.id"
-          >{{ languageLevel.level }}
-          {{ languageLevel.description ? `- ${languageLevel.description}` : "" }}</option
         >
+          {{ languageLevel.level }}
+          {{ languageLevel.description ? `- ${languageLevel.description}` : "" }}
+        </option>
       </select>
       <button
         type="button"
@@ -50,7 +51,7 @@
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
-import { Language, LanguageLevel } from "api";
+import type { Language, LanguageLevel } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
@@ -72,18 +73,18 @@ export default class LanguagePicker extends Vue.with(Props) {
   languageSelect = "";
   levelSelect = "";
 
-  get availableLanguages() {
-    return this.languages.filter(language => {
+  get availableLanguages(): Language[] {
+    return this.languages.filter((language) => {
       return !this.selectedLanguages.find(
-        selectedLanguage => selectedLanguage.language?.id === language.id
+        (selectedLanguage) => selectedLanguage.language?.id === language.id
       );
     });
   }
 
-  onClickAppend() {
+  onClickAppend(): void {
     this.$emit("clickAppendLanguage", {
-      language: this.languages.find(language => language.id === this.languageSelect),
-      level: this.languageLevels.find(level => level.id === this.levelSelect),
+      language: this.languages.find((language) => language.id === this.languageSelect),
+      level: this.languageLevels.find((level) => level.id === this.levelSelect),
     });
     this.languageSelect = "";
     this.levelSelect = "";

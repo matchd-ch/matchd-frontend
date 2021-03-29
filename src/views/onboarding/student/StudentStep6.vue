@@ -58,9 +58,10 @@ import { studentProfileStep6InputMapper } from "@/api/mappers/studentProfileStep
 import { ProfileState } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
+import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { User } from "api";
+import type { User } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -78,15 +79,15 @@ export default class StudentStep6 extends Vue {
     state: ProfileState.Anonymous,
   };
 
-  get isAnonymous() {
+  get isAnonymous(): boolean {
     return this.form.state === ProfileState.Anonymous;
   }
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
@@ -94,11 +95,11 @@ export default class StudentStep6 extends Vue {
     return this.$store.getters["user"];
   }
 
-  onToggleUserState() {
+  onToggleUserState(): void {
     this.form.state = this.isAnonymous ? ProfileState.Public : ProfileState.Anonymous;
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP6,
       studentProfileStep6InputMapper(this.form)

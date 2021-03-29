@@ -5,7 +5,7 @@ export async function redirectToCurrentOnboardingStep(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
-) {
+): Promise<void> {
   const store = useStore();
   const profileStep = store.getters["profileStep"];
   const isCompany = store.getters["isCompany"];

@@ -1,5 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { Employee, JobPosting } from "api";
+import type { Employee, JobPosting } from "api";
 
 export type State = {
   jobPosting: {

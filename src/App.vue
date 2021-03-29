@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { User } from "api";
+import type { User } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({})

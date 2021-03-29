@@ -1,4 +1,4 @@
-import {
+import type {
   Benefit,
   Branch,
   Expectation,
@@ -7,6 +7,7 @@ import {
   Language,
   LanguageLevel,
   Skill,
+  SoftSkill,
 } from "api";
 
 export type State = {
@@ -25,6 +26,10 @@ export type State = {
   skills: {
     loading: boolean;
     data: Skill[];
+  };
+  softSkills: {
+    loading: boolean;
+    data: SoftSkill[];
   };
   languages: {
     loading: boolean;
@@ -55,6 +60,10 @@ export const state: State = {
     data: [],
   },
   skills: {
+    loading: false,
+    data: [],
+  },
+  softSkills: {
     loading: false,
     data: [],
   },
