@@ -1,0 +1,18 @@
+mutation(
+  $services: String
+  $linkEducation: String
+  $linkProjects: String
+  $linkThesis: String
+) {
+  universityProfileStep3(
+    step3: {
+      services: $services
+      linkEducation: $linkEducation
+      linkProjects: $linkProjects
+      linkThesis: $linkThesis
+    }
+  ) {
+    success
+    errors
+  }
+}

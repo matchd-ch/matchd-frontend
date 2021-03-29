@@ -1,5 +1,5 @@
 import { MatchdApiError } from "@/models/MatchdApiError";
-import { UserWithProfileNode } from "api";
+import type { User } from "api";
 
 export type State = {
   login: {
@@ -30,7 +30,7 @@ export type State = {
   };
   isLoggedIn: boolean;
   refreshToken: string;
-  user: UserWithProfileNode | null;
+  user: User | null;
 };
 
 export const state: State = {

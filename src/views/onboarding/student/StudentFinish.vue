@@ -29,11 +29,11 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class StudentFinish extends Vue {
-  onClickFindTraineePosition() {
+  onClickFindTraineePosition(): void {
     this.$router.push({ name: "Home" });
   }
 
-  onClickFindCompany() {
+  onClickFindCompany(): void {
     this.$router.push({ name: "Home" });
   }
 }

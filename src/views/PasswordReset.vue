@@ -58,6 +58,7 @@ import IconShow from "@/assets/icons/show.svg";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import type { PasswordResetState } from "@/models/PasswordResetState";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -78,15 +79,15 @@ export default class PasswordReset extends Vue {
   passwordFieldType = "password";
   token = "";
 
-  get passwordResetLoading() {
+  get passwordResetLoading(): boolean {
     return this.$store.getters["passwordResetLoading"];
   }
 
-  get passwordResetState() {
+  get passwordResetState(): PasswordResetState {
     return this.$store.getters["passwordResetState"];
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     if (this.$route.params?.token && typeof this.$route.params.token === "string") {
       this.token = this.$route.params.token;
       await this.$store.dispatch(ActionTypes.VERIFY_PASSWORD_RESET_TOKEN, {
@@ -98,11 +99,14 @@ export default class PasswordReset extends Vue {
     }
   }
 
-  onTogglePasswordVisibility() {
+  onTogglePasswordVisibility(): void {
     this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
   }
 
-  async onSubmit(form: { password: string }, { resetForm }: { resetForm: Function }) {
+  async onSubmit(
+    form: { password: string },
+    { resetForm }: { resetForm: typeof Function }
+  ): Promise<void> {
     await this.$store.dispatch(ActionTypes.PASSWORD_RESET, {
       ...form,
       token: this.token,

@@ -3,9 +3,7 @@
     v-if="user"
     class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
   >
-    <h1 class="text-display-xl-fluid col-start-1 col-span-2 text-primary-1">
-      Home
-    </h1>
+    <h1 class="text-display-xl-fluid col-start-1 col-span-2 text-primary-1">Home</h1>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
       <div>
         Hello {{ user.firstName }} {{ user.lastName }} {{ user.type }}
@@ -29,12 +27,11 @@
 </template>
 
 <script lang="ts">
-import { UserType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
-import { UserWithProfileNode } from "api";
+import type { User } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -45,7 +42,7 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class Home extends Vue {
-  get isLogoutLoading() {
+  get isLogoutLoading(): boolean {
     return this.$store.getters["logoutLoading"];
   }
 
@@ -57,11 +54,11 @@ export default class Home extends Vue {
     return this.$store.getters["isCompany"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
-  async onClickLogout() {
+  async onClickLogout(): Promise<void> {
     await this.$store.dispatch(ActionTypes.LOGOUT);
     this.$router.push({ name: "Login" });
   }

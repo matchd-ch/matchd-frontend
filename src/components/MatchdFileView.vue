@@ -64,13 +64,13 @@
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
 import { QueuedFile } from "@/store/modules/upload/state";
-import { AttachmentType } from "api";
+import type { Attachment } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import Loading from "@/assets/icons/loading.svg";
 import ErrorIcon from "@/assets/icons/error.svg";
 
 class Props {
-  files = prop<AttachmentType[]>({});
+  files = prop<Attachment[]>({});
   queuedFiles = prop<QueuedFile[]>({});
 }
 
@@ -83,7 +83,7 @@ class Props {
   emits: ["deleteFile"],
 })
 export default class MatchdFileView extends Vue.with(Props) {
-  getImageUrlWithStack(url: string) {
+  getImageUrlWithStack(url: string): string {
     return url.replace("{stack}", "desktop-square");
   }
 }
