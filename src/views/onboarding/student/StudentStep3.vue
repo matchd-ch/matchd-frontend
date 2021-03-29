@@ -202,9 +202,6 @@ export default class StudentStep3 extends Vue {
   }
 
   get selectedJobPosition(): JobPosition | undefined {
-    if (!this.form.jobPositionId) {
-      return { id: "0", name: "Fehler" };
-    }
     return this.jobPositions?.find((jobPosition) => jobPosition.id === this.form.jobPositionId);
   }
 
