@@ -35,7 +35,7 @@
         />
         <MatchdVideo v-else-if="mainMedia.mimeType.includes('video/')" :attachment="mainMedia" />
       </div>
-      <MatchdImageGrid :attachments="additionalMedia" class="mt-2" @clickMedia="onClickMedia" />
+      <MatchdImageGrid :attachments="additionalMedia" class="mt-4" @clickMedia="onClickMedia" />
     </div>
     <div class="text-pink-1 flex flex-col min-h-full">
       <section class="flex-grow border-b border-pink-1 p-9">
