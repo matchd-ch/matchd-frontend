@@ -12,10 +12,10 @@
       <template v-slot:label>Ich mag es ...</template>
       <template v-if="remainingSoftSkillCount > 0" v-slot:info>
         <template v-if="remainingSoftSkillCount === 1">
-          Wählen noch 1 für dich passende Aussage aus
+          Wähle noch 1 für dich passende Aussage aus
         </template>
         <template v-else>
-          Wählen {{ this.minSoftSkills - form.softSkills.length }} für dich passende Aussagen aus
+          Wähle {{ this.minSoftSkills - form.softSkills.length }} für dich passende Aussagen aus
         </template></template
       >
     </SelectPillMultiple>
