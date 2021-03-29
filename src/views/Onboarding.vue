@@ -19,10 +19,10 @@
             currentStep
           }}</span>
           <template v-if="currentStep === 1">Vervollständige deine persönlichen Daten</template>
-          <template v-else-if="currentStep === 2"
-            >Welche Schule oder Hochschule besuchst du?</template
+          <template v-else-if="currentStep === 2">Wonach suchst du?</template>
+          <template v-else-if="currentStep === 3"
+            >Zeige uns doch, wie du als Mensch so bist.</template
           >
-          <template v-else-if="currentStep === 3">Wonach suchst du?</template>
           <template v-else-if="currentStep === 4">Sag uns, was du drauf hast.</template>
           <template v-else-if="currentStep === 5">Kreiere dein Profil</template>
           <template v-else-if="currentStep === 6">Veröffentliche dein Profil</template>
@@ -42,7 +42,8 @@
             >Zeigen sie der Community Bilder und Videos von ihrem Unternehmen und von ihrer
             Crew</template
           >
-          <template v-if="currentStep === 4"
+          <template v-if="currentStep === 4">Arbeitskultur</template>
+          <template v-if="currentStep === 5"
             >Herzliche Gratulation und willkommen in der Matchd-Community!</template
           >
         </template>
@@ -76,7 +77,8 @@ import {
   CompanyStep1,
   CompanyStep2,
   CompanyStep3,
-  CompanyFinish as CompanyStep4,
+  CompanyStep4,
+  CompanyFinish as CompanyStep5,
 } from "@/views/onboarding/company";
 import {
   UniversityStep1,
@@ -108,6 +110,7 @@ import { Options, Vue } from "vue-class-component";
     CompanyStep2,
     CompanyStep3,
     CompanyStep4,
+    CompanyStep5,
     UniversityStep1,
     UniversityStep2,
     UniversityStep3,

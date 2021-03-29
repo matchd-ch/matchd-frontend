@@ -5,16 +5,10 @@ export function studentProfileStep3InputMapper(
   studentProfileForm: StudentProfileStep3Form
 ): IStudentProfileInputStep3 {
   return {
-    ...studentProfileForm,
-    jobOption: { id: studentProfileForm.jobOptionId },
-    jobPosition: studentProfileForm.jobPositionId ? { id: studentProfileForm.jobPositionId } : null,
-    jobFromDate:
-      studentProfileForm.jobFromDateMonth && studentProfileForm.jobFromDateYear
-        ? `${studentProfileForm.jobFromDateMonth}.${studentProfileForm.jobFromDateYear}`
-        : null,
-    jobToDate:
-      studentProfileForm.jobToDateMonth && studentProfileForm.jobToDateYear
-        ? `${studentProfileForm.jobToDateMonth}.${studentProfileForm.jobToDateYear}`
-        : null,
+    softSkills: studentProfileForm.softSkills.map((softSkill) => {
+      return {
+        id: softSkill.id,
+      };
+    }),
   };
 }

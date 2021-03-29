@@ -3,6 +3,7 @@ import {
   ICompanyProfileInputStep1,
   ICompanyProfileInputStep2,
   ICompanyProfileInputStep3,
+  ICompanyProfileInputStep4,
   IStudentProfileInputStep1,
   IStudentProfileInputStep2,
   IStudentProfileInputStep3,
@@ -30,6 +31,7 @@ import studentProfileStep6Mutation from "@/api/mutations/studentProfileStep6.gql
 import companyProfileStep1Mutation from "@/api/mutations/companyProfileStep1.gql";
 import companyProfileStep2Mutation from "@/api/mutations/companyProfileStep2.gql";
 import companyProfileStep3Mutation from "@/api/mutations/companyProfileStep3.gql";
+import companyProfileStep4Mutation from "@/api/mutations/companyProfileStep4.gql";
 import universityProfileStep1Mutation from "@/api/mutations/universityProfileStep1.gql";
 import universityProfileStep2Mutation from "@/api/mutations/universityProfileStep2.gql";
 import universityProfileStep3Mutation from "@/api/mutations/universityProfileStep3.gql";
@@ -80,6 +82,10 @@ export interface Actions {
   [ActionTypes.COMPANY_ONBOARDING_STEP3](
     { commit }: AugmentedActionContext,
     payload: ICompanyProfileInputStep3
+  ): Promise<void>;
+  [ActionTypes.COMPANY_ONBOARDING_STEP4](
+    { commit }: AugmentedActionContext,
+    payload: ICompanyProfileInputStep4
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
@@ -171,6 +177,14 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep3);
+  },
+  async [ActionTypes.COMPANY_ONBOARDING_STEP4]({ commit }, payload: ICompanyProfileInputStep4) {
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
+    const response = await apiClient.mutate({
+      mutation: companyProfileStep4Mutation,
+      variables: payload,
+    });
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep4);
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit },
