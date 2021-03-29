@@ -98,7 +98,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state.skills.data = payload.skills;
   },
   [MutationTypes.SOFT_SKILLS_LOADING](state: State) {
-    state.jobOptions.loading = true;
+    state.softSkills.loading = true;
   },
   [MutationTypes.SOFT_SKILLS_LOADED](state: State, payload: { softSkills: SoftSkill[] }) {
     state.softSkills.loading = false;

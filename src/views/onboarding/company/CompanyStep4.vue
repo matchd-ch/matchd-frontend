@@ -15,7 +15,7 @@
           Wählen sie noch 1 für sie passende Aussage aus
         </template>
         <template v-else>
-          Wählen sie {{ this.minSoftSkills - form.softSkills.length }} für sie passende Aussage aus
+          Wählen sie {{ this.minSoftSkills - form.softSkills.length }} für sie passende Aussagen aus
         </template></template
       >
     </SelectPillMultiple>
