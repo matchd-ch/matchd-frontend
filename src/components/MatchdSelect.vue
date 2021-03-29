@@ -1,6 +1,6 @@
 <template>
   <div class="matchd-select" :class="{ 'matchd-select--invalid': errors }">
-    <label :for="id" class="matchd-select__label"><slot name="label"/></label>
+    <label :for="id" class="matchd-select__label"><slot name="label" /></label>
     <div class="form-element">
       <slot />
     </div>

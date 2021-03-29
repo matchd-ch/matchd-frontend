@@ -1,6 +1,6 @@
 import { createApolloClient } from "@/api/apollo-client";
 import { RootState } from "@/store";
-import {
+import type {
   AddEmployeeInput,
   JobPostingInputStep1,
   JobPostingInputStep2,
@@ -11,7 +11,7 @@ import { ActionContext, ActionTree } from "vuex";
 import { ActionTypes } from "./action-types";
 import { Mutations } from "@/store/modules/jobposting/mutations";
 import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
-import { State } from "@/store/modules/jobPosting/state";
+import { State } from "@/store/modules/jobposting/state";
 
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import employeesQuery from "@/api/queries/employees.gql";

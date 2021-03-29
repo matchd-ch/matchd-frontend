@@ -7,7 +7,7 @@ module.exports = {
     writeToDisk: true,
     port: 8081,
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     // GraphQL Loader
     config.module
       .rule("graphql")

@@ -1,5 +1,5 @@
-import { UserState } from "@/api/models/types";
+import type { ProfileState } from "@/api/models/types";
 
 export interface StudentProfileStep6Form {
-  state: UserState;
+  state: ProfileState;
 }

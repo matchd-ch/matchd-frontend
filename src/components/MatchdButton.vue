@@ -42,7 +42,7 @@ export default class MatchdButton extends Vue.with(Props) {}
   }
 
   &.xl {
-    @apply text-cta-xl font-normal;
+    @apply text-display-md font-normal;
     @apply py-8 px-14;
     @apply border-2;
   }

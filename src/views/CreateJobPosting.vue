@@ -44,6 +44,7 @@ import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
 import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
 import JobPostingStep3 from "@/views/jobposting/JobPostingStep3.vue";
 import { Options, Vue } from "vue-class-component";
+import type { JobPosting as JobPostingType } from "api";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
@@ -59,11 +60,11 @@ export default class JobPosting extends Vue {
   urlStepNumber: number | null = null;
   requestedCurrentJobPosting = false;
 
-  get paramStrings() {
+  get paramStrings(): typeof ParamStrings {
     return ParamStrings;
   }
 
-  get currentStep() {
+  get currentStep(): number | null {
     return this.urlStepNumber;
   }
 
@@ -74,11 +75,11 @@ export default class JobPosting extends Vue {
     return "";
   }
 
-  get currentJobPosting() {
+  get currentJobPosting(): JobPostingType | null {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get jobPostingId() {
+  get jobPostingId(): string {
     return this.$store.getters["jobPostingId"];
   }
 
@@ -86,7 +87,7 @@ export default class JobPosting extends Vue {
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
     next: NavigationGuardNext
-  ) {
+  ): Promise<void> {
     this.urlStepNumber = parseStepName(String(to.params.step));
     if (to.params.id && Number(to.params.id)) {
       await this.loadJobPostingWithId(String(to.params.id));
@@ -96,18 +97,18 @@ export default class JobPosting extends Vue {
     next();
   }
 
-  mounted() {
+  mounted(): void {
     this.urlStepNumber = parseStepName(String(this.$route.params.step));
     if (this.$route.params.id && this.$route.params.id === ParamStrings.NEW) {
       this.clearCurrentJobPosting();
     }
   }
 
-  clearCurrentJobPosting() {
+  clearCurrentJobPosting(): void {
     this.$store.commit(MutationTypes.CLEAR_CURRENT_JOBPOSTING);
   }
 
-  async loadJobPostingWithId(jobPostingId: string) {
+  async loadJobPostingWithId(jobPostingId: string): Promise<void> {
     this.requestedCurrentJobPosting = true;
     await this.$store.dispatch(ActionTypes.JOBPOSTING, { id: jobPostingId });
   }

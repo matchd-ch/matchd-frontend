@@ -17,6 +17,7 @@ import jobPositionsQuery from "@/api/queries/jobPositions.gql";
 import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
 import skillsQuery from "@/api/queries/skills.gql";
+import softSkillsQuery from "@/api/queries/softSkills.gql";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -43,6 +44,7 @@ export interface Actions {
   ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
 const router = useRouter();
@@ -119,7 +121,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.query({
       query: languagesQuery,
       variables: {
-        shortList: payload.shortList || false,
+        shortList: payload?.shortList || false,
       },
       context: {
         batch: true,
@@ -146,5 +148,15 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.SKILLS_LOADED, { skills: response.data.skills });
+  },
+  async [ActionTypes.SOFT_SKILLS]({ commit }) {
+    commit(MutationTypes.SOFT_SKILLS_LOADING);
+    const response = await apiClient.query({
+      query: softSkillsQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.SOFT_SKILLS_LOADED, { softSkills: response.data.softSkills });
   },
 };

@@ -28,7 +28,7 @@
       ></template>
     </MatchdField>
     <MatchdFileBlock>
-      <template v-slot:label>Foto</template>
+      <template v-slot:label>Dein Profilbild</template>
       <MatchdFileView
         v-if="studentAvatar.length > 0 || studentAvatarQueue.length > 0"
         :files="studentAvatar"
@@ -41,7 +41,7 @@
         :uploadConfiguration="studentAvatarUploadConfigurations"
         @selectFiles="onSelectStudentAvatar"
         class="mb-10"
-        >Bild auswählen</MatchdFileUpload
+        >Bild hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
     <MatchdButton
@@ -65,10 +65,12 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
+import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { AttachmentType, UserWithProfileNode } from "api";
+import { QueuedFile } from "@/store/modules/upload/state";
+import type { Attachment, UploadConfiguration, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -92,35 +94,35 @@ export default class StudentStep5 extends Vue {
     nickname: "",
   };
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  get nicknameSuggestions() {
+  get nicknameSuggestions(): string[] {
     return this.$store.getters["nicknameSuggestions"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
-  get studentAvatarQueue() {
+  get studentAvatarQueue(): QueuedFile[] {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentAvatar });
   }
 
-  get studentAvatar() {
+  get studentAvatar(): Attachment[] {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar });
   }
 
-  get studentAvatarUploadConfigurations() {
+  get studentAvatarUploadConfigurations(): UploadConfiguration | undefined {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar });
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
@@ -130,18 +132,18 @@ export default class StudentStep5 extends Vue {
     ]);
   }
 
-  onClickNickname(nickname: string) {
+  onClickNickname(nickname: string): void {
     this.form.nickname = nickname;
   }
 
-  async onSelectStudentAvatar(files: FileList) {
+  async onSelectStudentAvatar(files: FileList): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.StudentAvatar,
       files,
     });
   }
 
-  async onDeleteStudentAvatar(file: AttachmentType) {
+  async onDeleteStudentAvatar(file: Attachment): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.StudentAvatar,
       id: file.id,
@@ -151,7 +153,7 @@ export default class StudentStep5 extends Vue {
   async onSubmit(
     form: StudentProfileStep5Form,
     actions: FormActions<Partial<StudentProfileStep5Form>>
-  ) {
+  ): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP5,
       studentProfileStep5InputMapper(this.form)

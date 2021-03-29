@@ -110,10 +110,12 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
+import { OnboardingState } from "@/models/OnboardingState";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { AttachmentType, UserWithProfileNode } from "api";
+import { QueuedFile } from "@/store/modules/upload/state";
+import type { Attachment, Branch, UploadConfiguration, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -143,35 +145,35 @@ export default class CompanyStep2 extends Vue {
     memberItStGallen: false,
   };
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
-  get companyAvatarQueue() {
+  get companyAvatarQueue(): QueuedFile[] {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get companyAvatar() {
+  get companyAvatar(): Attachment[] {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get companyAvatarUploadConfigurations() {
+  get companyAvatarUploadConfigurations(): UploadConfiguration | undefined {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get branches() {
+  get branches(): Branch[] {
     return this.$store.getters["branches"];
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(ContentActionTypes.BRANCHES),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
@@ -179,14 +181,14 @@ export default class CompanyStep2 extends Vue {
     ]);
   }
 
-  async onSelectCompanyAvatar(files: FileList) {
+  async onSelectCompanyAvatar(files: FileList): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.CompanyAvatar,
       files,
     });
   }
 
-  async onDeleteCompanyAvatar(file: AttachmentType) {
+  async onDeleteCompanyAvatar(file: Attachment): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyAvatar,
       id: file.id,
@@ -196,7 +198,7 @@ export default class CompanyStep2 extends Vue {
   async onSubmit(
     form: CompanyProfileStep2Form,
     actions: FormActions<Partial<CompanyProfileStep2Form>>
-  ) {
+  ): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.COMPANY_ONBOARDING_STEP2,
       companyProfileStep2InputMapper(this.form)

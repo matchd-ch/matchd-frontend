@@ -2,9 +2,7 @@
   <div
     class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
   >
-    <h1 class="text-display-xl-fluid text-black col-start-1 col-span-2">
-      Login
-    </h1>
+    <h1 class="text-display-xl-fluid text-black col-start-1 col-span-2">Login</h1>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
       <GenericError v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
         Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
@@ -64,6 +62,8 @@ import GenericSuccess from "@/components/GenericSuccess.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import { LoginForm } from "@/models/LoginForm";
+import { LoginState } from "@/models/LoginState";
+import type { PasswordResetState } from "@/models/PasswordResetState";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
@@ -81,19 +81,19 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class Login extends Vue {
-  get loginLoading() {
+  get loginLoading(): boolean {
     return this.$store.getters["loginLoading"];
   }
 
-  get loginState() {
+  get loginState(): LoginState {
     return this.$store.getters["loginState"];
   }
 
-  get passwordResetState() {
+  get passwordResetState(): PasswordResetState {
     return this.$store.getters["passwordResetState"];
   }
 
-  async onSubmit(form: LoginForm) {
+  async onSubmit(form: LoginForm): Promise<void> {
     this.$store.commit(MutationTypes.RESET_PASSWORD_RESET_STATE);
     await this.$store.dispatch(ActionTypes.LOGIN, {
       ...form,

@@ -8,7 +8,7 @@
         Registrierung
       </h1>
     </div>
-    <div class=" px-4 lg:px-5">
+    <div class="px-4 lg:px-5">
       <MatchdStep step="1">
         <template v-if="form.type === 'company'" v-slot:title
           >Möchte ihr Unternehmen Teil der Matchd-Community werden?</template
@@ -32,9 +32,9 @@
         v-if="form.type === 'company'"
         v-show="activeStep >= 2"
         step="2"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
+        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
-        <template v-slot:title>Hinterlegen Sie hier die UID-Nr. ihrer Unternehmung:</template>
+        <template v-slot:title>Bitte hinterlegen sie die UID-Nummer ihres Unternehmens:</template>
         <Form @submit="onSubmitUid" v-slot="{ errors }">
           <MatchdField id="uid" class="mb-10" :errors="errors.uid">
             <template v-slot:label>UID-Nr.</template>
@@ -53,10 +53,10 @@
       <MatchdStep
         v-show="activeStep >= 3"
         step="3"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
+        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Erzählen sie uns, wer sie sind.
+          Erzählen sie, wer sie sind. Diese Angaben erscheinen später auf ihrem Profil.
         </template>
         <Form @submit="onSubmitCompanyData" v-slot="{ errors }">
           <MatchdField id="name" class="mb-3" :errors="errors.name">
@@ -144,7 +144,7 @@
               </button>
             </template>
             <template v-slot:info
-              >Nutze mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
+              >Nutzen sie mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
               Sonderzeichen.</template
             >
           </MatchdField>
@@ -162,8 +162,8 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Fast geschafft!<br />Aktiviere deinen Account. Wir haben deinen Aktivierungslink per
-          E-Mail an {{ form.email || "?" }} gesendet
+          Fast geschafft:<br />Aktivieren sie ihren Account mit dem Link, den wir ihnen per Mail an
+          {{ form.email || "?" }} geschickt haben.
         </template>
       </MatchdStep>
     </div>
@@ -172,6 +172,7 @@
 
 <script lang="ts">
 import { useRegistration } from "@/composables/Registration";
+import { CompanyRegistrationState } from "@/models/CompanyRegistrationState";
 import { NewCompanyAccount } from "@/models/NewAccount";
 import {
   RegistrationCompanyFormData,
@@ -217,15 +218,15 @@ export default class RegisterCompany extends Vue {
 
   registration = setup(() => useRegistration());
 
-  get companyRegistrationLoading() {
+  get companyRegistrationLoading(): boolean {
     return this.$store.getters["companyRegistrationLoading"];
   }
 
-  get companyRegistrationState() {
+  get companyRegistrationState(): CompanyRegistrationState {
     return this.$store.getters["companyRegistrationState"];
   }
 
-  get activeStep() {
+  get activeStep(): number {
     if (!this.isValidCompany) {
       return 1;
     } else if (this.form.type === "company" && !this.isCompanyUidFormValid) {
@@ -237,22 +238,22 @@ export default class RegisterCompany extends Vue {
     }
   }
 
-  mounted() {
+  mounted(): void {
     this.form.type = this.registration.urlToAccountTypeMapper(this.$route.path);
     this.registration.mounted("theme-company");
   }
 
-  beforeUnmount() {
+  beforeUnmount(): void {
     this.registration.beforeUnmount("theme-company");
   }
 
-  onClickConfirmCompany(response: boolean) {
+  onClickConfirmCompany(response: boolean): void {
     const nextStep = this.form.type === "company" ? 2 : 3;
     this.isValidCompany = response;
     this.registration.scrollToStep(nextStep);
   }
 
-  onSubmitUid(form: RegistrationCompanyFormUid) {
+  onSubmitUid(form: RegistrationCompanyFormUid): void {
     this.form = {
       ...this.form,
       ...form,
@@ -264,7 +265,7 @@ export default class RegisterCompany extends Vue {
   async onSubmitCompanyData(
     form: RegistrationCompanyFormData,
     actions: FormActions<Partial<RegistrationCompanyFormData>>
-  ) {
+  ): Promise<void> {
     this.form = {
       ...this.form,
       ...form,

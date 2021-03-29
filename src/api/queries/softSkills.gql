@@ -1,0 +1,7 @@
+query {
+  softSkills {
+    id
+    company
+    student
+  }
+}

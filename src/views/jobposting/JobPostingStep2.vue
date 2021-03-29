@@ -2,13 +2,16 @@
   <Form
     v-if="
       skills.length > 0 &&
-        languages.length > 0 &&
-        languageLevels.length > 0 &&
-        expectations.length > 0
+      languages.length > 0 &&
+      languageLevels.length > 0 &&
+      expectations.length > 0
     "
     @submit="onSubmit"
     v-slot="{ errors }"
   >
+    <GenericError v-if="jobPostingState.errors">
+      Beim Speichern ist etwas schief gelaufen.
+    </GenericError>
     <SelectPillMultiple
       :options="expectations"
       @change="onChangeExpectations"
@@ -17,9 +20,6 @@
     >
       <template v-slot:label>Allgemeine Anforderungen</template>
     </SelectPillMultiple>
-    <GenericError v-if="jobPostingState.errors">
-      Beim Speichern ist etwas schief gelaufen.
-    </GenericError>
     <!-- Skills Field -->
     <MatchdAutocomplete
       id="skills"
@@ -90,12 +90,19 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
+import { JobPostingState } from "@/models/JobPostingState";
 import { ExpectationWithStatus, JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
-import { ExpectationType, SkillType } from "api";
+import type {
+  Expectation,
+  JobPosting as JobPostingType,
+  Language,
+  LanguageLevel,
+  Skill,
+} from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -123,98 +130,98 @@ export default class JobPostingStep2 extends Vue {
   };
   errors: { [k: string]: string } = {};
 
-  filteredSkills: SkillType[] = [];
+  filteredSkills: Skill[] = [];
   skillInput = "";
 
-  get currentJobPosting() {
+  get currentJobPosting(): JobPostingType | null {
     return this.$store.getters["currentJobPosting"];
   }
 
   get expectations(): ExpectationWithStatus[] {
-    return this.$store.getters["expectations"].map(expectation => {
+    return this.$store.getters["expectations"].map((expectation) => {
       return {
         ...expectation,
         checked: !!this.form.expectations.find(
-          selectedExpectations => selectedExpectations.id === expectation.id
+          (selectedExpectations) => selectedExpectations.id === expectation.id
         ),
       };
     });
   }
 
-  get skills() {
+  get skills(): Skill[] {
     return this.$store.getters["skills"];
   }
 
-  get languages() {
+  get languages(): Language[] {
     return this.$store.getters["languages"];
   }
 
-  get languageLevels() {
+  get languageLevels(): LanguageLevel[] {
     return this.$store.getters["languageLevels"];
   }
 
-  get jobPostingLoading() {
+  get jobPostingLoading(): boolean {
     return this.$store.getters["jobPostingLoading"];
   }
 
-  get jobPostingState() {
+  get jobPostingState(): JobPostingState {
     return this.$store.getters["jobPostingState"];
   }
 
-  onChangeExpectations(expectation: ExpectationType) {
+  onChangeExpectations(expectation: Expectation): void {
     const expectationExists = !!this.form.expectations.find(
-      selectedExpectation => selectedExpectation.id === expectation.id
+      (selectedExpectation) => selectedExpectation.id === expectation.id
     );
     if (expectationExists) {
       this.form.expectations = this.form.expectations.filter(
-        selectedExpectation => selectedExpectation.id !== expectation.id
+        (selectedExpectation) => selectedExpectation.id !== expectation.id
       );
     } else {
       this.form.expectations.push(expectation);
     }
   }
 
-  onInputSkill() {
+  onInputSkill(): void {
     if (this.skillInput.length < 3) {
       this.filteredSkills = [];
       return;
     }
-    this.filteredSkills = this.skills.filter(item =>
+    this.filteredSkills = this.skills.filter((item) =>
       item.name.toLowerCase().includes(this.skillInput.toLowerCase())
     );
   }
 
-  onSelectSkill(skill: SkillType) {
+  onSelectSkill(skill: Skill): void {
     delete this.errors["skills"];
     this.skillInput = "";
     this.form.skills.push(skill);
     this.onInputSkill();
   }
 
-  onPressEnterSkill() {
+  onPressEnterSkill(): void {
     if (this.filteredSkills.length === 1) {
       this.onSelectSkill(this.filteredSkills[0]);
     }
   }
 
-  onRemoveSkill(skill: SkillType) {
-    this.form.skills = this.form.skills.filter(selectedSkill => selectedSkill.id !== skill.id);
+  onRemoveSkill(skill: Skill): void {
+    this.form.skills = this.form.skills.filter((selectedSkill) => selectedSkill.id !== skill.id);
   }
 
-  onClickAppendLanguage(language: SelectedLanguage) {
+  onClickAppendLanguage(language: SelectedLanguage): void {
     if (language && language.level) {
       delete this.errors["languages"];
       this.form.languages.push(language);
     }
   }
 
-  onClickRemoveLanguage(language: SelectedLanguage) {
+  onClickRemoveLanguage(language: SelectedLanguage): void {
     this.form.languages = this.form.languages.filter(
-      selectedLanguage => selectedLanguage.language !== language.language
+      (selectedLanguage) => selectedLanguage.language !== language.language
     );
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(ContentActionsTypes.EXPECTATIONS),
       this.$store.dispatch(ContentActionsTypes.LANGUAGES, { shortList: true }),
@@ -227,23 +234,23 @@ export default class JobPostingStep2 extends Vue {
     }
   }
 
-  populateForm() {
+  populateForm(): void {
     this.form = {
       languages:
-        this.currentJobPosting?.languages?.map(selectedLanguage => {
+        this.currentJobPosting?.languages?.map((selectedLanguage) => {
           return {
             language: selectedLanguage.language,
             level: selectedLanguage.languageLevel,
           };
         }) || [],
       skills:
-        this.currentJobPosting?.skills.map(skill => {
+        this.currentJobPosting?.skills.map((skill) => {
           return {
             ...skill,
           };
         }) || [],
       expectations:
-        this.currentJobPosting?.expectations.map(expectation => {
+        this.currentJobPosting?.expectations.map((expectation) => {
           return {
             ...expectation,
           };
@@ -251,11 +258,14 @@ export default class JobPostingStep2 extends Vue {
     };
   }
 
-  onClickBack() {
+  onClickBack(): void {
     this.$router.push({ params: { step: `${ParamStrings.STEP}1` } });
   }
 
-  async onSubmit(form: JobPostingStep2Form, actions: FormActions<Partial<JobPostingStep2Form>>) {
+  async onSubmit(
+    form: JobPostingStep2Form,
+    actions: FormActions<Partial<JobPostingStep2Form>>
+  ): Promise<void> {
     if (this.currentJobPosting) {
       await this.$store.dispatch(
         ActionTypes.SAVE_JOBPOSTING_STEP2,

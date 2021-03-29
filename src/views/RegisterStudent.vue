@@ -5,13 +5,13 @@
         class="text-display-xl-fluid text-primary-1 col-span-full lg:fixed lg:transition-all lg:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
-        Registrierung
+        Match beitreten
       </h1>
     </div>
-    <div class=" px-4 lg:px-5">
+    <div class="px-4 lg:px-5">
       <MatchdStep step="1">
         <template v-slot:title
-          >Besuchst du eine Schule oder Hochschule im Kanton St.Gallen?</template
+          >Besuchst du im Kanton St.Gallen eine Schule oder Hochschule?</template
         >
         <MatchdButton
           type="button"
@@ -33,11 +33,10 @@
         v-if="isValidStudent === false"
         v-show="activeStep >= 2"
         step="2"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
+        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title
-          >Bist du in der Region Ostschweiz auf der Suche nach einem Praktikum, einer Lehr- oder
-          Arbeitsstelle?</template
+          >Suchst du in der Ostschweiz ein Praktikum, eine Lehrstelle oder Festanstellung?</template
         >
         <MatchdButton
           type="button"
@@ -54,10 +53,10 @@
       <MatchdStep
         v-show="activeStep >= 3"
         step="3"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8  row-start-2"
+        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Erzähl uns mehr zu dir
+          Bei Matchd bist du genau richtig!<br />Schreib dich ein und die Job-Suche kann starten.
         </template>
         <Form @submit="onSubmitStudentData" v-slot="{ errors }">
           <div class="lg:flex">
@@ -117,7 +116,7 @@
             variant="outline"
             :disabled="studentRegistrationLoading"
             :loading="studentRegistrationLoading"
-            >Registrieren</MatchdButton
+            >Ich bin dabei!</MatchdButton
           >
         </Form>
       </MatchdStep>
@@ -127,8 +126,8 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Fast geschafft!<br />Aktiviere deinen Account. Wir haben deinen Aktivierungslink per
-          E-Mail an {{ form.email || "?" }} gesendet
+          Fast geschafft:<br />Aktiviere deinen Account mit dem Link, den wir dir per Mail an
+          {{ form.email || "?" }} geschickt haben.
         </template>
       </MatchdStep>
     </div>
@@ -144,6 +143,7 @@ import MatchdStep from "@/components/MatchdStep.vue";
 import { useRegistration } from "@/composables/Registration";
 import { NewStudentAccount } from "@/models/NewAccount";
 import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
+import { StudentRegistrationState } from "@/models/StudentRegistrationState";
 import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
@@ -174,15 +174,15 @@ export default class RegisterStudent extends Vue {
 
   registration = setup(() => useRegistration());
 
-  get studentRegistrationLoading() {
+  get studentRegistrationLoading(): boolean {
     return this.$store.getters["studentRegistrationLoading"];
   }
 
-  get studentRegistrationState() {
+  get studentRegistrationState(): StudentRegistrationState {
     return this.$store.getters["studentRegistrationState"];
   }
 
-  get activeStep() {
+  get activeStep(): number {
     if (this.isValidStudent === null) {
       return 1;
     } else if (!this.isValidStudent && !this.isValidPosition) {
@@ -194,27 +194,27 @@ export default class RegisterStudent extends Vue {
     }
   }
 
-  mounted() {
+  mounted(): void {
     this.form.type = this.registration.urlToAccountTypeMapper(this.$route.path);
     this.registration.mounted("theme-student");
   }
 
-  beforeUnmount() {
+  beforeUnmount(): void {
     this.registration.beforeUnmount("theme-student");
   }
 
-  unmounted() {
+  unmounted(): void {
     document.getElementById("app")?.classList.remove("theme-student");
   }
 
-  onClickConfirmStudent(response: boolean) {
+  onClickConfirmStudent(response: boolean): void {
     const nextStep = response ? 3 : 2;
     this.isValidStudent = response;
     this.isValidPosition = null;
     this.registration.scrollToStep(nextStep);
   }
 
-  onClickConfirmPosition(response: boolean) {
+  onClickConfirmPosition(response: boolean): void {
     this.isValidPosition = response;
     this.registration.scrollToStep(3);
   }
@@ -222,7 +222,7 @@ export default class RegisterStudent extends Vue {
   async onSubmitStudentData(
     form: RegistrationStudentFormData,
     actions: FormActions<Partial<RegistrationStudentFormData>>
-  ) {
+  ): Promise<void> {
     this.form = {
       ...this.form,
       ...form,

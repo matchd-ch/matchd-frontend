@@ -14,16 +14,6 @@
         v-model="form.name"
       />
     </MatchdField>
-    <div class="lg:flex">
-      <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="errors.zip">
-        <template v-slot:label>PLZ</template>
-        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip" v-model="form.zip" />
-      </MatchdField>
-      <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="errors.city">
-        <template v-slot:label>Ort</template>
-        <Field id="city" name="city" as="input" label="Ort" v-model="form.city" />
-      </MatchdField>
-    </div>
     <MatchdField id="street" class="mb-10" :errors="errors.street">
       <template v-slot:label>Adresse*</template>
       <Field
@@ -35,6 +25,16 @@
         rules="required"
       />
     </MatchdField>
+    <div class="lg:flex">
+      <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="errors.zip">
+        <template v-slot:label>PLZ</template>
+        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip" v-model="form.zip" />
+      </MatchdField>
+      <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="errors.city">
+        <template v-slot:label>Ort</template>
+        <Field id="city" name="city" as="input" label="Ort" v-model="form.city" />
+      </MatchdField>
+    </div>
     <MatchdField id="firstName" class="mb-10" :errors="errors.firstName">
       <template v-slot:label>Vorname*</template>
       <Field
@@ -94,9 +94,10 @@ import { companyProfileStep1Mapper } from "@/api/mappers/companyProfileStep1Inpu
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
+import type { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
+import type { OnboardingState } from "@/models/OnboardingState";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { UserWithProfileNode } from "api";
+import type { User } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -122,20 +123,20 @@ export default class CompanyStep1 extends Vue {
     phone: "",
   };
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
-  mounted() {
-    this.$store.dispatch(ActionTypes.CITY_BY_ZIP);
+  async mounted(): Promise<void> {
+    await this.$store.dispatch(ActionTypes.CITY_BY_ZIP);
     if (this.user) {
       this.form = {
         ...this.form,
@@ -150,14 +151,14 @@ export default class CompanyStep1 extends Vue {
     }
   }
 
-  async onBlurZip() {
+  async onBlurZip(): Promise<void> {
     const city = this.$store.getters["cityByZip"]({ zip: this.form.zip });
     if (city) {
       this.form.city = city;
     }
   }
 
-  async onSubmit(form: CompanyProfileStep1Form) {
+  async onSubmit(form: CompanyProfileStep1Form): Promise<void> {
     await this.$store.dispatch(
       ActionTypes.COMPANY_ONBOARDING_STEP1,
       companyProfileStep1Mapper(form)

@@ -2,9 +2,9 @@
   <Form
     v-if="
       skills.length > 0 &&
-        languages.length > 0 &&
-        languageLevels.length > 0 &&
-        studentDocumentsUploadConfigurations
+      languages.length > 0 &&
+      languageLevels.length > 0 &&
+      studentDocumentsUploadConfigurations
     "
     @submit="onSubmit"
   >
@@ -30,6 +30,7 @@
         v-model="skillInput"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
+        placeholder="Tippe, um Vorschläge zu erhalten"
       />
     </MatchdAutocomplete>
     <SelectPillGroup v-if="form.skills.length > 0" class="mb-10">
@@ -50,15 +51,16 @@
       :errors="errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Diese Sprachen spreche ich*</template></LanguagePicker
+      ><template v-slot:label>Sprachliche Skills*</template></LanguagePicker
     >
+    <h2 class="text-heading-md mb-9">Was zeichnet dich sonst noch aus?</h2>
     <!-- Online Projects Field -->
     <MatchdField
       id="onlineProjects"
       class="mb-3"
       :class="{ 'mb-10': form.onlineProjects.length === 0 }"
     >
-      <template v-slot:label>Verknüpfe deine Onlineprojekte</template>
+      <template v-slot:label>Deine Onlineprojekte</template>
       <Field
         id="onlineProjects"
         name="onlineProjects"
@@ -66,6 +68,7 @@
         label="Verknüpfe deine Onlineprojekte"
         v-model="onlineProjectInput"
         @keypress.enter.prevent="onAppendOnlineProject"
+        placeholder="Github-URL, Unity-URL, etc."
       />
       <template v-slot:iconRight>
         <button
@@ -77,9 +80,6 @@
           Hinzufügen
         </button>
       </template>
-      <template v-if="form.onlineProjects.length === 0" v-slot:info
-        >URLs zu deinen Projekten, z.B. auf Github / Unity</template
-      >
     </MatchdField>
     <SelectPillGroup v-if="form.onlineProjects.length > 0" class="mb-10">
       <SelectPill
@@ -92,7 +92,7 @@
     </SelectPillGroup>
     <!-- Certificates Field -->
     <MatchdFileBlock>
-      <template v-slot:label>Lade hier deine Zertifikate hoch</template>
+      <template v-slot:label>Deine Zeugnisse, Diplome und Zertifikate</template>
       <MatchdFileView
         v-if="studentDocuments.length > 0 || studentDocumentsQueue.length > 0"
         :files="studentDocuments"
@@ -108,12 +108,12 @@
         :uploadConfiguration="studentDocumentsUploadConfigurations"
         @selectFiles="onSelectStudentDocuments"
         class="mb-10"
-        >Zertifikate auswählen</MatchdFileUpload
+        >Hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
     <!-- Hobbies Field -->
     <MatchdField id="hobbies" class="mb-3" :class="{ 'mb-10': form.hobbies.length === 0 }">
-      <template v-slot:label>Interessen & Hobbies</template>
+      <template v-slot:label>Deine Interessen und Hobbies</template>
       <Field
         id="hobbies"
         name="hobbies"
@@ -122,6 +122,7 @@
         maxlength="100"
         v-model="hobbyInput"
         @keypress.enter.prevent="onAppendHobby"
+        placeholder="Biken, Video Games, Kochen, etc."
       />
       <template v-slot:iconRight>
         <button
@@ -145,7 +146,7 @@
     </SelectPillGroup>
     <!-- Distinction Field -->
     <MatchdField id="distinction" class="mb-10">
-      <template v-slot:label>Das zeichnet mich sonst noch aus</template>
+      <template v-slot:label>Dein Talent</template>
       <Field
         id="distinction"
         name="distinction"
@@ -154,6 +155,7 @@
         label="Das zeichnet mich sonst noch aus"
         v-model="form.distinction"
         class="h-72"
+        placeholder="4-5 Sätze zu deiner Spezialität"
       />
     </MatchdField>
     <MatchdButton
@@ -181,11 +183,13 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import LanguagePicker from "@/components/LanguagePicker.vue";
 import { isValidUrl } from "@/helpers/isValidUrl";
+import { OnboardingState } from "@/models/OnboardingState";
 import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import { AttachmentType, SkillType, UserWithProfileNode } from "api";
+import { QueuedFile } from "@/store/modules/upload/state";
+import type { Attachment, Language, LanguageLevel, Skill, UploadConfiguration, User } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -217,53 +221,53 @@ export default class StudentStep4 extends Vue {
   };
   errors: { [k: string]: string } = {};
 
-  filteredSkills: SkillType[] = [];
+  filteredSkills: Skill[] = [];
 
   skillInput = "";
   onlineProjectInput = "";
   hobbyInput = "";
 
-  get skills() {
+  get skills(): Skill[] {
     return this.$store.getters["skills"];
   }
 
-  get languages() {
+  get languages(): Language[] {
     return this.$store.getters["languages"];
   }
 
-  get languageLevels() {
+  get languageLevels(): LanguageLevel[] {
     return this.$store.getters["languageLevels"];
   }
 
-  get onboardingLoading() {
+  get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState() {
+  get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): UserWithProfileNode | null {
+  get user(): User | null {
     return this.$store.getters["user"];
   }
 
-  get isValidOnlineProjectUrl() {
+  get isValidOnlineProjectUrl(): boolean {
     return this.onlineProjectInput.length > 0 && isValidUrl(this.onlineProjectInput);
   }
 
-  get studentDocumentsQueue() {
+  get studentDocumentsQueue(): QueuedFile[] {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentDocuments });
   }
 
-  get studentDocuments() {
+  get studentDocuments(): Attachment[] {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments });
   }
 
-  get studentDocumentsUploadConfigurations() {
+  get studentDocumentsUploadConfigurations(): UploadConfiguration | undefined {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentDocuments });
   }
 
-  async mounted() {
+  async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(ContentActionTypes.SKILLS),
       this.$store.dispatch(ContentActionTypes.LANGUAGES),
@@ -276,84 +280,84 @@ export default class StudentStep4 extends Vue {
     ]);
   }
 
-  onInputSkill() {
+  onInputSkill(): void {
     if (this.skillInput.length < 3) {
       this.filteredSkills = [];
       return;
     }
-    this.filteredSkills = this.skills.filter(item =>
+    this.filteredSkills = this.skills.filter((item) =>
       item.name.toLowerCase().includes(this.skillInput.toLowerCase())
     );
   }
 
-  onSelectSkill(skill: SkillType) {
+  onSelectSkill(skill: Skill): void {
     delete this.errors["skills"];
     this.skillInput = "";
     this.form.skills.push(skill);
     this.onInputSkill();
   }
 
-  onPressEnterSkill() {
+  onPressEnterSkill(): void {
     if (this.filteredSkills.length === 1) {
       this.onSelectSkill(this.filteredSkills[0]);
     }
   }
 
-  onRemoveSkill(skill: SkillType) {
-    this.form.skills = this.form.skills.filter(selectedSkill => selectedSkill.id !== skill.id);
+  onRemoveSkill(skill: Skill): void {
+    this.form.skills = this.form.skills.filter((selectedSkill) => selectedSkill.id !== skill.id);
   }
 
-  onClickAppendLanguage(language: SelectedLanguage) {
+  onClickAppendLanguage(language: SelectedLanguage): void {
     if (language && language.level) {
       delete this.errors["languages"];
       this.form.languages.push(language);
     }
   }
-  onClickRemoveLanguage(language: SelectedLanguage) {
+  onClickRemoveLanguage(language: SelectedLanguage): void {
     this.form.languages = this.form.languages.filter(
-      selectedLanguage => selectedLanguage.language !== language.language
+      (selectedLanguage) => selectedLanguage.language !== language.language
     );
   }
 
-  onAppendOnlineProject() {
+  onAppendOnlineProject(): void {
     if (this.isValidOnlineProjectUrl) {
       this.form.onlineProjects.push({ url: this.onlineProjectInput });
       this.onlineProjectInput = "";
     }
   }
 
-  onRemoveOnlineProject(onlineProject: string) {
+  onRemoveOnlineProject(onlineProject: string): void {
     this.form.onlineProjects = this.form.onlineProjects.filter(
-      selectedOnlineProject => selectedOnlineProject !== onlineProject
+      (selectedOnlineProject) => selectedOnlineProject !== onlineProject
     );
   }
 
-  onAppendHobby() {
+  onAppendHobby(): void {
     if (this.hobbyInput.length > 0) {
       this.form.hobbies.push({ name: this.hobbyInput });
       this.hobbyInput = "";
     }
   }
 
-  onRemoveHobby(hobby: string) {
-    this.form.hobbies = this.form.hobbies.filter(selectedHobby => selectedHobby.name !== hobby);
+  onRemoveHobby(hobby: string): void {
+    this.form.hobbies = this.form.hobbies.filter((selectedHobby) => selectedHobby.name !== hobby);
   }
 
-  async onSelectStudentDocuments(files: FileList) {
+  async onSelectStudentDocuments(files: FileList): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.StudentDocuments,
       files,
     });
   }
 
-  async onDeleteStudentDocument(file: AttachmentType) {
+  async onDeleteStudentDocument(file: Attachment): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.StudentDocuments,
       id: file.id,
     });
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     delete this.errors["skills"];
     delete this.errors["languages"];
     if (this.form.skills.length === 0) {
