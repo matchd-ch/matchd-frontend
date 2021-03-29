@@ -65,12 +65,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
     if (!state.user?.type) {
       return false;
     }
-    return [
-      ProfileType.Student,
-      ProfileType.CollegeStudent,
-      ProfileType.Internal,
-      ProfileType.Junior,
-    ].includes(state.user.type);
+    return [ProfileType.Student, ProfileType.CollegeStudent, ProfileType.Junior].includes(
+      state.user.type
+    );
   },
   isCompany(state: State): boolean {
     if (!state.user?.type) {
