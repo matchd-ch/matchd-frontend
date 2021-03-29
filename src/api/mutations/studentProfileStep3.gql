@@ -1,15 +1,9 @@
 mutation(
-  $jobOption: JobOptionInput!
-  $jobFromDate: String
-  $jobToDate: String
-  $jobPosition: JobPositionInput
+  $softSkills: [SoftSkillInput]
 ) {
   studentProfileStep3(
     step3: {
-      jobOption: $jobOption
-      jobPosition: $jobPosition
-      jobFromDate: $jobFromDate
-      jobToDate: $jobToDate
+      softSkills: $softSkills
     }
   ) {
     success

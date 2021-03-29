@@ -1,5 +1,5 @@
 mutation(
-  $softSkills: [SoftSkillInputType]
+  $softSkills: [SoftSkillInput]
 ) {
   companyProfileStep4(
     step4: {

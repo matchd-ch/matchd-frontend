@@ -256,10 +256,10 @@ export type IBenefitInput = {
 
 export type ICompanyProfileInputStep4 = {
   /** Soft Skills */
-  softSkills?: Maybe<Array<Maybe<ISoftSkillInputType>>>;
+  softSkills?: Maybe<Array<Maybe<ISoftSkillInput>>>;
 };
 
-export type ISoftSkillInputType = {
+export type ISoftSkillInput = {
   id: Scalars["ID"];
 };
 
@@ -281,19 +281,14 @@ export type IStudentProfileInputStep1 = {
 };
 
 export type IStudentProfileInputStep2 = {
-  /** School name */
-  schoolName?: Maybe<Scalars["String"]>;
-  /** Field of study */
-  fieldOfStudy?: Maybe<Scalars["String"]>;
-  /** Graduation */
-  graduation?: Maybe<Scalars["String"]>;
-};
-
-export type IStudentProfileInputStep3 = {
   jobOption: IJobOptionInput;
   jobFromDate?: Maybe<Scalars["String"]>;
   jobToDate?: Maybe<Scalars["String"]>;
   jobPosition?: Maybe<IJobPositionInput>;
+};
+
+export type IStudentProfileInputStep3 = {
+  softSkills?: Maybe<Array<Maybe<ISoftSkillInput>>>;
 };
 
 export type IStudentProfileInputStep4 = {
