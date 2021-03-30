@@ -1,0 +1,14 @@
+mutation(
+  $branch: BranchInput
+  $description: String
+) {
+  universityProfileStep2(
+    step2: {
+      branch: $branch
+      description: $description
+    }
+  ) {
+    success
+    errors
+  }
+}

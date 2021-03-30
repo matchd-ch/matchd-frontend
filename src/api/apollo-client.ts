@@ -15,9 +15,11 @@ import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
 import * as omitDeep from "omit-deep";
 
+// eslint-disable-next-line
 let client: ApolloClient<any>;
 
-export function createApolloClient(baseUrl: string) {
+// eslint-disable-next-line
+export function createApolloClient(baseUrl: string): ApolloClient<any> {
   if (client) {
     return client;
   }
@@ -34,7 +36,7 @@ export function createApolloClient(baseUrl: string) {
     credentials: "include",
   });
 
-  const directionalLink = split(operation => operation.getContext().batch, batchLink, httpLink);
+  const directionalLink = split((operation) => operation.getContext().batch, batchLink, httpLink);
 
   const csrfLink = setContext(async (_, { headers }) => {
     if (!csrfTokenPromise) {
@@ -56,7 +58,7 @@ export function createApolloClient(baseUrl: string) {
     if (operation.variables) {
       omitDeep(operation.variables, "__typename");
     }
-    return forward(operation).map(data => {
+    return forward(operation).map((data) => {
       return data;
     });
   });

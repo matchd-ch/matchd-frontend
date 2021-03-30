@@ -5,20 +5,27 @@ export async function redirectToCurrentOnboardingStep(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
-) {
+): Promise<void> {
   const store = useStore();
-  const profileStep = store.getters["user"]?.profileStep;
+  const profileStep = store.getters["profileStep"];
   const isCompany = store.getters["isCompany"];
   const isStudent = store.getters["isStudent"];
+  const isUniversity = store.getters["isUniversity"];
   if (!profileStep) {
     next({ name: "Error" });
   } else if (
     (to.name === `Onboarding` && to.params.step === `schritt${profileStep}`) ||
     (to.name === "Onboarding" &&
-      ((isStudent && profileStep === 7) || (isCompany && profileStep === 4)))
+      ((isStudent && profileStep === 7) ||
+        (isCompany && profileStep === 4) ||
+        (isUniversity && profileStep === 4)))
   ) {
     next(); // prevent infinite redirect
-  } else if ((isStudent && profileStep <= 6) || (isCompany && profileStep <= 3)) {
+  } else if (
+    (isStudent && profileStep <= 6) ||
+    (isCompany && profileStep <= 3) ||
+    (isUniversity && profileStep <= 3)
+  ) {
     next({ name: `Onboarding`, params: { step: `schritt${profileStep}` } });
   } else {
     next({ name: "Onboarding", params: { step: "finish" } });

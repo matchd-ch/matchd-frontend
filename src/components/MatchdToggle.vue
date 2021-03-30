@@ -1,6 +1,6 @@
 <template>
   <div class="matchd-toggle">
-    <label class="matchd-toggle__label"><slot name="label"/></label>
+    <label class="matchd-toggle__label"><slot name="label" /></label>
     <div
       class="matchd-toggle__form-element"
       :class="{ 'matchd-toggle__form-element relative': $slots.iconRight }"
@@ -8,9 +8,7 @@
       <slot />
       <label
         :for="id"
-        class="matchd-toggle__slider border border-primary-1 relative inline-flex flex-shrink-0 h-9 w-20 rounded-full
-        cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none
-        focus:border-black"
+        class="matchd-toggle__slider border border-primary-1 relative inline-flex flex-shrink-0 h-9 w-20 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
       >
         <span
           aria-hidden="true"

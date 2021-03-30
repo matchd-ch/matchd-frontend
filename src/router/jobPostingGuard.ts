@@ -8,7 +8,7 @@ export async function redirectToCurrentJobPostingStep(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
-) {
+): Promise<void> {
   const store = useStore();
   if (
     !to.params.id ||

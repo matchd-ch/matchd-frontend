@@ -1,5 +1,5 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { RegisterCompany, RegisterStudent, UserRequest, VerifyAccount } from "api";
+import type { RegisterCompany, RegisterStudent, UserRequest, VerifyAccount } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 import { State } from "@/store/modules/registration/state";

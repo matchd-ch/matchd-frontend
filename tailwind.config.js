@@ -79,7 +79,7 @@ module.exports = {
         "145px": "145px",
       },
       gridTemplateColumns: {
-        "16": "repeat(16, minmax(0, 1fr))",
+        16: "repeat(16, minmax(0, 1fr))",
       },
       gridTemplateRows: {
         home: "200px",
@@ -93,9 +93,13 @@ module.exports = {
           "linear-gradient(180deg, #1EAB00 29.69%, #66B72D 38.54%, rgba(255, 212, 129, 0.87) 50%, #FB6A7C 61.46%, #FC3E77 71.87%)",
         "matchd-gradient-l-r":
           "linear-gradient(90deg, #1EAB00 29.69%, #66B72D 38.54%, rgba(255, 212, 129, 0.87) 50%, #FB6A7C 61.46%, #FC3E77 71.87%)",
+        "company-gradient-t-b":
+          "linear-gradient(180deg, #FC3E77 9.02%, rgba(255, 212, 129, 0.87) 135.27%, #1EAB00 270.54%);",
       },
       padding: {
         full: "100%",
+        "1/2": "50%",
+        "1/4": "25%",
       },
       boxShadow: {
         white: "0 0 0 1px #fff",

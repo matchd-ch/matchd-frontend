@@ -2,9 +2,7 @@
   <div
     class="password-forgotten min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
   >
-    <h1 class="text-display-xl-fluid text-black col-start-1 col-span-full">
-      Passwort vergessen
-    </h1>
+    <h1 class="text-display-xl-fluid text-black col-start-1 col-span-full">Passwort vergessen</h1>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
       <GenericSuccess v-if="passwordForgottenState.success">
         Du hast eine E-Mail erhalten, mit welcher du dein Passwort resetten kannst. Falls du in den
@@ -52,6 +50,8 @@ import GenericSuccess from "@/components/GenericSuccess.vue";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import { PasswordResetState } from "@/models/PasswordResetState";
+import { SendPasswordResetEmailState } from "@/models/SendPasswordResetEmailState";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -70,19 +70,22 @@ Vue.registerHooks(["beforeRouteEnter"]);
   },
 })
 export default class PasswordForgotten extends Vue {
-  get passwordForgottenLoading() {
+  get passwordForgottenLoading(): boolean {
     return this.$store.getters["sendPasswordResetEmailLoading"];
   }
 
-  get passwordForgottenState() {
+  get passwordForgottenState(): SendPasswordResetEmailState {
     return this.$store.getters["sendPasswordResetEmailState"];
   }
 
-  get passwordResetState() {
+  get passwordResetState(): PasswordResetState {
     return this.$store.getters["passwordResetState"];
   }
 
-  async onSubmit(form: { email: string }, { resetForm }: { resetForm: Function }) {
+  async onSubmit(
+    form: { email: string },
+    { resetForm }: { resetForm: typeof Function }
+  ): Promise<void> {
     await this.$store.dispatch(ActionTypes.SEND_PASSWORD_RESET_EMAIL, {
       ...form,
     });

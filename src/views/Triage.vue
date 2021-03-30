@@ -64,7 +64,7 @@
 
 <script lang="ts">
 import { ActionTypes } from "@/store/modules/registration/action-types";
-import { UserRequestInput } from "api";
+import type { UserRequestInput } from "api";
 import { Options, Vue } from "vue-class-component";
 import Logo from "@/assets/logo.svg";
 import RegisterTile from "@/components/RegisterTile.vue";
@@ -82,15 +82,15 @@ import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
   },
 })
 export default class Home extends Vue {
-  get contactFormLoading() {
+  get contactFormLoading(): boolean {
     return this.$store.getters["contactFormSending"];
   }
 
-  get contactFormSent() {
+  get contactFormSent(): boolean {
     return this.$store.getters["contactFormSent"];
   }
 
-  onSubmit(form: UserRequestInput) {
+  async onSubmit(form: UserRequestInput): Promise<void> {
     this.$store.dispatch(ActionTypes.SEND_REGISTRATION_CONTACT_FORM, {
       ...form,
     });

@@ -49,9 +49,14 @@
 
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
-import { UploadConfiguration } from "api";
+import type { UploadConfiguration } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import prettyBytes from "pretty-bytes";
+
+interface AllowedFiles {
+  size: number;
+  types: string[];
+}
 
 class Props {
   uploadConfiguration = prop<UploadConfiguration>({});
@@ -67,12 +72,12 @@ export default class MatchdFileUpload extends Vue.with(Props) {
   isDragOver = false;
   hasError = false;
 
-  get allowedFiles() {
-    const allowedFiles: { size: number; types: string[] }[] = [];
+  get allowedFiles(): AllowedFiles[] {
+    const allowedFiles: AllowedFiles[] = [];
     this.uploadConfiguration?.contentTypesConfiguration?.forEach((configuration, index) => {
       allowedFiles[index] = { size: 0, types: [] };
       allowedFiles[index].size = configuration?.maxSize || 0;
-      configuration?.contentTypes?.forEach(type => {
+      configuration?.contentTypes?.forEach((type) => {
         if (type) {
           const splittedMimeType = type.split("/");
           allowedFiles[index].types.push(splittedMimeType[1].toLocaleUpperCase());
@@ -82,10 +87,10 @@ export default class MatchdFileUpload extends Vue.with(Props) {
     return allowedFiles;
   }
 
-  get allowedMimeTypes() {
+  get allowedMimeTypes(): string[] {
     const allowedMimeTypes: string[] = [];
-    this.uploadConfiguration?.contentTypesConfiguration?.forEach(configuration => {
-      configuration?.contentTypes?.forEach(type => {
+    this.uploadConfiguration?.contentTypesConfiguration?.forEach((configuration) => {
+      configuration?.contentTypes?.forEach((type) => {
         if (type) {
           allowedMimeTypes.push(type);
         }
@@ -94,20 +99,20 @@ export default class MatchdFileUpload extends Vue.with(Props) {
     return allowedMimeTypes;
   }
 
-  formatSize(size: number) {
+  formatSize(size: number): string {
     return prettyBytes(size);
   }
 
-  onDrop(event: DragEvent) {
+  onDrop(event: DragEvent): void {
     this.isDragOver = false;
     this.onSelect(event?.dataTransfer?.files || new FileList());
   }
 
-  onChange(event: Event) {
+  onChange(event: Event): void {
     this.onSelect((event.target as HTMLInputElement).files || new FileList());
   }
 
-  onSelect(files: FileList) {
+  onSelect(files: FileList): void {
     const validFiles = this.filterValidFiles(files);
     if (validFiles && validFiles.length > 0) {
       this.hasError = false;
@@ -117,9 +122,9 @@ export default class MatchdFileUpload extends Vue.with(Props) {
     }
   }
 
-  getMaxSizeForType(mimeType: string) {
+  getMaxSizeForType(mimeType: string): number {
     let maxSize = 0;
-    this.uploadConfiguration?.contentTypesConfiguration?.forEach(config => {
+    this.uploadConfiguration?.contentTypesConfiguration?.forEach((config) => {
       if (config?.contentTypes?.includes(mimeType)) {
         return (maxSize = config.maxSize || 0);
       }
@@ -127,13 +132,13 @@ export default class MatchdFileUpload extends Vue.with(Props) {
     return maxSize;
   }
 
-  filterValidFiles(fileList: FileList | null | undefined) {
+  filterValidFiles(fileList: FileList | null | undefined): File[] {
     if (!fileList) {
       return [];
     }
     return [...fileList]
-      .filter(file => this.allowedMimeTypes.includes(file.type))
-      .filter(file => file.size <= this.getMaxSizeForType(file.type))
+      .filter((file) => this.allowedMimeTypes.includes(file.type))
+      .filter((file) => file.size <= this.getMaxSizeForType(file.type))
       .splice(0, this.uploadConfiguration?.maxFiles || 0);
   }
 }
