@@ -306,7 +306,7 @@ export default class JobPostingStep1 extends Vue {
         ? DateTime.fromSQL(this.currentJobPosting?.jobFromDate).year.toString()
         : "",
       jobToDateMonth: this.currentJobPosting?.jobToDate
-        ? DateTime.fromSQL(this.currentJobPosting?.jobToDate).toString()
+        ? DateTime.fromSQL(this.currentJobPosting?.jobToDate).month.toString()
         : "",
       jobToDateYear: this.currentJobPosting?.jobToDate
         ? DateTime.fromSQL(this.currentJobPosting?.jobToDate).year.toString()
