@@ -68,7 +68,9 @@ export const mutations: MutationTree<State> & Mutations = {
   ) {
     state.company.loading = false;
     state.company.data = payload.company;
-    state.company.logo = payload.logo[0];
+    if (payload.logo.length > 0) {
+      state.company.logo = payload.logo[0];
+    }
     state.company.media = payload.media;
   },
   [MutationTypes.EXPECTATIONS_LOADING](state: State) {
