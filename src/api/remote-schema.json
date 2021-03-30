@@ -793,13 +793,9 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Employee",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Employee",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -5642,14 +5638,14 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "softSkills",
+              "name": "jobOption",
               "description": null,
               "type": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "SoftSkillInput",
+                  "name": "JobOptionInput",
                   "ofType": null
                 }
               },
@@ -5669,8 +5665,8 @@
               "name": "jobToDate",
               "description": null,
               "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "JobPositionInput",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "defaultValue": null

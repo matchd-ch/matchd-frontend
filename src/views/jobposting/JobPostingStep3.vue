@@ -1,115 +1,117 @@
 <template>
-  <Form v-if="employees.length > 0" @submit="onSubmit" v-slot="{ errors }">
-    <GenericError v-if="jobPostingState.errors">
-      Beim Speichern ist etwas schief gelaufen.
-    </GenericError>
+  <div>
+    <Form v-if="showEmployeeForm" @submit="onAddNewEmployee" v-slot="{ errors }">
+      <div class="lg:flex">
+        <MatchdField id="firstName" class="lg:mr-3 mb-3 lg:flex-grow" :errors="errors.firstName">
+          <template v-slot:label>Vorname</template>
+          <Field
+            id="firstName"
+            name="firstName"
+            as="input"
+            label="Vorname"
+            rules="required"
+            v-model="employeeForm.firstName"
+          />
+        </MatchdField>
+        <MatchdField id="lastName" class="mb-3 lg:flex-grow" :errors="errors.lastName">
+          <template v-slot:label>Nachname</template>
+          <Field
+            id="lastName"
+            name="lastName"
+            as="input"
+            label="Nachname"
+            rules="required"
+            v-model="employeeForm.lastName"
+          />
+        </MatchdField>
+      </div>
+      <MatchdField id="role" class="mb-3" :errors="errors.role">
+        <template v-slot:label>Funktion</template>
+        <Field
+          id="role"
+          name="role"
+          as="input"
+          label="Funktion"
+          rules="required"
+          :class="{ invalid: errors.role }"
+          v-model="employeeForm.role"
+        />
+      </MatchdField>
+      <MatchdField id="email" class="mb-10" :errors="errors.email">
+        <template v-slot:label>E-Mail</template>
+        <Field
+          id="email"
+          name="email"
+          as="input"
+          type="email"
+          label="E-Mail"
+          rules="required|email"
+          v-model="employeeForm.email"
+        />
+      </MatchdField>
+      <MatchdButton variant="outline" class="block w-full mb-3"
+        >Neue Kontaktperson speichern</MatchdButton
+      >
+      <MatchdButton
+        type="button"
+        variant="outline"
+        @click="onClickShowEmployeeForm"
+        class="block w-full"
+        >Abbrechen</MatchdButton
+      >
+    </Form>
+    <Form v-if="employees.length > 0" @submit="onSubmit" v-slot="{ errors }">
+      <GenericError v-if="jobPostingState.errors">
+        Beim Speichern ist etwas schief gelaufen.
+      </GenericError>
 
-    <div class="mb-10">
-      <!-- Kontaktperson -->
-      <Form v-if="showEmployeeForm" @submit.stop="onAddNewEmployee" v-slot="{ errors }">
-        <div class="lg:flex">
-          <MatchdField id="firstName" class="lg:mr-3 mb-3 lg:flex-grow" :errors="errors.firstName">
-            <template v-slot:label>Vorname</template>
+      <div class="mb-10">
+        <!-- Kontaktperson -->
+        <template v-if="!showEmployeeForm">
+          <MatchdSelect id="employeeId" class="mb-3" :errors="errors.employeeId">
+            <template v-slot:label>Kontaktperson*</template>
             <Field
-              id="firstName"
-              name="firstName"
-              as="input"
-              label="Vorname"
+              id="employeeId"
+              name="employeeId"
+              as="select"
+              label="Stellenantritt Monat"
+              class="mr-3"
               rules="required"
-              v-model="employeeForm.firstName"
-            />
-          </MatchdField>
-          <MatchdField id="lastName" class="mb-3 lg:flex-grow" :errors="errors.lastName">
-            <template v-slot:label>Nachname</template>
-            <Field
-              id="lastName"
-              name="lastName"
-              as="input"
-              label="Nachname"
-              rules="required"
-              v-model="employeeForm.lastName"
-            />
-          </MatchdField>
-        </div>
-        <MatchdField id="role" class="mb-3" :errors="errors.role">
-          <template v-slot:label>Funktion</template>
-          <Field
-            id="role"
-            name="role"
-            as="input"
-            label="Funktion"
-            rules="required"
-            :class="{ invalid: errors.role }"
-            v-model="employeeForm.role"
-          />
-        </MatchdField>
-        <MatchdField id="email" class="mb-10" :errors="errors.email">
-          <template v-slot:label>E-Mail</template>
-          <Field
-            id="email"
-            name="email"
-            as="input"
-            type="email"
-            label="E-Mail"
-            rules="required|email"
-            v-model="employeeForm.email"
-          />
-        </MatchdField>
-        <MatchdButton variant="outline" class="block w-full mb-3"
-          >Neue Kontaktperson speichern</MatchdButton
-        >
-        <MatchdButton
-          type="button"
-          variant="outline"
-          @click="onClickShowEmployeeForm"
-          class="block w-full"
-          >Abbrechen</MatchdButton
-        >
-      </Form>
-      <template v-else>
-        <MatchdSelect id="employeeId" class="mb-3" :errors="errors.employeeId">
-          <template v-slot:label>Kontaktperson*</template>
-          <Field
-            id="employeeId"
-            name="employeeId"
-            as="select"
-            label="Stellenantritt Monat"
-            class="mr-3"
-            rules="required"
-            v-model="form.employeeId"
+              v-model="form.employeeId"
+            >
+              <option v-for="employee in employees" :value="employee.id" :key="employee.id">
+                {{ employee.user.firstName }} {{ employee.user.lastName }} - {{ employee.role }}
+              </option>
+            </Field>
+          </MatchdSelect>
+
+          <MatchdButton
+            type="button"
+            variant="outline"
+            @click="onClickShowEmployeeForm"
+            class="block w-full"
+            >Zusätzliche Kontaktperson erfassen</MatchdButton
           >
-            <option v-for="employee in employees" :value="employee.id" :key="employee.id">
-              {{ employee.user.firstName }} {{ employee.user.lastName }} - {{ employee.role }}
-            </option>
-          </Field>
-        </MatchdSelect>
-
-        <MatchdButton
-          type="button"
-          variant="outline"
-          @click="onClickShowEmployeeForm"
-          class="block w-full"
-          >Zusätzliche Kontaktperson erfassen</MatchdButton
-        >
-      </template>
-    </div>
-    <!-- State Field -->
-    <MatchdToggle id="state" class="mb-10" :errors="errors.state">
-      <template v-slot:label>Sichtbarkeit der Stelle</template>
-      <input id="state" name="state" type="checkbox" v-model="form.public" />
-    </MatchdToggle>
-    <MatchdButton variant="outline" :disabled="jobPostingLoading" class="block w-full"
-      >Speichern</MatchdButton
-    >
-    <MatchdButton
-      type="button"
-      variant="outline"
-      :disabled="jobPostingLoading"
-      @click="onClickBack"
-      class="block w-full mt-5"
-      >Zurück zu Schritt 2</MatchdButton
-    >
-  </Form>
+        </template>
+      </div>
+      <!-- State Field -->
+      <MatchdToggle id="state" class="mb-10" :errors="errors.state">
+        <template v-slot:label>Sichtbarkeit der Stelle</template>
+        <input id="state" name="state" type="checkbox" v-model="form.public" />
+      </MatchdToggle>
+      <MatchdButton variant="outline" :disabled="jobPostingLoading" class="block w-full"
+        >Speichern</MatchdButton
+      >
+      <MatchdButton
+        type="button"
+        variant="outline"
+        :disabled="jobPostingLoading"
+        @click="onClickBack"
+        class="block w-full mt-5"
+        >Zurück zu Schritt 2</MatchdButton
+      >
+    </Form>
+  </div>
 </template>
 
 <script lang="ts">

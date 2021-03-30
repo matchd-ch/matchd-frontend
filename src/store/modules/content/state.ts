@@ -1,6 +1,8 @@
 import type {
+  Attachment,
   Benefit,
   Branch,
+  Company,
   Expectation,
   JobOption,
   JobPosition,
@@ -22,6 +24,12 @@ export type State = {
   benefits: {
     loading: boolean;
     data: Benefit[];
+  };
+  company: {
+    loading: boolean;
+    data: Company | null;
+    logo: Attachment | null;
+    media: Attachment[];
   };
   skills: {
     loading: boolean;
@@ -58,6 +66,12 @@ export const state: State = {
   benefits: {
     loading: false,
     data: [],
+  },
+  company: {
+    loading: false,
+    data: null,
+    logo: null,
+    media: [],
   },
   skills: {
     loading: false,

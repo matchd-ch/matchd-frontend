@@ -46,7 +46,6 @@ export const mutations: MutationTree<State> & Mutations = {
     state.addEmployee.loading = false;
     state.addEmployee.success = payload.success || false;
     state.addEmployee.errors = errorCodeMapper(payload.errors);
-    console.log(payload.employee);
     if (payload.success && payload.employee) {
       state.employees.data.push(payload.employee);
     }

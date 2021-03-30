@@ -50,6 +50,11 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: redirectToCurrentJobPostingStep,
   },
   {
+    path: "/firmen/:slug",
+    name: "CompanyDetail",
+    component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyDetail.vue"),
+  },
+  {
     path: "/passwort-vergessen",
     name: "PasswordForgotten",
     component: () => import(/* webpackChunkName: "login" */ "../views/PasswordForgotten.vue"),
