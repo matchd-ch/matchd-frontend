@@ -1,43 +1,56 @@
-import {
-  BenefitType,
-  BranchType,
-  ExpectationType,
-  JobOptionType,
-  JobPositionType,
-  LanguageType,
-  LevelType,
-  SkillType,
+import type {
+  Attachment,
+  Benefit,
+  Branch,
+  Company,
+  Expectation,
+  JobOption,
+  JobPosition,
+  Language,
+  LanguageLevel,
+  Skill,
+  SoftSkill,
 } from "api";
 
 export type State = {
   jobOptions: {
     loading: boolean;
-    data: JobOptionType[];
+    data: JobOption[];
   };
   jobPositions: {
     loading: boolean;
-    data: JobPositionType[];
+    data: JobPosition[];
   };
   benefits: {
     loading: boolean;
-    data: BenefitType[];
+    data: Benefit[];
+  };
+  company: {
+    loading: boolean;
+    data: Company | null;
+    logo: Attachment | null;
+    media: Attachment[];
   };
   skills: {
     loading: boolean;
-    data: SkillType[];
+    data: Skill[];
+  };
+  softSkills: {
+    loading: boolean;
+    data: SoftSkill[];
   };
   languages: {
     loading: boolean;
-    data: LanguageType[];
-    levels: LevelType[];
+    data: Language[];
+    levels: LanguageLevel[];
   };
   branches: {
     loading: boolean;
-    data: BranchType[];
+    data: Branch[];
   };
   expectations: {
     loading: boolean;
-    data: ExpectationType[];
+    data: Expectation[];
   };
 };
 
@@ -54,7 +67,17 @@ export const state: State = {
     loading: false,
     data: [],
   },
+  company: {
+    loading: false,
+    data: null,
+    logo: null,
+    media: [],
+  },
   skills: {
+    loading: false,
+    data: [],
+  },
+  softSkills: {
     loading: false,
     data: [],
   },

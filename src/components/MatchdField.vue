@@ -1,6 +1,6 @@
 <template>
   <div class="matchd-field" :class="{ 'matchd-field--invalid': errors }">
-    <label :for="id" class="matchd-field__label"><slot name="label"/></label>
+    <label :for="id" class="matchd-field__label"><slot name="label" /></label>
     <div
       class="matchd-field__form-element"
       :class="{ 'matchd-field__form-element relative': $slots.iconRight }"

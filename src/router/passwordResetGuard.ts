@@ -6,7 +6,7 @@ export async function needsStateResetBeforePasswordReset(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
-) {
+): Promise<void> {
   const store = useStore();
   // don't reset state when entering from the PasswordReset route to maintain potential errors
   if (from.name !== "PasswordReset") {

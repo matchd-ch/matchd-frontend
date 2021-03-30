@@ -1,9 +1,9 @@
 mutation(
-  $skills: [SkillInputType]!
-  $languages: [UserLanguageRelationInputType]!
+  $skills: [SkillInput]!
+  $languages: [UserLanguageRelationInput]!
   $distinction: String!
-  $onlineProjects: [OnlineProjectInputType]
-  $hobbies: [HobbyInputType]
+  $onlineProjects: [OnlineProjectInput]
+  $hobbies: [HobbyInput]
 ) {
   studentProfileStep4(
     step4: {

@@ -9,12 +9,14 @@ import { State } from "@/store/modules/content/state";
 
 import benefitsQuery from "@/api/queries/benefits.gql";
 import branchesQuery from "@/api/queries/branches.gql";
+import companyQuery from "@/api/queries/company.gql";
 import expectationsQuery from "@/api/queries/expectations.gql";
 import jobOptionsQuery from "@/api/queries/jobOptions.gql";
 import jobPositionsQuery from "@/api/queries/jobPositions.gql";
 import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
 import skillsQuery from "@/api/queries/skills.gql";
+import softSkillsQuery from "@/api/queries/softSkills.gql";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -28,6 +30,10 @@ const apiClient = createApolloClient(process.env.VUE_APP_API || "http://localhos
 export interface Actions {
   [ActionTypes.BENEFITS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.BRANCHES]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.COMPANY](
+    { commit }: AugmentedActionContext,
+    payload: { slug: string }
+  ): Promise<void>;
   [ActionTypes.EXPECTATIONS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_OPTIONS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_POSITIONS]({ commit }: AugmentedActionContext): Promise<void>;
@@ -37,6 +43,7 @@ export interface Actions {
   ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -59,6 +66,22 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.BRANCHES_LOADED, { branches: response.data.branches });
+  },
+  async [ActionTypes.COMPANY]({ commit }, payload: { slug: string }) {
+    commit(MutationTypes.COMPANY_LOADING);
+    const response = await apiClient.query({
+      query: companyQuery,
+      variables: payload,
+      context: {
+        batch: true,
+      },
+    });
+
+    commit(MutationTypes.COMPANY_LOADED, {
+      company: response.data.company,
+      logo: response.data.logo,
+      media: response.data.media,
+    });
   },
   async [ActionTypes.EXPECTATIONS]({ commit }) {
     commit(MutationTypes.EXPECTATIONS_LOADING);
@@ -122,5 +145,15 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.SKILLS_LOADED, { skills: response.data.skills });
+  },
+  async [ActionTypes.SOFT_SKILLS]({ commit }) {
+    commit(MutationTypes.SOFT_SKILLS_LOADING);
+    const response = await apiClient.query({
+      query: softSkillsQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.SOFT_SKILLS_LOADED, { softSkills: response.data.softSkills });
   },
 };
