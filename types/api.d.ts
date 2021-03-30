@@ -139,7 +139,7 @@ type JobPosting = {
   skills: Array<Skill>;
   formStep: Scalars["Int"];
   state: JobPostingState;
-  employee: Employee;
+  employee?: Maybe<Employee>;
   languages: Array<JobPostingLanguageRelation>;
 };
 

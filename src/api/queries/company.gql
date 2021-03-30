@@ -1,0 +1,42 @@
+query($slug: String) {
+  company(slug: $slug) {
+    id
+    uid
+    name
+    description
+    services
+    street
+    zip
+    city
+    phone
+    website
+    employees {
+      id
+      user {
+        id
+        firstName
+        lastName
+        email
+      }
+    }
+    benefits {
+      id
+      icon
+      name
+    }
+    jobPositions {
+      id
+      name
+    }
+  }
+  logo: attachments(key: COMPANY_AVATAR, slug: $slug) {
+    id
+    url
+    mimeType
+  }
+  media: attachments(key: COMPANY_DOCUMENTS, slug: $slug) {
+    id
+    url
+    mimeType
+  }
+}
