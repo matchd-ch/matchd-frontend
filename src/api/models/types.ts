@@ -58,7 +58,7 @@ export type Scalars = {
 };
 
 /** An enumeration. */
-export enum JobOptionMode {
+export enum DateMode {
   DateFrom = "DATE_FROM",
   DateRange = "DATE_RANGE",
 }
@@ -106,7 +106,7 @@ export type IJobPostingInputStep1 = {
   id?: Maybe<Scalars["ID"]>;
   /** Description */
   description: Scalars["String"];
-  jobOption: IJobOptionInput;
+  jobType: IJobTypeInput;
   branch: IBranchInput;
   /** Workload */
   workload: Scalars["Int"];
@@ -115,7 +115,7 @@ export type IJobPostingInputStep1 = {
   url?: Maybe<Scalars["String"]>;
 };
 
-export type IJobOptionInput = {
+export type IJobTypeInput = {
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   mode?: Maybe<Scalars["String"]>;
@@ -128,12 +128,12 @@ export type IBranchInput = {
 
 export type IJobPostingInputStep2 = {
   id?: Maybe<Scalars["ID"]>;
-  expectations?: Maybe<Array<Maybe<IExpectationInput>>>;
+  jobRequirements?: Maybe<Array<Maybe<IJobRequirementInput>>>;
   skills?: Maybe<Array<Maybe<ISkillInput>>>;
   languages?: Maybe<Array<Maybe<IJobPostingLanguageRelationInput>>>;
 };
 
-export type IExpectationInput = {
+export type IJobRequirementInput = {
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
 };
@@ -257,9 +257,15 @@ export type IBenefitInput = {
 export type ICompanyProfileInputStep4 = {
   /** Soft Skills */
   softSkills?: Maybe<Array<Maybe<ISoftSkillInput>>>;
+  /** Cultural Fit */
+  culturalFits?: Maybe<Array<Maybe<ICulturalFitInput>>>;
 };
 
 export type ISoftSkillInput = {
+  id: Scalars["ID"];
+};
+
+export type ICulturalFitInput = {
   id: Scalars["ID"];
 };
 
@@ -281,7 +287,7 @@ export type IStudentProfileInputStep1 = {
 };
 
 export type IStudentProfileInputStep2 = {
-  jobOption: IJobOptionInput;
+  jobType: IJobTypeInput;
   jobFromDate?: Maybe<Scalars["String"]>;
   jobToDate?: Maybe<Scalars["String"]>;
   jobPosition?: Maybe<IJobPositionInput>;
@@ -289,6 +295,7 @@ export type IStudentProfileInputStep2 = {
 
 export type IStudentProfileInputStep3 = {
   softSkills?: Maybe<Array<Maybe<ISoftSkillInput>>>;
+  culturalFits?: Maybe<Array<Maybe<ICulturalFitInput>>>;
 };
 
 export type IStudentProfileInputStep4 = {

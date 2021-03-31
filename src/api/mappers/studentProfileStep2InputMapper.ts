@@ -6,7 +6,7 @@ export function studentProfileStep2InputMapper(
 ): IStudentProfileInputStep2 {
   return {
     ...studentProfileForm,
-    jobOption: { id: studentProfileForm.jobOptionId },
+    jobType: { id: studentProfileForm.jobTypeId },
     jobPosition: studentProfileForm.jobPositionId ? { id: studentProfileForm.jobPositionId } : null,
     jobFromDate:
       studentProfileForm.jobFromDateMonth && studentProfileForm.jobFromDateYear

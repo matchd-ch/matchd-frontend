@@ -3,9 +3,9 @@ import type {
   Benefit,
   Branch,
   Company,
-  Expectation,
-  JobOption,
   JobPosition,
+  JobRequirement,
+  JobType,
   Language,
   LanguageLevel,
   Skill,
@@ -13,9 +13,9 @@ import type {
 } from "api";
 
 export type State = {
-  jobOptions: {
+  jobTypes: {
     loading: boolean;
-    data: JobOption[];
+    data: JobType[];
   };
   jobPositions: {
     loading: boolean;
@@ -48,14 +48,14 @@ export type State = {
     loading: boolean;
     data: Branch[];
   };
-  expectations: {
+  jobRequirements: {
     loading: boolean;
-    data: Expectation[];
+    data: JobRequirement[];
   };
 };
 
 export const state: State = {
-  jobOptions: {
+  jobTypes: {
     loading: false,
     data: [],
   },
@@ -90,7 +90,7 @@ export const state: State = {
     loading: false,
     data: [],
   },
-  expectations: {
+  jobRequirements: {
     loading: false,
     data: [],
   },

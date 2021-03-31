@@ -1,6 +1,6 @@
 export interface JobPostingStep1Form {
   description: string;
-  jobOptionId: string;
+  jobTypeId: string;
   branchId: string;
   fullTime: boolean;
   workload: number;

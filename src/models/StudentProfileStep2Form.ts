@@ -1,5 +1,5 @@
 export interface StudentProfileStep2Form {
-  jobOptionId: string;
+  jobTypeId: string;
   jobPositionId: string;
   jobFromDateMonth: string;
   jobFromDateYear: string;

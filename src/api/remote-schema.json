@@ -15,6 +15,22 @@
           "description": null,
           "fields": [
             {
+              "name": "culturalFits",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "CulturalFit",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "softSkills",
               "description": null,
               "args": [],
@@ -47,7 +63,7 @@
               "deprecationReason": null
             },
             {
-              "name": "expectations",
+              "name": "jobRequirements",
               "description": null,
               "args": [],
               "type": {
@@ -55,7 +71,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Expectation",
+                  "name": "JobRequirement",
                   "ofType": null
                 }
               },
@@ -275,7 +291,7 @@
               "deprecationReason": null
             },
             {
-              "name": "jobOptions",
+              "name": "jobTypes",
               "description": null,
               "args": [],
               "type": {
@@ -283,7 +299,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "JobOption",
+                  "name": "JobType",
                   "ofType": null
                 }
               },
@@ -404,7 +420,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "SoftSkill",
+          "name": "CulturalFit",
           "description": null,
           "fields": [
             {
@@ -483,6 +499,65 @@
         },
         {
           "kind": "OBJECT",
+          "name": "SoftSkill",
+          "description": null,
+          "fields": [
+            {
+              "name": "id",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "student",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "company",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "FAQCategory",
           "description": null,
           "fields": [
@@ -526,7 +601,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Expectation",
+          "name": "JobRequirement",
           "description": null,
           "fields": [
             {
@@ -605,7 +680,7 @@
               "deprecationReason": null
             },
             {
-              "name": "jobOption",
+              "name": "jobType",
               "description": "",
               "args": [],
               "type": {
@@ -613,7 +688,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "JobOption",
+                  "name": "JobType",
                   "ofType": null
                 }
               },
@@ -709,7 +784,7 @@
               "deprecationReason": null
             },
             {
-              "name": "expectations",
+              "name": "jobRequirements",
               "description": "",
               "args": [],
               "type": {
@@ -723,7 +798,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "Expectation",
+                      "name": "JobRequirement",
                       "ofType": null
                     }
                   }
@@ -832,7 +907,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "JobOption",
+          "name": "JobType",
           "description": null,
           "fields": [
             {
@@ -876,7 +951,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "JobOptionMode",
+                  "name": "DateMode",
                   "ofType": null
                 }
               },
@@ -891,7 +966,7 @@
         },
         {
           "kind": "ENUM",
-          "name": "JobOptionMode",
+          "name": "DateMode",
           "description": "An enumeration.",
           "fields": null,
           "inputFields": null,
@@ -1286,6 +1361,30 @@
                     "ofType": {
                       "kind": "OBJECT",
                       "name": "JobPosition",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "culturalFits",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "CulturalFit",
                       "ofType": null
                     }
                   }
@@ -2053,6 +2152,30 @@
                     "ofType": {
                       "kind": "OBJECT",
                       "name": "SoftSkill",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "culturalFits",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "CulturalFit",
                       "ofType": null
                     }
                   }
@@ -3161,7 +3284,7 @@
             },
             {
               "name": "companyProfileStep4",
-              "description": "Updates the Company Profile with Soft Skills",
+              "description": "Updates a company profile with soft skills and cultural fit",
               "args": [
                 {
                   "name": "step4",
@@ -3242,7 +3365,7 @@
             },
             {
               "name": "studentProfileStep3",
-              "description": "Updates Soft Skill of a student",
+              "description": "Updates soft skills and cultural fits of a student",
               "args": [
                 {
                   "name": "step3",
@@ -4061,14 +4184,14 @@
               "defaultValue": null
             },
             {
-              "name": "jobOption",
+              "name": "jobType",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobOptionInput",
+                  "name": "JobTypeInput",
                   "ofType": null
                 }
               },
@@ -4143,7 +4266,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "JobOptionInput",
+          "name": "JobTypeInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -4285,14 +4408,14 @@
               "defaultValue": null
             },
             {
-              "name": "expectations",
+              "name": "jobRequirements",
               "description": null,
               "type": {
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "ExpectationInput",
+                  "name": "JobRequirementInput",
                   "ofType": null
                 }
               },
@@ -4333,7 +4456,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "ExpectationInput",
+          "name": "JobRequirementInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5386,7 +5509,7 @@
         {
           "kind": "OBJECT",
           "name": "CompanyProfileStep4",
-          "description": "Updates the Company Profile with Soft Skills",
+          "description": "Updates a company profile with soft skills and cultural fit",
           "fields": [
             {
               "name": "success",
@@ -5437,6 +5560,20 @@
                 }
               },
               "defaultValue": null
+            },
+            {
+              "name": "culturalFits",
+              "description": "Cultural Fit",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CulturalFitInput",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -5446,6 +5583,31 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "SoftSkillInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "CulturalFitInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -5638,14 +5800,14 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "jobOption",
+              "name": "jobType",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobOptionInput",
+                  "name": "JobTypeInput",
                   "ofType": null
                 }
               },
@@ -5689,7 +5851,7 @@
         {
           "kind": "OBJECT",
           "name": "StudentProfileStep3",
-          "description": "Updates Soft Skill of a student",
+          "description": "Updates soft skills and cultural fits of a student",
           "fields": [
             {
               "name": "success",
@@ -5736,6 +5898,20 @@
                 "ofType": {
                   "kind": "INPUT_OBJECT",
                   "name": "SoftSkillInput",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "culturalFits",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CulturalFitInput",
                   "ofType": null
                 }
               },

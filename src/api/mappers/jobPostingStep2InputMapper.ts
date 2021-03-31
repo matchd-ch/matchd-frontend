@@ -16,8 +16,8 @@ export function jobPostingStep2InputMapper(
         languageLevel: selectedLanguage.level.id,
       };
     }),
-    expectations: jobPostingForm.expectations.map((expectation) => {
-      return { id: expectation.id };
+    jobRequirements: jobPostingForm.jobRequirements.map((jobRequirement) => {
+      return { id: jobRequirement.id };
     }),
   };
 }

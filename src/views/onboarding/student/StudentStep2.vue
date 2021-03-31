@@ -1,32 +1,32 @@
 <template>
   <Form
-    v-if="jobOptions.length > 0 && jobPositions.length > 0"
+    v-if="jobTypes.length > 0 && jobPositions.length > 0"
     @submit="onSubmit"
     v-slot="{ errors }"
   >
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <SelectPillGroup :errors="errors.jobOptionId" class="mb-10">
+    <SelectPillGroup :errors="errors.jobTypeId" class="mb-10">
       <template v-slot:label>Ich suche nach*</template>
       <template v-slot:field>
         <Field
-          id="jobOptionId"
-          name="jobOptionId"
+          id="jobTypeId"
+          name="jobTypeId"
           as="input"
           label="Ich suche nach"
           type="hidden"
-          v-model="form.jobOptionId"
+          v-model="form.jobTypeId"
           rules="required"
         />
       </template>
       <SelectPill
-        name="jobOptionPill"
-        v-for="option in jobOptions"
+        name="jobTypePill"
+        v-for="option in jobTypes"
         :key="option.id"
         :value="option.id"
-        :checked="option.id === form.jobOptionId"
-        @change="form.jobOptionId = $event"
+        :checked="option.id === form.jobTypeId"
+        @change="form.jobTypeId = $event"
         >{{ option.name }}</SelectPill
       >
     </SelectPillGroup>
@@ -140,7 +140,7 @@
 
 <script lang="ts">
 import { studentProfileStep2InputMapper } from "@/api/mappers/studentProfileStep2InputMapper";
-import { JobOptionMode } from "@/api/models/types";
+import { DateMode } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -152,7 +152,7 @@ import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import type { JobOption, JobPosition, User } from "api";
+import type { JobPosition, JobType, User } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -173,7 +173,7 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class StudentStep2 extends Vue {
   form: StudentProfileStep2Form = {
-    jobOptionId: "",
+    jobTypeId: "",
     jobPositionId: "",
     jobFromDateMonth: "",
     jobFromDateYear: "",
@@ -196,8 +196,8 @@ export default class StudentStep2 extends Vue {
 
   get modeIsDateRange(): boolean {
     return (
-      this.jobOptions?.find((option) => option.id === this.form.jobOptionId)?.mode ===
-      JobOptionMode.DateRange
+      this.jobTypes?.find((option) => option.id === this.form.jobTypeId)?.mode ===
+      DateMode.DateRange
     );
   }
 
@@ -208,8 +208,8 @@ export default class StudentStep2 extends Vue {
     return this.jobPositions?.find((jobPosition) => jobPosition.id === this.form.jobPositionId);
   }
 
-  get jobOptions(): JobOption[] {
-    return this.$store.getters["jobOptions"];
+  get jobTypes(): JobType[] {
+    return this.$store.getters["jobTypes"];
   }
 
   get jobPositions(): JobPosition[] {
@@ -246,7 +246,7 @@ export default class StudentStep2 extends Vue {
 
   async mounted(): Promise<void> {
     await Promise.all([
-      this.$store.dispatch(ContentActionTypes.JOB_OPTIONS),
+      this.$store.dispatch(ContentActionTypes.JOB_TYPE),
       this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
     ]);
   }

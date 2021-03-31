@@ -4,7 +4,7 @@ mutation(
   $workload: Int!
   $jobFromDate: String!
   $jobToDate: String
-  $jobOption: JobOptionInput!
+  $jobType: JobTypeInput!
   $branch: BranchInput!
   $url: String
 ) {
@@ -16,7 +16,7 @@ mutation(
       workload: $workload
       jobFromDate: $jobFromDate
       jobToDate: $jobToDate
-      jobOption: $jobOption
+      jobType: $jobType
       url: $url
     }
   ) {

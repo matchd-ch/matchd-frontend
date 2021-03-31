@@ -59,9 +59,10 @@ type Scalars = {
 
 type Query = {
   __typename?: "Query";
+  culturalFits?: Maybe<Array<Maybe<CulturalFit>>>;
   softSkills?: Maybe<Array<Maybe<SoftSkill>>>;
   faqCategories?: Maybe<Array<Maybe<FaqCategory>>>;
-  expectations?: Maybe<Array<Maybe<Expectation>>>;
+  jobRequirements?: Maybe<Array<Maybe<JobRequirement>>>;
   jobPostings?: Maybe<Array<Maybe<JobPosting>>>;
   jobPosting?: Maybe<JobPosting>;
   company?: Maybe<Company>;
@@ -71,7 +72,7 @@ type Query = {
   benefits?: Maybe<Array<Maybe<Benefit>>>;
   skills?: Maybe<Array<Maybe<Skill>>>;
   jobPositions?: Maybe<Array<Maybe<JobPosition>>>;
-  jobOptions?: Maybe<Array<Maybe<JobOption>>>;
+  jobTypes?: Maybe<Array<Maybe<JobType>>>;
   zipCity: Array<ZipCity>;
   languageLevels?: Maybe<Array<Maybe<LanguageLevel>>>;
   languages?: Maybe<Array<Maybe<Language>>>;
@@ -105,6 +106,13 @@ type QueryVerifyPasswordResetTokenArgs = {
   token: Scalars["String"];
 };
 
+type CulturalFit = {
+  __typename?: "CulturalFit";
+  id: Scalars["ID"];
+  student: Scalars["String"];
+  company: Scalars["String"];
+};
+
 type SoftSkill = {
   __typename?: "SoftSkill";
   id: Scalars["ID"];
@@ -118,8 +126,8 @@ type FaqCategory = {
   name: Scalars["String"];
 };
 
-type Expectation = {
-  __typename?: "Expectation";
+type JobRequirement = {
+  __typename?: "JobRequirement";
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -128,14 +136,14 @@ type JobPosting = {
   __typename?: "JobPosting";
   id: Scalars["ID"];
   description: Scalars["String"];
-  jobOption: JobOption;
+  jobType: JobType;
   branch: Branch;
   workload: Scalars["Int"];
   company: Company;
   jobFromDate: Scalars["Date"];
   jobToDate?: Maybe<Scalars["Date"]>;
   url?: Maybe<Scalars["String"]>;
-  expectations: Array<Expectation>;
+  jobRequirements: Array<JobRequirement>;
   skills: Array<Skill>;
   formStep: Scalars["Int"];
   state: JobPostingState;
@@ -143,15 +151,15 @@ type JobPosting = {
   languages: Array<JobPostingLanguageRelation>;
 };
 
-type JobOption = {
-  __typename?: "JobOption";
+type JobType = {
+  __typename?: "JobType";
   id: Scalars["ID"];
   name: Scalars["String"];
-  mode: JobOptionMode;
+  mode: DateMode;
 };
 
 /** An enumeration. */
-enum JobOptionMode {
+enum DateMode {
   DateFrom = "DATE_FROM",
   DateRange = "DATE_RANGE",
 }
@@ -183,6 +191,7 @@ type Company = {
   memberItStGallen: Scalars["Boolean"];
   benefits: Array<Benefit>;
   jobPositions: Array<JobPosition>;
+  culturalFits: Array<CulturalFit>;
   topLevelOrganisationDescription: Scalars["String"];
   topLevelOrganisationWebsite: Scalars["String"];
   linkEducation?: Maybe<Scalars["String"]>;
@@ -266,6 +275,7 @@ type Student = {
   state: ProfileState;
   profileStep: Scalars["Int"];
   softSkills: Array<SoftSkill>;
+  culturalFits: Array<CulturalFit>;
   hobbies: Array<Hobby>;
   onlineProjects: Array<OnlineProject>;
   languages: Array<UserLanguageRelation>;
@@ -383,13 +393,13 @@ type Mutation = {
   companyProfileStep2?: Maybe<CompanyProfileStep2>;
   /** Updates the Company Profile with benefits and Job Positions */
   companyProfileStep3?: Maybe<CompanyProfileStep3>;
-  /** Updates the Company Profile with Soft Skills */
+  /** Updates a company profile with soft skills and cultural fit */
   companyProfileStep4?: Maybe<CompanyProfileStep4>;
   /** Updates the profile of a student */
   studentProfileStep1?: Maybe<StudentProfileStep1>;
   /** Updates job option, date (start or range) and job position of a student */
   studentProfileStep2?: Maybe<StudentProfileStep2>;
-  /** Updates Soft Skill of a student */
+  /** Updates soft skills and cultural fits of a student */
   studentProfileStep3?: Maybe<StudentProfileStep3>;
   /** Updates the profile of a student */
   studentProfileStep4?: Maybe<StudentProfileStep4>;
@@ -614,7 +624,7 @@ type JobPostingInputStep1 = {
   id?: Maybe<Scalars["ID"]>;
   /** Description */
   description: Scalars["String"];
-  jobOption: JobOptionInput;
+  jobType: JobTypeInput;
   branch: BranchInput;
   /** Workload */
   workload: Scalars["Int"];
@@ -623,7 +633,7 @@ type JobPostingInputStep1 = {
   url?: Maybe<Scalars["String"]>;
 };
 
-type JobOptionInput = {
+type JobTypeInput = {
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   mode?: Maybe<Scalars["String"]>;
@@ -644,12 +654,12 @@ type JobPostingStep2 = {
 
 type JobPostingInputStep2 = {
   id?: Maybe<Scalars["ID"]>;
-  expectations?: Maybe<Array<Maybe<ExpectationInput>>>;
+  jobRequirements?: Maybe<Array<Maybe<JobRequirementInput>>>;
   skills?: Maybe<Array<Maybe<SkillInput>>>;
   languages?: Maybe<Array<Maybe<JobPostingLanguageRelationInput>>>;
 };
 
-type ExpectationInput = {
+type JobRequirementInput = {
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
 };
@@ -832,7 +842,7 @@ type BenefitInput = {
   icon?: Maybe<Scalars["String"]>;
 };
 
-/** Updates the Company Profile with Soft Skills */
+/** Updates a company profile with soft skills and cultural fit */
 type CompanyProfileStep4 = {
   __typename?: "CompanyProfileStep4";
   success?: Maybe<Scalars["Boolean"]>;
@@ -842,9 +852,15 @@ type CompanyProfileStep4 = {
 type CompanyProfileInputStep4 = {
   /** Soft Skills */
   softSkills?: Maybe<Array<Maybe<SoftSkillInput>>>;
+  /** Cultural Fit */
+  culturalFits?: Maybe<Array<Maybe<CulturalFitInput>>>;
 };
 
 type SoftSkillInput = {
+  id: Scalars["ID"];
+};
+
+type CulturalFitInput = {
   id: Scalars["ID"];
 };
 
@@ -880,13 +896,13 @@ type StudentProfileStep2 = {
 };
 
 type StudentProfileInputStep2 = {
-  jobOption: JobOptionInput;
+  jobType: JobTypeInput;
   jobFromDate?: Maybe<Scalars["String"]>;
   jobToDate?: Maybe<Scalars["String"]>;
   jobPosition?: Maybe<JobPositionInput>;
 };
 
-/** Updates Soft Skill of a student */
+/** Updates soft skills and cultural fits of a student */
 type StudentProfileStep3 = {
   __typename?: "StudentProfileStep3";
   success?: Maybe<Scalars["Boolean"]>;
@@ -895,6 +911,7 @@ type StudentProfileStep3 = {
 
 type StudentProfileInputStep3 = {
   softSkills?: Maybe<Array<Maybe<SoftSkillInput>>>;
+  culturalFits?: Maybe<Array<Maybe<CulturalFitInput>>>;
 };
 
 /** Updates the profile of a student */

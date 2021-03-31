@@ -1,5 +1,5 @@
 query {
-  jobOptions {
+  jobTypes {
     id
     name
     mode
