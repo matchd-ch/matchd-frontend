@@ -3,6 +3,7 @@ import type {
   Benefit,
   Branch,
   Company,
+  CulturalFit,
   JobPosition,
   JobRequirement,
   JobType,
@@ -25,6 +26,8 @@ export type Mutations<S = State> = {
     state: S,
     payload: { company: Company; logo: Attachment[]; media: Attachment[] }
   ): void;
+  [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
+  [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
   [MutationTypes.JOB_REQUIREMENTS_LOADING](state: S): void;
   [MutationTypes.JOB_REQUIREMENTS_LOADED](
     state: S,
@@ -75,6 +78,13 @@ export const mutations: MutationTree<State> & Mutations = {
       state.company.logo = payload.logo[0];
     }
     state.company.media = payload.media;
+  },
+  [MutationTypes.CULTURAL_FITS_LOADING](state: State) {
+    state.culturalFits.loading = true;
+  },
+  [MutationTypes.CULTURAL_FITS_LOADED](state: State, payload: { culturalFits: CulturalFit[] }) {
+    state.culturalFits.loading = false;
+    state.culturalFits.data = payload.culturalFits;
   },
   [MutationTypes.JOB_REQUIREMENTS_LOADING](state: State) {
     state.jobRequirements.loading = true;

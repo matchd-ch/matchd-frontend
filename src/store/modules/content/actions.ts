@@ -10,6 +10,7 @@ import { State } from "@/store/modules/content/state";
 import benefitsQuery from "@/api/queries/benefits.gql";
 import branchesQuery from "@/api/queries/branches.gql";
 import companyQuery from "@/api/queries/company.gql";
+import culturalFitsQuery from "@/api/queries/culturalFits.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
 import jobPositionsQuery from "@/api/queries/jobPositions.gql";
@@ -34,6 +35,7 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: { slug: string }
   ): Promise<void>;
+  [ActionTypes.CULTURAL_FITS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_REQUIREMENTS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_TYPE]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_POSITIONS]({ commit }: AugmentedActionContext): Promise<void>;
@@ -81,6 +83,19 @@ export const actions: ActionTree<State, RootState> & Actions = {
       company: response.data.company,
       logo: response.data.logo,
       media: response.data.media,
+    });
+  },
+  async [ActionTypes.CULTURAL_FITS]({ commit }) {
+    commit(MutationTypes.CULTURAL_FITS_LOADING);
+    const response = await apiClient.query({
+      query: culturalFitsQuery,
+      context: {
+        batch: true,
+      },
+    });
+
+    commit(MutationTypes.CULTURAL_FITS_LOADED, {
+      culturalFits: response.data.culturalFits,
     });
   },
   async [ActionTypes.JOB_REQUIREMENTS]({ commit }) {

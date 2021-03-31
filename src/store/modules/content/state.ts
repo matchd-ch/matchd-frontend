@@ -3,6 +3,7 @@ import type {
   Benefit,
   Branch,
   Company,
+  CulturalFit,
   JobPosition,
   JobRequirement,
   JobType,
@@ -24,6 +25,10 @@ export type State = {
   benefits: {
     loading: boolean;
     data: Benefit[];
+  };
+  culturalFits: {
+    loading: boolean;
+    data: CulturalFit[];
   };
   company: {
     loading: boolean;
@@ -64,6 +69,10 @@ export const state: State = {
     data: [],
   },
   benefits: {
+    loading: false,
+    data: [],
+  },
+  culturalFits: {
     loading: false,
     data: [],
   },
