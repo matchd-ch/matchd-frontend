@@ -13,7 +13,6 @@ import companyQuery from "@/api/queries/company.gql";
 import culturalFitsQuery from "@/api/queries/culturalFits.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
-import jobPositionsQuery from "@/api/queries/jobPositions.gql";
 import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
 import skillsQuery from "@/api/queries/skills.gql";
@@ -38,7 +37,6 @@ export interface Actions {
   [ActionTypes.CULTURAL_FITS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_REQUIREMENTS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_TYPE]({ commit }: AugmentedActionContext): Promise<void>;
-  [ActionTypes.JOB_POSITIONS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.LANGUAGES](
     { commit }: AugmentedActionContext,
     payload: { shortList: boolean }
@@ -119,16 +117,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.JOB_TYPES_LOADED, { jobTypes: response.data.jobTypes });
-  },
-  async [ActionTypes.JOB_POSITIONS]({ commit }) {
-    commit(MutationTypes.JOB_POSITIONS_LOADING);
-    const response = await apiClient.query({
-      query: jobPositionsQuery,
-      context: {
-        batch: true,
-      },
-    });
-    commit(MutationTypes.JOB_POSITIONS_LOADED, { jobPositions: response.data.jobPositions });
   },
   async [ActionTypes.LANGUAGES]({ commit }, payload: { shortList: boolean }) {
     commit(MutationTypes.LANGUAGES_LOADING);

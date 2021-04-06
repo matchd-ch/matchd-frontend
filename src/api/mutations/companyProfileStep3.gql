@@ -1,10 +1,10 @@
 mutation(
-  $jobPositions: [JobPositionInput],
+  $branches: [BranchInput],
   $benefits: [BenefitInput]
 ) {
   companyProfileStep3(
     step3: {
-      jobPositions: $jobPositions
+      branches: $branches
       benefits: $benefits
     }
   ) {

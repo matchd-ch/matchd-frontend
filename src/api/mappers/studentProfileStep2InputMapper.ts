@@ -7,7 +7,7 @@ export function studentProfileStep2InputMapper(
   return {
     ...studentProfileForm,
     jobType: { id: studentProfileForm.jobTypeId },
-    jobPosition: studentProfileForm.jobPositionId ? { id: studentProfileForm.jobPositionId } : null,
+    branch: studentProfileForm.branchId ? { id: studentProfileForm.branchId } : null,
     jobFromDate:
       studentProfileForm.jobFromDateMonth && studentProfileForm.jobFromDateYear
         ? `${studentProfileForm.jobFromDateMonth}.${studentProfileForm.jobFromDateYear}`

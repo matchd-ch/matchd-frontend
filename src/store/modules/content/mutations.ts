@@ -4,7 +4,6 @@ import type {
   Branch,
   Company,
   CulturalFit,
-  JobPosition,
   JobRequirement,
   JobType,
   Language,
@@ -35,8 +34,6 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.JOB_TYPES_LOADING](state: S): void;
   [MutationTypes.JOB_TYPES_LOADED](state: S, payload: { jobTypes: JobType[] }): void;
-  [MutationTypes.JOB_POSITIONS_LOADING](state: S): void;
-  [MutationTypes.JOB_POSITIONS_LOADED](state: S, payload: { jobPositions: JobPosition[] }): void;
   [MutationTypes.LANGUAGES_LOADING](state: S): void;
   [MutationTypes.LANGUAGES_LOADED](state: S, payload: { languages: Language[] }): void;
   [MutationTypes.LANGUAGE_LEVELS_LOADING](state: S): void;
@@ -102,13 +99,6 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.JOB_TYPES_LOADED](state: State, payload: { jobTypes: JobType[] }) {
     state.jobTypes.loading = false;
     state.jobTypes.data = payload.jobTypes;
-  },
-  [MutationTypes.JOB_POSITIONS_LOADING](state: State) {
-    state.jobPositions.loading = true;
-  },
-  [MutationTypes.JOB_POSITIONS_LOADED](state: State, payload: { jobPositions: JobPosition[] }) {
-    state.jobPositions.loading = false;
-    state.jobPositions.data = payload.jobPositions;
   },
   [MutationTypes.LANGUAGES_LOADING](state: State) {
     state.languages.loading = true;
