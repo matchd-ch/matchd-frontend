@@ -4,11 +4,8 @@
     <ul class="flex flex-wrap -m-2">
       <li v-for="icon in icons" :key="icon.id" class="select-icon-group__item flex-shrink-0 m-2">
         <label
-          class="select-icon-group__box flex items-center border border-primary-1 justify-center font-medium text-sm p-8 cursor-pointer bg-primary-1"
-          :class="{
-            'text-white bg-primary-1': icon.checked,
-            'bg-white': !icon.checked,
-          }"
+          class="flex items-center border border-pink-1 rounded-30 font-medium text-sm py-3 px-4 cursor-pointer"
+          :class="{ 'border-black text-black': icon.checked }"
         >
           <input
             type="checkbox"
@@ -18,7 +15,7 @@
             :checked="icon.checked"
             @change="$emit('change', icon)"
           />
-          <span class="material-icons text-icon-lg">{{ icon.icon }}</span>
+          <span class="material-icons mr-2">{{ icon.icon }}</span> {{ icon.name }}
         </label>
       </li>
     </ul>
@@ -30,7 +27,7 @@ import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   name = prop<string>({ default: "" });
-  icons = prop<{ id: string; icon: string; checked: boolean }[]>({});
+  icons = prop<{ id: string; icon: string; name: string; checked: boolean }[]>({});
 }
 
 @Options({
@@ -44,31 +41,6 @@ export default class SelectIconGroup extends Vue.with(Props) {}
   @element label {
     @apply block px-8 mb-2;
     @apply font-medium;
-  }
-
-  @element item {
-    flex-basis: calc(50% - 1rem);
-
-    @screen md {
-      flex-basis: calc(25% - 1rem);
-    }
-
-    @screen xl {
-      flex-basis: calc(20% - 1rem);
-    }
-
-    @screen 2xl {
-      flex-basis: calc(12.5% - 1rem);
-    }
-  }
-
-  @element box {
-    user-select: none;
-
-    &::before {
-      content: "";
-      padding-top: 100%;
-    }
   }
 }
 </style>
