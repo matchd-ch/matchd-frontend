@@ -15,6 +15,7 @@ import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
 import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
+import matchesQuery from "@/api/queries/matches.gql";
 import skillsQuery from "@/api/queries/skills.gql";
 import softSkillsQuery from "@/api/queries/softSkills.gql";
 
@@ -42,6 +43,7 @@ export interface Actions {
     payload: { shortList: boolean }
   ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.MATCHES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
 }
@@ -140,6 +142,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.LANGUAGE_LEVELS_LOADED, { languageLevels: response.data.languageLevels });
+  },
+  async [ActionTypes.MATCHES]({ commit }) {
+    commit(MutationTypes.MATCHES_LOADING);
+    const response = await apiClient.query({
+      query: matchesQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.MATCHES_LOADED, { matches: response.data.matches });
   },
   async [ActionTypes.SKILLS]({ commit }) {
     commit(MutationTypes.SKILLS_LOADING);

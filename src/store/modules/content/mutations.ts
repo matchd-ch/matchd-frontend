@@ -8,6 +8,7 @@ import type {
   JobType,
   Language,
   LanguageLevel,
+  Match,
   Skill,
   SoftSkill,
 } from "api";
@@ -41,6 +42,8 @@ export type Mutations<S = State> = {
     state: S,
     payload: { languageLevels: LanguageLevel[] }
   ): void;
+  [MutationTypes.MATCHES_LOADING](state: S): void;
+  [MutationTypes.MATCHES_LOADED](state: S, payload: { matches: Match[] }): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
@@ -116,6 +119,13 @@ export const mutations: MutationTree<State> & Mutations = {
   ) {
     state.languages.loading = false;
     state.languages.levels = payload.languageLevels;
+  },
+  [MutationTypes.MATCHES_LOADING](state: State) {
+    state.matches.loading = true;
+  },
+  [MutationTypes.MATCHES_LOADED](state: State, payload: { matches: Match[] }) {
+    state.matches.loading = false;
+    state.matches.data = payload.matches;
   },
   [MutationTypes.SKILLS_LOADING](state: State) {
     state.skills.loading = true;

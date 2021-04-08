@@ -8,6 +8,7 @@ import type {
   JobType,
   Language,
   LanguageLevel,
+  Match,
   Skill,
   SoftSkill,
 } from "api";
@@ -34,6 +35,10 @@ export type State = {
     data: Company | null;
     logo: Attachment | null;
     media: Attachment[];
+  };
+  matches: {
+    loading: boolean;
+    data: Match[];
   };
   skills: {
     loading: boolean;
@@ -76,6 +81,10 @@ export const state: State = {
     data: null,
     logo: null,
     media: [],
+  },
+  matches: {
+    loading: false,
+    data: [],
   },
   skills: {
     loading: false,

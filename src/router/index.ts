@@ -50,6 +50,21 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: redirectToCurrentJobPostingStep,
   },
   {
+    path: "/talente",
+    name: "SearchStudent",
+    component: () => import(/* webpackChunkName: "student-search" */ "../views/SearchStudent.vue"),
+  },
+  {
+    path: "/talente/:slug",
+    name: "StudentDetail",
+    component: () => import(/* webpackChunkName: "student-detail" */ "../views/StudentDetail.vue"),
+  },
+  {
+    path: "/firmen/",
+    name: "SearchCompany",
+    component: () => import(/* webpackChunkName: "company-search" */ "../views/SearchCompany.vue"),
+  },
+  {
     path: "/firmen/:slug",
     name: "CompanyDetail",
     component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyDetail.vue"),
