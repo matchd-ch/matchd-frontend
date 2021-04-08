@@ -4,7 +4,6 @@ import type {
   Branch,
   Company,
   CulturalFit,
-  JobPosition,
   JobRequirement,
   JobType,
   Language,
@@ -18,9 +17,9 @@ export type State = {
     loading: boolean;
     data: JobType[];
   };
-  jobPositions: {
+  branches: {
     loading: boolean;
-    data: JobPosition[];
+    data: Branch[];
   };
   benefits: {
     loading: boolean;
@@ -49,10 +48,6 @@ export type State = {
     data: Language[];
     levels: LanguageLevel[];
   };
-  branches: {
-    loading: boolean;
-    data: Branch[];
-  };
   jobRequirements: {
     loading: boolean;
     data: JobRequirement[];
@@ -64,7 +59,7 @@ export const state: State = {
     loading: false,
     data: [],
   },
-  jobPositions: {
+  branches: {
     loading: false,
     data: [],
   },
@@ -94,10 +89,6 @@ export const state: State = {
     loading: false,
     data: [],
     levels: [],
-  },
-  branches: {
-    loading: false,
-    data: [],
   },
   jobRequirements: {
     loading: false,
