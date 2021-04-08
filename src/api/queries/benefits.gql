@@ -2,5 +2,6 @@ query {
   benefits {
     id
     icon
+    name
   }
 }
