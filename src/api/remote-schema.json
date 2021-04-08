@@ -15,6 +15,22 @@
           "description": null,
           "fields": [
             {
+              "name": "matches",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Match",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "culturalFits",
               "description": null,
               "args": [],
@@ -275,22 +291,6 @@
               "deprecationReason": null
             },
             {
-              "name": "jobPositions",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "JobPosition",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "jobTypes",
               "description": null,
               "args": [],
@@ -420,6 +420,162 @@
         },
         {
           "kind": "OBJECT",
+          "name": "Match",
+          "description": null,
+          "fields": [
+            {
+              "name": "name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "avatar",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "type",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "ENUM",
+                "name": "ProfileType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "slug",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "score",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "String",
+          "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "ProfileType",
+          "description": "An enumeration.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "INTERNAL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "STUDENT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "COLLEGE_STUDENT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JUNIOR",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "COMPANY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "UNIVERSITY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "OTHER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "Float",
+          "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point). ",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "CulturalFit",
           "description": null,
           "fields": [
@@ -481,16 +637,6 @@
           "kind": "SCALAR",
           "name": "ID",
           "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "String",
-          "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -1222,13 +1368,25 @@
               "deprecationReason": null
             },
             {
-              "name": "branch",
+              "name": "branches",
               "description": "",
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "Branch",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "Branch",
+                      "ofType": null
+                    }
+                  }
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1337,30 +1495,6 @@
                     "ofType": {
                       "kind": "OBJECT",
                       "name": "Benefit",
-                      "ofType": null
-                    }
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "jobPositions",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "JobPosition",
                       "ofType": null
                     }
                   }
@@ -1493,59 +1627,6 @@
         },
         {
           "kind": "ENUM",
-          "name": "ProfileType",
-          "description": "An enumeration.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "INTERNAL",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "STUDENT",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "COLLEGE_STUDENT",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JUNIOR",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "COMPANY",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "UNIVERSITY",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "OTHER",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
           "name": "ProfileState",
           "description": "An enumeration.",
           "fields": null,
@@ -1614,49 +1695,6 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "JobPosition",
-          "description": null,
-          "fields": [
-            {
-              "name": "id",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
                   "ofType": null
                 }
               },
@@ -2059,6 +2097,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Date",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "branch",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Branch",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3149,7 +3199,7 @@
             },
             {
               "name": "universityProfileStep2",
-              "description": "Updates website branch and description",
+              "description": "Updates branches and description",
               "args": [
                 {
                   "name": "step2",
@@ -3230,7 +3280,7 @@
             },
             {
               "name": "companyProfileStep2",
-              "description": "Updates website url, branch, description, services, member IT St.Gallen",
+              "description": "Updates website url, description, services, member IT St.Gallen",
               "args": [
                 {
                   "name": "step2",
@@ -3257,7 +3307,7 @@
             },
             {
               "name": "companyProfileStep3",
-              "description": "Updates the Company Profile with benefits and Job Positions",
+              "description": "Updates the Company Profile with benefits and branches",
               "args": [
                 {
                   "name": "step3",
@@ -3338,7 +3388,7 @@
             },
             {
               "name": "studentProfileStep2",
-              "description": "Updates job option, date (start or range) and job position of a student",
+              "description": "Updates job option, date (start or range) and branch of a student",
               "args": [
                 {
                   "name": "step2",
@@ -4959,7 +5009,7 @@
         {
           "kind": "OBJECT",
           "name": "UniversityProfileStep2",
-          "description": "Updates website branch and description",
+          "description": "Updates branches and description",
           "fields": [
             {
               "name": "success",
@@ -4998,12 +5048,16 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "branch",
-              "description": "branch",
+              "name": "branches",
+              "description": "Branches",
               "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "BranchInput",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "BranchInput",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             },
@@ -5261,7 +5315,7 @@
         {
           "kind": "OBJECT",
           "name": "CompanyProfileStep2",
-          "description": "Updates website url, branch, description, services, member IT St.Gallen",
+          "description": "Updates website url, description, services, member IT St.Gallen",
           "fields": [
             {
               "name": "success",
@@ -5314,16 +5368,6 @@
               "defaultValue": null
             },
             {
-              "name": "branch",
-              "description": "branch",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "BranchInput",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
               "name": "description",
               "description": "description",
               "type": {
@@ -5365,7 +5409,7 @@
         {
           "kind": "OBJECT",
           "name": "CompanyProfileStep3",
-          "description": "Updates the Company Profile with benefits and Job Positions",
+          "description": "Updates the Company Profile with benefits and branches",
           "fields": [
             {
               "name": "success",
@@ -5404,14 +5448,14 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "jobPositions",
-              "description": "Job Position",
+              "name": "branches",
+              "description": "Branches",
               "type": {
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "JobPositionInput",
+                  "name": "BranchInput",
                   "ofType": null
                 }
               },
@@ -5428,41 +5472,6 @@
                   "name": "BenefitInput",
                   "ofType": null
                 }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "JobPositionInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               },
               "defaultValue": null
             }
@@ -5761,7 +5770,7 @@
         {
           "kind": "OBJECT",
           "name": "StudentProfileStep2",
-          "description": "Updates job option, date (start or range) and job position of a student",
+          "description": "Updates job option, date (start or range) and branch of a student",
           "fields": [
             {
               "name": "success",
@@ -5834,11 +5843,11 @@
               "defaultValue": null
             },
             {
-              "name": "jobPosition",
+              "name": "branch",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "JobPositionInput",
+                "name": "BranchInput",
                 "ofType": null
               },
               "defaultValue": null

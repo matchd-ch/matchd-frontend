@@ -58,12 +58,6 @@ export type Scalars = {
 };
 
 /** An enumeration. */
-export enum DateMode {
-  DateFrom = "DATE_FROM",
-  DateRange = "DATE_RANGE",
-}
-
-/** An enumeration. */
 export enum ProfileType {
   Internal = "INTERNAL",
   Student = "STUDENT",
@@ -72,6 +66,12 @@ export enum ProfileType {
   Company = "COMPANY",
   University = "UNIVERSITY",
   Other = "OTHER",
+}
+
+/** An enumeration. */
+export enum DateMode {
+  DateFrom = "DATE_FROM",
+  DateRange = "DATE_RANGE",
 }
 
 /** An enumeration. */
@@ -188,8 +188,8 @@ export type IUniversityProfileInputStep1 = {
 };
 
 export type IUniversityProfileInputStep2 = {
-  /** branch */
-  branch?: Maybe<IBranchInput>;
+  /** Branches */
+  branches?: Maybe<Array<Maybe<IBranchInput>>>;
   /** description */
   description?: Maybe<Scalars["String"]>;
 };
@@ -227,8 +227,6 @@ export type ICompanyProfileInputStep1 = {
 export type ICompanyProfileInputStep2 = {
   /** website */
   website: Scalars["String"];
-  /** branch */
-  branch?: Maybe<IBranchInput>;
   /** description */
   description?: Maybe<Scalars["String"]>;
   /** services */
@@ -238,15 +236,10 @@ export type ICompanyProfileInputStep2 = {
 };
 
 export type ICompanyProfileInputStep3 = {
-  /** Job Position */
-  jobPositions?: Maybe<Array<Maybe<IJobPositionInput>>>;
+  /** Branches */
+  branches?: Maybe<Array<Maybe<IBranchInput>>>;
   /** Benefits */
   benefits?: Maybe<Array<Maybe<IBenefitInput>>>;
-};
-
-export type IJobPositionInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
 };
 
 export type IBenefitInput = {
@@ -290,7 +283,7 @@ export type IStudentProfileInputStep2 = {
   jobType: IJobTypeInput;
   jobFromDate?: Maybe<Scalars["String"]>;
   jobToDate?: Maybe<Scalars["String"]>;
-  jobPosition?: Maybe<IJobPositionInput>;
+  branch?: Maybe<IBranchInput>;
 };
 
 export type IStudentProfileInputStep3 = {
