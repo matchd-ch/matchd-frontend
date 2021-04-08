@@ -13,7 +13,7 @@ query($id: ID!) {
       zip
       city
     }
-    jobOption {
+    jobType {
       id
       name
     }
@@ -25,7 +25,7 @@ query($id: ID!) {
       id
       name
     }
-    expectations {
+    jobRequirements {
       id
       name
     }

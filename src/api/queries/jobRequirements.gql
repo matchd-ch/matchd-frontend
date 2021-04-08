@@ -1,5 +1,5 @@
 query {
-  expectations {
+  jobRequirements {
     id
     name
   }

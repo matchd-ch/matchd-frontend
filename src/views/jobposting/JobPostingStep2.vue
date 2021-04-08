@@ -4,7 +4,7 @@
       skills.length > 0 &&
       languages.length > 0 &&
       languageLevels.length > 0 &&
-      expectations.length > 0
+      jobRequirements.length > 0
     "
     @submit="onSubmit"
     v-slot="{ errors }"
@@ -13,9 +13,9 @@
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
     <SelectPillMultiple
-      :options="expectations"
-      @change="onChangeExpectations"
-      name="expectations"
+      :options="jobRequirements"
+      @change="onChangeJobRequirement"
+      name="jobRequirements"
       class="mb-10"
     >
       <template v-slot:label>Allgemeine Anforderungen</template>
@@ -91,14 +91,14 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { JobPostingState } from "@/models/JobPostingState";
-import { ExpectationWithStatus, JobPostingStep2Form } from "@/models/JobPostingStep2Form";
+import { JobRequirementWithStatus, JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import type {
-  Expectation,
   JobPosting as JobPostingType,
+  JobRequirement,
   Language,
   LanguageLevel,
   Skill,
@@ -126,7 +126,7 @@ export default class JobPostingStep2 extends Vue {
   form: JobPostingStep2Form = {
     skills: [],
     languages: [],
-    expectations: [],
+    jobRequirements: [],
   };
   errors: { [k: string]: string } = {};
 
@@ -137,12 +137,12 @@ export default class JobPostingStep2 extends Vue {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get expectations(): ExpectationWithStatus[] {
-    return this.$store.getters["expectations"].map((expectation) => {
+  get jobRequirements(): JobRequirementWithStatus[] {
+    return this.$store.getters["jobRequirements"].map((jobRequirement) => {
       return {
-        ...expectation,
-        checked: !!this.form.expectations.find(
-          (selectedExpectations) => selectedExpectations.id === expectation.id
+        ...jobRequirement,
+        checked: !!this.form.jobRequirements.find(
+          (selectedJobRequirement) => selectedJobRequirement.id === jobRequirement.id
         ),
       };
     });
@@ -168,16 +168,16 @@ export default class JobPostingStep2 extends Vue {
     return this.$store.getters["jobPostingState"];
   }
 
-  onChangeExpectations(expectation: Expectation): void {
-    const expectationExists = !!this.form.expectations.find(
-      (selectedExpectation) => selectedExpectation.id === expectation.id
+  onChangeJobRequirement(jobRequirement: JobRequirement): void {
+    const jobRequirementExists = !!this.form.jobRequirements.find(
+      (selectedJobRequirements) => selectedJobRequirements.id === jobRequirement.id
     );
-    if (expectationExists) {
-      this.form.expectations = this.form.expectations.filter(
-        (selectedExpectation) => selectedExpectation.id !== expectation.id
+    if (jobRequirementExists) {
+      this.form.jobRequirements = this.form.jobRequirements.filter(
+        (selectedJobRequirements) => selectedJobRequirements.id !== jobRequirement.id
       );
     } else {
-      this.form.expectations.push(expectation);
+      this.form.jobRequirements.push(jobRequirement);
     }
   }
 
@@ -223,7 +223,7 @@ export default class JobPostingStep2 extends Vue {
 
   async mounted(): Promise<void> {
     await Promise.all([
-      this.$store.dispatch(ContentActionsTypes.EXPECTATIONS),
+      this.$store.dispatch(ContentActionsTypes.JOB_REQUIREMENTS),
       this.$store.dispatch(ContentActionsTypes.LANGUAGES, { shortList: true }),
       this.$store.dispatch(ContentActionsTypes.LANGUAGE_LEVELS),
       this.$store.dispatch(ContentActionsTypes.SKILLS),
@@ -249,10 +249,10 @@ export default class JobPostingStep2 extends Vue {
             ...skill,
           };
         }) || [],
-      expectations:
-        this.currentJobPosting?.expectations.map((expectation) => {
+      jobRequirements:
+        this.currentJobPosting?.jobRequirements.map((jobRequirement) => {
           return {
-            ...expectation,
+            ...jobRequirement,
           };
         }) || [],
     };
