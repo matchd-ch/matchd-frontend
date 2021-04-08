@@ -4,9 +4,9 @@ import type {
   Benefit,
   Branch,
   Company,
-  Expectation,
-  JobOption,
-  JobPosition,
+  CulturalFit,
+  JobRequirement,
+  JobType,
   Language,
   LanguageLevel,
   Skill,
@@ -19,9 +19,9 @@ export type Getters = {
   benefits(state: State): Benefit[];
   branches(state: State): Branch[];
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
-  expectations(state: State): Expectation[];
-  jobOptions(state: State): JobOption[];
-  jobPositions(state: State): JobPosition[];
+  culturalFits(state: State): CulturalFit[];
+  jobRequirements(state: State): JobRequirement[];
+  jobTypes(state: State): JobType[];
   languages(state: State): Language[];
   languageLevels(state: State): LanguageLevel[];
   skills(state: State): Skill[];
@@ -38,14 +38,14 @@ export const getters: GetterTree<State, RootState> & Getters = {
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] } {
     return state.company;
   },
-  expectations(state: State): Expectation[] {
-    return state.expectations.data;
+  culturalFits(state: State): CulturalFit[] {
+    return state.culturalFits.data;
   },
-  jobOptions(state: State): JobOption[] {
-    return state.jobOptions.data;
+  jobRequirements(state: State): JobRequirement[] {
+    return state.jobRequirements.data;
   },
-  jobPositions(state: State): JobPosition[] {
-    return state.jobPositions.data;
+  jobTypes(state: State): JobType[] {
+    return state.jobTypes.data;
   },
   languages(state: State): Language[] {
     return state.languages.data;

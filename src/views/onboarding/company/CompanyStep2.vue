@@ -15,29 +15,6 @@
         rules="required|url"
       />
     </MatchdField>
-    <!-- Branch Field -->
-    <SelectPillGroup :errors="errors.branchId" class="mb-10">
-      <template v-slot:label>Branche</template>
-      <template v-slot:field>
-        <Field
-          id="branchId"
-          name="branchId"
-          as="input"
-          label="Branche"
-          type="hidden"
-          v-model="form.branchId"
-        />
-      </template>
-      <SelectPill
-        name="branchPill"
-        v-for="branch in branches"
-        :key="branch.id"
-        :value="branch.id"
-        :checked="branch.id === form.branchId"
-        @change="form.branchId = $event"
-        >{{ branch.name }}</SelectPill
-      >
-    </SelectPillGroup>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
       <template v-slot:label>Kurzbeschreibung unserer Unternehmung</template>
@@ -141,7 +118,6 @@ export default class CompanyStep2 extends Vue {
     website: "",
     description: "",
     services: "",
-    branchId: "",
     memberItStGallen: false,
   };
 

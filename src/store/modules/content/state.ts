@@ -3,9 +3,9 @@ import type {
   Benefit,
   Branch,
   Company,
-  Expectation,
-  JobOption,
-  JobPosition,
+  CulturalFit,
+  JobRequirement,
+  JobType,
   Language,
   LanguageLevel,
   Skill,
@@ -13,17 +13,21 @@ import type {
 } from "api";
 
 export type State = {
-  jobOptions: {
+  jobTypes: {
     loading: boolean;
-    data: JobOption[];
+    data: JobType[];
   };
-  jobPositions: {
+  branches: {
     loading: boolean;
-    data: JobPosition[];
+    data: Branch[];
   };
   benefits: {
     loading: boolean;
     data: Benefit[];
+  };
+  culturalFits: {
+    loading: boolean;
+    data: CulturalFit[];
   };
   company: {
     loading: boolean;
@@ -44,26 +48,26 @@ export type State = {
     data: Language[];
     levels: LanguageLevel[];
   };
-  branches: {
+  jobRequirements: {
     loading: boolean;
-    data: Branch[];
-  };
-  expectations: {
-    loading: boolean;
-    data: Expectation[];
+    data: JobRequirement[];
   };
 };
 
 export const state: State = {
-  jobOptions: {
+  jobTypes: {
     loading: false,
     data: [],
   },
-  jobPositions: {
+  branches: {
     loading: false,
     data: [],
   },
   benefits: {
+    loading: false,
+    data: [],
+  },
+  culturalFits: {
     loading: false,
     data: [],
   },
@@ -86,11 +90,7 @@ export const state: State = {
     data: [],
     levels: [],
   },
-  branches: {
-    loading: false,
-    data: [],
-  },
-  expectations: {
+  jobRequirements: {
     loading: false,
     data: [],
   },

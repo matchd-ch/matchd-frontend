@@ -3,9 +3,9 @@ import type {
   Benefit,
   Branch,
   Company,
-  Expectation,
-  JobOption,
-  JobPosition,
+  CulturalFit,
+  JobRequirement,
+  JobType,
   Language,
   LanguageLevel,
   Skill,
@@ -25,12 +25,15 @@ export type Mutations<S = State> = {
     state: S,
     payload: { company: Company; logo: Attachment[]; media: Attachment[] }
   ): void;
-  [MutationTypes.EXPECTATIONS_LOADING](state: S): void;
-  [MutationTypes.EXPECTATIONS_LOADED](state: S, payload: { expectations: Expectation[] }): void;
-  [MutationTypes.JOB_OPTIONS_LOADING](state: S): void;
-  [MutationTypes.JOB_OPTIONS_LOADED](state: S, payload: { jobOptions: JobOption[] }): void;
-  [MutationTypes.JOB_POSITIONS_LOADING](state: S): void;
-  [MutationTypes.JOB_POSITIONS_LOADED](state: S, payload: { jobPositions: JobPosition[] }): void;
+  [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
+  [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
+  [MutationTypes.JOB_REQUIREMENTS_LOADING](state: S): void;
+  [MutationTypes.JOB_REQUIREMENTS_LOADED](
+    state: S,
+    payload: { jobRequirements: JobRequirement[] }
+  ): void;
+  [MutationTypes.JOB_TYPES_LOADING](state: S): void;
+  [MutationTypes.JOB_TYPES_LOADED](state: S, payload: { jobTypes: JobType[] }): void;
   [MutationTypes.LANGUAGES_LOADING](state: S): void;
   [MutationTypes.LANGUAGES_LOADED](state: S, payload: { languages: Language[] }): void;
   [MutationTypes.LANGUAGE_LEVELS_LOADING](state: S): void;
@@ -46,7 +49,7 @@ export type Mutations<S = State> = {
 
 export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.BENEFITS_LOADING](state: State) {
-    state.jobOptions.loading = true;
+    state.benefits.loading = true;
   },
   [MutationTypes.BENEFITS_LOADED](state: State, payload: { benefits: Benefit[] }) {
     state.benefits.loading = false;
@@ -73,26 +76,29 @@ export const mutations: MutationTree<State> & Mutations = {
     }
     state.company.media = payload.media;
   },
-  [MutationTypes.EXPECTATIONS_LOADING](state: State) {
-    state.expectations.loading = true;
+  [MutationTypes.CULTURAL_FITS_LOADING](state: State) {
+    state.culturalFits.loading = true;
   },
-  [MutationTypes.EXPECTATIONS_LOADED](state: State, payload: { expectations: Expectation[] }) {
-    state.expectations.loading = false;
-    state.expectations.data = payload.expectations;
+  [MutationTypes.CULTURAL_FITS_LOADED](state: State, payload: { culturalFits: CulturalFit[] }) {
+    state.culturalFits.loading = false;
+    state.culturalFits.data = payload.culturalFits;
   },
-  [MutationTypes.JOB_OPTIONS_LOADING](state: State) {
-    state.jobOptions.loading = true;
+  [MutationTypes.JOB_REQUIREMENTS_LOADING](state: State) {
+    state.jobRequirements.loading = true;
   },
-  [MutationTypes.JOB_OPTIONS_LOADED](state: State, payload: { jobOptions: JobOption[] }) {
-    state.jobOptions.loading = false;
-    state.jobOptions.data = payload.jobOptions;
+  [MutationTypes.JOB_REQUIREMENTS_LOADED](
+    state: State,
+    payload: { jobRequirements: JobRequirement[] }
+  ) {
+    state.jobRequirements.loading = false;
+    state.jobRequirements.data = payload.jobRequirements;
   },
-  [MutationTypes.JOB_POSITIONS_LOADING](state: State) {
-    state.jobPositions.loading = true;
+  [MutationTypes.JOB_TYPES_LOADING](state: State) {
+    state.jobTypes.loading = true;
   },
-  [MutationTypes.JOB_POSITIONS_LOADED](state: State, payload: { jobPositions: JobPosition[] }) {
-    state.jobPositions.loading = false;
-    state.jobPositions.data = payload.jobPositions;
+  [MutationTypes.JOB_TYPES_LOADED](state: State, payload: { jobTypes: JobType[] }) {
+    state.jobTypes.loading = false;
+    state.jobTypes.data = payload.jobTypes;
   },
   [MutationTypes.LANGUAGES_LOADING](state: State) {
     state.languages.loading = true;

@@ -1,7 +1,0 @@
-query {
-  jobOptions {
-    id
-    name
-    mode
-  }
-}

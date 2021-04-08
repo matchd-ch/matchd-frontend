@@ -1,32 +1,28 @@
 <template>
-  <Form
-    v-if="jobOptions.length > 0 && jobPositions.length > 0"
-    @submit="onSubmit"
-    v-slot="{ errors }"
-  >
+  <Form v-if="jobTypes.length > 0 && branches.length > 0" @submit="onSubmit" v-slot="{ errors }">
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <SelectPillGroup :errors="errors.jobOptionId" class="mb-10">
+    <SelectPillGroup :errors="errors.jobTypeId" class="mb-10">
       <template v-slot:label>Ich suche nach*</template>
       <template v-slot:field>
         <Field
-          id="jobOptionId"
-          name="jobOptionId"
+          id="jobTypeId"
+          name="jobTypeId"
           as="input"
           label="Ich suche nach"
           type="hidden"
-          v-model="form.jobOptionId"
+          v-model="form.jobTypeId"
           rules="required"
         />
       </template>
       <SelectPill
-        name="jobOptionPill"
-        v-for="option in jobOptions"
+        name="jobTypePill"
+        v-for="option in jobTypes"
         :key="option.id"
         :value="option.id"
-        :checked="option.id === form.jobOptionId"
-        @change="form.jobOptionId = $event"
+        :checked="option.id === form.jobTypeId"
+        @change="form.jobTypeId = $event"
         >{{ option.name }}</SelectPill
       >
     </SelectPillGroup>
@@ -101,32 +97,28 @@
         </fieldset>
       </MatchdSelect>
     </div>
-    <MatchdAutocomplete
-      id="jobPosition"
-      class="mb-3"
-      :class="{ 'mb-10': !selectedJobPosition }"
-      :errors="errors.jobPosition"
-      :items="filteredJobPositions"
-      @select="onSelectJobPosition"
-    >
-      <template v-slot:label>Fachrichtung</template>
-      <Field
-        id="jobPositionInput"
-        name="jobPositionInput"
-        as="input"
-        autocomplete="off"
-        label="Fachrichtung"
-        v-model="jobPositionInput"
-        @input="onInputJobPositions"
-      />
-      <template v-if="!selectedJobPosition" v-slot:info
-        >Unternehmen können Dich leichter finden, wenn du dieses Feld ausfüllst.</template
+    <SelectPillGroup :errors="errors.branchId" class="mb-10">
+      <template v-slot:label>Fachrichtung*</template>
+      <template v-slot:field>
+        <Field
+          id="branchId"
+          name="branchId"
+          as="input"
+          label="Fachrichtung"
+          type="hidden"
+          v-model="form.branchId"
+          rules="required"
+        />
+      </template>
+      <SelectPill
+        name="branchPill"
+        v-for="option in branches"
+        :key="option.id"
+        :value="option.id"
+        :checked="option.id === form.branchId"
+        @change="form.branchId = $event"
+        >{{ option.name }}</SelectPill
       >
-    </MatchdAutocomplete>
-    <SelectPillGroup v-if="selectedJobPosition" class="mb-10">
-      <SelectPill hasDelete="true" @remove="form.jobPositionId = ''">{{
-        selectedJobPosition.name
-      }}</SelectPill>
     </SelectPillGroup>
     <MatchdButton
       variant="outline"
@@ -140,9 +132,8 @@
 
 <script lang="ts">
 import { studentProfileStep2InputMapper } from "@/api/mappers/studentProfileStep2InputMapper";
-import { JobOptionMode } from "@/api/models/types";
+import { DateMode } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
-import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
@@ -152,7 +143,7 @@ import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import type { JobOption, JobPosition, User } from "api";
+import type { Branch, JobType, User } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -166,23 +157,19 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
     MatchdField,
     MatchdSelect,
-    MatchdAutocomplete,
     SelectPill,
     SelectPillGroup,
   },
 })
 export default class StudentStep2 extends Vue {
   form: StudentProfileStep2Form = {
-    jobOptionId: "",
-    jobPositionId: "",
+    jobTypeId: "",
+    branchId: "",
     jobFromDateMonth: "",
     jobFromDateYear: "",
     jobToDateMonth: "",
     jobToDateYear: "",
   };
-
-  jobPositionInput = "";
-  filteredJobPositions: JobPosition[] = [];
 
   get validYears(): number[] {
     const currentYear = new Date().getFullYear();
@@ -196,24 +183,17 @@ export default class StudentStep2 extends Vue {
 
   get modeIsDateRange(): boolean {
     return (
-      this.jobOptions?.find((option) => option.id === this.form.jobOptionId)?.mode ===
-      JobOptionMode.DateRange
+      this.jobTypes?.find((option) => option.id === this.form.jobTypeId)?.mode ===
+      DateMode.DateRange
     );
   }
 
-  get selectedJobPosition(): JobPosition | undefined {
-    if (!this.form.jobPositionId) {
-      return { id: "0", name: "Fehler" };
-    }
-    return this.jobPositions?.find((jobPosition) => jobPosition.id === this.form.jobPositionId);
+  get branches(): Branch[] {
+    return this.$store.getters["branches"];
   }
 
-  get jobOptions(): JobOption[] {
-    return this.$store.getters["jobOptions"];
-  }
-
-  get jobPositions(): JobPosition[] {
-    return this.$store.getters["jobPositions"];
+  get jobTypes(): JobType[] {
+    return this.$store.getters["jobTypes"];
   }
 
   get onboardingLoading(): boolean {
@@ -228,26 +208,10 @@ export default class StudentStep2 extends Vue {
     return this.$store.getters["user"];
   }
 
-  onInputJobPositions(): void {
-    if (this.jobPositionInput.length < 3) {
-      this.filteredJobPositions = [];
-      return;
-    }
-    this.filteredJobPositions = this.jobPositions.filter((item) =>
-      item.name.toLowerCase().includes(this.jobPositionInput.toLowerCase())
-    );
-  }
-
-  onSelectJobPosition(item: JobPosition): void {
-    this.jobPositionInput = "";
-    this.form.jobPositionId = item.id;
-    this.onInputJobPositions();
-  }
-
   async mounted(): Promise<void> {
     await Promise.all([
-      this.$store.dispatch(ContentActionTypes.JOB_OPTIONS),
-      this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
+      this.$store.dispatch(ContentActionTypes.BRANCHES),
+      this.$store.dispatch(ContentActionTypes.JOB_TYPE),
     ]);
   }
 

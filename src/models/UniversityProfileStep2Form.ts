@@ -1,4 +1,6 @@
+import type { Branch } from "api";
+
 export interface UniversityProfileStep2Form {
-  branchId?: string;
+  branches: Branch[];
   description: string;
 }

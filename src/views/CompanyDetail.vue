@@ -49,15 +49,15 @@
         <p class="xl:w-1/2">{{ company.data.services }}</p>
       </section>
       <section
-        v-if="company.data.jobPositions && company.data.jobPositions.length > 0"
+        v-if="company.data.branches && company.data.branches.length > 0"
         class="flex-grow border-b border-pink-1 p-9 xl:flex"
       >
         <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">
           In diesen Bereichen kannst du bei uns tätig sein
         </h2>
         <ul class="list list-disc pl-4 xl:w-1/2">
-          <li v-for="jobPosition in company.data.jobPositions" :key="jobPosition.id">
-            {{ jobPosition.name }}
+          <li v-for="branch in company.data.branches" :key="branch.id">
+            {{ branch.name }}
           </li>
         </ul>
       </section>
