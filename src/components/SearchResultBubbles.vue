@@ -1,18 +1,16 @@
 <template>
-  <div id="vis" class="h-screen"></div>
+  <div id="vis" class="search-result-bubbles"></div>
 </template>
 
 <script lang="ts">
-import { SearchLink, SearchNode } from "@/store/modules/content/getters";
+import { SearchLink, SearchNode, SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import type { Attachment } from "api";
 import * as d3 from "d3";
 import { Options, prop, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
 
 class Props {
-  matches = prop<{
-    nodes: SearchNode[];
-    links: SearchLink[];
-  }>({ default: [] });
+  matches = prop<SearchResultBubbleData>({ default: [] });
   resultType = prop<string>({ default: "" });
   avatar = prop<Attachment>({});
 }
@@ -20,6 +18,15 @@ class Props {
 @Options({})
 export default class SearchResultBubbles extends Vue.with(Props) {
   vis: any = {} as any;
+  force: any = {} as any;
+  node: any = [];
+  link: any = [];
+  width = 0;
+  height = 0;
+  ratio = 0;
+
+  resultRadius = 40;
+  rootRadius = 60;
 
   get rootColor(): string {
     switch (this.resultType) {
@@ -41,73 +48,94 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
   }
 
-  mounted() {
-    const links = this.matches.links.map((d: any) => Object.create(d));
-    const nodes = this.matches.nodes.map((d: any) => Object.create(d));
+  @Watch("matches")
+  onUpdateMatches(): void {
+    this.update();
+  }
+
+  mounted(): void {
+    const element = document.getElementById("vis") as HTMLElement;
+    this.width = parseInt(window.getComputedStyle(element).getPropertyValue("width"));
+    this.height = parseInt(window.getComputedStyle(element).getPropertyValue("height"));
+    this.ratio = this.width / this.height;
 
     this.drawSVG();
-    const link = this.createLinks(links);
-    const node = this.createNodes(nodes);
+    this.initForce();
+    this.update();
+  }
 
+  update(): void {
+    this.link = this.createLinks(this.matches.links);
+    this.node = this.createNodes(this.matches.nodes);
     this.drawRoot();
     this.drawResults();
+    this.initForce();
+  }
 
-    d3.forceSimulation(nodes)
+  tick(): void {
+    this.link
+      .attr("x1", (d: any) => d.source.x)
+      .attr("y1", (d: any) => d.source.y)
+      .attr("x2", (d: any) => d.target.x)
+      .attr("y2", (d: any) => d.target.y)
+      .attr("id", (d: any) => {
+        return d.id;
+      });
+
+    this.node.attr("transform", (d: any) => {
+      return `translate(${d.x - this.resultRadius},${d.y - this.resultRadius})`;
+    });
+  }
+
+  initForce(): void {
+    this.force = d3
+      .forceSimulation(this.matches.nodes)
       .force(
         "link",
         d3
-          .forceLink(links)
+          .forceLink(this.matches.links)
           .id((d: any) => d.id)
-          .distance((d: any) => (1 - d.value) * 300)
+          .distance((d: any) => (1 - d.value) * 400)
       )
       .force("charge", d3.forceManyBody())
       .force(
         "collisionForce",
         d3
-          .forceCollide((d: SearchNode) => (d.main ? 60 : 40))
-          .strength(1)
-          .iterations(100)
+          .forceCollide((d: SearchNode) => (d.main ? this.rootRadius * 2 : this.resultRadius * 2))
+          .strength(0.2)
+          .iterations(10)
       )
-      .force("center", d3.forceCenter(600 / 2, 600 / 2))
-      .on("tick", () => {
-        link
-          .attr("x1", (d: any) => d.source.x)
-          .attr("y1", (d: any) => d.source.y)
-          .attr("x2", (d: any) => d.target.x)
-          .attr("y2", (d: any) => d.target.y);
-
-        node.attr("transform", (d: any) => {
-          if (!d.main) {
-            return `translate(${d.x - 20},${d.y - 20})`;
-          }
-          return "";
-        });
-      });
+      .force("center", d3.forceCenter(this.width / 2, this.height / 2))
+      .on("tick", this.tick);
   }
 
   createNodes(nodes: SearchNode[]): any {
-    return this.vis
-      .selectAll("g.node")
-      .data(nodes)
+    const node = this.vis.selectAll("g").data(nodes, (d: any) => d.id);
+    node.selectAll("*").remove();
+    node.exit().remove();
+    return node
       .enter()
       .append("svg:g")
-      .attr("class", (d: SearchNode) => (d.main ? "root" : "node"));
+      .attr("class", (d: SearchNode) => (d.main ? "root" : "node"))
+      .merge(node)
+      .raise();
   }
 
   createLinks(links: SearchLink[]): any {
-    return this.vis
+    const link = this.vis
       .selectAll("line")
-      .data(links)
+      .data(links, (d: any) => `${d.source.id}-${d.target.id}`);
+    link.exit().remove();
+    return link
       .enter()
       .append("line")
       .style("stroke", this.resultColor)
       .style("opacity", (d: any) => d.value)
-      .attr("x1", 300)
-      .attr("y1", 300);
+      .merge(link);
   }
 
   drawSVG(): void {
-    this.vis = d3.select("#vis").append("svg").attr("viewBox", `0 0 600 600`);
+    this.vis = d3.select("#vis").append("svg").attr("viewBox", `0 0 ${this.width} ${this.height}`);
 
     const defs = d3.select("#vis").select("svg").append("defs");
     defs
@@ -128,23 +156,23 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     if (this.avatar) {
       d3.select(".root")
         .append("circle")
-        .attr("cx", 300)
-        .attr("cy", 300)
-        .attr("r", 30)
+        .attr("cx", this.rootRadius / 2)
+        .attr("cy", this.rootRadius / 2)
+        .attr("r", this.rootRadius)
         .attr("fill", this.rootColor);
       d3.select(".root")
         .append("image")
-        .attr("x", 300 - 15)
-        .attr("y", 300 - 15)
+        .attr("x", 0)
+        .attr("y", 0)
         .attr("href", this.avatar?.url.replace("{stack}", "avatar") || "")
-        .attr("width", 30)
-        .attr("height", 30);
+        .attr("width", this.rootRadius)
+        .attr("height", this.rootRadius);
     } else {
       d3.select(".root")
         .append("circle")
-        .attr("cx", 300)
-        .attr("cy", 300)
-        .attr("r", 30)
+        .attr("cx", this.rootRadius / 2)
+        .attr("cy", this.rootRadius / 2)
+        .attr("r", this.rootRadius)
         .attr("fill", this.rootColor);
     }
   }
@@ -162,16 +190,16 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       });
     result
       .append("circle")
-      .attr("cx", 20)
-      .attr("cy", 20)
-      .attr("r", 21)
+      .attr("cx", this.resultRadius)
+      .attr("cy", this.resultRadius)
+      .attr("r", this.resultRadius + 1)
       .attr("fill", this.resultColor);
     result
       .append("text")
-      .attr("font-size", "8")
+      .attr("font-size", "16")
       .attr("fill", "currentColor")
-      .attr("x", "20")
-      .attr("y", "48")
+      .attr("x", this.resultRadius)
+      .attr("y", this.resultRadius * 2 + 12)
       .attr("dominant-baseline", "middle")
       .attr("text-anchor", "middle")
       .text((d: any) => d.name);
@@ -181,8 +209,8 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .attr("x", 0)
       .attr("y", 0)
       .attr("href", (d: any) => d.img.replace("{stack}", "mobile-square"))
-      .attr("width", 40)
-      .attr("height", 40);
+      .attr("width", this.resultRadius * 2)
+      .attr("height", this.resultRadius * 2);
 
     result.on("click", (event: MouseEvent, d: any) => {
       this.$emit("clickResult", d.slug);
@@ -192,6 +220,10 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 </script>
 
 <style lang="postcss" scoped>
+@block search-result-bubbles {
+  height: calc(100vh - 7.1875rem - 5.5rem);
+}
+
 #vis :deep(svg) {
   width: 100%;
   max-height: 100%;

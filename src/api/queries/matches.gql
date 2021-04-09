@@ -1,9 +1,0 @@
-query {
-  matches {
-    name
-    avatar
-    type
-    slug
-    score
-  }
-}

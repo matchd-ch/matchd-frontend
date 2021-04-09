@@ -68,6 +68,30 @@ export enum ProfileType {
   Other = "OTHER",
 }
 
+export type IJobPostingMatchingInput = {
+  jobPosting: IJobPostingInput;
+};
+
+export type IJobPostingInput = {
+  id: Scalars["ID"];
+};
+
+export type IStudentMatchingInput = {
+  jobType?: Maybe<IJobTypeInput>;
+  branch?: Maybe<IBranchInput>;
+};
+
+export type IJobTypeInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars["String"]>;
+};
+
+export type IBranchInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 /** An enumeration. */
 export enum DateMode {
   DateFrom = "DATE_FROM",
@@ -113,17 +137,6 @@ export type IJobPostingInputStep1 = {
   jobFromDate: Scalars["String"];
   jobToDate?: Maybe<Scalars["String"]>;
   url?: Maybe<Scalars["String"]>;
-};
-
-export type IJobTypeInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
-  mode?: Maybe<Scalars["String"]>;
-};
-
-export type IBranchInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
 };
 
 export type IJobPostingInputStep2 = {
@@ -351,6 +364,7 @@ export type ICompanyInput = {
 };
 
 export type IStudentInput = {
+  id?: Maybe<Scalars["ID"]>;
   /** Mobile */
   mobile: Scalars["String"];
 };

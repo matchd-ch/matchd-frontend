@@ -1,3 +1,5 @@
+import { SearchResult } from "@/models/SearchResult";
+import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { RootState } from "@/store";
 import type {
   Attachment,
@@ -5,6 +7,7 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  JobPosting,
   JobRequirement,
   JobType,
   Language,
@@ -15,32 +18,18 @@ import type {
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
-export interface SearchNode {
-  id: string;
-  main: boolean;
-  name: string;
-  img: string;
-  score: number;
-  fx?: number;
-  fy?: number;
-}
-
-export interface SearchLink {
-  source: string;
-  target: string;
-  value: number;
-}
-
 export type Getters = {
   benefits(state: State): Benefit[];
   branches(state: State): Branch[];
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
   culturalFits(state: State): CulturalFit[];
+  jobPostings(state: State): JobPosting[];
   jobRequirements(state: State): JobRequirement[];
   jobTypes(state: State): JobType[];
   languages(state: State): Language[];
   languageLevels(state: State): LanguageLevel[];
-  matches(state: State): { nodes: SearchNode[]; links: SearchLink[] };
+  matchesForBubbles(state: State): SearchResultBubbleData;
+  matchesForGrid(state: State): SearchResult[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
 };
@@ -58,6 +47,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   culturalFits(state: State): CulturalFit[] {
     return state.culturalFits.data;
   },
+  jobPostings(state: State): JobPosting[] {
+    return state.jobPostings.data;
+  },
   jobRequirements(state: State): JobRequirement[] {
     return state.jobRequirements.data;
   },
@@ -70,17 +62,16 @@ export const getters: GetterTree<State, RootState> & Getters = {
   languageLevels(state: State): LanguageLevel[] {
     return state.languages.levels;
   },
-  matches(state: State): { nodes: SearchNode[]; links: SearchLink[] } {
+  matchesForBubbles(state: State): SearchResultBubbleData {
     return {
       nodes: [
         {
           id: "root",
           main: true,
-          name: "A",
-          fx: 300,
-          fy: 300,
+          name: "Root",
           img: "",
           score: 0,
+          rawScore: 0,
         },
         ...state.matches.data.map((match) => {
           return {
@@ -89,6 +80,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
             img: match.avatar || "",
             main: false,
             score: match.score,
+            rawScore: match.rawScore,
           };
         }),
       ],
@@ -100,6 +92,17 @@ export const getters: GetterTree<State, RootState> & Getters = {
         };
       }),
     };
+  },
+  matchesForGrid(state: State): any {
+    return state.matches.data.map((match) => {
+      return {
+        id: match.slug,
+        name: match.name,
+        img: match.avatar || "",
+        score: match.score,
+        rawScore: match.rawScore,
+      };
+    });
   },
   skills(state: State): Skill[] {
     return state.skills.data;

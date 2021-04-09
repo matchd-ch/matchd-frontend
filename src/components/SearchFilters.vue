@@ -1,37 +1,14 @@
 <template>
-  <div class="search-filters flex flex-col xl:flex-row xl:justify-center">
-    <div class="search-filters__slider flex items-center justify-between">
-      Übereinstimmung Werte
-      <Slider
-        v-model="softBoost"
-        :tooltips="false"
-        :min="1"
-        :max="5"
-        @change="$emit('changeSoftBoost', $event)"
-      />
-    </div>
-    <div class="search-filters__slider flex items-center justify-between mt-4 xl:mt-0 xl:ml-8">
-      Übereinstimmung Skills
-      <Slider
-        v-model="techBoost"
-        :tooltips="false"
-        :min="1"
-        :max="5"
-        @change="$emit('changeTechBoost', $event)"
-      />
-    </div>
+  <div class="search-filters flex flex-col xl:flex-row xl:justify-between xl:items-center">
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Slider from "@vueform/slider";
 
 @Options({
-  components: {
-    Slider,
-  },
-  emits: ["changeSoftBoost", "changeTechBoost"],
+  emits: ["changeFilters"],
 })
 export default class SearchFilters extends Vue {
   techBoost = 3;
@@ -45,9 +22,9 @@ export default class SearchFilters extends Vue {
 
 <style type="postcss" scoped>
 @block search-filters {
-  @apply fixed right-0 bottom-0 left-0;
+  @apply fixed right-0 top-0 left-0;
   @apply p-4 xl:p-8;
-  @apply bg-white;
+  @apply text-white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
   @element slider {

@@ -4,6 +4,7 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  JobPosting,
   JobRequirement,
   JobType,
   Language,
@@ -57,6 +58,10 @@ export type State = {
     loading: boolean;
     data: JobRequirement[];
   };
+  jobPostings: {
+    loading: boolean;
+    data: JobPosting[];
+  };
 };
 
 export const state: State = {
@@ -100,6 +105,10 @@ export const state: State = {
     levels: [],
   },
   jobRequirements: {
+    loading: false,
+    data: [],
+  },
+  jobPostings: {
     loading: false,
     data: [],
   },

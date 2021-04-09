@@ -80,8 +80,17 @@ type Query = {
   verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
 };
 
+type QueryMatchesArgs = {
+  first?: Maybe<Scalars["Int"]>;
+  skip?: Maybe<Scalars["Int"]>;
+  techBoost?: Maybe<Scalars["Int"]>;
+  softBoost?: Maybe<Scalars["Int"]>;
+  jobPostingMatching?: Maybe<JobPostingMatchingInput>;
+  studentMatching?: Maybe<StudentMatchingInput>;
+};
+
 type QueryJobPostingsArgs = {
-  company: Scalars["Int"];
+  company?: Maybe<Scalars["Int"]>;
 };
 
 type QueryJobPostingArgs = {
@@ -113,6 +122,7 @@ type Match = {
   type?: Maybe<ProfileType>;
   slug: Scalars["String"];
   score: Scalars["Float"];
+  rawScore: Scalars["Float"];
 };
 
 /** An enumeration. */
@@ -125,6 +135,30 @@ enum ProfileType {
   University = "UNIVERSITY",
   Other = "OTHER",
 }
+
+type JobPostingMatchingInput = {
+  jobPosting: JobPostingInput;
+};
+
+type JobPostingInput = {
+  id: Scalars["ID"];
+};
+
+type StudentMatchingInput = {
+  jobType?: Maybe<JobTypeInput>;
+  branch?: Maybe<BranchInput>;
+};
+
+type JobTypeInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars["String"]>;
+};
+
+type BranchInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
 
 type CulturalFit = {
   __typename?: "CulturalFit";
@@ -636,17 +670,6 @@ type JobPostingInputStep1 = {
   url?: Maybe<Scalars["String"]>;
 };
 
-type JobTypeInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
-  mode?: Maybe<Scalars["String"]>;
-};
-
-type BranchInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
-};
-
 /** Updates a job posting */
 type JobPostingStep2 = {
   __typename?: "JobPostingStep2";
@@ -1104,6 +1127,7 @@ type RegisterStudent = {
 };
 
 type StudentInput = {
+  id?: Maybe<Scalars["ID"]>;
   /** Mobile */
   mobile: Scalars["String"];
 };

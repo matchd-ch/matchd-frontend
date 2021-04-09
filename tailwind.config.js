@@ -53,6 +53,11 @@ module.exports = {
         3: "#95CC3C",
         5: "#E0F3DE",
       },
+      orange: {
+        1: "#FF8717",
+        2: "#FF8963",
+        3: "#EDC141",
+      },
       black: "#000",
       grey: {
         1: "#141414",
@@ -103,6 +108,9 @@ module.exports = {
       },
       boxShadow: {
         white: "0 0 0 1px #fff",
+        pink: "0 0 0 1px #F21D5E",
+        green: "0 0 0 1px #1FAC01",
+        orange: "0 0 0 1px #FF8717",
       },
       borderRadius: {
         30: "30px",

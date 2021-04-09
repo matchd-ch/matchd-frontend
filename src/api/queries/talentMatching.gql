@@ -1,0 +1,26 @@
+query(
+  $jobPostingId: ID!
+  $softBoost: Int!
+  $techBoost: Int!
+  $first: Int
+  $skip: Int
+) {
+  matches(
+    jobPostingMatching: {
+      jobPosting: {
+        id: $jobPostingId
+      }
+    }
+    first: $first
+    skip: $skip
+    softBoost: $softBoost
+    techBoost: $techBoost
+  ) {
+    name
+    avatar
+    type
+    slug
+    score
+    rawScore
+  }
+}
