@@ -12,6 +12,7 @@ import type {
   Match,
   Skill,
   SoftSkill,
+  ZipCity,
 } from "api";
 
 export type State = {
@@ -40,6 +41,8 @@ export type State = {
   matches: {
     loading: boolean;
     data: Match[];
+    zipCityJobsLoading: boolean;
+    zipCityJobs: ZipCity[];
   };
   skills: {
     loading: boolean;
@@ -90,6 +93,8 @@ export const state: State = {
   matches: {
     loading: false,
     data: [],
+    zipCityJobsLoading: false,
+    zipCityJobs: [],
   },
   skills: {
     loading: false,

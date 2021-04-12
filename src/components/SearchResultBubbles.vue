@@ -28,6 +28,19 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   resultRadius = 40;
   rootRadius = 60;
 
+  get nodes(): SearchNode[] {
+    return this.matches.nodes.map((node) => {
+      if (!node.main) {
+        return node;
+      }
+      return {
+        ...node,
+        fx: this.width / 2,
+        fy: this.height / 2,
+      };
+    });
+  }
+
   get rootColor(): string {
     switch (this.resultType) {
       case "jobposting":
@@ -66,7 +79,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   update(): void {
     this.link = this.createLinks(this.matches.links);
-    this.node = this.createNodes(this.matches.nodes);
+    this.node = this.createNodes(this.nodes);
     this.drawRoot();
     this.drawResults();
     this.initForce();
@@ -89,7 +102,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   initForce(): void {
     this.force = d3
-      .forceSimulation(this.matches.nodes)
+      .forceSimulation(this.nodes)
       .force(
         "link",
         d3

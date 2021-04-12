@@ -1,0 +1,7 @@
+query($branchId: ID, $jobTypeId: ID) {
+  zipCityJobs(branchId: $branchId, jobTypeId: $jobTypeId) {
+    zip
+    city
+    canton
+  }
+}

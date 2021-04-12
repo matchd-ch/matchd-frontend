@@ -1,4 +1,4 @@
-export interface JobPostingMatching {
+export interface StudentMatchingFilters {
   first: number;
   skip: number;
   softBoost: number;

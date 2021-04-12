@@ -52,7 +52,7 @@ export default class SearchStudent extends Vue {
 
   async mounted(): Promise<void> {
     await Promise.all([
-      this.$store.dispatch(ActionTypes.MATCHES),
+      this.$store.dispatch(ActionTypes.MATCHING),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentAvatar,
       }),

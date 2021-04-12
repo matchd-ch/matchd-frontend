@@ -9,6 +9,14 @@ query {
     student {
       profileStep
       state
+      branch {
+        id
+        name
+      }
+      jobType {
+        id
+        name
+      }
     }
     employee {
       id

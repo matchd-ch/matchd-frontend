@@ -14,7 +14,21 @@ export async function isCompleteProfile(
     const isCompany = store.getters["isCompany"];
     const isStudent = store.getters["isStudent"];
     const isUniversity = store.getters["isUniversity"];
+
     if (
+      (to.meta?.accessType &&
+        (to.meta?.accessType as string[])?.includes("student") &&
+        !isStudent) ||
+      (to.meta?.accessType &&
+        (to.meta?.accessType as string[])?.includes("company") &&
+        !isCompany) ||
+      (to.meta?.accessType &&
+        (to.meta?.accessType as string[])?.includes("university") &&
+        !isUniversity)
+    ) {
+      console.error("Access denied");
+      next({ name: "Home" });
+    } else if (
       to.name !== "Onboarding" &&
       profileStep &&
       ((isStudent && profileStep <= 6) ||

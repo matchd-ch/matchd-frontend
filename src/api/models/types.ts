@@ -64,14 +64,6 @@ export enum MatchType {
 }
 
 export type IJobPostingMatchingInput = {
-  jobPosting: IJobPostingInput;
-};
-
-export type IJobPostingInput = {
-  id: Scalars["ID"];
-};
-
-export type IStudentMatchingInput = {
   branch?: Maybe<IBranchInput>;
   jobType?: Maybe<IJobTypeInput>;
   workload?: Maybe<Scalars["Int"]>;
@@ -91,6 +83,14 @@ export type IJobTypeInput = {
 
 export type IZipCityInput = {
   zip: Scalars["String"];
+};
+
+export type IStudentMatchingInput = {
+  jobPosting: IJobPostingInput;
+};
+
+export type IJobPostingInput = {
+  id: Scalars["ID"];
 };
 
 /** An enumeration. */

@@ -2,7 +2,11 @@
   <div class="search-boost flex flex-col xl:flex-row xl:justify-center">
     <div
       class="search-boost__slider flex items-center justify-between"
-      :class="{ 'search-boost__slider--pink': color === 'pink' }"
+      :class="{
+        'search-boost__slider--pink': color === 'pink',
+        'search-boost__slider--green': color === 'green',
+        'search-boost__slider--orange': color === 'orange',
+      }"
     >
       Übereinstimmung Werte
       <Slider
@@ -15,7 +19,11 @@
     </div>
     <div
       class="search-boost__slider flex items-center justify-between mt-4 xl:mt-0 xl:ml-8"
-      :class="{ 'search-boost__slider--pink': color === 'pink' }"
+      :class="{
+        'search-boost__slider--pink': color === 'pink',
+        'search-boost__slider--green': color === 'green',
+        'search-boost__slider--orange': color === 'orange',
+      }"
     >
       Übereinstimmung Skills
       <Slider v-model="techBoostValue" :tooltips="false" :min="1" :max="5" />

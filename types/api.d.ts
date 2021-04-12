@@ -141,14 +141,6 @@ enum MatchType {
 }
 
 type JobPostingMatchingInput = {
-  jobPosting: JobPostingInput;
-};
-
-type JobPostingInput = {
-  id: Scalars["ID"];
-};
-
-type StudentMatchingInput = {
   branch?: Maybe<BranchInput>;
   jobType?: Maybe<JobTypeInput>;
   workload?: Maybe<Scalars["Int"]>;
@@ -168,6 +160,14 @@ type JobTypeInput = {
 
 type ZipCityInput = {
   zip: Scalars["String"];
+};
+
+type StudentMatchingInput = {
+  jobPosting: JobPostingInput;
+};
+
+type JobPostingInput = {
+  id: Scalars["ID"];
 };
 
 type CulturalFit = {
@@ -331,6 +331,7 @@ type Student = {
   fieldOfStudy: Scalars["String"];
   graduation?: Maybe<Scalars["Date"]>;
   branch?: Maybe<Branch>;
+  jobType?: Maybe<JobType>;
   skills: Array<Skill>;
   distinction: Scalars["String"];
   state: ProfileState;

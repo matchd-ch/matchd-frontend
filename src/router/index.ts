@@ -43,26 +43,47 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: redirectToCurrentOnboardingStep,
   },
   {
-    path: "/stelle/ausschreiben/:id?/:step?",
+    path: "/stellen/ausschreiben/:slug?/:step?",
     name: "CreateJobPosting",
     component: () =>
       import(/* webpackChunkName: "create-jobposting" */ "../views/CreateJobPosting.vue"),
     beforeEnter: redirectToCurrentJobPostingStep,
+    meta: {
+      accessType: ["company"],
+    },
+  },
+  {
+    path: "/stellen",
+    name: "SearchJobPosting",
+    component: () =>
+      import(/* webpackChunkName: "jobposting-search" */ "../views/SearchJobPosting.vue"),
+    meta: {
+      accessType: ["student"],
+    },
   },
   {
     path: "/talente",
     name: "SearchStudent",
     component: () => import(/* webpackChunkName: "student-search" */ "../views/SearchStudent.vue"),
+    meta: {
+      accessType: ["company"],
+    },
   },
   {
     path: "/talente/:slug",
     name: "StudentDetail",
     component: () => import(/* webpackChunkName: "student-detail" */ "../views/StudentDetail.vue"),
+    meta: {
+      accessType: ["company"],
+    },
   },
   {
     path: "/firmen/",
     name: "SearchCompany",
     component: () => import(/* webpackChunkName: "company-search" */ "../views/SearchCompany.vue"),
+    meta: {
+      accessType: ["student"],
+    },
   },
   {
     path: "/firmen/:slug",

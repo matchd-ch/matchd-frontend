@@ -11,7 +11,7 @@
         v-model="jobPostingId"
       >
         <option v-for="jobPosting in jobPostings" :key="jobPosting.id" :value="jobPosting.id">
-          {{ jobPosting.description }}
+          {{ jobPosting.title }}
         </option>
       </select>
       interessant sind
@@ -40,6 +40,8 @@
     <SearchResultGrid
       v-if="layout === 'grid' && matchesForGrid.length > 0"
       :matches="matchesForGrid"
+      resultType="student"
+      color="pink"
     ></SearchResultGrid>
   </div>
   <SearchBoost
@@ -52,6 +54,7 @@
 </template>
 
 <script lang="ts">
+import { studentMatchingInputMapper } from "@/api/mappers/studentMatchingInputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
@@ -124,8 +127,10 @@ export default class SearchStudent extends Vue {
       this.jobPostingId = this.jobPostings[0].id;
     }
 
+    this.$router.replace({ query: { jobPostingId: this.jobPostingId, layout: this.layout } });
+
     await Promise.all([
-      this.searchTalents(),
+      this.searchStudents(),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentAvatar,
       }),
@@ -135,14 +140,17 @@ export default class SearchStudent extends Vue {
     ]);
   }
 
-  async searchTalents(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.MATCHES, {
-      jobPostingId: this.jobPostingId,
-      softBoost: this.softBoost,
-      techBoost: this.techBoost,
-      first: 50,
-      skip: 0,
-    });
+  async searchStudents(): Promise<void> {
+    await this.$store.dispatch(
+      ActionTypes.MATCHING,
+      studentMatchingInputMapper({
+        jobPostingId: this.jobPostingId,
+        softBoost: this.softBoost,
+        techBoost: this.techBoost,
+        first: 50,
+        skip: 0,
+      })
+    );
   }
 
   onChangeLayout(layout: string) {
@@ -151,17 +159,17 @@ export default class SearchStudent extends Vue {
 
   onChangeJobPosting(): void {
     this.$router.push({ query: { ...this.$route.query, jobPostingId: this.jobPostingId } });
-    this.searchTalents();
+    this.searchStudents();
   }
 
   onChangeSoftBoost(value: number): void {
     this.softBoost = value;
-    this.searchTalents();
+    this.searchStudents();
   }
 
   onChangeTechBoost(value: number): void {
     this.techBoost = value;
-    this.searchTalents();
+    this.searchStudents();
   }
 }
 </script>

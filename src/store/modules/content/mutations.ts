@@ -12,6 +12,7 @@ import type {
   Match,
   Skill,
   SoftSkill,
+  ZipCity,
 } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
@@ -51,6 +52,8 @@ export type Mutations<S = State> = {
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
   [MutationTypes.SOFT_SKILLS_LOADED](state: S, payload: { softSkills: SoftSkill[] }): void;
+  [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
+  [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -150,5 +153,12 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.SOFT_SKILLS_LOADED](state: State, payload: { softSkills: SoftSkill[] }) {
     state.softSkills.loading = false;
     state.softSkills.data = payload.softSkills;
+  },
+  [MutationTypes.ZIP_CITY_JOBS_LOADING](state: State) {
+    state.matches.zipCityJobsLoading = true;
+  },
+  [MutationTypes.ZIP_CITY_JOBS_LOADED](state: State, payload: { zipCityJobs: ZipCity[] }) {
+    state.matches.zipCityJobsLoading = false;
+    state.matches.zipCityJobs = payload.zipCityJobs;
   },
 };
