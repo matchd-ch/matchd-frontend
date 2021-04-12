@@ -11,11 +11,14 @@ import { Watch } from "vue-property-decorator";
 
 class Props {
   matches = prop<SearchResultBubbleData>({ default: [] });
+  rootType = prop<string>({ default: "" });
   resultType = prop<string>({ default: "" });
   avatar = prop<Attachment>({});
 }
 
-@Options({})
+@Options({
+  emits: ["clickResult"],
+})
 export default class SearchResultBubbles extends Vue.with(Props) {
   vis: any = {} as any;
   force: any = {} as any;
@@ -42,11 +45,13 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   get rootColor(): string {
-    switch (this.resultType) {
+    switch (this.rootType) {
+      case "company":
+        return "#F21D6A";
       case "jobposting":
-        return "#1FAC01";
-      default:
         return "#FF8963";
+      default:
+        return "#1FAC01";
     }
   }
 
@@ -96,6 +101,9 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       });
 
     this.node.attr("transform", (d: any) => {
+      if (d.main) {
+        return `translate(${d.x - this.rootRadius},${d.y - this.rootRadius})`;
+      }
       return `translate(${d.x - this.resultRadius},${d.y - this.resultRadius})`;
     });
   }
@@ -129,7 +137,9 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     return node
       .enter()
       .append("svg:g")
-      .attr("class", (d: SearchNode) => (d.main ? "root" : "node"))
+      .attr("class", (d: SearchNode) =>
+        d.main ? `root ${this.rootType}` : `node ${this.resultType}`
+      )
       .merge(node)
       .raise();
   }
@@ -166,27 +176,30 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   drawRoot(): void {
+    const result = d3.selectAll(".root");
+
+    result
+      .append("circle")
+      .attr("cx", this.rootRadius)
+      .attr("cy", this.rootRadius)
+      .attr("r", this.rootRadius + 2)
+      .attr("fill", this.rootColor);
+
     if (this.avatar) {
-      d3.select(".root")
-        .append("circle")
-        .attr("cx", this.rootRadius / 2)
-        .attr("cy", this.rootRadius / 2)
-        .attr("r", this.rootRadius)
-        .attr("fill", this.rootColor);
-      d3.select(".root")
+      result
         .append("image")
+        .attr("clip-path", "url(#circleView)")
         .attr("x", 0)
         .attr("y", 0)
-        .attr("href", this.avatar?.url.replace("{stack}", "avatar") || "")
-        .attr("width", this.rootRadius)
-        .attr("height", this.rootRadius);
-    } else {
-      d3.select(".root")
-        .append("circle")
-        .attr("cx", this.rootRadius / 2)
-        .attr("cy", this.rootRadius / 2)
-        .attr("r", this.rootRadius)
-        .attr("fill", this.rootColor);
+        .attr(
+          "href",
+          this.avatar?.url.replace(
+            "{stack}",
+            this.rootType === "student" ? "mobile-square" : "avatar"
+          ) || ""
+        )
+        .attr("width", this.rootRadius * 2)
+        .attr("height", this.rootRadius * 2);
     }
   }
 
@@ -194,12 +207,21 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     const result = d3
       .selectAll(".node")
       .append("a")
-      .attr("href", (d: any) =>
-        this.resultType === "talents" ? `/talente/${d.id}` : `/companies/${d.id}`
-      )
-      .on("click", (event: MouseEvent) => {
+      .attr("class", "node-link")
+      .style("pointer-events", "visible")
+      .on("click", (event: MouseEvent, d: any) => {
         event.preventDefault();
-        return false;
+        this.$emit("clickResult", d.id);
+      })
+      .attr("href", (d: any) => {
+        switch (this.resultType) {
+          case "jobposting":
+            return `/stellen/${d.id}`;
+          case "company":
+            return `companies/${d.id}`;
+          default:
+            return `/talente/${d.id}`;
+        }
       });
     result
       .append("circle")
@@ -212,22 +234,33 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .attr("font-size", "16")
       .attr("fill", "currentColor")
       .attr("x", this.resultRadius)
-      .attr("y", this.resultRadius * 2 + 12)
+      .attr("y", this.resultRadius * 2 + 16)
       .attr("dominant-baseline", "middle")
       .attr("text-anchor", "middle")
-      .text((d: any) => d.name);
+      .attr("font-weight", this.resultType === "jobposting" ? "500" : "normal")
+      .text((d: any) => (this.resultType === "jobposting" ? d.jobPostingTitle : d.name));
+    if (this.resultType === "jobposting") {
+      result
+        .append("text")
+        .attr("font-size", "16")
+        .attr("fill", "currentColor")
+        .attr("x", this.resultRadius)
+        .attr("y", this.resultRadius * 2 + 32)
+        .attr("dominant-baseline", "middle")
+        .attr("text-anchor", "middle")
+        .text((d: any) => d.name);
+    }
+
     result
       .append("image")
       .attr("clip-path", "url(#circleView)")
       .attr("x", 0)
       .attr("y", 0)
-      .attr("href", (d: any) => d.img.replace("{stack}", "mobile-square"))
+      .attr("href", (d: any) =>
+        d.img.replace("{stack}", this.resultType === "student" ? "mobile-square" : "avatar")
+      )
       .attr("width", this.resultRadius * 2)
       .attr("height", this.resultRadius * 2);
-
-    result.on("click", (event: MouseEvent, d: any) => {
-      this.$emit("clickResult", d.slug);
-    });
   }
 }
 </script>
@@ -241,7 +274,8 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   width: 100%;
   max-height: 100%;
 
-  & .root {
+  & .company,
+  & .jobposting {
     & image {
       filter: brightness(0) invert(1);
     }
@@ -254,8 +288,22 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       @apply text-grey-2;
     }
 
-    &:hover {
-      @apply text-green-1;
+    &.company {
+      &:hover {
+        @apply text-pink-1;
+      }
+    }
+
+    &.student {
+      &:hover {
+        @apply text-green-1;
+      }
+    }
+
+    &.jobposting {
+      &:hover {
+        @apply text-orange-2;
+      }
     }
   }
 }

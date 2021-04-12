@@ -35,7 +35,9 @@
       "
       :matches="matchesForBubbles"
       :avatar="avatar"
+      rootType="jobposting"
       resultType="student"
+      @clickResult="onClickResult"
     />
     <SearchResultGrid
       v-if="layout === 'grid' && matchesForGrid.length > 0"
@@ -66,9 +68,6 @@ import { ActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, JobPosting } from "api";
 import { Options, Vue } from "vue-class-component";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-
-Vue.registerHooks(["beforeRouteUpdate", "beforeRouteEnter"]);
 
 @Options({
   components: {
@@ -103,19 +102,9 @@ export default class SearchStudent extends Vue {
   get avatar(): Attachment | undefined {
     return (
       this.$store.getters["attachmentsByKey"]({
-        key: this.isStudent ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
+        key: AttachmentKey.CompanyAvatar,
       })[0] || undefined
     );
-  }
-
-  async beforeRouteUpdate(
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ): Promise<void> {
-    this.layout = (to.query?.layout as string) || "bubbles";
-    this.jobPostingId = (to.query?.jobPostingId as string) || "";
-    next();
   }
 
   async mounted(): Promise<void> {
@@ -127,13 +116,10 @@ export default class SearchStudent extends Vue {
       this.jobPostingId = this.jobPostings[0].id;
     }
 
-    this.$router.replace({ query: { jobPostingId: this.jobPostingId, layout: this.layout } });
+    this.persistFiltersToUrl();
 
     await Promise.all([
       this.searchStudents(),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.StudentAvatar,
-      }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.CompanyAvatar,
       }),
@@ -141,6 +127,7 @@ export default class SearchStudent extends Vue {
   }
 
   async searchStudents(): Promise<void> {
+    this.persistFiltersToUrl();
     await this.$store.dispatch(
       ActionTypes.MATCHING,
       studentMatchingInputMapper({
@@ -153,12 +140,16 @@ export default class SearchStudent extends Vue {
     );
   }
 
-  onChangeLayout(layout: string) {
-    this.$router.push({ query: { ...this.$route.query, layout } });
+  onClickResult(slug: string): void {
+    this.$router.push({ name: "StudentDetail", params: { slug } });
+  }
+
+  onChangeLayout(layout: string): void {
+    this.layout = layout;
+    this.persistFiltersToUrl();
   }
 
   onChangeJobPosting(): void {
-    this.$router.push({ query: { ...this.$route.query, jobPostingId: this.jobPostingId } });
     this.searchStudents();
   }
 
@@ -170,6 +161,15 @@ export default class SearchStudent extends Vue {
   onChangeTechBoost(value: number): void {
     this.techBoost = value;
     this.searchStudents();
+  }
+
+  persistFiltersToUrl(): void {
+    this.$router.replace({
+      query: {
+        layout: this.layout,
+        ...(this.jobPostingId !== "" && { jobPostingId: this.jobPostingId }),
+      },
+    });
   }
 }
 </script>

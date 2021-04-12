@@ -62,6 +62,15 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/stellen/:slug",
+    name: "JobPostingDetail",
+    component: () =>
+      import(/* webpackChunkName: "jobposting-detail" */ "../views/JobPostingDetail.vue"),
+    meta: {
+      accessType: ["student"],
+    },
+  },
+  {
     path: "/talente",
     name: "SearchStudent",
     component: () => import(/* webpackChunkName: "student-search" */ "../views/SearchStudent.vue"),

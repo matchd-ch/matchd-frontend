@@ -78,7 +78,9 @@
       "
       :matches="matchesForBubbles"
       :avatar="avatar"
+      rootType="student"
       resultType="jobposting"
+      @clickResult="onClickResult"
     />
     <SearchResultGrid
       v-if="layout === 'grid' && matchesForGrid.length > 0"
@@ -109,9 +111,6 @@ import { ActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, Branch, JobType, User, ZipCity } from "api";
 import { Options, Vue } from "vue-class-component";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-
-Vue.registerHooks(["beforeRouteUpdate", "beforeRouteEnter"]);
 
 @Options({
   components: {
@@ -161,22 +160,9 @@ export default class SearchStudent extends Vue {
   get avatar(): Attachment | undefined {
     return (
       this.$store.getters["attachmentsByKey"]({
-        key: this.isStudent ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
+        key: AttachmentKey.StudentAvatar,
       })[0] || undefined
     );
-  }
-
-  async beforeRouteUpdate(
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ): Promise<void> {
-    this.layout = (to.query?.layout as string) || "bubbles";
-    this.zip = (to.query?.zip as string) || "";
-    this.workload = parseInt(to.query?.workload as string) || 100;
-    this.jobTypeId = (to.query?.jobTypeId as string) || this.user?.student?.jobType?.id || "";
-    this.branchId = (to.query?.branchId as string) || this.user?.student?.branch?.id || "";
-    next();
   }
 
   async mounted(): Promise<void> {
@@ -196,9 +182,6 @@ export default class SearchStudent extends Vue {
       this.$store.dispatch(ActionTypes.JOB_TYPE),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentAvatar,
-      }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyAvatar,
       }),
     ]);
   }
@@ -224,6 +207,10 @@ export default class SearchStudent extends Vue {
     await this.$store.dispatch(ActionTypes.ZIP_CITY_JOBS, {
       ...(this.branchId && { branchId: this.branchId }),
     });
+  }
+
+  onClickResult(slug: string): void {
+    this.$router.push({ name: "JobPostingDetail", params: { slug } });
   }
 
   onChangeLayout(layout: string): void {
