@@ -160,11 +160,11 @@
               "description": null,
               "args": [
                 {
-                  "name": "company",
+                  "name": "slug",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -190,13 +190,19 @@
                   "name": "id",
                   "description": null,
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "ID",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "slug",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
                   },
                   "defaultValue": null
                 }
@@ -388,6 +394,51 @@
               "deprecationReason": null
             },
             {
+              "name": "zipCityJobs",
+              "description": null,
+              "args": [
+                {
+                  "name": "branchId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "jobTypeId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "ZipCity",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "languageLevels",
               "description": null,
               "args": [],
@@ -481,40 +532,12 @@
           "description": null,
           "fields": [
             {
-              "name": "name",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "avatar",
+              "name": "id",
               "description": null,
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "type",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "ENUM",
-                "name": "ProfileType",
+                "name": "ID",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -532,6 +555,50 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "type",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "MatchType",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "avatar",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -567,10 +634,32 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "jobPostingTitle",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
           "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "ID",
+          "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -586,18 +675,12 @@
         },
         {
           "kind": "ENUM",
-          "name": "ProfileType",
+          "name": "MatchType",
           "description": "An enumeration.",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
           "enumValues": [
-            {
-              "name": "INTERNAL",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "STUDENT",
               "description": null,
@@ -605,31 +688,7 @@
               "deprecationReason": null
             },
             {
-              "name": "COLLEGE_STUDENT",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "JUNIOR",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "COMPANY",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "UNIVERSITY",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "OTHER",
+              "name": "JOB_POSTING",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -708,21 +767,21 @@
           "possibleTypes": null
         },
         {
-          "kind": "SCALAR",
-          "name": "ID",
-          "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "INPUT_OBJECT",
           "name": "StudentMatchingInput",
           "description": null,
           "fields": null,
           "inputFields": [
+            {
+              "name": "branch",
+              "description": null,
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BranchInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
             {
               "name": "jobType",
               "description": null,
@@ -734,11 +793,56 @@
               "defaultValue": null
             },
             {
-              "name": "branch",
+              "name": "workload",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "zip",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "BranchInput",
+                "name": "ZipCityInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "BranchInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "id",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "defaultValue": null
@@ -795,31 +899,21 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "BranchInput",
+          "name": "ZipCityInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "id",
+              "name": "zip",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "String",
                   "ofType": null
                 }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               },
               "defaultValue": null
             }
@@ -1054,6 +1148,38 @@
               "deprecationReason": null
             },
             {
+              "name": "title",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "slug",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "description",
               "description": "",
               "args": [],
@@ -1199,7 +1325,7 @@
             },
             {
               "name": "skills",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1267,7 +1393,7 @@
             },
             {
               "name": "languages",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1643,7 +1769,7 @@
             },
             {
               "name": "softSkills",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1739,7 +1865,7 @@
             },
             {
               "name": "culturalFits",
-              "description": "",
+              "description": null,
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1830,6 +1956,30 @@
               "deprecationReason": null
             },
             {
+              "name": "jobPostings",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "JobPosting",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "employees",
               "description": null,
               "args": [],
@@ -1857,6 +2007,59 @@
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "ProfileType",
+          "description": "An enumeration.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "INTERNAL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "STUDENT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "COLLEGE_STUDENT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "JUNIOR",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "COMPANY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "UNIVERSITY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "OTHER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
@@ -2463,6 +2666,22 @@
                       "ofType": null
                     }
                   }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "slug",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 }
               },
               "isDeprecated": false,
@@ -4420,6 +4639,18 @@
               "deprecationReason": null
             },
             {
+              "name": "slug",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "jobPostingId",
               "description": null,
               "args": [],
@@ -4454,8 +4685,8 @@
               "defaultValue": null
             },
             {
-              "name": "description",
-              "description": "Description",
+              "name": "title",
+              "description": "Title",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -4464,6 +4695,16 @@
                   "name": "String",
                   "ofType": null
                 }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "description",
+              "description": "Description",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -4572,6 +4813,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "ExpectedErrorType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "slug",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4793,6 +5046,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "ExpectedErrorType",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "slug",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,

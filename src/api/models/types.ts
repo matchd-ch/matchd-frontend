@@ -58,14 +58,9 @@ export type Scalars = {
 };
 
 /** An enumeration. */
-export enum ProfileType {
-  Internal = "INTERNAL",
+export enum MatchType {
   Student = "STUDENT",
-  CollegeStudent = "COLLEGE_STUDENT",
-  Junior = "JUNIOR",
-  Company = "COMPANY",
-  University = "UNIVERSITY",
-  Other = "OTHER",
+  JobPosting = "JOB_POSTING",
 }
 
 export type IJobPostingMatchingInput = {
@@ -77,8 +72,15 @@ export type IJobPostingInput = {
 };
 
 export type IStudentMatchingInput = {
-  jobType?: Maybe<IJobTypeInput>;
   branch?: Maybe<IBranchInput>;
+  jobType?: Maybe<IJobTypeInput>;
+  workload?: Maybe<Scalars["Int"]>;
+  zip?: Maybe<IZipCityInput>;
+};
+
+export type IBranchInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 export type IJobTypeInput = {
@@ -87,15 +89,25 @@ export type IJobTypeInput = {
   mode?: Maybe<Scalars["String"]>;
 };
 
-export type IBranchInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
+export type IZipCityInput = {
+  zip: Scalars["String"];
 };
 
 /** An enumeration. */
 export enum DateMode {
   DateFrom = "DATE_FROM",
   DateRange = "DATE_RANGE",
+}
+
+/** An enumeration. */
+export enum ProfileType {
+  Internal = "INTERNAL",
+  Student = "STUDENT",
+  CollegeStudent = "COLLEGE_STUDENT",
+  Junior = "JUNIOR",
+  Company = "COMPANY",
+  University = "UNIVERSITY",
+  Other = "OTHER",
 }
 
 /** An enumeration. */
@@ -128,8 +140,10 @@ export type IAddEmployeeInput = {
 
 export type IJobPostingInputStep1 = {
   id?: Maybe<Scalars["ID"]>;
+  /** Title */
+  title: Scalars["String"];
   /** Description */
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   jobType: IJobTypeInput;
   branch: IBranchInput;
   /** Workload */

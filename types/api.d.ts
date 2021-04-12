@@ -74,6 +74,7 @@ type Query = {
   skills?: Maybe<Array<Maybe<Skill>>>;
   jobTypes?: Maybe<Array<Maybe<JobType>>>;
   zipCity: Array<ZipCity>;
+  zipCityJobs: Array<ZipCity>;
   languageLevels?: Maybe<Array<Maybe<LanguageLevel>>>;
   languages?: Maybe<Array<Maybe<Language>>>;
   me?: Maybe<User>;
@@ -90,11 +91,12 @@ type QueryMatchesArgs = {
 };
 
 type QueryJobPostingsArgs = {
-  company?: Maybe<Scalars["Int"]>;
+  slug?: Maybe<Scalars["String"]>;
 };
 
 type QueryJobPostingArgs = {
-  id: Scalars["ID"];
+  id?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
 };
 
 type QueryCompanyArgs = {
@@ -107,6 +109,11 @@ type QueryAttachmentsArgs = {
   slug?: Maybe<Scalars["String"]>;
 };
 
+type QueryZipCityJobsArgs = {
+  branchId?: Maybe<Scalars["ID"]>;
+  jobTypeId?: Maybe<Scalars["ID"]>;
+};
+
 type QueryLanguagesArgs = {
   shortList?: Maybe<Scalars["Boolean"]>;
 };
@@ -117,23 +124,20 @@ type QueryVerifyPasswordResetTokenArgs = {
 
 type Match = {
   __typename?: "Match";
-  name: Scalars["String"];
-  avatar?: Maybe<Scalars["String"]>;
-  type?: Maybe<ProfileType>;
+  id?: Maybe<Scalars["ID"]>;
   slug: Scalars["String"];
+  name: Scalars["String"];
+  type: MatchType;
+  avatar?: Maybe<Scalars["String"]>;
   score: Scalars["Float"];
   rawScore: Scalars["Float"];
+  jobPostingTitle?: Maybe<Scalars["String"]>;
 };
 
 /** An enumeration. */
-enum ProfileType {
-  Internal = "INTERNAL",
+enum MatchType {
   Student = "STUDENT",
-  CollegeStudent = "COLLEGE_STUDENT",
-  Junior = "JUNIOR",
-  Company = "COMPANY",
-  University = "UNIVERSITY",
-  Other = "OTHER",
+  JobPosting = "JOB_POSTING",
 }
 
 type JobPostingMatchingInput = {
@@ -145,8 +149,15 @@ type JobPostingInput = {
 };
 
 type StudentMatchingInput = {
-  jobType?: Maybe<JobTypeInput>;
   branch?: Maybe<BranchInput>;
+  jobType?: Maybe<JobTypeInput>;
+  workload?: Maybe<Scalars["Int"]>;
+  zip?: Maybe<ZipCityInput>;
+};
+
+type BranchInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
 };
 
 type JobTypeInput = {
@@ -155,9 +166,8 @@ type JobTypeInput = {
   mode?: Maybe<Scalars["String"]>;
 };
 
-type BranchInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
+type ZipCityInput = {
+  zip: Scalars["String"];
 };
 
 type CulturalFit = {
@@ -189,6 +199,8 @@ type JobRequirement = {
 type JobPosting = {
   __typename?: "JobPosting";
   id: Scalars["ID"];
+  title: Scalars["String"];
+  slug: Scalars["String"];
   description: Scalars["String"];
   jobType: JobType;
   branch: Branch;
@@ -250,8 +262,20 @@ type Company = {
   linkEducation?: Maybe<Scalars["String"]>;
   linkProjects?: Maybe<Scalars["String"]>;
   linkThesis?: Maybe<Scalars["String"]>;
+  jobPostings: Array<JobPosting>;
   employees: Array<Employee>;
 };
+
+/** An enumeration. */
+enum ProfileType {
+  Internal = "INTERNAL",
+  Student = "STUDENT",
+  CollegeStudent = "COLLEGE_STUDENT",
+  Junior = "JUNIOR",
+  Company = "COMPANY",
+  University = "UNIVERSITY",
+  Other = "OTHER",
+}
 
 /** An enumeration. */
 enum ProfileState {
@@ -313,6 +337,7 @@ type Student = {
   profileStep: Scalars["Int"];
   softSkills: Array<SoftSkill>;
   culturalFits: Array<CulturalFit>;
+  slug: Scalars["String"];
   hobbies: Array<Hobby>;
   onlineProjects: Array<OnlineProject>;
   languages: Array<UserLanguageRelation>;
@@ -654,13 +679,16 @@ type JobPostingStep1 = {
   __typename?: "JobPostingStep1";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
   jobPostingId?: Maybe<Scalars["ID"]>;
 };
 
 type JobPostingInputStep1 = {
   id?: Maybe<Scalars["ID"]>;
+  /** Title */
+  title: Scalars["String"];
   /** Description */
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   jobType: JobTypeInput;
   branch: BranchInput;
   /** Workload */
@@ -675,6 +703,7 @@ type JobPostingStep2 = {
   __typename?: "JobPostingStep2";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
   jobPostingId?: Maybe<Scalars["ID"]>;
 };
 
@@ -706,6 +735,7 @@ type JobPostingStep3 = {
   __typename?: "JobPostingStep3";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
   jobPostingId?: Maybe<Scalars["ID"]>;
 };
 
