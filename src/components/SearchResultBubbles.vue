@@ -116,13 +116,15 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         d3
           .forceLink(this.matches.links)
           .id((d: any) => d.id)
-          .distance((d: any) => (1 - d.value) * 400)
+          .distance((d: any) => (1 - d.value) * 600)
       )
       .force("charge", d3.forceManyBody())
       .force(
         "collisionForce",
         d3
-          .forceCollide((d: SearchNode) => (d.main ? this.rootRadius * 2 : this.resultRadius * 2))
+          .forceCollide((d: SearchNode) =>
+            d.main ? this.rootRadius * 1.2 : this.resultRadius * 1.5
+          )
           .strength(0.2)
           .iterations(10)
       )
