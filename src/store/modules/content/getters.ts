@@ -96,7 +96,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       }),
     };
   },
-  matchesForGrid(state: State): any {
+  matchesForGrid(state: State): SearchResult[] {
     return state.matches.data.map((match) => {
       return {
         id: match.slug,

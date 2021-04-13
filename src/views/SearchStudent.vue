@@ -1,5 +1,5 @@
 <template>
-  <SearchFilters class="bg-company-gradient-t-b">
+  <SearchFilters class="bg-company-gradient-t-b z-50">
     <form>
       Ich suche nach Talenten, welche für meine Stelle als
       <label for="jobPosting" class="sr-only">Stelle auswählen</label>
@@ -16,7 +16,7 @@
       </select>
       interessant sind
     </form>
-    <div>
+    <div class="flex justify-center mt-4 xl:mt-0">
       <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
         <span class="material-icons text-icon-lg">bubble_chart</span>
       </button>

@@ -18,7 +18,7 @@
       }"
     >
       <router-link
-        :to="{ name: 'StudentDetail', params: { slug: match.id } }"
+        :to="{ name: toRouteName, params: { slug: match.id } }"
         class="search-result-grid__link"
       >
         <div class="search-result-grid__image-box rounded-full border-2">
@@ -36,7 +36,7 @@
         <div class="mt-2">
           <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
           <h3 class="text-paragraph-lg">{{ match.name }}</h3>
-          <p>{{ match.rawScore }}</p>
+          <p>{{ match.rawScore * 100 }}%</p>
         </div>
       </router-link>
     </li>
@@ -56,7 +56,18 @@ class Props {
 @Options({
   components: {},
 })
-export default class SearchBoost extends Vue.with(Props) {}
+export default class SearchBoost extends Vue.with(Props) {
+  get toRouteName(): string {
+    switch (this.resultType) {
+      case "jobposting":
+        return "JobPostingDetail";
+      case "company":
+        return "CompanyDetail";
+      default:
+        return "StudentDetail";
+    }
+  }
+}
 </script>
 
 <style type="postcss" scoped>

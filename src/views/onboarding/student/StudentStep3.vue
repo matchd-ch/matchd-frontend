@@ -159,7 +159,7 @@ export default class StudentStep3 extends Vue {
       studentProfileStep3InputMapper(this.form)
     );
     if (this.onboardingState.success) {
-      this.$router.push({ params: { step: "schritt5" } });
+      this.$router.push({ params: { step: "schritt4" } });
     }
   }
 }

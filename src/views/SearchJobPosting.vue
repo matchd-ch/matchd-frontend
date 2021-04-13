@@ -1,5 +1,5 @@
 <template>
-  <SearchFilters class="bg-student-gradient-t-b">
+  <SearchFilters class="bg-student-gradient-t-b z-50">
     <form>
       Ich suche
       <label for="jobType" class="sr-only">Art der Stelle</label>
@@ -59,7 +59,7 @@
         </option>
       </select>
     </form>
-    <div>
+    <div class="flex justify-center mt-4 xl:mt-0">
       <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
         <span class="material-icons text-icon-lg">bubble_chart</span>
       </button>

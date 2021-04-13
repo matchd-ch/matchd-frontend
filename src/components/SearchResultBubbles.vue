@@ -3,6 +3,9 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable */
+/* todo: add proper typings and refactor */
+
 import { SearchLink, SearchNode, SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import type { Attachment } from "api";
 import * as d3 from "d3";
@@ -116,6 +119,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         d3
           .forceLink(this.matches.links)
           .id((d: any) => d.id)
+          // .strength((d: any) => d.value)
           .distance((d: any) => (1 - d.value) * 600)
       )
       .force("charge", d3.forceManyBody())
@@ -123,10 +127,10 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         "collisionForce",
         d3
           .forceCollide((d: SearchNode) =>
-            d.main ? this.rootRadius * 1.2 : this.resultRadius * 1.5
+            d.main ? this.rootRadius * 1.2 : this.resultRadius * 1.7
           )
-          .strength(0.2)
-          .iterations(10)
+          .strength(1)
+          .iterations(2)
       )
       .force("center", d3.forceCenter(this.width / 2, this.height / 2))
       .on("tick", this.tick);
