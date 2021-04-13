@@ -35,10 +35,6 @@ class Props {
 export default class SearchBoost extends Vue.with(Props) {}
 </script>
 
-<style type="postcss">
-@import "@vueform/slider/themes/default.css";
-</style>
-
 <style type="postcss" scoped>
 @block search-boost {
   @apply fixed right-0 bottom-0 left-0;
