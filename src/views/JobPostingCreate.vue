@@ -28,7 +28,7 @@
     </div>
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
-        :is="createJobPostingComponent"
+        :is="jobPostingCreateComponent"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:px-8 px-4 lg:px-5 py-12"
       ></component>
     </div>
@@ -56,7 +56,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     JobPostingStep3,
   },
 })
-export default class JobPosting extends Vue {
+export default class JobPostingCreate extends Vue {
   urlStepNumber: number | null = null;
   requestedCurrentJobPosting = false;
 
@@ -68,7 +68,7 @@ export default class JobPosting extends Vue {
     return this.urlStepNumber;
   }
 
-  get createJobPostingComponent(): string {
+  get jobPostingCreateComponent(): string {
     if (this.urlStepNumber) {
       return `JobPostingStep${this.currentStep}`;
     }

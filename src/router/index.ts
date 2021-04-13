@@ -44,9 +44,9 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/stellen/ausschreiben/:slug?/:step?",
-    name: "CreateJobPosting",
+    name: "JobPostingCreate",
     component: () =>
-      import(/* webpackChunkName: "create-jobposting" */ "../views/CreateJobPosting.vue"),
+      import(/* webpackChunkName: "jobposting-create" */ "../views/JobPostingCreate.vue"),
     beforeEnter: redirectToCurrentJobPostingStep,
     meta: {
       accessType: ["company"],
@@ -54,9 +54,9 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/stellen",
-    name: "SearchJobPosting",
+    name: "JobPostingSearch",
     component: () =>
-      import(/* webpackChunkName: "jobposting-search" */ "../views/SearchJobPosting.vue"),
+      import(/* webpackChunkName: "jobposting-search" */ "../views/JobPostingSearch.vue"),
     meta: {
       accessType: ["student"],
     },
@@ -72,8 +72,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/talente",
-    name: "SearchStudent",
-    component: () => import(/* webpackChunkName: "student-search" */ "../views/SearchStudent.vue"),
+    name: "StudentSearch",
+    component: () => import(/* webpackChunkName: "student-search" */ "../views/StudentSearch.vue"),
     meta: {
       accessType: ["company"],
     },
@@ -84,14 +84,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "student-detail" */ "../views/StudentDetail.vue"),
     meta: {
       accessType: ["company"],
-    },
-  },
-  {
-    path: "/firmen/",
-    name: "SearchCompany",
-    component: () => import(/* webpackChunkName: "company-search" */ "../views/SearchCompany.vue"),
-    meta: {
-      accessType: ["student"],
     },
   },
   {
@@ -119,8 +111,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/registrierung/schueler*in-lernender",
     alias: ["/registrierung/berufseinsteiger*in", "/registrierung/student*in"],
-    name: "Register-Student",
-    component: () => import(/* webpackChunkName: "register" */ "../views/RegisterStudent.vue"),
+    name: "StudentRegister",
+    component: () => import(/* webpackChunkName: "register" */ "../views/StudentRegister.vue"),
     meta: {
       public: true,
     },
@@ -128,8 +120,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/registrierung/unternehmung",
     alias: "/registrierung/bildungsinstitution",
-    name: "Register-Company",
-    component: () => import(/* webpackChunkName: "register" */ "../views/RegisterCompany.vue"),
+    name: "CompanyRegister",
+    component: () => import(/* webpackChunkName: "register" */ "../views/CompanyRegister.vue"),
     meta: {
       public: true,
     },

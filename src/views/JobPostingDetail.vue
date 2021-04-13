@@ -22,7 +22,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchdFileView,
   },
 })
-export default class StudentDetail extends Vue {
+export default class JobPostingDetail extends Vue {
   async beforeRouteUpdate(
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,

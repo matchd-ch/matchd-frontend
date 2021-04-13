@@ -77,7 +77,7 @@ import { Options, Vue } from "vue-class-component";
     SearchBoost,
   },
 })
-export default class SearchStudent extends Vue {
+export default class StudentSearch extends Vue {
   techBoost = 3;
   softBoost = 3;
   jobPostingId = "";

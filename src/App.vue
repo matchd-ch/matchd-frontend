@@ -32,6 +32,6 @@ export default class App extends Vue {
 }
 </script>
 
-<style>
+<style lang="postcss">
 @import "./styles/index.css";
 </style>

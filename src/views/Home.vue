@@ -13,18 +13,15 @@
         <div class="mb-10">
           <ul v-if="isCompany" class="list-disc list-inside">
             <li>
-              <router-link :to="{ name: 'SearchStudent' }">Talente suchen</router-link>
+              <router-link :to="{ name: 'StudentSearch' }">Talente suchen</router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'CreateJobPosting' }">Stelle ausschreiben</router-link>
+              <router-link :to="{ name: 'JobPostingCreate' }">Stelle ausschreiben</router-link>
             </li>
           </ul>
           <ul v-else-if="isStudent" class="list-disc list-inside">
             <li>
-              <router-link :to="{ name: 'SearchJobPosting' }">Stelle suchen</router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'SearchCompany' }">Firmen suchen</router-link>
+              <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
             </li>
           </ul>
         </div>

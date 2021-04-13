@@ -36,7 +36,6 @@
         <div class="mt-2">
           <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
           <h3 class="text-paragraph-lg">{{ match.name }}</h3>
-          <p>{{ match.rawScore * 100 }}%</p>
         </div>
       </router-link>
     </li>

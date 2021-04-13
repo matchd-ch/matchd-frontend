@@ -120,7 +120,7 @@ import { Options, Vue } from "vue-class-component";
     SearchBoost,
   },
 })
-export default class SearchStudent extends Vue {
+export default class JobPostingSearch extends Vue {
   techBoost = 3;
   softBoost = 3;
   zip = "";
