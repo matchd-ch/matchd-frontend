@@ -20,6 +20,7 @@ import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
 import matchingQuery from "@/api/queries/matching.gql";
 import skillsQuery from "@/api/queries/skills.gql";
+import studentQuery from "@/api/queries/student.gql";
 import softSkillsQuery from "@/api/queries/softSkills.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
 
@@ -198,6 +199,20 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.SOFT_SKILLS_LOADED, { softSkills: response.data.softSkills });
+  },
+  async [ActionTypes.STUDENT]({ commit }, payload: { slug: string }) {
+    commit(MutationTypes.STUDENT_LOADING);
+    const response = await apiClient.query({
+      query: studentQuery,
+      variables: payload,
+      context: {
+        batch: true,
+      },
+    });
+
+    commit(MutationTypes.STUDENT_LOADED, {
+      student: response.data.student,
+    });
   },
   async [ActionTypes.ZIP_CITY_JOBS]({ commit }, payload?: ZipCityJobsInput) {
     commit(MutationTypes.ZIP_CITY_JOBS_LOADING);

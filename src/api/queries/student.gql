@@ -1,0 +1,11 @@
+query($slug: String) {
+  student(slug: $slug) {
+    mobile
+    slug
+    state
+    user {
+      firstName
+      lastName
+    }
+  }
+}

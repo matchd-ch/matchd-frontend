@@ -116,6 +116,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   softSkills(state: State): SoftSkill[] {
     return state.softSkills.data;
   },
+  student(state: State): { data: Partial<Student> | null } {
+    return state.student;
+  },
   zipCityJobs(state: State): ZipCity[] {
     return state.matches.zipCityJobs;
   },

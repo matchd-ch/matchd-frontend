@@ -12,6 +12,7 @@ import type {
   Match,
   Skill,
   SoftSkill,
+  Student,
   ZipCity,
 } from "api";
 import { MutationTree } from "vuex";
@@ -52,6 +53,8 @@ export type Mutations<S = State> = {
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
   [MutationTypes.SOFT_SKILLS_LOADED](state: S, payload: { softSkills: SoftSkill[] }): void;
+  [MutationTypes.STUDENT_LOADING](state: S): void;
+  [MutationTypes.STUDENT_LOADED](state: S, payload: { student: Partial<Student> }): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
 };
@@ -153,6 +156,13 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.SOFT_SKILLS_LOADED](state: State, payload: { softSkills: SoftSkill[] }) {
     state.softSkills.loading = false;
     state.softSkills.data = payload.softSkills;
+  },
+  [MutationTypes.STUDENT_LOADING](state: State) {
+    state.student.loading = true;
+  },
+  [MutationTypes.STUDENT_LOADED](state: State, payload: { student: Partial<Student> }) {
+    state.student.loading = false;
+    state.student.data = payload.student;
   },
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: State) {
     state.matches.zipCityJobsLoading = true;
