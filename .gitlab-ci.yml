@@ -71,7 +71,6 @@ prepare:development:
     VUE_APP_API: $DEVELOPMENT_VUE_APP_API
   only:
     - develop
-    - feature/MATCHD-220
   resource_group: development
 
 prepare:integration:
@@ -126,7 +125,6 @@ build:development:
     - prepare:development
   only:
     - develop
-    - feature/MATCHD-220
   resource_group: development
 
 build:integration:
@@ -180,7 +178,6 @@ deploy:development:
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
   only:
     - develop
-    - feature/MATCHD-220
   tags:
     - matchd
     - development
