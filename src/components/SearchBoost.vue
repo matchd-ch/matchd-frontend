@@ -37,7 +37,6 @@ export default class SearchBoost extends Vue.with(Props) {}
 
 <style type="postcss" scoped>
 @block search-boost {
-  @apply fixed right-0 bottom-0 left-0;
   @apply p-4 xl:p-8;
   @apply bg-white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

@@ -22,7 +22,6 @@ export default class SearchFilters extends Vue {
 
 <style type="postcss" scoped>
 @block search-filters {
-  @apply fixed right-0 top-0 left-0;
   @apply p-4 xl:p-8;
   @apply text-white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

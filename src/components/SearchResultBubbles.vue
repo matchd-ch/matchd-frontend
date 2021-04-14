@@ -1,5 +1,5 @@
 <template>
-  <div id="diagram" class="search-result-bubbles"></div>
+  <div id="diagram" class="search-result-bubbles min-h-content-with-fixed-headers"></div>
 </template>
 
 <script lang="ts">
@@ -60,11 +60,11 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   mounted(): void {
     this.initD3();
-    window.addEventListener("resize", this.resize);
+    window.addEventListener("resize", this.resize, true);
   }
 
-  onUnmounted() {
-    window.removeEventListener("resize", this.resize);
+  unmounted() {
+    window.removeEventListener("resize", this.resize, true);
   }
 
   resize(): void {
@@ -287,10 +287,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
 
 <style lang="postcss" scoped>
-@block search-result-bubbles {
-  height: calc(100vh - 7.1875rem - 5.5rem);
-}
-
 #diagram :deep(svg) {
   width: 100%;
   max-height: 100%;
@@ -298,7 +294,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   & .company,
   & .jobposting {
     & image {
-      filter: brightness(0) invert(1);
+      @apply filter brightness-0 invert;
     }
   }
 

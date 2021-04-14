@@ -82,6 +82,8 @@ module.exports = {
     extend: {
       minHeight: {
         "145px": "145px",
+        "content-with-fixed-headers":
+          "calc(100vh - var(--contentMarginTop) - var(--contentMarginBottom))",
       },
       gridTemplateColumns: {
         16: "repeat(16, minmax(0, 1fr))",
@@ -102,6 +104,10 @@ module.exports = {
           "linear-gradient(180deg, #FC3E77 9.02%, rgba(255, 212, 129, 0.87) 135.27%, #1EAB00 270.54%);",
         "student-gradient-t-b":
           "linear-gradient(180deg, #1FAC01 9.02%, rgba(255, 212, 129, 0.87) 135.27%, #1EAB00 270.54%);",
+      },
+      margin: {
+        "fixed-header": "var(--contentMarginTop)",
+        "fixed-footer": "var(--contentMarginBottom)",
       },
       padding: {
         full: "100%",

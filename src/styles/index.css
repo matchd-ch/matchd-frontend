@@ -1,5 +1,10 @@
 @tailwind base;
 
+:root {
+    --contentMarginTop: 0;
+    --contentMarginBottom: 0;
+}
+
 .theme-student {
     --color-primary-1: #FFF;
     --color-primary-2: #FFF;
