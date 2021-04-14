@@ -33,7 +33,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   resultRadius = 40;
   rootRadius = 60;
-  maxResults = 50;
 
   resizeTimeout: number | null = null;
 
