@@ -14,6 +14,7 @@ import type {
   LanguageLevel,
   Skill,
   SoftSkill,
+  Student,
   ZipCity,
 } from "api";
 import { GetterTree } from "vuex";
@@ -33,6 +34,7 @@ export type Getters = {
   matchesForGrid(state: State): SearchResult[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
+  student(state: State): { data: Partial<Student> | null };
   zipCityJobs(state: State): ZipCity[];
 };
 

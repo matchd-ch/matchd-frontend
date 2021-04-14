@@ -12,6 +12,7 @@ import type {
   Match,
   Skill,
   SoftSkill,
+  Student,
   ZipCity,
 } from "api";
 
@@ -51,6 +52,11 @@ export type State = {
   softSkills: {
     loading: boolean;
     data: SoftSkill[];
+  };
+  student: {
+    // FIXME: add generated types
+    loading: boolean;
+    data: Partial<Student> | null;
   };
   languages: {
     loading: boolean;
@@ -103,6 +109,10 @@ export const state: State = {
   softSkills: {
     loading: false,
     data: [],
+  },
+  student: {
+    loading: false,
+    data: null,
   },
   languages: {
     loading: false,

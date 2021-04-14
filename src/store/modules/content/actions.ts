@@ -51,6 +51,10 @@ export interface Actions {
   [ActionTypes.MATCHING]({ commit }: AugmentedActionContext, payload: MatchingInput): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.STUDENT](
+    { commit }: AugmentedActionContext,
+    payload: { slug: string }
+  ): Promise<void>;
   [ActionTypes.ZIP_CITY_JOBS](
     { commit }: AugmentedActionContext,
     payload: ZipCityJobsInput
