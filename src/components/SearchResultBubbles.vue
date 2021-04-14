@@ -1,5 +1,5 @@
 <template>
-  <div id="vis" class="search-result-bubbles"></div>
+  <div id="diagram" class="search-result-bubbles"></div>
 </template>
 
 <script lang="ts">
@@ -23,7 +23,7 @@ class Props {
   emits: ["clickResult"],
 })
 export default class SearchResultBubbles extends Vue.with(Props) {
-  vis: any = {} as any;
+  diagram: any = {} as any;
   force: any = {} as any;
   node: any = [];
   link: any = [];
@@ -33,6 +33,9 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   resultRadius = 40;
   rootRadius = 60;
+  maxResults = 50;
+
+  resizeTimeout: number | null = null;
 
   get nodes(): SearchNode[] {
     return this.matches.nodes.map((node) => {
@@ -45,6 +48,10 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         fy: this.height / 2,
       };
     });
+  }
+
+  get links(): SearchLink[] {
+    return this.matches.links;
   }
 
   get rootColor(): string {
@@ -71,11 +78,31 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   @Watch("matches")
   onUpdateMatches(): void {
+    this.link
     this.update();
   }
 
   mounted(): void {
-    const element = document.getElementById("vis") as HTMLElement;
+    this.initD3();
+    window.addEventListener("resize", this.resize);
+  }
+
+  onUnmounted() {
+    window.removeEventListener("resize", this.resize);
+  }
+
+  resize(): void {
+    if(this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout)
+    }
+    this.resizeTimeout = setTimeout(() => {
+      d3.select("svg").remove();
+      this.initD3();
+    }, 200);
+  }
+
+  initD3(): void {
+    const element = document.getElementById("diagram") as HTMLElement;
     this.width = parseInt(window.getComputedStyle(element).getPropertyValue("width"));
     this.height = parseInt(window.getComputedStyle(element).getPropertyValue("height"));
     this.ratio = this.width / this.height;
@@ -86,7 +113,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   update(): void {
-    this.link = this.createLinks(this.matches.links);
+    this.link = this.createLinks(this.links);
     this.node = this.createNodes(this.nodes);
     this.drawRoot();
     this.drawResults();
@@ -95,13 +122,10 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   tick(): void {
     this.link
-      .attr("x1", (d: any) => d.source.x)
-      .attr("y1", (d: any) => d.source.y)
+      .attr("x1", this.width/2)
+      .attr("y1", this.height/2)
       .attr("x2", (d: any) => d.target.x)
-      .attr("y2", (d: any) => d.target.y)
-      .attr("id", (d: any) => {
-        return d.id;
-      });
+      .attr("y2", (d: any) => d.target.y);
 
     this.node.attr("transform", (d: any) => {
       if (d.main) {
@@ -117,7 +141,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .force(
         "link",
         d3
-          .forceLink(this.matches.links)
+          .forceLink(this.links)
           .id((d: any) => d.id)
           // .strength((d: any) => d.value)
           .distance((d: any) => (1 - d.value) * 600)
@@ -133,11 +157,12 @@ export default class SearchResultBubbles extends Vue.with(Props) {
           .iterations(2)
       )
       .force("center", d3.forceCenter(this.width / 2, this.height / 2))
+      .restart()
       .on("tick", this.tick);
   }
 
   createNodes(nodes: SearchNode[]): any {
-    const node = this.vis.selectAll("g").data(nodes, (d: any) => d.id);
+    const node = this.diagram.selectAll("g").data(nodes, (d: any) => d.id);
     node.selectAll("*").remove();
     node.exit().remove();
     return node
@@ -151,9 +176,9 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   createLinks(links: SearchLink[]): any {
-    const link = this.vis
-      .selectAll("line")
-      .data(links, (d: any) => `${d.source.id}-${d.target.id}`);
+    const link = this.diagram
+       .selectAll("line")
+       .data(links, (d: any) => `${d.source.id}-${d.target.id}`)
     link.exit().remove();
     return link
       .enter()
@@ -164,9 +189,8 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   drawSVG(): void {
-    this.vis = d3.select("#vis").append("svg").attr("viewBox", `0 0 ${this.width} ${this.height}`);
-
-    const defs = d3.select("#vis").select("svg").append("defs");
+    this.diagram = d3.select("#diagram").append("svg").attr("viewBox", `0 0 ${this.width} ${this.height}`);
+    const defs = this.diagram.append("defs");
     defs
       .append("clipPath")
       .attr("clipPathUnits", "objectBoundingBox")
@@ -276,7 +300,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   height: calc(100vh - 7.1875rem - 5.5rem);
 }
 
-#vis :deep(svg) {
+#diagram :deep(svg) {
   width: 100%;
   max-height: 100%;
 
