@@ -3,7 +3,17 @@
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
-      <img src="student.data." alt="" />
+      <div class="flex mb-10">
+        <img class="mugshot" />
+      </div>
+      <div class="xl:flex items-start">
+        <h2 class="flex-1 text-center">{{ student.data.nickname }}</h2>
+        <p class="xl:border-l xl:ml-11 xl:pl-11 flex-1">
+          {{ student.data.user.firstName }} {{ student.data.user.lastName }}<br />
+          geboren am {{ student.data.dateOfBirth }}<br />
+          {{ student.data.street }}, {{ student.data.zip }} {{ student.data.city }}
+        </p>
+      </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
       <section class="flex-grow border-b border-green-1 p-9 xl:flex">
@@ -104,11 +114,24 @@ export default class StudentDetail extends Vue {
     next();
   }
 
-
-  get student(): { data: Partial<Student> | null } {
+  get student(): { data: Student | null } {
     const student = this.$store.getters["student"];
-    console.log(student.data);
-    return student;
+    if (!student?.data) {
+      return { data: null };
+    }
+
+    console.info(student.data);
+    return {
+      ...student,
+      data: {
+        ...student.data,
+        dateOfBirth: new Date("2002-04-05").toLocaleDateString("de", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+      },
+    };
   }
 
   async mounted(): Promise<void> {
@@ -126,3 +149,12 @@ export default class StudentDetail extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.mugshot {
+  height: 20rem;
+  width: 20rem;
+  background: tomato;
+  border-radius: 100%;
+}
+</style>
