@@ -4,15 +4,16 @@
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
     <!-- Bezeichnung Field -->
-    <MatchdField id="description" class="mb-10" :errors="errors.description">
+    <MatchdField id="title" class="mb-10" :errors="errors.title">
       <template v-slot:label>Geben Sie der Stelle eine passende Bezeichnung*</template>
       <Field
-        id="description"
-        name="description"
+        id="title"
+        name="title"
         as="input"
-        label="Bezeichnung"
+        label="Stellenbezeichnung"
         rules="required"
-        v-model="form.description"
+        v-model="form.title"
+        maxlength="50"
       />
     </MatchdField>
     <!-- Art Field -->
@@ -169,6 +170,18 @@
         </fieldset>
       </MatchdSelect>
     </div>
+    <!-- Beschreibung Field -->
+    <MatchdField id="description" class="mb-10" :errors="errors.description">
+      <template v-slot:label>Beschreiben Sie die Besonderheiten der Stelle</template>
+      <Field
+        id="description"
+        name="description"
+        as="textarea"
+        label="Beschreibung"
+        v-model="form.description"
+        class="h-72"
+      />
+    </MatchdField>
     <!-- Link Ausschreibung Field -->
     <MatchdField id="url" class="mb-10" :errors="errors.url">
       <template v-slot:label>Link zur Ausschreibung</template>
@@ -234,6 +247,7 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class JobPostingStep1 extends Vue {
   form: JobPostingStep1Form = {
+    title: "",
     description: "",
     fullTime: true,
     workload: 90,
@@ -293,6 +307,7 @@ export default class JobPostingStep1 extends Vue {
 
   populateForm(): void {
     this.form = {
+      title: this.currentJobPosting?.title || "",
       description: this.currentJobPosting?.description || "",
       url: this.currentJobPosting?.url || "",
       fullTime: this.currentJobPosting?.workload === 100,

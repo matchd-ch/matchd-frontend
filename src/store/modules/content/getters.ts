@@ -1,3 +1,5 @@
+import { SearchResult } from "@/models/SearchResult";
+import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { RootState } from "@/store";
 import type {
   Attachment,
@@ -5,12 +7,14 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  JobPosting,
   JobRequirement,
   JobType,
   Language,
   LanguageLevel,
   Skill,
   SoftSkill,
+  ZipCity,
 } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
@@ -20,12 +24,16 @@ export type Getters = {
   branches(state: State): Branch[];
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
   culturalFits(state: State): CulturalFit[];
+  jobPostings(state: State): JobPosting[];
   jobRequirements(state: State): JobRequirement[];
   jobTypes(state: State): JobType[];
   languages(state: State): Language[];
   languageLevels(state: State): LanguageLevel[];
+  matchesForBubbles(state: State): SearchResultBubbleData;
+  matchesForGrid(state: State): SearchResult[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
+  zipCityJobs(state: State): ZipCity[];
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -41,6 +49,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   culturalFits(state: State): CulturalFit[] {
     return state.culturalFits.data;
   },
+  jobPostings(state: State): JobPosting[] {
+    return state.jobPostings.data;
+  },
   jobRequirements(state: State): JobRequirement[] {
     return state.jobRequirements.data;
   },
@@ -53,10 +64,57 @@ export const getters: GetterTree<State, RootState> & Getters = {
   languageLevels(state: State): LanguageLevel[] {
     return state.languages.levels;
   },
+  matchesForBubbles(state: State): SearchResultBubbleData {
+    return {
+      nodes: [
+        {
+          id: "root",
+          main: true,
+          name: "Root",
+          img: "",
+          score: 0,
+          rawScore: 0,
+        },
+        ...state.matches.data.map((match) => {
+          return {
+            id: match.slug,
+            name: match.name,
+            jobPostingTitle: match.jobPostingTitle,
+            img: match.avatar || "",
+            main: false,
+            score: match.score,
+            rawScore: match.rawScore,
+          };
+        }),
+      ],
+      links: state.matches.data.map((match) => {
+        return {
+          source: "root",
+          target: match.slug,
+          value: match.score,
+        };
+      }),
+    };
+  },
+  matchesForGrid(state: State): SearchResult[] {
+    return state.matches.data.map((match) => {
+      return {
+        id: match.slug,
+        name: match.name,
+        jobPostingTitle: match.jobPostingTitle,
+        img: match.avatar || "",
+        score: match.score,
+        rawScore: match.rawScore,
+      };
+    });
+  },
   skills(state: State): Skill[] {
     return state.skills.data;
   },
   softSkills(state: State): SoftSkill[] {
     return state.softSkills.data;
+  },
+  zipCityJobs(state: State): ZipCity[] {
+    return state.matches.zipCityJobs;
   },
 };

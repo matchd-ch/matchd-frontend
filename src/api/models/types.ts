@@ -58,6 +58,48 @@ export type Scalars = {
 };
 
 /** An enumeration. */
+export enum MatchType {
+  Student = "STUDENT",
+  JobPosting = "JOB_POSTING",
+}
+
+export type IJobPostingMatchingInput = {
+  branch?: Maybe<IBranchInput>;
+  jobType?: Maybe<IJobTypeInput>;
+  workload?: Maybe<Scalars["Int"]>;
+  zip?: Maybe<IZipCityInput>;
+};
+
+export type IBranchInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type IJobTypeInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+  mode?: Maybe<Scalars["String"]>;
+};
+
+export type IZipCityInput = {
+  zip: Scalars["String"];
+};
+
+export type IStudentMatchingInput = {
+  jobPosting: IJobPostingInput;
+};
+
+export type IJobPostingInput = {
+  id: Scalars["ID"];
+};
+
+/** An enumeration. */
+export enum DateMode {
+  DateFrom = "DATE_FROM",
+  DateRange = "DATE_RANGE",
+}
+
+/** An enumeration. */
 export enum ProfileType {
   Internal = "INTERNAL",
   Student = "STUDENT",
@@ -66,12 +108,6 @@ export enum ProfileType {
   Company = "COMPANY",
   University = "UNIVERSITY",
   Other = "OTHER",
-}
-
-/** An enumeration. */
-export enum DateMode {
-  DateFrom = "DATE_FROM",
-  DateRange = "DATE_RANGE",
 }
 
 /** An enumeration. */
@@ -104,8 +140,10 @@ export type IAddEmployeeInput = {
 
 export type IJobPostingInputStep1 = {
   id?: Maybe<Scalars["ID"]>;
+  /** Title */
+  title: Scalars["String"];
   /** Description */
-  description: Scalars["String"];
+  description?: Maybe<Scalars["String"]>;
   jobType: IJobTypeInput;
   branch: IBranchInput;
   /** Workload */
@@ -113,17 +151,6 @@ export type IJobPostingInputStep1 = {
   jobFromDate: Scalars["String"];
   jobToDate?: Maybe<Scalars["String"]>;
   url?: Maybe<Scalars["String"]>;
-};
-
-export type IJobTypeInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
-  mode?: Maybe<Scalars["String"]>;
-};
-
-export type IBranchInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
 };
 
 export type IJobPostingInputStep2 = {
@@ -351,6 +378,7 @@ export type ICompanyInput = {
 };
 
 export type IStudentInput = {
+  id?: Maybe<Scalars["ID"]>;
   /** Mobile */
   mobile: Scalars["String"];
 };

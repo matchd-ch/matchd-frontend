@@ -199,7 +199,7 @@ import { Options, setup, Vue } from "vue-class-component";
     ErrorMessage,
   },
 })
-export default class RegisterCompany extends Vue {
+export default class CompanyRegister extends Vue {
   isValidCompany: boolean | null = null;
   isCompanyUidFormValid = false;
   isCompanyDataFormValid = false;

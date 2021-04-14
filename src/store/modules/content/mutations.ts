@@ -4,12 +4,15 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  JobPosting,
   JobRequirement,
   JobType,
   Language,
   LanguageLevel,
+  Match,
   Skill,
   SoftSkill,
+  ZipCity,
 } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
@@ -27,6 +30,8 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
   [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
+  [MutationTypes.JOB_POSTINGS_LOADING](state: S): void;
+  [MutationTypes.JOB_POSTINGS_LOADED](state: S, payload: { jobPostings: JobPosting[] }): void;
   [MutationTypes.JOB_REQUIREMENTS_LOADING](state: S): void;
   [MutationTypes.JOB_REQUIREMENTS_LOADED](
     state: S,
@@ -41,10 +46,14 @@ export type Mutations<S = State> = {
     state: S,
     payload: { languageLevels: LanguageLevel[] }
   ): void;
+  [MutationTypes.MATCHES_LOADING](state: S): void;
+  [MutationTypes.MATCHES_LOADED](state: S, payload: { matches: Match[] }): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
   [MutationTypes.SOFT_SKILLS_LOADED](state: S, payload: { softSkills: SoftSkill[] }): void;
+  [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
+  [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -83,6 +92,13 @@ export const mutations: MutationTree<State> & Mutations = {
     state.culturalFits.loading = false;
     state.culturalFits.data = payload.culturalFits;
   },
+  [MutationTypes.JOB_POSTINGS_LOADING](state: State) {
+    state.jobRequirements.loading = true;
+  },
+  [MutationTypes.JOB_POSTINGS_LOADED](state: State, payload: { jobPostings: JobPosting[] }) {
+    state.jobPostings.loading = false;
+    state.jobPostings.data = payload.jobPostings;
+  },
   [MutationTypes.JOB_REQUIREMENTS_LOADING](state: State) {
     state.jobRequirements.loading = true;
   },
@@ -117,6 +133,13 @@ export const mutations: MutationTree<State> & Mutations = {
     state.languages.loading = false;
     state.languages.levels = payload.languageLevels;
   },
+  [MutationTypes.MATCHES_LOADING](state: State) {
+    state.matches.loading = true;
+  },
+  [MutationTypes.MATCHES_LOADED](state: State, payload: { matches: Match[] }) {
+    state.matches.loading = false;
+    state.matches.data = payload.matches;
+  },
   [MutationTypes.SKILLS_LOADING](state: State) {
     state.skills.loading = true;
   },
@@ -130,5 +153,12 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.SOFT_SKILLS_LOADED](state: State, payload: { softSkills: SoftSkill[] }) {
     state.softSkills.loading = false;
     state.softSkills.data = payload.softSkills;
+  },
+  [MutationTypes.ZIP_CITY_JOBS_LOADING](state: State) {
+    state.matches.zipCityJobsLoading = true;
+  },
+  [MutationTypes.ZIP_CITY_JOBS_LOADED](state: State, payload: { zipCityJobs: ZipCity[] }) {
+    state.matches.zipCityJobsLoading = false;
+    state.matches.zipCityJobs = payload.zipCityJobs;
   },
 };

@@ -1,4 +1,6 @@
 import { createApolloClient } from "@/api/apollo-client";
+import { MatchingInput } from "@/models/MatchingInput";
+import { ZipCityJobsInput } from "@/models/ZipCityJobsInput";
 import { RootState } from "@/store";
 import { ActionContext, ActionTree } from "vuex";
 
@@ -11,12 +13,15 @@ import benefitsQuery from "@/api/queries/benefits.gql";
 import branchesQuery from "@/api/queries/branches.gql";
 import companyQuery from "@/api/queries/company.gql";
 import culturalFitsQuery from "@/api/queries/culturalFits.gql";
+import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
 import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
+import matchingQuery from "@/api/queries/matching.gql";
 import skillsQuery from "@/api/queries/skills.gql";
 import softSkillsQuery from "@/api/queries/softSkills.gql";
+import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -35,6 +40,7 @@ export interface Actions {
     payload: { slug: string }
   ): Promise<void>;
   [ActionTypes.CULTURAL_FITS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.JOB_POSTINGS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_REQUIREMENTS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_TYPE]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.LANGUAGES](
@@ -42,8 +48,13 @@ export interface Actions {
     payload: { shortList: boolean }
   ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.MATCHING]({ commit }: AugmentedActionContext, payload: MatchingInput): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.ZIP_CITY_JOBS](
+    { commit }: AugmentedActionContext,
+    payload: ZipCityJobsInput
+  ): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -108,6 +119,18 @@ export const actions: ActionTree<State, RootState> & Actions = {
       jobRequirements: response.data.jobRequirements,
     });
   },
+  async [ActionTypes.JOB_POSTINGS]({ commit }) {
+    commit(MutationTypes.JOB_POSTINGS_LOADING);
+    const response = await apiClient.query({
+      query: jobPostingsQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.JOB_POSTINGS_LOADED, {
+      jobPostings: response.data.jobPostings,
+    });
+  },
   async [ActionTypes.JOB_TYPE]({ commit }) {
     commit(MutationTypes.JOB_TYPES_LOADING);
     const response = await apiClient.query({
@@ -141,6 +164,17 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.LANGUAGE_LEVELS_LOADED, { languageLevels: response.data.languageLevels });
   },
+  async [ActionTypes.MATCHING]({ commit }, payload: MatchingInput) {
+    commit(MutationTypes.MATCHES_LOADING);
+    const response = await apiClient.query({
+      query: matchingQuery,
+      variables: payload,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.MATCHES_LOADED, { matches: response.data.matches });
+  },
   async [ActionTypes.SKILLS]({ commit }) {
     commit(MutationTypes.SKILLS_LOADING);
     const response = await apiClient.query({
@@ -160,5 +194,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.SOFT_SKILLS_LOADED, { softSkills: response.data.softSkills });
+  },
+  async [ActionTypes.ZIP_CITY_JOBS]({ commit }, payload?: ZipCityJobsInput) {
+    commit(MutationTypes.ZIP_CITY_JOBS_LOADING);
+    const response = await apiClient.query({
+      query: zipCityJobsQuery,
+      variables: payload,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.ZIP_CITY_JOBS_LOADED, { zipCityJobs: response.data.zipCityJobs });
   },
 };

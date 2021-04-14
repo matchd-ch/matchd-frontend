@@ -160,7 +160,7 @@ import { Options, setup, Vue } from "vue-class-component";
     ErrorMessage,
   },
 })
-export default class RegisterStudent extends Vue {
+export default class StudentRegister extends Vue {
   isValidStudent: boolean | null = null;
   isValidPosition: boolean | null = null;
   isStudentDataFormValid = false;

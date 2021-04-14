@@ -1,4 +1,5 @@
 export interface JobPostingStep1Form {
+  title: string;
   description: string;
   jobTypeId: string;
   branchId: string;
