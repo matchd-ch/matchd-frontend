@@ -121,6 +121,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
           .id((d: any) => d.id)
           // .strength((d: any) => d.value)
           .distance((d: any) => (1 - d.value) * 600)
+          .iterations(2)
       )
       .force("charge", d3.forceManyBody())
       .force(
@@ -318,14 +319,17 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
 
     &.student circle {
+      fill: var(--color-green-1);
       stroke: var(--color-green-1);
     }
 
     &.jobposting {
+      fill: var(--color-orange-2);
       stroke: var(--color-orange-2);
     }
 
     &.company circle {
+      fill: var(--color-pink-1);
       stroke: var(--color-pink-1);
     }
   }
@@ -346,7 +350,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   }
 
-  & .root,
   & .node {
     & a {
       pointer-events: visible;
@@ -364,8 +367,8 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
 
     &.company {
-      &,
-      &:hover text {
+      & a,
+      & a:hover text {
         fill: var(--color-pink-1);
       }
 
@@ -375,8 +378,8 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
 
     &.jobposting {
-      &,
-      &:hover text {
+      & a,
+      & a:hover text {
         fill: var(--color-orange-2);
       }
 
@@ -390,8 +393,8 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
 
     &.student {
-      &,
-      &:hover text {
+      & a,
+      & a:hover text {
         fill: var(--color-green-1);
       }
 
