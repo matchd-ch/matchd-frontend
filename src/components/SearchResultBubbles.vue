@@ -55,7 +55,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   @Watch("matches")
   onUpdateMatches(): void {
-    this.link;
     this.update();
   }
 
