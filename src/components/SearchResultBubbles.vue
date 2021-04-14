@@ -357,6 +357,12 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       fill: var(--color-black);
     }
 
+    & a:visited {
+      & text {
+        fill: var(--color-grey-2);
+      }
+    }
+
     &.company {
       &,
       &:hover text {
