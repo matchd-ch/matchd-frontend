@@ -4,12 +4,15 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  JobPosting,
   JobRequirement,
   JobType,
   Language,
   LanguageLevel,
+  Match,
   Skill,
   SoftSkill,
+  ZipCity,
 } from "api";
 
 export type State = {
@@ -35,6 +38,12 @@ export type State = {
     logo: Attachment | null;
     media: Attachment[];
   };
+  matches: {
+    loading: boolean;
+    data: Match[];
+    zipCityJobsLoading: boolean;
+    zipCityJobs: ZipCity[];
+  };
   skills: {
     loading: boolean;
     data: Skill[];
@@ -51,6 +60,10 @@ export type State = {
   jobRequirements: {
     loading: boolean;
     data: JobRequirement[];
+  };
+  jobPostings: {
+    loading: boolean;
+    data: JobPosting[];
   };
 };
 
@@ -77,6 +90,12 @@ export const state: State = {
     logo: null,
     media: [],
   },
+  matches: {
+    loading: false,
+    data: [],
+    zipCityJobsLoading: false,
+    zipCityJobs: [],
+  },
   skills: {
     loading: false,
     data: [],
@@ -91,6 +110,10 @@ export const state: State = {
     levels: [],
   },
   jobRequirements: {
+    loading: false,
+    data: [],
+  },
+  jobPostings: {
     loading: false,
     data: [],
   },

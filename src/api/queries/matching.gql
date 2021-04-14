@@ -1,0 +1,25 @@
+query(
+  $studentMatchingInput: StudentMatchingInput
+  $jobPostingMatchingInput: JobPostingMatchingInput
+  $softBoost: Int!
+  $techBoost: Int!
+  $first: Int
+  $skip: Int
+) {
+  matches(
+    studentMatching: $studentMatchingInput
+    jobPostingMatching: $jobPostingMatchingInput
+    first: $first
+    skip: $skip
+    softBoost: $softBoost
+    techBoost: $techBoost
+  ) {
+    name
+    jobPostingTitle
+    avatar
+    type
+    slug
+    score
+    rawScore
+  }
+}

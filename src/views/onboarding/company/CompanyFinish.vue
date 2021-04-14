@@ -1,10 +1,10 @@
 <template>
   <div>
     <h2 class="text-heading-lg mb-10">Was wollen Sie als nächstes tun?</h2>
-    <MatchdButton variant="outline" class="block w-full" @click="onClickFindTalent"
+    <MatchdButton variant="outline" class="block w-full" @click="onClickStudentSearch"
       >Talente finden</MatchdButton
     >
-    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickCreateJobPosting"
+    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickJobPostingCreate"
       >Stellen und Projekte ausschreiben</MatchdButton
     >
     <p class="mt-5 text-black text-center">
@@ -28,12 +28,12 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class CompanyFinish extends Vue {
-  onClickFindTalent(): void {
-    this.$router.push({ name: "Home" });
+  onClickStudentSearch(): void {
+    this.$router.push({ name: "StudentSearch" });
   }
 
-  onClickCreateJobPosting(): void {
-    this.$router.push({ name: "CreateJobPosting", params: { step: "schritt1" } });
+  onClickJobPostingCreate(): void {
+    this.$router.push({ name: "JobPostingCreate", params: { step: "schritt1" } });
   }
 }
 </script>

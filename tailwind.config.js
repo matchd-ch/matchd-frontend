@@ -53,6 +53,11 @@ module.exports = {
         3: "#95CC3C",
         5: "#E0F3DE",
       },
+      orange: {
+        1: "#FF8717",
+        2: "#FF8963",
+        3: "#EDC141",
+      },
       black: "#000",
       grey: {
         1: "#141414",
@@ -77,6 +82,8 @@ module.exports = {
     extend: {
       minHeight: {
         "145px": "145px",
+        "content-with-fixed-headers":
+          "calc(100vh - var(--contentMarginTop) - var(--contentMarginBottom))",
       },
       gridTemplateColumns: {
         16: "repeat(16, minmax(0, 1fr))",
@@ -95,6 +102,12 @@ module.exports = {
           "linear-gradient(90deg, #1EAB00 29.69%, #66B72D 38.54%, rgba(255, 212, 129, 0.87) 50%, #FB6A7C 61.46%, #FC3E77 71.87%)",
         "company-gradient-t-b":
           "linear-gradient(180deg, #FC3E77 9.02%, rgba(255, 212, 129, 0.87) 135.27%, #1EAB00 270.54%);",
+        "student-gradient-t-b":
+          "linear-gradient(180deg, #1FAC01 9.02%, rgba(255, 212, 129, 0.87) 135.27%, #1EAB00 270.54%);",
+      },
+      margin: {
+        "fixed-header": "var(--contentMarginTop)",
+        "fixed-footer": "var(--contentMarginBottom)",
       },
       padding: {
         full: "100%",
@@ -103,6 +116,9 @@ module.exports = {
       },
       boxShadow: {
         white: "0 0 0 1px #fff",
+        pink: "0 0 0 1px #F21D5E",
+        green: "0 0 0 1px #1FAC01",
+        orange: "0 0 0 1px #FF8717",
       },
       borderRadius: {
         30: "30px",
@@ -117,5 +133,5 @@ module.exports = {
       opacity: ["disabled"],
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-css-variables")()],
 };
