@@ -127,9 +127,5 @@ module.exports = {
       opacity: ["disabled"],
     },
   },
-  plugins: [
-    require("tailwind-css-variables")({
-      colors: "color",
-    }),
-  ],
+  plugins: [require("tailwind-css-variables")()],
 };
