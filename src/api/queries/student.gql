@@ -1,11 +1,64 @@
 query($slug: String) {
   student(slug: $slug) {
     mobile
+    street
+    zip
+    city
+    dateOfBirth
+    nickname
+    schoolName
+    fieldOfStudy
+    graduation
+    branch {
+      name
+      id
+    }
+    jobType {
+      name
+      id
+    }
+    skills {
+      id
+      name
+    }
+    distinction
+    profileStep
+    softSkills {
+      id
+      student
+      company
+    }
+    culturalFits {
+      company
+      student
+      id
+    }
+    slug
+    hobbies {
+      id
+      name
+    }
+    onlineProjects {
+      id
+      url
+    }
+    languages {
+      language {
+        name
+        id
+      }
+      languageLevel {
+        level
+        id
+      }
+    }
+    mobile
     slug
     state
     user {
       firstName
       lastName
+      id
     }
   }
 }
