@@ -1,5 +1,5 @@
 <template>
-  <div>student</div>
+  <pre>{{ student }}</pre>
 </template>
 
 <script lang="ts">
@@ -8,6 +8,8 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
+import { ActionTypes } from "@/store/modules/content/action-types";
+import type { Student } from "api";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
@@ -34,6 +36,10 @@ export default class StudentDetail extends Vue {
     next();
   }
 
+  get student(): { data: Partial<Student> | null } {
+    return this.$store.getters["student"];
+  }
+
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
@@ -42,8 +48,7 @@ export default class StudentDetail extends Vue {
 
   async loadData(slug: string): Promise<void> {
     try {
-      console.log(slug);
-      // await this.$store.dispatch(ActionTypes.COMPANY, { slug });
+      await this.$store.dispatch(ActionTypes.STUDENT, { slug });
     } catch (e) {
       this.$router.replace("/404");
     }
