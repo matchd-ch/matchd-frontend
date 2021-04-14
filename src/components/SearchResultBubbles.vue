@@ -192,7 +192,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .append("circle")
       .attr("cx", this.rootRadius)
       .attr("cy", this.rootRadius)
-      .attr("r", this.rootRadius);
+      .attr("r", this.rootRadius + 2);
 
     if (this.avatar) {
       /* Masked Image */
