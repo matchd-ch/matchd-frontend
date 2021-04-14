@@ -317,10 +317,37 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   & .root {
-    &.student circle {
-      stroke: var(--color-green-1);
+    & circle {
       animation: scan 4s infinite;
     }
+
+    &.student circle {
+      stroke: var(--color-green-1);
+    }
+
+    &.jobposting {
+      stroke: var(--color-orange-2);
+    }
+
+    &.company circle {
+      stroke: var(--color-pink-1);
+    }
+  }
+
+  & .node {
+    & circle {
+      @apply transition-all;
+      stroke-width: 0;
+      stroke-opacity: 0;
+    }
+
+    &:hover {
+      & circle {
+        stroke-width: 10;
+        stroke-opacity: 0.3;
+      }
+    }
+
   }
 
   & .root,
@@ -337,7 +364,11 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     &.company {
       &,
       &:hover text {
-        @apply text-pink-1;
+        fill: var(--color-pink-1);
+      }
+
+      & circle {
+        stroke: var(--color-pink-1);
       }
     }
 
@@ -350,12 +381,20 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       & text:nth-of-type(1) {
         font-weight: 500;
       }
+
+      & circle {
+        stroke: var(--color-orange-2);
+      }
     }
 
     &.student {
       &,
       &:hover text {
         fill: var(--color-green-1);
+      }
+
+      & circle {
+        stroke: var(--color-green-1);
       }
     }
   }
