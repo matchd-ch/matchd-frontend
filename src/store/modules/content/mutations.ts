@@ -54,7 +54,7 @@ export type Mutations<S = State> = {
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
   [MutationTypes.SOFT_SKILLS_LOADED](state: S, payload: { softSkills: SoftSkill[] }): void;
   [MutationTypes.STUDENT_LOADING](state: S): void;
-  [MutationTypes.STUDENT_LOADED](state: S, payload: { student: Partial<Student> }): void;
+  [MutationTypes.STUDENT_LOADED](state: S, payload: { student: Student }): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
 };
@@ -160,7 +160,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.STUDENT_LOADING](state: State) {
     state.student.loading = true;
   },
-  [MutationTypes.STUDENT_LOADED](state: State, payload: { student: Partial<Student> }) {
+  [MutationTypes.STUDENT_LOADED](state: State, payload: { student: Student }) {
     state.student.loading = false;
     state.student.data = payload.student;
   },

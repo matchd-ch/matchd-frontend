@@ -34,7 +34,7 @@ export type Getters = {
   matchesForGrid(state: State): SearchResult[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
-  student(state: State): { data: Partial<Student> | null };
+  student(state: State): { data: Student | null };
   zipCityJobs(state: State): ZipCity[];
 };
 
@@ -116,7 +116,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   softSkills(state: State): SoftSkill[] {
     return state.softSkills.data;
   },
-  student(state: State): { data: Partial<Student> | null } {
+  student(state: State): { data: Student | null } {
     return state.student;
   },
   zipCityJobs(state: State): ZipCity[] {

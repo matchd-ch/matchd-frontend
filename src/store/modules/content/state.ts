@@ -54,9 +54,8 @@ export type State = {
     data: SoftSkill[];
   };
   student: {
-    // FIXME: add generated types
     loading: boolean;
-    data: Partial<Student> | null;
+    data: Student | null;
   };
   languages: {
     loading: boolean;
