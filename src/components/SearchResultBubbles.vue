@@ -53,31 +53,9 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     return this.matches.links;
   }
 
-  get rootColor(): string {
-    switch (this.rootType) {
-      case "company":
-        return "#F21D6A";
-      case "jobposting":
-        return "#FF8963";
-      default:
-        return "#1FAC01";
-    }
-  }
-
-  get resultColor(): string {
-    switch (this.resultType) {
-      case "company":
-        return "#F21D6A";
-      case "jobposting":
-        return "#FF8963";
-      default:
-        return "#1FAC01";
-    }
-  }
-
   @Watch("matches")
   onUpdateMatches(): void {
-    this.link
+    this.link;
     this.update();
   }
 
@@ -91,8 +69,8 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   resize(): void {
-    if(this.resizeTimeout) {
-      clearTimeout(this.resizeTimeout)
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
     }
     this.resizeTimeout = setTimeout(() => {
       d3.select("svg").remove();
@@ -121,8 +99,8 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   tick(): void {
     this.link
-      .attr("x1", this.width/2)
-      .attr("y1", this.height/2)
+      .attr("x1", this.width / 2)
+      .attr("y1", this.height / 2)
       .attr("x2", (d: any) => d.target.x)
       .attr("y2", (d: any) => d.target.y);
 
@@ -176,19 +154,22 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   createLinks(links: SearchLink[]): any {
     const link = this.diagram
-       .selectAll("line")
-       .data(links, (d: any) => `${d.source.id}-${d.target.id}`)
+      .selectAll("line")
+      .data(links, (d: any) => `${d.source.id}-${d.target.id}`);
     link.exit().remove();
     return link
       .enter()
       .append("line")
-      .style("stroke", this.resultColor)
+      .classed(this.resultType, true)
       .style("opacity", (d: any) => d.value)
       .merge(link);
   }
 
   drawSVG(): void {
-    this.diagram = d3.select("#diagram").append("svg").attr("viewBox", `0 0 ${this.width} ${this.height}`);
+    this.diagram = d3
+      .select("#diagram")
+      .append("svg")
+      .attr("viewBox", `0 0 ${this.width} ${this.height}`);
     const defs = this.diagram.append("defs");
     defs
       .append("clipPath")
@@ -207,14 +188,15 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   drawRoot(): void {
     const result = d3.selectAll(".root");
 
+    /* Circle */
     result
       .append("circle")
       .attr("cx", this.rootRadius)
       .attr("cy", this.rootRadius)
-      .attr("r", this.rootRadius + 2)
-      .attr("fill", this.rootColor);
+      .attr("r", this.rootRadius);
 
     if (this.avatar) {
+      /* Masked Image */
       result
         .append("image")
         .attr("clip-path", "url(#circleView)")
@@ -236,8 +218,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     const result = d3
       .selectAll(".node")
       .append("a")
-      .attr("class", "node-link")
-      .style("pointer-events", "visible")
       .on("click", (event: MouseEvent, d: any) => {
         event.preventDefault();
         this.$emit("clickResult", d.id);
@@ -247,32 +227,29 @@ export default class SearchResultBubbles extends Vue.with(Props) {
           case "jobposting":
             return `/stellen/${d.id}`;
           case "company":
-            return `companies/${d.id}`;
+            return `/companies/${d.id}`;
           default:
             return `/talente/${d.id}`;
         }
       });
+    /* Circle */
     result
       .append("circle")
       .attr("cx", this.resultRadius)
       .attr("cy", this.resultRadius)
-      .attr("r", this.resultRadius + 1)
-      .attr("fill", this.resultColor);
+      .attr("r", this.resultRadius + 1);
+    /* First Text Line */
     result
       .append("text")
-      .attr("font-size", "16")
-      .attr("fill", "currentColor")
       .attr("x", this.resultRadius)
       .attr("y", this.resultRadius * 2 + 16)
       .attr("dominant-baseline", "middle")
       .attr("text-anchor", "middle")
-      .attr("font-weight", this.resultType === "jobposting" ? "500" : "normal")
       .text((d: any) => (this.resultType === "jobposting" ? d.jobPostingTitle : d.name));
     if (this.resultType === "jobposting") {
+      /* Second Text Line */
       result
         .append("text")
-        .attr("font-size", "16")
-        .attr("fill", "currentColor")
         .attr("x", this.resultRadius)
         .attr("y", this.resultRadius * 2 + 32)
         .attr("dominant-baseline", "middle")
@@ -280,6 +257,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         .text((d: any) => d.name);
     }
 
+    /* Masked Image */
     result
       .append("image")
       .attr("clip-path", "url(#circleView)")
@@ -293,6 +271,21 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 }
 </script>
+
+<style lang="postcss">
+@keyframes scan {
+  0% {
+    stroke-width: 0;
+    stroke-opacity: 1;
+  }
+  60%,
+  100% {
+    stroke-width: 100;
+    stroke-opacity: 0;
+  }
+}
+</style>
+
 
 <style lang="postcss" scoped>
 @block search-result-bubbles {
@@ -310,28 +303,60 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
   }
 
-  & .node {
-    cursor: pointer;
+  & line {
+    &.company {
+      stroke: var(--color-pink-1);
+    }
 
-    & a:visited {
-      @apply text-grey-2;
+    &.jobposting {
+      stroke: var(--color-orange-1);
+    }
+
+    &.student {
+      stroke: var(--color-green-1);
+    }
+  }
+
+  & .root {
+    &.student circle {
+      stroke: var(--color-green-1);
+      animation: scan 4s infinite;
+    }
+  }
+
+  & .root,
+  & .node {
+    & a {
+      pointer-events: visible;
+    }
+
+    & text {
+      @apply transition-all;
+      fill: var(--color-black);
     }
 
     &.company {
-      &:hover {
+      &,
+      &:hover text {
         @apply text-pink-1;
       }
     }
 
-    &.student {
-      &:hover {
-        @apply text-green-1;
+    &.jobposting {
+      &,
+      &:hover text {
+        fill: var(--color-orange-2);
+      }
+
+      & text:nth-of-type(1) {
+        font-weight: 500;
       }
     }
 
-    &.jobposting {
-      &:hover {
-        @apply text-orange-2;
+    &.student {
+      &,
+      &:hover text {
+        fill: var(--color-green-1);
       }
     }
   }
