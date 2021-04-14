@@ -1,7 +1,10 @@
 overwrite: true
+schema: "http://api.matchd.lo:8080/introspection/"
 generates:
+  ./src/api/remote-schema.json:
+    plugins:
+      - introspection
   types/api.d.ts:
-    schema: "src/api/remote-schema.json"
     plugins:
       - "typescript"
       - "typescript-graphql-files-modules"
@@ -9,7 +12,6 @@ generates:
     config:
       noExport: true
   src/api/models/types.ts:
-    schema: "src/api/remote-schema.json"
     plugins:
       - "typescript"
       - add:

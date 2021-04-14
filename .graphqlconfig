@@ -1,0 +1,4 @@
+{
+  "name": "Matchd API GraphQL Schema",
+  "schemaPath": "./src/api/remote-schema.json"
+}
