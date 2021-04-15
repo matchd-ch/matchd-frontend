@@ -9,9 +9,12 @@
           Talente</a
         >
       </div>
-      <div class="xl:flex items-start">
-        <h2 class="flex-1 text-center">{{ student.data.nickname }}</h2>
-        <p class="xl:border-l xl:ml-11 xl:pl-11 flex-1">
+      <div v-if="media?.avatar" class="flex justify-center mt-9">
+        <img class="avatar" />
+      </div>
+      <div class="xl:flex mt-10 items-start">
+        <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
+        <p class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full">
           {{ student.data.user.firstName }} {{ student.data.user.lastName }}<br />
           geboren am {{ student.data.dateOfBirth }}<br />
           {{ student.data.street }}, {{ student.data.zip }} {{ student.data.city }}
@@ -19,13 +22,16 @@
       </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
-      <section class="flex-grow border-b border-green-1 p-9 xl:flex">
+      <section v-if="student.description" class="flex-grow border-b border-green-1 p-9 xl:flex">
         <h2 class="text-heading-lg mb-8 xl:pr-1/4">Ich suche</h2>
         <div class="xl:mb-0 xl:w-1/2">
-          <p>{{ description }}</p>
+          <p>{{ student.description }}</p>
         </div>
       </section>
-      <section class="flex-grow border-b border-green-1 p-9 xl:flex">
+      <section
+        v-if="student.data.skills?.length"
+        class="flex-grow border-b border-green-1 p-9 xl:flex"
+      >
         <h2 class="text-heading-lg mb-8 xl:pr-1/4">Diese technischen Skills bringe ich mit</h2>
         <div class="xl:mb-0 xl:w-1/2">
           <ul>
@@ -33,7 +39,10 @@
           </ul>
         </div>
       </section>
-      <section class="flex-grow border-b border-green-1 p-9 xl:flex">
+      <section
+        v-if="student.data.languages?.length"
+        class="flex-grow border-b border-green-1 p-9 xl:flex"
+      >
         <h2 class="text-heading-lg mb-8 xl:pr-1/4">Ich habe Kenntnis in folgenden Sprachen</h2>
         <div class="xl:mb-0 xl:w-1/2">
           <ul>
@@ -43,23 +52,32 @@
           </ul>
         </div>
       </section>
-      <section class="flex-grow border-b border-green-1 p-9 xl:flex">
+      <section
+        v-if="student.data.onlineProjects?.length"
+        class="flex-grow border-b border-green-1 p-9 xl:flex"
+      >
         <h2 class="text-heading-lg mb-8 xl:pr-1/4">Dass sind meine eigenen Projekte</h2>
         <div class="xl:mb-0 xl:w-1/2">
           <ul>
             <li v-for="project in student.data.onlineProjects" :key="project.id">
-              <a :href="project.url">{{ project.url }}</a>
+              <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
             </li>
           </ul>
         </div>
       </section>
-      <section class="flex-grow border-b border-green-1 p-9 xl:flex">
+      <section
+        v-if="student.data.distinction"
+        class="flex-grow border-b border-green-1 p-9 xl:flex"
+      >
         <h2 class="text-heading-lg mb-8 xl:pr-1/4">Was mich sonst noch auszeichnet</h2>
         <div class="xl:mb-0 xl:w-1/2">
           {{ student.data.distinction }}
         </div>
       </section>
-      <section class="flex-grow border-b border-green-1 p-9 xl:flex">
+      <section
+        v-if="student.data.hobbies?.length"
+        class="flex-grow border-b border-green-1 p-9 xl:flex"
+      >
         <h2 class="text-heading-lg mb-8 xl:pr-1/4">Dass mache ich gerne in meiner Freizeit</h2>
         <div class="xl:mb-0 xl:w-1/2">
           <ul>
@@ -69,7 +87,10 @@
           </ul>
         </div>
       </section>
-      <section class="flex-grow border-b border-green-1 p-9 xl:flex">
+      <section
+        v-if="student.data.certificates?.length"
+        class="flex-grow border-b border-green-1 p-9 xl:flex"
+      >
         <h2 class="text-heading-lg mb-8 xl:pr-1/4">Zertifikate</h2>
         <div class="xl:mb-0 xl:w-1/2">
           <ul>
@@ -128,7 +149,6 @@ export default class StudentDetail extends Vue {
       return { data: null };
     }
 
-    console.info(student.data);
     return {
       ...student,
       data: {
@@ -159,10 +179,9 @@ export default class StudentDetail extends Vue {
 </script>
 
 <style scoped>
-.mugshot {
-  height: 20rem;
-  width: 20rem;
-  background: tomato;
+.avatar {
+  height: 15rem;
+  width: 15rem;
   border-radius: 100%;
 }
 </style>
