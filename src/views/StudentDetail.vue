@@ -3,8 +3,11 @@
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
-      <div class="flex mb-10">
-        <img class="mugshot" />
+      <div class="back-button">
+        <a class="text-paragraph-lg xl:test-paragraph-md" href="/talente"
+          ><ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />Alle
+          Talente</a
+        >
       </div>
       <div class="xl:flex items-start">
         <h2 class="flex-1 text-center">{{ student.data.nickname }}</h2>
@@ -81,6 +84,7 @@
 </template>
 
 <script lang="ts">
+import ArrowBack from "@/assets/icons/arrow-back.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
@@ -95,6 +99,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
 
 @Options({
   components: {
+    ArrowBack,
     MatchdButton,
     MatchdVideo,
     MatchdImageGrid,
