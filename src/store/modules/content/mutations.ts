@@ -31,6 +31,8 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
   [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
+  [MutationTypes.JOB_POSTING_LOADING](state: S): void;
+  [MutationTypes.JOB_POSTING_LOADED](state: S, payload: { jobPosting: JobPosting }): void;
   [MutationTypes.JOB_POSTINGS_LOADING](state: S): void;
   [MutationTypes.JOB_POSTINGS_LOADED](state: S, payload: { jobPostings: JobPosting[] }): void;
   [MutationTypes.JOB_REQUIREMENTS_LOADING](state: S): void;
@@ -94,6 +96,13 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.CULTURAL_FITS_LOADED](state: State, payload: { culturalFits: CulturalFit[] }) {
     state.culturalFits.loading = false;
     state.culturalFits.data = payload.culturalFits;
+  },
+  [MutationTypes.JOB_POSTING_LOADING](state: State) {
+    state.jobRequirements.loading = true;
+  },
+  [MutationTypes.JOB_POSTING_LOADED](state: State, payload: { jobPosting: JobPosting }) {
+    state.jobPosting.loading = false;
+    state.jobPosting.data = payload.jobPosting;
   },
   [MutationTypes.JOB_POSTINGS_LOADING](state: State) {
     state.jobRequirements.loading = true;

@@ -1,6 +1,7 @@
-query($id: ID!) {
-  jobPosting(id: $id) {
+query($id: ID, $slug: String) {
+  jobPosting(id: $id, slug: $slug) {
     id
+    title
     description
     jobFromDate
     jobToDate
@@ -10,6 +11,7 @@ query($id: ID!) {
     state
     company {
       name
+      street
       zip
       city
     }
@@ -43,6 +45,11 @@ query($id: ID!) {
     }
     employee {
       id
+      user {
+        firstName
+        lastName
+        email
+      }
     }
   }
 }
