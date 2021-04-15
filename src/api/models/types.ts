@@ -65,39 +65,11 @@ export type IAddEmployeeInput = {
 };
 
 /** An enumeration. */
-export enum ProfileType {
-  Internal = "INTERNAL",
-  Student = "STUDENT",
-  CollegeStudent = "COLLEGE_STUDENT",
-  Junior = "JUNIOR",
-  Company = "COMPANY",
-  University = "UNIVERSITY",
-  Other = "OTHER",
-}
-
-/** An enumeration. */
-export enum ProfileState {
-  Incomplete = "INCOMPLETE",
-  Anonymous = "ANONYMOUS",
-  Public = "PUBLIC",
-}
-
-/** An enumeration. */
-export enum DateMode {
-  DateFrom = "DATE_FROM",
-  DateRange = "DATE_RANGE",
-}
-
-/** An enumeration. */
-export enum JobPostingState {
-  Draft = "DRAFT",
-  Public = "PUBLIC",
-}
-
-/** An enumeration. */
-export enum MatchType {
-  Student = "STUDENT",
-  JobPosting = "JOB_POSTING",
+export enum AttachmentKey {
+  StudentAvatar = "STUDENT_AVATAR",
+  StudentDocuments = "STUDENT_DOCUMENTS",
+  CompanyAvatar = "COMPANY_AVATAR",
+  CompanyDocuments = "COMPANY_DOCUMENTS",
 }
 
 export type IBenefitInput = {
@@ -170,12 +142,21 @@ export type ICulturalFitInput = {
 };
 
 /** An enumeration. */
-export enum AttachmentKey {
-  StudentAvatar = "STUDENT_AVATAR",
-  StudentDocuments = "STUDENT_DOCUMENTS",
-  CompanyAvatar = "COMPANY_AVATAR",
-  CompanyDocuments = "COMPANY_DOCUMENTS",
+export enum DateMode {
+  DateFrom = "DATE_FROM",
+  DateRange = "DATE_RANGE",
 }
+
+export type IEmployeeInput = {
+  id?: Maybe<Scalars["ID"]>;
+  /** Role */
+  role?: Maybe<Scalars["String"]>;
+};
+
+export type IHobbyInput = {
+  id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+};
 
 export type IJobPostingInput = {
   id: Scalars["ID"];
