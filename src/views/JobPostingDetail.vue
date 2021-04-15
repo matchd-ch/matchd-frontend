@@ -25,6 +25,10 @@
           </template>
           <template v-else> ab {{ jobPosting.jobFromDate }} </template>
         </p>
+        <p v-if="jobPosting.url" class="flex items-center mt-4">
+          <span class="material-icons mr-2">open_in_new</span>
+          <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
+        </p>
       </div>
     </section>
 
@@ -34,7 +38,7 @@
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <template v-if="jobPosting.jobRequirements.length">
-          <h3>Erforderlicher Abschluss</h3>
+          <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
           <ul class="list-disc list-inside">
             <li v-for="jobRequirement in jobPosting.jobRequirements" :key="jobRequirement.id">
               {{ jobRequirement.name }}
@@ -43,16 +47,16 @@
         </template>
 
         <template v-if="jobPosting.languages.length">
-          <h3>Sprachen</h3>
+          <h3 class="text-heading-sm mb-3">Sprachen</h3>
           <ul class="list-disc list-inside">
             <li v-for="language in jobPosting.languages" :key="language.id">
-              {{ language }}
+              {{ language.language.name }} {{ language.languageLevel.level }}
             </li>
           </ul>
         </template>
 
         <template v-if="jobPosting.skills.length">
-          <h3>Skills</h3>
+          <h3 class="text-heading-sm mb-3">Skills</h3>
           <ul class="list-disc list-inside">
             <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill }}</li>
           </ul>
@@ -64,11 +68,13 @@
         <h2 class="text-heading-lg mb-8 lg:mb-0">Unternehmen</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <address class="not-italic">
-          <h3 class="font-bold">{{ jobPosting.company.name }}</h3>
-          {{ jobPosting.company.street }}<br />{{ jobPosting.company.zip }}
-          {{ jobPosting.company.city }}
-        </address>
+        <router-link :to="{ name: 'CompanyDetail', params: { slug: jobPosting.company.slug } }">
+          <address class="not-italic">
+            <h3 class="text-heading-sm">{{ jobPosting.company.name }}</h3>
+            {{ jobPosting.company.street }}<br />{{ jobPosting.company.zip }}
+            {{ jobPosting.company.city }}
+          </address>
+        </router-link>
       </div>
     </section>
     <section class="flex-grow lg:flex p-9 lg:p-0">
@@ -77,7 +83,10 @@
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <p>
-          {{ jobPosting.employee.user?.firstName }} {{ jobPosting.employee.user?.lastName }}<br />
+          <span class="text-heading-sm"
+            >{{ jobPosting.employee.user?.firstName }}
+            {{ jobPosting.employee.user?.lastName }}</span
+          ><br />
           <a :href="`mailto:${jobPosting.employee.user?.email}`" target="_blank">{{
             jobPosting.employee.user?.email
           }}</a>

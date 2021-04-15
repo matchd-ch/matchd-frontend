@@ -10,6 +10,8 @@ query($id: ID, $slug: String) {
     formStep
     state
     company {
+      id
+      slug
       name
       street
       zip
