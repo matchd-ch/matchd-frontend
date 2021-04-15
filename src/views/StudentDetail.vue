@@ -74,7 +74,9 @@
         <div class="xl:mb-0 xl:w-1/2">
           <ul>
             <li v-for="certificate in student.data.certificates" :key="certificate.id">
-              <a :href="certificate.url">{{ certificate.name }}</a>
+              <a href="certificate.url" class="font-medium underline inline-block"
+                >{{ certificate.text }} <ArrowDown class="w-5 mb-1 inline-block"
+              /></a>
             </li>
           </ul>
         </div>
@@ -85,6 +87,7 @@
 
 <script lang="ts">
 import ArrowBack from "@/assets/icons/arrow-back.svg";
+import ArrowDown from "@/assets/icons/arrow-down.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
@@ -94,12 +97,12 @@ import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Student } from "api";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-
 Vue.registerHooks(["beforeRouteUpdate"]);
 
 @Options({
   components: {
     ArrowBack,
+    ArrowDown,
     MatchdButton,
     MatchdVideo,
     MatchdImageGrid,
