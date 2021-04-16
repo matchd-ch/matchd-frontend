@@ -1,0 +1,10 @@
+mutation(
+  $company: CompanyInput,
+  $student: StudentInput
+) {
+  match(match: { company: $company, student: $student}) {
+    success
+    errors
+    confirmed
+  }
+}

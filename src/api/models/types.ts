@@ -83,14 +83,7 @@ export type IBranchInput = {
 };
 
 export type ICompanyInput = {
-  /** Name */
-  name: Scalars["String"];
-  /** UID */
-  uid?: Maybe<Scalars["String"]>;
-  /** ZIP */
-  zip: Scalars["String"];
-  /** City */
-  city: Scalars["String"];
+  id: Scalars["ID"];
 };
 
 export type ICompanyProfileInputStep1 = {
@@ -221,6 +214,11 @@ export type IJobTypeInput = {
   mode?: Maybe<Scalars["String"]>;
 };
 
+export type IMatchInput = {
+  student?: Maybe<IStudentInput>;
+  company?: Maybe<ICompanyInput>;
+};
+
 /** An enumeration. */
 export enum MatchType {
   Student = "STUDENT",
@@ -250,6 +248,23 @@ export enum ProfileType {
   Other = "OTHER",
 }
 
+export type IRegisterCompanyInput = {
+  /** Name */
+  name: Scalars["String"];
+  /** UID */
+  uid?: Maybe<Scalars["String"]>;
+  /** ZIP */
+  zip: Scalars["String"];
+  /** City */
+  city: Scalars["String"];
+};
+
+export type IRegisterStudentInput = {
+  id?: Maybe<Scalars["ID"]>;
+  /** Mobile */
+  mobile: Scalars["String"];
+};
+
 export type ISkillInput = {
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
@@ -260,9 +275,7 @@ export type ISoftSkillInput = {
 };
 
 export type IStudentInput = {
-  id?: Maybe<Scalars["ID"]>;
-  /** Mobile */
-  mobile: Scalars["String"];
+  id: Scalars["ID"];
 };
 
 export type IStudentMatchingInput = {

@@ -2,6 +2,7 @@ import { createApolloClient } from "@/api/apollo-client";
 import { MatchingInput } from "@/models/MatchingInput";
 import { ZipCityJobsInput } from "@/models/ZipCityJobsInput";
 import { RootState } from "@/store";
+import type { MatchInput } from "api";
 import { ActionContext, ActionTree } from "vuex";
 
 import { ActionTypes } from "./action-types";
@@ -24,6 +25,7 @@ import skillsQuery from "@/api/queries/skills.gql";
 import studentQuery from "@/api/queries/student.gql";
 import softSkillsQuery from "@/api/queries/softSkills.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
+import matchMutation from "@/api/mutations/match.gql";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -54,6 +56,7 @@ export interface Actions {
     payload: { shortList: boolean }
   ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.MATCH]({ commit }: AugmentedActionContext, payload: MatchInput): Promise<void>;
   [ActionTypes.MATCHING]({ commit }: AugmentedActionContext, payload: MatchingInput): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
@@ -186,6 +189,14 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.LANGUAGE_LEVELS_LOADED, { languageLevels: response.data.languageLevels });
+  },
+  async [ActionTypes.MATCH]({ commit }, payload: MatchInput) {
+    commit(MutationTypes.MATCH_LOADING);
+    const response = await apiClient.mutate({
+      mutation: matchMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.MATCH_LOADED, { match: response.data.match });
   },
   async [ActionTypes.MATCHING]({ commit }, payload: MatchingInput) {
     commit(MutationTypes.MATCHES_LOADING);

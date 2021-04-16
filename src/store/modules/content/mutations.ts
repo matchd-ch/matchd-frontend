@@ -3,6 +3,7 @@ import type {
   Benefit,
   Branch,
   Company,
+  CreateMatch,
   CulturalFit,
   JobPosting,
   JobRequirement,
@@ -49,6 +50,8 @@ export type Mutations<S = State> = {
     state: S,
     payload: { languageLevels: LanguageLevel[] }
   ): void;
+  [MutationTypes.MATCH_LOADING](state: S): void;
+  [MutationTypes.MATCH_LOADED](state: S, payload: { match: CreateMatch }): void;
   [MutationTypes.MATCHES_LOADING](state: S): void;
   [MutationTypes.MATCHES_LOADED](state: S, payload: { matches: Match[] }): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
@@ -146,6 +149,12 @@ export const mutations: MutationTree<State> & Mutations = {
   ) {
     state.languages.loading = false;
     state.languages.levels = payload.languageLevels;
+  },
+  [MutationTypes.MATCH_LOADING](state: State) {
+    state.matches.loading = true;
+  },
+  [MutationTypes.MATCH_LOADED](state: State, payload: { match: CreateMatch }) {
+    state.matches.loading = false;
   },
   [MutationTypes.MATCHES_LOADING](state: State) {
     state.matches.loading = true;

@@ -1,10 +1,13 @@
 <template>
-  <div v-if="jobPosting" class="jobPosting-detail text-orange-1 flex flex-col min-h-screen">
+  <div
+    v-if="jobPosting"
+    class="jobPosting-detail text-orange-1 flex flex-col min-h-screen mb-fixed-footer"
+  >
     <div class="border-b border-orange-1 p-9">
       <button @click="$router.back()">Zurück zur Übersicht</button>
     </div>
     <div class="border-b border-orange-1 p-9">
-      <h1 class="text-display-lg-fluid">{{ jobPosting.title }}</h1>
+      <h1 class="text-display-lg-fluid break-words">{{ jobPosting.title }}</h1>
     </div>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
@@ -95,11 +98,55 @@
         </p>
       </div>
     </section>
+    <MatchingBar
+      class="fixed bottom-0 right-0 left-0"
+      :showExplanation="showExplanation"
+      type="jobposting"
+    >
+      <MatchdButton v-if="!startShotFired" @click="onClickMatch"
+        >Startschuss fürs Matching</MatchdButton
+      >
+      <template v-else>Du hast den Startschuss abgegeben.</template>
+    </MatchingBar>
+    <MatchingModal v-if="showConfirmation">
+      <h2 class="text-heading-sm mb-3">Hallo Leonie</h2>
+      <p class="mb-3">
+        Cool! Das ist der erste Schritt zum gegenseitigen Matching. Nach dem Klick auf "Freigeben",
+        bekommt
+        <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
+        von <strong>{{ jobPosting.company.name }}</strong> den Link zu deinem Profil.<br />Sobald
+        {{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }} dein Profil
+        angesehen und es ebenfalls interessant findet, schicken wir dir eine E-Mail mit weiteren
+        Infos.
+      </p>
+      <p class="mb-3">
+        Wenn du damit einverstanden bist, werden wir diese Daten von dir bekannt geben:
+      </p>
+
+      <label
+        ><input type="checkbox" v-model="permissionGranted" /> Deine Kontaktdaten und Zertifikate
+        freigeben</label
+      >
+
+      <template v-slot:footer>
+        <MatchdButton @click="onClickCancel" class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
+          >Abbrechen</MatchdButton
+        >
+        <MatchdButton
+          @click="onClickMatchConfirm"
+          :disabled="!permissionGranted"
+          class="block w-full md:w-auto"
+          >Freigeben</MatchdButton
+        >
+      </template>
+    </MatchingModal>
   </div>
 </template>
 
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
+import MatchingBar from "@/components/MatchingBar.vue";
+import MatchingModal from "@/components/MatchingModal.vue";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -113,9 +160,16 @@ Vue.registerHooks(["beforeRouteUpdate"]);
 @Options({
   components: {
     MatchdButton,
+    MatchingBar,
+    MatchingModal,
   },
 })
 export default class JobPostingDetail extends Vue {
+  showExplanation = true;
+  showConfirmation = false;
+  startShotFired = false;
+  permissionGranted = false;
+
   get jobPosting(): JobPosting | null {
     return this.$store.getters["jobPostingDetail"];
   }
@@ -147,7 +201,20 @@ export default class JobPostingDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
+
+      window.addEventListener("resize", this.calculateMargins, true);
+      this.calculateMargins();
     }
+  }
+
+  unmounted(): void {
+    window.removeEventListener("resize", this.calculateMargins, true);
+  }
+
+  calculateMargins(): void {
+    const root = document.documentElement;
+    const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement).offsetHeight;
+    root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
   }
 
   async loadData(slug: string): Promise<void> {
@@ -156,6 +223,23 @@ export default class JobPostingDetail extends Vue {
     } catch (e) {
       this.$router.replace("/404");
     }
+  }
+
+  onClickCancel(): void {
+    this.showConfirmation = false;
+  }
+
+  onClickMatchConfirm(): void {
+    this.showConfirmation = false;
+    this.startShotFired = true;
+  }
+
+  onClickMatch(): void {
+    this.showExplanation = false;
+    this.showConfirmation = true;
+    this.$nextTick(() => {
+      this.calculateMargins();
+    });
   }
 }
 </script>
