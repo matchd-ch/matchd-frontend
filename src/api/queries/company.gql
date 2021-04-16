@@ -24,7 +24,7 @@ query($slug: String) {
       icon
       name
     }
-    jobPositions {
+    branches {
       id
       name
     }

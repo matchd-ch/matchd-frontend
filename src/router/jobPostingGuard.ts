@@ -16,7 +16,7 @@ export async function redirectToCurrentJobPostingStep(
     (to.params.id === ParamStrings.NEW && to.params.step !== `${ParamStrings.STEP}1`)
   ) {
     next({
-      name: "CreateJobPosting",
+      name: "JobPostingCreate",
       params: { step: `${ParamStrings.STEP}1`, id: ParamStrings.NEW },
     });
   } else if (Number(to.params.id) && to.params.step) {
@@ -25,7 +25,7 @@ export async function redirectToCurrentJobPostingStep(
     // Prevent user to go to a step which is beyond the state of the job posting
     if (currentStep < parseStepName(String(to.params.step))) {
       next({
-        name: "CreateJobPosting",
+        name: "JobPostingCreate",
         params: { ...to.params, step: `${ParamStrings.STEP}${currentStep}` },
       });
     } else {

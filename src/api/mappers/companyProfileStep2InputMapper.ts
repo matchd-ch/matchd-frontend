@@ -6,8 +6,5 @@ export function companyProfileStep2InputMapper(
 ): ICompanyProfileInputStep2 {
   return {
     ...companyProfileForm,
-    branch: {
-      id: companyProfileForm.branchId || "",
-    },
   };
 }

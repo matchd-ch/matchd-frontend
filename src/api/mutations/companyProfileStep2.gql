@@ -1,6 +1,5 @@
 mutation(
   $memberItStGallen: Boolean!
-  $branchId: ID!
   $services: String
   $website: String!
   $description: String
@@ -8,9 +7,6 @@ mutation(
   companyProfileStep2(
     step2: {
       memberItStGallen: $memberItStGallen
-      branch: {
-        id: $branchId
-      }
       services: $services
       website: $website
       description: $description

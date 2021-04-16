@@ -7,11 +7,12 @@ export function jobPostingStep1InputMapper(
 ): IJobPostingInputStep1 {
   return {
     id: id || null,
+    title: jobPostingForm.title,
     description: jobPostingForm.description,
     workload: jobPostingForm.fullTime ? 100 : jobPostingForm.workload,
     url: jobPostingForm.url,
-    jobOption: {
-      id: jobPostingForm.jobOptionId,
+    jobType: {
+      id: jobPostingForm.jobTypeId,
     },
     branch: {
       id: jobPostingForm.branchId,

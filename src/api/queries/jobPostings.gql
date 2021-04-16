@@ -1,0 +1,6 @@
+query {
+  jobPostings {
+    id
+    title
+  }
+}

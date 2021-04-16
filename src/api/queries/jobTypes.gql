@@ -1,6 +1,7 @@
 query {
-  jobPositions {
+  jobTypes {
     id
     name
+    mode
   }
 }

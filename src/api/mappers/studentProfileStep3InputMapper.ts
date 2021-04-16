@@ -10,5 +10,10 @@ export function studentProfileStep3InputMapper(
         id: softSkill.id,
       };
     }),
+    culturalFits: studentProfileForm.culturalFits.map((culturalFit) => {
+      return {
+        id: culturalFit.id,
+      };
+    }),
   };
 }

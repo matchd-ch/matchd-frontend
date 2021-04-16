@@ -1,35 +1,19 @@
 <template>
   <Form
-    v-if="universityAvatarUploadConfigurations && universityDocumentsUploadConfigurations"
+    v-if="
+      universityAvatarUploadConfigurations &&
+      universityDocumentsUploadConfigurations &&
+      branches.length
+    "
     @submit="onSubmit"
-    v-slot="{ errors }"
   >
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
     <!-- Branch Field -->
-    <SelectPillGroup :errors="errors.branchId" class="mb-10">
+    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
       <template v-slot:label>Fachbereich</template>
-      <template v-slot:field>
-        <Field
-          id="branchId"
-          name="branchId"
-          as="input"
-          label="Branche"
-          type="hidden"
-          v-model="form.branchId"
-        />
-      </template>
-      <SelectPill
-        name="branchPill"
-        v-for="branch in branches"
-        :key="branch.id"
-        :value="branch.id"
-        :checked="branch.id === form.branchId"
-        @change="form.branchId = $event"
-        >{{ branch.name }}</SelectPill
-      >
-    </SelectPillGroup>
+    </SelectPillMultiple>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
       <template v-slot:label>Kurzbeschreibung der Bildungsinstitution</template>
@@ -102,10 +86,8 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
-import SelectPill from "@/components/SelectPill.vue";
-import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
@@ -125,18 +107,16 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
     MatchdToggle,
     MatchdField,
-    MatchdSelect,
     MatchdFileBlock,
     MatchdFileView,
     MatchdFileUpload,
-    SelectPillGroup,
-    SelectPill,
+    SelectPillMultiple,
   },
 })
 export default class UniversityStep2 extends Vue {
   form: UniversityProfileStep2Form = {
     description: "",
-    branchId: "",
+    branches: [],
   };
 
   get onboardingLoading(): boolean {
@@ -175,8 +155,27 @@ export default class UniversityStep2 extends Vue {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get branches(): Branch[] {
-    return this.$store.getters["branches"];
+  get branches(): SelectPillMultipleItem[] {
+    return this.$store.getters["branches"].map((branch) => {
+      return {
+        id: branch.id,
+        name: branch.name,
+        checked: !!this.form.branches.find((selectedBranch) => selectedBranch.id === branch.id),
+      };
+    });
+  }
+
+  onChangeBranch(branch: Branch): void {
+    const branchExists = !!this.form.branches.find(
+      (selectedBranches) => selectedBranches.id === branch.id
+    );
+    if (branchExists) {
+      this.form.branches = this.form.branches.filter(
+        (selectedBranches) => selectedBranches.id !== branch.id
+      );
+    } else {
+      this.form.branches.push(branch);
+    }
   }
 
   async mounted(): Promise<void> {

@@ -1,44 +1,14 @@
 <template>
-  <Form
-    v-if="jobPositions.length > 0 && companyDocumentsUploadConfigurations"
-    @submit="onSubmit"
-    v-slot="{ errors }"
-  >
+  <Form v-if="branches.length > 0 && companyDocumentsUploadConfigurations" @submit="onSubmit">
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <!-- JobPosition Field -->
-    <MatchdAutocomplete
-      id="jobPositionInput"
-      class="mb-3"
-      :class="{ 'mb-10': form.jobPositions.length === 0 }"
-      :errors="errors.jobPosition"
-      :items="filteredJobPositions"
-      @select="onSelectJobPosition"
-    >
+    <!-- Branch Field -->
+    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
       <template v-slot:label
         >In diesen Bereichen und Projekten kannst du bei uns tätig sein</template
       >
-      <Field
-        id="jobPositionInput"
-        name="jobPositionInput"
-        as="input"
-        autocomplete="off"
-        label="In diesen Bereichen und Projekten kannst du bei uns tätig sein"
-        v-model="jobPositionInput"
-        @input="onInputJobPositions"
-        @keydown.enter.prevent="onPressEnterJobPosition"
-      />
-    </MatchdAutocomplete>
-    <SelectPillGroup v-if="form.jobPositions.length > 0" class="mb-10">
-      <SelectPill
-        v-for="selectedJobPosition in form.jobPositions"
-        :key="selectedJobPosition.id"
-        hasDelete="true"
-        @remove="onRemoveJobPosition(selectedJobPosition)"
-        >{{ selectedJobPosition.name }}</SelectPill
-      >
-    </SelectPillGroup>
+    </SelectPillMultiple>
     <!-- Benefits Field -->
     <SelectIconGroup class="mb-10" :icons="benefits" name="benefits" @change="onChangeBenefits">
       <template v-slot:label>Das erwartet dich bei uns</template>
@@ -78,21 +48,20 @@
 import { companyProfileStep3InputMapper } from "@/api/mappers/companyProfileStep3InputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import GenericError from "@/components/GenericError.vue";
-import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
-import SelectPill from "@/components/SelectPill.vue";
-import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
+import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { BenefitWithStatus, CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 import { OnboardingState } from "@/models/OnboardingState";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment, Benefit, JobPosition, UploadConfiguration } from "api";
+import type { Attachment, Branch, Benefit, UploadConfiguration } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -103,9 +72,7 @@ import { Options, Vue } from "vue-class-component";
     ErrorMessage,
     GenericError,
     MatchdButton,
-    MatchdAutocomplete,
-    SelectPill,
-    SelectPillGroup,
+    SelectPillMultiple,
     SelectIconGroup,
     MatchdFileBlock,
     MatchdFileView,
@@ -114,16 +81,20 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class CompanyStep3 extends Vue {
   form: CompanyProfileStep3Form = {
-    jobPositions: [],
+    branches: [],
     benefits: [],
   };
 
-  jobPositionInput = "";
-  filteredJobPositions: JobPosition[] = [];
   errors: { [k: string]: string } = {};
 
-  get jobPositions(): JobPosition[] {
-    return this.$store.getters["jobPositions"];
+  get branches(): SelectPillMultipleItem[] {
+    return this.$store.getters["branches"].map((branch) => {
+      return {
+        id: branch.id,
+        name: branch.name,
+        checked: !!this.form.branches.find((selectedBranch) => selectedBranch.id === branch.id),
+      };
+    });
   }
 
   get benefits(): BenefitWithStatus[] {
@@ -155,33 +126,17 @@ export default class CompanyStep3 extends Vue {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  onInputJobPositions(): void {
-    if (this.jobPositionInput.length < 3) {
-      this.filteredJobPositions = [];
-      return;
-    }
-    this.filteredJobPositions = this.jobPositions.filter((item) =>
-      item.name.toLowerCase().includes(this.jobPositionInput.toLowerCase())
+  onChangeBranch(branch: Branch): void {
+    const branchExists = !!this.form.branches.find(
+      (selectedBranches) => selectedBranches.id === branch.id
     );
-  }
-
-  onPressEnterJobPosition(): void {
-    if (this.filteredJobPositions.length === 1) {
-      this.onSelectJobPosition(this.filteredJobPositions[0]);
+    if (branchExists) {
+      this.form.branches = this.form.branches.filter(
+        (selectedBranches) => selectedBranches.id !== branch.id
+      );
+    } else {
+      this.form.branches.push(branch);
     }
-  }
-
-  onSelectJobPosition(jobPosition: JobPosition): void {
-    delete this.errors["jobPositions"];
-    this.jobPositionInput = "";
-    this.form.jobPositions.push(jobPosition);
-    this.onInputJobPositions();
-  }
-
-  onRemoveJobPosition(jobPosition: JobPosition): void {
-    this.form.jobPositions = this.form.jobPositions.filter(
-      (selectedSkill) => selectedSkill.id !== jobPosition.id
-    );
   }
 
   onChangeBenefits(benefit: Benefit): void {
@@ -213,7 +168,7 @@ export default class CompanyStep3 extends Vue {
 
   async mounted(): Promise<void> {
     await Promise.all([
-      this.$store.dispatch(ContentActionTypes.JOB_POSITIONS),
+      this.$store.dispatch(ContentActionTypes.BRANCHES),
       this.$store.dispatch(ContentActionTypes.BENEFITS),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {

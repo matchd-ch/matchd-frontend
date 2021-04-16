@@ -6,13 +6,25 @@
     <h1 class="text-display-xl-fluid col-start-1 col-span-2 text-primary-1">Home</h1>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
       <div>
-        Hello {{ user.firstName }} {{ user.lastName }} {{ user.type }}
+        <h2 class="text-heading-md">
+          Hello {{ user.firstName }} {{ user.lastName }} {{ user.type }}
+        </h2>
 
-        <ul v-if="isCompany">
-          <li>
-            <router-link :to="{ name: 'CreateJobPosting' }">Stelle ausschreiben</router-link>
-          </li>
-        </ul>
+        <div class="mb-10">
+          <ul v-if="isCompany" class="list-disc list-inside">
+            <li>
+              <router-link :to="{ name: 'StudentSearch' }">Talente suchen</router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'JobPostingCreate' }">Stelle ausschreiben</router-link>
+            </li>
+          </ul>
+          <ul v-else-if="isStudent" class="list-disc list-inside">
+            <li>
+              <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
+            </li>
+          </ul>
+        </div>
 
         <MatchdButton
           variant="outline"
