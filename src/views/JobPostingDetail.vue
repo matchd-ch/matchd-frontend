@@ -84,11 +84,10 @@
       <div class="lg:w-1/2 lg:p-9">
         <p>
           <span class="text-heading-sm"
-            >{{ jobPosting.employee.user?.firstName }}
-            {{ jobPosting.employee.user?.lastName }}</span
+            >{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</span
           ><br />
-          <a :href="`mailto:${jobPosting.employee.user?.email}`" target="_blank">{{
-            jobPosting.employee.user?.email
+          <a :href="`mailto:${jobPosting.employee?.email}`" target="_blank">{{
+            jobPosting.employee?.email
           }}</a>
         </p>
       </div>

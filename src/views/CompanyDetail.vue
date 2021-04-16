@@ -18,8 +18,8 @@
           <a :href="company.data.website" target="_blank" class="underline">{{
             company.data.website
           }}</a
-          ><br /><a :href="`mailto:${company.data.employees[0].user.email}`" class="underline">{{
-            company.data.employees[0].user.email
+          ><br /><a :href="`mailto:${company.data.employees[0].email}`" class="underline">{{
+            company.data.employees[0].email
           }}</a
           ><br />
           <a :href="`tel:${company.data.phone}`">{{ company.data.phone }}</a>

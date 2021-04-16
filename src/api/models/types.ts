@@ -379,6 +379,24 @@ export type IUserRequestInput = {
   message: Scalars["String"];
 };
 
+/** An enumeration. */
+export enum UserType {
+  /** Internal */
+  Internal = "INTERNAL",
+  /** Student */
+  Student = "STUDENT",
+  /** College Student */
+  CollegeStudent = "COLLEGE_STUDENT",
+  /** Junior */
+  Junior = "JUNIOR",
+  /** Company */
+  Company = "COMPANY",
+  /** University */
+  University = "UNIVERSITY",
+  /** Other */
+  Other = "OTHER",
+}
+
 export type IZipCityInput = {
   zip: Scalars["String"];
 };

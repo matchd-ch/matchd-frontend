@@ -47,11 +47,9 @@ query($id: ID, $slug: String) {
     }
     employee {
       id
-      user {
-        firstName
-        lastName
-        email
-      }
+      firstName
+      lastName
+      email
     }
   }
 }
