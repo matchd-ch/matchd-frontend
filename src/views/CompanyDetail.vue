@@ -9,7 +9,7 @@
             v-if="company.logo"
             :src="company.logo.url.replace('{stack}', 'logo')"
             :alt="`Logo ${company.data.name}`"
-            class="w-40 filter brightness-0 invert"
+            class="w-40"
           />
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">

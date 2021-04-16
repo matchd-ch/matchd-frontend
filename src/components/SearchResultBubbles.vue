@@ -193,7 +193,15 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .append("circle")
       .attr("cx", this.rootRadius)
       .attr("cy", this.rootRadius)
+      .classed("outer-circle", true)
       .attr("r", this.rootRadius + 2);
+
+    result
+      .append("circle")
+      .attr("cx", this.rootRadius)
+      .attr("cy", this.rootRadius)
+      .classed("inner-circle", true)
+      .attr("r", this.rootRadius);
 
     if (this.avatar) {
       /* Masked Image */
@@ -235,9 +243,16 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     /* Circle */
     result
       .append("circle")
+      .classed("outer-circle", true)
       .attr("cx", this.resultRadius)
       .attr("cy", this.resultRadius)
       .attr("r", this.resultRadius + 1);
+    result
+      .append("circle")
+      .classed("inner-circle", true)
+      .attr("cx", this.resultRadius)
+      .attr("cy", this.resultRadius)
+      .attr("r", this.resultRadius);
     /* First Text Line */
     result
       .append("text")
@@ -292,13 +307,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   width: 100%;
   max-height: 100%;
 
-  & .company,
-  & .jobposting {
-    & image {
-      @apply filter brightness-0 invert;
-    }
-  }
-
   & line {
     &.company {
       stroke: var(--color-pink-1);
@@ -314,35 +322,39 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   & .root {
-    & circle {
+    & .outer-circle {
       animation: scan 4s infinite;
     }
 
-    &.student circle {
+    & .inner-circle {
+      fill: var(--color-white)
+    }
+
+    &.student .outer-circle {
       fill: var(--color-green-1);
       stroke: var(--color-green-1);
     }
 
-    &.jobposting {
-      fill: var(--color-orange-2);
-      stroke: var(--color-orange-2);
+    &.jobposting .outer-circle {
+      fill: var(--color-orange-1);
+      stroke: var(--color-orange-1);
     }
 
-    &.company circle {
+    &.company .outer-circle {
       fill: var(--color-pink-1);
       stroke: var(--color-pink-1);
     }
   }
 
   & .node {
-    & circle {
+    & .outer-circle {
       @apply transition-all;
       stroke-width: 0;
       stroke-opacity: 0;
     }
 
     &:hover {
-      & circle {
+      & .outer-circle {
         stroke-width: 10;
         stroke-opacity: 0.3;
       }
@@ -367,39 +379,51 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
 
     &.company {
-      & a,
-      & a:hover text {
+      & .outer-circle {
         fill: var(--color-pink-1);
+        stroke: var(--color-pink-1);
       }
 
-      & circle {
-        stroke: var(--color-pink-1);
+      & .inner-circle {
+        fill: var(--color-white);
+      }
+
+      & a:hover text {
+        fill: var(--color-pink-1);
       }
     }
 
     &.jobposting {
-      & a,
+      & .outer-circle {
+        fill: var(--color-orange-1);
+        stroke: var(--color-orange-1);
+      }
+
+      & .inner-circle {
+        fill: var(--color-white);
+      }
+
       & a:hover text {
-        fill: var(--color-orange-2);
+        fill: var(--color-orange-1);
       }
 
       & text:nth-of-type(1) {
         font-weight: 500;
       }
-
-      & circle {
-        stroke: var(--color-orange-2);
-      }
     }
 
     &.student {
-      & a,
-      & a:hover text {
+      & .outer-circle {
         fill: var(--color-green-1);
+        stroke: var(--color-green-1);
       }
 
-      & circle {
-        stroke: var(--color-green-1);
+      & .inner-circle {
+        fill: var(--color-white);
+      }
+
+      & a:hover text {
+        fill: var(--color-green-1);
       }
     }
   }
