@@ -1,41 +1,42 @@
 <template>
-  <Form v-if="branches.length > 0 && jobOptions.length > 0" @submit="onSubmit" v-slot="{ errors }">
+  <Form v-if="branches.length > 0 && jobTypes.length > 0" @submit="onSubmit" v-slot="{ errors }">
     <GenericError v-if="jobPostingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
     <!-- Bezeichnung Field -->
-    <MatchdField id="description" class="mb-10" :errors="errors.description">
+    <MatchdField id="title" class="mb-10" :errors="errors.title">
       <template v-slot:label>Geben Sie der Stelle eine passende Bezeichnung*</template>
       <Field
-        id="description"
-        name="description"
+        id="title"
+        name="title"
         as="input"
-        label="Bezeichnung"
+        label="Stellenbezeichnung"
         rules="required"
-        v-model="form.description"
+        v-model="form.title"
+        maxlength="50"
       />
     </MatchdField>
     <!-- Art Field -->
-    <SelectPillGroup :errors="errors.jobOptionId" class="mb-10">
+    <SelectPillGroup :errors="errors.jobTypeId" class="mb-10">
       <template v-slot:label>Welche Art Stelle wollen Sie besetzen*</template>
       <template v-slot:field>
         <Field
-          id="jobOptionId"
-          name="jobOptionId"
+          id="jobTypeId"
+          name="jobTypeId"
           as="input"
           label="Art der Stelle"
           type="hidden"
-          v-model="form.jobOptionId"
+          v-model="form.jobTypeId"
           rules="required"
         />
       </template>
       <SelectPill
-        name="jobOptionPill"
-        v-for="option in jobOptions"
+        name="jobTypePill"
+        v-for="option in jobTypes"
         :key="option.id"
         :value="option.id"
-        :checked="option.id === form.jobOptionId"
-        @change="form.jobOptionId = $event"
+        :checked="option.id === form.jobTypeId"
+        @change="form.jobTypeId = $event"
         >{{ option.name }}</SelectPill
       >
     </SelectPillGroup>
@@ -169,6 +170,18 @@
         </fieldset>
       </MatchdSelect>
     </div>
+    <!-- Beschreibung Field -->
+    <MatchdField id="description" class="mb-10" :errors="errors.description">
+      <template v-slot:label>Beschreiben Sie die Besonderheiten der Stelle</template>
+      <Field
+        id="description"
+        name="description"
+        as="textarea"
+        label="Beschreibung"
+        v-model="form.description"
+        class="h-72"
+      />
+    </MatchdField>
     <!-- Link Ausschreibung Field -->
     <MatchdField id="url" class="mb-10" :errors="errors.url">
       <template v-slot:label>Link zur Ausschreibung</template>
@@ -213,7 +226,7 @@ import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
-import type { Branch, JobOption, JobPosting as JobPostingType, User } from "api";
+import type { Branch, JobPosting as JobPostingType, JobType, User } from "api";
 import { DateTime } from "luxon";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
@@ -234,10 +247,11 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class JobPostingStep1 extends Vue {
   form: JobPostingStep1Form = {
+    title: "",
     description: "",
     fullTime: true,
     workload: 90,
-    jobOptionId: "",
+    jobTypeId: "",
     branchId: "",
     jobFromDateMonth: "",
     jobFromDateYear: "",
@@ -250,8 +264,8 @@ export default class JobPostingStep1 extends Vue {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get jobOptions(): JobOption[] {
-    return this.$store.getters["jobOptions"];
+  get jobTypes(): JobType[] {
+    return this.$store.getters["jobTypes"];
   }
 
   get branches(): Branch[] {
@@ -282,7 +296,7 @@ export default class JobPostingStep1 extends Vue {
 
   async mounted(): Promise<void> {
     await Promise.all([
-      this.$store.dispatch(ContentActionsTypes.JOB_OPTIONS),
+      this.$store.dispatch(ContentActionsTypes.JOB_TYPE),
       this.$store.dispatch(ContentActionsTypes.BRANCHES),
     ]);
 
@@ -293,11 +307,12 @@ export default class JobPostingStep1 extends Vue {
 
   populateForm(): void {
     this.form = {
+      title: this.currentJobPosting?.title || "",
       description: this.currentJobPosting?.description || "",
       url: this.currentJobPosting?.url || "",
       fullTime: this.currentJobPosting?.workload === 100,
       workload: this.currentJobPosting?.workload || 90,
-      jobOptionId: this.currentJobPosting?.jobOption?.id || "",
+      jobTypeId: this.currentJobPosting?.jobType?.id || "",
       branchId: this.currentJobPosting?.branch?.id || "",
       jobFromDateMonth: this.currentJobPosting?.jobFromDate
         ? DateTime.fromSQL(this.currentJobPosting?.jobFromDate).month.toString()

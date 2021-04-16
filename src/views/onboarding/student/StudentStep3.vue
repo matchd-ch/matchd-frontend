@@ -1,5 +1,5 @@
 <template>
-  <Form v-if="softSkills.length > 0" @submit="onSubmit">
+  <Form v-if="softSkills.length > 0 && culturalFits.length > 0" @submit="onSubmit">
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
@@ -19,9 +19,29 @@
         </template></template
       >
     </SelectPillMultiple>
+    <SelectPillMultiple
+      :options="culturalFits"
+      @change="onChangeCulturalFit"
+      name="culturalFits"
+      class="mb-10"
+    >
+      <template v-slot:label>Es ist mir wichtig, dass ...</template>
+      <template v-if="remainingCulturalFits > 0" v-slot:info>
+        <template v-if="remainingCulturalFits === 1">
+          Wähle noch 1 für dich passende Aussage aus
+        </template>
+        <template v-else>
+          Wähle {{ this.minCulturalFits - form.culturalFits.length }} für dich passende Aussagen aus
+        </template></template
+      >
+    </SelectPillMultiple>
     <MatchdButton
       variant="outline"
-      :disabled="onboardingLoading || form.softSkills.length < this.minSoftSkills"
+      :disabled="
+        onboardingLoading ||
+        form.softSkills.length < this.minSoftSkills ||
+        form.culturalFits.length < this.minCulturalFits
+      "
       :loading="onboardingLoading"
       class="block w-full"
       >Speichern und weiter</MatchdButton
@@ -38,7 +58,7 @@ import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { OnboardingState } from "@/models/OnboardingState";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import type { SoftSkill } from "api";
+import type { CulturalFit, SoftSkill } from "api";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -55,11 +75,17 @@ import { Options, Vue } from "vue-class-component";
 export default class StudentStep3 extends Vue {
   form: StudentProfileStep3Form = {
     softSkills: [],
+    culturalFits: [],
   };
   minSoftSkills = 6;
+  minCulturalFits = 6;
 
   get remainingSoftSkillCount(): number {
     return this.minSoftSkills - this.form.softSkills.length;
+  }
+
+  get remainingCulturalFits(): number {
+    return this.minCulturalFits - this.form.culturalFits.length;
   }
 
   get softSkills(): SelectPillMultipleItem[] {
@@ -69,6 +95,18 @@ export default class StudentStep3 extends Vue {
         name: softSkill.student,
         checked: !!this.form.softSkills.find(
           (selectedSoftSkill) => selectedSoftSkill.id === softSkill.id
+        ),
+      };
+    });
+  }
+
+  get culturalFits(): SelectPillMultipleItem[] {
+    return this.$store.getters["culturalFits"].map((culturalFit) => {
+      return {
+        id: culturalFit.id,
+        name: culturalFit.student,
+        checked: !!this.form.culturalFits.find(
+          (selectedCulturalFits) => selectedCulturalFits.id === culturalFit.id
         ),
       };
     });
@@ -95,8 +133,24 @@ export default class StudentStep3 extends Vue {
     }
   }
 
+  onChangeCulturalFit(culturalFit: CulturalFit): void {
+    const culturalFitExists = !!this.form.culturalFits.find(
+      (selectedCulturalFit) => selectedCulturalFit.id === culturalFit.id
+    );
+    if (culturalFitExists) {
+      this.form.culturalFits = this.form.culturalFits.filter(
+        (selectedCulturalFit) => selectedCulturalFit.id !== culturalFit.id
+      );
+    } else if (this.remainingCulturalFits > 0) {
+      this.form.culturalFits.push(culturalFit);
+    }
+  }
+
   async mounted(): Promise<void> {
-    await Promise.all([this.$store.dispatch(ContentActionTypes.SOFT_SKILLS)]);
+    await Promise.all([
+      this.$store.dispatch(ContentActionTypes.SOFT_SKILLS),
+      this.$store.dispatch(ContentActionTypes.CULTURAL_FITS),
+    ]);
   }
 
   async onSubmit(): Promise<void> {
@@ -105,7 +159,7 @@ export default class StudentStep3 extends Vue {
       studentProfileStep3InputMapper(this.form)
     );
     if (this.onboardingState.success) {
-      this.$router.push({ params: { step: "schritt5" } });
+      this.$router.push({ params: { step: "schritt4" } });
     }
   }
 }

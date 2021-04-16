@@ -9,8 +9,7 @@
             v-if="company.logo"
             :src="company.logo.url.replace('{stack}', 'logo')"
             :alt="`Logo ${company.data.name}`"
-            class="w-40"
-            style="filter: brightness(0) invert(1)"
+            class="w-40 filter brightness-0 invert"
           />
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
@@ -29,7 +28,7 @@
       <div v-if="mainMedia" class="mt-8">
         <img
           v-if="mainMedia.mimeType.includes('image/')"
-          :src="mainMedia.url.replace('{stack}', 'company-detail-media')"
+          :src="replaceStack(mainMedia.url, 'company-detail-media')"
           class="w-full"
           :alt="`Impressionen ${company.data.name}`"
         />
@@ -49,15 +48,15 @@
         <p class="xl:w-1/2">{{ company.data.services }}</p>
       </section>
       <section
-        v-if="company.data.jobPositions && company.data.jobPositions.length > 0"
+        v-if="company.data.branches && company.data.branches.length > 0"
         class="flex-grow border-b border-pink-1 p-9 xl:flex"
       >
         <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">
           In diesen Bereichen kannst du bei uns tätig sein
         </h2>
         <ul class="list list-disc pl-4 xl:w-1/2">
-          <li v-for="jobPosition in company.data.jobPositions" :key="jobPosition.id">
-            {{ jobPosition.name }}
+          <li v-for="branch in company.data.branches" :key="branch.id">
+            {{ branch.name }}
           </li>
         </ul>
       </section>
@@ -94,6 +93,8 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
+import { nl2br } from "@/helpers/nl2br";
+import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Company } from "api";
 import { Options, Vue } from "vue-class-component";
@@ -126,8 +127,12 @@ export default class CompanyDetail extends Vue {
     return this.$store.getters["company"];
   }
 
+  replaceStack(url: string, stack: string): string {
+    return replaceStack(url, stack);
+  }
+
   nl2br(text: string): string {
-    return text.replace(new RegExp(/\n/, "g"), "<br />");
+    return nl2br(text);
   }
 
   onClickMedia(item: Attachment): void {

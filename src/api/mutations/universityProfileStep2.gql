@@ -1,10 +1,10 @@
 mutation(
-  $branch: BranchInput
+  $branches: [BranchInput]
   $description: String
 ) {
   universityProfileStep2(
     step2: {
-      branch: $branch
+      branches: $branches
       description: $description
     }
   ) {

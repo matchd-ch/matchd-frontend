@@ -1,6 +1,6 @@
 export interface StudentProfileStep2Form {
-  jobOptionId: string;
-  jobPositionId: string;
+  jobTypeId: string;
+  branchId: string;
   jobFromDateMonth: string;
   jobFromDateYear: string;
   jobToDateMonth: string;

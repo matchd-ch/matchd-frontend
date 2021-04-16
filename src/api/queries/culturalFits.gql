@@ -1,0 +1,7 @@
+query {
+  culturalFits {
+    id
+    company
+    student
+  }
+}

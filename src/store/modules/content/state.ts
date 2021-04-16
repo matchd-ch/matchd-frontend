@@ -3,33 +3,46 @@ import type {
   Benefit,
   Branch,
   Company,
-  Expectation,
-  JobOption,
-  JobPosition,
+  CulturalFit,
+  JobPosting,
+  JobRequirement,
+  JobType,
   Language,
   LanguageLevel,
+  Match,
   Skill,
   SoftSkill,
+  ZipCity,
 } from "api";
 
 export type State = {
-  jobOptions: {
+  jobTypes: {
     loading: boolean;
-    data: JobOption[];
+    data: JobType[];
   };
-  jobPositions: {
+  branches: {
     loading: boolean;
-    data: JobPosition[];
+    data: Branch[];
   };
   benefits: {
     loading: boolean;
     data: Benefit[];
+  };
+  culturalFits: {
+    loading: boolean;
+    data: CulturalFit[];
   };
   company: {
     loading: boolean;
     data: Company | null;
     logo: Attachment | null;
     media: Attachment[];
+  };
+  matches: {
+    loading: boolean;
+    data: Match[];
+    zipCityJobsLoading: boolean;
+    zipCityJobs: ZipCity[];
   };
   skills: {
     loading: boolean;
@@ -44,26 +57,30 @@ export type State = {
     data: Language[];
     levels: LanguageLevel[];
   };
-  branches: {
+  jobRequirements: {
     loading: boolean;
-    data: Branch[];
+    data: JobRequirement[];
   };
-  expectations: {
+  jobPostings: {
     loading: boolean;
-    data: Expectation[];
+    data: JobPosting[];
   };
 };
 
 export const state: State = {
-  jobOptions: {
+  jobTypes: {
     loading: false,
     data: [],
   },
-  jobPositions: {
+  branches: {
     loading: false,
     data: [],
   },
   benefits: {
+    loading: false,
+    data: [],
+  },
+  culturalFits: {
     loading: false,
     data: [],
   },
@@ -72,6 +89,12 @@ export const state: State = {
     data: null,
     logo: null,
     media: [],
+  },
+  matches: {
+    loading: false,
+    data: [],
+    zipCityJobsLoading: false,
+    zipCityJobs: [],
   },
   skills: {
     loading: false,
@@ -86,11 +109,11 @@ export const state: State = {
     data: [],
     levels: [],
   },
-  branches: {
+  jobRequirements: {
     loading: false,
     data: [],
   },
-  expectations: {
+  jobPostings: {
     loading: false,
     data: [],
   },

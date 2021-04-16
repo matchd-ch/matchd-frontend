@@ -1,10 +1,10 @@
-import type { Benefit, JobPosition } from "api";
+import type { Benefit, Branch } from "api";
 
 export interface BenefitWithStatus extends Benefit {
   checked: boolean;
 }
 
 export interface CompanyProfileStep3Form {
-  jobPositions: JobPosition[];
+  branches: Branch[];
   benefits: Benefit[];
 }

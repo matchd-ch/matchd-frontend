@@ -1,4 +1,10 @@
 module.exports = {
+  pwa: {
+    workboxOptions: {
+      skipWaiting: true,
+      clientsClaim: true,
+    },
+  },
   devServer: {
     headers: {
       "Access-Control-Allow-Origin": "*",
