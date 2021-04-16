@@ -78,6 +78,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.COMPANY_LOADING](state: State) {
     state.company.loading = true;
+    state.company.data = null;
   },
   [MutationTypes.COMPANY_LOADED](
     state: State,
@@ -98,14 +99,15 @@ export const mutations: MutationTree<State> & Mutations = {
     state.culturalFits.data = payload.culturalFits;
   },
   [MutationTypes.JOB_POSTING_LOADING](state: State) {
-    state.jobRequirements.loading = true;
+    state.jobPosting.loading = true;
+    state.jobPosting.data = null;
   },
   [MutationTypes.JOB_POSTING_LOADED](state: State, payload: { jobPosting: JobPosting }) {
     state.jobPosting.loading = false;
     state.jobPosting.data = payload.jobPosting;
   },
   [MutationTypes.JOB_POSTINGS_LOADING](state: State) {
-    state.jobRequirements.loading = true;
+    state.jobPostings.loading = true;
   },
   [MutationTypes.JOB_POSTINGS_LOADED](state: State, payload: { jobPostings: JobPosting[] }) {
     state.jobPostings.loading = false;

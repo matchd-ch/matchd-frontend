@@ -1,6 +1,9 @@
 <template>
   <div v-if="jobPosting" class="jobPosting-detail text-orange-1 flex flex-col min-h-screen">
     <div class="border-b border-orange-1 p-9">
+      <router-link :to="backRoute">Zurück zur Übersicht</router-link>
+    </div>
+    <div class="border-b border-orange-1 p-9">
       <h1 class="text-display-lg-fluid">{{ jobPosting.title }}</h1>
     </div>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
@@ -8,7 +11,7 @@
         <h2 class="text-heading-lg mb-8 lg:mb-0">Beschreibung</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <p v-html="jobPosting.description"></p>
+        <p v-html="nl2br(jobPosting.description)"></p>
       </div>
     </section>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
@@ -105,7 +108,7 @@ import { DateTime } from "luxon";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
-Vue.registerHooks(["beforeRouteUpdate"]);
+Vue.registerHooks(["beforeRouteUpdate", "beforeRouteEnter"]);
 
 @Options({
   components: {
@@ -113,6 +116,8 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   },
 })
 export default class JobPostingDetail extends Vue {
+  backRoute: RouteLocationNormalized = {} as RouteLocationNormalized;
+
   get jobPosting(): JobPosting | null {
     return this.$store.getters["jobPostingDetail"];
   }
@@ -139,6 +144,16 @@ export default class JobPostingDetail extends Vue {
       await this.loadData(String(to.params.slug));
     }
     next();
+  }
+
+  async beforeRouteEnter(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ): Promise<void> {
+    next((vm) => {
+      (vm as JobPostingDetail).backRoute = from;
+    });
   }
 
   async mounted(): Promise<void> {
