@@ -885,6 +885,7 @@ type SoftSkillInput = {
 
 type Student = {
   __typename?: "Student";
+  id: Scalars["ID"];
   mobile: Scalars["String"];
   street: Scalars["String"];
   zip?: Maybe<Scalars["String"]>;
