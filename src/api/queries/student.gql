@@ -1,6 +1,11 @@
 query($slug: String) {
   student(slug: $slug) {
+    id
     mobile
+    slug
+    state
+    firstName
+    lastName
     street
     zip
     city
@@ -9,6 +14,8 @@ query($slug: String) {
     schoolName
     fieldOfStudy
     graduation
+    distinction
+    profileStep
     branch {
       name
       id
@@ -21,8 +28,6 @@ query($slug: String) {
       id
       name
     }
-    distinction
-    profileStep
     softSkills {
       id
       student
@@ -33,7 +38,6 @@ query($slug: String) {
       student
       id
     }
-    slug
     hobbies {
       id
       name
@@ -51,14 +55,6 @@ query($slug: String) {
         level
         id
       }
-    }
-    mobile
-    slug
-    state
-    user {
-      firstName
-      lastName
-      id
     }
   }
 }

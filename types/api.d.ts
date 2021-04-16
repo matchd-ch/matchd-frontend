@@ -251,8 +251,11 @@ type DeleteAttachment = {
 type Employee = {
   __typename?: "Employee";
   id: Scalars["ID"];
-  user: User;
   role: Scalars["String"];
+  email?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
+  phone?: Maybe<Scalars["String"]>;
 };
 
 type EmployeeInput = {
@@ -796,7 +799,6 @@ type QueryCompanyArgs = {
 
 type QueryAttachmentsArgs = {
   key: AttachmentKey;
-  userId?: Maybe<Scalars["Int"]>;
   slug?: Maybe<Scalars["String"]>;
 };
 
@@ -883,10 +885,10 @@ type SoftSkillInput = {
 
 type Student = {
   __typename?: "Student";
-  user: User;
+  id: Scalars["ID"];
   mobile: Scalars["String"];
   street: Scalars["String"];
-  zip: Scalars["String"];
+  zip?: Maybe<Scalars["String"]>;
   city: Scalars["String"];
   dateOfBirth?: Maybe<Scalars["Date"]>;
   nickname?: Maybe<Scalars["String"]>;
@@ -895,6 +897,8 @@ type Student = {
   graduation?: Maybe<Scalars["Date"]>;
   branch?: Maybe<Branch>;
   jobType?: Maybe<JobType>;
+  jobFromDate?: Maybe<Scalars["Date"]>;
+  jobToDate?: Maybe<Scalars["Date"]>;
   skills: Array<Skill>;
   distinction: Scalars["String"];
   state: ProfileState;
@@ -905,6 +909,9 @@ type Student = {
   hobbies: Array<Hobby>;
   onlineProjects: Array<OnlineProject>;
   languages: Array<UserLanguageRelation>;
+  email?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
 };
 
 type StudentInput = {
@@ -1089,9 +1096,8 @@ type UploadTypeConfiguration = {
   maxSize: Scalars["Int"];
 };
 
-type User = Node & {
+type User = {
   __typename?: "User";
-  /** The ID of the object. */
   id: Scalars["ID"];
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
@@ -1124,7 +1130,7 @@ type UserNode = Node & {
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
   email: Scalars["String"];
-  type: Scalars["String"];
+  type: UserType;
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   company?: Maybe<Company>;
@@ -1151,6 +1157,24 @@ type UserRequestInput = {
   /** Message */
   message: Scalars["String"];
 };
+
+/** An enumeration. */
+enum UserType {
+  /** Internal */
+  Internal = "INTERNAL",
+  /** Student */
+  Student = "STUDENT",
+  /** College Student */
+  CollegeStudent = "COLLEGE_STUDENT",
+  /** Junior */
+  Junior = "JUNIOR",
+  /** Company */
+  Company = "COMPANY",
+  /** University */
+  University = "UNIVERSITY",
+  /** Other */
+  Other = "OTHER",
+}
 
 type UserUpload = {
   __typename?: "UserUpload";
