@@ -127,12 +127,12 @@ type Company = {
   website: Scalars["String"];
   branches: Array<Branch>;
   description: Scalars["String"];
-  softSkills: Array<SoftSkill>;
+  softSkills?: Maybe<Array<SoftSkill>>;
   uid: Scalars["String"];
   services: Scalars["String"];
   memberItStGallen: Scalars["Boolean"];
   benefits: Array<Benefit>;
-  culturalFits: Array<CulturalFit>;
+  culturalFits?: Maybe<Array<CulturalFit>>;
   topLevelOrganisationDescription: Scalars["String"];
   topLevelOrganisationWebsite: Scalars["String"];
   linkEducation?: Maybe<Scalars["String"]>;
@@ -295,11 +295,11 @@ type JobPosting = {
   jobToDate?: Maybe<Scalars["Date"]>;
   url?: Maybe<Scalars["String"]>;
   jobRequirements: Array<JobRequirement>;
-  skills: Array<Skill>;
+  skills?: Maybe<Array<Skill>>;
   formStep: Scalars["Int"];
   state: JobPostingState;
   employee?: Maybe<Employee>;
-  languages: Array<JobPostingLanguageRelation>;
+  languages?: Maybe<Array<JobPostingLanguageRelation>>;
 };
 
 type JobPostingInput = {
@@ -886,28 +886,28 @@ type SoftSkillInput = {
 type Student = {
   __typename?: "Student";
   id: Scalars["ID"];
-  mobile: Scalars["String"];
-  street: Scalars["String"];
+  mobile?: Maybe<Scalars["String"]>;
+  street?: Maybe<Scalars["String"]>;
   zip?: Maybe<Scalars["String"]>;
-  city: Scalars["String"];
-  dateOfBirth?: Maybe<Scalars["Date"]>;
+  city?: Maybe<Scalars["String"]>;
+  dateOfBirth?: Maybe<Scalars["String"]>;
   nickname?: Maybe<Scalars["String"]>;
   schoolName?: Maybe<Scalars["String"]>;
-  fieldOfStudy: Scalars["String"];
-  graduation?: Maybe<Scalars["Date"]>;
+  fieldOfStudy?: Maybe<Scalars["String"]>;
+  graduation?: Maybe<Scalars["String"]>;
   branch?: Maybe<Branch>;
   jobType?: Maybe<JobType>;
   jobFromDate?: Maybe<Scalars["Date"]>;
   jobToDate?: Maybe<Scalars["Date"]>;
   skills: Array<Skill>;
-  distinction: Scalars["String"];
+  distinction?: Maybe<Scalars["String"]>;
   state: ProfileState;
   profileStep: Scalars["Int"];
   softSkills: Array<SoftSkill>;
   culturalFits: Array<CulturalFit>;
   slug: Scalars["String"];
-  hobbies: Array<Hobby>;
-  onlineProjects: Array<OnlineProject>;
+  hobbies?: Maybe<Array<Hobby>>;
+  onlineProjects?: Maybe<Array<OnlineProject>>;
   languages: Array<UserLanguageRelation>;
   email?: Maybe<Scalars["String"]>;
   firstName?: Maybe<Scalars["String"]>;
