@@ -152,7 +152,7 @@ export default class StudentDetail extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .avatar {
   height: 15rem;
   width: 15rem;
