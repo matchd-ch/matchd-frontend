@@ -57,4 +57,15 @@ query($slug: String) {
       }
     }
   }
+  avatar: attachments(key: STUDENT_AVATAR, slug: $slug) {
+    id
+    url
+    mimeType
+  }
+  certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug) {
+    id
+    url
+    mimeType
+    fileName
+  }
 }

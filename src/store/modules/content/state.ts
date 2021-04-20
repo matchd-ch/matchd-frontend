@@ -56,6 +56,8 @@ export type State = {
   student: {
     loading: boolean;
     data: Student | null;
+    avatar: Attachment | null;
+    certificates: Attachment[];
   };
   languages: {
     loading: boolean;
@@ -112,6 +114,8 @@ export const state: State = {
   student: {
     loading: false,
     data: null,
+    avatar: null,
+    certificates: [],
   },
   languages: {
     loading: false,

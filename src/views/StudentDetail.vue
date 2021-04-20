@@ -8,8 +8,8 @@
           <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />Alle Talente
         </router-link>
       </div>
-      <div v-if="media?.avatar" class="flex justify-center mt-9">
-        <img class="avatar" />
+      <div v-if="student.avatar" class="flex justify-center mt-9">
+        <img class="avatar" :src="avatarSrc" />
       </div>
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
@@ -65,11 +65,17 @@
           </li>
         </ul>
       </profile-section>
-      <profile-section v-if="student.data.certificates?.length" title="Zertifikate">
+      <profile-section v-if="student.certificates?.length" title="Zertifikate">
         <ul>
-          <li v-for="certificate in student.data.certificates" :key="certificate.id">
-            <a href="certificate.url" class="font-medium underline inline-block"
-              >{{ certificate.text }} <ArrowDown class="w-5 mb-1 inline-block"
+          <li v-for="certificate in student.certificates" :key="certificate.id">
+            <a
+              :href="certificateUrl(certificate.id)"
+              class="font-medium underline inline-block"
+              download
+              ><span>
+                {{ certificate.fileName }}
+              </span>
+              <ArrowDown class="w-5 mb-1 ml-2 inline-block"
             /></a>
           </li>
         </ul>
@@ -83,7 +89,7 @@ import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { Student } from "api";
+import type { Attachment, Student } from "api";
 import { DateTime } from "luxon";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
@@ -108,10 +114,14 @@ export default class StudentDetail extends Vue {
     next();
   }
 
-  get student(): { data: Student | null } {
+  get student(): {
+    data: Student | null;
+    avatar: Attachment | null;
+    certificates: Attachment[];
+  } {
     const student = this.$store.getters["student"];
     if (!student?.data) {
-      return { data: null };
+      return { data: null, avatar: null, certificates: [] };
     }
 
     return {
@@ -122,7 +132,19 @@ export default class StudentDetail extends Vue {
           ? DateTime.fromFormat(student.data.dateOfBirth, "yyyy-mm-dd").toFormat("dd.mm.yyyy")
           : "",
       },
+      certificates: student.certificates,
+      avatar: student.avatar,
     };
+  }
+
+  get avatarSrc(): string | "" {
+    return this.student.avatar?.url?.replace("{stack}", "logo") ?? "";
+  }
+
+  certificateUrl(id: string): string | "" {
+    return (
+      this.student.certificates.find((cert) => id == cert.id)?.url.replace("{stack}", "logo") ?? ""
+    );
   }
 
   async mounted(): Promise<void> {
@@ -146,5 +168,6 @@ export default class StudentDetail extends Vue {
   height: 15rem;
   width: 15rem;
   border-radius: 100%;
+  object-fit: cover;
 }
 </style>
