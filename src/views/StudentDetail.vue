@@ -116,6 +116,7 @@ import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Student } from "api";
+import { DateTime } from "luxon";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 Vue.registerHooks(["beforeRouteUpdate"]);
@@ -153,11 +154,9 @@ export default class StudentDetail extends Vue {
       ...student,
       data: {
         ...student.data,
-        dateOfBirth: new Date("2002-04-05").toLocaleDateString("de", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }),
+        dateOfBirth: student.data.dateOfBirth
+          ? DateTime.fromFormat(student.data.dateOfBirth, "yyyy-mm-dd").toFormat("dd.mm.yyyy")
+          : "",
       },
     };
   }
