@@ -22,86 +22,59 @@
       </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
-      <section v-if="student.description" class="flex-grow border-b border-green-1 p-9 xl:flex">
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Ich suche</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <p>{{ student.description }}</p>
-        </div>
-      </section>
-      <section
+      <profile-section v-if="student.data.description" title="Ich suche">
+        <p>{{ student.data.description }}</p>
+      </profile-section>
+      <profile-section
         v-if="student.data.skills?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
+        title="Diese technischen Skills bringe ich mit"
       >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Diese technischen Skills bringe ich mit</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="skill in student.data.skills" :key="skill.id">{{ skill.name }}</li>
-          </ul>
-        </div>
-      </section>
-      <section
+        <ul>
+          <li v-for="skill in student.data.skills" :key="skill.id">{{ skill.name }}</li>
+        </ul>
+      </profile-section>
+      <profile-section
         v-if="student.data.languages?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
+        title="Ich habe Kenntnis in folgenden Sprachen"
       >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Ich habe Kenntnis in folgenden Sprachen</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="language in student.data.languages" :key="language.id">
-              {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section
+        <ul>
+          <li v-for="language in student.data.languages" :key="language.id">
+            {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
+          </li>
+        </ul>
+      </profile-section>
+      <profile-section
         v-if="student.data.onlineProjects?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
+        title="Das sind meine eigenen Projekte"
       >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Dass sind meine eigenen Projekte</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="project in student.data.onlineProjects" :key="project.id">
-              <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section
-        v-if="student.data.distinction"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
-      >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Was mich sonst noch auszeichnet</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          {{ student.data.distinction }}
-        </div>
-      </section>
-      <section
+        <ul>
+          <li v-for="project in student.data.onlineProjects" :key="project.id">
+            <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
+          </li>
+        </ul>
+      </profile-section>
+      <profile-section v-if="student.data.distinction" title="Was mich sonst noch auszeichnet">
+        {{ student.data.distinction }}
+      </profile-section>
+      <profile-section
         v-if="student.data.hobbies?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
+        title="Dass mache ich gerne in meiner Freizeit"
       >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Dass mache ich gerne in meiner Freizeit</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="hobby in student.data.hobbies" :key="hobby.id">
-              {{ hobby.name }}
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section
-        v-if="student.data.certificates?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
-      >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Zertifikate</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="certificate in student.data.certificates" :key="certificate.id">
-              <a href="certificate.url" class="font-medium underline inline-block"
-                >{{ certificate.text }} <ArrowDown class="w-5 mb-1 inline-block"
-              /></a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <ul>
+          <li v-for="hobby in student.data.hobbies" :key="hobby.id">
+            {{ hobby.name }}
+          </li>
+        </ul>
+      </profile-section>
+      <profile-section v-if="student.data.certificates?.length" title="Zertifikate">
+        <ul>
+          <li v-for="certificate in student.data.certificates" :key="certificate.id">
+            <a href="certificate.url" class="font-medium underline inline-block"
+              >{{ certificate.text }} <ArrowDown class="w-5 mb-1 inline-block"
+            /></a>
+          </li>
+        </ul>
+      </profile-section>
     </div>
   </div>
 </template>
@@ -114,6 +87,7 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
+import ProfileSection from "@/components/ProfileSection.vue";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Student } from "api";
 import { DateTime } from "luxon";
@@ -130,6 +104,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchdImageGrid,
     MatchdFileUpload,
     MatchdFileView,
+    ProfileSection,
   },
 })
 export default class StudentDetail extends Vue {
