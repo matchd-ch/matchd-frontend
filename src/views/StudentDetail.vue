@@ -82,11 +82,6 @@
 <script lang="ts">
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
-import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
-import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Student } from "api";
@@ -99,11 +94,6 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   components: {
     ArrowBack,
     ArrowDown,
-    MatchdButton,
-    MatchdVideo,
-    MatchdImageGrid,
-    MatchdFileUpload,
-    MatchdFileView,
     ProfileSection,
   },
 })
