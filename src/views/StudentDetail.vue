@@ -21,8 +21,8 @@
       </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
-      <profile-section v-if="student.data.description" title="Ich suche">
-        <p>{{ student.data.description }}</p>
+      <profile-section v-if="student.data?.jobType?.mode === 'DATE_RANGE'" title="Ich suche">
+        <p>{{ lookingFor }}</p>
       </profile-section>
       <profile-section
         v-if="student.data.skills?.length"
@@ -137,11 +137,24 @@ export default class StudentDetail extends Vue {
     };
   }
 
-  get avatarSrc(): string | "" {
+  formatDate(ISODate: string): string {
+    return DateTime.fromFormat(ISODate, "yyyy-mm-dd").toFormat("dd.mm.yyyy");
+  }
+
+  get avatarSrc(): string {
     return this.student.avatar?.url?.replace("{stack}", "logo") ?? "";
   }
 
-  certificateUrl(id: string): string | "" {
+  get lookingFor(): string {
+    const jobType = this.student.data?.jobType?.name;
+    const jobFromDate = this.formatDate(this.student.data?.jobFromDate);
+    const jobToDate = this.formatDate(this.student.data?.jobToDate);
+    const branch = this.student.data?.branch?.name;
+
+    return `Ich suche ein(e) ${jobType} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
+  }
+
+  certificateUrl(id: string): string {
     return (
       this.student.certificates.find((cert) => id == cert.id)?.url.replace("{stack}", "logo") ?? ""
     );

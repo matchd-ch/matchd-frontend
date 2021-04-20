@@ -16,6 +16,8 @@ query($slug: String) {
     graduation
     distinction
     profileStep
+    jobFromDate
+    jobToDate
     branch {
       name
       id
@@ -23,6 +25,7 @@ query($slug: String) {
     jobType {
       name
       id
+      mode
     }
     skills {
       id
