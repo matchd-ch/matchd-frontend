@@ -244,7 +244,7 @@ export default class JobPostingStep2 extends Vue {
           };
         }) || [],
       skills:
-        this.currentJobPosting?.skills.map((skill) => {
+        this.currentJobPosting?.skills?.map((skill) => {
           return {
             ...skill,
           };

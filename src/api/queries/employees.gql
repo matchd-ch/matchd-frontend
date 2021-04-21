@@ -4,12 +4,9 @@ query {
       employees {
         id
         role
-        user {
-          id
-          firstName
-          lastName
-          email
-        }
+        firstName
+        lastName
+        email
       }
     }
   }

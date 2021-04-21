@@ -9,7 +9,7 @@
             v-if="company.logo"
             :src="company.logo.url.replace('{stack}', 'logo')"
             :alt="`Logo ${company.data.name}`"
-            class="w-40 filter brightness-0 invert"
+            class="w-40"
           />
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
@@ -18,8 +18,8 @@
           <a :href="company.data.website" target="_blank" class="underline">{{
             company.data.website
           }}</a
-          ><br /><a :href="`mailto:${company.data.employees[0].user.email}`" class="underline">{{
-            company.data.employees[0].user.email
+          ><br /><a :href="`mailto:${company.data.employees[0].email}`" class="underline">{{
+            company.data.employees[0].email
           }}</a
           ><br />
           <a :href="`tel:${company.data.phone}`">{{ company.data.phone }}</a>
@@ -78,8 +78,18 @@
       <section class="flex-grow p-9">
         <h2 class="text-heading-lg mb-8">Offene Stellen</h2>
         <ul>
-          <li class="text-link-md underline">
-            <router-link :to="{ name: 'Home' }">Platzhaltertext</router-link>
+          <li
+            v-for="position in company.data.jobPostings"
+            :key="position.id"
+            class="text-link-md underline"
+          >
+            <router-link
+              :to="{
+                path: `/stellen/${position.slug}`,
+              }"
+            >
+              {{ position.title }}
+            </router-link>
           </li>
         </ul>
       </section>

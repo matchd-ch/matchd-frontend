@@ -12,12 +12,9 @@ query($slug: String) {
     website
     employees {
       id
-      user {
-        id
-        firstName
-        lastName
-        email
-      }
+      firstName
+      lastName
+      email
     }
     benefits {
       id
@@ -27,6 +24,11 @@ query($slug: String) {
     branches {
       id
       name
+    }
+    jobPostings {
+      id
+      title
+      slug
     }
   }
   logo: attachments(key: COMPANY_AVATAR, slug: $slug) {
