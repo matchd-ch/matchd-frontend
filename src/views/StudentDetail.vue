@@ -18,12 +18,15 @@
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
         <p
-          v-if="student.data.firstName && student.data.street"
+          v-if="student.data.firstName"
           class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full"
         >
           {{ student.data.firstName }} {{ student.data.lastName }}<br />
-          geboren am {{ student.data.dateOfBirth }}<br />
-          {{ student.data.street }}, {{ student.data.zip }} {{ student.data.city }}
+          geboren im {{ student.data.dateOfBirth }}
+          <template v-if="student.data.street">
+            <br />
+            {{ student.data.street }}, {{ student.data.zip }} {{ student.data.city }}
+          </template>
         </p>
       </div>
     </div>
