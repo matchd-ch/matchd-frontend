@@ -145,6 +145,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.JOB_POSTING_LOADING);
     const response = await apiClient.query({
       query: jobPostingQuery,
+      fetchPolicy: "no-cache",
       variables: payload,
       context: {
         batch: true,
@@ -257,6 +258,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.query({
       query: studentQuery,
       variables: payload,
+      fetchPolicy: "no-cache",
       context: {
         batch: true,
       },

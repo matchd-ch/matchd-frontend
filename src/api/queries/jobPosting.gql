@@ -54,6 +54,7 @@ query($id: ID, $slug: String) {
       firstName
       lastName
       email
+      phone
     }
   }
 }

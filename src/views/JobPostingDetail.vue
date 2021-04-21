@@ -107,13 +107,21 @@
     <MatchingModal v-if="showConfirmationModal">
       <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user.firstName }}</h2>
       <p class="mb-3 px-8">
-        Cool! Das ist der erste Schritt zum gegenseitigen Matching. Nach dem Klick auf "Freigeben",
-        bekommt
-        <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
-        von <strong>{{ jobPosting.company.name }}</strong> den Link zu deinem Profil.<br />Sobald
-        {{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }} dein Profil
-        angesehen und es ebenfalls interessant findet, schicken wir dir eine E-Mail mit weiteren
-        Infos.
+        <template v-if="isHalfMatch"
+          >Nach dem Klick auf "Bestätigen" informieren wir
+          <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
+          von <strong>{{ jobPosting.company.name }}</strong
+          >, dass du ebenfalls an dieser Stelle interessiert bist.</template
+        >
+        <template v-else>
+          Cool! Das ist der erste Schritt zum gegenseitigen Matching. Nach dem Klick auf
+          "Freigeben", bekommt
+          <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
+          von <strong>{{ jobPosting.company.name }}</strong> den Link zu deinem Profil.<br />Sobald
+          {{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }} dein Profil
+          angesehen und es ebenfalls interessant findet, schicken wir dir eine E-Mail mit weiteren
+          Infos.
+        </template>
       </p>
       <p class="mb-3 px-8">
         Wenn du damit einverstanden bist, werden wir diese Daten von dir bekannt geben:
@@ -144,7 +152,38 @@
           :disabled="!permissionGranted"
           :loading="matchLoading"
           class="block w-full md:w-auto"
-          >Freigeben</MatchdButton
+          >Freigeben
+        </MatchdButton>
+      </template>
+    </MatchingModal>
+    <MatchingModal v-if="showMatchModal">
+      <div class="text-display-xl text-center mb-6"><TadaIcon /></div>
+      <h2 class="text-heading-sm mb-3">Great! Es hat gematchd!</h2>
+      <p class="mb-3">
+        Ihr passt so gut zusammen, dass ihr euch bald treffen solltet.
+        <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
+        von <strong>{{ jobPosting.company?.name }}</strong>
+        erreichst du per ...
+      </p>
+      <h3 class="text-heading-xs mb-1">E-Mail:</h3>
+      <a
+        v-if="jobPosting.employee?.email"
+        :href="`mailto:${jobPosting.employee?.email}`"
+        target="_blank"
+        class="inline-block text-lg mb-3 underline"
+        >{{ jobPosting.employee?.email }}</a
+      >
+      <h3 class="text-heading-xs mb-1">Telefon:</h3>
+      <a
+        v-if="jobPosting.employee?.phone"
+        :href="`tel:${jobPosting.employee?.phone}`"
+        target="_blank"
+        class="inline-block text-lg underline"
+        >{{ jobPosting.employee?.phone }}</a
+      >
+      <template v-slot:footer>
+        <MatchdButton @click="onClickClose" class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
+          >Schliessen</MatchdButton
         >
       </template>
     </MatchingModal>
@@ -157,6 +196,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
+import TadaIcon from "@/components/TadaIcon.vue";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
@@ -173,10 +213,12 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchdToggle,
     MatchingBar,
     MatchingModal,
+    TadaIcon,
   },
 })
 export default class JobPostingDetail extends Vue {
   showConfirmationModal = false;
+  showMatchModal = false;
   permissionGranted = false;
 
   get user(): User | null {
@@ -259,6 +301,7 @@ export default class JobPostingDetail extends Vue {
   async loadData(slug: string): Promise<void> {
     try {
       await this.$store.dispatch(ActionTypes.JOB_POSTING, { slug });
+      this.showMatchModal = this.isFullMatch;
     } catch (e) {
       this.$router.replace("/404");
     }
@@ -266,6 +309,10 @@ export default class JobPostingDetail extends Vue {
 
   onClickCancel(): void {
     this.showConfirmationModal = false;
+  }
+
+  onClickClose(): void {
+    this.showMatchModal = false;
   }
 
   async onClickMatchRequest(): Promise<void> {
@@ -283,6 +330,9 @@ export default class JobPostingDetail extends Vue {
           id: this.jobPosting.id,
         },
       });
+      await this.loadData(String(this.$route.params.slug));
+      this.calculateMargins();
+      this.showMatchModal = this.isFullMatch;
       this.showConfirmationModal = false;
     }
   }

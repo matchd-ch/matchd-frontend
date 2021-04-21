@@ -1,6 +1,7 @@
 query($slug: String!, $jobPostingId: ID!) {
   student(slug: $slug, jobPostingId: $jobPostingId) {
     id
+    email
     mobile
     slug
     state
