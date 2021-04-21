@@ -76,7 +76,7 @@
       <profile-section
         v-if="student.certificates?.length"
         title="Zertifikate"
-        :last="student.certificates?.length"
+        :last="!!student.certificates?.length"
       >
         <ul>
           <li v-for="certificate in student.certificates" :key="certificate.id">
