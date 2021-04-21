@@ -92,7 +92,6 @@
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ProfileSection from "@/components/ProfileSection.vue";
-import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Student } from "api";
 import { DateTime } from "luxon";
@@ -133,9 +132,7 @@ export default class StudentDetail extends Vue {
       ...student,
       data: {
         ...student.data,
-        dateOfBirth: student.data.dateOfBirth
-          ? DateTime.fromSQL(student.data.dateOfBirth).toFormat("dd.mm.yyyy")
-          : "",
+        dateOfBirth: student.data.dateOfBirth ? this.formatDate(student.data.dateOfBirth) : "",
       },
       certificates: student.certificates,
       avatar: student.avatar,
@@ -143,7 +140,7 @@ export default class StudentDetail extends Vue {
   }
 
   formatDate(ISODate: string): string {
-    return DateTime.fromSQL(ISODate).toFormat("dd.mm.yyyy");
+    return DateTime.fromSQL(ISODate).setLocale("de-CH").toFormat("LLLL yyyy");
   }
 
   get avatarSrc(): string {
