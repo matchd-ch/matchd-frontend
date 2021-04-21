@@ -78,8 +78,18 @@
       <section class="flex-grow p-9">
         <h2 class="text-heading-lg mb-8">Offene Stellen</h2>
         <ul>
-          <li class="text-link-md underline">
-            <router-link :to="{ name: 'Home' }">Platzhaltertext</router-link>
+          <li
+            v-for="position in company.data.jobPostings"
+            :key="position.id"
+            class="text-link-md underline"
+          >
+            <router-link
+              :to="{
+                path: `/stellen/${position.slug}`,
+              }"
+            >
+              {{ position.title }}
+            </router-link>
           </li>
         </ul>
       </section>
