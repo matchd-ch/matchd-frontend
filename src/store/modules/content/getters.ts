@@ -14,6 +14,7 @@ import type {
   LanguageLevel,
   Skill,
   SoftSkill,
+  Student,
   ZipCity,
 } from "api";
 import { GetterTree } from "vuex";
@@ -24,6 +25,7 @@ export type Getters = {
   branches(state: State): Branch[];
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
   culturalFits(state: State): CulturalFit[];
+  jobPostingDetail(state: State): JobPosting | null;
   jobPostings(state: State): JobPosting[];
   jobRequirements(state: State): JobRequirement[];
   jobTypes(state: State): JobType[];
@@ -33,6 +35,7 @@ export type Getters = {
   matchesForGrid(state: State): SearchResult[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
+  student(state: State): { data: Student | null };
   zipCityJobs(state: State): ZipCity[];
 };
 
@@ -48,6 +51,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   culturalFits(state: State): CulturalFit[] {
     return state.culturalFits.data;
+  },
+  jobPostingDetail(state: State): JobPosting | null {
+    return state.jobPosting.data;
   },
   jobPostings(state: State): JobPosting[] {
     return state.jobPostings.data;
@@ -113,6 +119,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   softSkills(state: State): SoftSkill[] {
     return state.softSkills.data;
+  },
+  student(state: State): { data: Student | null } {
+    return state.student;
   },
   zipCityJobs(state: State): ZipCity[] {
     return state.matches.zipCityJobs;
