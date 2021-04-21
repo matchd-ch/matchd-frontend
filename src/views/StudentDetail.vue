@@ -4,9 +4,10 @@
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
       <div class="back-button">
-        <router-link :to="{ name: 'StudentSearch' }" class="text-paragraph-lg xl:test-paragraph-md">
-          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />Alle Talente
-        </router-link>
+        <button @click="$router.back()" class="text-paragraph-lg xl:test-paragraph-md">
+          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+          Alle Talente
+        </button>
       </div>
       <div v-if="student.avatar" class="flex justify-center mt-9">
         <img class="avatar rounded-full object-cover" :src="avatarSrc" />
