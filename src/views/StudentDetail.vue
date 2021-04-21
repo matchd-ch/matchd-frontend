@@ -9,7 +9,7 @@
         </router-link>
       </div>
       <div v-if="student.avatar" class="flex justify-center mt-9">
-        <img class="avatar" :src="avatarSrc" />
+        <img class="avatar rounded-full object-cover" :src="avatarSrc" />
       </div>
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
@@ -180,7 +180,5 @@ export default class StudentDetail extends Vue {
 .avatar {
   height: 15rem;
   width: 15rem;
-  border-radius: 100%;
-  object-fit: cover;
 }
 </style>
