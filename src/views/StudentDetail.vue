@@ -91,6 +91,7 @@
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ProfileSection from "@/components/ProfileSection.vue";
+import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Student } from "api";
 import { DateTime } from "luxon";
@@ -145,7 +146,7 @@ export default class StudentDetail extends Vue {
   }
 
   get avatarSrc(): string {
-    return this.student.avatar?.url?.replace("{stack}", "logo") ?? "";
+    return this.student.avatar?.url ?? "";
   }
 
   get lookingFor(): string {
@@ -158,9 +159,8 @@ export default class StudentDetail extends Vue {
   }
 
   certificateUrl(id: string): string {
-    return (
-      this.student.certificates.find((cert) => id == cert.id)?.url.replace("{stack}", "logo") ?? ""
-    );
+    const url = this.student.certificates.find((cert) => id == cert.id)?.url;
+    return replaceStack(url, "logo");
   }
 
   async mounted(): Promise<void> {
