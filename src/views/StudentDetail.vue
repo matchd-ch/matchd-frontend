@@ -55,6 +55,7 @@
       <profile-section
         v-if="student.data.onlineProjects?.length"
         title="Das sind meine eigenen Projekte"
+        :last="!!student.certificates?.length"
       >
         <ul>
           <li v-for="project in student.data.onlineProjects" :key="project.id">
@@ -75,7 +76,11 @@
           </li>
         </ul>
       </profile-section>
-      <profile-section v-if="student.certificates?.length" title="Zertifikate">
+      <profile-section
+        v-if="student.certificates?.length"
+        title="Zertifikate"
+        :last="student.certificates?.length"
+      >
         <ul>
           <li v-for="certificate in student.certificates" :key="certificate.id">
             <a
