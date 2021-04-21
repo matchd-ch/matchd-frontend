@@ -4,17 +4,19 @@
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
       <div class="back-button">
-        <a class="text-paragraph-lg xl:test-paragraph-md" href="/talente"
-          ><ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />Alle
-          Talente</a
-        >
+        <router-link :to="{ name: 'StudentSearch' }" class="text-paragraph-lg xl:test-paragraph-md">
+          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />Alle Talente
+        </router-link>
       </div>
-      <div v-if="media?.avatar" class="flex justify-center mt-9">
-        <img class="avatar" />
+      <div v-if="student.avatar" class="flex justify-center mt-9">
+        <img class="avatar rounded-full object-cover" :src="avatarSrc" />
       </div>
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
-        <p class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full">
+        <p
+          v-if="student.data.firstName && student.data.street"
+          class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full"
+        >
           {{ student.data.firstName }} {{ student.data.lastName }}<br />
           geboren am {{ student.data.dateOfBirth }}<br />
           {{ student.data.street }}, {{ student.data.zip }} {{ student.data.city }}
@@ -22,86 +24,65 @@
       </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
-      <section v-if="student.description" class="flex-grow border-b border-green-1 p-9 xl:flex">
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Ich suche</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <p>{{ student.description }}</p>
-        </div>
-      </section>
-      <section
+      <profile-section v-if="student.data?.jobType?.mode === 'DATE_RANGE'" title="Ich suche">
+        <p>{{ lookingFor }}</p>
+      </profile-section>
+      <profile-section
         v-if="student.data.skills?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
+        title="Diese technischen Skills bringe ich mit"
       >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Diese technischen Skills bringe ich mit</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="skill in student.data.skills" :key="skill.id">{{ skill.name }}</li>
-          </ul>
-        </div>
-      </section>
-      <section
+        <ul>
+          <li v-for="skill in student.data.skills" :key="skill.id">{{ skill.name }}</li>
+        </ul>
+      </profile-section>
+      <profile-section
         v-if="student.data.languages?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
+        title="Ich habe Kenntnis in folgenden Sprachen"
       >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Ich habe Kenntnis in folgenden Sprachen</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="language in student.data.languages" :key="language.id">
-              {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section
+        <ul>
+          <li v-for="language in student.data.languages" :key="language.id">
+            {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
+          </li>
+        </ul>
+      </profile-section>
+      <profile-section
         v-if="student.data.onlineProjects?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
+        title="Das sind meine eigenen Projekte"
       >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Dass sind meine eigenen Projekte</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="project in student.data.onlineProjects" :key="project.id">
-              <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section
-        v-if="student.data.distinction"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
-      >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Was mich sonst noch auszeichnet</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          {{ student.data.distinction }}
-        </div>
-      </section>
-      <section
+        <ul>
+          <li v-for="project in student.data.onlineProjects" :key="project.id">
+            <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
+          </li>
+        </ul>
+      </profile-section>
+      <profile-section v-if="student.data.distinction" title="Was mich sonst noch auszeichnet">
+        {{ student.data.distinction }}
+      </profile-section>
+      <profile-section
         v-if="student.data.hobbies?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
+        title="Das mache ich gerne in meiner Freizeit"
       >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Dass mache ich gerne in meiner Freizeit</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="hobby in student.data.hobbies" :key="hobby.id">
-              {{ hobby.name }}
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section
-        v-if="student.data.certificates?.length"
-        class="flex-grow border-b border-green-1 p-9 xl:flex"
-      >
-        <h2 class="text-heading-lg mb-8 xl:pr-1/4">Zertifikate</h2>
-        <div class="xl:mb-0 xl:w-1/2">
-          <ul>
-            <li v-for="certificate in student.data.certificates" :key="certificate.id">
-              <a href="certificate.url" class="font-medium underline inline-block"
-                >{{ certificate.text }} <ArrowDown class="w-5 mb-1 inline-block"
-              /></a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <ul>
+          <li v-for="hobby in student.data.hobbies" :key="hobby.id">
+            {{ hobby.name }}
+          </li>
+        </ul>
+      </profile-section>
+      <profile-section v-if="student.certificates?.length" title="Zertifikate">
+        <ul>
+          <li v-for="certificate in student.certificates" :key="certificate.id">
+            <a
+              :href="certificateUrl(certificate.id)"
+              class="font-medium underline inline-block"
+              download
+              ><span>
+                {{ certificate.fileName }}
+              </span>
+              <ArrowDown class="w-5 mb-1 ml-2 inline-block"
+            /></a>
+          </li>
+        </ul>
+      </profile-section>
     </div>
     <MatchingBar class="fixed bottom-0 right-0 left-0">
       <template v-if="isOwnHalfMatch">Du hast den Startschuss abgegeben.</template>
@@ -120,15 +101,14 @@
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import ProfileSection from "@/components/ProfileSection.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
-import MatchdVideo from "@/components/MatchdVideo.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
+import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { Student } from "api";
+import type { Attachment, Student } from "api";
+import { DateTime } from "luxon";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 Vue.registerHooks(["beforeRouteUpdate"]);
@@ -137,11 +117,8 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   components: {
     ArrowBack,
     ArrowDown,
+    ProfileSection,
     MatchdButton,
-    MatchdVideo,
-    MatchdImageGrid,
-    MatchdFileUpload,
-    MatchdFileView,
     MatchingBar,
     MatchingModal,
   },
@@ -189,6 +166,51 @@ export default class StudentDetail extends Vue {
         }),
       },
     };
+  }
+
+  get student(): {
+    data: Student | null;
+    avatar: Attachment | null;
+    certificates: Attachment[];
+  } {
+    const student = this.$store.getters["student"];
+    if (!student?.data) {
+      return { data: null, avatar: null, certificates: [] };
+    }
+
+    return {
+      ...student,
+      data: {
+        ...student.data,
+        dateOfBirth: student.data.dateOfBirth
+          ? DateTime.fromSQL(student.data.dateOfBirth).toFormat("dd.mm.yyyy")
+          : "",
+      },
+      certificates: student.certificates,
+      avatar: student.avatar,
+    };
+  }
+
+  formatDate(ISODate: string): string {
+    return DateTime.fromSQL(ISODate).toFormat("dd.mm.yyyy");
+  }
+
+  get avatarSrc(): string {
+    return this.student.avatar?.url ?? "";
+  }
+
+  get lookingFor(): string {
+    const jobType = this.student.data?.jobType?.name;
+    const jobFromDate = this.formatDate(this.student.data?.jobFromDate);
+    const jobToDate = this.formatDate(this.student.data?.jobToDate);
+    const branch = this.student.data?.branch?.name;
+
+    return `Ich suche ein(e) ${jobType} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
+  }
+
+  certificateUrl(id: string): string {
+    const url = this.student.certificates.find((cert) => id == cert.id)?.url;
+    return replaceStack(url, "logo");
   }
 
   async beforeRouteUpdate(
@@ -252,10 +274,9 @@ export default class StudentDetail extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .avatar {
   height: 15rem;
   width: 15rem;
-  border-radius: 100%;
 }
 </style>

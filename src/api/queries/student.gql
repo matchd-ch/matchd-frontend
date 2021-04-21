@@ -16,6 +16,8 @@ query($slug: String!, $jobPostingId: ID!) {
     graduation
     distinction
     profileStep
+    jobFromDate
+    jobToDate
     matchStatus {
       initiator
       confirmed
@@ -27,11 +29,14 @@ query($slug: String!, $jobPostingId: ID!) {
     jobType {
       name
       id
+      mode
     }
     skills {
       id
       name
     }
+    distinction
+    profileStep
     softSkills {
       id
       student
@@ -42,6 +47,7 @@ query($slug: String!, $jobPostingId: ID!) {
       student
       id
     }
+    slug
     hobbies {
       id
       name
@@ -60,5 +66,16 @@ query($slug: String!, $jobPostingId: ID!) {
         id
       }
     }
+  }
+  avatar: attachments(key: STUDENT_AVATAR, slug: $slug) {
+    id
+    url
+    mimeType
+  }
+  certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug) {
+    id
+    url
+    mimeType
+    fileName
   }
 }
