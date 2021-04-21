@@ -7,9 +7,10 @@
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
       <div class="back-button">
-        <router-link :to="{ name: 'StudentSearch' }" class="text-paragraph-lg xl:test-paragraph-md">
-          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />Alle Talente
-        </router-link>
+        <button @click="$router.back()" class="text-paragraph-lg xl:test-paragraph-md">
+          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+          Alle Talente
+        </button>
       </div>
       <div v-if="student.avatar" class="flex justify-center mt-9">
         <img class="avatar rounded-full object-cover" :src="avatarSrc" />
@@ -165,7 +166,6 @@
 </template>
 
 <script lang="ts">
-import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ProfileSection from "@/components/ProfileSection.vue";
@@ -173,7 +173,6 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import TadaIcon from "@/components/TadaIcon.vue";
-import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Student, User } from "api";
 import { DateTime } from "luxon";
@@ -240,9 +239,7 @@ export default class StudentDetail extends Vue {
       ...student,
       data: {
         ...student.data,
-        dateOfBirth: student.data.dateOfBirth
-          ? DateTime.fromSQL(student.data.dateOfBirth).toFormat("dd.mm.yyyy")
-          : "",
+        dateOfBirth: student.data.dateOfBirth ? this.formatDate(student.data.dateOfBirth) : "",
       },
       certificates: student.certificates,
       avatar: student.avatar,
@@ -250,7 +247,7 @@ export default class StudentDetail extends Vue {
   }
 
   formatDate(ISODate: string): string {
-    return DateTime.fromSQL(ISODate).toFormat("dd.mm.yyyy");
+    return DateTime.fromSQL(ISODate).setLocale("de-CH").toFormat("LLLL yyyy");
   }
 
   get avatarSrc(): string {
@@ -267,8 +264,7 @@ export default class StudentDetail extends Vue {
   }
 
   certificateUrl(id: string): string {
-    const url = this.student.certificates.find((cert) => id == cert.id)?.url;
-    return replaceStack(url, "logo");
+    return this.student.certificates.find((cert) => id == cert.id)?.url ?? "";
   }
 
   async beforeRouteUpdate(
