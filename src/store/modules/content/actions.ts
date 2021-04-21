@@ -88,7 +88,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.BRANCHES_LOADED, { branches: response.data.branches });
   },
-  async [ActionTypes.COMPANY]({ commit }, payload: { slug: string }) {
+  async [ActionTypes.COMPANY]({ commit }, payload: { slug: string; title: string; id: string }) {
     commit(MutationTypes.COMPANY_LOADING);
     const response = await apiClient.query({
       query: companyQuery,

@@ -25,6 +25,11 @@ query($slug: String) {
       id
       name
     }
+    jobPostings {
+      id
+      title
+      slug
+    }
   }
   logo: attachments(key: COMPANY_AVATAR, slug: $slug) {
     id
