@@ -57,7 +57,7 @@
       </profile-section>
       <profile-section
         v-if="student.data.hobbies?.length"
-        title="Dass mache ich gerne in meiner Freizeit"
+        title="Das mache ich gerne in meiner Freizeit"
       >
         <ul>
           <li v-for="hobby in student.data.hobbies" :key="hobby.id">
