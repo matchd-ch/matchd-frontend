@@ -160,8 +160,7 @@ export default class StudentDetail extends Vue {
   }
 
   certificateUrl(id: string): string {
-    const url = this.student.certificates.find((cert) => id == cert.id)?.url;
-    return replaceStack(url, "logo");
+    return this.student.certificates.find((cert) => id == cert.id)?.url ?? "";
   }
 
   async mounted(): Promise<void> {
