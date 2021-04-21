@@ -169,6 +169,7 @@
 </template>
 
 <script lang="ts">
+import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ProfileSection from "@/components/ProfileSection.vue";
