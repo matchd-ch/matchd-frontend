@@ -1,5 +1,8 @@
 <template>
-  <div v-if="student.data" class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen">
+  <div
+    v-if="student.data"
+    class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen mb-fixed-footer"
+  >
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
@@ -148,24 +151,6 @@ export default class StudentDetail extends Vue {
 
   get isFullMatch(): boolean {
     return !!this.student?.data?.matchStatus?.confirmed;
-  }
-  get student(): { data: Student | null } {
-    const student = this.$store.getters["student"];
-    if (!student?.data) {
-      return { data: null };
-    }
-
-    return {
-      ...student,
-      data: {
-        ...student.data,
-        dateOfBirth: new Date("2002-04-05").toLocaleDateString("de", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }),
-      },
-    };
   }
 
   get student(): {
