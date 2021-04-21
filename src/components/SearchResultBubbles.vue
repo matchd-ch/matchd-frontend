@@ -1,5 +1,5 @@
 <template>
-  <div id="diagram" class="search-result-bubbles min-h-content-with-fixed-headers"></div>
+  <div id="diagram" class="search-result-bubbles min-h-content-with-fixed-bars"></div>
 </template>
 
 <script lang="ts">

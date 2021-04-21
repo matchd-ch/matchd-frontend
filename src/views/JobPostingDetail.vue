@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="jobPosting"
-    class="jobPosting-detail text-orange-1 flex flex-col min-h-screen mb-fixed-footer"
+    class="jobPosting-detail text-orange-1 flex flex-col xl:min-h-content-with-fixed-bars mb-fixed-footer"
   >
     <div class="border-b border-orange-1 p-9">
       <button @click="$router.back()">Zurück zur Übersicht</button>
@@ -252,6 +252,7 @@ export default class JobPostingDetail extends Vue {
   calculateMargins(): void {
     const root = document.documentElement;
     const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement).offsetHeight;
+    root.style.setProperty("--contentMarginTop", `0px`);
     root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
   }
 

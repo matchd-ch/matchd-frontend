@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="student.data"
-    class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen mb-fixed-footer"
+    class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars mb-fixed-footer"
   >
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
@@ -223,9 +223,13 @@ export default class StudentDetail extends Vue {
   }
 
   calculateMargins(): void {
-    const root = document.documentElement;
-    const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement).offsetHeight;
-    root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
+    this.$nextTick(() => {
+      const root = document.documentElement;
+      const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement)
+        .offsetHeight;
+      root.style.setProperty("--contentMarginTop", `0px`);
+      root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
+    });
   }
 
   async loadData(slug: string, jobPostingId: string): Promise<void> {
@@ -254,6 +258,7 @@ export default class StudentDetail extends Vue {
           id: this.student.data.id,
         },
       });
+      this.calculateMargins();
     }
   }
 }

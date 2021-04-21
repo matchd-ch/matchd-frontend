@@ -94,6 +94,8 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.COMPANY_LOADING](state: State) {
     state.company.loading = true;
     state.company.data = null;
+    state.company.logo = null;
+    state.company.media = [];
   },
   [MutationTypes.COMPANY_LOADED](
     state: State,
@@ -216,6 +218,9 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.STUDENT_LOADING](state: State) {
     state.student.loading = true;
+    state.student.data = null;
+    state.student.avatar = null;
+    state.student.certificates = [];
   },
   [MutationTypes.STUDENT_LOADED](
     state: State,
