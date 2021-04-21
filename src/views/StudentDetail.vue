@@ -132,7 +132,7 @@ export default class StudentDetail extends Vue {
       data: {
         ...student.data,
         dateOfBirth: student.data.dateOfBirth
-          ? DateTime.fromFormat(student.data.dateOfBirth, "yyyy-mm-dd").toFormat("dd.mm.yyyy")
+          ? DateTime.fromSQL(student.data.dateOfBirth).toFormat("dd.mm.yyyy")
           : "",
       },
       certificates: student.certificates,
@@ -141,7 +141,7 @@ export default class StudentDetail extends Vue {
   }
 
   formatDate(ISODate: string): string {
-    return DateTime.fromFormat(ISODate, "yyyy-mm-dd").toFormat("dd.mm.yyyy");
+    return DateTime.fromSQL(ISODate).toFormat("dd.mm.yyyy");
   }
 
   get avatarSrc(): string {
