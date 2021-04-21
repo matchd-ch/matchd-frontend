@@ -103,10 +103,21 @@
         </div>
       </section>
     </div>
+    <MatchingBar class="fixed bottom-0 right-0 left-0">
+      <template v-if="isOwnHalfMatch">Du hast den Startschuss abgegeben.</template>
+      <template v-else-if="isFullMatch">Gratulation, ihr Matchd euch gegenseitig!</template>
+      <MatchdButton v-else-if="isHalfMatch" @click="onClickMatchConfirm" :loading="matchLoading"
+        >Match bestätigen</MatchdButton
+      >
+      <MatchdButton v-else @click="onClickMatchRequest" :loading="matchLoading"
+        >Startschuss fürs Matching</MatchdButton
+      >
+    </MatchingBar>
   </div>
 </template>
 
 <script lang="ts">
+import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -114,6 +125,8 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
+import MatchingBar from "@/components/MatchingBar.vue";
+import MatchingModal from "@/components/MatchingModal.vue";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Student } from "api";
 import { Options, Vue } from "vue-class-component";
@@ -129,20 +142,36 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchdImageGrid,
     MatchdFileUpload,
     MatchdFileView,
+    MatchingBar,
+    MatchingModal,
   },
 })
 export default class StudentDetail extends Vue {
-  async beforeRouteUpdate(
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ): Promise<void> {
-    if (to.params.slug) {
-      await this.loadData(String(to.params.slug));
-    }
-    next();
+  get matchLoading(): boolean {
+    return this.$store.getters["matchLoading"];
   }
 
+  get isEmptyMatch(): boolean {
+    return this.student?.data?.matchStatus === null;
+  }
+
+  get isHalfMatch(): boolean {
+    return (
+      this.student?.data?.matchStatus?.confirmed === false &&
+      this.student?.data?.matchStatus?.initiator === ProfileType.Student
+    );
+  }
+
+  get isOwnHalfMatch(): boolean {
+    return (
+      this.student?.data?.matchStatus?.confirmed === false &&
+      this.student?.data?.matchStatus?.initiator === ProfileType.Company
+    );
+  }
+
+  get isFullMatch(): boolean {
+    return !!this.student?.data?.matchStatus?.confirmed;
+  }
   get student(): { data: Student | null } {
     const student = this.$store.getters["student"];
     if (!student?.data) {
@@ -162,17 +191,62 @@ export default class StudentDetail extends Vue {
     };
   }
 
+  async beforeRouteUpdate(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ): Promise<void> {
+    if (to.params.slug) {
+      await this.loadData(String(to.params.slug), String(to.query.jobPostingId));
+    }
+    next();
+  }
+
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
-      await this.loadData(String(this.$route.params.slug));
+      await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
+
+      window.addEventListener("resize", this.calculateMargins, true);
+      this.calculateMargins();
     }
   }
 
-  async loadData(slug: string): Promise<void> {
+  unmounted(): void {
+    window.removeEventListener("resize", this.calculateMargins, true);
+  }
+
+  calculateMargins(): void {
+    const root = document.documentElement;
+    const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement).offsetHeight;
+    root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
+  }
+
+  async loadData(slug: string, jobPostingId: string): Promise<void> {
     try {
-      await this.$store.dispatch(ActionTypes.STUDENT, { slug });
+      await this.$store.dispatch(ActionTypes.STUDENT, { slug, jobPostingId });
     } catch (e) {
       this.$router.replace("/404");
+    }
+  }
+
+  async onClickMatchRequest(): Promise<void> {
+    await this.mutateMatch();
+  }
+
+  async onClickMatchConfirm(): Promise<void> {
+    await this.mutateMatch();
+  }
+
+  async mutateMatch(): Promise<void> {
+    if (String(this.$route.query.jobPostingId) && this.student.data?.id) {
+      await this.$store.dispatch(ActionTypes.MATCH_STUDENT, {
+        jobPosting: {
+          id: String(this.$route.query.jobPostingId),
+        },
+        student: {
+          id: this.student.data.id,
+        },
+      });
     }
   }
 }

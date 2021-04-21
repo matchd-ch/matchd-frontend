@@ -82,10 +82,6 @@ export type IBranchInput = {
   name?: Maybe<Scalars["String"]>;
 };
 
-export type ICompanyInput = {
-  id: Scalars["ID"];
-};
-
 export type ICompanyProfileInputStep1 = {
   /** First name */
   firstName: Scalars["String"];
@@ -214,9 +210,13 @@ export type IJobTypeInput = {
   mode?: Maybe<Scalars["String"]>;
 };
 
-export type IMatchInput = {
-  student?: Maybe<IStudentInput>;
-  company?: Maybe<ICompanyInput>;
+export type IMatchJobPostingInput = {
+  jobPosting: IJobPostingInput;
+};
+
+export type IMatchStudentInput = {
+  student: IStudentInput;
+  jobPosting: IJobPostingInput;
 };
 
 /** An enumeration. */

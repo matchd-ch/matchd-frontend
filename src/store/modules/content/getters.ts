@@ -33,6 +33,7 @@ export type Getters = {
   languageLevels(state: State): LanguageLevel[];
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
+  matchLoading(state: State): boolean;
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
   student(state: State): { data: Student | null };
@@ -113,6 +114,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
         rawScore: match.rawScore,
       };
     });
+  },
+  matchLoading(state: State): boolean {
+    return state.match.loading;
   },
   skills(state: State): Skill[] {
     return state.skills.data;

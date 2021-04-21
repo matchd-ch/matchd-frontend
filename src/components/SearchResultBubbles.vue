@@ -14,6 +14,7 @@ import { Watch } from "vue-property-decorator";
 
 class Props {
   matches = prop<SearchResultBubbleData>({ default: [] });
+  jobPostingId = prop<string>({ default: "" });
   rootType = prop<string>({ default: "" });
   resultType = prop<string>({ default: "" });
   avatar = prop<Attachment>({});
@@ -237,7 +238,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
           case "company":
             return `/companies/${d.id}`;
           default:
-            return `/talente/${d.id}`;
+            return `/talente/${d.id}/?jobPostingId=${this.jobPostingId}`;
         }
       });
     /* Circle */

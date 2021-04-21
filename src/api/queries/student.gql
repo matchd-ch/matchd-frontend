@@ -1,5 +1,5 @@
-query($slug: String) {
-  student(slug: $slug) {
+query($slug: String!, $jobPostingId: ID!) {
+  student(slug: $slug, jobPostingId: $jobPostingId) {
     id
     mobile
     slug
@@ -16,6 +16,10 @@ query($slug: String) {
     graduation
     distinction
     profileStep
+    matchStatus {
+      initiator
+      confirmed
+    }
     branch {
       name
       id

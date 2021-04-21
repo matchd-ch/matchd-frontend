@@ -16,10 +16,10 @@
         <div
           class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 max-w-lg w-full"
         >
-          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="bg-white px-4 pt-5 pb-4 sm:p-8 sm:pb-4">
             <slot />
           </div>
-          <div class="bg-gray-50 px-4 py-3 sm:px-6 md:flex md:justify-end">
+          <div class="bg-gray-50 px-4 pb-8 sm:px-6 md:flex md:justify-end">
             <slot name="footer" />
           </div>
         </div>
@@ -30,23 +30,12 @@
 
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
-import { Options, prop, Vue } from "vue-class-component";
-
-class Props {
-  type = prop<string>({ default: "student" });
-  showExplanation = prop<boolean>({ default: false });
-}
+import { Options, Vue } from "vue-class-component";
 
 @Options({
   components: {
     MatchdButton,
   },
 })
-export default class MatchingModal extends Vue.with(Props) {}
+export default class MatchingModal extends Vue {}
 </script>
-
-<style lang="postcss" scoped>
-.matching-bar {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-</style>

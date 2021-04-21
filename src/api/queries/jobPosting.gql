@@ -9,6 +9,10 @@ query($id: ID, $slug: String) {
     workload
     formStep
     state
+    matchStatus {
+      initiator
+      confirmed
+    }
     company {
       id
       slug

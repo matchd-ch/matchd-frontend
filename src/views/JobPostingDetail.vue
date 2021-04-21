@@ -52,7 +52,7 @@
           </ul>
         </template>
 
-        <template v-if="jobPosting.languages.length">
+        <template v-if="jobPosting.languages?.length">
           <h3 class="text-heading-sm mb-3">Sprachen</h3>
           <ul class="list-disc list-inside">
             <li v-for="language in jobPosting.languages" :key="language.id">
@@ -61,7 +61,7 @@
           </ul>
         </template>
 
-        <template v-if="jobPosting.skills.length">
+        <template v-if="jobPosting.skills?.length">
           <h3 class="text-heading-sm mb-3">Skills</h3>
           <ul class="list-disc list-inside">
             <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill }}</li>
@@ -98,19 +98,15 @@
         </p>
       </div>
     </section>
-    <MatchingBar
-      class="fixed bottom-0 right-0 left-0"
-      :showExplanation="showExplanation"
-      type="jobposting"
-    >
-      <MatchdButton v-if="!startShotFired" @click="onClickMatch"
-        >Startschuss fürs Matching</MatchdButton
-      >
-      <template v-else>Du hast den Startschuss abgegeben.</template>
+    <MatchingBar class="fixed bottom-0 right-0 left-0">
+      <template v-if="isOwnHalfMatch">Du hast den Startschuss abgegeben.</template>
+      <template v-else-if="isFullMatch">Gratulation, ihr Matchd euch gegenseitig!</template>
+      <MatchdButton v-else-if="isHalfMatch" @click="onClickMatch">Match bestätigen</MatchdButton>
+      <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
     </MatchingBar>
-    <MatchingModal v-if="showConfirmation">
-      <h2 class="text-heading-sm mb-3">Hallo Leonie</h2>
-      <p class="mb-3">
+    <MatchingModal v-if="showConfirmationModal">
+      <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user.firstName }}</h2>
+      <p class="mb-3 px-8">
         Cool! Das ist der erste Schritt zum gegenseitigen Matching. Nach dem Klick auf "Freigeben",
         bekommt
         <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
@@ -119,22 +115,34 @@
         angesehen und es ebenfalls interessant findet, schicken wir dir eine E-Mail mit weiteren
         Infos.
       </p>
-      <p class="mb-3">
+      <p class="mb-3 px-8">
         Wenn du damit einverstanden bist, werden wir diese Daten von dir bekannt geben:
       </p>
 
-      <label
-        ><input type="checkbox" v-model="permissionGranted" /> Deine Kontaktdaten und Zertifikate
-        freigeben</label
-      >
+      <div class="flex items-center">
+        <MatchdToggle id="permissionGranted"
+          ><template v-slot:label>Deine Kontaktdaten und Zertifikate freigeben</template
+          ><input id="permissionGranted" type="checkbox" v-model="permissionGranted"
+        /></MatchdToggle>
+      </div>
 
       <template v-slot:footer>
         <MatchdButton @click="onClickCancel" class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
           >Abbrechen</MatchdButton
         >
         <MatchdButton
+          v-if="isHalfMatch"
           @click="onClickMatchConfirm"
           :disabled="!permissionGranted"
+          :loading="matchLoading"
+          class="block w-full md:w-auto"
+          >Bestätigen</MatchdButton
+        >
+        <MatchdButton
+          v-else
+          @click="onClickMatchRequest"
+          :disabled="!permissionGranted"
+          :loading="matchLoading"
           class="block w-full md:w-auto"
           >Freigeben</MatchdButton
         >
@@ -144,14 +152,16 @@
 </template>
 
 <script lang="ts">
+import { ProfileType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
+import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
+import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { JobPosting } from "api";
-import { DateTime } from "luxon";
+import type { JobPosting, User } from "api";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
@@ -160,18 +170,47 @@ Vue.registerHooks(["beforeRouteUpdate"]);
 @Options({
   components: {
     MatchdButton,
+    MatchdToggle,
     MatchingBar,
     MatchingModal,
   },
 })
 export default class JobPostingDetail extends Vue {
-  showExplanation = true;
-  showConfirmation = false;
-  startShotFired = false;
+  showConfirmationModal = false;
   permissionGranted = false;
+
+  get user(): User | null {
+    return this.$store.getters["user"];
+  }
+
+  get matchLoading(): boolean {
+    return this.$store.getters["matchLoading"];
+  }
 
   get jobPosting(): JobPosting | null {
     return this.$store.getters["jobPostingDetail"];
+  }
+
+  get isEmptyMatch(): boolean {
+    return this.jobPosting?.matchStatus === null;
+  }
+
+  get isHalfMatch(): boolean {
+    return (
+      this.jobPosting?.matchStatus?.confirmed === false &&
+      this.jobPosting?.matchStatus?.initiator === ProfileType.Company
+    );
+  }
+
+  get isOwnHalfMatch(): boolean {
+    return (
+      this.jobPosting?.matchStatus?.confirmed === false &&
+      this.jobPosting?.matchStatus?.initiator === ProfileType.Student
+    );
+  }
+
+  get isFullMatch(): boolean {
+    return !!this.jobPosting?.matchStatus?.confirmed;
   }
 
   replaceStack(url: string, stack: string): string {
@@ -179,8 +218,7 @@ export default class JobPostingDetail extends Vue {
   }
 
   formatDate(isoString: string): string {
-    const date = DateTime.fromISO(isoString).setLocale("de-CH");
-    return date.toFormat("LLLL yyyy");
+    return formatDate(isoString, "LLLL yyyy");
   }
 
   nl2br(text: string): string {
@@ -226,17 +264,30 @@ export default class JobPostingDetail extends Vue {
   }
 
   onClickCancel(): void {
-    this.showConfirmation = false;
+    this.showConfirmationModal = false;
   }
 
-  onClickMatchConfirm(): void {
-    this.showConfirmation = false;
-    this.startShotFired = true;
+  async onClickMatchRequest(): Promise<void> {
+    await this.mutateMatch();
+  }
+
+  async onClickMatchConfirm(): Promise<void> {
+    await this.mutateMatch();
+  }
+
+  async mutateMatch(): Promise<void> {
+    if (this.jobPosting?.id) {
+      await this.$store.dispatch(ActionTypes.MATCH_JOB_POSTING, {
+        jobPosting: {
+          id: this.jobPosting.id,
+        },
+      });
+      this.showConfirmationModal = false;
+    }
   }
 
   onClickMatch(): void {
-    this.showExplanation = false;
-    this.showConfirmation = true;
+    this.showConfirmationModal = true;
     this.$nextTick(() => {
       this.calculateMargins();
     });

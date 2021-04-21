@@ -18,7 +18,7 @@
       }"
     >
       <router-link
-        :to="{ name: toRouteName, params: { slug: match.id } }"
+        :to="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
         class="search-result-grid__link"
       >
         <div class="search-result-grid__image-box rounded-full border-2">
@@ -45,10 +45,12 @@
 <script lang="ts">
 import { SearchResult } from "@/models/SearchResult";
 import { Options, prop, Vue } from "vue-class-component";
+import { LocationQueryRaw } from "vue-router";
 
 class Props {
   matches = prop<SearchResult[]>({ default: [] });
   resultType = prop<string>({ default: "" });
+  jobPostingId = prop<string>({ default: "" });
   color = prop<string>({ default: "" });
 }
 
@@ -56,6 +58,13 @@ class Props {
   components: {},
 })
 export default class SearchBoost extends Vue.with(Props) {
+  get queryParams(): LocationQueryRaw {
+    if (this.resultType !== "student") {
+      return {};
+    }
+    return { jobPostingId: this.jobPostingId };
+  }
+
   get toRouteName(): string {
     switch (this.resultType) {
       case "jobposting":

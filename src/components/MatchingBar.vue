@@ -1,40 +1,19 @@
 <template>
-  <div class="matching-bar bg-white p-4 xl:p-8">
-    <div v-if="showExplanation" class="flex justify-center mb-8 text-black">
-      <ol v-if="type === 'jobposting'" class="list list-inside list-decimal">
-        <li>Button drücken</li>
-        <li>Deine Daten freigeben</li>
-        <li>Das Unternehmen wird automatisch benachrichtigt</li>
-        <li>und MATCHD!</li>
-      </ol>
-      <ol v-else class="list list-inside list-decimal">
-        <li>Button drücken</li>
-        <li>Das Talent wird automatisch benachrichtigt</li>
-        <li>Zusammen die weiteren Schritte besprechen</li>
-        <li>und MATCHD!</li>
-      </ol>
-    </div>
-    <div class="flex justify-center">
-      <slot />
-    </div>
+  <div class="matching-bar flex justify-center bg-white p-4 xl:p-8">
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
-import { Options, prop, Vue } from "vue-class-component";
-
-class Props {
-  type = prop<string>({ default: "student" });
-  showExplanation = prop<boolean>({ default: false });
-}
+import { Options, Vue } from "vue-class-component";
 
 @Options({
   components: {
     MatchdButton,
   },
 })
-export default class MatchingBar extends Vue.with(Props) {}
+export default class MatchingBar extends Vue {}
 </script>
 
 <style lang="postcss" scoped>

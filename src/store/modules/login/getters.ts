@@ -4,7 +4,7 @@ import type { LogoutState } from "@/models/LogoutState";
 import { PasswordResetState } from "@/models/PasswordResetState";
 import type { SendPasswordResetEmailState } from "@/models/SendPasswordResetEmailState";
 import { RootState } from "@/store";
-import type { User } from "api";
+import type { MatchHints, User } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
