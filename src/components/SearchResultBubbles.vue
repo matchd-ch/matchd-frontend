@@ -284,6 +284,25 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       )
       .attr("width", this.resultRadius * 2)
       .attr("height", this.resultRadius * 2);
+
+    const matchStatus = result
+      .append("g")
+      .classed("match-status", true)
+      .classed("match-status--confirmed", (d: any) => d.matchStatus?.confirmed === true)
+      .classed("match-status--unconfirmed", (d: any) => d.matchStatus?.confirmed === false);
+    matchStatus
+      .append("circle")
+      .attr("cx", this.resultRadius + Math.sqrt(Math.pow(this.resultRadius, 2) / 2))
+      .attr("cy", this.resultRadius + Math.sqrt(Math.pow(this.resultRadius, 2) / 2))
+      .attr("r", 15);
+    matchStatus
+      .append("text")
+      .classed("material-icons", true)
+      .attr("dominant-baseline", "mathematical")
+      .attr("text-anchor", "middle")
+      .attr("x", this.resultRadius + Math.sqrt(Math.pow(this.resultRadius, 2) / 2))
+      .attr("y", this.resultRadius + Math.sqrt(Math.pow(this.resultRadius, 2) / 2))
+      .text((d: any) => (d.matchStatus?.confirmed ? "people" : "record_voice_over"));
   }
 }
 </script>
@@ -301,7 +320,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 }
 </style>
-
 
 <style lang="postcss" scoped>
 #diagram :deep(svg) {
@@ -328,7 +346,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
 
     & .inner-circle {
-      fill: var(--color-white)
+      fill: var(--color-white);
     }
 
     &.student .outer-circle {
@@ -348,6 +366,19 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   & .node {
+    & .match-status {
+      visibility: hidden;
+
+      & text {
+      font-size: 1.125rem;
+      }
+    }
+
+    & .match-status--confirmed,
+    & .match-status--unconfirmed {
+      visibility: visible;
+    }
+
     & .outer-circle {
       @apply transition-all;
       stroke-width: 0;
@@ -360,7 +391,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         stroke-opacity: 0.3;
       }
     }
-
   }
 
   & .node {
@@ -385,11 +415,13 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         stroke: var(--color-pink-1);
       }
 
+      & .match-status text,
       & .inner-circle {
         fill: var(--color-white);
       }
 
-      & a:hover text {
+      & .match-status circle,
+      & a:hover > text {
         fill: var(--color-pink-1);
       }
     }
@@ -400,11 +432,13 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         stroke: var(--color-orange-1);
       }
 
+      & .match-status text,
       & .inner-circle {
         fill: var(--color-white);
       }
 
-      & a:hover text {
+      & .match-status circle,
+      & a:hover > text {
         fill: var(--color-orange-1);
       }
 
@@ -419,11 +453,13 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         stroke: var(--color-green-1);
       }
 
+      & .match-status text,
       & .inner-circle {
         fill: var(--color-white);
       }
 
-      & a:hover text {
+      & .match-status circle,
+      & a:hover > text {
         fill: var(--color-green-1);
       }
     }

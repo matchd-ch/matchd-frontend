@@ -154,7 +154,7 @@ export default class StudentSearch extends Vue {
         jobPostingId: this.jobPostingId,
         softBoost: this.softBoost,
         techBoost: this.techBoost,
-        first: 50,
+        first: 25,
         skip: 0,
       })
     );

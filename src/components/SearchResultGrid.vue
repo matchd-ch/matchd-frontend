@@ -21,17 +21,25 @@
         :to="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
         class="search-result-grid__link"
       >
-        <div class="search-result-grid__image-box rounded-full border-2">
-          <img
-            :src="
-              match.img.replace(
-                '{stack}',
-                resultType === 'student' ? 'desktop-square' : 'logo-square'
-              )
-            "
-            class="w-full"
-            :alt="`${match.name} Logo`"
-          />
+        <div class="search-result-grid__image-wrap">
+          <div class="search-result-grid__image-box rounded-full border-2">
+            <img
+              :src="
+                match.img.replace(
+                  '{stack}',
+                  resultType === 'student' ? 'desktop-square' : 'logo-square'
+                )
+              "
+              class="w-full"
+              :alt="`${match.name} Logo`"
+            />
+          </div>
+          <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
+            <div class="search-result-grid__match-status">
+              <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
+              <span v-else class="material-icons">record_voice_over</span>
+            </div>
+          </div>
         </div>
         <div class="mt-2">
           <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
@@ -86,6 +94,10 @@ export default class SearchBoost extends Vue.with(Props) {
         @apply border-orange-1;
       }
     }
+
+    & .search-result-grid__match-status {
+      @apply bg-orange-1;
+    }
   }
 
   @modifier student {
@@ -94,12 +106,20 @@ export default class SearchBoost extends Vue.with(Props) {
         @apply border-green-1;
       }
     }
+
+    & .search-result-grid__match-status {
+      @apply bg-green-1;
+    }
   }
 
   @modifier company {
     & .search-result-grid__link {
       & .search-result-grid__image-box {
         @apply border-pink-1;
+      }
+
+      & .search-result-grid__match-status {
+        @apply bg-pink-1;
       }
     }
   }
@@ -137,6 +157,10 @@ export default class SearchBoost extends Vue.with(Props) {
     }
   }
 
+  @element image-wrap {
+    @apply relative;
+  }
+
   @element image-box {
     @apply bg-white overflow-hidden;
     @apply relative;
@@ -150,6 +174,20 @@ export default class SearchBoost extends Vue.with(Props) {
       content: "";
       @apply inline-block align-top pb-full w-0;
     }
+  }
+
+  @element match-status-helper {
+    @apply absolute top-0 right-0 bottom-0 left-0;
+    @apply rounded-full;
+    @apply origin-center transform rotate-45;
+  }
+
+  @element match-status {
+    @apply absolute right-0 top-1/2;
+    @apply flex items-center justify-center;
+    @apply rounded-full p-2;
+    @apply text-white;
+    @apply transform translate-x-1/2 -translate-y-1/2 -rotate-45;
   }
 
   @element link {

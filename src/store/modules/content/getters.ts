@@ -97,6 +97,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
             main: false,
             score: match.score,
             rawScore: match.rawScore,
+            matchStatus: {
+              ...match.matchStatus,
+            },
           };
         }),
       ],
@@ -118,6 +121,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
         img: match.avatar || "",
         score: match.score,
         rawScore: match.rawScore,
+        matchStatus: {
+          ...match.matchStatus,
+        },
       };
     });
   },
