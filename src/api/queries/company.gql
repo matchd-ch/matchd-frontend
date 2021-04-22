@@ -28,6 +28,10 @@ query($slug: String) {
     jobPostings {
       id
       title
+      jobType {
+        id
+        name
+      }
       slug
     }
   }
