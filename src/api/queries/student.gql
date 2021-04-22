@@ -36,8 +36,6 @@ query($slug: String!, $jobPostingId: ID!) {
       id
       name
     }
-    distinction
-    profileStep
     softSkills {
       id
       student
@@ -48,7 +46,6 @@ query($slug: String!, $jobPostingId: ID!) {
       student
       id
     }
-    slug
     hobbies {
       id
       name
