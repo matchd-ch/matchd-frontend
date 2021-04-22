@@ -12,12 +12,9 @@ query($slug: String) {
     website
     employees {
       id
-      user {
-        id
-        firstName
-        lastName
-        email
-      }
+      firstName
+      lastName
+      email
     }
     benefits {
       id

@@ -80,7 +80,7 @@
               v-model="form.employeeId"
             >
               <option v-for="employee in employees" :value="employee.id" :key="employee.id">
-                {{ employee.user.firstName }} {{ employee.user.lastName }} - {{ employee.role }}
+                {{ employee.firstName }} {{ employee.lastName }} - {{ employee.role }}
               </option>
             </Field>
           </MatchdSelect>
