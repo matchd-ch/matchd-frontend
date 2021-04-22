@@ -77,9 +77,15 @@
       </section>
       <section class="flex-grow p-9">
         <h2 class="text-heading-lg mb-8">Offene Stellen</h2>
-        <ul>
-          <li class="text-link-md underline">
-            <router-link :to="{ name: 'Home' }">Platzhaltertext</router-link>
+        <ul class="list list-inside list-disc">
+          <li
+            v-for="position in company.data.jobPostings"
+            :key="position.id"
+            class="text-link-md underline"
+          >
+            <router-link :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }">
+              {{ position.title }}, {{ position.jobType?.name }}
+            </router-link>
           </li>
         </ul>
       </section>
