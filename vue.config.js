@@ -35,7 +35,5 @@ module.exports = {
           plugins: [{ removeTitle: false }, { cleanupIDs: false }],
         },
       });
-
-    config.devtool("source-map");
   },
 };
