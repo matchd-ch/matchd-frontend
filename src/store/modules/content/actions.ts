@@ -230,6 +230,8 @@ export const actions: ActionTree<State, RootState> & Actions = {
 
     commit(MutationTypes.STUDENT_LOADED, {
       student: response.data.student,
+      avatar: response.data.avatar,
+      certificates: response.data.certificates,
     });
   },
   async [ActionTypes.ZIP_CITY_JOBS]({ commit }, payload?: ZipCityJobsInput) {
