@@ -16,6 +16,8 @@ query($slug: String) {
     graduation
     distinction
     profileStep
+    jobFromDate
+    jobToDate
     branch {
       name
       id
@@ -23,6 +25,7 @@ query($slug: String) {
     jobType {
       name
       id
+      mode
     }
     skills {
       id
@@ -56,5 +59,16 @@ query($slug: String) {
         id
       }
     }
+  }
+  avatar: attachments(key: STUDENT_AVATAR, slug: $slug) {
+    id
+    url
+    mimeType
+  }
+  certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug) {
+    id
+    url
+    mimeType
+    fileName
   }
 }

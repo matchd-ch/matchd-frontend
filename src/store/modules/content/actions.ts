@@ -88,7 +88,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.BRANCHES_LOADED, { branches: response.data.branches });
   },
-  async [ActionTypes.COMPANY]({ commit }, payload: { slug: string; title: string; id: string }) {
+  async [ActionTypes.COMPANY]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.COMPANY_LOADING);
     const response = await apiClient.query({
       query: companyQuery,
@@ -230,6 +230,8 @@ export const actions: ActionTree<State, RootState> & Actions = {
 
     commit(MutationTypes.STUDENT_LOADED, {
       student: response.data.student,
+      avatar: response.data.avatar,
+      certificates: response.data.certificates,
     });
   },
   async [ActionTypes.ZIP_CITY_JOBS]({ commit }, payload?: ZipCityJobsInput) {
