@@ -1,0 +1,74 @@
+query($slug: String) {
+  student(slug: $slug) {
+    id
+    mobile
+    slug
+    state
+    firstName
+    lastName
+    street
+    zip
+    city
+    dateOfBirth
+    nickname
+    schoolName
+    fieldOfStudy
+    graduation
+    distinction
+    profileStep
+    jobFromDate
+    jobToDate
+    branch {
+      name
+      id
+    }
+    jobType {
+      name
+      id
+      mode
+    }
+    skills {
+      id
+      name
+    }
+    softSkills {
+      id
+      student
+      company
+    }
+    culturalFits {
+      company
+      student
+      id
+    }
+    hobbies {
+      id
+      name
+    }
+    onlineProjects {
+      id
+      url
+    }
+    languages {
+      language {
+        name
+        id
+      }
+      languageLevel {
+        level
+        id
+      }
+    }
+  }
+  avatar: attachments(key: STUDENT_AVATAR, slug: $slug) {
+    id
+    url
+    mimeType
+  }
+  certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug) {
+    id
+    url
+    mimeType
+    fileName
+  }
+}
