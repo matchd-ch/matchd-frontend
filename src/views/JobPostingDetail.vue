@@ -49,7 +49,7 @@
           </ul>
         </template>
 
-        <template v-if="jobPosting.languages.length">
+        <template v-if="jobPosting.languages?.length">
           <h3 class="text-heading-sm mb-3">Sprachen</h3>
           <ul class="list-disc list-inside">
             <li v-for="language in jobPosting.languages" :key="language.id">
@@ -58,7 +58,7 @@
           </ul>
         </template>
 
-        <template v-if="jobPosting.skills.length">
+        <template v-if="jobPosting.skills?.length">
           <h3 class="text-heading-sm mb-3">Skills</h3>
           <ul class="list-disc list-inside">
             <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill }}</li>
