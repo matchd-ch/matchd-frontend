@@ -12,6 +12,7 @@ import type {
   Match,
   Skill,
   SoftSkill,
+  Student,
   ZipCity,
 } from "api";
 
@@ -51,6 +52,12 @@ export type State = {
   softSkills: {
     loading: boolean;
     data: SoftSkill[];
+  };
+  student: {
+    loading: boolean;
+    data: Student | null;
+    avatar: Attachment | null;
+    certificates: Attachment[];
   };
   languages: {
     loading: boolean;
@@ -103,6 +110,12 @@ export const state: State = {
   softSkills: {
     loading: false,
     data: [],
+  },
+  student: {
+    loading: false,
+    data: null,
+    avatar: null,
+    certificates: [],
   },
   languages: {
     loading: false,

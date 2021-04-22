@@ -11,5 +11,6 @@ export enum ActionTypes {
   MATCHING = "MATCHING",
   SKILLS = "SKILLS",
   SOFT_SKILLS = "SOFT_SKILLS",
+  STUDENT = "STUDENT",
   ZIP_CITY_JOBS = "ZIP_CITY_JOBS",
 }
