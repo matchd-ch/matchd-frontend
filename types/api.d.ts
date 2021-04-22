@@ -119,7 +119,7 @@ type Company = {
   state: ProfileState;
   profileStep: Scalars["Int"];
   slug: Scalars["String"];
-  name?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
   zip: Scalars["String"];
   city: Scalars["String"];
   street: Scalars["String"];
@@ -127,12 +127,12 @@ type Company = {
   website: Scalars["String"];
   branches: Array<Branch>;
   description: Scalars["String"];
-  softSkills?: Maybe<Array<SoftSkill>>;
+  softSkills: Array<SoftSkill>;
   uid: Scalars["String"];
   services: Scalars["String"];
   memberItStGallen: Scalars["Boolean"];
   benefits: Array<Benefit>;
-  culturalFits?: Maybe<Array<CulturalFit>>;
+  culturalFits: Array<CulturalFit>;
   topLevelOrganisationDescription: Scalars["String"];
   topLevelOrganisationWebsite: Scalars["String"];
   linkEducation?: Maybe<Scalars["String"]>;
@@ -140,6 +140,17 @@ type Company = {
   linkThesis?: Maybe<Scalars["String"]>;
   jobPostings: Array<JobPosting>;
   employees: Array<Employee>;
+};
+
+type CompanyInput = {
+  /** Name */
+  name: Scalars["String"];
+  /** UID */
+  uid?: Maybe<Scalars["String"]>;
+  /** ZIP */
+  zip: Scalars["String"];
+  /** City */
+  city: Scalars["String"];
 };
 
 type CompanyProfileInputStep1 = {
@@ -240,11 +251,8 @@ type DeleteAttachment = {
 type Employee = {
   __typename?: "Employee";
   id: Scalars["ID"];
+  user: User;
   role: Scalars["String"];
-  email?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
-  lastName?: Maybe<Scalars["String"]>;
-  phone?: Maybe<Scalars["String"]>;
 };
 
 type EmployeeInput = {
@@ -273,7 +281,7 @@ type HobbyInput = {
 type JobPosting = {
   __typename?: "JobPosting";
   id: Scalars["ID"];
-  title?: Maybe<Scalars["String"]>;
+  title: Scalars["String"];
   slug: Scalars["String"];
   description: Scalars["String"];
   jobType: JobType;
@@ -284,12 +292,11 @@ type JobPosting = {
   jobToDate?: Maybe<Scalars["Date"]>;
   url?: Maybe<Scalars["String"]>;
   jobRequirements: Array<JobRequirement>;
-  skills?: Maybe<Array<Skill>>;
+  skills: Array<Skill>;
   formStep: Scalars["Int"];
   state: JobPostingState;
   employee?: Maybe<Employee>;
-  languages?: Maybe<Array<JobPostingLanguageRelation>>;
-  matchStatus?: Maybe<MatchStatus>;
+  languages: Array<JobPostingLanguageRelation>;
 };
 
 type JobPostingInput = {
@@ -427,43 +434,6 @@ type Match = {
   jobPostingTitle?: Maybe<Scalars["String"]>;
 };
 
-type MatchHints = {
-  __typename?: "MatchHints";
-  hasRequestedMatch: Scalars["Boolean"];
-  hasConfirmedMatch: Scalars["Boolean"];
-};
-
-/** Initiate or confirm Matching */
-type MatchJobPosting = {
-  __typename?: "MatchJobPosting";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  confirmed?: Maybe<Scalars["Boolean"]>;
-};
-
-type MatchJobPostingInput = {
-  jobPosting: JobPostingInput;
-};
-
-type MatchStatus = {
-  __typename?: "MatchStatus";
-  confirmed?: Maybe<Scalars["Boolean"]>;
-  initiator?: Maybe<ProfileType>;
-};
-
-/** Initiate or confirm Matching */
-type MatchStudent = {
-  __typename?: "MatchStudent";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  confirmed?: Maybe<Scalars["Boolean"]>;
-};
-
-type MatchStudentInput = {
-  student: StudentInput;
-  jobPosting: JobPostingInput;
-};
-
 /** An enumeration. */
 enum MatchType {
   Student = "STUDENT",
@@ -472,10 +442,6 @@ enum MatchType {
 
 type Mutation = {
   __typename?: "Mutation";
-  /** Initiate or confirm Matching */
-  matchStudent?: Maybe<MatchStudent>;
-  /** Initiate or confirm Matching */
-  matchJobPosting?: Maybe<MatchJobPosting>;
   /** Adds a new emplyoee to a comany */
   addEmployee?: Maybe<AddEmployee>;
   /** Creates a job posting */
@@ -568,14 +534,6 @@ type Mutation = {
    * by making the `user.status.verified` field true.
    */
   verifyAccount?: Maybe<VerifyAccount>;
-};
-
-type MutationMatchStudentArgs = {
-  match: MatchStudentInput;
-};
-
-type MutationMatchJobPostingArgs = {
-  match: MatchJobPostingInput;
 };
 
 type MutationAddEmployeeArgs = {
@@ -684,7 +642,7 @@ type MutationUserRequestArgs = {
 };
 
 type MutationRegisterCompanyArgs = {
-  company: RegisterCompanyInput;
+  company: CompanyInput;
   employee: EmployeeInput;
   email: Scalars["String"];
   username: Scalars["String"];
@@ -696,7 +654,7 @@ type MutationRegisterCompanyArgs = {
 };
 
 type MutationRegisterStudentArgs = {
-  student?: Maybe<RegisterStudentInput>;
+  student?: Maybe<StudentInput>;
   email: Scalars["String"];
   username: Scalars["String"];
   firstName: Scalars["String"];
@@ -787,7 +745,6 @@ enum ProfileType {
 
 type Query = {
   __typename?: "Query";
-  student?: Maybe<Student>;
   matches?: Maybe<Array<Maybe<Match>>>;
   culturalFits?: Maybe<Array<Maybe<CulturalFit>>>;
   softSkills?: Maybe<Array<Maybe<SoftSkill>>>;
@@ -808,11 +765,6 @@ type Query = {
   languages?: Maybe<Array<Maybe<Language>>>;
   me?: Maybe<User>;
   verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
-};
-
-type QueryStudentArgs = {
-  slug?: Maybe<Scalars["String"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
 };
 
 type QueryMatchesArgs = {
@@ -839,6 +791,7 @@ type QueryCompanyArgs = {
 
 type QueryAttachmentsArgs = {
   key: AttachmentKey;
+  userId?: Maybe<Scalars["Int"]>;
   slug?: Maybe<Scalars["String"]>;
 };
 
@@ -872,28 +825,11 @@ type RegisterCompany = {
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };
 
-type RegisterCompanyInput = {
-  /** Name */
-  name: Scalars["String"];
-  /** UID */
-  uid?: Maybe<Scalars["String"]>;
-  /** ZIP */
-  zip: Scalars["String"];
-  /** City */
-  city: Scalars["String"];
-};
-
 /** Creates a new user as student */
 type RegisterStudent = {
   __typename?: "RegisterStudent";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-};
-
-type RegisterStudentInput = {
-  id?: Maybe<Scalars["ID"]>;
-  /** Mobile */
-  mobile: Scalars["String"];
 };
 
 type Revoke = {
@@ -942,38 +878,33 @@ type SoftSkillInput = {
 
 type Student = {
   __typename?: "Student";
-  id: Scalars["ID"];
-  mobile?: Maybe<Scalars["String"]>;
-  street?: Maybe<Scalars["String"]>;
-  zip?: Maybe<Scalars["String"]>;
-  city?: Maybe<Scalars["String"]>;
-  dateOfBirth?: Maybe<Scalars["String"]>;
+  mobile: Scalars["String"];
+  street: Scalars["String"];
+  zip: Scalars["String"];
+  city: Scalars["String"];
+  dateOfBirth?: Maybe<Scalars["Date"]>;
   nickname?: Maybe<Scalars["String"]>;
   schoolName?: Maybe<Scalars["String"]>;
-  fieldOfStudy?: Maybe<Scalars["String"]>;
-  graduation?: Maybe<Scalars["String"]>;
+  fieldOfStudy: Scalars["String"];
+  graduation?: Maybe<Scalars["Date"]>;
   branch?: Maybe<Branch>;
   jobType?: Maybe<JobType>;
-  jobFromDate?: Maybe<Scalars["Date"]>;
-  jobToDate?: Maybe<Scalars["Date"]>;
   skills: Array<Skill>;
-  distinction?: Maybe<Scalars["String"]>;
+  distinction: Scalars["String"];
   state: ProfileState;
   profileStep: Scalars["Int"];
   softSkills: Array<SoftSkill>;
   culturalFits: Array<CulturalFit>;
   slug: Scalars["String"];
-  hobbies?: Maybe<Array<Hobby>>;
-  onlineProjects?: Maybe<Array<OnlineProject>>;
+  hobbies: Array<Hobby>;
+  onlineProjects: Array<OnlineProject>;
   languages: Array<UserLanguageRelation>;
-  email?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
-  lastName?: Maybe<Scalars["String"]>;
-  matchStatus?: Maybe<MatchStatus>;
 };
 
 type StudentInput = {
-  id: Scalars["ID"];
+  id?: Maybe<Scalars["ID"]>;
+  /** Mobile */
+  mobile: Scalars["String"];
 };
 
 type StudentMatchingInput = {
@@ -1152,8 +1083,9 @@ type UploadTypeConfiguration = {
   maxSize: Scalars["Int"];
 };
 
-type User = {
+type User = Node & {
   __typename?: "User";
+  /** The ID of the object. */
   id: Scalars["ID"];
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
@@ -1164,7 +1096,6 @@ type User = {
   company?: Maybe<Company>;
   student?: Maybe<Student>;
   employee?: Maybe<Employee>;
-  matchHints: MatchHints;
 };
 
 type UserLanguageRelation = {
@@ -1187,7 +1118,7 @@ type UserNode = Node & {
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
   email: Scalars["String"];
-  type: UserType;
+  type: Scalars["String"];
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   company?: Maybe<Company>;
@@ -1214,24 +1145,6 @@ type UserRequestInput = {
   /** Message */
   message: Scalars["String"];
 };
-
-/** An enumeration. */
-enum UserType {
-  /** Internal */
-  Internal = "INTERNAL",
-  /** Student */
-  Student = "STUDENT",
-  /** College Student */
-  CollegeStudent = "COLLEGE_STUDENT",
-  /** Junior */
-  Junior = "JUNIOR",
-  /** Company */
-  Company = "COMPANY",
-  /** University */
-  University = "UNIVERSITY",
-  /** Other */
-  Other = "OTHER",
-}
 
 type UserUpload = {
   __typename?: "UserUpload";
