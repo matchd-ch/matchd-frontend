@@ -119,7 +119,7 @@ type Company = {
   state: ProfileState;
   profileStep: Scalars["Int"];
   slug: Scalars["String"];
-  name?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
   zip: Scalars["String"];
   city: Scalars["String"];
   street: Scalars["String"];
@@ -140,6 +140,17 @@ type Company = {
   linkThesis?: Maybe<Scalars["String"]>;
   jobPostings: Array<JobPosting>;
   employees: Array<Employee>;
+};
+
+type CompanyInput = {
+  /** Name */
+  name: Scalars["String"];
+  /** UID */
+  uid?: Maybe<Scalars["String"]>;
+  /** ZIP */
+  zip: Scalars["String"];
+  /** City */
+  city: Scalars["String"];
 };
 
 type CompanyProfileInputStep1 = {
@@ -273,7 +284,7 @@ type HobbyInput = {
 type JobPosting = {
   __typename?: "JobPosting";
   id: Scalars["ID"];
-  title?: Maybe<Scalars["String"]>;
+  title: Scalars["String"];
   slug: Scalars["String"];
   description: Scalars["String"];
   jobType: JobType;
@@ -289,7 +300,6 @@ type JobPosting = {
   state: JobPostingState;
   employee?: Maybe<Employee>;
   languages?: Maybe<Array<JobPostingLanguageRelation>>;
-  matchStatus?: Maybe<MatchStatus>;
 };
 
 type JobPostingInput = {
@@ -427,43 +437,6 @@ type Match = {
   jobPostingTitle?: Maybe<Scalars["String"]>;
 };
 
-type MatchHints = {
-  __typename?: "MatchHints";
-  hasRequestedMatch: Scalars["Boolean"];
-  hasConfirmedMatch: Scalars["Boolean"];
-};
-
-/** Initiate or confirm Matching */
-type MatchJobPosting = {
-  __typename?: "MatchJobPosting";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  confirmed?: Maybe<Scalars["Boolean"]>;
-};
-
-type MatchJobPostingInput = {
-  jobPosting: JobPostingInput;
-};
-
-type MatchStatus = {
-  __typename?: "MatchStatus";
-  confirmed?: Maybe<Scalars["Boolean"]>;
-  initiator?: Maybe<ProfileType>;
-};
-
-/** Initiate or confirm Matching */
-type MatchStudent = {
-  __typename?: "MatchStudent";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  confirmed?: Maybe<Scalars["Boolean"]>;
-};
-
-type MatchStudentInput = {
-  student: StudentInput;
-  jobPosting: JobPostingInput;
-};
-
 /** An enumeration. */
 enum MatchType {
   Student = "STUDENT",
@@ -472,10 +445,6 @@ enum MatchType {
 
 type Mutation = {
   __typename?: "Mutation";
-  /** Initiate or confirm Matching */
-  matchStudent?: Maybe<MatchStudent>;
-  /** Initiate or confirm Matching */
-  matchJobPosting?: Maybe<MatchJobPosting>;
   /** Adds a new emplyoee to a comany */
   addEmployee?: Maybe<AddEmployee>;
   /** Creates a job posting */
@@ -568,14 +537,6 @@ type Mutation = {
    * by making the `user.status.verified` field true.
    */
   verifyAccount?: Maybe<VerifyAccount>;
-};
-
-type MutationMatchStudentArgs = {
-  match: MatchStudentInput;
-};
-
-type MutationMatchJobPostingArgs = {
-  match: MatchJobPostingInput;
 };
 
 type MutationAddEmployeeArgs = {
@@ -684,7 +645,7 @@ type MutationUserRequestArgs = {
 };
 
 type MutationRegisterCompanyArgs = {
-  company: RegisterCompanyInput;
+  company: CompanyInput;
   employee: EmployeeInput;
   email: Scalars["String"];
   username: Scalars["String"];
@@ -696,7 +657,7 @@ type MutationRegisterCompanyArgs = {
 };
 
 type MutationRegisterStudentArgs = {
-  student?: Maybe<RegisterStudentInput>;
+  student?: Maybe<StudentInput>;
   email: Scalars["String"];
   username: Scalars["String"];
   firstName: Scalars["String"];
@@ -812,7 +773,6 @@ type Query = {
 
 type QueryStudentArgs = {
   slug?: Maybe<Scalars["String"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
 };
 
 type QueryMatchesArgs = {
@@ -872,28 +832,11 @@ type RegisterCompany = {
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };
 
-type RegisterCompanyInput = {
-  /** Name */
-  name: Scalars["String"];
-  /** UID */
-  uid?: Maybe<Scalars["String"]>;
-  /** ZIP */
-  zip: Scalars["String"];
-  /** City */
-  city: Scalars["String"];
-};
-
 /** Creates a new user as student */
 type RegisterStudent = {
   __typename?: "RegisterStudent";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-};
-
-type RegisterStudentInput = {
-  id?: Maybe<Scalars["ID"]>;
-  /** Mobile */
-  mobile: Scalars["String"];
 };
 
 type Revoke = {
@@ -969,11 +912,12 @@ type Student = {
   email?: Maybe<Scalars["String"]>;
   firstName?: Maybe<Scalars["String"]>;
   lastName?: Maybe<Scalars["String"]>;
-  matchStatus?: Maybe<MatchStatus>;
 };
 
 type StudentInput = {
-  id: Scalars["ID"];
+  id?: Maybe<Scalars["ID"]>;
+  /** Mobile */
+  mobile: Scalars["String"];
 };
 
 type StudentMatchingInput = {
@@ -1164,7 +1108,6 @@ type User = {
   company?: Maybe<Company>;
   student?: Maybe<Student>;
   employee?: Maybe<Employee>;
-  matchHints: MatchHints;
 };
 
 type UserLanguageRelation = {

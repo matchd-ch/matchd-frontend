@@ -17,11 +17,9 @@ mutation(
     employee {
       id
       role
-      user {
-        firstName
-        lastName
-        email
-      }
+      firstName
+      lastName
+      email
     }
   }
 }

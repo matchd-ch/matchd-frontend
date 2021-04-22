@@ -72,6 +72,10 @@ export type State = {
     loading: boolean;
     data: JobPosting[];
   };
+  jobPosting: {
+    loading: boolean;
+    data: JobPosting | null;
+  };
 };
 
 export const state: State = {
@@ -129,5 +133,9 @@ export const state: State = {
   jobPostings: {
     loading: false,
     data: [],
+  },
+  jobPosting: {
+    loading: false,
+    data: null,
   },
 };

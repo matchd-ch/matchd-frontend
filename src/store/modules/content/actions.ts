@@ -13,6 +13,7 @@ import benefitsQuery from "@/api/queries/benefits.gql";
 import branchesQuery from "@/api/queries/branches.gql";
 import companyQuery from "@/api/queries/company.gql";
 import culturalFitsQuery from "@/api/queries/culturalFits.gql";
+import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
@@ -41,6 +42,10 @@ export interface Actions {
     payload: { slug: string }
   ): Promise<void>;
   [ActionTypes.CULTURAL_FITS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.JOB_POSTING](
+    { commit }: AugmentedActionContext,
+    payload: { slug: string }
+  ): Promise<void>;
   [ActionTypes.JOB_POSTINGS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_REQUIREMENTS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_TYPE]({ commit }: AugmentedActionContext): Promise<void>;
@@ -122,6 +127,19 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.JOB_REQUIREMENTS_LOADED, {
       jobRequirements: response.data.jobRequirements,
+    });
+  },
+  async [ActionTypes.JOB_POSTING]({ commit }, payload: { slug: string }) {
+    commit(MutationTypes.JOB_POSTING_LOADING);
+    const response = await apiClient.query({
+      query: jobPostingQuery,
+      variables: payload,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.JOB_POSTING_LOADED, {
+      jobPosting: response.data.jobPosting,
     });
   },
   async [ActionTypes.JOB_POSTINGS]({ commit }) {

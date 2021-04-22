@@ -9,7 +9,7 @@
             v-if="company.logo"
             :src="company.logo.url.replace('{stack}', 'logo')"
             :alt="`Logo ${company.data.name}`"
-            class="w-40 filter brightness-0 invert"
+            class="w-40"
           />
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
@@ -18,8 +18,8 @@
           <a :href="company.data.website" target="_blank" class="underline">{{
             company.data.website
           }}</a
-          ><br /><a :href="`mailto:${company.data.employees[0].user.email}`" class="underline">{{
-            company.data.employees[0].user.email
+          ><br /><a :href="`mailto:${company.data.employees[0].email}`" class="underline">{{
+            company.data.employees[0].email
           }}</a
           ><br />
           <a :href="`tel:${company.data.phone}`">{{ company.data.phone }}</a>
