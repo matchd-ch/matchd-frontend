@@ -426,6 +426,7 @@ type Match = {
   score: Scalars["Float"];
   rawScore: Scalars["Float"];
   jobPostingTitle?: Maybe<Scalars["String"]>;
+  matchStatus?: Maybe<MatchStatus>;
 };
 
 type MatchHints = {
