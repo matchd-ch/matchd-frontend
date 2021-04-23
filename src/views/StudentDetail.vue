@@ -92,79 +92,33 @@
       </profile-section>
     </div>
     <MatchingBar class="fixed bottom-0 right-0 left-0">
-      <template v-if="isOwnHalfMatch">Du hast den Startschuss abgegeben.</template>
-      <template v-else-if="isFullMatch">Gratulation, ihr Matchd euch gegenseitig!</template>
-      <MatchdButton v-else-if="isHalfMatch" @click="onClickMatch">Match bestätigen</MatchdButton>
+      <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
+        Sie haben den Startschuss abgegeben.
+      </template>
+      <template v-else-if="matchType === matchTypeEnum.FullMatch">
+        Gratulation, ihr Matchd euch gegenseitig!
+      </template>
+      <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
+        Match bestätigen
+      </MatchdButton>
       <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
     </MatchingBar>
-    <MatchingModal v-if="showConfirmationModal">
-      <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user.firstName }} {{ user.lastName }}</h2>
-      <p class="mb-3 px-8">
-        <template v-if="isHalfMatch">
-          Nach dem Klick auf "Match bestätigen" informieren wir
-          <strong>{{ student.data?.firstName }}</strong
-          >, dass sie ebenfalls interessiert sind. Zusätzlich geben wir ihnen die Kontaktdaten von
-          <strong>{{ student.data?.firstName }}</strong> frei.
-        </template>
-        <template v-else>
-          Cool! Das ist der erste Schritt zum gegenseitigen Matching. Nach dem Klick auf "Match
-          starten", bekommt
-          <strong>{{ student.data?.firstName }}</strong> den Link zur ausgewählten Stelle.<br /><br />Sobald
-          {{ student.data?.firstName }} die Stelle angesehen und ebenfalls interessiert ist,
-          schicken wir Ihnen eine E-Mail mit weiteren Infos.
-        </template>
-      </p>
 
-      <template v-slot:footer>
-        <MatchdButton @click="onClickCancel" class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-          >Abbrechen</MatchdButton
-        >
-        <MatchdButton
-          v-if="isHalfMatch"
-          @click="onClickMatchConfirm"
-          :loading="matchLoading"
-          class="block w-full md:w-auto"
-          >Match bestätigen</MatchdButton
-        >
-        <MatchdButton
-          v-else
-          @click="onClickMatchRequest"
-          :loading="matchLoading"
-          class="block w-full md:w-auto"
-          >Match starten</MatchdButton
-        >
-      </template>
-    </MatchingModal>
-    <MatchingModal v-if="showMatchModal">
-      <div class="text-display-xl text-center mb-6"><TadaIcon /></div>
-      <h2 class="text-heading-sm mb-3">Great! Es hat gematchd!</h2>
-      <p class="mb-3">
-        Ihr passt so gut zusammen, dass ihr euch bald treffen solltet.
-        <strong>{{ student.data?.firstName }}</strong>
-        erreichen sie per ...
-      </p>
-      <h3 class="text-heading-xs mb-1">E-Mail:</h3>
-      <a
-        v-if="student.data?.email"
-        :href="`mailto:${student.data?.email}`"
-        target="_blank"
-        class="inline-block text-lg mb-3 underline"
-        >{{ student.data?.email }}</a
-      >
-      <h3 class="text-heading-xs mb-1">Telefon:</h3>
-      <a
-        v-if="student.data?.mobile"
-        :href="`tel:${student.data?.mobile}`"
-        target="_blank"
-        class="inline-block text-lg underline"
-        >{{ student.data?.mobile }}</a
-      >
-      <template v-slot:footer>
-        <MatchdButton @click="onClickClose" class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-          >Schliessen</MatchdButton
-        >
-      </template>
-    </MatchingModal>
+    <StudentMatchModal
+      v-if="showConfirmationModal"
+      :user="user"
+      :student="student.data"
+      :loading="matchLoading"
+      :matchType="matchType"
+      @clickConfirm="onClickMatchConfirm"
+      @clickCancel="onClickCancel"
+    />
+    <StudentFullMatchModal
+      v-if="showMatchModal"
+      :user="user"
+      :student="student.data"
+      @clickClose="onClickClose"
+    />
   </div>
 </template>
 
@@ -172,16 +126,18 @@
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
-import ProfileSection from "@/components/ProfileSection.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
-import MatchingModal from "@/components/MatchingModal.vue";
-import TadaIcon from "@/components/TadaIcon.vue";
+import StudentFullMatchModal from "@/components/modals/StudentFullMatchModal.vue";
+import StudentMatchModal from "@/components/modals/StudentMatchModal.vue";
+import ProfileSection from "@/components/ProfileSection.vue";
+import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Student, User } from "api";
 import { DateTime } from "luxon";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+
 Vue.registerHooks(["beforeRouteUpdate"]);
 
 @Options({
@@ -191,8 +147,8 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     ProfileSection,
     MatchdButton,
     MatchingBar,
-    MatchingModal,
-    TadaIcon,
+    StudentMatchModal,
+    StudentFullMatchModal,
   },
 })
 export default class StudentDetail extends Vue {
@@ -207,26 +163,26 @@ export default class StudentDetail extends Vue {
     return this.$store.getters["matchLoading"];
   }
 
-  get isEmptyMatch(): boolean {
-    return this.student?.data?.matchStatus === null;
+  get matchTypeEnum(): typeof MatchTypeEnum {
+    return MatchTypeEnum;
   }
 
-  get isHalfMatch(): boolean {
-    return (
+  get matchType(): MatchTypeEnum {
+    if (this.student?.data?.matchStatus === null) {
+      return MatchTypeEnum.EmptyMatch;
+    } else if (
       this.student?.data?.matchStatus?.confirmed === false &&
       this.student?.data?.matchStatus?.initiator === ProfileType.Student
-    );
-  }
-
-  get isOwnHalfMatch(): boolean {
-    return (
+    ) {
+      return MatchTypeEnum.HalfMatch;
+    } else if (
       this.student?.data?.matchStatus?.confirmed === false &&
       this.student?.data?.matchStatus?.initiator === ProfileType.Company
-    );
-  }
-
-  get isFullMatch(): boolean {
-    return !!this.student?.data?.matchStatus?.confirmed;
+    ) {
+      return MatchTypeEnum.HalfOwnMatch;
+    } else {
+      return MatchTypeEnum.FullMatch;
+    }
   }
 
   get student(): {
@@ -308,7 +264,7 @@ export default class StudentDetail extends Vue {
   async loadData(slug: string, jobPostingId: string): Promise<void> {
     try {
       await this.$store.dispatch(ActionTypes.STUDENT, { slug, jobPostingId });
-      this.showMatchModal = this.isFullMatch;
+      this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     } catch (e) {
       this.$router.replace("/404");
     }
@@ -327,16 +283,16 @@ export default class StudentDetail extends Vue {
       await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
       this.calculateMargins();
       this.showConfirmationModal = false;
-      this.showMatchModal = this.isFullMatch;
+      this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     }
-  }
-
-  async onClickMatchRequest(): Promise<void> {
-    await this.mutateMatch();
   }
 
   async onClickMatchConfirm(): Promise<void> {
     await this.mutateMatch();
+  }
+
+  onClickCancel(): void {
+    this.showConfirmationModal = false;
   }
 
   onClickMatch(): void {
@@ -348,10 +304,6 @@ export default class StudentDetail extends Vue {
 
   onClickClose(): void {
     this.showMatchModal = false;
-  }
-
-  onClickCancel(): void {
-    this.showConfirmationModal = false;
   }
 }
 </script>

@@ -99,94 +99,31 @@
       </div>
     </section>
     <MatchingBar class="fixed bottom-0 right-0 left-0">
-      <template v-if="isOwnHalfMatch">Du hast den Startschuss abgegeben.</template>
-      <template v-else-if="isFullMatch">Gratulation, ihr Matchd euch gegenseitig!</template>
-      <MatchdButton v-else-if="isHalfMatch" @click="onClickMatch">Match bestätigen</MatchdButton>
+      <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
+        Du hast den Startschuss abgegeben.
+      </template>
+      <template v-else-if="matchType === matchTypeEnum.FullMatch">
+        Gratulation, ihr Matchd euch gegenseitig!
+      </template>
+      <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
+        Match bestätigen
+      </MatchdButton>
       <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
     </MatchingBar>
-    <MatchingModal v-if="showConfirmationModal">
-      <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user.firstName }}</h2>
-      <p class="mb-3 px-8">
-        <template v-if="isHalfMatch"
-          >Nach dem Klick auf "Bestätigen" informieren wir
-          <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
-          von <strong>{{ jobPosting.company.name }}</strong
-          >, dass du ebenfalls an dieser Stelle interessiert bist.</template
-        >
-        <template v-else>
-          Cool! Das ist der erste Schritt zum gegenseitigen Matching. Nach dem Klick auf
-          "Freigeben", bekommt
-          <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
-          von <strong>{{ jobPosting.company.name }}</strong> den Link zu deinem Profil.<br />Sobald
-          {{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }} dein Profil
-          angesehen und es ebenfalls interessant findet, schicken wir dir eine E-Mail mit weiteren
-          Infos.
-        </template>
-      </p>
-      <p class="mb-3 px-8">
-        Wenn du damit einverstanden bist, werden wir diese Daten von dir bekannt geben:
-      </p>
-
-      <div class="flex items-center">
-        <MatchdToggle id="permissionGranted"
-          ><template v-slot:label>Deine Kontaktdaten und Zertifikate freigeben</template
-          ><input id="permissionGranted" type="checkbox" v-model="permissionGranted"
-        /></MatchdToggle>
-      </div>
-
-      <template v-slot:footer>
-        <MatchdButton @click="onClickCancel" class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-          >Abbrechen</MatchdButton
-        >
-        <MatchdButton
-          v-if="isHalfMatch"
-          @click="onClickMatchConfirm"
-          :disabled="!permissionGranted"
-          :loading="matchLoading"
-          class="block w-full md:w-auto"
-          >Bestätigen</MatchdButton
-        >
-        <MatchdButton
-          v-else
-          @click="onClickMatchRequest"
-          :disabled="!permissionGranted"
-          :loading="matchLoading"
-          class="block w-full md:w-auto"
-          >Freigeben
-        </MatchdButton>
-      </template>
-    </MatchingModal>
-    <MatchingModal v-if="showMatchModal">
-      <div class="text-display-xl text-center mb-6"><TadaIcon /></div>
-      <h2 class="text-heading-sm mb-3">Great! Es hat gematchd!</h2>
-      <p class="mb-3">
-        Ihr passt so gut zusammen, dass ihr euch bald treffen solltet.
-        <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
-        von <strong>{{ jobPosting.company?.name }}</strong>
-        erreichst du per ...
-      </p>
-      <h3 class="text-heading-xs mb-1">E-Mail:</h3>
-      <a
-        v-if="jobPosting.employee?.email"
-        :href="`mailto:${jobPosting.employee?.email}`"
-        target="_blank"
-        class="inline-block text-lg mb-3 underline"
-        >{{ jobPosting.employee?.email }}</a
-      >
-      <h3 class="text-heading-xs mb-1">Telefon:</h3>
-      <a
-        v-if="jobPosting.employee?.phone"
-        :href="`tel:${jobPosting.employee?.phone}`"
-        target="_blank"
-        class="inline-block text-lg underline"
-        >{{ jobPosting.employee?.phone }}</a
-      >
-      <template v-slot:footer>
-        <MatchdButton @click="onClickClose" class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-          >Schliessen</MatchdButton
-        >
-      </template>
-    </MatchingModal>
+    <JobPostingMatchModal
+      v-if="showConfirmationModal"
+      :user="user"
+      :jobPosting="jobPosting"
+      :loading="matchLoading"
+      :matchType="matchType"
+      @clickConfirm="onClickMatchConfirm"
+      @clickCancel="onClickCancel"
+    />
+    <JobPostingFullMatchModal
+      v-if="showFullMatchModal"
+      :jobPosting="jobPosting"
+      @clickClose="onClickClose"
+    />
   </div>
 </template>
 
@@ -195,11 +132,12 @@ import { ProfileType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
-import MatchingModal from "@/components/MatchingModal.vue";
-import TadaIcon from "@/components/TadaIcon.vue";
+import JobPostingFullMatchModal from "@/components/modals/JobPostingFullMatchModal.vue";
+import JobPostingMatchModal from "@/components/modals/JobPostingMatchModal.vue";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
+import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { JobPosting, User } from "api";
 import { Options, Vue } from "vue-class-component";
@@ -212,14 +150,13 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchdButton,
     MatchdToggle,
     MatchingBar,
-    MatchingModal,
-    TadaIcon,
+    JobPostingMatchModal,
+    JobPostingFullMatchModal,
   },
 })
 export default class JobPostingDetail extends Vue {
   showConfirmationModal = false;
-  showMatchModal = false;
-  permissionGranted = false;
+  showFullMatchModal = false;
 
   get user(): User | null {
     return this.$store.getters["user"];
@@ -233,26 +170,26 @@ export default class JobPostingDetail extends Vue {
     return this.$store.getters["jobPostingDetail"];
   }
 
-  get isEmptyMatch(): boolean {
-    return this.jobPosting?.matchStatus === null;
+  get matchTypeEnum(): typeof MatchTypeEnum {
+    return MatchTypeEnum;
   }
 
-  get isHalfMatch(): boolean {
-    return (
+  get matchType(): MatchTypeEnum {
+    if (this.jobPosting?.matchStatus === null) {
+      return MatchTypeEnum.EmptyMatch;
+    } else if (
       this.jobPosting?.matchStatus?.confirmed === false &&
       this.jobPosting?.matchStatus?.initiator === ProfileType.Company
-    );
-  }
-
-  get isOwnHalfMatch(): boolean {
-    return (
+    ) {
+      return MatchTypeEnum.HalfMatch;
+    } else if (
       this.jobPosting?.matchStatus?.confirmed === false &&
       this.jobPosting?.matchStatus?.initiator === ProfileType.Student
-    );
-  }
-
-  get isFullMatch(): boolean {
-    return !!this.jobPosting?.matchStatus?.confirmed;
+    ) {
+      return MatchTypeEnum.HalfOwnMatch;
+    } else {
+      return MatchTypeEnum.FullMatch;
+    }
   }
 
   replaceStack(url: string, stack: string): string {
@@ -301,26 +238,10 @@ export default class JobPostingDetail extends Vue {
   async loadData(slug: string): Promise<void> {
     try {
       await this.$store.dispatch(ActionTypes.JOB_POSTING, { slug });
-      this.showMatchModal = this.isFullMatch;
+      this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     } catch (e) {
       this.$router.replace("/404");
     }
-  }
-
-  onClickCancel(): void {
-    this.showConfirmationModal = false;
-  }
-
-  onClickClose(): void {
-    this.showMatchModal = false;
-  }
-
-  async onClickMatchRequest(): Promise<void> {
-    await this.mutateMatch();
-  }
-
-  async onClickMatchConfirm(): Promise<void> {
-    await this.mutateMatch();
   }
 
   async mutateMatch(): Promise<void> {
@@ -332,16 +253,25 @@ export default class JobPostingDetail extends Vue {
       });
       await this.loadData(String(this.$route.params.slug));
       this.calculateMargins();
-      this.showMatchModal = this.isFullMatch;
+      this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
       this.showConfirmationModal = false;
     }
   }
 
+  async onClickMatchConfirm(): Promise<void> {
+    await this.mutateMatch();
+  }
+
+  onClickCancel(): void {
+    this.showConfirmationModal = false;
+  }
+
+  onClickClose(): void {
+    this.showFullMatchModal = false;
+  }
+
   onClickMatch(): void {
     this.showConfirmationModal = true;
-    this.$nextTick(() => {
-      this.calculateMargins();
-    });
   }
 }
 </script>
