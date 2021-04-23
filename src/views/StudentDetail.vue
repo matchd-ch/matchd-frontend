@@ -115,7 +115,6 @@
     />
     <StudentFullMatchModal
       v-if="showMatchModal"
-      :user="user"
       :student="student.data"
       @clickClose="onClickClose"
     />
