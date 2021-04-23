@@ -7,7 +7,7 @@
         <div class="w-1/2">
           <img
             v-if="company.logo"
-            :src="company.logo.url.replace('{stack}', 'logo')"
+            :src="replaceStack(company.logo.url, 'logo')"
             :alt="`Logo ${company.data.name}`"
             class="w-40"
           />
@@ -37,44 +37,43 @@
       <MatchdImageGrid :attachments="additionalMedia" class="mt-4" @clickMedia="onClickMedia" />
     </div>
     <div class="text-pink-1 flex flex-col min-h-full">
-      <section class="flex-grow border-b border-pink-1 p-9">
-        <h2 class="text-heading-lg mb-8">Über uns</h2>
+      <ProfileSection :pink="true" title="Über uns">
         <p v-html="nl2br(company.data.description)"></p>
-      </section>
-      <section v-if="company.data.services" class="flex-grow border-b border-pink-1 p-9 xl:flex">
-        <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">
-          Unsere Produkte und Services
-        </h2>
-        <p class="xl:w-1/2">{{ company.data.services }}</p>
-      </section>
-      <section
-        v-if="company.data.branches && company.data.branches.length > 0"
-        class="flex-grow border-b border-pink-1 p-9 xl:flex"
+      </ProfileSection>
+      <ProfileSection
+        v-if="company.data.services"
+        :pink="true"
+        title="Unsere Produkte und Services"
       >
-        <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">
-          In diesen Bereichen kannst du bei uns tätig sein
-        </h2>
-        <ul class="list list-disc pl-4 xl:w-1/2">
+        <p>{{ company.data.services }}</p>
+      </ProfileSection>
+      <ProfileSection
+        v-if="company.data.branches && company.data.branches.length > 0"
+        :pink="true"
+        title="In diesen Bereichen kannst du bei uns tätig sein"
+      >
+        <ul class="list list-inside list-disc">
           <li v-for="branch in company.data.branches" :key="branch.id">
             {{ branch.name }}
           </li>
         </ul>
-      </section>
-      <section class="flex-grow border-b border-pink-1 p-9 xl:flex">
-        <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4">Das erwartet dich bei uns</h2>
-        <template v-if="company.data.benefits.length > 0">
-          <ul class="xl:w-1/2 flex flex-wrap content-start items-start -mb-1">
-            <li
-              v-for="benefit in company.data.benefits"
-              :key="benefit.id"
-              class="flex items-center border border-pink-1 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2"
-            >
-              <span class="material-icons mr-2">{{ benefit.icon }}</span>
-              {{ benefit.name }}
-            </li>
-          </ul>
-        </template>
-      </section>
+      </ProfileSection>
+      <ProfileSection
+        v-if="company.data.benefits.length"
+        :pink="true"
+        title="Das erwartet dich bei uns"
+      >
+        <ul class="flex flex-wrap content-start items-start -mb-1">
+          <li
+            v-for="benefit in company.data.benefits"
+            :key="benefit.id"
+            class="flex items-center border border-pink-1 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2"
+          >
+            <span class="material-icons mr-2">{{ benefit.icon }}</span>
+            {{ benefit.name }}
+          </li>
+        </ul>
+      </ProfileSection>
       <section class="flex-grow p-9">
         <h2 class="text-heading-lg mb-8">Offene Stellen</h2>
         <ul class="list list-inside list-disc">
@@ -95,10 +94,9 @@
 
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
+import ProfileSection from "@/components/ProfileSection.vue";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -113,8 +111,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchdButton,
     MatchdVideo,
     MatchdImageGrid,
-    MatchdFileUpload,
-    MatchdFileView,
+    ProfileSection,
   },
 })
 export default class CompanyDetail extends Vue {
