@@ -147,6 +147,7 @@ import { StudentRegistrationState } from "@/models/StudentRegistrationState";
 import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -161,6 +162,7 @@ import { Options, setup, Vue } from "vue-class-component";
   },
 })
 export default class StudentRegister extends Vue {
+  meta = setup(() => useMeta({}));
   isValidStudent: boolean | null = null;
   isValidPosition: boolean | null = null;
   isStudentDataFormValid = false;
@@ -196,6 +198,8 @@ export default class StudentRegister extends Vue {
 
   mounted(): void {
     this.form.type = this.registration.urlToAccountTypeMapper(this.$route.path);
+    this.meta.meta.title =
+      this.form.type === "student" ? "Schüler registrieren" : "Student registrieren";
     this.registration.mounted("theme-student");
   }
 

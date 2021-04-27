@@ -72,7 +72,8 @@ import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, JobPosting } from "api";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -83,6 +84,11 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class StudentSearch extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Talente suchen",
+    })
+  );
   techBoost = 3;
   softBoost = 3;
   jobPostingId = "";

@@ -54,7 +54,8 @@ import { PasswordResetState } from "@/models/PasswordResetState";
 import { SendPasswordResetEmailState } from "@/models/SendPasswordResetEmailState";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 Vue.registerHooks(["beforeRouteEnter"]);
 
@@ -70,6 +71,12 @@ Vue.registerHooks(["beforeRouteEnter"]);
   },
 })
 export default class PasswordForgotten extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Passwort vergessen",
+    })
+  );
+
   get passwordForgottenLoading(): boolean {
     return this.$store.getters["sendPasswordResetEmailLoading"];
   }
