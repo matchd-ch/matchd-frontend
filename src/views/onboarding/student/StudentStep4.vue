@@ -231,6 +231,12 @@ export default class StudentStep4 extends Vue {
     return this.$store.getters["skills"];
   }
 
+  get availableSkills(): Skill[] {
+    return this.skills.filter((skill) => {
+      return !this.form.skills.some((selectedSkills) => selectedSkills.id === skill.id);
+    });
+  }
+
   get languages(): Language[] {
     return this.$store.getters["languages"];
   }
@@ -285,7 +291,7 @@ export default class StudentStep4 extends Vue {
       this.filteredSkills = [];
       return;
     }
-    this.filteredSkills = this.skills.filter((item) =>
+    this.filteredSkills = this.availableSkills.filter((item) =>
       item.name.toLowerCase().includes(this.skillInput.toLowerCase())
     );
   }

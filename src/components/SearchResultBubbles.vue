@@ -1,5 +1,5 @@
 <template>
-  <div id="diagram" class="search-result-bubbles min-h-content-with-fixed-headers"></div>
+  <div id="diagram" class="search-result-bubbles min-h-content-with-fixed-bars"></div>
 </template>
 
 <script lang="ts">
@@ -14,6 +14,7 @@ import { Watch } from "vue-property-decorator";
 
 class Props {
   matches = prop<SearchResultBubbleData>({ default: [] });
+  jobPostingId = prop<string>({ default: "" });
   rootType = prop<string>({ default: "" });
   resultType = prop<string>({ default: "" });
   avatar = prop<Attachment>({});
@@ -193,7 +194,15 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .append("circle")
       .attr("cx", this.rootRadius)
       .attr("cy", this.rootRadius)
+      .classed("outer-circle", true)
       .attr("r", this.rootRadius + 2);
+
+    result
+      .append("circle")
+      .attr("cx", this.rootRadius)
+      .attr("cy", this.rootRadius)
+      .classed("inner-circle", true)
+      .attr("r", this.rootRadius);
 
     if (this.avatar) {
       /* Masked Image */
@@ -229,15 +238,22 @@ export default class SearchResultBubbles extends Vue.with(Props) {
           case "company":
             return `/companies/${d.id}`;
           default:
-            return `/talente/${d.id}`;
+            return `/talente/${d.id}/?jobPostingId=${this.jobPostingId}`;
         }
       });
     /* Circle */
     result
       .append("circle")
+      .classed("outer-circle", true)
       .attr("cx", this.resultRadius)
       .attr("cy", this.resultRadius)
       .attr("r", this.resultRadius + 1);
+    result
+      .append("circle")
+      .classed("inner-circle", true)
+      .attr("cx", this.resultRadius)
+      .attr("cy", this.resultRadius)
+      .attr("r", this.resultRadius);
     /* First Text Line */
     result
       .append("text")
@@ -268,6 +284,25 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       )
       .attr("width", this.resultRadius * 2)
       .attr("height", this.resultRadius * 2);
+
+    const matchStatus = result
+      .append("g")
+      .classed("match-status", true)
+      .classed("match-status--confirmed", (d: any) => d.matchStatus?.confirmed === true)
+      .classed("match-status--unconfirmed", (d: any) => d.matchStatus?.confirmed === false);
+    matchStatus
+      .append("circle")
+      .attr("cx", this.resultRadius + Math.sqrt(Math.pow(this.resultRadius, 2) / 2))
+      .attr("cy", this.resultRadius + Math.sqrt(Math.pow(this.resultRadius, 2) / 2))
+      .attr("r", 15);
+    matchStatus
+      .append("text")
+      .classed("material-icons", true)
+      .attr("dominant-baseline", "mathematical")
+      .attr("text-anchor", "middle")
+      .attr("x", this.resultRadius + Math.sqrt(Math.pow(this.resultRadius, 2) / 2))
+      .attr("y", this.resultRadius + Math.sqrt(Math.pow(this.resultRadius, 2) / 2))
+      .text((d: any) => (d.matchStatus?.confirmed ? "people" : "record_voice_over"));
   }
 }
 </script>
@@ -286,18 +321,10 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 }
 </style>
 
-
 <style lang="postcss" scoped>
 #diagram :deep(svg) {
   width: 100%;
   max-height: 100%;
-
-  & .company,
-  & .jobposting {
-    & image {
-      @apply filter brightness-0 invert;
-    }
-  }
 
   & line {
     &.company {
@@ -314,40 +341,56 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   }
 
   & .root {
-    & circle {
+    & .outer-circle {
       animation: scan 4s infinite;
     }
 
-    &.student circle {
+    & .inner-circle {
+      fill: var(--color-white);
+    }
+
+    &.student .outer-circle {
       fill: var(--color-green-1);
       stroke: var(--color-green-1);
     }
 
-    &.jobposting {
-      fill: var(--color-orange-2);
-      stroke: var(--color-orange-2);
+    &.jobposting .outer-circle {
+      fill: var(--color-orange-1);
+      stroke: var(--color-orange-1);
     }
 
-    &.company circle {
+    &.company .outer-circle {
       fill: var(--color-pink-1);
       stroke: var(--color-pink-1);
     }
   }
 
   & .node {
-    & circle {
+    & .match-status {
+      visibility: hidden;
+
+      & text {
+      font-size: 1.125rem;
+      }
+    }
+
+    & .match-status--confirmed,
+    & .match-status--unconfirmed {
+      visibility: visible;
+    }
+
+    & .outer-circle {
       @apply transition-all;
       stroke-width: 0;
       stroke-opacity: 0;
     }
 
     &:hover {
-      & circle {
+      & .outer-circle {
         stroke-width: 10;
         stroke-opacity: 0.3;
       }
     }
-
   }
 
   & .node {
@@ -367,39 +410,57 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
 
     &.company {
-      & a,
-      & a:hover text {
+      & .outer-circle {
         fill: var(--color-pink-1);
+        stroke: var(--color-pink-1);
       }
 
-      & circle {
-        stroke: var(--color-pink-1);
+      & .match-status text,
+      & .inner-circle {
+        fill: var(--color-white);
+      }
+
+      & .match-status circle,
+      & a:hover > text {
+        fill: var(--color-pink-1);
       }
     }
 
     &.jobposting {
-      & a,
-      & a:hover text {
-        fill: var(--color-orange-2);
+      & .outer-circle {
+        fill: var(--color-orange-1);
+        stroke: var(--color-orange-1);
+      }
+
+      & .match-status text,
+      & .inner-circle {
+        fill: var(--color-white);
+      }
+
+      & .match-status circle,
+      & a:hover > text {
+        fill: var(--color-orange-1);
       }
 
       & text:nth-of-type(1) {
         font-weight: 500;
       }
-
-      & circle {
-        stroke: var(--color-orange-2);
-      }
     }
 
     &.student {
-      & a,
-      & a:hover text {
+      & .outer-circle {
         fill: var(--color-green-1);
+        stroke: var(--color-green-1);
       }
 
-      & circle {
-        stroke: var(--color-green-1);
+      & .match-status text,
+      & .inner-circle {
+        fill: var(--color-white);
+      }
+
+      & .match-status circle,
+      & a:hover > text {
+        fill: var(--color-green-1);
       }
     }
   }

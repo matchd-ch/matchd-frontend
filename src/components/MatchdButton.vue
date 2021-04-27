@@ -61,6 +61,11 @@ export default class MatchdButton extends Vue.with(Props) {}
   z-index: 1;
   transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
+  &:disabled {
+    @apply opacity-60;
+    @apply cursor-default;
+  }
+
   &::before {
     content: "";
     @apply absolute block -top-px -right-px -bottom-px -left-px;

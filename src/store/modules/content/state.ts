@@ -12,6 +12,7 @@ import type {
   Match,
   Skill,
   SoftSkill,
+  Student,
   ZipCity,
 } from "api";
 
@@ -38,6 +39,9 @@ export type State = {
     logo: Attachment | null;
     media: Attachment[];
   };
+  match: {
+    loading: boolean;
+  };
   matches: {
     loading: boolean;
     data: Match[];
@@ -52,6 +56,12 @@ export type State = {
     loading: boolean;
     data: SoftSkill[];
   };
+  student: {
+    loading: boolean;
+    data: Student | null;
+    avatar: Attachment | null;
+    certificates: Attachment[];
+  };
   languages: {
     loading: boolean;
     data: Language[];
@@ -64,6 +74,10 @@ export type State = {
   jobPostings: {
     loading: boolean;
     data: JobPosting[];
+  };
+  jobPosting: {
+    loading: boolean;
+    data: JobPosting | null;
   };
 };
 
@@ -90,6 +104,9 @@ export const state: State = {
     logo: null,
     media: [],
   },
+  match: {
+    loading: false,
+  },
   matches: {
     loading: false,
     data: [],
@@ -104,6 +121,12 @@ export const state: State = {
     loading: false,
     data: [],
   },
+  student: {
+    loading: false,
+    data: null,
+    avatar: null,
+    certificates: [],
+  },
   languages: {
     loading: false,
     data: [],
@@ -116,5 +139,9 @@ export const state: State = {
   jobPostings: {
     loading: false,
     data: [],
+  },
+  jobPosting: {
+    loading: false,
+    data: null,
   },
 };

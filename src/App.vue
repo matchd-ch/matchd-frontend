@@ -1,4 +1,8 @@
 <template>
+  <metainfo>
+    <template v-slot:title="{ content }">{{ content ? `${content} - MATCHD` : `MATCHD` }}</template>
+  </metainfo>
+
   <router-view
     :class="{
       'theme-student': isStudent,
@@ -10,10 +14,17 @@
 
 <script lang="ts">
 import type { User } from "api";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({})
 export default class App extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "",
+    })
+  );
+
   get isStudent(): boolean {
     return this.$store.getters["isStudent"];
   }
