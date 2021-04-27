@@ -15,5 +15,6 @@ mutation(
     success
     errors
     jobPostingId
+    slug
   }
 }

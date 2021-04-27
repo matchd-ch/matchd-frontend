@@ -27,6 +27,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state.jobPosting.errors = errorCodeMapper(payload.errors);
     if (payload.success) {
       state.jobPosting.id = payload.jobPostingId || "";
+      state.jobPosting.slug = payload.slug || "";
     }
   },
   [MutationTypes.JOBPOSTING_LOADING](state: State) {
