@@ -186,6 +186,7 @@ import IconShow from "@/assets/icons/show.svg";
 import IconHide from "@/assets/icons/hide.svg";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -200,6 +201,7 @@ import { Options, setup, Vue } from "vue-class-component";
   },
 })
 export default class CompanyRegister extends Vue {
+  meta = setup(() => useMeta({}));
   isValidCompany: boolean | null = null;
   isCompanyUidFormValid = false;
   isCompanyDataFormValid = false;
@@ -240,6 +242,10 @@ export default class CompanyRegister extends Vue {
 
   mounted(): void {
     this.form.type = this.registration.urlToAccountTypeMapper(this.$route.path);
+    this.meta.meta.title =
+      this.form.type === "company"
+        ? "Unternehmen registrieren"
+        : "Bildungsinstitution registrieren";
     this.registration.mounted("theme-company");
   }
 

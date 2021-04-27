@@ -61,7 +61,8 @@ import MatchdField from "@/components/MatchdField.vue";
 import type { PasswordResetState } from "@/models/PasswordResetState";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -76,6 +77,12 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class PasswordReset extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Neues Passwort festlegen",
+    })
+  );
+
   passwordFieldType = "password";
   token = "";
 

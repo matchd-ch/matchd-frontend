@@ -140,7 +140,8 @@ import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { JobPosting, User } from "api";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
@@ -155,6 +156,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   },
 })
 export default class JobPostingDetail extends Vue {
+  meta = setup(() => useMeta({}));
   showConfirmationModal = false;
   showFullMatchModal = false;
 
@@ -238,6 +240,7 @@ export default class JobPostingDetail extends Vue {
   async loadData(slug: string): Promise<void> {
     try {
       await this.$store.dispatch(ActionTypes.JOB_POSTING, { slug });
+      this.meta.meta.title = `${this.jobPosting?.title} bei ${this.jobPosting?.company.name}`;
       this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     } catch (e) {
       this.$router.replace("/404");
