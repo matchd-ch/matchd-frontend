@@ -39,6 +39,10 @@ export type State = {
     logo: Attachment | null;
     media: Attachment[];
   };
+  companyMatching: {
+    data: Company[];
+    loading: boolean;
+  };
   match: {
     loading: boolean;
   };
@@ -103,6 +107,10 @@ export const state: State = {
     data: null,
     logo: null,
     media: [],
+  },
+  companyMatching: {
+    loading: false,
+    data: [],
   },
   match: {
     loading: false,

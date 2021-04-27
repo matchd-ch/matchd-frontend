@@ -1,0 +1,16 @@
+query CompanyMatching {
+  matches(techBoost: 1, softBoost: 1) {
+    id
+    name
+    avatar
+    type
+    slug
+    score
+    rawScore
+    jobPostingTitle
+    matchStatus {
+      confirmed
+      initiator
+    }
+  }
+}
