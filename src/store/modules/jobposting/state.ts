@@ -7,6 +7,7 @@ export type State = {
     success: boolean;
     errors: MatchdApiError | null;
     id: string;
+    slug: string;
   };
   currentJobPosting: {
     loading: boolean;
@@ -29,6 +30,7 @@ export const state: State = {
     success: false,
     errors: null,
     id: "",
+    slug: "",
   },
   currentJobPosting: {
     loading: false,

@@ -91,21 +91,21 @@ export default class JobPostingCreate extends Vue {
     next: NavigationGuardNext
   ): Promise<void> {
     this.urlStepNumber = parseStepName(String(to.params.step));
-    if (to.params?.slug === ParamStrings.NEW) {
-      this.clearCurrentJobPosting();
-    } else {
+    if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
       await this.loadJobPostingWithSlug(String(to.params.slug));
+    } else {
+      this.clearCurrentJobPosting();
     }
     next();
   }
 
   mounted(): void {
     this.urlStepNumber = parseStepName(String(this.$route.params.step));
-    if (this.$route.params?.slug === ParamStrings.NEW) {
+    if (this.$route.params?.slug && this.$route.params?.slug !== ParamStrings.NEW) {
+      this.meta.meta.title = `Stelle bearbeiten - ${this.currentJobPosting?.title}`;
+    } else {
       this.meta.meta.title = "Stelle ausschreiben";
       this.clearCurrentJobPosting();
-    } else {
-      this.meta.meta.title = `Stelle bearbeiten - ${this.currentJobPosting?.title}`;
     }
   }
 
