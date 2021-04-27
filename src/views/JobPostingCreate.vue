@@ -43,8 +43,9 @@ import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
 import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
 import JobPostingStep3 from "@/views/jobposting/JobPostingStep3.vue";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
 import type { JobPosting as JobPostingType } from "api";
+import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
@@ -57,6 +58,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   },
 })
 export default class JobPostingCreate extends Vue {
+  meta = setup(() => useMeta({}));
   urlStepNumber: number | null = null;
   requestedCurrentJobPosting = false;
 
@@ -89,18 +91,21 @@ export default class JobPostingCreate extends Vue {
     next: NavigationGuardNext
   ): Promise<void> {
     this.urlStepNumber = parseStepName(String(to.params.step));
-    if (to.params.id && Number(to.params.id)) {
-      await this.loadJobPostingWithId(String(to.params.id));
-    } else if (to.params.id && to.params.id === ParamStrings.NEW) {
+    if (to.params?.slug === ParamStrings.NEW) {
       this.clearCurrentJobPosting();
+    } else {
+      await this.loadJobPostingWithSlug(String(to.params.slug));
     }
     next();
   }
 
   mounted(): void {
     this.urlStepNumber = parseStepName(String(this.$route.params.step));
-    if (this.$route.params.id && this.$route.params.id === ParamStrings.NEW) {
+    if (this.$route.params?.slug === ParamStrings.NEW) {
+      this.meta.meta.title = "Stelle ausschreiben";
       this.clearCurrentJobPosting();
+    } else {
+      this.meta.meta.title = `Stelle bearbeiten - ${this.currentJobPosting?.title}`;
     }
   }
 
@@ -108,9 +113,9 @@ export default class JobPostingCreate extends Vue {
     this.$store.commit(MutationTypes.CLEAR_CURRENT_JOBPOSTING);
   }
 
-  async loadJobPostingWithId(jobPostingId: string): Promise<void> {
+  async loadJobPostingWithSlug(slug: string): Promise<void> {
     this.requestedCurrentJobPosting = true;
-    await this.$store.dispatch(ActionTypes.JOBPOSTING, { id: jobPostingId });
+    await this.$store.dispatch(ActionTypes.JOBPOSTING, { slug });
   }
 }
 </script>

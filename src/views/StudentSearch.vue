@@ -36,6 +36,7 @@
         "
         :matches="matchesForBubbles"
         :avatar="avatar"
+        :jobPostingId="jobPostingId"
         rootType="jobposting"
         resultType="student"
         @clickResult="onClickResult"
@@ -43,6 +44,7 @@
       <SearchResultGrid
         v-if="layout === 'grid' && matchesForGrid.length > 0"
         :matches="matchesForGrid"
+        :jobPostingId="jobPostingId"
         resultType="student"
         color="pink"
       ></SearchResultGrid>
@@ -70,7 +72,8 @@ import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, JobPosting } from "api";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -81,6 +84,11 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class StudentSearch extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Talente suchen",
+    })
+  );
   techBoost = 3;
   softBoost = 3;
   jobPostingId = "";
@@ -152,14 +160,18 @@ export default class StudentSearch extends Vue {
         jobPostingId: this.jobPostingId,
         softBoost: this.softBoost,
         techBoost: this.techBoost,
-        first: 50,
+        first: 25,
         skip: 0,
       })
     );
   }
 
   onClickResult(slug: string): void {
-    this.$router.push({ name: "StudentDetail", params: { slug } });
+    this.$router.push({
+      name: "StudentDetail",
+      params: { slug },
+      query: { jobPostingId: this.jobPostingId },
+    });
   }
 
   onChangeLayout(layout: string): void {

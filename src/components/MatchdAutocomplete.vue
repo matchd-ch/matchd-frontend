@@ -81,7 +81,7 @@ export default class MatchdAutocomplete extends Vue.with(Props) {}
     @apply font-medium;
   }
 
-  & input {
+  & :deep(input) {
     @apply block w-full bg-white rounded-30 px-8 py-4;
     @apply border border-white focus:border-black;
     @apply text-lg placeholder-black placeholder-opacity-100;

@@ -82,7 +82,7 @@ module.exports = {
     extend: {
       minHeight: {
         "145px": "145px",
-        "content-with-fixed-headers":
+        "content-with-fixed-bars":
           "calc(100vh - var(--contentMarginTop) - var(--contentMarginBottom))",
       },
       gridTemplateColumns: {
