@@ -47,7 +47,8 @@
 import MatchdButton from "@/components/MatchdButton.vue";
 import type { ActivationState } from "@/models/ActivationState";
 import { ActionTypes } from "@/store/modules/registration/action-types";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -55,6 +56,12 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class Home extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Kontoaktivierung",
+    })
+  );
+
   get activationLoading(): boolean {
     return this.$store.getters["activationLoading"];
   }

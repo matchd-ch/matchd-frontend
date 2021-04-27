@@ -134,7 +134,8 @@ import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Student, User } from "api";
 import { DateTime } from "luxon";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
@@ -151,6 +152,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   },
 })
 export default class StudentDetail extends Vue {
+  meta = setup(() => useMeta({}));
   showConfirmationModal = false;
   showMatchModal = false;
 
@@ -263,6 +265,9 @@ export default class StudentDetail extends Vue {
   async loadData(slug: string, jobPostingId: string): Promise<void> {
     try {
       await this.$store.dispatch(ActionTypes.STUDENT, { slug, jobPostingId });
+      this.meta.meta.title = this.student.data?.firstName
+        ? `${this.student.data?.firstName} ${this.student.data?.lastName} (${this.student.data?.nickname})`
+        : this.student.data?.nickname;
       this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     } catch (e) {
       this.$router.replace("/404");
