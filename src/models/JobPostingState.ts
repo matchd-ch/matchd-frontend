@@ -4,4 +4,5 @@ export interface JobPostingState {
   success: boolean;
   errors: MatchdApiError | null;
   id: string;
+  slug: string;
 }

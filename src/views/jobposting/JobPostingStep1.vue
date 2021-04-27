@@ -224,6 +224,7 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
+import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import type { Branch, JobPosting as JobPostingType, JobType, User } from "api";
@@ -366,10 +367,12 @@ export default class JobPostingStep1 extends Vue {
       jobPostingStep1InputMapper(this.currentJobPosting?.id, this.form)
     );
     if (this.jobPostingState.success) {
-      if (!Number(this.$route.params?.id)) {
-        await this.$router.replace({ params: { step: "schritt1", id: this.jobPostingState.id } });
+      if (this.$route.params?.slug === ParamStrings.NEW) {
+        await this.$router.replace({
+          params: { step: "schritt1", slug: this.jobPostingState.slug },
+        });
       }
-      this.$router.push({ params: { step: "schritt2", id: this.jobPostingState.id } });
+      this.$router.push({ params: { step: "schritt2", slug: this.jobPostingState.slug } });
     } else if (this.jobPostingState.errors) {
       actions.setErrors(this.jobPostingState.errors);
       if (this.jobPostingState.errors.jobFromDate) {

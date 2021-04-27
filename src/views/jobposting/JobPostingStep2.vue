@@ -278,7 +278,7 @@ export default class JobPostingStep2 extends Vue {
         jobPostingStep2InputMapper(this.currentJobPosting?.id, this.form)
       );
       if (this.jobPostingState.success) {
-        this.$router.push({ params: { step: "schritt3", id: this.currentJobPosting?.id } });
+        this.$router.push({ params: { step: "schritt3", slug: this.jobPostingState?.slug } });
       } else if (this.jobPostingState.errors) {
         actions.setErrors(this.jobPostingState.errors);
       }
