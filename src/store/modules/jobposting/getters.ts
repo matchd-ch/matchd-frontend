@@ -25,6 +25,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       success: state.jobPosting.success,
       errors: state.jobPosting.errors || null,
       id: state.jobPosting.id,
+      slug: state.jobPosting.slug,
     };
   },
   jobPostingId(state: State): string {
