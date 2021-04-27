@@ -44,7 +44,7 @@ export interface Actions {
   ): Promise<void>;
   [ActionTypes.JOBPOSTING](
     { commit }: AugmentedActionContext,
-    payload: { id: string }
+    payload: { slug: string }
   ): Promise<void>;
   [ActionTypes.ADD_EMPLOYEE](
     { commit }: AugmentedActionContext,
@@ -78,7 +78,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data.jobPostingStep3);
   },
-  async [ActionTypes.JOBPOSTING]({ commit }, payload: { id: string }) {
+  async [ActionTypes.JOBPOSTING]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.JOBPOSTING_LOADING);
     const response = await apiClient.query({
       query: jobPostingQuery,

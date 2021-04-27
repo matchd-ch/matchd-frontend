@@ -3,6 +3,7 @@ import { isCompleteProfile } from "@/router/homeGuard";
 import { redirectToCurrentJobPostingStep } from "@/router/jobPostingGuard";
 import { redirectToCurrentOnboardingStep } from "@/router/onboardingGuard";
 import { needsStateResetBeforePasswordReset } from "@/router/passwordResetGuard";
+import { studentsOnlyWithPublishedJobPostingGuard } from "@/router/studentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 
@@ -77,6 +78,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       accessType: ["company"],
     },
+    beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
   },
   {
     path: "/talente/:slug",
@@ -85,6 +87,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       accessType: ["company"],
     },
+    beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
   },
   {
     path: "/firmen/:slug",

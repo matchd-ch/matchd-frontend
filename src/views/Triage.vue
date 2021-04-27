@@ -65,12 +65,13 @@
 <script lang="ts">
 import { ActionTypes } from "@/store/modules/registration/action-types";
 import type { UserRequestInput } from "api";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
 import Logo from "@/assets/logo.svg";
 import RegisterTile from "@/components/RegisterTile.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import RegisterContactForm from "@/components/RegisterContactForm.vue";
 import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -82,6 +83,12 @@ import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
   },
 })
 export default class Home extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Registrierung",
+    })
+  );
+
   get contactFormLoading(): boolean {
     return this.$store.getters["contactFormSending"];
   }

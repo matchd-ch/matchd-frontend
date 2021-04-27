@@ -30,6 +30,12 @@ query {
       street
       profileStep
       state
+      jobPostings {
+        id
+        slug
+        title
+        state
+      }
     }
   }
 }

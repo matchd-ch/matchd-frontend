@@ -11,25 +11,29 @@ export async function redirectToCurrentJobPostingStep(
 ): Promise<void> {
   const store = useStore();
   if (
-    !to.params.id ||
+    !to.params.slug ||
     !to.params.step ||
-    (to.params.id === ParamStrings.NEW && to.params.step !== `${ParamStrings.STEP}1`)
+    (to.params.slug === ParamStrings.NEW && to.params.step !== `${ParamStrings.STEP}1`)
   ) {
     next({
       name: "JobPostingCreate",
-      params: { step: `${ParamStrings.STEP}1`, id: ParamStrings.NEW },
+      params: { step: `${ParamStrings.STEP}1`, slug: ParamStrings.NEW },
     });
-  } else if (Number(to.params.id) && to.params.step) {
-    await store.dispatch(ActionTypes.JOBPOSTING, { id: `${to.params.id}` });
-    const currentStep = store.getters["currentJobPostingStep"];
-    // Prevent user to go to a step which is beyond the state of the job posting
-    if (currentStep < parseStepName(String(to.params.step))) {
-      next({
-        name: "JobPostingCreate",
-        params: { ...to.params, step: `${ParamStrings.STEP}${currentStep}` },
-      });
-    } else {
-      next();
+  } else if (to.params.slug !== ParamStrings.NEW && to.params.step) {
+    try {
+      await store.dispatch(ActionTypes.JOBPOSTING, { slug: String(to.params.slug) });
+      const currentStep = store.getters["currentJobPostingStep"];
+      // Prevent user to go to a step which is beyond the state of the job posting
+      if (currentStep < parseStepName(String(to.params.step))) {
+        next({
+          name: "JobPostingCreate",
+          params: { ...to.params, step: `${ParamStrings.STEP}${currentStep}` },
+        });
+      } else {
+        next();
+      }
+    } catch (e) {
+      next({ name: "Home" });
     }
   } else {
     next();

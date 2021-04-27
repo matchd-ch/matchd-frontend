@@ -101,7 +101,8 @@ import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Company } from "api";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
@@ -115,6 +116,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   },
 })
 export default class CompanyDetail extends Vue {
+  meta = setup(() => useMeta({}));
   currentMedia: Attachment | null = null;
 
   get mainMedia(): Attachment {
@@ -162,6 +164,7 @@ export default class CompanyDetail extends Vue {
   async loadData(slug: string): Promise<void> {
     try {
       await this.$store.dispatch(ActionTypes.COMPANY, { slug });
+      this.meta.meta.title = this.company.data?.name;
     } catch (e) {
       this.$router.replace("/404");
     }

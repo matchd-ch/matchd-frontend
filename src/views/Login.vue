@@ -67,7 +67,8 @@ import type { PasswordResetState } from "@/models/PasswordResetState";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -81,6 +82,12 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class Login extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Login",
+    })
+  );
+
   get loginLoading(): boolean {
     return this.$store.getters["loginLoading"];
   }

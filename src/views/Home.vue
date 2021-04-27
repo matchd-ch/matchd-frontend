@@ -11,14 +11,30 @@
         </h2>
 
         <div class="mb-10">
-          <ul v-if="isCompany" class="list-disc list-inside">
-            <li>
-              <router-link :to="{ name: 'StudentSearch' }">Talente suchen</router-link>
-            </li>
-            <li>
-              <router-link :to="{ name: 'JobPostingCreate' }">Stelle ausschreiben</router-link>
-            </li>
-          </ul>
+          <template v-if="isCompany">
+            <ul class="list-disc list-inside mb-8">
+              <li>
+                <router-link :to="{ name: 'StudentSearch' }">Talente suchen</router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'JobPostingCreate' }">Stelle ausschreiben</router-link>
+              </li>
+            </ul>
+
+            <h3 class="text-heading-sm">Stellen</h3>
+            <ul class="list list-inside list-disc">
+              <li v-for="jobPosting in user.company.jobPostings" :key="jobPosting.id">
+                <router-link
+                  :to="{
+                    name: 'JobPostingCreate',
+                    params: { slug: jobPosting.slug, step: 'schritt1' },
+                  }"
+                  >{{ jobPosting.title }}
+                  {{ jobPosting.state === "DRAFT" ? "(Entwurf)" : "" }}</router-link
+                >
+              </li>
+            </ul>
+          </template>
           <ul v-else-if="isStudent" class="list-disc list-inside">
             <li>
               <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
@@ -44,7 +60,8 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import type { User } from "api";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -54,6 +71,12 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class Home extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Dashboard",
+    })
+  );
+
   get isLogoutLoading(): boolean {
     return this.$store.getters["logoutLoading"];
   }
