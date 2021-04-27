@@ -1,8 +1,8 @@
 @tailwind base;
 
 :root {
-    --contentMarginTop: 0;
-    --contentMarginBottom: 0;
+    --contentMarginTop: 0px;
+    --contentMarginBottom: 0px;
 }
 
 .theme-student {

@@ -1,6 +1,7 @@
-query($slug: String) {
-  student(slug: $slug) {
+query($slug: String!, $jobPostingId: ID!) {
+  student(slug: $slug, jobPostingId: $jobPostingId) {
     id
+    email
     mobile
     slug
     state
@@ -18,6 +19,10 @@ query($slug: String) {
     profileStep
     jobFromDate
     jobToDate
+    matchStatus {
+      initiator
+      confirmed
+    }
     branch {
       name
       id

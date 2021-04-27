@@ -36,6 +36,7 @@
         "
         :matches="matchesForBubbles"
         :avatar="avatar"
+        :jobPostingId="jobPostingId"
         rootType="jobposting"
         resultType="student"
         @clickResult="onClickResult"
@@ -43,6 +44,7 @@
       <SearchResultGrid
         v-if="layout === 'grid' && matchesForGrid.length > 0"
         :matches="matchesForGrid"
+        :jobPostingId="jobPostingId"
         resultType="student"
         color="pink"
       ></SearchResultGrid>
@@ -152,14 +154,18 @@ export default class StudentSearch extends Vue {
         jobPostingId: this.jobPostingId,
         softBoost: this.softBoost,
         techBoost: this.techBoost,
-        first: 50,
+        first: 25,
         skip: 0,
       })
     );
   }
 
   onClickResult(slug: string): void {
-    this.$router.push({ name: "StudentDetail", params: { slug } });
+    this.$router.push({
+      name: "StudentDetail",
+      params: { slug },
+      query: { jobPostingId: this.jobPostingId },
+    });
   }
 
   onChangeLayout(layout: string): void {

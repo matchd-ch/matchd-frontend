@@ -33,6 +33,7 @@ export type Getters = {
   languageLevels(state: State): LanguageLevel[];
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
+  matchLoading(state: State): boolean;
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
   student(
@@ -96,6 +97,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
             main: false,
             score: match.score,
             rawScore: match.rawScore,
+            matchStatus: {
+              ...match.matchStatus,
+            },
           };
         }),
       ],
@@ -117,8 +121,14 @@ export const getters: GetterTree<State, RootState> & Getters = {
         img: match.avatar || "",
         score: match.score,
         rawScore: match.rawScore,
+        matchStatus: {
+          ...match.matchStatus,
+        },
       };
     });
+  },
+  matchLoading(state: State): boolean {
+    return state.match.loading;
   },
   skills(state: State): Skill[] {
     return state.skills.data;

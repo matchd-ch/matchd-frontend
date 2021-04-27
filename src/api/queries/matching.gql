@@ -21,5 +21,9 @@ query(
     slug
     score
     rawScore
+    matchStatus {
+      confirmed
+      initiator
+    }
   }
 }
