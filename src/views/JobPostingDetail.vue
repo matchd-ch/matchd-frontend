@@ -1,10 +1,13 @@
 <template>
-  <div v-if="jobPosting" class="jobPosting-detail text-orange-1 flex flex-col min-h-screen">
+  <div
+    v-if="jobPosting"
+    class="jobPosting-detail text-orange-1 flex flex-col xl:min-h-content-with-fixed-bars mb-fixed-footer"
+  >
     <div class="border-b border-orange-1 p-9">
       <button @click="$router.back()">Zurück zur Übersicht</button>
     </div>
     <div class="border-b border-orange-1 p-9">
-      <h1 class="text-display-lg-fluid">{{ jobPosting.title }}</h1>
+      <h1 class="text-display-lg-fluid break-words">{{ jobPosting.title }}</h1>
     </div>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
@@ -95,16 +98,48 @@
         </p>
       </div>
     </section>
+    <MatchingBar class="fixed bottom-0 right-0 left-0">
+      <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
+        Du hast den Startschuss abgegeben.
+      </template>
+      <template v-else-if="matchType === matchTypeEnum.FullMatch">
+        Gratulation, ihr Matchd euch gegenseitig!
+      </template>
+      <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
+        Match bestätigen
+      </MatchdButton>
+      <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
+    </MatchingBar>
+    <JobPostingMatchModal
+      v-if="showConfirmationModal"
+      :user="user"
+      :jobPosting="jobPosting"
+      :loading="matchLoading"
+      :matchType="matchType"
+      @clickConfirm="onClickMatchConfirm"
+      @clickCancel="onClickCancel"
+    />
+    <JobPostingFullMatchModal
+      v-if="showFullMatchModal"
+      :jobPosting="jobPosting"
+      @clickClose="onClickClose"
+    />
   </div>
 </template>
 
 <script lang="ts">
+import { ProfileType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
+import MatchdToggle from "@/components/MatchdToggle.vue";
+import MatchingBar from "@/components/MatchingBar.vue";
+import JobPostingFullMatchModal from "@/components/modals/JobPostingFullMatchModal.vue";
+import JobPostingMatchModal from "@/components/modals/JobPostingMatchModal.vue";
+import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
+import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { JobPosting } from "api";
-import { DateTime } from "luxon";
+import type { JobPosting, User } from "api";
 import { Options, Vue } from "vue-class-component";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
@@ -113,11 +148,48 @@ Vue.registerHooks(["beforeRouteUpdate"]);
 @Options({
   components: {
     MatchdButton,
+    MatchdToggle,
+    MatchingBar,
+    JobPostingMatchModal,
+    JobPostingFullMatchModal,
   },
 })
 export default class JobPostingDetail extends Vue {
+  showConfirmationModal = false;
+  showFullMatchModal = false;
+
+  get user(): User | null {
+    return this.$store.getters["user"];
+  }
+
+  get matchLoading(): boolean {
+    return this.$store.getters["matchLoading"];
+  }
+
   get jobPosting(): JobPosting | null {
     return this.$store.getters["jobPostingDetail"];
+  }
+
+  get matchTypeEnum(): typeof MatchTypeEnum {
+    return MatchTypeEnum;
+  }
+
+  get matchType(): MatchTypeEnum {
+    if (this.jobPosting?.matchStatus === null) {
+      return MatchTypeEnum.EmptyMatch;
+    } else if (
+      this.jobPosting?.matchStatus?.confirmed === false &&
+      this.jobPosting?.matchStatus?.initiator === ProfileType.Company
+    ) {
+      return MatchTypeEnum.HalfMatch;
+    } else if (
+      this.jobPosting?.matchStatus?.confirmed === false &&
+      this.jobPosting?.matchStatus?.initiator === ProfileType.Student
+    ) {
+      return MatchTypeEnum.HalfOwnMatch;
+    } else {
+      return MatchTypeEnum.FullMatch;
+    }
   }
 
   replaceStack(url: string, stack: string): string {
@@ -125,8 +197,7 @@ export default class JobPostingDetail extends Vue {
   }
 
   formatDate(isoString: string): string {
-    const date = DateTime.fromISO(isoString).setLocale("de-CH");
-    return date.toFormat("LLLL yyyy");
+    return formatDate(isoString, "LLLL yyyy");
   }
 
   nl2br(text: string): string {
@@ -147,15 +218,60 @@ export default class JobPostingDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
+
+      window.addEventListener("resize", this.calculateMargins, true);
+      this.calculateMargins();
     }
+  }
+
+  unmounted(): void {
+    window.removeEventListener("resize", this.calculateMargins, true);
+  }
+
+  calculateMargins(): void {
+    const root = document.documentElement;
+    const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement).offsetHeight;
+    root.style.setProperty("--contentMarginTop", `0px`);
+    root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
   }
 
   async loadData(slug: string): Promise<void> {
     try {
       await this.$store.dispatch(ActionTypes.JOB_POSTING, { slug });
+      this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     } catch (e) {
       this.$router.replace("/404");
     }
+  }
+
+  async mutateMatch(): Promise<void> {
+    if (this.jobPosting?.id) {
+      await this.$store.dispatch(ActionTypes.MATCH_JOB_POSTING, {
+        jobPosting: {
+          id: this.jobPosting.id,
+        },
+      });
+      await this.loadData(String(this.$route.params.slug));
+      this.calculateMargins();
+      this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
+      this.showConfirmationModal = false;
+    }
+  }
+
+  async onClickMatchConfirm(): Promise<void> {
+    await this.mutateMatch();
+  }
+
+  onClickCancel(): void {
+    this.showConfirmationModal = false;
+  }
+
+  onClickClose(): void {
+    this.showFullMatchModal = false;
+  }
+
+  onClickMatch(): void {
+    this.showConfirmationModal = true;
   }
 }
 </script>

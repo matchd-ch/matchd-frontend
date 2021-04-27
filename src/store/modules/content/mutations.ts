@@ -1,3 +1,5 @@
+import { ProfileType } from "@/api/models/types";
+import { State } from "@/store/modules/content/state";
 import type {
   Attachment,
   Benefit,
@@ -10,6 +12,8 @@ import type {
   Language,
   LanguageLevel,
   Match,
+  MatchJobPosting,
+  MatchStudent,
   Skill,
   SoftSkill,
   Student,
@@ -17,7 +21,6 @@ import type {
 } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
-import { State } from "@/store/modules/content/state";
 
 export type Mutations<S = State> = {
   [MutationTypes.BENEFITS_LOADING](state: S): void;
@@ -48,6 +51,15 @@ export type Mutations<S = State> = {
   [MutationTypes.LANGUAGE_LEVELS_LOADED](
     state: S,
     payload: { languageLevels: LanguageLevel[] }
+  ): void;
+  [MutationTypes.MATCH_LOADING](state: S): void;
+  [MutationTypes.MATCH_JOB_POSTING_LOADED](
+    state: S,
+    payload: { id: string; match: MatchJobPosting }
+  ): void;
+  [MutationTypes.MATCH_STUDENT_LOADED](
+    state: S,
+    payload: { id: string; match: MatchStudent }
   ): void;
   [MutationTypes.MATCHES_LOADING](state: S): void;
   [MutationTypes.MATCHES_LOADED](state: S, payload: { matches: Match[] }): void;
@@ -82,6 +94,8 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.COMPANY_LOADING](state: State) {
     state.company.loading = true;
     state.company.data = null;
+    state.company.logo = null;
+    state.company.media = [];
   },
   [MutationTypes.COMPANY_LOADED](
     state: State,
@@ -150,6 +164,37 @@ export const mutations: MutationTree<State> & Mutations = {
     state.languages.loading = false;
     state.languages.levels = payload.languageLevels;
   },
+  [MutationTypes.MATCH_LOADING](state: State) {
+    state.match.loading = true;
+  },
+  [MutationTypes.MATCH_JOB_POSTING_LOADED](
+    state: State,
+    payload: { id: string; match: MatchJobPosting }
+  ) {
+    state.match.loading = false;
+    if (state.jobPosting.data?.id === payload.id) {
+      state.jobPosting.data = {
+        ...state.jobPosting.data,
+        matchStatus: {
+          ...state.jobPosting.data.matchStatus,
+          initiator: ProfileType.Student,
+          confirmed: payload.match.confirmed,
+        },
+      };
+    }
+  },
+  [MutationTypes.MATCH_STUDENT_LOADED](state: State, payload: { id: string; match: MatchStudent }) {
+    state.match.loading = false;
+    if (state.student.data?.id === payload.id) {
+      state.student.data = {
+        ...state.student.data,
+        matchStatus: {
+          initiator: ProfileType.Company,
+          confirmed: payload.match.confirmed,
+        },
+      };
+    }
+  },
   [MutationTypes.MATCHES_LOADING](state: State) {
     state.matches.loading = true;
   },
@@ -173,6 +218,9 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.STUDENT_LOADING](state: State) {
     state.student.loading = true;
+    state.student.data = null;
+    state.student.avatar = null;
+    state.student.certificates = [];
   },
   [MutationTypes.STUDENT_LOADED](
     state: State,
