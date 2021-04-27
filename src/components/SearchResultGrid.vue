@@ -21,26 +21,7 @@
         :to="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
         class="search-result-grid__link"
       >
-        <div class="search-result-grid__image-wrap">
-          <div class="search-result-grid__image-box rounded-full border-2">
-            <img
-              :src="
-                match.img.replace(
-                  '{stack}',
-                  resultType === 'student' ? 'desktop-square' : 'logo-square'
-                )
-              "
-              class="w-full"
-              :alt="`${match.name} Logo`"
-            />
-          </div>
-          <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
-            <div class="search-result-grid__match-status">
-              <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
-              <span v-else class="material-icons">record_voice_over</span>
-            </div>
-          </div>
-        </div>
+        <grid-tile :match="match" :resultType="resultType"></grid-tile>
         <div class="mt-2">
           <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
           <h3 class="text-paragraph-lg">{{ match.name }}</h3>
@@ -51,6 +32,7 @@
 </template>
 
 <script lang="ts">
+import GridTile from "./GridTile.vue";
 import { SearchResult } from "@/models/SearchResult";
 import { Options, prop, Vue } from "vue-class-component";
 import { LocationQueryRaw } from "vue-router";
@@ -63,7 +45,9 @@ class Props {
 }
 
 @Options({
-  components: {},
+  components: {
+    GridTile
+  },
 })
 export default class SearchBoost extends Vue.with(Props) {
   get queryParams(): LocationQueryRaw {
