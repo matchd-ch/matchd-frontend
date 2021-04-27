@@ -4,8 +4,11 @@
       >Beim Speichern ist etwas schief gelaufen.</GenericError
     >
     <p>
-      Hier kannst du dein Profil für alle Matchd-User*innen freischalten und deine Daten sichtbar
-      machen.
+      Dein Profil ist standardmässig anonymisiert. D.h. Unternehmen und Bildungseinrichtungen sehen
+      nur deinen Nickname, ein neutrales Profilbild und was du suchst. Sofern du in deinem Profil
+      Skills erfasst hast, werden auch diese gezeigt, denn Matchd nutzt deine Skills, um dich mit
+      passenden Stellen zu matchen. Du kannst wählen, ob du die Einstellung so beibehalten willst,
+      oder ob du deinen Vor- und Nachnamen sowie dein Profilbild zeigen möchtest.
     </p>
 
     <div class="flex justify-between items-center mt-14">
@@ -30,16 +33,33 @@
 
     <div class="rounded-30 bg-green-5 border border-green-1 text-green-1 py-4 px-8 mb-10 mt-16">
       <template v-if="isAnonymous">
-        <p>Dein Profil ist anonymisiert. Andere Matchd-User*innen sehen nur:</p>
-        <ul class="list-disc list-inside text-lg">
-          <li>deinen Nickname</li>
-          <li>deine aktuelle Schule</li>
-          <li>was du auf Matchd suchst</li>
+        <p>Dein Profil ist anonymisiert. Unternehmen und Bildungseinrichtungen sehen nur:</p>
+        <ul class="list list-disc list-inside text-lg mb-2">
+          <li>deinen Nicknamen</li>
+          <li>ein neutrales Profilbild</li>
+          <li>was du suchst</li>
+          <li>deine technischen Skills</li>
+          <li>deine Sprachskills</li>
         </ul>
-        <p>Erst wenn du dein Profil freigibst, werden deine Daten sichtbar.</p>
+        <p>
+          Die restlichen Daten werden erst freigegeben, wenn du an einer Stelle interessiert bist.
+        </p>
       </template>
       <template v-else>
-        <p>Dein Profil ist öffentlich für alle Firmen und Matchd-User*innen einsehbar.</p>
+        <p>Dein Profil ist öffentlich. Unternehmen und Bildungseinrichtungen sehen:</p>
+        <ul class="list list-disc list-inside text-lg mb-2">
+          <li>deinen Vor- und Nachnamen</li>
+          <li>dein Geburtsmonat und -jahr</li>
+          <li>dein Profilbild</li>
+          <li>deine Online-Projekte</li>
+          <li>deine Hobbies und Interessen</li>
+          <li>was dich sonst noch auszeichnet</li>
+          <li>und alle Daten, welche auch im anonyem Zustand sichtbar sind</li>
+        </ul>
+        <p>
+          Deine E-Mailadressen, Handynummer, Adresse und deine Zertifikate werden erst
+          freigeschaltet, wenn du an einer Stelle interessiert bist.
+        </p>
       </template>
     </div>
 
