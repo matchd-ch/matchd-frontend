@@ -3,61 +3,13 @@
     v-if="user"
     class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
   >
-    <h1 class="text-display-xl-fluid col-start-1 col-span-2 text-primary-1">Dashboard</h1>
-    <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
-      <div>
-        <h2 class="text-heading-md">
-          Hello {{ user.firstName }} {{ user.lastName }} {{ user.type }}
-        </h2>
-
-        <div class="mb-10">
-          <template v-if="isCompany">
-            <ul class="list-disc list-inside mb-8">
-              <li>
-                <router-link :to="{ name: 'StudentSearch' }">Talente suchen</router-link>
-              </li>
-              <li>
-                <router-link :to="{ name: 'JobPostingCreate' }">Stelle ausschreiben</router-link>
-              </li>
-            </ul>
-
-            <h3 class="text-heading-sm">Stellen</h3>
-            <ul class="list list-inside list-disc">
-              <li v-for="jobPosting in user.company.jobPostings" :key="jobPosting.id">
-                <router-link
-                  :to="{
-                    name: 'JobPostingCreate',
-                    params: { slug: jobPosting.slug, step: 'schritt1' },
-                  }"
-                  >{{ jobPosting.title }}
-                  {{ jobPosting.state === "DRAFT" ? "(Entwurf)" : "" }}</router-link
-                >
-              </li>
-            </ul>
-          </template>
-          <ul v-else-if="isStudent" class="list-disc list-inside">
-            <li>
-              <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
-            </li>
-          </ul>
-        </div>
-
-        <MatchdButton
-          variant="outline"
-          @click="onClickLogout"
-          :disabled="isLogoutLoading"
-          :loading="isLogoutLoading"
-          >Logout</MatchdButton
-        >
-      </div>
-    </div>
+    <component :is="dashboardComponent"></component>
   </div>
 </template>
 
 <script lang="ts">
-import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
+import CompanyDashboard from "@/components/dashboard/CompanyDashboard.vue";
+import StudentDashboard from "@/components/dashboard/StudentDashboard.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
@@ -65,12 +17,11 @@ import { useMeta } from "vue-meta";
 
 @Options({
   components: {
-    MatchdButton,
-    MatchdFileUpload,
-    MatchdFileView,
+    CompanyDashboard,
+    StudentDashboard,
   },
 })
-export default class Dashboard extends Vue {
+export default class Home extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Dashboard",
@@ -83,6 +34,11 @@ export default class Dashboard extends Vue {
 
   get isStudent(): boolean {
     return this.$store.getters["isStudent"];
+  }
+
+  get dashboardComponent(): Vue<any, any> {
+    if (this.isStudent) return StudentDashboard;
+    else return CompanyDashboard;
   }
 
   get isCompany(): boolean {
