@@ -12,6 +12,7 @@ import type {
   JobType,
   Language,
   LanguageLevel,
+  Match,
   Skill,
   SoftSkill,
   Student,
@@ -24,7 +25,7 @@ export type Getters = {
   benefits(state: State): Benefit[];
   branches(state: State): Branch[];
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
-  companyMatching(state: State): { data: Company[] };
+  companyMatching(state: State): { data: Match[] };
   culturalFits(state: State): CulturalFit[];
   jobPostingDetail(state: State): JobPosting | null;
   jobPostings(state: State): JobPosting[];
@@ -57,7 +58,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] } {
     return state.company;
   },
-  companyMatching(state: State): { data: Company[] } {
+  companyMatching(state: State): { data: Match[] } {
     return state.companyMatching;
   },
   culturalFits(state: State): CulturalFit[] {

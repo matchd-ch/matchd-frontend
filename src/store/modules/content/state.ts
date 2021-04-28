@@ -40,7 +40,7 @@ export type State = {
     media: Attachment[];
   };
   companyMatching: {
-    data: Company[];
+    data: Match[];
     loading: boolean;
   };
   match: {
