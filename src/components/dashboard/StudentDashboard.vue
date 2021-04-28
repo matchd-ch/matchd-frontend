@@ -13,46 +13,76 @@
     </div>
     <div>
       <div class="avatar">
-        <img :src="user.image" alt="Profil Bild" />
+        <img :src="user?.image" alt="Profil Bild" />
       </div>
       <matchd-button>Profil bearbeiten</matchd-button>
     </div>
   </section>
   <section class="grid-cols-3 grid">
-    <section class="border-green-1">
+    <section>
       <h3 class="text-3xl">Neue Stellen und Projekte</h3>
       <ul>
-        <li>Liip AG, St. Gallen -></li>
-        <li>Liip AG, St. Gallen -></li>
-        <li>Liip AG, St. Gallen -></li>
-        <li>Liip AG, St. Gallen -></li>
-        <li>Liip AG, St. Gallen -></li>
+        <li v-for="posting in dashboard?.jobPostings" :key="posting.id">
+          {{ posting.title }}, {{ posting.company.name }}, {{ posting.company.city }}
+        </li>
       </ul>
       <matchd-button>
         <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
       </matchd-button>
     </section>
-    <section class="border-green-1">
-      <h3 class="text-3xl">Neue Unternehmen und Bildungseinrichtungen</h3>
-      <ul>
-        <li>Firma A</li>
-        <li>Firma B</li>
-      </ul>
-    </section>
-    <section class="border-green-1">
+    <section v-if="dashboard?.requestedMatches?.length">
       <h3 class="text-3xl">Offene Matches</h3>
       <ul>
-        <li>Match 1</li>
-        <li>Match 2</li>
+        <li v-for="match in dashboard?.requestedMatches" :key="match.id">
+          <p>
+            <em>
+              {{ match.jobPosting.company.name }}
+            </em>
+          </p>
+          <p>
+            {{ match.jobPosting.title }}
+          </p>
+        </li>
       </ul>
     </section>
-    <section class="border-green-1">
-      <h3 class="text-3xl">Bestätigt Matches</h3>
+    <section v-if="dashboard?.unconfirmedMatches?.length">
+      <h3 class="text-3xl">Anfragen zum Matching</h3>
+      <p>
+        Dein Matchd-Profil findet Anklang! Es gibt Unternehmen die gerne mit dir in Kontakt treten
+        möchten.
+      </p>
       <ul>
-        <li>Liip AG, St. Gallen -></li>
+        <li v-for="match in dashboard?.unconfirmedMatches" :key="match.jobPosting.id">
+          <router-link
+            :to="{ path: '/stellen/' + match.jobPosting.slug }"
+            class="search-result-grid__link"
+          >
+            <p>
+              {{ match.jobPosting.company.name }}
+            </p>
+            <p>
+              {{ match.jobPosting.title }}
+            </p>
+          </router-link>
+        </li>
       </ul>
     </section>
-    <section class="border-green-1">
+    <section v-if="dashboard?.confirmedMatches?.length">
+      <h3 class="text-3xl">Hier hat's gemachd!</h3>
+      <ul>
+        <li v-for="match in dashboard?.confirmedMatches" :key="match.jobPosting.id">
+          <router-link :to="{ path: '/stellen/' + match.jobPosting.slug }" class="search-result-grid__link">
+            <p>
+              {{ match.jobPosting.company.name }}
+            </p>
+            <p>
+              {{ match.jobPosting.title }}
+            </p>
+          </router-link>
+        </li>
+      </ul>
+    </section>
+    <section>
       <h3 class="text-3xl">Hilfe & Support</h3>
       <MatchdButton
         variant="outline"
@@ -70,8 +100,12 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
-import type { User } from "api";
-import { Options, Vue } from "vue-class-component";
+import type { Dashboard, User } from "api";
+import { Options, prop, Vue } from "vue-class-component";
+
+class Props {
+  dashboard = prop<Dashboard>({ required: true });
+}
 
 @Options({
   components: {
@@ -80,7 +114,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdFileView,
   },
 })
-export default class StudentDashboard extends Vue {
+export default class StudentDashboard extends Vue.with(Props) {
   get isLogoutLoading(): boolean {
     return this.$store.getters["logoutLoading"];
   }
@@ -104,5 +138,4 @@ export default class StudentDashboard extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
