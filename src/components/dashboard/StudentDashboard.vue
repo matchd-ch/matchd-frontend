@@ -1,17 +1,59 @@
 <template>
-  <h1 class="text-display-xl-fluid col-start-1 col-span-2 text-primary-1">Dashboard</h1>
-  <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
+  <section class="flex bg-cover bg-student-gradient-t-b">
     <div>
-      <h2 class="text-heading-md">
-        Hello {{ user.firstName }} {{ user.lastName }} {{ user.type }}
+      <h2>
+        Hallo {{ user.firstName }},<br />
+        schön dass du online bist!
       </h2>
-
-      <div class="mb-10">
-        <li>
-          <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
-        </li>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo suscipit aliquid, quisquam
+        assumenda voluptatem quod ipsam at impedit laborum? Sed sint ut necessitatibus corporis
+        atque molestiae assumenda aliquid nulla neque?
+      </p>
+    </div>
+    <div>
+      <div class="avatar">
+        <img :src="user.image" alt="Profil Bild" />
       </div>
-
+      <matchd-button>Profil bearbeiten</matchd-button>
+    </div>
+  </section>
+  <section class="grid-cols-3 grid">
+    <section class="border-green-1">
+      <h3 class="text-3xl">Neue Stellen und Projekte</h3>
+      <ul>
+        <li>Liip AG, St. Gallen -></li>
+        <li>Liip AG, St. Gallen -></li>
+        <li>Liip AG, St. Gallen -></li>
+        <li>Liip AG, St. Gallen -></li>
+        <li>Liip AG, St. Gallen -></li>
+      </ul>
+      <matchd-button>
+        <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
+      </matchd-button>
+    </section>
+    <section class="border-green-1">
+      <h3 class="text-3xl">Neue Unternehmen und Bildungseinrichtungen</h3>
+      <ul>
+        <li>Firma A</li>
+        <li>Firma B</li>
+      </ul>
+    </section>
+    <section class="border-green-1">
+      <h3 class="text-3xl">Offene Matches</h3>
+      <ul>
+        <li>Match 1</li>
+        <li>Match 2</li>
+      </ul>
+    </section>
+    <section class="border-green-1">
+      <h3 class="text-3xl">Bestätigt Matches</h3>
+      <ul>
+        <li>Liip AG, St. Gallen -></li>
+      </ul>
+    </section>
+    <section class="border-green-1">
+      <h3 class="text-3xl">Hilfe & Support</h3>
       <MatchdButton
         variant="outline"
         @click="onClickLogout"
@@ -19,8 +61,8 @@
         :loading="isLogoutLoading"
         >Logout</MatchdButton
       >
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script lang="ts">
@@ -62,4 +104,5 @@ export default class StudentDashboard extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

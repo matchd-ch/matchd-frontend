@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="user"
-    class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
-  >
+  <div v-if="user" class="login min-h-screen grid">
     <component :is="dashboardComponent"></component>
   </div>
 </template>
