@@ -17,6 +17,12 @@ type Scalars = {
    */
   Date: any;
   /**
+   * The `DateTime` scalar type represents a DateTime
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  DateTime: any;
+  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -225,6 +231,14 @@ type CulturalFitInput = {
   id: Scalars["ID"];
 };
 
+type Dashboard = {
+  __typename?: "Dashboard";
+  jobPostings?: Maybe<Array<JobPosting>>;
+  requestedMatches?: Maybe<Array<MatchInfo>>;
+  unconfirmedMatches?: Maybe<Array<MatchInfo>>;
+  confirmedMatches?: Maybe<Array<MatchInfo>>;
+};
+
 /** An enumeration. */
 enum DateMode {
   DateFrom = "DATE_FROM",
@@ -288,6 +302,8 @@ type JobPosting = {
   formStep: Scalars["Int"];
   state: JobPostingState;
   employee?: Maybe<Employee>;
+  dateCreated: Scalars["DateTime"];
+  datePublished?: Maybe<Scalars["DateTime"]>;
   languages?: Maybe<Array<JobPostingLanguageRelation>>;
   matchStatus?: Maybe<MatchStatus>;
   matchHints?: Maybe<MatchHints>;
@@ -435,6 +451,13 @@ type MatchHints = {
   hasConfirmedMatch: Scalars["Boolean"];
 };
 
+type MatchInfo = {
+  __typename?: "MatchInfo";
+  id: Scalars["ID"];
+  student: Student;
+  jobPosting: JobPosting;
+};
+
 /** Initiate or confirm Matching */
 type MatchJobPosting = {
   __typename?: "MatchJobPosting";
@@ -470,6 +493,7 @@ type MatchStudentInput = {
 enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
+  Company = "COMPANY",
 }
 
 type Mutation = {
@@ -789,6 +813,7 @@ enum ProfileType {
 
 type Query = {
   __typename?: "Query";
+  dashboard?: Maybe<Dashboard>;
   student?: Maybe<Student>;
   matches?: Maybe<Array<Maybe<Match>>>;
   culturalFits?: Maybe<Array<Maybe<CulturalFit>>>;

@@ -1,0 +1,37 @@
+query {
+  dashboard {
+    jobPostings {
+      id
+      title
+      datePublished
+      dateCreated
+    }
+    requestedMatches {
+      jobPosting {
+        id
+        title
+      }
+      student {
+        nickname
+      }
+    }
+    unconfirmedMatches {
+      jobPosting {
+        id
+        title
+      }
+      student {
+        nickname
+      }
+    }
+    confirmedMatches {
+      jobPosting {
+        id
+        title
+      }
+      student {
+        nickname
+      }
+    }
+  }
+}
