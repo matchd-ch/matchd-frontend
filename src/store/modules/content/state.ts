@@ -4,6 +4,7 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  Dashboard,
   JobPosting,
   JobRequirement,
   JobType,
@@ -17,6 +18,10 @@ import type {
 } from "api";
 
 export type State = {
+  dashboard: {
+    loading: boolean;
+    data: Dashboard | null;
+  };
   jobTypes: {
     loading: boolean;
     data: JobType[];
@@ -82,6 +87,10 @@ export type State = {
 };
 
 export const state: State = {
+  dashboard: {
+    loading: false,
+    data: null,
+  },
   jobTypes: {
     loading: false,
     data: [],

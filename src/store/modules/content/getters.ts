@@ -7,6 +7,7 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  Dashboard,
   JobPosting,
   JobRequirement,
   JobType,
@@ -25,6 +26,7 @@ export type Getters = {
   branches(state: State): Branch[];
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
   culturalFits(state: State): CulturalFit[];
+  dashboard(state: State): Dashboard | null;
   jobPostingDetail(state: State): JobPosting | null;
   jobPostings(state: State): JobPosting[];
   jobRequirements(state: State): JobRequirement[];
@@ -58,6 +60,10 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   culturalFits(state: State): CulturalFit[] {
     return state.culturalFits.data;
+  },
+  dashboard(state: State): Dashboard | null {
+    console.log("state", state.dashboard);
+    return state.dashboard.data;
   },
   jobPostingDetail(state: State): JobPosting | null {
     return state.jobPosting.data;

@@ -229,7 +229,6 @@ export type IMatchStudentInput = {
 export enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
-  Company = "COMPANY",
 }
 
 export type IOnlineProjectInput = {

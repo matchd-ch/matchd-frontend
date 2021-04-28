@@ -493,7 +493,6 @@ type MatchStudentInput = {
 enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
-  Company = "COMPANY",
 }
 
 type Mutation = {

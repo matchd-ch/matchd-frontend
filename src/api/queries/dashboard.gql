@@ -5,11 +5,19 @@ query {
       title
       datePublished
       dateCreated
+      company {
+        name
+        city
+      }
     }
     requestedMatches {
       jobPosting {
         id
         title
+        slug
+        company {
+          name
+        }
       }
       student {
         nickname
@@ -19,6 +27,10 @@ query {
       jobPosting {
         id
         title
+        slug
+        company {
+          name
+        }
       }
       student {
         nickname
@@ -28,6 +40,10 @@ query {
       jobPosting {
         id
         title
+        slug
+        company {
+          name
+        }
       }
       student {
         nickname

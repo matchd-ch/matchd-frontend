@@ -6,6 +6,7 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  Dashboard,
   JobPosting,
   JobRequirement,
   JobType,
@@ -34,6 +35,8 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
   [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
+  [MutationTypes.DASHBOARD_LOADING](state: S): void;
+  [MutationTypes.DASHBOARD_LOADED](state: S, payload: { dashboard: Dashboard | null }): void;
   [MutationTypes.JOB_POSTING_LOADING](state: S): void;
   [MutationTypes.JOB_POSTING_LOADED](state: S, payload: { jobPosting: JobPosting }): void;
   [MutationTypes.JOB_POSTINGS_LOADING](state: S): void;
@@ -114,6 +117,14 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.CULTURAL_FITS_LOADED](state: State, payload: { culturalFits: CulturalFit[] }) {
     state.culturalFits.loading = false;
     state.culturalFits.data = payload.culturalFits;
+  },
+  [MutationTypes.DASHBOARD_LOADING](state: State) {
+    state.culturalFits.loading = true;
+  },
+  [MutationTypes.DASHBOARD_LOADED](state: State, payload: { dashboard: Dashboard }) {
+    state.dashboard.loading = false;
+    console.log("mutations", payload);
+    state.dashboard.data = payload.dashboard;
   },
   [MutationTypes.JOB_POSTING_LOADING](state: State) {
     state.jobPosting.loading = true;
