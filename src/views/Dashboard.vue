@@ -9,7 +9,7 @@ import CompanyDashboard from "@/components/dashboard/CompanyDashboard.vue";
 import StudentDashboard from "@/components/dashboard/StudentDashboard.vue";
 import { ActionTypes as ContentActions } from "@/store/modules/content/action-types";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
-import type { Dashboard, User } from "api";
+import type { Attachment, Dashboard, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
@@ -27,17 +27,15 @@ export default class Home extends Vue {
   );
 
   mounted(): void {
-    this.loadData();
+    this.loadData(this.user?.student?.slug || "");
   }
 
-  async loadData(): Promise<void> {
-    await this.$store.dispatch(ContentActions.DASHBOARD);
+  async loadData(slug: string): Promise<void> {
+    await this.$store.dispatch(ContentActions.DASHBOARD, { slug });
   }
 
-  get dashboard(): Dashboard | null {
-    const a = this.$store.getters["dashboard"];
-    console.log("dashboard", a);
-    return a;
+  get dashboard(): { data: Dashboard | null; avatar: Attachment[] | null } {
+    return this.$store.getters["dashboard"];
   }
 
   get isLogoutLoading(): boolean {

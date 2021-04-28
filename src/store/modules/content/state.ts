@@ -21,6 +21,7 @@ export type State = {
   dashboard: {
     loading: boolean;
     data: Dashboard | null;
+    avatar: Attachment[] | null;
   };
   jobTypes: {
     loading: boolean;
@@ -90,6 +91,7 @@ export const state: State = {
   dashboard: {
     loading: false,
     data: null,
+    avatar: null,
   },
   jobTypes: {
     loading: false,

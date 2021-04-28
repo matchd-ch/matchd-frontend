@@ -26,7 +26,7 @@ export type Getters = {
   branches(state: State): Branch[];
   company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
   culturalFits(state: State): CulturalFit[];
-  dashboard(state: State): Dashboard | null;
+  dashboard(state: State): { data: Dashboard | null; avatar: Attachment[] | null };
   jobPostingDetail(state: State): JobPosting | null;
   jobPostings(state: State): JobPosting[];
   jobRequirements(state: State): JobRequirement[];
@@ -61,9 +61,8 @@ export const getters: GetterTree<State, RootState> & Getters = {
   culturalFits(state: State): CulturalFit[] {
     return state.culturalFits.data;
   },
-  dashboard(state: State): Dashboard | null {
-    console.log("state", state.dashboard);
-    return state.dashboard.data;
+  dashboard(state: State): { data: Dashboard | null; avatar: Attachment[] | null } {
+    return state.dashboard;
   },
   jobPostingDetail(state: State): JobPosting | null {
     return state.jobPosting.data;
