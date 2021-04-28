@@ -3,7 +3,7 @@
     v-if="user"
     class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
   >
-    <h1 class="text-display-xl-fluid col-start-1 col-span-2 text-primary-1">Home</h1>
+    <h1 class="text-display-xl-fluid col-start-1 col-span-2 text-primary-1">Dashboard</h1>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
       <div>
         <h2 class="text-heading-md">
@@ -70,7 +70,7 @@ import { useMeta } from "vue-meta";
     MatchdFileView,
   },
 })
-export default class Home extends Vue {
+export default class Dashboard extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Dashboard",

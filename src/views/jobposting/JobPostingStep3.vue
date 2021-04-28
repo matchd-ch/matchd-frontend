@@ -237,7 +237,7 @@ export default class JobPostingStep3 extends Vue {
         jobPostingStep3InputMapper(this.currentJobPosting?.id, this.form)
       );
       if (this.jobPostingState.success) {
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: "Dashboard" });
       }
     }
   }
