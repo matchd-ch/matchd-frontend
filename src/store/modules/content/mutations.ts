@@ -33,7 +33,7 @@ export type Mutations<S = State> = {
     payload: { company: Company; logo: Attachment[]; media: Attachment[] }
   ): void;
   [MutationTypes.COMPANY_MATCHING_LOADING](state: S): void;
-  [MutationTypes.COMPANY_MATCHING_LOADED](state: S, payload: { matches: Company[] }): void;
+  [MutationTypes.COMPANY_MATCHING_LOADED](state: S, payload: { matches: Match[] }): void;
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
   [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
   [MutationTypes.JOB_POSTING_LOADING](state: S): void;
@@ -114,7 +114,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state.companyMatching.loading = true;
     state.companyMatching.data = [];
   },
-  [MutationTypes.COMPANY_MATCHING_LOADED](state: State, payload: { matches: Company[] }) {
+  [MutationTypes.COMPANY_MATCHING_LOADED](state: State, payload: { matches: Match[] }) {
     state.companyMatching.loading = false;
     state.companyMatching.data = payload.matches;
   },
