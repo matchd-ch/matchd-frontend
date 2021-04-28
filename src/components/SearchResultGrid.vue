@@ -18,12 +18,28 @@
       }"
     >
       <router-link
-        :to="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
+        :to="{
+          name: toRouteName,
+          params: { slug: match.id },
+          query: queryParams,
+        }"
         class="search-result-grid__link"
       >
-        <grid-tile :match="match" :resultType="resultType"></grid-tile>
+        <grid-tile
+          :match="match"
+          :resultType="resultType"
+          :imgSrc="
+            match.img.replace(
+              '{stack}',
+              resultType === 'student' ? 'desktop-square' : 'logo-square'
+            )
+          "
+          :imgAlt="`${match.name} Logo`"
+        ></grid-tile>
         <div class="mt-2">
-          <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
+          <h2 class="text-paragraph-lg font-medium">
+            {{ match.jobPostingTitle }}
+          </h2>
           <h3 class="text-paragraph-lg">{{ match.name }}</h3>
         </div>
       </router-link>
@@ -46,7 +62,7 @@ class Props {
 
 @Options({
   components: {
-    GridTile
+    GridTile,
   },
 })
 export default class SearchBoost extends Vue.with(Props) {
