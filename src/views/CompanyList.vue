@@ -1,26 +1,59 @@
 <template>
   <div>
-    <h1>Firmen</h1>
-    <ul>
-      <li v-for="company in companyMatching.data" :key="company.id">{{ company.id }}</li>
+    <ul
+      class="search-result-grid--company search-result-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-px"
+    >
+      <li
+        v-for="match in companyMatching.data"
+        :key="match.id"
+        class="search-result-grid__item search-result-grid__item--pink"
+      >
+        <router-link
+          :to="{
+            path: `/firmen/${match.slug}`,
+            params: { slug: match.id },
+          }"
+          class="search-result-grid__link"
+        >
+          <grid-tile
+            match="match"
+            resultType="company"
+            :imgSrc="replaceStack(match.avatar, match.slug)"
+          ></grid-tile>
+          <div class="mt-2">
+            <h3 class="text-paragraph-lg">{{ match.name }}</h3>
+          </div>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { Company } from "api";
-import { Vue } from "vue-class-component";
+import GridTile from "@/components/GridTile.vue";
+import type { Match } from "api";
+import { Vue, Options } from "vue-class-component";
+import { replaceStack } from "@/helpers/replaceStack";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
+@Options({
+  components: {
+    GridTile,
+  },
+})
 export default class CompanyList extends Vue {
   async mounted(): Promise<void> {
     await this.loadData();
   }
 
-  get companyMatching(): { data: Company[] } {
+  get companyMatching(): { data: Match[] } {
     return this.$store.getters["companyMatching"];
+  }
+
+  replaceStack(url: string, stack: string): string {
+    return replaceStack(url, stack);
   }
 
   async loadData(): Promise<void> {
@@ -33,4 +66,124 @@ export default class CompanyList extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style type="postcss" scoped>
+@block search-result-grid {
+  @modifier jobposting {
+    & .search-result-grid__link {
+      & .search-result-grid__image-box {
+        @apply border-orange-1;
+      }
+    }
+
+    & .search-result-grid__match-status {
+      @apply bg-orange-1;
+    }
+  }
+
+  @modifier student {
+    & .search-result-grid__link {
+      & .search-result-grid__image-box {
+        @apply border-green-1;
+      }
+    }
+
+    & .search-result-grid__match-status {
+      @apply bg-green-1;
+    }
+  }
+
+  @modifier company {
+    & .search-result-grid__link {
+      & .search-result-grid__image-box {
+        @apply border-pink-1;
+      }
+
+      & .search-result-grid__match-status {
+        @apply bg-pink-1;
+      }
+    }
+  }
+
+  @element item {
+    @apply flex items-center text-center;
+
+    &::before {
+      content: "";
+      @apply inline-block align-top pb-full w-0;
+    }
+
+    @modifier orange {
+      @apply shadow-orange text-orange-1;
+
+      & .search-result-grid__link:hover {
+        @apply bg-orange-1;
+      }
+    }
+
+    @modifier green {
+      @apply shadow-green text-green-1;
+
+      & .search-result-grid__link:hover {
+        @apply bg-green-1;
+      }
+    }
+
+    @modifier pink {
+      @apply shadow-pink text-pink-1;
+
+      & .search-result-grid__link:hover {
+        @apply bg-pink-1;
+      }
+    }
+  }
+
+  @element image-wrap {
+    @apply relative;
+  }
+
+  @element image-box {
+    @apply bg-white overflow-hidden;
+    @apply relative;
+
+    & img {
+      @apply absolute top-1/2;
+      transform: translateY(-50%);
+    }
+
+    &::before {
+      content: "";
+      @apply inline-block align-top pb-full w-0;
+    }
+  }
+
+  @element match-status-helper {
+    @apply absolute top-0 right-0 bottom-0 left-0;
+    @apply rounded-full;
+    @apply origin-center transform rotate-45;
+  }
+
+  @element match-status {
+    @apply absolute right-0 top-1/2;
+    @apply flex items-center justify-center;
+    @apply rounded-full p-2;
+    @apply text-white;
+    @apply transform translate-x-1/2 -translate-y-1/2 -rotate-45;
+  }
+
+  @element link {
+    @apply block min-w-full min-h-full p-8 pb-4;
+
+    &:visited {
+      @apply text-grey-2;
+    }
+
+    &:hover {
+      @apply text-white transition-colors;
+
+      & .search-result-grid__image-box {
+        @apply border-white;
+      }
+    }
+  }
+}
+</style>
