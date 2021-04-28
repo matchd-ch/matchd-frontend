@@ -1,39 +1,33 @@
 <template>
-  <section class="flex bg-cover bg-student-gradient-t-b">
-    <div>
-      <h2>
-        Hallo {{ user.firstName }},<br />
-        schön dass du online bist!
-        </h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo suscipit aliquid, quisquam
-        assumenda voluptatem quod ipsam at impedit laborum? Sed sint ut necessitatibus corporis
-        atque molestiae assumenda aliquid nulla neque?
-      </p>
+  <div
+    class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars mb-fixed-footer"
+  >
+    <div
+      class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
+    >
+      <div class="flex justify-center mt-9">
+        <img class="avatar rounded-full object-cover" :src="avatarSrc" />
       </div>
-    <div>
-      <div class="avatar">
-        <img :src="user?.image" alt="Profil Bild" />
+      <div class="xl:flex mt-10 items-start">
+        <h2 class="flex-1 text-center mb-8 xl:mb-0">
+          Hallo {{ user.firstName }}, schön dass du da bist!
+        </h2>
+      </div>
     </div>
-      <matchd-button>Profil bearbeiten</matchd-button>
-    </div>
-  </section>
-  <section class="grid-cols-3 grid">
-    <section>
-      <h3 class="text-3xl">Neue Stellen und Projekte</h3>
+    <div class="text-green-1 flex flex-col min-h-full">
+      <profile-section v-if="dashboard?.data.jobPostings?.length" title="Neue Stellen und Projekte">
         <ul>
-        <li v-for="posting in dashboard?.jobPostings" :key="posting.id">
+          <li v-for="posting in dashboard?.data.jobPostings" :key="posting.id">
             {{ posting.title }}, {{ posting.company.name }}, {{ posting.company.city }}
           </li>
         </ul>
         <matchd-button>
           <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
         </matchd-button>
-    </section>
-    <section v-if="dashboard?.requestedMatches?.length">
-      <h3 class="text-3xl">Offene Matches</h3>
+      </profile-section>
+      <profile-section v-if="dashboard?.data.requestedMatches?.length" title="Offene Matches">
         <ul>
-        <li v-for="match in dashboard?.requestedMatches" :key="match.id">
+          <li v-for="match in dashboard?.data.requestedMatches" :key="match.id">
             <p>
               <em>
                 {{ match.jobPosting.company.name }}
@@ -44,15 +38,14 @@
             </p>
           </li>
         </ul>
-    </section>
-    <section v-if="dashboard?.unconfirmedMatches?.length">
-      <h3 class="text-3xl">Anfragen zum Matching</h3>
+      </profile-section>
+      <profile-section v-if="dashboard?.data.unconfirmedMatches?.length" title="Anfragen zum Matching">
         <p>
           Dein Matchd-Profil findet Anklang! Es gibt Unternehmen die gerne mit dir in Kontakt treten
           möchten.
         </p>
         <ul>
-        <li v-for="match in dashboard?.unconfirmedMatches" :key="match.jobPosting.id">
+          <li v-for="match in dashboard?.data.unconfirmedMatches" :key="match.jobPosting.id">
             <router-link
               :to="{ path: '/stellen/' + match.jobPosting.slug }"
               class="search-result-grid__link"
@@ -66,12 +59,14 @@
             </router-link>
           </li>
         </ul>
-    </section>
-    <section v-if="dashboard?.confirmedMatches?.length">
-      <h3 class="text-3xl">Hier hat's gemachd!</h3>
+      </profile-section>
+      <profile-section v-if="dashboard?.data.confirmedMatches?.length" title="Hier hat's gemachd!">
         <ul>
-        <li v-for="match in dashboard?.confirmedMatches" :key="match.jobPosting.id">
-          <router-link :to="{ path: '/stellen/' + match.jobPosting.slug }" class="search-result-grid__link">
+          <li v-for="match in dashboard?.data.confirmedMatches" :key="match.jobPosting.id">
+            <router-link
+              :to="{ path: '/stellen/' + match.jobPosting.slug }"
+              class="search-result-grid__link"
+            >
               <p>
                 {{ match.jobPosting.company.name }}
               </p>
@@ -81,9 +76,8 @@
             </router-link>
           </li>
         </ul>
-    </section>
-    <section>
-      <h3 class="text-3xl">Hilfe & Support</h3>
+      </profile-section>
+      <profile-section title="Hilfe &amp; Support">
         <MatchdButton
           variant="outline"
           @click="onClickLogout"
@@ -91,8 +85,9 @@
           :loading="isLogoutLoading"
           >Logout</MatchdButton
         >
-    </section>
-  </section>
+      </profile-section>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
