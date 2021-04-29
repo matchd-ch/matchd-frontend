@@ -70,6 +70,11 @@ query($slug: String!, $jobPostingId: ID!) {
     url
     mimeType
   }
+  avatarFallback: attachments(key: STUDENT_AVATAR_FALLBACK, slug: $slug) {
+    id
+    url
+    mimeType
+  }
   certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug) {
     id
     url
