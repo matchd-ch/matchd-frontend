@@ -5,7 +5,7 @@
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
-      <div class="flex justify-center m-20">
+      <div class="flex justify-center m-5 lg:m-20 lg:w-86 lg:h-86">
         <img class="avatar rounded-full object-cover" :src="avatarSrc" />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
@@ -170,8 +170,8 @@ export default class StudentDashboard extends Vue.with(Props) {
 
 <style type="postcss" scoped>
 .avatar {
-  height: 25rem;
-  width: 25rem;
+  height: 15rem;
+  width: 15rem;
 }
 .link-list__item {
   margin-bottom: 1rem;
