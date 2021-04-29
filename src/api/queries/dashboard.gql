@@ -5,6 +5,7 @@ query($slug: String!) {
       title
       datePublished
       dateCreated
+      slug
       company {
         name
         city

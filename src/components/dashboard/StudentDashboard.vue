@@ -18,41 +18,63 @@
       </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
-      <profile-section v-if="dashboard?.data.jobPostings?.length" title="Neue Stellen und Projekte">
+      <profile-section
+        v-if="dashboard?.data?.jobPostings?.length"
+        title="Neue Stellen und Projekte"
+      >
         <ul>
-          <li v-for="posting in dashboard?.data.jobPostings" :key="posting.id">
-            {{ posting.title }}, {{ posting.company.name }}, {{ posting.company.city }}
+          <li
+            v-for="posting in dashboard?.data?.jobPostings"
+            :key="posting.id"
+            class="link-list__item"
+          >
+            <router-link :to="{ path: '/stellen/' + posting.slug }">
+              <p>{{ posting.company.name }}, {{ posting.company.city }}</p>
+              <ArrowFront class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /><br />
+              <p>
+                {{ posting.title }}
+              </p>
+            </router-link>
           </li>
         </ul>
-        <matchd-button>
+        <matchd-button class="w-full lg:w-1/2">
           <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
         </matchd-button>
       </profile-section>
-      <profile-section v-if="dashboard?.data.requestedMatches?.length" title="Offene Matches">
+      <profile-section v-if="dashboard?.data?.requestedMatches?.length" title="Offene Matches">
         <ul>
-          <li v-for="match in dashboard?.data.requestedMatches" :key="match.id">
-            <p>
-              <em>
+          <li
+            v-for="match in dashboard?.data?.requestedMatches"
+            :key="match.id"
+            class="link-list__item"
+          >
+            <router-link :to="{ path: '/stellen/' + match.jobPosting.slug }">
+              <p>
                 {{ match.jobPosting.company.name }}
-              </em>
-            </p>
-            <p>
-              {{ match.jobPosting.title }}
-            </p>
+                <ArrowFront class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+              </p>
+              <p>
+                {{ match.jobPosting.title }}
+              </p>
+            </router-link>
           </li>
         </ul>
       </profile-section>
-      <profile-section v-if="dashboard?.data.unconfirmedMatches?.length" title="Anfragen zum Matching">
+      <profile-section
+        v-if="dashboard?.data?.unconfirmedMatches?.length"
+        title="Anfragen zum Matching"
+      >
         <p>
           Dein Matchd-Profil findet Anklang! Es gibt Unternehmen die gerne mit dir in Kontakt treten
           möchten.
         </p>
         <ul>
-          <li v-for="match in dashboard?.data.unconfirmedMatches" :key="match.jobPosting.id">
-            <router-link
-              :to="{ path: '/stellen/' + match.jobPosting.slug }"
-              class="search-result-grid__link"
-            >
+          <li
+            v-for="match in dashboard?.data?.unconfirmedMatches"
+            :key="match.jobPosting.id"
+            class="link-list__item"
+          >
+            <router-link :to="{ path: '/stellen/' + match.jobPosting.slug }">
               <p>
                 {{ match.jobPosting.company.name }}
               </p>
@@ -63,13 +85,14 @@
           </li>
         </ul>
       </profile-section>
-      <profile-section v-if="dashboard?.data.confirmedMatches?.length" title="Hier hat's gemachd!">
+      <profile-section v-if="dashboard?.data?.confirmedMatches?.length" title="Hier hat's gemachd!">
         <ul>
-          <li v-for="match in dashboard?.data.confirmedMatches" :key="match.jobPosting.id">
-            <router-link
-              :to="{ path: '/stellen/' + match.jobPosting.slug }"
-              class="search-result-grid__link"
-            >
+          <li
+            v-for="match in dashboard?.data?.confirmedMatches"
+            :key="match.jobPosting.id"
+            class="link-list__item"
+          >
+            <router-link :to="{ path: '/stellen/' + match.jobPosting.slug }">
               <p>
                 {{ match.jobPosting.company.name }}
               </p>
@@ -98,6 +121,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import ArrowFront from "@/assets/icons/arrow-front.svg";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
@@ -112,6 +136,7 @@ class Props {
     MatchdFileUpload,
     MatchdFileView,
     ProfileSection,
+    ArrowFront,
   },
 })
 export default class StudentDashboard extends Vue.with(Props) {
@@ -142,9 +167,15 @@ export default class StudentDashboard extends Vue.with(Props) {
 }
 </script>
 
-<style scoped>
+<style type="postcss" scoped>
 .avatar {
-  height: 15rem;
-  width: 15rem;
+  height: 25rem;
+  width: 25rem;
+}
+.link-list__item {
+  margin-bottom: 1rem;
+  & p:first-child {
+    display: inline-block;
+  }
 }
 </style>
