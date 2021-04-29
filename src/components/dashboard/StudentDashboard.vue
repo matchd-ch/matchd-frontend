@@ -5,13 +5,16 @@
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
-      <div class="flex justify-center mt-9">
+      <div class="flex justify-center m-20">
         <img class="avatar rounded-full object-cover" :src="avatarSrc" />
       </div>
-      <div class="xl:flex mt-10 items-start">
-        <h2 class="flex-1 text-center mb-8 xl:mb-0">
-          Hallo {{ user.firstName }}, schön dass du da bist!
-        </h2>
+      <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
+        <h2 class="flex-1 mb-8 xl:mb-0">Hallo {{ user.firstName }}, schön dass du da bist!</h2>
+        <p>
+          Hier zeigen wir dir deine Matching-Anfragen und die neuesten Stellenausschreibungen. Alle
+          fürs Matching nötigen Informationen schicken wir dir auch per E-Mail. So verpasst du
+          bestimmt kein Match.
+        </p>
       </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
