@@ -297,8 +297,8 @@ type LanguageLevel = {
 
 type MatchStatus = {
   __typename?: "MatchStatus";
-  confirmed?: Maybe<Scalars["Boolean"]>;
-  initiator?: Maybe<ProfileType>;
+  confirmed: Scalars["Boolean"];
+  initiator: ProfileType;
 };
 
 type MatchHints = {
