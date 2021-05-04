@@ -7,15 +7,55 @@ query {
     email
     type
     student {
+      id
+      city
+      zip
+      street
+      email
+      mobile
+      dateOfBirth
+      jobFromDate
+      jobToDate
+      distinction
+      fieldOfStudy
+      graduation
       profileStep
+      nickname
       state
       branch {
+        id
+        name
+      }
+      culturalFits {
+        id
+      }
+      languages {
+        language {
+          id
+          name
+        }
+        languageLevel {
+          id
+          level
+        }
+      }
+      onlineProjects {
+        id
+        url
+      }
+      hobbies {
         id
         name
       }
       jobType {
         id
         name
+      }
+      skills {
+        id
+      }
+      softSkills {
+        id
       }
     }
     employee {

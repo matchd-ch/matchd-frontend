@@ -39,6 +39,36 @@
             <li>
               <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
             </li>
+            <li>
+              <router-link :to="{ name: 'Profile', params: { step: 'schritt1' } }"
+                >Profil bearbeiten (Schritt 1)</router-link
+              >
+            </li>
+            <li>
+              <router-link :to="{ name: 'Profile', params: { step: 'schritt2' } }"
+                >Profil bearbeiten (Schritt 2)</router-link
+              >
+            </li>
+            <li>
+              <router-link :to="{ name: 'Profile', params: { step: 'schritt3' } }"
+                >Profil bearbeiten (Schritt 3)</router-link
+              >
+            </li>
+            <li>
+              <router-link :to="{ name: 'Profile', params: { step: 'schritt4' } }"
+                >Profil bearbeiten (Schritt 4)</router-link
+              >
+            </li>
+            <li>
+              <router-link :to="{ name: 'Profile', params: { step: 'schritt5' } }"
+                >Profil bearbeiten (Schritt 5)</router-link
+              >
+            </li>
+            <li>
+              <router-link :to="{ name: 'Profile', params: { step: 'schritt6' } }"
+                >Profil bearbeiten (Schritt 6)</router-link
+              >
+            </li>
           </ul>
         </div>
 
