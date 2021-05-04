@@ -719,7 +719,7 @@ type MatchStudent = {
   __typename?: "MatchStudent";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  confirmed?: Maybe<Scalars["Boolean"]>;
+  confirmed: Scalars["Boolean"];
 };
 
 type MatchStudentInput = {
@@ -736,7 +736,7 @@ type MatchJobPosting = {
   __typename?: "MatchJobPosting";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  confirmed?: Maybe<Scalars["Boolean"]>;
+  confirmed: Scalars["Boolean"];
 };
 
 type MatchJobPostingInput = {
