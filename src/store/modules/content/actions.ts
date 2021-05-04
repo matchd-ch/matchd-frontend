@@ -114,6 +114,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.COMPANY_LOADED, {
       company: response.data.company,
       logo: response.data.logo,
+      logoFallback: response.data.logoFallback,
       media: response.data.media,
     });
   },
@@ -279,6 +280,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.STUDENT_LOADED, {
       student: response.data.student,
       avatar: response.data.avatar,
+      avatarFallback: response.data.avatarFallback,
       certificates: response.data.certificates,
     });
   },

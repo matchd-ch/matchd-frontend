@@ -114,7 +114,9 @@ export default class StudentSearch extends Vue {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatar,
-      })[0] || undefined
+      })[0] || this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.CompanyAvatarFallback,
+      })[0] ||undefined
     );
   }
 
@@ -136,6 +138,9 @@ export default class StudentSearch extends Vue {
       this.searchStudents(),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.CompanyAvatar,
+      }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.CompanyAvatarFallback,
       }),
     ]);
   }
