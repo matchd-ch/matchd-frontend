@@ -3,13 +3,11 @@
     <template v-slot:title="{ content }">{{ content ? `${content} - MATCHD` : `MATCHD` }}</template>
   </metainfo>
 
-  <div
-    :class="{
+  <div :class="{
       'theme-student': isStudent,
       'theme-company': isCompany,
       'theme-university': isUniversity,
-    }"
-  >
+    }">
     <router-view />
   </div>
 </template>
