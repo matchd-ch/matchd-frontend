@@ -1,5 +1,22 @@
 <template>
-  <ProfileNavigation :type="isStudent ? 'student' : 'company'" />
+  <ProfileNavigation v-if="isStudent">
+    <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }"
+      >Persönliche Daten</ProfileNavigationItem
+    >
+    <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }"
+      >Was ich suche</ProfileNavigationItem
+    >
+    <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">So bin ich</ProfileNavigationItem>
+    <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }"
+      >Das habe ich drauf</ProfileNavigationItem
+    >
+    <ProfileNavigationItem :to="{ params: { step: 'schritt5' } }"
+      >Nickname & Foto</ProfileNavigationItem
+    >
+    <ProfileNavigationItem :to="{ params: { step: 'schritt6' } }"
+      >Profilstatus</ProfileNavigationItem
+    >
+  </ProfileNavigation>
   <div class="profil min-h-screen text-primary-1">
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
@@ -16,6 +33,7 @@
 
 <script lang="ts">
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
+import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
 import { MutationTypes } from "@/store/modules/profile/mutation-types";
 import {
@@ -64,6 +82,7 @@ Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
     UniversityStep3,
     UniversityStep4,
     ProfileNavigation,
+    ProfileNavigationItem,
   },
 })
 export default class Profile extends Vue {
