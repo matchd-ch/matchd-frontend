@@ -15,6 +15,13 @@
           fürs Matching nötigen Informationen schicken wir dir auch per E-Mail. So verpasst du
           bestimmt kein Match.
         </p>
+        <MatchdButton
+          class="mt-4"
+          variant="outline"
+          @click="onClickLogout"
+          :disabled="isLogoutLoading"
+          :loading="isLogoutLoading"
+        >Logout</MatchdButton>
       </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
@@ -24,39 +31,28 @@
       >
         <ul>
           <li
-            v-for="posting in dashboard?.data?.jobPostings"
-            :key="posting.id"
-            class="link-list__item"
+            v-for="jobPosting in dashboard?.data?.jobPostings"
+            :key="jobPosting.id"
+            class="link-list__item mb-4"
           >
-            <router-link :to="{ path: '/stellen/' + posting.slug }">
-              <p>{{ posting.company.name }}, {{ posting.company.city }}</p>
-              <ArrowFront class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /><br />
-              <p>
-                {{ posting.title }}
-              </p>
-            </router-link>
+            <matchd-dashboard-link :jobPosting="jobPosting"></matchd-dashboard-link>
           </li>
         </ul>
-        <matchd-button class="w-full lg:w-1/2">
-          <router-link :to="{ name: 'JobPostingSearch' }">Stelle suchen</router-link>
+        <matchd-button class="w-full mt-4">
+          <router-link :to="{ name: 'JobPostingSearch' }">Stelle finden</router-link>
         </matchd-button>
       </profile-section>
-      <profile-section v-if="dashboard?.data?.requestedMatches?.length" title="Offene Matches">
+      <profile-section v-if="dashboard?.data?.requestedMatches?.length" title="Deine offenen Matches">
+        <p>
+          Sobald deine Matching-Anfrage bestätigt wurde, kanns mit dem Kennenlernen weitergehen.
+        </p>
         <ul>
           <li
             v-for="match in dashboard?.data?.requestedMatches"
             :key="match.id"
-            class="link-list__item"
+            class="link-list__item mt-4"
           >
-            <router-link :to="{ path: '/stellen/' + match.jobPosting.slug }">
-              <p>
-                {{ match.jobPosting.company.name }}
-                <ArrowFront class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
-              </p>
-              <p>
-                {{ match.jobPosting.title }}
-              </p>
-            </router-link>
+            <matchd-dashboard-link :jobPosting="match.jobPosting"></matchd-dashboard-link>
           </li>
         </ul>
       </profile-section>
@@ -72,46 +68,22 @@
           <li
             v-for="match in dashboard?.data?.unconfirmedMatches"
             :key="match.jobPosting.id"
-            class="link-list__item"
+            class="link-list__item mt-4"
           >
-            <router-link :to="{ path: '/stellen/' + match.jobPosting.slug }">
-              <p>
-                {{ match.jobPosting.company.name }}
-              </p>
-              <p>
-                {{ match.jobPosting.title }}
-              </p>
-            </router-link>
+            <matchd-dashboard-link :jobPosting="match.jobPosting"></matchd-dashboard-link>
           </li>
         </ul>
       </profile-section>
-      <profile-section v-if="dashboard?.data?.confirmedMatches?.length" title="Hier hat's gemachd!">
+      <profile-section v-if="dashboard?.data?.confirmedMatches?.length" title="Hier hat's gematchd!">
         <ul>
           <li
             v-for="match in dashboard?.data?.confirmedMatches"
             :key="match.jobPosting.id"
-            class="link-list__item"
+            class="link-list__item mb-4"
           >
-            <router-link :to="{ path: '/stellen/' + match.jobPosting.slug }">
-              <p>
-                {{ match.jobPosting.company.name }}
-                <ArrowFront class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /><br />
-              </p>
-              <p>
-                {{ match.jobPosting.title }}
-              </p>
-            </router-link>
+            <matchd-dashboard-link :jobPosting="match.jobPosting"></matchd-dashboard-link>
           </li>
         </ul>
-      </profile-section>
-      <profile-section title="Hilfe &amp; Support">
-        <MatchdButton
-          variant="outline"
-          @click="onClickLogout"
-          :disabled="isLogoutLoading"
-          :loading="isLogoutLoading"
-          >Logout</MatchdButton
-        >
       </profile-section>
     </div>
   </div>
@@ -126,6 +98,7 @@ import ArrowFront from "@/assets/icons/arrow-front.svg";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
+import MatchdDashboardLink from '@/components/MatchdDashboardLink.vue';
 
 class Props {
   dashboard = prop<{ data: Dashboard; avatar: Attachment[] }>({ required: true });
@@ -138,6 +111,7 @@ class Props {
     MatchdFileView,
     ProfileSection,
     ArrowFront,
+    MatchdDashboardLink
   },
 })
 export default class StudentDashboard extends Vue.with(Props) {
@@ -158,7 +132,7 @@ export default class StudentDashboard extends Vue.with(Props) {
   }
 
   get avatarSrc(): string {
-    return this.dashboard?.avatar?.[0].url;
+    return this.dashboard?.avatar?.[0].url || "";
   }
 
   async onClickLogout(): Promise<void> {
