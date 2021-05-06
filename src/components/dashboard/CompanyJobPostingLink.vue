@@ -1,5 +1,10 @@
 <template>
-  <router-link :to="{ path: '/stellen/' + jobPosting.slug }"> <!-- TODO job posting edit -->
+  <router-link
+    :to="{
+                    name: 'JobPostingCreate',
+                    params: { slug: jobPosting.slug, step: 'schritt1' },
+                  }"
+  >
     <p class="font-bold">
       {{ jobPosting.title }} {{ jobPosting.state === 'PUBLIC' ? "" : " (Entwurf)"}}
       <ArrowFront class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />

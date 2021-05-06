@@ -42,9 +42,13 @@
           <router-link :to="{ name: 'JobPostingSearch' }">Stelle finden</router-link>
         </matchd-button>
       </profile-section>
-      <profile-section v-if="dashboard?.data?.requestedMatches?.length" title="Deine offenen Matches">
-        <p>
+      <profile-section
+        title="Deine offenen Matches">
+        <p v-if="dashboard?.data?.requestedMatches?.length > 0">
           Sobald deine Matching-Anfrage bestätigt wurde, kanns mit dem Kennenlernen weitergehen.
+        </p>
+        <p v-if="dashboard?.data?.requestedMatches?.length === 0">
+          Im Moment hast du keine offenen Matches. Sobald du ein Match auslöst, wirst du das hier sehen.
         </p>
         <ul>
           <li
@@ -57,12 +61,14 @@
         </ul>
       </profile-section>
       <profile-section
-        v-if="dashboard?.data?.unconfirmedMatches?.length"
         title="Anfragen zum Matching"
       >
-        <p>
+        <p v-if="dashboard?.data?.unconfirmedMatches?.length > 0">
           Dein Matchd-Profil findet Anklang! Es gibt Unternehmen die gerne mit dir in Kontakt treten
           möchten.
+        </p>
+        <p v-if="dashboard?.data?.unconfirmedMatches?.length === 0">
+          Im Moment hast du keine offenen Anfragen. Sobald ein Unternehmen ein Match auslöst, wirst du das hier sehen.
         </p>
         <ul>
           <li
@@ -74,14 +80,16 @@
           </li>
         </ul>
       </profile-section>
-      <profile-section v-if="dashboard?.data?.confirmedMatches?.length" title="Hier hat's gematchd!">
+      <profile-section
+        v-if="dashboard?.data?.confirmedMatches?.length > 0"
+        title="Hier hat's gematchd!">
         <ul>
           <li
             v-for="match in dashboard?.data?.confirmedMatches"
             :key="match.jobPosting.id"
             class="link-list__item mb-4"
           >
-            <job-posting-link :jobPosting="match.jobPosting"></job-posting-link>
+            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
           </li>
         </ul>
       </profile-section>
