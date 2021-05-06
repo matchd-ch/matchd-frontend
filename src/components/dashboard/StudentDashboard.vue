@@ -6,7 +6,7 @@
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
       <div class="flex justify-center m-5 lg:m-20 lg:w-86 lg:h-86">
-        <img class="avatar rounded-full object-cover" :src="avatarSrc" />
+        <img class="avatar rounded-full object-cover" :src="replaceStack(avatar.url, 'logo')"/>
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
         <h2 class="flex-1 mb-8 xl:mb-0">Hallo {{ user.firstName }}, schön dass du da bist!</h2>
@@ -35,7 +35,7 @@
             :key="jobPosting.id"
             class="link-list__item mb-4"
           >
-            <matchd-dashboard-link :jobPosting="jobPosting"></matchd-dashboard-link>
+            <student-job-posting-link :jobPosting="jobPosting"></student-job-posting-link>
           </li>
         </ul>
         <matchd-button class="w-full mt-4">
@@ -52,7 +52,7 @@
             :key="match.id"
             class="link-list__item mt-4"
           >
-            <matchd-dashboard-link :jobPosting="match.jobPosting"></matchd-dashboard-link>
+            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
           </li>
         </ul>
       </profile-section>
@@ -70,7 +70,7 @@
             :key="match.jobPosting.id"
             class="link-list__item mt-4"
           >
-            <matchd-dashboard-link :jobPosting="match.jobPosting"></matchd-dashboard-link>
+            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
           </li>
         </ul>
       </profile-section>
@@ -81,7 +81,7 @@
             :key="match.jobPosting.id"
             class="link-list__item mb-4"
           >
-            <matchd-dashboard-link :jobPosting="match.jobPosting"></matchd-dashboard-link>
+            <job-posting-link :jobPosting="match.jobPosting"></job-posting-link>
           </li>
         </ul>
       </profile-section>
@@ -98,10 +98,12 @@ import ArrowFront from "@/assets/icons/arrow-front.svg";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
-import MatchdDashboardLink from '@/components/MatchdDashboardLink.vue';
+import { AttachmentKey } from '@/api/models/types';
+import { replaceStack } from "@/helpers/replaceStack";
+import StudentJobPostingLink from '@/components/dashboard/StudentJobPostingLink.vue';
 
 class Props {
-  dashboard = prop<{ data: Dashboard; avatar: Attachment[] }>({ required: true });
+  dashboard = prop<{ data: Dashboard }>({ required: true });
 }
 
 @Options({
@@ -111,7 +113,7 @@ class Props {
     MatchdFileView,
     ProfileSection,
     ArrowFront,
-    MatchdDashboardLink
+    StudentJobPostingLink
   },
 })
 export default class StudentDashboard extends Vue.with(Props) {
@@ -131,8 +133,16 @@ export default class StudentDashboard extends Vue.with(Props) {
     return this.$store.getters["user"];
   }
 
-  get avatarSrc(): string {
-    return this.dashboard?.avatar?.[0].url || "";
+  get avatar(): Attachment | undefined {
+    return (
+      this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.StudentAvatar,
+      })[0] || ""
+    );
+  }
+
+  replaceStack(url: string, stack: string): string {
+    return replaceStack(url, stack);
   }
 
   async onClickLogout(): Promise<void> {

@@ -1,12 +1,8 @@
 <template>
-  <router-link :to="{ path: '/stellen/' + jobPosting.slug }">
+  <router-link :to="{ path: '/stellen/' + jobPosting.slug }"> <!-- TODO job posting edit -->
     <p class="font-bold">
-      {{ jobPosting.title }}
+      {{ jobPosting.title }} {{ jobPosting.state === 'PUBLIC' ? "" : " (Entwurf)"}}
       <ArrowFront class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
-    </p>
-    <p>
-      {{ jobPosting.company.name }}<br/>
-      {{ jobPosting.company.zip }} {{ jobPosting.company.city }}
     </p>
   </router-link>
 </template>
@@ -24,7 +20,7 @@ class Props {
     ArrowFront
   },
 })
-export default class MatchdDashboardLink extends Vue.with(Props) {}
+export default class CompanyJobPostingLink extends Vue.with(Props) {}
 </script>
 
 <style scoped>
