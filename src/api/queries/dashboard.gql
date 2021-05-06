@@ -1,4 +1,4 @@
-query($slug: String!) {
+query {
   dashboard {
     jobPostings {
       id
@@ -57,10 +57,5 @@ query($slug: String!) {
         nickname
       }
     }
-  }
-  avatar: attachments(key: STUDENT_AVATAR, slug: $slug) {
-    id
-    url
-    mimeType
   }
 }

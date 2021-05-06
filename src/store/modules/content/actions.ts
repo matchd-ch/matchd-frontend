@@ -29,7 +29,6 @@ import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
 
 import matchJobPostingMutation from "@/api/mutations/matchJobPosting.gql";
 import matchStudentMutation from "@/api/mutations/matchStudent.gql";
-import { loadLocaleFromURL } from "@vee-validate/i18n";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -49,11 +48,7 @@ export interface Actions {
     payload: { slug: string }
   ): Promise<void>;
   [ActionTypes.CULTURAL_FITS]({ commit }: AugmentedActionContext): Promise<void>;
-  [ActionTypes.DASHBOARD](
-    { commit }: AugmentedActionContext,
-    payload: { slug: string }
-  ): Promise<void>;
-
+  [ActionTypes.DASHBOARD]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_POSTING](
     { commit }: AugmentedActionContext,
     payload: { slug: string }
@@ -149,11 +144,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
       jobRequirements: response.data.jobRequirements,
     });
   },
-  async [ActionTypes.DASHBOARD]({ commit }, payload: { slug: string }) {
+  async [ActionTypes.DASHBOARD]({ commit }) {
     commit(MutationTypes.DASHBOARD_LOADING);
     const response = await apiClient.query({
       query: dashboardQuery,
-      variables: { slug: payload.slug },
       context: {
         batch: true,
       },
