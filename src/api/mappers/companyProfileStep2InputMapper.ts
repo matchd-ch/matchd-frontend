@@ -6,5 +6,6 @@ export function companyProfileStep2InputMapper(
 ): ICompanyProfileInputStep2 {
   return {
     ...companyProfileForm,
+    memberItStGallen: companyProfileForm.memberItStGallen || false,
   };
 }

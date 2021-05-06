@@ -17,6 +17,12 @@ export type Scalars = {
    */
   Date: any;
   /**
+   * The `DateTime` scalar type represents a DateTime
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  DateTime: any;
+  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -70,6 +76,8 @@ export enum AttachmentKey {
   StudentDocuments = "STUDENT_DOCUMENTS",
   CompanyAvatar = "COMPANY_AVATAR",
   CompanyDocuments = "COMPANY_DOCUMENTS",
+  StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
+  CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
 }
 
 export type IBenefitInput = {
@@ -223,6 +231,7 @@ export type IMatchStudentInput = {
 export enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
+  Company = "COMPANY",
 }
 
 export type IOnlineProjectInput = {

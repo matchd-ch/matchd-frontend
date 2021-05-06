@@ -19,6 +19,20 @@
       Profilstatus
     </ProfileNavigationItem>
   </ProfileNavigation>
+  <ProfileNavigation v-else-if="isCompany">
+    <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
+      Firmen Daten
+    </ProfileNavigationItem>
+    <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
+      Weitere Informationen
+    </ProfileNavigationItem>
+    <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
+      Tätigkeitsbereich, Benefits und Bilder
+    </ProfileNavigationItem>
+    <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
+      Diees Talent suchen wir
+    </ProfileNavigationItem>
+  </ProfileNavigation>
   <div class="profil min-h-screen text-primary-1">
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
@@ -60,7 +74,8 @@ import {
   StudentStep6,
   StudentFinish as StudentStep7,
 } from "@/views/profile/student";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
@@ -88,6 +103,12 @@ Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
   },
 })
 export default class ProfileEdit extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Profil bearbeiten",
+    })
+  );
+
   urlStepNumber = 0;
   dirty = false;
 

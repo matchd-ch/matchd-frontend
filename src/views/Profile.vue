@@ -3,15 +3,24 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import CompanyProfile from "@/views/CompanyProfile.vue";
+import { Options, setup, Vue } from "vue-class-component";
 import StudentProfile from "@/views/StudentProfile.vue";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
+    CompanyProfile,
     StudentProfile,
   },
 })
 export default class Profile extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Profil bearbeiten",
+    })
+  );
+
   get profileComponent(): string {
     if (this.isUniversity) {
       return `UniversityProfile`;

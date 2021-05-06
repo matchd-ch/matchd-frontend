@@ -1,17 +1,15 @@
 <template>
-  <Form
+  <form
     v-if="
       skills.length > 0 &&
       languages.length > 0 &&
       languageLevels.length > 0 &&
       jobRequirements.length > 0
     "
-    @submit="onSubmit"
-    v-slot="{ errors }"
+    @submit="veeForm.onSubmit"
   >
-    <GenericError v-if="jobPostingState.errors">
-      Beim Speichern ist etwas schief gelaufen.
-    </GenericError>
+    <FormSaveError v-if="jobPostingState.errors" />
+    <!-- Bezeichnung Field -->
     <SelectPillMultiple
       :options="jobRequirements"
       @change="onChangeJobRequirement"
@@ -24,8 +22,8 @@
     <MatchdAutocomplete
       id="skills"
       class="mb-3"
-      :class="{ 'mb-10': form.skills.length === 0 }"
-      :errors="errors.skills"
+      :class="{ 'mb-10': veeForm.skills?.length === 0 }"
+      :errors="veeForm.errors.skills"
       :items="filteredSkills"
       @select="onSelectSkill"
     >
@@ -41,9 +39,9 @@
         @keydown.enter.prevent="onPressEnterSkill"
       />
     </MatchdAutocomplete>
-    <SelectPillGroup v-if="form.skills.length > 0" class="mb-10">
+    <SelectPillGroup v-if="veeForm.skills?.length" class="mb-10">
       <SelectPill
-        v-for="selectedSkill in form.skills"
+        v-for="selectedSkill in selectedSkills"
         :key="selectedSkill.id"
         hasDelete="true"
         @remove="onRemoveSkill(selectedSkill)"
@@ -55,8 +53,8 @@
       class="mb-10"
       :languages="languages"
       :languageLevels="languageLevels"
-      :selectedLanguages="form.languages"
-      :errors="errors.languages"
+      :selectedLanguages="veeForm.languages"
+      :errors="veeForm.errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
       ><template v-slot:label>Sprachskills*</template></LanguagePicker
@@ -76,12 +74,13 @@
       class="block w-full mt-5"
       >Zurück zu Schritt 1</MatchdButton
     >
-  </Form>
+  </form>
 </template>
 
 <script lang="ts">
+import { jobPostingStep2FormMapper } from "@/api/mappers/jobPostingStep2FormMapper";
 import { jobPostingStep2InputMapper } from "@/api/mappers/jobPostingStep2InputMapper";
-import GenericError from "@/components/GenericError.vue";
+import FormSaveError from "@/components/FormSaveError.vue";
 import LanguagePicker from "@/components/LanguagePicker.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -89,11 +88,11 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
-import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { JobPostingState } from "@/models/JobPostingState";
-import { JobRequirementWithStatus, JobPostingStep2Form } from "@/models/JobPostingStep2Form";
+import { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
-import { ParamStrings } from "@/router/paramStrings";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import type {
@@ -103,15 +102,15 @@ import type {
   LanguageLevel,
   Skill,
 } from "api";
-import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import cloneDeep from "clone-deep";
+import { Field, useField, useForm } from "vee-validate";
+import { Options, setup, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
 
 @Options({
   components: {
-    Form,
     Field,
-    ErrorMessage,
-    GenericError,
+    FormSaveError,
     MatchdButton,
     MatchdField,
     MatchdSelect,
@@ -121,28 +120,76 @@ import { Options, Vue } from "vue-class-component";
     SelectPillGroup,
     LanguagePicker,
   },
+  emits: ["submitComplete", "navigateBack", "changeDirty"],
 })
 export default class JobPostingStep2 extends Vue {
-  form: JobPostingStep2Form = {
-    skills: [],
-    languages: [],
-    jobRequirements: [],
-  };
-  errors: { [k: string]: string } = {};
+  veeForm = setup(() => {
+    const store = useStore();
+    const form = useForm<JobPostingStep2Form>();
+    const { value: skills } = useField<string[]>("skills", (value: string[]) => {
+      if (value?.length === 0) {
+        return "Sie musst mindestens einen technischen Skill auswählen.";
+      }
+      return true;
+    });
+    const { value: languages } = useField<SelectedLanguage[]>(
+      "languages",
+      (value: SelectedLanguage[]) => {
+        if (value?.length === 0) {
+          return "Du musst mindestens eine Sprache auswählen.";
+        }
+        return true;
+      }
+    );
+    const { value: jobRequirements } = useField<string[]>("jobRequirements");
+    const onSubmit = form.handleSubmit(
+      async (formData): Promise<void> => {
+        try {
+          if (store.getters["currentJobPosting"]?.id) {
+            await store.dispatch(
+              ActionTypes.SAVE_JOBPOSTING_STEP2,
+              jobPostingStep2InputMapper(store.getters["currentJobPosting"]?.id, formData)
+            );
+            const jobPostingState = store.getters["jobPostingState"];
+            if (jobPostingState.success) {
+              this.$emit("submitComplete");
+            }
+          }
+        } catch (e) {
+          console.log(e); // todo
+        }
+      }
+    );
 
+    return {
+      ...form,
+      onSubmit,
+      skills,
+      languages,
+      jobRequirements,
+    };
+  });
+  formData = {} as JobPostingStep2Form;
   filteredSkills: Skill[] = [];
   skillInput = "";
+
+  get jobPostingData(): JobPostingStep2Form {
+    if (!this.currentJobPosting) {
+      return {} as JobPostingStep2Form;
+    }
+    return jobPostingStep2FormMapper(this.currentJobPosting);
+  }
 
   get currentJobPosting(): JobPostingType | null {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get jobRequirements(): JobRequirementWithStatus[] {
+  get jobRequirements(): SelectPillMultipleItem[] {
     return this.$store.getters["jobRequirements"].map((jobRequirement) => {
       return {
         ...jobRequirement,
-        checked: !!this.form.jobRequirements.find(
-          (selectedJobRequirement) => selectedJobRequirement.id === jobRequirement.id
+        checked: !!this.veeForm.jobRequirements?.find(
+          (selectedJobRequirementId) => selectedJobRequirementId === jobRequirement.id
         ),
       };
     });
@@ -152,9 +199,13 @@ export default class JobPostingStep2 extends Vue {
     return this.$store.getters["skills"];
   }
 
+  get selectedSkills(): Skill[] {
+    return this.skills.filter((skill) => this.veeForm.skills?.some((id) => id === skill.id));
+  }
+
   get availableSkills(): Skill[] {
     return this.skills.filter((skill) => {
-      return !this.form.skills.some((selectedSkills) => selectedSkills.id === skill.id);
+      return !this.veeForm.skills?.some((selectedSkillId) => selectedSkillId === skill.id);
     });
   }
 
@@ -175,15 +226,15 @@ export default class JobPostingStep2 extends Vue {
   }
 
   onChangeJobRequirement(jobRequirement: JobRequirement): void {
-    const jobRequirementExists = !!this.form.jobRequirements.find(
-      (selectedJobRequirements) => selectedJobRequirements.id === jobRequirement.id
+    const jobRequirementExists = !!this.veeForm.jobRequirements?.find(
+      (selectedJobRequirementsId) => selectedJobRequirementsId === jobRequirement.id
     );
     if (jobRequirementExists) {
-      this.form.jobRequirements = this.form.jobRequirements.filter(
-        (selectedJobRequirements) => selectedJobRequirements.id !== jobRequirement.id
+      this.veeForm.jobRequirements = this.veeForm.jobRequirements?.filter(
+        (selectedJobRequirementsId) => selectedJobRequirementsId !== jobRequirement.id
       );
     } else {
-      this.form.jobRequirements.push(jobRequirement);
+      this.veeForm.jobRequirements.push(jobRequirement.id);
     }
   }
 
@@ -198,9 +249,8 @@ export default class JobPostingStep2 extends Vue {
   }
 
   onSelectSkill(skill: Skill): void {
-    delete this.errors["skills"];
     this.skillInput = "";
-    this.form.skills.push(skill);
+    this.veeForm.skills.push(skill.id);
     this.onInputSkill();
   }
 
@@ -211,18 +261,17 @@ export default class JobPostingStep2 extends Vue {
   }
 
   onRemoveSkill(skill: Skill): void {
-    this.form.skills = this.form.skills.filter((selectedSkill) => selectedSkill.id !== skill.id);
+    this.veeForm.skills = this.veeForm.skills.filter((id) => id !== skill.id);
   }
 
   onClickAppendLanguage(language: SelectedLanguage): void {
     if (language && language.level) {
-      delete this.errors["languages"];
-      this.form.languages.push(language);
+      this.veeForm.languages.push(language);
     }
   }
 
   onClickRemoveLanguage(language: SelectedLanguage): void {
-    this.form.languages = this.form.languages.filter(
+    this.veeForm.languages = this.veeForm.languages.filter(
       (selectedLanguage) => selectedLanguage.language !== language.language
     );
   }
@@ -235,54 +284,22 @@ export default class JobPostingStep2 extends Vue {
       this.$store.dispatch(ContentActionsTypes.SKILLS),
     ]);
 
-    if (this.currentJobPosting) {
-      this.populateForm();
-    }
-  }
+    this.veeForm.resetForm({
+      values: cloneDeep(this.jobPostingData),
+    });
 
-  populateForm(): void {
-    this.form = {
-      languages:
-        this.currentJobPosting?.languages?.map((selectedLanguage) => {
-          return {
-            language: selectedLanguage.language,
-            level: selectedLanguage.languageLevel,
-          };
-        }) || [],
-      skills:
-        this.currentJobPosting?.skills?.map((skill) => {
-          return {
-            ...skill,
-          };
-        }) || [],
-      jobRequirements:
-        this.currentJobPosting?.jobRequirements.map((jobRequirement) => {
-          return {
-            ...jobRequirement,
-          };
-        }) || [],
-    };
+    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 2) {
+      this.veeForm.setValues(cloneDeep(this.jobPostingData));
+    }
   }
 
   onClickBack(): void {
-    this.$router.push({ params: { step: `${ParamStrings.STEP}1` } });
+    this.$emit("navigateBack");
   }
 
-  async onSubmit(
-    form: JobPostingStep2Form,
-    actions: FormActions<Partial<JobPostingStep2Form>>
-  ): Promise<void> {
-    if (this.currentJobPosting) {
-      await this.$store.dispatch(
-        ActionTypes.SAVE_JOBPOSTING_STEP2,
-        jobPostingStep2InputMapper(this.currentJobPosting?.id, this.form)
-      );
-      if (this.jobPostingState.success) {
-        this.$router.push({ params: { step: "schritt3", slug: this.jobPostingState?.slug } });
-      } else if (this.jobPostingState.errors) {
-        actions.setErrors(this.jobPostingState.errors);
-      }
-    }
+  @Watch("veeForm.meta.dirty")
+  checkDirty(): void {
+    this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }
 </script>

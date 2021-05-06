@@ -9,7 +9,7 @@ export function jobPostingStep1InputMapper(
     id: id || null,
     title: jobPostingForm.title,
     description: jobPostingForm.description,
-    workload: jobPostingForm.fullTime ? 100 : jobPostingForm.workload,
+    workload: jobPostingForm.fullTime ? 100 : +jobPostingForm.workload,
     url: jobPostingForm.url,
     jobType: {
       id: jobPostingForm.jobTypeId,

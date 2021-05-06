@@ -5,14 +5,14 @@ export function companyProfileStep4InputMapper(
   companyProfileForm: CompanyProfileStep4Form
 ): ICompanyProfileInputStep4 {
   return {
-    softSkills: companyProfileForm.softSkills.map((softSkill) => {
+    softSkills: companyProfileForm.softSkills.map((softSkillId) => {
       return {
-        id: softSkill.id,
+        id: softSkillId,
       };
     }),
-    culturalFits: companyProfileForm.culturalFits.map((culturalFit) => {
+    culturalFits: companyProfileForm.culturalFits.map((culturalFitId) => {
       return {
-        id: culturalFit.id,
+        id: culturalFitId,
       };
     }),
   };

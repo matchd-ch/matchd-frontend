@@ -122,8 +122,6 @@ import { replaceStack } from "@/helpers/replaceStack";
   },
 })
 export default class StudentProfile extends Vue {
-  meta = setup(() => useMeta({}));
-
   get user(): User | null {
     return this.$store.getters["user"];
   }
@@ -154,7 +152,6 @@ export default class StudentProfile extends Vue {
   }
 
   async mounted(): Promise<void> {
-    this.meta.meta.title = "Profil";
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {

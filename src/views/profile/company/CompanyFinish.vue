@@ -1,12 +1,20 @@
 <template>
   <div>
     <h2 class="text-heading-lg mb-10">Was wollen Sie als nächstes tun?</h2>
-    <MatchdButton variant="outline" class="block w-full" @click="onClickStudentSearch"
-      >Talente finden</MatchdButton
+    <MatchdButton
+      variant="outline"
+      class="block w-full mt-5"
+      @click="$router.push({ name: 'JobPostingCreate', params: { step: 'schritt1' } })"
     >
-    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickJobPostingCreate"
-      >Stellen und Projekte ausschreiben</MatchdButton
+      Stellen und Projekte ausschreiben
+    </MatchdButton>
+    <MatchdButton
+      variant="outline"
+      class="block w-full mt-5"
+      @click="$router.push({ name: 'Home' })"
     >
+      zum Dashboard wechseln
+    </MatchdButton>
     <p class="mt-5 text-black text-center">
       Falls du noch Fragen hast,
       <router-link :to="{ name: 'Home' }" class="text-primary-1">schreib uns</router-link>
@@ -27,15 +35,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
   },
 })
-export default class CompanyFinish extends Vue {
-  onClickStudentSearch(): void {
-    this.$router.push({ name: "StudentSearch" });
-  }
-
-  onClickJobPostingCreate(): void {
-    this.$router.push({ name: "JobPostingCreate", params: { step: "schritt1" } });
-  }
-}
+export default class CompanyFinish extends Vue {}
 </script>
 
 <style></style>
