@@ -124,6 +124,7 @@ build:development:
     ENVIRONMENT: development
     APP_TAG: latest
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $DEVELOPMENT_VUE_APP_DATA_PROTECTION_URL
   dependencies:
     - prepare:development
   only:
@@ -136,6 +137,7 @@ build:integration:
     ENVIRONMENT: integration
     APP_TAG: $CI_COMMIT_REF_NAME
     VUE_APP_DOMAIN: $INTEGRATION_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $INTEGRATION_VUE_APP_DATA_PROTECTION_URL
   dependencies:
     - prepare:integration
   only:
@@ -149,6 +151,7 @@ build:production:
     ENVIRONMENT: production
     APP_TAG: $CI_COMMIT_REF_NAME
     VUE_APP_DOMAIN: $PRODUCTION_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $PRODUCTION_VUE_APP_DATA_PROTECTION_URL
   dependencies:
     - prepare:production
   only:
@@ -179,7 +182,6 @@ deploy:development:
     ENVIRONMENT: development
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-latest
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
-    VUE_APP_DATA_PROTECTION_URL: $DEVELOPMENT_DATA_PROTECTION_URL
   only:
     - develop
   tags:
@@ -195,7 +197,6 @@ deploy:integration:
     ENVIRONMENT: integration
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
     VUE_APP_DOMAIN: $INTEGRATION_VUE_APP_DOMAIN
-    VUE_APP_DATA_PROTECTION_URL: $INTEGRATION_DATA_PROTECTION_URL
   only:
     refs:
       - /^v?\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)(?:(?:(?:\+|\.)[a-zA-Z0-9-]+)*)?)$/
@@ -212,7 +213,6 @@ deploy:production:
     ENVIRONMENT: production
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
     VUE_APP_DOMAIN: $PRODUCTION_VUE_APP_DOMAIN
-    VUE_APP_DATA_PROTECTION_URL: $PRODUCTION_DATA_PROTECTION_URL
   only:
     refs:
       - /^v?\d+\.\d+\.\d+$/
