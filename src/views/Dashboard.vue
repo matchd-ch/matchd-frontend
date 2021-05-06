@@ -12,6 +12,8 @@ import { ActionTypes as LoginActions } from "@/store/modules/login/action-types"
 import type { Attachment, Dashboard, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
+import { ActionTypes as UploadActionTypes } from '@/store/modules/upload/action-types';
+import { AttachmentKey } from '@/api/models/types';
 
 @Options({
   components: {
@@ -26,12 +28,13 @@ export default class Home extends Vue {
     })
   );
 
-  mounted(): void {
-    this.loadData(this.user?.student?.slug || "");
-  }
-
-  async loadData(slug: string): Promise<void> {
-    await this.$store.dispatch(ContentActions.DASHBOARD, { slug });
+  async mounted(): Promise<void> {
+    await Promise.all([
+      this.$store.dispatch(ContentActions.DASHBOARD),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: this.isStudent ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
+      }),
+    ]);
   }
 
   get dashboard(): { data: Dashboard | null; avatar: Attachment[] | null } {
@@ -48,7 +51,7 @@ export default class Home extends Vue {
 
   get dashboardComponent(): Vue<any, any> {
     if (this.isStudent) return StudentDashboard;
-    else return CompanyDashboard;
+    return CompanyDashboard;
   }
 
   get isCompany(): boolean {
