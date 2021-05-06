@@ -50,9 +50,11 @@ query {
       jobType {
         id
         name
+        mode
       }
       skills {
         id
+        name
       }
       softSkills {
         id
