@@ -3,6 +3,7 @@
     class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
   >
     <h1 class="text-display-xl-fluid text-black col-start-1 col-span-2">Login</h1>
+    <p>{{ link }}</p>
     <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
       <GenericError v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
         Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
@@ -108,6 +109,12 @@ export default class Login extends Vue {
     if (this.$store.getters["isLoggedIn"]) {
       this.$router.push({ name: "Home" });
     }
+  }
+
+
+
+  get link(): string {
+    return process.env.VUE_APP_DATA_PROTECTION_URL;
   }
 }
 </script>

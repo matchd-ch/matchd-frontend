@@ -72,6 +72,7 @@ prepare:development:
     VUE_APP_DATA_PROTECTION_URL: $DEVELOPMENT_VUE_APP_DATA_PROTECTION_URL
   only:
     - develop
+    - feature/MATCHD-65
   resource_group: development
 
 prepare:integration:
@@ -129,6 +130,7 @@ build:development:
     - prepare:development
   only:
     - develop
+    - feature/MATCHD-65
   resource_group: development
 
 build:integration:
@@ -184,6 +186,7 @@ deploy:development:
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
   only:
     - develop
+    - feature/MATCHD-65
   tags:
     - matchd
     - development
