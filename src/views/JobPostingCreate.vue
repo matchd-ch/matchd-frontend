@@ -5,13 +5,13 @@
     </ProfileNavigationItem>
     <ProfileNavigationItem
       :to="{ params: { step: 'schritt2' } }"
-      :disabled="currentJobPosting?.formStep < 2"
+      :disabled="!currentJobPosting || currentJobPosting?.formStep < 2"
     >
       Anforderungen
     </ProfileNavigationItem>
     <ProfileNavigationItem
       :to="{ params: { step: 'schritt3' } }"
-      :disabled="currentJobPosting?.formStep < 3"
+      :disabled="!currentJobPosting || currentJobPosting?.formStep < 3"
     >
       Kontakt
     </ProfileNavigationItem>
@@ -142,7 +142,9 @@ export default class JobPostingCreate extends Vue {
   }
 
   async onNavigateBack(): Promise<void> {
-    if (this.currentStep) {
+    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 3) {
+      this.$router.push({ name: "Home" });
+    } else if (this.currentStep) {
       this.$router.push({
         params: {
           step: `${ParamStrings.STEP}${this.currentStep - 1}`,

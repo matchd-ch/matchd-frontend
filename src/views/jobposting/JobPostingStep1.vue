@@ -171,16 +171,19 @@
       :disabled="jobPostingLoading"
       :loading="jobPostingLoading"
       class="block w-full"
-      >Speichern und weiter</MatchdButton
     >
+      <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
+      <template v-else>Speichern und weiter</template>
+    </MatchdButton>
     <MatchdButton
       type="button"
       variant="outline"
       :disabled="jobPostingLoading"
       class="block w-full mt-5"
       @click="$router.push({ name: 'Home' })"
-      >Abbrechen</MatchdButton
     >
+      Abbrechen
+    </MatchdButton>
   </form>
 </template>
 

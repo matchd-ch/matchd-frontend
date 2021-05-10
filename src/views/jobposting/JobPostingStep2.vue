@@ -64,16 +64,20 @@
       :disabled="jobPostingLoading"
       :loading="jobPostingLoading"
       class="block w-full"
-      >Speichern und weiter</MatchdButton
     >
+      <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
+      <template v-else>Speichern und weiter</template>
+    </MatchdButton>
     <MatchdButton
       type="button"
       variant="outline"
       :disabled="jobPostingLoading"
       @click="onClickBack"
       class="block w-full mt-5"
-      >Zurück zu Schritt 1</MatchdButton
     >
+      <template v-if="currentJobPosting?.formStep > 3">Abbrechen</template>
+      <template v-else>Zurück zu Schritt 1</template>
+    </MatchdButton>
   </form>
 </template>
 

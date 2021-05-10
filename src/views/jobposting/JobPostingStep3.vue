@@ -112,8 +112,10 @@
         :disabled="jobPostingLoading"
         @click="onClickBack"
         class="block w-full mt-5"
-        >Zurück zu Schritt 2</MatchdButton
       >
+        <template v-if="currentJobPosting?.formStep > 3">Abbrechen</template>
+        <template v-else>Zurück zu Schritt 2</template>
+      </MatchdButton>
     </form>
   </div>
 </template>
