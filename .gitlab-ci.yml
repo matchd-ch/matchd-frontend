@@ -184,6 +184,7 @@ deploy:development:
     ENVIRONMENT: development
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-latest
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $DEVELOPMENT_VUE_APP_DATA_PROTECTION_URL
   only:
     - develop
     - feature/MATCHD-65
@@ -200,6 +201,7 @@ deploy:integration:
     ENVIRONMENT: integration
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
     VUE_APP_DOMAIN: $INTEGRATION_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $INTEGRATION_VUE_APP_DATA_PROTECTION_URL
   only:
     refs:
       - /^v?\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)(?:(?:(?:\+|\.)[a-zA-Z0-9-]+)*)?)$/
@@ -216,6 +218,7 @@ deploy:production:
     ENVIRONMENT: production
     IMAGE_FRONTEND_NGINX: $CI_REGISTRY/matchd/frontend:nginx-$CI_COMMIT_REF_NAME
     VUE_APP_DOMAIN: $PRODUCTION_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $PRODUCTION_VUE_APP_DATA_PROTECTION_URL
   only:
     refs:
       - /^v?\d+\.\d+\.\d+$/
