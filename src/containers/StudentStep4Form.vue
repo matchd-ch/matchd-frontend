@@ -1,41 +1,38 @@
 <template>
-  <Form
+  <form
     v-if="
-      skills.length > 0 &&
-      languages.length > 0 &&
-      languageLevels.length > 0 &&
+      profileData &&
+      skills.length &&
+      languages.length &&
+      languageLevels.length &&
       studentDocumentsUploadConfigurations
     "
-    @submit="onSubmit"
+    @submit="veeForm.onSubmit"
   >
-    <GenericError v-if="onboardingState.errors">
-      Beim Speichern ist etwas schief gelaufen.
-    </GenericError>
+    <FormSaveError v-if="showError" />
     <!-- Skills Field -->
     <MatchdAutocomplete
       id="skills"
       class="mb-3"
-      :class="{ 'mb-10': form.skills.length === 0 }"
-      :errors="errors.skills"
+      :class="{ 'mb-10': veeForm.skills?.length === 0 }"
       :items="filteredSkills"
+      :errors="veeForm.errors.skills"
       @select="onSelectSkill"
     >
       <template v-slot:label>Technische Skills*</template>
-      <Field
-        id="skillInput"
-        name="skillInput"
-        as="input"
+      <input
+        id="skills"
+        type="text"
         autocomplete="off"
-        label="Technische Skills"
         v-model="skillInput"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
         placeholder="Tippe, um Vorschläge zu erhalten"
       />
     </MatchdAutocomplete>
-    <SelectPillGroup v-if="form.skills.length > 0" class="mb-10">
+    <SelectPillGroup v-if="selectedSkills.length" class="mb-10">
       <SelectPill
-        v-for="selectedSkill in form.skills"
+        v-for="selectedSkill in selectedSkills"
         :key="selectedSkill.id"
         hasDelete="true"
         @remove="onRemoveSkill(selectedSkill)"
@@ -47,8 +44,8 @@
       class="mb-10"
       :languages="languages"
       :languageLevels="languageLevels"
-      :selectedLanguages="form.languages"
-      :errors="errors.languages"
+      :selectedLanguages="veeForm.languages"
+      :errors="veeForm.errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
       ><template v-slot:label>Sprachliche Skills*</template></LanguagePicker
@@ -58,14 +55,12 @@
     <MatchdField
       id="onlineProjects"
       class="mb-3"
-      :class="{ 'mb-10': form.onlineProjects.length === 0 }"
+      :class="{ 'mb-10': veeForm.onlineProjects?.length }"
     >
       <template v-slot:label>Deine Onlineprojekte</template>
-      <Field
+      <input
         id="onlineProjects"
-        name="onlineProjects"
-        as="input"
-        label="Verknüpfe deine Onlineprojekte"
+        type="text"
         v-model="onlineProjectInput"
         @keypress.enter.prevent="onAppendOnlineProject"
         placeholder="Github-URL, Unity-URL, etc."
@@ -81,9 +76,9 @@
         </button>
       </template>
     </MatchdField>
-    <SelectPillGroup v-if="form.onlineProjects.length > 0" class="mb-10">
+    <SelectPillGroup v-if="veeForm.onlineProjects?.length" class="mb-10">
       <SelectPill
-        v-for="onlineProject in form.onlineProjects"
+        v-for="onlineProject in veeForm.onlineProjects"
         :key="onlineProject.url"
         @remove="onRemoveOnlineProject(onlineProject)"
         hasDelete="true"
@@ -112,13 +107,12 @@
       >
     </MatchdFileBlock>
     <!-- Hobbies Field -->
-    <MatchdField id="hobbies" class="mb-3" :class="{ 'mb-10': form.hobbies.length === 0 }">
+    <MatchdField id="hobbies" class="mb-3" :class="{ 'mb-10': veeForm.hobbies?.length === 0 }">
       <template v-slot:label>Deine Interessen und Hobbies</template>
-      <Field
+      <input
         id="hobbies"
+        type="text"
         name="hobbies"
-        as="input"
-        label="Interessen & Hobbies"
         maxlength="100"
         v-model="hobbyInput"
         @keypress.enter.prevent="onAppendHobby"
@@ -135,9 +129,9 @@
         </button>
       </template>
     </MatchdField>
-    <SelectPillGroup v-if="form.hobbies.length > 0" class="mb-10">
+    <SelectPillGroup v-if="veeForm.hobbies?.length > 0" class="mb-10">
       <SelectPill
-        v-for="hobby in form.hobbies"
+        v-for="hobby in veeForm.hobbies"
         :key="hobby.name"
         @remove="onRemoveHobby(hobby)"
         hasDelete="true"
@@ -153,87 +147,139 @@
         as="textarea"
         maxlength="1000"
         label="Das zeichnet mich sonst noch aus"
-        v-model="form.distinction"
+        v-model="veeForm.distinction"
         class="h-72"
         placeholder="4-5 Sätze zu deiner Spezialität"
       />
     </MatchdField>
-    <MatchdButton
-      variant="outline"
-      :disabled="onboardingLoading"
-      :loading="onboardingLoading"
-      class="block w-full"
-      >Speichern und weiter</MatchdButton
-    >
-  </Form>
+    <slot />
+  </form>
 </template>
 
 <script lang="ts">
+import { studentProfileStep4FormMapper } from "@/api/mappers/studentProfileStep4FormMapper";
 import { studentProfileStep4InputMapper } from "@/api/mappers/studentProfileStep4InputMapper";
 import { AttachmentKey } from "@/api/models/types";
-import GenericError from "@/components/GenericError.vue";
+import FormSaveError from "@/components/FormSaveError.vue";
+import LanguagePicker from "@/components/LanguagePicker.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
-import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
-import LanguagePicker from "@/components/LanguagePicker.vue";
 import { isValidUrl } from "@/helpers/isValidUrl";
 import { OnboardingState } from "@/models/OnboardingState";
 import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
+import { useStore } from "@/store";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment, Language, LanguageLevel, Skill, UploadConfiguration, User } from "api";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import type {
+  Attachment,
+  HobbyInput,
+  Language,
+  LanguageLevel,
+  OnlineProjectInput,
+  Skill,
+  UploadConfiguration,
+} from "api";
+import { Field, useField, useForm } from "vee-validate";
+import { Options, setup, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
+import cloneDeep from "clone-deep";
 
 @Options({
   components: {
-    Form,
     Field,
-    ErrorMessage,
-    GenericError,
-    MatchdButton,
+    FormSaveError,
     MatchdField,
-    MatchdSelect,
-    MatchdAutocomplete,
+    MatchdFileBlock,
     MatchdFileUpload,
     MatchdFileView,
-    MatchdFileBlock,
-    LanguagePicker,
-    SelectPill,
+    MatchdAutocomplete,
     SelectPillGroup,
+    SelectPill,
+    LanguagePicker,
   },
+  emits: ["submitComplete", "changeDirty"],
 })
-export default class StudentStep4 extends Vue {
-  form: StudentProfileStep4Form = {
-    skills: [],
-    languages: [],
-    distinction: "",
-    onlineProjects: [],
-    hobbies: [],
-  };
-  errors: { [k: string]: string } = {};
+export default class StudentStep4Form extends Vue {
+  veeForm = setup(() => {
+    const store = useStore();
+    const form = useForm<StudentProfileStep4Form>();
+    const { value: skills } = useField<string[]>("skills", (value: string[]) => {
+      if (value?.length === 0) {
+        return "Du musst mindestens einen technischen Skill auswählen.";
+      }
+      return true;
+    });
+    const { value: languages } = useField<SelectedLanguage[]>(
+      "languages",
+      (value: SelectedLanguage[]) => {
+        if (value?.length === 0) {
+          return "Du musst mindestens eine Sprache auswählen.";
+        }
+        return true;
+      }
+    );
+    const { value: onlineProjects } = useField<OnlineProjectInput[]>("onlineProjects");
+    const { value: hobbies } = useField<HobbyInput[]>("hobbies");
+
+    const onSubmit = form.handleSubmit(
+      async (formData): Promise<void> => {
+        try {
+          await store.dispatch(
+            ActionTypes.STUDENT_ONBOARDING_STEP4,
+            studentProfileStep4InputMapper(formData)
+          );
+          this.$emit("submitComplete", store.getters["onboardingState"]);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    );
+
+    return {
+      ...form,
+      onSubmit,
+      hobbies,
+      languages,
+      onlineProjects,
+      skills,
+    };
+  });
 
   filteredSkills: Skill[] = [];
-
   skillInput = "";
   onlineProjectInput = "";
   hobbyInput = "";
+
+  get showError(): boolean {
+    return !!this.onboardingState.errors;
+  }
+
+  get onboardingState(): OnboardingState {
+    return this.$store.getters["onboardingState"];
+  }
+
+  get currentStep(): number | undefined {
+    return this.$store.getters["profileStep"];
+  }
 
   get skills(): Skill[] {
     return this.$store.getters["skills"];
   }
 
+  get selectedSkills(): Skill[] {
+    return this.skills.filter((skill) => this.veeForm.skills?.some((id) => id === skill.id));
+  }
+
   get availableSkills(): Skill[] {
     return this.skills.filter((skill) => {
-      return !this.form.skills.some((selectedSkills) => selectedSkills.id === skill.id);
+      return !this.veeForm.skills.some((id) => id === skill.id);
     });
   }
 
@@ -243,18 +289,6 @@ export default class StudentStep4 extends Vue {
 
   get languageLevels(): LanguageLevel[] {
     return this.$store.getters["languageLevels"];
-  }
-
-  get onboardingLoading(): boolean {
-    return this.$store.getters["onboardingLoading"];
-  }
-
-  get onboardingState(): OnboardingState {
-    return this.$store.getters["onboardingState"];
-  }
-
-  get user(): User | null {
-    return this.$store.getters["user"];
   }
 
   get isValidOnlineProjectUrl(): boolean {
@@ -279,11 +313,17 @@ export default class StudentStep4 extends Vue {
       this.$store.dispatch(ContentActionTypes.LANGUAGES),
       this.$store.dispatch(ContentActionTypes.LANGUAGE_LEVELS),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentDocuments,
       }),
     ]);
+    this.veeForm.resetForm({
+      values: cloneDeep(this.profileData),
+    });
+
+    if (this.currentStep && this.currentStep > 4) {
+      this.veeForm.setValues(cloneDeep(this.profileData));
+    }
   }
 
   onInputSkill(): void {
@@ -297,9 +337,8 @@ export default class StudentStep4 extends Vue {
   }
 
   onSelectSkill(skill: Skill): void {
-    delete this.errors["skills"];
     this.skillInput = "";
-    this.form.skills.push(skill);
+    this.veeForm.skills.push(skill.id);
     this.onInputSkill();
   }
 
@@ -310,43 +349,48 @@ export default class StudentStep4 extends Vue {
   }
 
   onRemoveSkill(skill: Skill): void {
-    this.form.skills = this.form.skills.filter((selectedSkill) => selectedSkill.id !== skill.id);
+    this.veeForm.skills = this.veeForm.skills.filter((id) => id !== skill.id);
   }
 
   onClickAppendLanguage(language: SelectedLanguage): void {
     if (language && language.level) {
-      delete this.errors["languages"];
-      this.form.languages.push(language);
+      this.veeForm.languages.push(language);
     }
   }
+
   onClickRemoveLanguage(language: SelectedLanguage): void {
-    this.form.languages = this.form.languages.filter(
+    this.veeForm.languages = this.veeForm.languages.filter(
       (selectedLanguage) => selectedLanguage.language !== language.language
     );
   }
 
   onAppendOnlineProject(): void {
     if (this.isValidOnlineProjectUrl) {
-      this.form.onlineProjects.push({ url: this.onlineProjectInput });
+      this.veeForm.onlineProjects.push({ url: this.onlineProjectInput });
       this.onlineProjectInput = "";
     }
   }
 
-  onRemoveOnlineProject(onlineProject: string): void {
-    this.form.onlineProjects = this.form.onlineProjects.filter(
-      (selectedOnlineProject) => selectedOnlineProject !== onlineProject
+  onRemoveOnlineProject(onlineProject: OnlineProjectInput): void {
+    this.veeForm.onlineProjects = this.veeForm.onlineProjects.filter(
+      (selectedOnlineProject) => selectedOnlineProject.url !== onlineProject.url
     );
   }
 
   onAppendHobby(): void {
-    if (this.hobbyInput.length > 0) {
-      this.form.hobbies.push({ name: this.hobbyInput });
+    if (
+      this.hobbyInput.length > 0 &&
+      !this.veeForm.hobbies.find((hobby) => hobby.name === this.hobbyInput)
+    ) {
+      this.veeForm.hobbies.push({ name: this.hobbyInput });
       this.hobbyInput = "";
     }
   }
 
-  onRemoveHobby(hobby: string): void {
-    this.form.hobbies = this.form.hobbies.filter((selectedHobby) => selectedHobby.name !== hobby);
+  onRemoveHobby(hobby: HobbyInput): void {
+    this.veeForm.hobbies = this.veeForm.hobbies.filter(
+      (selectedHobby) => selectedHobby.name !== hobby.name
+    );
   }
 
   async onSelectStudentDocuments(files: FileList): Promise<void> {
@@ -363,26 +407,17 @@ export default class StudentStep4 extends Vue {
     });
   }
 
-  async onSubmit(): Promise<void> {
-    delete this.errors["skills"];
-    delete this.errors["languages"];
-    if (this.form.skills.length === 0) {
-      this.errors["skills"] = "Bitte wähle mindestens einen Skill";
+  get profileData(): StudentProfileStep4Form {
+    const user = this.$store.getters["user"];
+    if (!user) {
+      return {} as StudentProfileStep4Form;
     }
-    if (this.form.languages.length === 0) {
-      this.errors["languages"] = "Bitte wähle mindestens eine Sprache";
-    }
+    return studentProfileStep4FormMapper(user);
+  }
 
-    if (this.form.skills.length > 0 && this.form.languages.length > 0) {
-      await this.$store.dispatch(
-        ActionTypes.STUDENT_ONBOARDING_STEP4,
-        studentProfileStep4InputMapper(this.form)
-      );
-
-      if (this.onboardingState.success) {
-        this.$router.push({ params: { step: "schritt5" } });
-      }
-    }
+  @Watch("veeForm.meta.dirty")
+  checkDirty(): void {
+    this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }
 </script>

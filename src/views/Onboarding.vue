@@ -67,25 +67,29 @@
       <component
         :is="currentOnboardingComponent"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:px-8 px-4 lg:px-5 py-12"
+        @submitComplete="onSubmitComplete"
+        @clickBack="onClickBack"
       ></component>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { parseStepName } from "@/helpers/parseStepName";
+import { ParamStrings } from "@/router/paramStrings";
 import {
   CompanyStep1,
   CompanyStep2,
   CompanyStep3,
   CompanyStep4,
   CompanyFinish as CompanyStep5,
-} from "@/views/onboarding/company";
+} from "@/views/profile/company";
 import {
   UniversityStep1,
   UniversityStep2,
   UniversityStep3,
   UniversityFinish as UniversityStep4,
-} from "@/views/onboarding/university";
+} from "@/views/profile/university";
 import {
   StudentStep1,
   StudentStep2,
@@ -94,8 +98,11 @@ import {
   StudentStep5,
   StudentStep6,
   StudentFinish as StudentStep7,
-} from "@/views/onboarding/student";
+} from "@/views/profile/student";
 import { Options, Vue } from "vue-class-component";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+
+Vue.registerHooks(["beforeRouteUpdate"]);
 
 @Options({
   components: {
@@ -118,6 +125,8 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class Onboarding extends Vue {
+  urlStepNumber = 0;
+
   get currentOnboardingComponent(): string {
     if (this.isUniversity) {
       return `UniversityStep${this.currentStep}`;
@@ -129,7 +138,7 @@ export default class Onboarding extends Vue {
   }
 
   get currentStep(): number | undefined {
-    return this.$store.getters["profileStep"];
+    return parseStepName(String(this.$route.params.step)) || this.$store.getters["profileStep"];
   }
 
   get isStudent(): boolean {
@@ -142,6 +151,31 @@ export default class Onboarding extends Vue {
 
   get isUniversity(): boolean {
     return this.$store.getters["isUniversity"];
+  }
+
+  mounted(): void {
+    this.urlStepNumber = parseStepName(String(this.$route.params.step));
+  }
+
+  async beforeRouteUpdate(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ): Promise<void> {
+    this.urlStepNumber = parseStepName(String(to.params.step));
+    next();
+  }
+
+  onClickBack(): void {
+    if (this.currentStep) {
+      this.$router.push({ params: { step: `${ParamStrings.STEP}${this.currentStep - 1}` } });
+    }
+  }
+
+  onSubmitComplete(success: boolean): void {
+    if (success && this.currentStep) {
+      this.$router.push({ params: { step: `${ParamStrings.STEP}${this.currentStep + 1}` } });
+    }
   }
 }
 </script>
