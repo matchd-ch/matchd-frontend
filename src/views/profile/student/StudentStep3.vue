@@ -1,8 +1,5 @@
 <template>
-  <StudentStep3Form
-    @submitComplete="$emit('submitComplete', $event)"
-    @changeDirty="$emit('changeDirty', $event)"
-  >
+  <StudentStep3Form>
     <template v-if="edit">
       <div class="fixed right-0 bottom-0 left-0 p-8 bg-white flex justify-center">
         <MatchdButton type="button" variant="outline" @click="$emit('clickCancel')" class="mr-4">
@@ -14,11 +11,10 @@
       </div>
     </template>
     <template v-else>
-      <MatchdButton
-        variant="outline"
-        :disabled="onboardingLoading"
-        :loading="onboardingLoading"
-        class="block w-full"
+      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
+        Zurück
+      </MatchdButton>
+      <MatchdButton variant="outline" :disabled="onboardingLoading" :loading="onboardingLoading"
         >Speichern und weiter</MatchdButton
       >
     </template>
@@ -39,6 +35,7 @@ class Props {
     MatchdButton,
     StudentStep3Form,
   },
+  emits: ["clickCancel", "clickBack"],
 })
 export default class StudentStep3 extends Vue.with(Props) {
   get onboardingLoading(): boolean {

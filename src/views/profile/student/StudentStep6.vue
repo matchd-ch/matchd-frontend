@@ -11,11 +11,10 @@
       </div>
     </template>
     <template v-else>
-      <MatchdButton
-        variant="outline"
-        :disabled="onboardingLoading"
-        :loading="onboardingLoading"
-        class="block w-full"
+      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
+        Zurück
+      </MatchdButton>
+      <MatchdButton variant="outline" :disabled="onboardingLoading" :loading="onboardingLoading"
         >Speichern und weiter</MatchdButton
       >
     </template>
@@ -36,6 +35,7 @@ class Props {
     MatchdButton,
     StudentStep6Form,
   },
+  emits: ["clickCancel", "clickBack"],
 })
 export default class StudentStep6 extends Vue.with(Props) {
   get onboardingLoading(): boolean {

@@ -1,8 +1,5 @@
 <template>
-  <StudentStep1Form
-    @submitComplete="$emit('submitComplete', $event)"
-    @changeDirty="$emit('changeDirty', $event)"
-  >
+  <StudentStep1Form>
     <template v-if="edit">
       <div class="fixed right-0 bottom-0 left-0 p-8 bg-white flex justify-center">
         <MatchdButton type="button" variant="outline" @click="$emit('clickCancel')" class="mr-4">
@@ -35,7 +32,7 @@ class Props {
     StudentStep1Form,
     MatchdButton,
   },
-  emits: ["clickCancel", "clickBack", "submitComplete", "changeDirty"],
+  emits: ["clickCancel", "clickBack"],
 })
 export default class StudentStep1Edit extends Vue.with(Props) {
   get onboardingLoading(): boolean {

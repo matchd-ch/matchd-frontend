@@ -22,7 +22,7 @@
           class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full"
         >
           {{ user.firstName }} {{ user.lastName }}<br />
-          geboren im {{ user.student.dateOfBirth }}
+          geboren im {{ formatDate(user.student.dateOfBirth, "LLLL yyyy") }}
           <template v-if="user.student.street">
             <br />
             {{ user.student.street }}, {{ user.student.zip }} {{ user.student.city }}
@@ -132,6 +132,10 @@ export default class StudentProfile extends Vue {
 
   get certificates(): Attachment[] {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments });
+  }
+
+  formatDate(isoString: string, format: string): string {
+    return formatDate(isoString, format);
   }
 
   get lookingFor(): string {
