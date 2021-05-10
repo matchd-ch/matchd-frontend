@@ -156,14 +156,6 @@ export default class StudentStep6Form extends Vue {
   }
 
   async mounted(): Promise<void> {
-    await Promise.all([
-      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.StudentDocuments,
-      }),
-    ]);
-
     this.veeForm.resetForm({
       values: cloneDeep(this.profileData),
     });

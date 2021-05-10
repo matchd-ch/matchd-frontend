@@ -68,6 +68,7 @@
         :is="currentOnboardingComponent"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:px-8 px-4 lg:px-5 py-12"
         @submitComplete="onSubmitComplete"
+        @clickBack="onClickBack"
       ></component>
     </div>
   </div>
@@ -137,7 +138,7 @@ export default class Onboarding extends Vue {
   }
 
   get currentStep(): number | undefined {
-    return this.$store.getters["profileStep"];
+    return parseStepName(String(this.$route.params.step)) || this.$store.getters["profileStep"];
   }
 
   get isStudent(): boolean {
@@ -166,7 +167,9 @@ export default class Onboarding extends Vue {
   }
 
   onClickBack(): void {
-    console.log("zurück");
+    if (this.currentStep) {
+      this.$router.push({ params: { step: `${ParamStrings.STEP}${this.currentStep - 1}` } });
+    }
   }
 
   onSubmitComplete(success: boolean): void {

@@ -313,7 +313,6 @@ export default class StudentStep4Form extends Vue {
       this.$store.dispatch(ContentActionTypes.LANGUAGES),
       this.$store.dispatch(ContentActionTypes.LANGUAGE_LEVELS),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentDocuments,
       }),
