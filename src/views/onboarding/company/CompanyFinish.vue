@@ -8,8 +8,8 @@
       >Stellen und Projekte ausschreiben</MatchdButton
     >
     <p class="mt-5 text-black text-center">
-      Falls du noch Fragen hast,
-      <router-link :to="{ name: 'Home' }" class="text-primary-1">schreib uns</router-link>
+      Falls sie noch Fragen haben,
+      <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline">schreiben sie uns</router-link>
     </p>
   </div>
 </template>

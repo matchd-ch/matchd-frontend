@@ -5,9 +5,8 @@
       >Stelle und Projekte finden</MatchdButton
     >
     <p class="mt-5 text-black text-center">
-      Du hast Fragen oder möchtest uns etwas mitteilen?
-      <router-link :to="{ name: 'Home' }" class="text-primary-1">Kontaktiere uns</router-link>, wir
-      freuen uns von dir zu hören.
+      Alles klar?
+      <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline">Falls nicht, sind wir gerne für euch da.</router-link>
     </p>
   </div>
 </template>

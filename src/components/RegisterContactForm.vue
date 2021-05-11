@@ -1,15 +1,16 @@
 <template>
   <div class="register-contact-form">
-    <h2 id="register-contact" class="text-white text-display-xs mb-6">
-      Du hast nichts Passendes gefunden? Kein Problem!
+    <h2 id="register-contact" class="text-display-xs mb-6"
+    v-bind:class="{ 'text-black':textBlack, 'text-white':!textBlack }">
+      {{ title }}
     </h2>
-    <p class="text-white mb-9">
-      Schreibe uns, woher du kommst und warum du gerne Teil der Matchd-Community werden möchtest.<br />
-      Wir freuen uns auf dich! Dein Matchd-Team.
+    <p class="mb-9"
+       v-bind:class="{ 'text-black':textBlack, 'text-white':!textBlack }">
+     {{ subText }}
     </p>
     <Form @submit="$emit('submit', $event)" v-slot="{ errors }">
       <div class="mb-6">
-        <label for="name" class="sr-only">Dein Name</label>
+        <label for="name" class="sr-only" >Dein Name</label>
         <Field
           id="name"
           name="name"
@@ -61,9 +62,15 @@
 import MatchdButton from "@/components/MatchdButton.vue";
 import { Options, prop, Vue } from "vue-class-component";
 import { Form, Field, ErrorMessage } from "vee-validate";
+import {Input} from "postcss";
 
 class Props {
   loading = prop<boolean>({});
+  title = prop<string>({});
+  subText = prop<string>({});
+  name = prop<string>({});
+  email = prop<string>({});
+  textBlack = prop<boolean>({});
 }
 
 @Options({
@@ -75,7 +82,12 @@ class Props {
   },
   emits: ["submit"],
 })
-export default class RegisterContactForm extends Vue.with(Props) {}
+export default class RegisterContactForm extends Vue.with(Props) {
+
+  title = "Du hast nichts Passendes gefunden? Kein Problem!";
+  subText = "Schreibe uns, woher du kommst und warum du gerne Teil der Matchd-Community werden möchtest.\n Wir freuen uns auf dich! Dein Matchd-Team.";
+
+}
 </script>
 
 <style lang="postcss" scoped>
