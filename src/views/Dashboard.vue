@@ -40,7 +40,7 @@ export default class Dashboard extends Vue {
     ]);
   }
 
-  get dashboard(): { data: DashboardData | null; avatar: Attachment[] | null } {
+  get dashboard(): DashboardData | null {
     return this.$store.getters["dashboard"];
   }
 

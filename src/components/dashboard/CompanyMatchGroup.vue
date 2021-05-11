@@ -55,10 +55,6 @@ export default class CompanyMatchGroup extends Vue.with(Props) {
 
 <style lang="postcss" scoped>
 .link-list__item {
-  margin-bottom: 1rem;
-  & p:first-child {
-    display: inline-block;
-  }
   @apply mb-2;
 }
 </style>

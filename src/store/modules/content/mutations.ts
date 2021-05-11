@@ -43,7 +43,7 @@ export type Mutations<S = State> = {
   [MutationTypes.DASHBOARD_LOADING](state: S): void;
   [MutationTypes.DASHBOARD_LOADED](
     state: S,
-    payload: { dashboard: Dashboard | null; avatar: Attachment[] | null }
+    payload: { dashboard: Dashboard | null; }
   ): void;
   [MutationTypes.JOB_POSTING_LOADING](state: S): void;
   [MutationTypes.JOB_POSTING_LOADED](state: S, payload: { jobPosting: JobPosting }): void;
@@ -148,7 +148,6 @@ export const mutations: MutationTree<State> & Mutations = {
   ) {
     state.dashboard.loading = false;
     state.dashboard.data = payload.dashboard;
-    state.dashboard.avatar = payload.avatar;
   },
   [MutationTypes.JOB_POSTING_LOADING](state: State) {
     state.jobPosting.loading = true;

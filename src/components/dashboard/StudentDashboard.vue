@@ -26,12 +26,12 @@
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
       <profile-section
-        v-if="dashboard?.data?.jobPostings?.length"
+        v-if="dashboard?.jobPostings?.length"
         title="Neue Stellen und Projekte"
       >
         <ul>
           <li
-            v-for="jobPosting in dashboard?.data?.jobPostings"
+            v-for="jobPosting in dashboard?.jobPostings"
             :key="jobPosting.id"
             class="link-list__item"
           >
@@ -44,15 +44,15 @@
       </profile-section>
       <profile-section
         title="Deine offenen Matches">
-        <p v-if="dashboard?.data?.requestedMatches?.length > 0">
+        <p v-if="dashboard?.requestedMatches?.length > 0">
           Sobald deine Matching-Anfrage bestätigt wurde, kanns mit dem Kennenlernen weitergehen.
         </p>
-        <p v-if="dashboard?.data?.requestedMatches?.length === 0">
+        <p v-if="dashboard?.requestedMatches?.length === 0">
           Im Moment hast du keine offenen Matches. Sobald du ein Match auslöst, wirst du das hier sehen.
         </p>
         <ul>
           <li
-            v-for="match in dashboard?.data?.requestedMatches"
+            v-for="match in dashboard?.requestedMatches"
             :key="match.id"
             class="link-list__item mt-4"
           >
@@ -63,16 +63,16 @@
       <profile-section
         title="Anfragen zum Matching"
       >
-        <p v-if="dashboard?.data?.unconfirmedMatches?.length > 0">
+        <p v-if="dashboard?.unconfirmedMatches?.length > 0">
           Dein Matchd-Profil findet Anklang! Es gibt Unternehmen die gerne mit dir in Kontakt treten
           möchten.
         </p>
-        <p v-if="dashboard?.data?.unconfirmedMatches?.length === 0">
+        <p v-if="dashboard?.unconfirmedMatches?.length === 0">
           Im Moment hast du keine offenen Anfragen. Sobald ein Unternehmen ein Match auslöst, wirst du das hier sehen.
         </p>
         <ul>
           <li
-            v-for="match in dashboard?.data?.unconfirmedMatches"
+            v-for="match in dashboard?.unconfirmedMatches"
             :key="match.jobPosting.id"
             class="link-list__item mt-4"
           >
@@ -81,11 +81,11 @@
         </ul>
       </profile-section>
       <profile-section
-        v-if="dashboard?.data?.confirmedMatches?.length > 0"
+        v-if="dashboard?.confirmedMatches?.length > 0"
         title="Hier hat's gematchd!">
         <ul>
           <li
-            v-for="match in dashboard?.data?.confirmedMatches"
+            v-for="match in dashboard?.confirmedMatches"
             :key="match.jobPosting.id"
             class="link-list__item"
           >
@@ -166,10 +166,6 @@ export default class StudentDashboard extends Vue.with(Props) {
   width: 15rem;
 }
 .link-list__item {
-  margin-bottom: 1rem;
-  & p:first-child {
-    display: inline-block;
-  }
   @apply mb-4;
 }
 </style>

@@ -25,16 +25,16 @@
     </div>
     <div class="text-pink-1 flex flex-col min-h-full">
       <profile-section
-        v-if="dashboard?.data?.jobPostings?.length"
+        v-if="dashboard?.jobPostings?.length"
         title="Ihre Stellen&shy;ausschreibungen"
         :pink="true"
       >
-        <p class="mt-4" v-if="dashboard?.data?.jobPostings.length === 0">
+        <p class="mt-4" v-if="dashboard?.jobPostings.length === 0">
           Sie haben keine offenen Stellen ausgeschrieben.
         </p>
         <ul>
           <li
-            v-for="jobPosting in dashboard?.data?.jobPostings"
+            v-for="jobPosting in dashboard?.jobPostings"
             :key="jobPosting.id"
             class="link-list__item"
           >
@@ -48,32 +48,32 @@
       <profile-section
         title="Ihre offenen Matches"
         :pink="true">
-        <p v-if="dashboard?.data?.requestedMatches?.length > 0">
+        <p v-if="dashboard?.requestedMatches?.length > 0">
           Sobald Ihre Matching-Anfrage bestätigt wurde, kann es mit dem Kennenlernen weitergehen.
         </p>
-        <p v-if="dashboard?.data?.requestedMatches?.length === 0">
+        <p v-if="dashboard?.requestedMatches?.length === 0">
           Im Moment haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das hier sehen.
         </p>
-        <company-match-group class="mt-4" :matches="dashboard?.data?.requestedMatches"></company-match-group>
+        <company-match-group class="mt-4" :matches="dashboard?.requestedMatches"></company-match-group>
       </profile-section>
       <profile-section
         title="Anfragen zum Matching"
         :pink="true"
       >
-        <p v-if="dashboard?.data?.unconfirmedMatches.length > 0">
+        <p v-if="dashboard?.unconfirmedMatches.length > 0">
           Ihre Ausschreibung stösst auf Interesse! Es gibt Talente die gerne mit Ihnen in Kontakt treten möchten.
         </p>
-        <p v-if="dashboard?.data?.unconfirmedMatches?.length === 0">
+        <p v-if="dashboard?.unconfirmedMatches?.length === 0">
           Im Moment haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie das hier sehen.
         </p>
-        <company-match-group class="mt-4" :matches="dashboard?.data?.unconfirmedMatches"></company-match-group>
+        <company-match-group class="mt-4" :matches="dashboard?.unconfirmedMatches"></company-match-group>
       </profile-section>
       <profile-section
-        v-if="dashboard?.data?.confirmedMatches?.length > 0"
+        v-if="dashboard?.confirmedMatches?.length > 0"
         title="Hier hat's gematchd!"
         :pink="true"
       >
-        <company-match-group :matches="dashboard?.data?.confirmedMatches"></company-match-group>
+        <company-match-group :matches="dashboard?.confirmedMatches"></company-match-group>
       </profile-section>
     </div>
   </div>
@@ -146,10 +146,6 @@ export default class CompanyDashboard extends Vue.with(Props) {
 
 <style lang="postcss" scoped>
 .link-list__item {
-  margin-bottom: 1rem;
-  & p:first-child {
-    display: inline-block;
-  }
   @apply mb-4;
 }
 </style>

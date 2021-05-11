@@ -154,8 +154,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.DASHBOARD_LOADED, {
-      dashboard: response.data.dashboard,
-      avatar: response.data.avatar,
+      dashboard: response.data.dashboard
     });
   },
   async [ActionTypes.JOB_POSTING]({ commit }, payload: { slug: string }) {
