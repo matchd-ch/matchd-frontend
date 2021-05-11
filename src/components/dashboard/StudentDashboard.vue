@@ -145,6 +145,8 @@ export default class StudentDashboard extends Vue.with(Props) {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatar,
+      })[0] || this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.StudentAvatarFallback,
       })[0] || ""
     );
   }

@@ -34,6 +34,9 @@ export default class Home extends Vue {
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: this.isStudent ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
       }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: this.isStudent ? AttachmentKey.StudentAvatarFallback : AttachmentKey.CompanyAvatarFallback,
+      }),
     ]);
   }
 

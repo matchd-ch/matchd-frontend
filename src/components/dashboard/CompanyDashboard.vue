@@ -125,6 +125,8 @@ export default class CompanyDashboard extends Vue.with(Props) {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatar,
+      })[0] || this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.CompanyAvatarFallback,
       })[0] || ""
     );
   }
