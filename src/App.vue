@@ -4,7 +4,12 @@
   </metainfo>
 
   <div>
-  <nav-bar></nav-bar>
+  <nav-bar>
+    <nav-link :to="{ path: '/' }">Dashboard</nav-link>
+    <nav-link :to="{ path: '/firmen' }">Stelle finden</nav-link>
+    <nav-link :to="{ path: '/stellen' }">Projekt finden</nav-link>
+    <nav-link :to="{ path: '/firmen' }">Unternehmen entdecken</nav-link>
+  </nav-bar>
   <router-view
     :class="{
       'theme-student': isStudent,
@@ -21,9 +26,10 @@ import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import NavBar from "@/components/NavBar.vue";
+import NavLink from "@/components/NavLink.vue";
 
 @Options({
-  components: { NavBar },
+  components: { NavBar, NavLink },
 })
 export default class App extends Vue {
   meta = setup(() =>
