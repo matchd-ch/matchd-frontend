@@ -3,7 +3,9 @@
     <template v-slot:title="{ content }">{{ content ? `${content} - MATCHD` : `MATCHD` }}</template>
   </metainfo>
 
-  <div
+  <div>
+  <nav-bar></nav-bar>
+  <router-view
     :class="{
       'theme-student': isStudent,
       'theme-company': isCompany,
@@ -18,8 +20,11 @@
 import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
+import NavBar from "@/components/NavBar.vue";
 
-@Options({})
+@Options({
+  components: { NavBar },
+})
 export default class App extends Vue {
   meta = setup(() =>
     useMeta({
