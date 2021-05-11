@@ -16,7 +16,7 @@
             <p class="font-bold">
               <span v-if="student.firstName">{{ student.firstName }} {{ student.lastName }}</span>
               <span v-if="!student.firstName">{{ student.nickname }}</span>
-              <ArrowFront class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+              <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
             </p>
           </router-link>
         </li>
@@ -30,14 +30,14 @@
 
 import { Options, prop, Vue } from "vue-class-component";
 import type { JobPosting, MatchInfo, Student } from 'api';
-import ArrowFront from '@/assets/icons/arrow-front.svg';
+import ArrowFrontIcon from '@/assets/icons/arrow-front.svg';
 
 class Props {
   matches = prop<MatchInfo[]>({required: true})
 }
 @Options({
   components: {
-    ArrowFront
+    ArrowFrontIcon
   },
 })
 export default class CompanyMatchGroup extends Vue.with(Props) {
@@ -52,7 +52,3 @@ export default class CompanyMatchGroup extends Vue.with(Props) {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

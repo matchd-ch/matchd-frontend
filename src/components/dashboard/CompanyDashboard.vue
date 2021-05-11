@@ -88,7 +88,6 @@ import type { User, Attachment, Dashboard } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from '@/api/models/types';
 import { replaceStack } from "@/helpers/replaceStack";
-import ArrowFront from '@/assets/icons/arrow-front.svg';
 import ProfileSection from '@/components/ProfileSection.vue';
 import CompanyJobPostingLink from '@/components/dashboard/CompanyJobPostingLink.vue';
 import CompanyMatchGroup from '@/components/dashboard/CompanyMatchGroup.vue';
@@ -103,7 +102,6 @@ class Props {
     MatchdFileUpload,
     MatchdFileView,
     ProfileSection,
-    ArrowFront,
     CompanyJobPostingLink,
     CompanyMatchGroup
   },
@@ -145,5 +143,3 @@ export default class CompanyDashboard extends Vue.with(Props) {
   }
 }
 </script>
-
-<style scoped></style>

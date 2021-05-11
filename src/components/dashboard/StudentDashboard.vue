@@ -102,7 +102,6 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
-import ArrowFront from "@/assets/icons/arrow-front.svg";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
@@ -120,7 +119,6 @@ class Props {
     MatchdFileUpload,
     MatchdFileView,
     ProfileSection,
-    ArrowFront,
     StudentJobPostingLink
   },
 })
