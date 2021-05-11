@@ -150,7 +150,7 @@
           </MatchdField>
 
           <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtectionAccepted">
-            <template v-slot:label><a :ref="VUE_APP_DATA_PROTECTION_URL">datenschutzerklaerung</a></template>
+            <template v-slot:label>Mit umlegen des Sliders akzeptieren Sie die <a class="underline" :href="dataProtectionLink">Datenschutzerklärung</a>.</template>
             <input
               id="dataProtection"
               name="dataProtection"
@@ -219,6 +219,7 @@ export default class CompanyRegister extends Vue {
   isCompanyUidFormValid = false;
   isCompanyDataFormValid = false;
   dataProtectionAccepted = false;
+  dataProtectionLink = process.env.VUE_APP_DATA_PROTECTION_URL || "";
   form: NewCompanyAccount = {
     uid: "",
     firstName: "",
