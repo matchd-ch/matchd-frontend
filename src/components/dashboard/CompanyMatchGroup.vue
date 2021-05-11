@@ -10,7 +10,7 @@
         <li
           v-for="student in getStudents(jobPosting.id)"
           :key="student.id"
-          class="link-list__item mb-2"
+          class="link-list__item"
           >
           <router-link :to="{ name: 'StudentDetail', params: {slug: student.slug}, query: { jobPostingId: jobPosting.id}}">
             <p class="font-bold">
@@ -52,3 +52,13 @@ export default class CompanyMatchGroup extends Vue.with(Props) {
   }
 }
 </script>
+
+<style lang="postcss" scoped>
+.link-list__item {
+  margin-bottom: 1rem;
+  & p:first-child {
+    display: inline-block;
+  }
+  @apply mb-2;
+}
+</style>

@@ -33,7 +33,7 @@
           <li
             v-for="jobPosting in dashboard?.data?.jobPostings"
             :key="jobPosting.id"
-            class="link-list__item mb-4"
+            class="link-list__item"
           >
             <student-job-posting-link :jobPosting="jobPosting"></student-job-posting-link>
           </li>
@@ -87,7 +87,7 @@
           <li
             v-for="match in dashboard?.data?.confirmedMatches"
             :key="match.jobPosting.id"
-            class="link-list__item mb-4"
+            class="link-list__item"
           >
             <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
           </li>
@@ -160,7 +160,7 @@ export default class StudentDashboard extends Vue.with(Props) {
 }
 </script>
 
-<style type="postcss" scoped>
+<style lang="postcss" scoped>
 .avatar {
   height: 15rem;
   width: 15rem;
@@ -170,5 +170,6 @@ export default class StudentDashboard extends Vue.with(Props) {
   & p:first-child {
     display: inline-block;
   }
+  @apply mb-4;
 }
 </style>

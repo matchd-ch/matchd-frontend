@@ -36,7 +36,7 @@
           <li
             v-for="jobPosting in dashboard?.data?.jobPostings"
             :key="jobPosting.id"
-            class="link-list__item mb-4"
+            class="link-list__item"
           >
             <company-job-posting-link :jobPosting="jobPosting" :isCompany="true"></company-job-posting-link>
           </li>
@@ -143,3 +143,13 @@ export default class CompanyDashboard extends Vue.with(Props) {
   }
 }
 </script>
+
+<style lang="postcss" scoped>
+.link-list__item {
+  margin-bottom: 1rem;
+  & p:first-child {
+    display: inline-block;
+  }
+  @apply mb-4;
+}
+</style>
