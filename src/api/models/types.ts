@@ -97,6 +97,7 @@ export enum JobPostingState {
 export enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
+  Company = "COMPANY",
 }
 
 export type IJobPostingMatchingInput = {
@@ -135,6 +136,8 @@ export enum AttachmentKey {
   StudentDocuments = "STUDENT_DOCUMENTS",
   CompanyAvatar = "COMPANY_AVATAR",
   CompanyDocuments = "COMPANY_DOCUMENTS",
+  StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
+  CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
 }
 
 export type IMatchStudentInput = {

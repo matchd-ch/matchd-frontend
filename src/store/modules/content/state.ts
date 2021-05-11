@@ -43,6 +43,7 @@ export type State = {
     loading: boolean;
     data: Company | null;
     logo: Attachment | null;
+    logoFallback: Attachment | null;
     media: Attachment[];
   };
   match: {
@@ -66,6 +67,7 @@ export type State = {
     loading: boolean;
     data: Student | null;
     avatar: Attachment | null;
+    avatarFallback: Attachment | null;
     certificates: Attachment[];
   };
   languages: {
@@ -113,6 +115,7 @@ export const state: State = {
     loading: false,
     data: null,
     logo: null,
+    logoFallback: null,
     media: [],
   },
   match: {
@@ -136,6 +139,7 @@ export const state: State = {
     loading: false,
     data: null,
     avatar: null,
+    avatarFallback: null,
     certificates: [],
   },
   languages: {

@@ -297,8 +297,8 @@ type LanguageLevel = {
 
 type MatchStatus = {
   __typename?: "MatchStatus";
-  confirmed?: Maybe<Scalars["Boolean"]>;
-  initiator?: Maybe<ProfileType>;
+  confirmed: Scalars["Boolean"];
+  initiator: ProfileType;
 };
 
 type MatchHints = {
@@ -382,6 +382,7 @@ type Match = {
 enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
+  Company = "COMPANY",
 }
 
 type JobPostingMatchingInput = {
@@ -439,6 +440,8 @@ enum AttachmentKey {
   StudentDocuments = "STUDENT_DOCUMENTS",
   CompanyAvatar = "COMPANY_AVATAR",
   CompanyDocuments = "COMPANY_DOCUMENTS",
+  StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
+  CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
 }
 
 type Attachment = {
@@ -716,7 +719,7 @@ type MatchStudent = {
   __typename?: "MatchStudent";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  confirmed?: Maybe<Scalars["Boolean"]>;
+  confirmed: Scalars["Boolean"];
 };
 
 type MatchStudentInput = {
@@ -733,7 +736,7 @@ type MatchJobPosting = {
   __typename?: "MatchJobPosting";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  confirmed?: Maybe<Scalars["Boolean"]>;
+  confirmed: Scalars["Boolean"];
 };
 
 type MatchJobPostingInput = {

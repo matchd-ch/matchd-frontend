@@ -24,7 +24,14 @@ import { State } from "./state";
 export type Getters = {
   benefits(state: State): Benefit[];
   branches(state: State): Branch[];
-  company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
+  company(
+    state: State
+  ): {
+    data: Company | null;
+    logo: Attachment | null;
+    logoFallback: Attachment | null;
+    media: Attachment[];
+  };
   culturalFits(state: State): CulturalFit[];
   dashboard(state: State): { data: Dashboard | null; avatar: Attachment[] | null };
   jobPostingDetail(state: State): JobPosting | null;
@@ -43,6 +50,7 @@ export type Getters = {
   ): {
     data: Student | null;
     avatar: Attachment | null;
+    avatarFallback: Attachment | null;
     certificates: Attachment[];
   };
   zipCityJobs(state: State): ZipCity[];
@@ -55,7 +63,14 @@ export const getters: GetterTree<State, RootState> & Getters = {
   branches(state: State): Branch[] {
     return state.branches.data;
   },
-  company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] } {
+  company(
+    state: State
+  ): {
+    data: Company | null;
+    logo: Attachment | null;
+    logoFallback: Attachment | null;
+    media: Attachment[];
+  } {
     return state.company;
   },
   culturalFits(state: State): CulturalFit[] {
@@ -146,6 +161,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   ): {
     data: Student | null;
     avatar: Attachment | null;
+    avatarFallback: Attachment | null;
     certificates: Attachment[];
   } {
     return state.student;

@@ -31,7 +31,12 @@ export type Mutations<S = State> = {
   [MutationTypes.COMPANY_LOADING](state: S): void;
   [MutationTypes.COMPANY_LOADED](
     state: S,
-    payload: { company: Company; logo: Attachment[]; media: Attachment[] }
+    payload: {
+      company: Company;
+      logo: Attachment[];
+      media: Attachment[];
+      logoFallback: Attachment[] | null;
+    }
   ): void;
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
   [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
@@ -76,7 +81,12 @@ export type Mutations<S = State> = {
   [MutationTypes.STUDENT_LOADING](state: S): void;
   [MutationTypes.STUDENT_LOADED](
     state: S,
-    payload: { student: Student; avatar: Attachment[]; certificates: Attachment[] }
+    payload: {
+      student: Student;
+      avatar: Attachment[];
+      avatarFallback: Attachment[];
+      certificates: Attachment[]
+    }
   ): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
@@ -105,12 +115,20 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.COMPANY_LOADED](
     state: State,
-    payload: { company: Company; logo: Attachment[]; media: Attachment[] }
+    payload: {
+      company: Company;
+      logo: Attachment[];
+      media: Attachment[],
+      logoFallback: Attachment[];
+    }
   ) {
     state.company.loading = false;
     state.company.data = payload.company;
     if (payload.logo.length > 0) {
       state.company.logo = payload.logo[0];
+    }
+    if (payload.logoFallback.length > 0) {
+      state.company.logoFallback = payload.logoFallback[0];
     }
     state.company.media = payload.media;
   },
@@ -237,6 +255,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state.student.loading = true;
     state.student.data = null;
     state.student.avatar = null;
+    state.student.avatarFallback = null;
     state.student.certificates = [];
   },
   [MutationTypes.STUDENT_LOADED](
@@ -244,6 +263,7 @@ export const mutations: MutationTree<State> & Mutations = {
     payload: {
       student: Student | null;
       avatar: Attachment[];
+      avatarFallback: Attachment[];
       certificates: Attachment[];
     }
   ) {
@@ -251,6 +271,7 @@ export const mutations: MutationTree<State> & Mutations = {
       loading: false,
       data: payload.student,
       avatar: payload.avatar?.[0] ?? null,
+      avatarFallback: payload.avatarFallback?.[0] ?? null,
       certificates: payload.certificates,
     };
   },
