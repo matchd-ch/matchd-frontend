@@ -12,10 +12,10 @@
           :key="student.id"
           class="link-list__item mb-2"
           >
-          <router-link :to="{ path: '/talente/' + student.slug, query: { jobPostingId: jobPosting.id } }">
+          <router-link :to="{ name: 'StudentDetail', params: {slug: student.slug}, query: { jobPostingId: jobPosting.id}}">
             <p class="font-bold">
-              <span v-if="student.firstName">{{ student.firstName }} {{ student.lastName }}</span>
-              <span v-if="!student.firstName">{{ student.nickname }}</span>
+              <template v-if="student.firstName">{{ student.firstName }} {{ student.lastName }}</template>
+              <template v-if="!student.firstName">{{ student.nickname }}</template>
               <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
             </p>
           </router-link>
