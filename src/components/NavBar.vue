@@ -1,6 +1,6 @@
 <template>
   <nav
-    :class="{ flex: open, hidden: !open }"
+    x-bind:class="{ flex: open, hidden: !open }"
     class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row"
   >
     <a
@@ -23,16 +23,16 @@
       href="#"
       >Contact</a
     >
-    <div @click.away="open = false" class="relative" x-data="{ open: false }">
+    <div x-on:click.away="open = false" class="relative" x-data="{ open: false }">
       <button
-        @click="open = !open"
+        x-on:click="open = !open"
         class="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
       >
         <span>Dropdown</span>
         <svg
           fill="currentColor"
           viewBox="0 0 20 20"
-          :class="{ 'rotate-180': open, 'rotate-0': !open }"
+          x-bind:class="{ 'rotate-180': open, 'rotate-0': !open }"
           class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1"
         >
           <path
