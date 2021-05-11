@@ -113,18 +113,23 @@
             >
           </MatchdField>
 
-          <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtectionAccepted">
-            <template v-slot:label>Mit umlegen des Sliders akzeptierst du die <a class="underline" :href="dataProtectionLink">Datenschutzerklärung</a>.</template>
-            <input
+          <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
+            <template v-slot:label
+              >Mit umlegen des Sliders akzeptierst du die
+              <a class="underline" :href="dataProtectionLink">Datenschutzerklärung</a>.</template
+            >
+            <Field
               id="dataProtection"
               name="dataProtection"
+              label="Datenschutzerklärung"
               type="checkbox"
-              v-model="dataProtectionAccepted"
+              value="true"
+              :rules="{ required: true }"
             />
           </MatchdToggle>
           <MatchdButton
             variant="outline"
-            :disabled="studentRegistrationLoading || !dataProtectionAccepted"
+            :disabled="studentRegistrationLoading"
             :loading="studentRegistrationLoading"
             >Ich bin dabei!</MatchdButton
           >
@@ -178,7 +183,6 @@ export default class StudentRegister extends Vue {
   isValidStudent: boolean | null = null;
   isValidPosition: boolean | null = null;
   isStudentDataFormValid = false;
-  dataProtectionAccepted = false;
   dataProtectionLink = process.env.VUE_APP_DATA_PROTECTION_URL || "";
   form: NewStudentAccount = {
     firstName: "",
