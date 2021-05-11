@@ -1,27 +1,125 @@
 <template>
-  <div class="search-result-grid__image-wrap">
-    <div class="search-result-grid__image-box rounded-full border-2">
-      <img :src="imgSrc" class="w-full" :alt="imgAlt" />
-    </div>
-    <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
-      <div class="search-result-grid__match-status">
-        <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
-        <span v-else class="material-icons">record_voice_over</span>
+  <li
+    class="search-result-grid__item"
+    :class="{
+      'search-result-grid__item--green': color === 'green',
+      'search-result-grid__item--orange': color === 'orange',
+      'search-result-grid__item--pink': color === 'pink',
+    }"
+  >
+    <router-link :to="linkTo" class="search-result-grid__link">
+      <div class="search-result-grid__image-wrap">
+        <div class="search-result-grid__image-box rounded-full border-2">
+          <img :src="imgSrc" class="w-full" :alt="imgAlt" />
+        </div>
+        <slot />
       </div>
-    </div>
-  </div>
+    </router-link>
+  </li>
 </template>
 
 <script lang="ts">
-import type { Match } from "api";
 import { Vue, prop } from "vue-class-component";
 
 class Props {
-  match = prop<Match>({ required: true });
-  imgSrc = prop<string>({ required: true });
-  imgAlt = prop<string>({ required: true });
+  linkTo = prop<string>({});
+  imgSrc = prop<string>({});
+  imgAlt = prop<string>({});
+  color = prop<string>({});
 }
-export default class ProfileSection extends Vue.with(Props) {}
+
+export default class GridTile extends Vue.with(Props) {}
 </script>
 
-<style scoped></style>
+
+<style type="postcss" scoped>
+@block search-result-grid {
+  @modifier student {
+    & .search-result-grid__link {
+      & .search-result-grid__image-box {
+        @apply border-green-1;
+      }
+    }
+  }
+
+  @modifier company {
+    & .search-result-grid__link {
+      & .search-result-grid__image-box {
+        @apply border-pink-1;
+      }
+
+      & .search-result-grid__match-status {
+        @apply bg-pink-1;
+      }
+    }
+  }
+
+  @element item {
+    @apply flex items-center text-center;
+
+    &::before {
+      content: "";
+      @apply inline-block align-top pb-full w-0;
+    }
+
+    @modifier orange {
+      @apply shadow-orange text-orange-1;
+
+      & .search-result-grid__link:hover {
+        @apply bg-orange-1;
+      }
+    }
+
+    @modifier green {
+      @apply shadow-green text-green-1;
+
+      & .search-result-grid__link:hover {
+        @apply bg-green-1;
+      }
+    }
+
+    @modifier pink {
+      @apply shadow-pink text-pink-1;
+
+      & .search-result-grid__link:hover {
+        @apply bg-pink-1;
+      }
+    }
+  }
+
+  @element image-wrap {
+    @apply relative;
+  }
+
+  @element image-box {
+    @apply bg-white overflow-hidden;
+    @apply relative;
+
+    & img {
+      @apply absolute top-1/2;
+      transform: translateY(-50%);
+    }
+
+    &::before {
+      content: "";
+      @apply inline-block align-top pb-full w-0;
+    }
+  }
+
+  @element link {
+    @apply block min-w-full min-h-full p-8 pb-4;
+
+    &:visited {
+      @apply text-grey-2;
+    }
+
+    &:hover {
+      @apply text-white transition-colors;
+
+      & .search-result-grid__image-box {
+        @apply border-white;
+      }
+    }
+  }
+}
+</style>

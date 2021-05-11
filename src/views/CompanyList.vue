@@ -2,29 +2,22 @@
   <div>
     <ul
       class="search-result-grid--company search-result-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-px"
+      v-if="companyMatching.data.length"
     >
-      <li
+      <grid-tile
         v-for="match in companyMatching.data"
         :key="match.id"
-        class="search-result-grid__item search-result-grid__item--pink"
+        :linkTo="{
+          path: `/firmen/${match.slug}`,
+          params: { slug: match.id },
+        }"
+        :imgSrc="replaceStack(match.avatar, match.slug)"
+        color="pink"
       >
-        <router-link
-          :to="{
-            path: `/firmen/${match.slug}`,
-            params: { slug: match.id },
-          }"
-          class="search-result-grid__link"
-        >
-          <grid-tile
-            match="match"
-            resultType="company"
-            :imgSrc="replaceStack(match.avatar, match.slug)"
-          ></grid-tile>
-          <div class="mt-2">
-            <h3 class="text-paragraph-lg">{{ match.name }}</h3>
-          </div>
-        </router-link>
-      </li>
+        <div class="mt-2">
+          <h3 class="text-paragraph-lg">{{ match.name }}</h3>
+        </div>
+      </grid-tile>
     </ul>
   </div>
 </template>
