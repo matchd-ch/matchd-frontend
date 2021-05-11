@@ -9,7 +9,7 @@ import CompanyDashboard from "@/components/dashboard/CompanyDashboard.vue";
 import StudentDashboard from "@/components/dashboard/StudentDashboard.vue";
 import { ActionTypes as ContentActions } from "@/store/modules/content/action-types";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
-import type { Attachment, Dashboard, User } from "api";
+import type { Attachment, User, Dashboard as DashboardData } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { ActionTypes as UploadActionTypes } from '@/store/modules/upload/action-types';
@@ -21,7 +21,7 @@ import { AttachmentKey } from '@/api/models/types';
     StudentDashboard,
   },
 })
-export default class Home extends Vue {
+export default class Dashboard extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Dashboard",
@@ -40,7 +40,7 @@ export default class Home extends Vue {
     ]);
   }
 
-  get dashboard(): { data: Dashboard | null; avatar: Attachment[] | null } {
+  get dashboard(): { data: DashboardData | null; avatar: Attachment[] | null } {
     return this.$store.getters["dashboard"];
   }
 
