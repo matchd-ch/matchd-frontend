@@ -10,6 +10,10 @@
       Wir melden uns umgehend bei dir.<br />
       Stay tuned! Dein Matchd-Team
     </p>
+    <p v-if="this.linkRoute">
+      Zurück zum
+      <router-link :to="{ name: this.linkRoute }" class="underline">{{ linkName }}</router-link>
+    </p>
   </div>
 </template>
 
@@ -18,6 +22,8 @@ import { prop, Vue } from "vue-class-component";
 
 class Props {
   textBlack = prop<boolean>({});
+  linkRoute = prop<boolean>({});
+  linkName = prop<boolean>({});
 }
 
 export default class RegisterContactFormSent extends Vue.with(Props) {}

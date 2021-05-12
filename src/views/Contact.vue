@@ -14,7 +14,7 @@
       :name="fullName"
       :email="user?.email"
     />
-    <RegisterContactFormSent v-else :textBlack="true" />
+    <RegisterContactFormSent v-else :textBlack="true" :linkRoute="linkRoute" :linkName="linkName" />
   </div>
 </template>
 
@@ -51,6 +51,20 @@ export default class Contact extends Vue {
       return `${this.user.firstName} ${this.user.lastName}`;
     }
     return undefined;
+  }
+
+  get linkRoute(): string {
+    if (this.user) {
+      return "Home";
+    }
+    return "Login";
+  }
+
+  get linkName(): string {
+    if (this.user) {
+      return "Dashboard";
+    }
+    return "Login";
   }
 
   get user(): User | null {
