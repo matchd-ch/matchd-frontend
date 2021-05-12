@@ -69,6 +69,7 @@ prepare:development:
   variables:
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
     VUE_APP_API: $DEVELOPMENT_VUE_APP_API
+    VUE_APP_DATA_PROTECTION_URL: $DEVELOPMENT_DATA_PROTECTION_URL
   only:
     - develop
   resource_group: development
@@ -78,6 +79,7 @@ prepare:integration:
   variables:
     VUE_APP_DOMAIN: $INTEGRATION_VUE_APP_DOMAIN
     VUE_APP_API: $INTEGRATION_VUE_APP_API
+    VUE_APP_DATA_PROTECTION_URL: $INTEGRATION_DATA_PROTECTION_URL
   only:
     refs:
       - /^v?\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)(?:(?:(?:\+|\.)[a-zA-Z0-9-]+)*)?)$/
@@ -88,6 +90,7 @@ prepare:production:
   variables:
     VUE_APP_DOMAIN: $PRODUCTION_VUE_APP_DOMAIN
     VUE_APP_API: $PRODUCTION_VUE_APP_API
+    VUE_APP_DATA_PROTECTION_URL: $PRODUCTION_DATA_PROTECTION_URL
   only:
     refs:
       - /^v?\d+\.\d+\.\d+$/
@@ -121,6 +124,7 @@ build:development:
     ENVIRONMENT: development
     APP_TAG: latest
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $DEVELOPMENT_DATA_PROTECTION_URL
   dependencies:
     - prepare:development
   only:
@@ -133,6 +137,7 @@ build:integration:
     ENVIRONMENT: integration
     APP_TAG: $CI_COMMIT_REF_NAME
     VUE_APP_DOMAIN: $INTEGRATION_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $INTEGRATION_DATA_PROTECTION_URL
   dependencies:
     - prepare:integration
   only:
@@ -146,6 +151,7 @@ build:production:
     ENVIRONMENT: production
     APP_TAG: $CI_COMMIT_REF_NAME
     VUE_APP_DOMAIN: $PRODUCTION_VUE_APP_DOMAIN
+    VUE_APP_DATA_PROTECTION_URL: $PRODUCTION_DATA_PROTECTION_URL
   dependencies:
     - prepare:production
   only:

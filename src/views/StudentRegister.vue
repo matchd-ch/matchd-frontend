@@ -112,6 +112,21 @@
               Sonderzeichen.</template
             >
           </MatchdField>
+
+          <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
+            <template v-slot:label
+              >Mit umlegen des Sliders akzeptierst du die
+              <a class="underline" :href="dataProtectionLink">Datenschutzerklärung</a>.</template
+            >
+            <Field
+              id="dataProtection"
+              name="dataProtection"
+              label="Datenschutzerklärung"
+              type="checkbox"
+              value="true"
+              :rules="{ required: true }"
+            />
+          </MatchdToggle>
           <MatchdButton
             variant="outline"
             :disabled="studentRegistrationLoading"
@@ -148,12 +163,14 @@ import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registra
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
+import MatchdToggle from "@/components/MatchdToggle.vue";
 
 @Options({
   components: {
     MatchdButton,
     MatchdStep,
     MatchdField,
+    MatchdToggle,
     IconShow,
     IconHide,
     Form,
@@ -166,6 +183,7 @@ export default class StudentRegister extends Vue {
   isValidStudent: boolean | null = null;
   isValidPosition: boolean | null = null;
   isStudentDataFormValid = false;
+  dataProtectionLink = process.env.VUE_APP_DATA_PROTECTION_URL || "";
   form: NewStudentAccount = {
     firstName: "",
     lastName: "",

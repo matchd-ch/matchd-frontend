@@ -1,9 +1,7 @@
 <template>
-  <Form v-if="studentAvatarUploadConfigurations" @submit="onSubmit" v-slot="{ errors }">
-    <GenericError v-if="onboardingState.errors && !this.onboardingState?.errors?.nickname">
-      Beim Speichern ist etwas schief gelaufen.
-    </GenericError>
-    <MatchdField id="nickname" class="mb-10" :errors="errors.nickname">
+  <form v-if="profileData && studentAvatarUploadConfigurations" @submit="veeForm.onSubmit">
+    <FormSaveError v-if="showError" />
+    <MatchdField id="nickname" class="mb-10" :errors="veeForm.errors.nickname">
       <template v-slot:label>Dein Nickname*</template>
       <Field
         id="nickname"
@@ -13,12 +11,8 @@
         label="Nickname"
         rules="required"
         autocomplete="off"
-        v-model="form.nickname"
       />
-      <template
-        v-if="onboardingState.errors?.nickname && onboardingState.errors.nickname[0] === 'unique'"
-        v-slot:info
-      >
+      <template v-if="onboardingState.errors?.nickname?.[0] === 'unique'" v-slot:info>
         <div>
           Weitere freie Nicknamen für dich wären:
           <NicknameSuggestions
@@ -44,70 +38,89 @@
         >Bild hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <MatchdButton
-      variant="outline"
-      :disabled="onboardingLoading"
-      :loading="onboardingLoading"
-      class="block w-full"
-      >Speichern und weiter</MatchdButton
-    >
-  </Form>
+    <slot />
+  </form>
 </template>
 
 <script lang="ts">
+import { studentProfileStep5FormMapper } from "@/api/mappers/studentProfileStep5FormMapper";
 import { studentProfileStep5InputMapper } from "@/api/mappers/studentProfileStep5InputMapper";
 import { AttachmentKey } from "@/api/models/types";
-import GenericError from "@/components/GenericError.vue";
-import MatchdButton from "@/components/MatchdButton.vue";
+import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment, UploadConfiguration, User } from "api";
-import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import type { Attachment, UploadConfiguration } from "api";
+import { Field, useForm } from "vee-validate";
+import { Options, setup, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
+import cloneDeep from "clone-deep";
 
 @Options({
   components: {
-    Form,
     Field,
-    ErrorMessage,
-    GenericError,
-    MatchdButton,
+    FormSaveError,
     MatchdField,
-    MatchdSelect,
+    MatchdFileBlock,
     MatchdFileUpload,
     MatchdFileView,
-    MatchdFileBlock,
     NicknameSuggestions,
   },
+  emits: ["submitComplete", "changeDirty"],
 })
-export default class StudentStep5 extends Vue {
-  form: StudentProfileStep5Form = {
-    nickname: "",
-  };
+export default class StudentStep5Form extends Vue {
+  veeForm = setup(() => {
+    const store = useStore();
+    const form = useForm<StudentProfileStep5Form>();
 
-  get onboardingLoading(): boolean {
-    return this.$store.getters["onboardingLoading"];
+    const onSubmit = form.handleSubmit(
+      async (formData): Promise<void> => {
+        try {
+          await store.dispatch(
+            ActionTypes.STUDENT_ONBOARDING_STEP5,
+            studentProfileStep5InputMapper(formData)
+          );
+          if (store.getters["onboardingState"]?.errors?.nickname[0] === "unique") {
+            form.setErrors({
+              nickname: "Dieser Nickname ist bereits vergeben.",
+            });
+          } else {
+            this.$emit("submitComplete", store.getters["onboardingState"]);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    );
+
+    return {
+      ...form,
+      onSubmit,
+    };
+  });
+
+  get showError(): boolean {
+    return !!this.onboardingState.errors;
   }
 
   get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  get nicknameSuggestions(): string[] {
-    return this.$store.getters["nicknameSuggestions"];
+  get currentStep(): number | undefined {
+    return this.$store.getters["profileStep"];
   }
 
-  get user(): User | null {
-    return this.$store.getters["user"];
+  get nicknameSuggestions(): string[] {
+    return this.$store.getters["nicknameSuggestions"];
   }
 
   get studentAvatarQueue(): QueuedFile[] {
@@ -130,10 +143,18 @@ export default class StudentStep5 extends Vue {
         key: AttachmentKey.StudentDocuments,
       }),
     ]);
+
+    this.veeForm.resetForm({
+      values: cloneDeep(this.profileData),
+    });
+
+    if (this.currentStep && this.currentStep > 5) {
+      this.veeForm.setValues(cloneDeep(this.profileData));
+    }
   }
 
   onClickNickname(nickname: string): void {
-    this.form.nickname = nickname;
+    this.veeForm.setFieldValue("nickname", nickname);
   }
 
   async onSelectStudentAvatar(files: FileList): Promise<void> {
@@ -150,21 +171,17 @@ export default class StudentStep5 extends Vue {
     });
   }
 
-  async onSubmit(
-    form: StudentProfileStep5Form,
-    actions: FormActions<Partial<StudentProfileStep5Form>>
-  ): Promise<void> {
-    await this.$store.dispatch(
-      ActionTypes.STUDENT_ONBOARDING_STEP5,
-      studentProfileStep5InputMapper(this.form)
-    );
-    if (this.onboardingState?.errors?.nickname[0] === "unique") {
-      actions.setErrors({
-        nickname: "Dieser Nickname ist bereits vergeben.",
-      });
-    } else if (this.onboardingState.success) {
-      this.$router.push({ params: { step: "schritt6" } });
+  get profileData(): StudentProfileStep5Form {
+    const user = this.$store.getters["user"];
+    if (!user) {
+      return {} as StudentProfileStep5Form;
     }
+    return studentProfileStep5FormMapper(user);
+  }
+
+  @Watch("veeForm.meta.dirty")
+  checkDirty(): void {
+    this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }
 </script>

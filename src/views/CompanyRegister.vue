@@ -148,6 +148,22 @@
               Sonderzeichen.</template
             >
           </MatchdField>
+
+          <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
+            <template v-slot:label
+              >Mit umlegen des Sliders akzeptieren sie die
+              <a class="underline" :href="dataProtectionLink">Datenschutzerklärung</a>.</template
+            >
+            <Field
+              id="dataProtection"
+              name="dataProtection"
+              label="Datenschutzerklärung"
+              type="checkbox"
+              value="true"
+              :rules="{ required: true }"
+            />
+          </MatchdToggle>
+
           <MatchdButton
             variant="outline"
             :disabled="companyRegistrationLoading"
@@ -187,12 +203,14 @@ import IconHide from "@/assets/icons/hide.svg";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
+import MatchdToggle from "@/components/MatchdToggle.vue";
 
 @Options({
   components: {
     MatchdButton,
     MatchdStep,
     MatchdField,
+    MatchdToggle,
     IconShow,
     IconHide,
     Form,
@@ -205,6 +223,7 @@ export default class CompanyRegister extends Vue {
   isValidCompany: boolean | null = null;
   isCompanyUidFormValid = false;
   isCompanyDataFormValid = false;
+  dataProtectionLink = process.env.VUE_APP_DATA_PROTECTION_URL || "";
   form: NewCompanyAccount = {
     uid: "",
     firstName: "",

@@ -1,8 +1,6 @@
 <template>
-  <Form @submit="onSubmit">
-    <GenericError v-if="onboardingState.errors"
-      >Beim Speichern ist etwas schief gelaufen.</GenericError
-    >
+  <form v-if="profileData" @submit="veeForm.onSubmit">
+    <FormSaveError v-if="showError" />
     <p>
       Dein Profil ist standardmässig anonymisiert. D.h. Unternehmen und Bildungseinrichtungen sehen
       nur deinen Nickname, ein neutrales Profilbild und was du suchst. Sofern du in deinem Profil
@@ -62,71 +60,114 @@
         </p>
       </template>
     </div>
-
-    <MatchdButton
-      variant="outline"
-      :disabled="onboardingLoading"
-      :loading="onboardingLoading"
-      class="block w-full"
-      >Speichern</MatchdButton
-    >
-  </Form>
+    <slot />
+  </form>
 </template>
 
 <script lang="ts">
+import { studentProfileStep6FormMapper } from "@/api/mappers/studentProfileStep6FormMapper";
 import { studentProfileStep6InputMapper } from "@/api/mappers/studentProfileStep6InputMapper";
-import { ProfileState } from "@/api/models/types";
-import GenericError from "@/components/GenericError.vue";
-import MatchdButton from "@/components/MatchdButton.vue";
+import { AttachmentKey, ProfileState } from "@/api/models/types";
+import FormSaveError from "@/components/FormSaveError.vue";
+import MatchdField from "@/components/MatchdField.vue";
+import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
+import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
+import MatchdFileView from "@/components/MatchdFileView.vue";
+import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { User } from "api";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { Field, useField, useForm } from "vee-validate";
+import { Options, setup, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
+import cloneDeep from "clone-deep";
 
 @Options({
   components: {
-    Form,
     Field,
-    ErrorMessage,
-    GenericError,
-    MatchdButton,
+    FormSaveError,
+    MatchdField,
+    MatchdFileBlock,
+    MatchdFileUpload,
+    MatchdFileView,
+    NicknameSuggestions,
   },
+  emits: ["submitComplete", "changeDirty"],
 })
-export default class StudentStep6 extends Vue {
-  form: StudentProfileStep6Form = {
-    state: ProfileState.Anonymous,
-  };
+export default class StudentStep6Form extends Vue {
+  veeForm = setup(() => {
+    const store = useStore();
+    const form = useForm<StudentProfileStep6Form>();
+    const { value: state } = useField<ProfileState>("state");
 
-  get isAnonymous(): boolean {
-    return this.form.state === ProfileState.Anonymous;
-  }
+    const onSubmit = form.handleSubmit(
+      async (formData): Promise<void> => {
+        try {
+          await store.dispatch(
+            ActionTypes.STUDENT_ONBOARDING_STEP6,
+            studentProfileStep6InputMapper(formData)
+          );
+          this.$emit("submitComplete", store.getters["onboardingState"]);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    );
 
-  get onboardingLoading(): boolean {
-    return this.$store.getters["onboardingLoading"];
+    return {
+      ...form,
+      onSubmit,
+      state,
+    };
+  });
+
+  get showError(): boolean {
+    return !!this.onboardingState.errors;
   }
 
   get onboardingState(): OnboardingState {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): User | null {
-    return this.$store.getters["user"];
+  get currentStep(): number | undefined {
+    return this.$store.getters["profileStep"];
+  }
+
+  get isAnonymous(): boolean {
+    return this.veeForm.state === ProfileState.Anonymous;
+  }
+
+  get onboardingLoading(): boolean {
+    return this.$store.getters["onboardingLoading"];
+  }
+
+  get profileData(): StudentProfileStep6Form {
+    const user = this.$store.getters["user"];
+    if (!user) {
+      return {} as StudentProfileStep6Form;
+    }
+    return studentProfileStep6FormMapper(user);
   }
 
   onToggleUserState(): void {
-    this.form.state = this.isAnonymous ? ProfileState.Public : ProfileState.Anonymous;
+    this.veeForm.state = this.isAnonymous ? ProfileState.Public : ProfileState.Anonymous;
   }
 
-  async onSubmit(): Promise<void> {
-    await this.$store.dispatch(
-      ActionTypes.STUDENT_ONBOARDING_STEP6,
-      studentProfileStep6InputMapper(this.form)
-    );
-    if (this.onboardingState.success) {
-      this.$router.push({ params: { step: "finish" } });
+  async mounted(): Promise<void> {
+    this.veeForm.resetForm({
+      values: cloneDeep(this.profileData),
+    });
+
+    if (this.currentStep && this.currentStep > 6) {
+      this.veeForm.setValues(cloneDeep(this.profileData));
     }
+  }
+
+  @Watch("veeForm.meta.dirty")
+  checkDirty(): void {
+    this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }
 </script>
