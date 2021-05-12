@@ -1,5 +1,5 @@
 export interface CompanyProfileStep2Form {
-  memberItStGallen: boolean;
+  memberItStGallen?: boolean;
   services?: string;
   website: string;
   description: string;
