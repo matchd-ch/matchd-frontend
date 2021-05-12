@@ -1,5 +1,5 @@
 query CompanyMatching {
-  matches(techBoost: 1, softBoost: 1) {
+  matches(techBoost: 3, softBoost: 3) {
     id
     name
     avatar
