@@ -49,7 +49,9 @@
         >
         <p class="mt-5 text-black text-center">
           Hats nicht funktioniert?
-          <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline">Just leave a message!</router-link>
+          <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
+            >Just leave a message!</router-link
+          >
         </p>
       </Form>
     </div>

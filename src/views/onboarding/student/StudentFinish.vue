@@ -6,7 +6,9 @@
     >
     <p class="mt-5 text-black text-center">
       Alles klar?
-      <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline">Falls nicht, sind wir gerne für euch da.</router-link>
+      <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
+        >Falls nicht, sind wir gerne für euch da.</router-link
+      >
     </p>
   </div>
 </template>

@@ -1,19 +1,21 @@
 <template>
-    <div
-      id="nichts-passendes-gefunden"
-      class="max-w-screen-sm mx-auto min-h-screen flex items-center p-10 xl:p-0"
-    >
-      <RegisterContactForm
-        v-if="!contactFormSent"
-        @submit="onSubmit"
-        :loading="contactFormLoading"
-        class="flex-grow"
-        :title="'Get in touch'"
-        :subText="'Du fragst dich, welche Troll-Fabriken hinter unserem hochkomplexen Matchmaking-Algorithmus stecken? Tja, das bleibt wohl unser Geheimnis. Für alle anderen Fragen, schreib uns!'"
-        :textBlack="true"
-      />
-      <RegisterContactFormSent v-else />
-    </div>
+  <div
+    id="nichts-passendes-gefunden"
+    class="max-w-screen-sm mx-auto min-h-screen flex items-center p-10 xl:p-0"
+  >
+    <RegisterContactForm
+      v-if="!contactFormSent"
+      @submit="onSubmit"
+      :loading="contactFormLoading"
+      class="flex-grow"
+      :title="'Get in touch'"
+      :subText="'Du fragst dich, welche Troll-Fabriken hinter unserem hochkomplexen Matchmaking-Algorithmus stecken? Tja, das bleibt wohl unser Geheimnis. Für alle anderen Fragen, schreib uns!'"
+      :textBlack="true"
+      :name="fullName"
+      :email="user?.email"
+    />
+    <RegisterContactFormSent v-else />
+  </div>
 </template>
 
 <script lang="ts">
@@ -26,6 +28,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import RegisterContactForm from "@/components/RegisterContactForm.vue";
 import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
 import { useMeta } from "vue-meta";
+import type { User } from "api";
 
 @Options({
   components: {
@@ -37,26 +40,21 @@ import { useMeta } from "vue-meta";
   },
 })
 export default class Contact extends Vue {
-
-  form = {
-    name: "",
-    email: "",
-  };
   meta = setup(() =>
     useMeta({
       title: "Kontakt",
     })
   );
 
-  async mounted(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.CITY_BY_ZIP);
+  get fullName(): string | undefined {
     if (this.user) {
-      this.form = {
-        ...this.form,
-        name: this.user.firstName + this.user.lastName || "",
-        email: this.user.email || "",
-      };
+      return `${this.user.firstName} ${this.user.lastName}`;
     }
+    return undefined;
+  }
+
+  get user(): User | null {
+    return this.$store.getters["user"];
   }
 
   get contactFormLoading(): boolean {

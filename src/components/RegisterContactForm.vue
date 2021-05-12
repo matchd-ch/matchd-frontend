@@ -1,16 +1,18 @@
 <template>
   <div class="register-contact-form">
-    <h2 id="register-contact" class="text-display-xs mb-6"
-    v-bind:class="{ 'text-black':textBlack, 'text-white':!textBlack }">
+    <h2
+      id="register-contact"
+      class="text-display-xs mb-6"
+      v-bind:class="{ 'text-black': textBlack, 'text-white': !textBlack }"
+    >
       {{ title }}
     </h2>
-    <p class="mb-9"
-       v-bind:class="{ 'text-black':textBlack, 'text-white':!textBlack }">
-     {{ subText }}
+    <p class="mb-9" v-bind:class="{ 'text-black': textBlack, 'text-white': !textBlack }">
+      {{ subText }}
     </p>
     <Form @submit="$emit('submit', $event)" v-slot="{ errors }">
       <div class="mb-6">
-        <label for="name" class="sr-only" >Dein Name</label>
+        <label for="name" class="sr-only">Dein Name</label>
         <Field
           id="name"
           name="name"
@@ -20,6 +22,7 @@
           rules="required"
           class="form-input"
           :class="{ invalid: errors.name }"
+          v-model="form.name"
         />
       </div>
       <div class="mb-6">
@@ -34,6 +37,7 @@
           rules="required|email"
           class="form-input"
           :class="{ invalid: errors.email }"
+          v-model="form.email"
         />
       </div>
       <div class="mb-6">
@@ -62,7 +66,6 @@
 import MatchdButton from "@/components/MatchdButton.vue";
 import { Options, prop, Vue } from "vue-class-component";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import {Input} from "postcss";
 
 class Props {
   loading = prop<boolean>({});
@@ -83,10 +86,21 @@ class Props {
   emits: ["submit"],
 })
 export default class RegisterContactForm extends Vue.with(Props) {
-
   title = "Du hast nichts Passendes gefunden? Kein Problem!";
-  subText = "Schreibe uns, woher du kommst und warum du gerne Teil der Matchd-Community werden möchtest.\n Wir freuen uns auf dich! Dein Matchd-Team.";
+  subText =
+    "Schreibe uns, woher du kommst und warum du gerne Teil der Matchd-Community werden möchtest.\n Wir freuen uns auf dich! Dein Matchd-Team.";
 
+  form = {
+    name: "",
+    email: "",
+  };
+
+  mounted(): void {
+    this.form = {
+      name: this.name || "",
+      email: this.email || "",
+    };
+  }
 }
 </script>
 
