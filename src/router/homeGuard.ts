@@ -27,7 +27,7 @@ export async function isCompleteProfile(
         !isUniversity)
     ) {
       console.error("Access denied");
-      next({ name: "Home" });
+      next({ name: "Dashboard" });
     } else if (
       to.name !== "Onboarding" &&
       profileStep &&
