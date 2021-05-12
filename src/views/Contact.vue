@@ -14,7 +14,7 @@
       :name="fullName"
       :email="user?.email"
     />
-    <RegisterContactFormSent v-else />
+    <RegisterContactFormSent v-else :textBlack="true" />
   </div>
 </template>
 

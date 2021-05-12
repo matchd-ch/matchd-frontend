@@ -1,7 +1,12 @@
 <template>
   <div class="register-contact-form-sent">
-    <h2 class="text-white text-display-xs mb-6">Vielen Dank für deine Anfrage.</h2>
-    <p class="text-white mb-9">
+    <h2
+      class="text-display-xs mb-6"
+      v-bind:class="{ 'text-black': textBlack, 'text-white': !textBlack }"
+    >
+      Vielen Dank für deine Anfrage.
+    </h2>
+    <p class="mb-9" v-bind:class="{ 'text-black': textBlack, 'text-white': !textBlack }">
       Wir melden uns umgehend bei dir.<br />
       Stay tuned! Dein Matchd-Team
     </p>
@@ -9,7 +14,11 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { prop, Vue } from "vue-class-component";
 
-export default class RegisterContactFormSent extends Vue {}
+class Props {
+  textBlack = prop<boolean>({});
+}
+
+export default class RegisterContactFormSent extends Vue.with(Props) {}
 </script>
