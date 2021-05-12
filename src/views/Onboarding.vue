@@ -99,7 +99,8 @@ import {
   StudentStep6,
   StudentFinish as StudentStep7,
 } from "@/views/profile/student";
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
@@ -125,6 +126,12 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   },
 })
 export default class Onboarding extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Profil vervollständigen",
+    })
+  );
+
   urlStepNumber = 0;
 
   get currentOnboardingComponent(): string {

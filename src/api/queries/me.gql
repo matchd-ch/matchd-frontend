@@ -63,6 +63,10 @@ query {
     employee {
       id
       role
+      firstName
+      lastName
+      phone
+      email
     }
     company {
       id
@@ -72,11 +76,34 @@ query {
       street
       profileStep
       state
+      description
+      website
+      memberItStGallen
+      services
       jobPostings {
         id
         slug
         title
         state
+        jobType {
+          id
+          name
+        }
+      }
+      branches {
+        id
+        name
+      }
+      benefits {
+        id
+        icon
+        name
+      }
+      culturalFits {
+        id
+      }
+      softSkills {
+        id
       }
     }
   }

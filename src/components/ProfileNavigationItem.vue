@@ -1,6 +1,9 @@
 <template>
   <li class="mr-4">
-    <router-link :to="to" class="text-primary-1">
+    <router-link
+      :to="to"
+      :class="{ 'text-grey-2 pointer-events-none': disabled, 'text-primary-1': !disabled }"
+    >
       <slot />
     </router-link>
   </li>
@@ -11,7 +14,8 @@ import { Options, prop, Vue } from "vue-class-component";
 import { RouteLocationNormalized } from "vue-router";
 
 class Props {
-  to = prop<RouteLocationNormalized>({});
+  to = prop<RouteLocationNormalized>({ required: true });
+  disabled = prop<boolean>({ default: false });
 }
 
 @Options({})
