@@ -44,6 +44,7 @@ export type Mutations<S = State> = {
     state: S,
     payload: { nicknameSuggestions: string[] }
   ): void;
+  [MutationTypes.CLEAR_ONBOARDING_STATE](state: S): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -97,5 +98,10 @@ export const mutations: MutationTree<State> & Mutations = {
     payload: { nicknameSuggestions: string[] }
   ) {
     state.profile.nicknameSuggestions = payload.nicknameSuggestions;
+  },
+  [MutationTypes.CLEAR_ONBOARDING_STATE](state: State) {
+    state.profile.loading = false;
+    state.profile.success = false;
+    state.profile.errors = null;
   },
 };
