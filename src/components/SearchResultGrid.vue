@@ -12,7 +12,7 @@
       :key="match.id"
       :linkTo="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
       :imgSrc="replaceStack(match.img, resultType === 'student' ? 'desktop-square' : 'logo-square')"
-      :imgAlt="`${match.name} ${resultType === 'student' ? 'Profile Picture' : 'Logo'}`"
+      :imgAlt="`${match.name} ${resultType === 'student' ? 'Profilbild' : 'Logo'}`"
       :color="color"
     >
       <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
