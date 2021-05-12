@@ -54,14 +54,19 @@
         />
       </div>
       <div>
-        <MatchdButton type="submit" :disabled="loading" :loading="loading" class="block w-full"
+        <MatchdButton
+          type="submit"
+          :disabled="loading"
+          :loading="loading"
+          class="block w-full"
+          :variant="[textBlack ? 'outline' : 'fill']"
           >Senden</MatchdButton
         >
       </div>
     </Form>
   </div>
 </template>
-
+s
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
 import { Options, prop, Vue } from "vue-class-component";
