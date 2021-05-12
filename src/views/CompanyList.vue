@@ -7,11 +7,9 @@
       <grid-tile
         v-for="match in companyMatching.data"
         :key="match.id"
-        :linkTo="{
-          path: `/firmen/${match.slug}`,
-          params: { slug: match.id },
-        }"
+        :linkTo="{ name: 'CompanyDetail', params: { slug: match.slug } }"
         :imgSrc="replaceStack(match.avatar, match.slug)"
+        :imgAlt="`${match.name} Logo`"
         color="pink"
       >
         <div class="mt-2">
@@ -26,8 +24,9 @@
 import { ActionTypes } from "@/store/modules/content/action-types";
 import GridTile from "@/components/GridTile.vue";
 import type { Match } from "api";
-import { Vue, Options } from "vue-class-component";
+import { Vue, Options, setup } from "vue-class-component";
 import { replaceStack } from "@/helpers/replaceStack";
+import { useMeta } from "vue-meta";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -37,6 +36,8 @@ Vue.registerHooks(["beforeRouteUpdate"]);
   },
 })
 export default class CompanyList extends Vue {
+  meta = setup(() => useMeta({ title: "Firmen" }));
+
   async mounted(): Promise<void> {
     await this.loadData();
   }

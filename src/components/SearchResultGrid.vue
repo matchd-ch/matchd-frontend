@@ -11,10 +11,8 @@
       v-for="match in matches"
       :key="match.id"
       :linkTo="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
-      :imgSrc="
-        match.img.replace('{stack}', resultType === 'student' ? 'desktop-square' : 'logo-square')
-      "
-      :imgAlt="`${match.name} Logo`"
+      :imgSrc="replaceStack(match.img, resultType === 'student' ? 'desktop-square' : 'logo-square')"
+      :imgAlt="`${match.name} ${resultType === 'student' ? 'Profile Picture' : 'Logo'}`"
       :color="color"
     >
       <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
@@ -36,6 +34,7 @@ import { SearchResult } from "@/models/SearchResult";
 import GridTile from "@/components/GridTile.vue";
 import { Options, prop, Vue } from "vue-class-component";
 import { LocationQueryRaw } from "vue-router";
+import { replaceStack } from "@/helpers/replaceStack";
 
 class Props {
   matches = prop<SearchResult[]>({ default: [] });
@@ -55,6 +54,10 @@ export default class SearchBoost extends Vue.with(Props) {
       return {};
     }
     return { jobPostingId: this.jobPostingId };
+  }
+
+  replaceStack(url: string, stack: string): string {
+    return replaceStack(url, stack);
   }
 
   get toRouteName(): string {
