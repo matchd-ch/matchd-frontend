@@ -115,7 +115,7 @@ export default class Login extends Vue {
         }
         this.$router.push({ path: redirectUri, query });
       } else {
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: "Dashboard" });
       }
     }
   }

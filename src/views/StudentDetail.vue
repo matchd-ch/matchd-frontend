@@ -12,8 +12,8 @@
           Alle Talente
         </button>
       </div>
-      <div v-if="student.avatar" class="flex justify-center mt-9">
-        <img class="avatar rounded-full object-cover" :src="avatarSrc" />
+      <div class="flex justify-center mt-9">
+        <img class="avatar rounded-full object-cover" :src="replaceStack(avatarSrc, 'logo')" />
       </div>
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
@@ -137,6 +137,7 @@ import type { Attachment, Student, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { replaceStack } from "@/helpers/replaceStack";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -189,13 +190,13 @@ export default class StudentDetail extends Vue {
   get student(): {
     data: Student | null;
     avatar: Attachment | null;
+    avatarFallback: Attachment | null;
     certificates: Attachment[];
   } {
     const student = this.$store.getters["student"];
     if (!student?.data) {
-      return { data: null, avatar: null, certificates: [] };
+      return { data: null, avatar: null, avatarFallback: null, certificates: [] };
     }
-
     return {
       ...student,
       data: {
@@ -206,11 +207,16 @@ export default class StudentDetail extends Vue {
       },
       certificates: student.certificates,
       avatar: student.avatar,
+      avatarFallback: student.avatarFallback
     };
   }
 
   get avatarSrc(): string {
-    return this.student.avatar?.url ?? "";
+    return this.student.avatar?.url || this.student.avatarFallback?.url || "";
+  }
+
+  replaceStack(url: string, stack: string): string {
+    return replaceStack(url, stack);
   }
 
   get lookingFor(): string {

@@ -1,0 +1,74 @@
+query {
+  dashboard {
+    jobPostings {
+      id
+      title
+      datePublished
+      dateCreated
+      slug
+      state
+      company {
+        name
+        city
+        zip
+      }
+    }
+    requestedMatches {
+      jobPosting {
+        id
+        title
+        slug
+        state
+        company {
+          name
+          city
+          zip
+        }
+      }
+      student {
+        nickname
+        firstName
+        lastName
+        slug
+      }
+    }
+    unconfirmedMatches {
+      jobPosting {
+        id
+        title
+        slug
+        state
+        company {
+          name
+          city
+          zip
+        }
+      }
+      student {
+        nickname
+        firstName
+        lastName
+        slug
+      }
+    }
+    confirmedMatches {
+      jobPosting {
+        id
+        title
+        slug
+        state
+        company {
+          name
+          city
+          zip
+        }
+      }
+      student {
+        nickname
+        firstName
+        lastName
+        slug
+      }
+    }
+  }
+}

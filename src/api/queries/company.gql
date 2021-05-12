@@ -40,6 +40,11 @@ query($slug: String) {
     url
     mimeType
   }
+  logoFallback: attachments(key: COMPANY_AVATAR_FALLBACK, slug: $slug) {
+    id
+    url
+    mimeType
+  }
   media: attachments(key: COMPANY_DOCUMENTS, slug: $slug) {
     id
     url
