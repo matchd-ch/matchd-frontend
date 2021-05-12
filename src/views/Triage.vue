@@ -56,7 +56,15 @@
         @submit="onSubmit"
         :loading="contactFormLoading"
         class="flex-grow"
-      />
+      >
+        <h2 class="text-white text-display-xs mb-6">
+          Du hast nichts Passendes gefunden? Kein Problem!
+        </h2>
+        <p class="text-white mb-9">
+          Schreibe uns, woher du kommst und warum du gerne Teil der Matchd-Community werden
+          möchtest. Wir freuen uns auf dich! Dein Matchd-Team.
+        </p>
+      </RegisterContactForm>
       <RegisterContactFormSent v-else />
     </div>
   </div>

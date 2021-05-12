@@ -140,6 +140,14 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/kontakt",
+    name: "Contact",
+    component: () => import(/* webpackChunkName: "register" */ "../views/Contact.vue"),
+    meta: {
+      public: true,
+    },
+  },
+  {
     path: "/:catchAll(.*)",
     redirect: "/login",
   },

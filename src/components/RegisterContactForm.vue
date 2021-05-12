@@ -1,12 +1,6 @@
 <template>
   <div class="register-contact-form">
-    <h2 id="register-contact" class="text-white text-display-xs mb-6">
-      Du hast nichts Passendes gefunden? Kein Problem!
-    </h2>
-    <p class="text-white mb-9">
-      Schreibe uns, woher du kommst und warum du gerne Teil der Matchd-Community werden möchtest.<br />
-      Wir freuen uns auf dich! Dein Matchd-Team.
-    </p>
+    <slot></slot>
     <Form @submit="$emit('submit', $event)" v-slot="{ errors }">
       <div class="mb-6">
         <label for="name" class="sr-only">Dein Name</label>
@@ -19,6 +13,7 @@
           rules="required"
           class="form-input"
           :class="{ invalid: errors.name }"
+          v-model="form.name"
         />
       </div>
       <div class="mb-6">
@@ -33,6 +28,7 @@
           rules="required|email"
           class="form-input"
           :class="{ invalid: errors.email }"
+          v-model="form.email"
         />
       </div>
       <div class="mb-6">
@@ -49,7 +45,12 @@
         />
       </div>
       <div>
-        <MatchdButton type="submit" :disabled="loading" :loading="loading" class="block w-full"
+        <MatchdButton
+          type="submit"
+          :disabled="loading"
+          :loading="loading"
+          class="block w-full"
+          :variant="buttonVariantOutline ? 'outline' : 'fill'"
           >Senden</MatchdButton
         >
       </div>
@@ -64,6 +65,9 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 
 class Props {
   loading = prop<boolean>({});
+  name = prop<string>({});
+  email = prop<string>({});
+  buttonVariantOutline = prop<boolean>({});
 }
 
 @Options({
@@ -75,7 +79,19 @@ class Props {
   },
   emits: ["submit"],
 })
-export default class RegisterContactForm extends Vue.with(Props) {}
+export default class RegisterContactForm extends Vue.with(Props) {
+  form = {
+    name: "",
+    email: "",
+  };
+
+  mounted(): void {
+    this.form = {
+      name: this.name || "",
+      email: this.email || "",
+    };
+  }
+}
 </script>
 
 <style lang="postcss" scoped>

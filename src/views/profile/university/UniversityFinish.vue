@@ -9,7 +9,9 @@
     >
     <p class="mt-5 text-black text-center">
       Falls sie noch Fragen haben,
-      <router-link :to="{ name: 'Home' }" class="text-primary-1">schreiben sie uns</router-link>
+      <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
+        >schreiben sie uns</router-link
+      >
     </p>
   </div>
 </template>
