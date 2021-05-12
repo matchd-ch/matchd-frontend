@@ -5,14 +5,14 @@ export function studentProfileStep3InputMapper(
   studentProfileForm: StudentProfileStep3Form
 ): IStudentProfileInputStep3 {
   return {
-    softSkills: studentProfileForm.softSkills.map((softSkill) => {
+    softSkills: studentProfileForm.softSkills.map((softSkillId) => {
       return {
-        id: softSkill.id,
+        id: softSkillId,
       };
     }),
-    culturalFits: studentProfileForm.culturalFits.map((culturalFit) => {
+    culturalFits: studentProfileForm.culturalFits.map((culturalFitId) => {
       return {
-        id: culturalFit.id,
+        id: culturalFitId,
       };
     }),
   };

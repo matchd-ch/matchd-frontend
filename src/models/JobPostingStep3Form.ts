@@ -1,3 +1,5 @@
+import { JobPostingState } from "@/api/models/types";
+
 export interface AddEmployeeSubForm {
   firstName: string;
   lastName: string;
@@ -6,6 +8,6 @@ export interface AddEmployeeSubForm {
 }
 
 export interface JobPostingStep3Form {
-  public: boolean;
+  state: JobPostingState;
   employeeId: string;
 }

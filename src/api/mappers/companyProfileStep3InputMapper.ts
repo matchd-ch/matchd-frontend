@@ -5,11 +5,11 @@ export function companyProfileStep3InputMapper(
   companyProfileForm: CompanyProfileStep3Form
 ): ICompanyProfileInputStep3 {
   return {
-    branches: companyProfileForm.branches.map((branch) => {
-      return { id: branch.id };
+    branches: companyProfileForm.branches.map((branchId) => {
+      return { id: branchId };
     }),
-    benefits: companyProfileForm.benefits.map((benefit) => {
-      return { id: benefit.id };
+    benefits: companyProfileForm.benefits.map((benefitId) => {
+      return { id: benefitId };
     }),
   };
 }

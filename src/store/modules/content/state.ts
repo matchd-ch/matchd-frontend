@@ -4,6 +4,7 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  Dashboard,
   JobPosting,
   JobRequirement,
   JobType,
@@ -17,6 +18,10 @@ import type {
 } from "api";
 
 export type State = {
+  dashboard: {
+    loading: boolean;
+    data: Dashboard | null;
+  };
   jobTypes: {
     loading: boolean;
     data: JobType[];
@@ -37,6 +42,7 @@ export type State = {
     loading: boolean;
     data: Company | null;
     logo: Attachment | null;
+    logoFallback: Attachment | null;
     media: Attachment[];
   };
   match: {
@@ -60,6 +66,7 @@ export type State = {
     loading: boolean;
     data: Student | null;
     avatar: Attachment | null;
+    avatarFallback: Attachment | null;
     certificates: Attachment[];
   };
   languages: {
@@ -82,6 +89,10 @@ export type State = {
 };
 
 export const state: State = {
+  dashboard: {
+    loading: false,
+    data: null
+  },
   jobTypes: {
     loading: false,
     data: [],
@@ -102,6 +113,7 @@ export const state: State = {
     loading: false,
     data: null,
     logo: null,
+    logoFallback: null,
     media: [],
   },
   match: {
@@ -125,6 +137,7 @@ export const state: State = {
     loading: false,
     data: null,
     avatar: null,
+    avatarFallback: null,
     certificates: [],
   },
   languages: {

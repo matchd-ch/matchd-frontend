@@ -16,6 +16,9 @@
         ></span>
       </label>
     </div>
+    <div v-if="errors" class="matchd-toggle__errors">
+      {{ errors }}
+    </div>
     <p v-if="$slots.info" class="matchd-toggle__info">
       <IconInfo class="flex-shrink-0 w-5 mr-2" />
       <slot name="info" />
@@ -29,6 +32,7 @@ import IconInfo from "@/assets/icons/info.svg";
 
 class Props {
   id = prop<string>({});
+  errors = prop<string>({});
 }
 
 @Options({
@@ -51,6 +55,11 @@ export default class MatchdToggle extends Vue.with(Props) {}
   @element label {
     @apply block px-8 mb-2;
     @apply font-medium;
+  }
+
+  @element errors {
+    @apply px-8 mt-2;
+    @apply text-negative text-paragraph-sm;
   }
 
   @element info {

@@ -5,8 +5,10 @@ export function studentProfileStep4InputMapper(
   studentProfileForm: StudentProfileStep4Form
 ): IStudentProfileInputStep4 {
   return {
-    skills: studentProfileForm.skills.map((skill) => {
-      return { id: skill.id };
+    skills: studentProfileForm.skills.map((softSkillId) => {
+      return {
+        id: softSkillId,
+      };
     }),
     languages: studentProfileForm.languages.map((selectedLanguage) => {
       return {

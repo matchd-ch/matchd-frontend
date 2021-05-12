@@ -30,7 +30,7 @@ defineRule("phone", (value: string, _, ctx) => {
   if (!value) {
     return true;
   }
-  if (!value.match(/^\+(\d+)$/)) {
+  if (!value.match(/^\+(\d{11})$/)) {
     return `${ctx.field} muss eine gültige Telefonnummer im Format +41711234567 enthalten`;
   }
 
@@ -69,7 +69,7 @@ defineRule("birthday", (value: string, fields, ctx) => {
 
 configure({
   validateOnBlur: false,
-  validateOnChange: false,
+  validateOnChange: true,
   validateOnInput: false,
   validateOnModelUpdate: false,
   generateMessage: localize({

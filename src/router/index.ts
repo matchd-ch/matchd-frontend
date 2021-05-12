@@ -5,13 +5,13 @@ import { redirectToCurrentOnboardingStep } from "@/router/onboardingGuard";
 import { needsStateResetBeforePasswordReset } from "@/router/passwordResetGuard";
 import { studentsOnlyWithPublishedJobPostingGuard } from "@/router/studentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
+import Dashboard from "../views/Dashboard.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "Dashboard",
+    component: Dashboard,
   },
   {
     path: "/login",
@@ -42,6 +42,16 @@ const routes: Array<RouteRecordRaw> = [
     name: "Onboarding",
     component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
     beforeEnter: redirectToCurrentOnboardingStep,
+  },
+  {
+    path: "/profil",
+    name: "Profile",
+    component: () => import(/* webpackChunkName: "profile" */ "../views/Profile.vue"),
+  },
+  {
+    path: "/profil/bearbeiten/:step",
+    name: "ProfileEdit",
+    component: () => import(/* webpackChunkName: "profile" */ "../views/ProfileEdit.vue"),
   },
   {
     path: "/stellen/ausschreiben/:slug?/:step?",
@@ -125,6 +135,14 @@ const routes: Array<RouteRecordRaw> = [
     alias: "/registrierung/bildungsinstitution",
     name: "CompanyRegister",
     component: () => import(/* webpackChunkName: "register" */ "../views/CompanyRegister.vue"),
+    meta: {
+      public: true,
+    },
+  },
+  {
+    path: "/kontakt",
+    name: "Contact",
+    component: () => import(/* webpackChunkName: "register" */ "../views/Contact.vue"),
     meta: {
       public: true,
     },

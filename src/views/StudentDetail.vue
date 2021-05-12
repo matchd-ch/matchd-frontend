@@ -12,8 +12,8 @@
           Alle Talente
         </button>
       </div>
-      <div v-if="student.avatar" class="flex justify-center mt-9">
-        <img class="avatar rounded-full object-cover" :src="avatarSrc" />
+      <div class="flex justify-center mt-9">
+        <img class="avatar rounded-full object-cover" :src="replaceStack(avatarSrc, 'logo')" />
       </div>
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
@@ -130,13 +130,14 @@ import MatchingBar from "@/components/MatchingBar.vue";
 import StudentFullMatchModal from "@/components/modals/StudentFullMatchModal.vue";
 import StudentMatchModal from "@/components/modals/StudentMatchModal.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import { formatDate } from "@/helpers/formatDate";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Student, User } from "api";
-import { DateTime } from "luxon";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { replaceStack } from "@/helpers/replaceStack";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -189,36 +190,39 @@ export default class StudentDetail extends Vue {
   get student(): {
     data: Student | null;
     avatar: Attachment | null;
+    avatarFallback: Attachment | null;
     certificates: Attachment[];
   } {
     const student = this.$store.getters["student"];
     if (!student?.data) {
-      return { data: null, avatar: null, certificates: [] };
+      return { data: null, avatar: null, avatarFallback: null, certificates: [] };
     }
-
     return {
       ...student,
       data: {
         ...student.data,
-        dateOfBirth: student.data.dateOfBirth ? this.formatDate(student.data.dateOfBirth) : "",
+        dateOfBirth: student.data.dateOfBirth
+          ? formatDate(student.data.dateOfBirth, "LLLL yyyy")
+          : "",
       },
       certificates: student.certificates,
       avatar: student.avatar,
+      avatarFallback: student.avatarFallback
     };
   }
 
-  formatDate(ISODate: string): string {
-    return DateTime.fromSQL(ISODate).setLocale("de-CH").toFormat("LLLL yyyy");
+  get avatarSrc(): string {
+    return this.student.avatar?.url || this.student.avatarFallback?.url || "";
   }
 
-  get avatarSrc(): string {
-    return this.student.avatar?.url ?? "";
+  replaceStack(url: string, stack: string): string {
+    return replaceStack(url, stack);
   }
 
   get lookingFor(): string {
     const jobType = this.student.data?.jobType?.name;
-    const jobFromDate = this.formatDate(this.student.data?.jobFromDate);
-    const jobToDate = this.formatDate(this.student.data?.jobToDate);
+    const jobFromDate = formatDate(this.student.data?.jobFromDate, "LLLL yyyy");
+    const jobToDate = formatDate(this.student.data?.jobToDate, "LLLL yyyy");
     const branch = this.student.data?.branch?.name;
 
     return `Ich suche ein(e) ${jobType} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
