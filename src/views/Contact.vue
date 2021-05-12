@@ -9,11 +9,18 @@
       :loading="contactFormLoading"
       class="flex-grow"
       :title="'Get in touch'"
-      :subText="'Du fragst dich, welche Troll-Fabriken hinter unserem hochkomplexen Matchmaking-Algorithmus stecken? Tja, das bleibt wohl unser Geheimnis. Für alle anderen Fragen, schreib uns!'"
-      :textBlack="true"
+      :subText="''"
+      :buttonVariantOutline="true"
       :name="fullName"
       :email="user?.email"
-    />
+    >
+      <h2 class="text-black text-display-xs mb-6">Get in touch</h2>
+      <p class="text-black mb-9">
+        Du fragst dich, welche Troll-Fabriken hinter unserem hochkomplexen Matchmaking-Algorithmus
+        stecken? Tja, das bleibt wohl unser Geheimnis. Für alle anderen Fragen, schreib uns!
+      </p>
+    </RegisterContactForm>
+
     <RegisterContactFormSent v-else :textBlack="true" :linkRoute="linkRoute" :linkName="linkName" />
   </div>
 </template>

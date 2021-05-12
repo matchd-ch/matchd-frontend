@@ -1,18 +1,15 @@
 <template>
   <div class="register-contact-form-sent">
-    <h2
-      class="text-display-xs mb-6"
-      v-bind:class="{ 'text-black': textBlack, 'text-white': !textBlack }"
-    >
+    <h2 class="text-display-xs mb-6" :class="{ 'text-black': textBlack, 'text-white': !textBlack }">
       Vielen Dank für deine Anfrage.
     </h2>
-    <p class="mb-9" v-bind:class="{ 'text-black': textBlack, 'text-white': !textBlack }">
+    <p class="mb-9" :class="{ 'text-black': textBlack, 'text-white': !textBlack }">
       Wir melden uns umgehend bei dir.<br />
       Stay tuned! Dein Matchd-Team
     </p>
-    <p v-if="this.linkRoute">
+    <p v-if="linkRoute">
       Zurück zum
-      <router-link :to="{ name: this.linkRoute }" class="underline">{{ linkName }}</router-link>
+      <router-link :to="{ name: linkRoute }" class="underline">{{ linkName }}</router-link>
     </p>
   </div>
 </template>
