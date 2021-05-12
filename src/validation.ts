@@ -69,7 +69,7 @@ defineRule("birthday", (value: string, fields, ctx) => {
 
 configure({
   validateOnBlur: false,
-  validateOnChange: false,
+  validateOnChange: true,
   validateOnInput: false,
   validateOnModelUpdate: false,
   generateMessage: localize({
