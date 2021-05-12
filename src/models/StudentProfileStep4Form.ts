@@ -1,4 +1,4 @@
-import type { HobbyInput, Language, LanguageLevel, OnlineProjectInput, Skill } from "api";
+import type { HobbyInput, Language, LanguageLevel, OnlineProjectInput } from "api";
 
 export interface SelectedLanguage {
   language: Language;
@@ -6,7 +6,7 @@ export interface SelectedLanguage {
 }
 
 export interface StudentProfileStep4Form {
-  skills: Skill[];
+  skills: string[];
   languages: SelectedLanguage[];
   distinction: string;
   onlineProjects: OnlineProjectInput[];

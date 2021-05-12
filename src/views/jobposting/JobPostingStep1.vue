@@ -1,10 +1,8 @@
 <template>
-  <Form v-if="branches.length > 0 && jobTypes.length > 0" @submit="onSubmit" v-slot="{ errors }">
-    <GenericError v-if="jobPostingState.errors">
-      Beim Speichern ist etwas schief gelaufen.
-    </GenericError>
+  <form v-if="branches.length && jobTypes.length" @submit="veeForm.onSubmit">
+    <FormSaveError v-if="jobPostingState.errors" />
     <!-- Bezeichnung Field -->
-    <MatchdField id="title" class="mb-10" :errors="errors.title">
+    <MatchdField id="title" class="mb-10" :errors="veeForm.errors.title">
       <template v-slot:label>Geben Sie der Stelle eine passende Bezeichnung*</template>
       <Field
         id="title"
@@ -12,12 +10,11 @@
         as="input"
         label="Stellenbezeichnung"
         rules="required"
-        v-model="form.title"
         maxlength="50"
       />
     </MatchdField>
     <!-- Art Field -->
-    <SelectPillGroup :errors="errors.jobTypeId" class="mb-10">
+    <SelectPillGroup :errors="veeForm.errors.jobTypeId" class="mb-10">
       <template v-slot:label>Welche Art Stelle wollen Sie besetzen*</template>
       <template v-slot:field>
         <Field
@@ -26,7 +23,6 @@
           as="input"
           label="Art der Stelle"
           type="hidden"
-          v-model="form.jobTypeId"
           rules="required"
         />
       </template>
@@ -35,13 +31,13 @@
         v-for="option in jobTypes"
         :key="option.id"
         :value="option.id"
-        :checked="option.id === form.jobTypeId"
-        @change="form.jobTypeId = $event"
+        :checked="option.id === veeForm.values?.jobTypeId"
+        @change="onChangeJobType"
         >{{ option.name }}</SelectPill
       >
     </SelectPillGroup>
     <!-- Branch Field -->
-    <SelectPillGroup :errors="errors.branchId" class="mb-10">
+    <SelectPillGroup :errors="veeForm.errors.branchId" class="mb-10">
       <template v-slot:label>In diesem Bereich wird das junge Talent tätig sein*</template>
       <template v-slot:field>
         <Field
@@ -50,7 +46,6 @@
           as="input"
           label="In diesem Bereich wird das junge Talent tätig sein"
           type="hidden"
-          v-model="form.branchId"
           rules="required"
         />
       </template>
@@ -59,8 +54,8 @@
         v-for="branch in branches"
         :key="branch.id"
         :value="branch.id"
-        :checked="branch.id === form.branchId"
-        @change="form.branchId = $event"
+        :checked="branch.id === veeForm.values?.branchId"
+        @change="onChangeBranch"
         >{{ branch.name }}</SelectPill
       >
     </SelectPillGroup>
@@ -68,31 +63,25 @@
       <label class="block px-8 mb-2 font-medium">Arbeitspensum</label>
       <div>
         <!-- Vollzeit-Teilzeit Field -->
-        <MatchdToggle id="fullTime" :errors="errors.fullTime">
+        <MatchdToggle id="fullTime" :errors="veeForm.errors.fullTime">
           <input
             id="fullTime"
             name="fullTime"
             type="checkbox"
-            v-model="form.fullTime"
-            @change="onChangeFullTime"
+            value="true"
+            @change="onChangeFullTime($event.target.checked)"
+            :checked="veeForm.fullTime"
           />
         </MatchdToggle>
         <!-- Arbeitspensum Field -->
         <MatchdSelect
-          v-if="form.fullTime === false"
+          v-if="!veeForm.fullTime"
           id="workload"
-          :errors="errors.workload"
+          :errors="veeForm.errors.workload"
           class="mt-3"
         >
           <template v-slot:label>Teilzeit Pensum</template>
-          <Field
-            id="workload"
-            name="workload"
-            as="select"
-            label="Pensum"
-            rules="required"
-            v-model.number="form.workload"
-          >
+          <Field id="workload" name="workload" as="select" label="Pensum" rules="required">
             <option v-for="(n, index) in 9" :value="n * 10" :key="index">{{ n * 10 }}%</option>
           </Field>
         </MatchdSelect>
@@ -103,7 +92,7 @@
       <MatchdSelect
         id="positionDateFrom"
         class="mb-10 flex-grow w-1/2"
-        :errors="errors.jobFromDateMonth || errors.jobFromDateYear"
+        :errors="veeForm.errors.jobFromDateMonth || veeForm.errors.jobFromDateYear"
       >
         <template v-slot:label>Stellenantritt*</template>
         <fieldset id="positionDateFrom" class="flex">
@@ -114,7 +103,6 @@
             label="Stellenantritt Monat"
             class="mr-3"
             rules="required"
-            v-model="form.jobFromDateMonth"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -126,7 +114,6 @@
             name="jobFromDateYear"
             as="select"
             label="Stellenantritt Jahr"
-            v-model="form.jobFromDateYear"
             rules="required"
           >
             <option value="" disabled selected hidden>Jahr</option>
@@ -138,7 +125,7 @@
       <MatchdSelect
         id="positionDateTo"
         class="mb-10 lg:ml-3 flex-grow w-1/2"
-        :errors="errors.jobToDateMonth || errors.jobToDateYear"
+        :errors="veeForm.errors.jobToDateMonth || veeForm.errors.jobToDateYear"
       >
         <template v-slot:label>Endtermin</template>
         <fieldset id="positionDateTo" class="flex">
@@ -148,8 +135,7 @@
             as="select"
             label="Monat"
             class="mr-3 l"
-            :rules="form.jobToDateYear !== '' ? 'required' : ''"
-            v-model="form.jobToDateMonth"
+            :rules="veeForm.values?.jobToDateYear !== '' ? 'required' : ''"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -161,8 +147,7 @@
             name="jobToDateYear"
             as="select"
             label="Jahr"
-            :rules="form.jobToDateMonth !== '' ? 'required' : ''"
-            v-model="form.jobToDateYear"
+            :rules="veeForm.values?.jobToDateMonth !== '' ? 'required' : ''"
           >
             <option value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
@@ -171,51 +156,41 @@
       </MatchdSelect>
     </div>
     <!-- Beschreibung Field -->
-    <MatchdField id="description" class="mb-10" :errors="errors.description">
+    <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
       <template v-slot:label>Beschreiben Sie die Besonderheiten der Stelle</template>
-      <Field
-        id="description"
-        name="description"
-        as="textarea"
-        label="Beschreibung"
-        v-model="form.description"
-        class="h-72"
-      />
+      <Field id="description" name="description" as="textarea" label="Beschreibung" class="h-72" />
     </MatchdField>
     <!-- Link Ausschreibung Field -->
-    <MatchdField id="url" class="mb-10" :errors="errors.url">
+    <MatchdField id="url" class="mb-10" :errors="veeForm.errors.url">
       <template v-slot:label>Link zur Ausschreibung</template>
-      <Field
-        id="url"
-        name="url"
-        as="input"
-        label="Link zur Ausschreibung"
-        v-model="form.url"
-        rules="url"
-      />
-      <template v-slot:info>Weitere Informationen findest du hier.</template>
+      <Field id="url" name="url" as="input" label="Link zur Ausschreibung" rules="url" />
+      <template v-slot:info>Weitere Informationen für das Talent.</template>
     </MatchdField>
     <MatchdButton
       variant="outline"
       :disabled="jobPostingLoading"
       :loading="jobPostingLoading"
       class="block w-full"
-      >Speichern und weiter</MatchdButton
     >
+      <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
+      <template v-else>Speichern und weiter</template>
+    </MatchdButton>
     <MatchdButton
       type="button"
       variant="outline"
       :disabled="jobPostingLoading"
       class="block w-full mt-5"
       @click="$router.push({ name: 'Home' })"
-      >Abbrechen</MatchdButton
     >
-  </Form>
+      Abbrechen
+    </MatchdButton>
+  </form>
 </template>
 
 <script lang="ts">
+import { jobPostingStep1FormMapper } from "@/api/mappers/jobPostingStep1FormMapper";
 import { jobPostingStep1InputMapper } from "@/api/mappers/jobPostingStep1InputMapper";
-import GenericError from "@/components/GenericError.vue";
+import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
@@ -224,20 +199,20 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
-import { ParamStrings } from "@/router/paramStrings";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import type { Branch, JobPosting as JobPostingType, JobType, User } from "api";
+import cloneDeep from "clone-deep";
 import { DateTime } from "luxon";
-import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { Field, useField, useForm } from "vee-validate";
+import { Options, setup, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
 
 @Options({
   components: {
-    Form,
     Field,
-    ErrorMessage,
-    GenericError,
+    FormSaveError,
     MatchdButton,
     MatchdField,
     MatchdSelect,
@@ -245,24 +220,77 @@ import { Options, Vue } from "vue-class-component";
     SelectPill,
     SelectPillGroup,
   },
+  emits: ["submitComplete", "changeDirty"],
 })
 export default class JobPostingStep1 extends Vue {
-  form: JobPostingStep1Form = {
-    title: "",
-    description: "",
-    fullTime: true,
-    workload: 90,
-    jobTypeId: "",
-    branchId: "",
-    jobFromDateMonth: "",
-    jobFromDateYear: "",
-    jobToDateMonth: "",
-    jobToDateYear: "",
-    url: "",
-  };
+  veeForm = setup(() => {
+    const store = useStore();
+    const form = useForm<JobPostingStep1Form>();
+    const { value: fullTime } = useField<boolean>("fullTime");
+    const onSubmit = form.handleSubmit(
+      async (formData): Promise<void> => {
+        if (
+          formData.jobFromDateMonth &&
+          formData.jobFromDateYear &&
+          formData.jobToDateMonth &&
+          formData.jobToDateYear
+        ) {
+          const toDate = DateTime.fromObject({
+            month: +formData.jobToDateMonth,
+            year: +formData.jobToDateYear,
+          });
+          const fromDate = DateTime.fromObject({
+            month: +formData.jobFromDateMonth,
+            year: +formData.jobFromDateYear,
+          });
+          if (toDate <= fromDate) {
+            form.setErrors({
+              jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
+            });
+            return;
+          }
+        }
+
+        try {
+          await store.dispatch(
+            ActionTypes.SAVE_JOBPOSTING_STEP1,
+            jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
+          );
+          const jobPostingState = store.getters["jobPostingState"];
+          if (jobPostingState.success) {
+            this.$emit("submitComplete");
+          } else if (jobPostingState.errors) {
+            form.setErrors(jobPostingState.errors);
+            if (jobPostingState.errors?.jobFromDate) {
+              form.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
+            }
+            if (jobPostingState.errors?.jobToDate) {
+              form.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
+            }
+          }
+        } catch (e) {
+          console.log(e); // todo
+        }
+      }
+    );
+
+    return {
+      ...form,
+      onSubmit,
+      fullTime,
+    };
+  });
+  formData = {} as JobPostingStep1Form;
 
   get currentJobPosting(): JobPostingType | null {
     return this.$store.getters["currentJobPosting"];
+  }
+
+  get jobPostingData(): JobPostingStep1Form {
+    if (!this.currentJobPosting) {
+      return {} as JobPostingStep1Form;
+    }
+    return jobPostingStep1FormMapper(this.currentJobPosting);
   }
 
   get jobTypes(): JobType[] {
@@ -301,87 +329,33 @@ export default class JobPostingStep1 extends Vue {
       this.$store.dispatch(ContentActionsTypes.BRANCHES),
     ]);
 
-    if (this.currentJobPosting) {
-      this.populateForm();
+    this.veeForm.resetForm({
+      values: cloneDeep(this.jobPostingData),
+    });
+
+    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 1) {
+      this.veeForm.setValues(cloneDeep(this.jobPostingData));
     }
   }
 
-  populateForm(): void {
-    this.form = {
-      title: this.currentJobPosting?.title || "",
-      description: this.currentJobPosting?.description || "",
-      url: this.currentJobPosting?.url || "",
-      fullTime: this.currentJobPosting?.workload === 100,
-      workload: this.currentJobPosting?.workload || 90,
-      jobTypeId: this.currentJobPosting?.jobType?.id || "",
-      branchId: this.currentJobPosting?.branch?.id || "",
-      jobFromDateMonth: this.currentJobPosting?.jobFromDate
-        ? DateTime.fromSQL(this.currentJobPosting?.jobFromDate).month.toString()
-        : "",
-      jobFromDateYear: this.currentJobPosting?.jobFromDate
-        ? DateTime.fromSQL(this.currentJobPosting?.jobFromDate).year.toString()
-        : "",
-      jobToDateMonth: this.currentJobPosting?.jobToDate
-        ? DateTime.fromSQL(this.currentJobPosting?.jobToDate).month.toString()
-        : "",
-      jobToDateYear: this.currentJobPosting?.jobToDate
-        ? DateTime.fromSQL(this.currentJobPosting?.jobToDate).year.toString()
-        : "",
-    };
+  onChangeJobType(jobTypeId: string): void {
+    this.veeForm.setFieldValue("jobTypeId", jobTypeId);
   }
 
-  onChangeFullTime(): void {
-    if (!this.form.fullTime) {
-      this.form.workload = 90;
+  onChangeBranch(branchId: string): void {
+    this.veeForm.setFieldValue("branchId", branchId);
+  }
+
+  onChangeFullTime(value: boolean): void {
+    this.veeForm.fullTime = value;
+    if (!this.veeForm.fullTime) {
+      this.veeForm.setFieldValue("workload", String(90));
     }
   }
 
-  async onSubmit(
-    form: JobPostingStep1Form,
-    actions: FormActions<Partial<JobPostingStep1Form>>
-  ): Promise<void> {
-    if (
-      form.jobFromDateMonth &&
-      form.jobFromDateYear &&
-      form.jobToDateMonth &&
-      form.jobToDateYear
-    ) {
-      const toDate = DateTime.fromObject({
-        month: +form.jobToDateMonth,
-        year: +form.jobToDateYear,
-      });
-      const fromDate = DateTime.fromObject({
-        month: +form.jobFromDateMonth,
-        year: +form.jobFromDateYear,
-      });
-      if (toDate <= fromDate) {
-        actions.setErrors({
-          jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
-        });
-        return;
-      }
-    }
-
-    await this.$store.dispatch(
-      ActionTypes.SAVE_JOBPOSTING_STEP1,
-      jobPostingStep1InputMapper(this.currentJobPosting?.id, this.form)
-    );
-    if (this.jobPostingState.success) {
-      if (this.$route.params?.slug === ParamStrings.NEW) {
-        await this.$router.replace({
-          params: { step: "schritt1", slug: this.jobPostingState.slug },
-        });
-      }
-      this.$router.push({ params: { step: "schritt2", slug: this.jobPostingState.slug } });
-    } else if (this.jobPostingState.errors) {
-      actions.setErrors(this.jobPostingState.errors);
-      if (this.jobPostingState.errors.jobFromDate) {
-        actions.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
-      }
-      if (this.jobPostingState.errors.jobToDate) {
-        actions.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
-      }
-    }
+  @Watch("veeForm.meta.dirty")
+  checkDirty(): void {
+    this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }
 </script>

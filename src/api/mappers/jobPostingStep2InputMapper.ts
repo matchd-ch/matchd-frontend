@@ -7,8 +7,8 @@ export function jobPostingStep2InputMapper(
 ): IJobPostingInputStep2 {
   return {
     id,
-    skills: jobPostingForm.skills.map((skill) => {
-      return { id: skill.id };
+    skills: jobPostingForm.skills.map((skillId) => {
+      return { id: skillId };
     }),
     languages: jobPostingForm.languages.map((selectedLanguage) => {
       return {
@@ -16,8 +16,8 @@ export function jobPostingStep2InputMapper(
         languageLevel: selectedLanguage.level.id,
       };
     }),
-    jobRequirements: jobPostingForm.jobRequirements.map((jobRequirement) => {
-      return { id: jobRequirement.id };
+    jobRequirements: jobPostingForm.jobRequirements.map((jobRequirementId) => {
+      return { id: jobRequirementId };
     }),
   };
 }

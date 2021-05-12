@@ -170,6 +170,8 @@ export default class JobPostingSearch extends Vue {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatar,
+      })[0] || this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.StudentAvatarFallback,
       })[0] || undefined
     );
   }
@@ -194,6 +196,9 @@ export default class JobPostingSearch extends Vue {
       this.$store.dispatch(ActionTypes.JOB_TYPE),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentAvatar,
+      }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.StudentAvatarFallback,
       }),
     ]);
   }
