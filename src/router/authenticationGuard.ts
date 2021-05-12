@@ -11,13 +11,13 @@ export async function isLoggedIn(
   if (to.meta?.public) {
     next();
   } else if (!store.getters["isLoggedIn"] || store.getters["refreshToken"] === "") {
-    next({ name: "Login" });
+    next({ name: "Login", query: { redirectUri: to.fullPath } });
   } else {
     try {
       await store.dispatch(ActionTypes.ME);
       next();
     } catch (e) {
-      next({ name: "Login" });
+      next({ name: "Login", query: { redirectUri: to.fullPath } });
     }
   }
 }
