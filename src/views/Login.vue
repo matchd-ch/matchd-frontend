@@ -106,7 +106,17 @@ export default class Login extends Vue {
       ...form,
     });
     if (this.$store.getters["isLoggedIn"]) {
-      this.$router.push({ name: "Home" });
+      if (this.$route.query?.redirectUri) {
+        const redirectUri = String(this.$route.query?.redirectUri);
+        const query: { [key: string]: string } = {};
+        const params = new URLSearchParams(redirectUri.split("?")?.[1]);
+        for (var pair of params.entries()) {
+          query[pair[0]] = pair[1];
+        }
+        this.$router.push({ path: redirectUri, query });
+      } else {
+        this.$router.push({ name: "Home" });
+      }
     }
   }
 }
