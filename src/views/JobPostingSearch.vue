@@ -170,9 +170,11 @@ export default class JobPostingSearch extends Vue {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatar,
-      })[0] || this.$store.getters["attachmentsByKey"]({
+      })[0] ||
+      this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatarFallback,
-      })[0] || undefined
+      })[0] ||
+      undefined
     );
   }
 

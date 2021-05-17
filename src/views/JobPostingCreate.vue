@@ -130,7 +130,7 @@ export default class JobPostingCreate extends Vue {
       });
     }
     if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep >= 3) {
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "Dashboard" });
     } else if (this.currentStep) {
       this.$router.push({
         params: {
@@ -143,7 +143,7 @@ export default class JobPostingCreate extends Vue {
 
   async onNavigateBack(): Promise<void> {
     if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep >= 3) {
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "Dashboard" });
     } else if (this.currentStep) {
       this.$router.push({
         params: {

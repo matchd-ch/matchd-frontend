@@ -114,9 +114,11 @@ export default class StudentSearch extends Vue {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatar,
-      })[0] || this.$store.getters["attachmentsByKey"]({
+      })[0] ||
+      this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatarFallback,
-      })[0] ||undefined
+      })[0] ||
+      undefined
     );
   }
 

@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="company-dashboard grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
-  >
+  <div class="company-dashboard grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars">
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
     >
       <div class="flex justify-center m-5 lg:m-20 lg:w-86 lg:h-86">
-        <img class="w-40" :src="replaceStack(avatar.url, 'logo')"/>
+        <img class="w-40" :src="replaceStack(avatar.url, 'logo')" />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
         <h2 class="flex-1 mb-8 xl:mb-0">Guten Tag, schön dass Sie online sind!</h2>
@@ -20,7 +18,8 @@
           @click="onClickLogout"
           :disabled="isLogoutLoading"
           :loading="isLogoutLoading"
-        >Logout</MatchdButton>
+          >Logout</MatchdButton
+        >
       </div>
     </div>
     <div class="text-pink-1 flex flex-col min-h-full">
@@ -38,35 +37,42 @@
             :key="jobPosting.id"
             class="link-list__item"
           >
-            <company-job-posting-link :jobPosting="jobPosting" :isCompany="true"></company-job-posting-link>
+            <company-job-posting-link
+              :jobPosting="jobPosting"
+              :isCompany="true"
+            ></company-job-posting-link>
           </li>
         </ul>
         <matchd-button class="w-full mt-4">
           <router-link :to="{ name: 'JobPostingCreate' }">Neue Stelle ausschreiben</router-link>
         </matchd-button>
       </profile-section>
-      <profile-section
-        title="Ihre offenen Matches"
-        :pink="true">
+      <profile-section title="Ihre offenen Matches" :pink="true">
         <p v-if="dashboard?.requestedMatches?.length > 0">
           Sobald Ihre Matching-Anfrage bestätigt wurde, kann es mit dem Kennenlernen weitergehen.
         </p>
         <p v-if="dashboard?.requestedMatches?.length === 0">
-          Im Moment haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das hier sehen.
+          Im Moment haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
+          hier sehen.
         </p>
-        <company-match-group class="mt-4" :matches="dashboard?.requestedMatches"></company-match-group>
+        <company-match-group
+          class="mt-4"
+          :matches="dashboard?.requestedMatches"
+        ></company-match-group>
       </profile-section>
-      <profile-section
-        title="Anfragen zum Matching"
-        :pink="true"
-      >
+      <profile-section title="Anfragen zum Matching" :pink="true">
         <p v-if="dashboard?.unconfirmedMatches.length > 0">
-          Ihre Ausschreibung stösst auf Interesse! Es gibt Talente die gerne mit Ihnen in Kontakt treten möchten.
+          Ihre Ausschreibung stösst auf Interesse! Es gibt Talente die gerne mit Ihnen in Kontakt
+          treten möchten.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Im Moment haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie das hier sehen.
+          Im Moment haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden
+          Sie das hier sehen.
         </p>
-        <company-match-group class="mt-4" :matches="dashboard?.unconfirmedMatches"></company-match-group>
+        <company-match-group
+          class="mt-4"
+          :matches="dashboard?.unconfirmedMatches"
+        ></company-match-group>
       </profile-section>
       <profile-section
         v-if="dashboard?.confirmedMatches?.length > 0"
@@ -86,14 +92,14 @@ import MatchdFileView from "@/components/MatchdFileView.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import type { User, Attachment, Dashboard } from "api";
 import { Options, prop, Vue } from "vue-class-component";
-import { AttachmentKey } from '@/api/models/types';
+import { AttachmentKey } from "@/api/models/types";
 import { replaceStack } from "@/helpers/replaceStack";
-import ProfileSection from '@/components/ProfileSection.vue';
-import CompanyJobPostingLink from '@/components/dashboard/CompanyJobPostingLink.vue';
-import CompanyMatchGroup from '@/components/dashboard/CompanyMatchGroup.vue';
+import ProfileSection from "@/components/ProfileSection.vue";
+import CompanyJobPostingLink from "@/components/dashboard/CompanyJobPostingLink.vue";
+import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 
 class Props {
-  dashboard = prop<{ data: Dashboard }>({required: true});
+  dashboard = prop<{ data: Dashboard }>({ required: true });
 }
 
 @Options({
@@ -103,7 +109,7 @@ class Props {
     MatchdFileView,
     ProfileSection,
     CompanyJobPostingLink,
-    CompanyMatchGroup
+    CompanyMatchGroup,
   },
 })
 export default class CompanyDashboard extends Vue.with(Props) {
@@ -123,9 +129,11 @@ export default class CompanyDashboard extends Vue.with(Props) {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatar,
-      })[0] || this.$store.getters["attachmentsByKey"]({
+      })[0] ||
+      this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatarFallback,
-      })[0] || ""
+      })[0] ||
+      ""
     );
   }
 

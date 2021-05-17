@@ -207,7 +207,7 @@ export default class StudentDetail extends Vue {
       },
       certificates: student.certificates,
       avatar: student.avatar,
-      avatarFallback: student.avatarFallback
+      avatarFallback: student.avatarFallback,
     };
   }
 
