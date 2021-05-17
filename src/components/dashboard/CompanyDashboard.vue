@@ -37,10 +37,7 @@
             :key="jobPosting.id"
             class="link-list__item"
           >
-            <company-job-posting-link
-              :jobPosting="jobPosting"
-              :isCompany="true"
-            ></company-job-posting-link>
+            <company-job-posting-link :jobPosting="jobPosting"></company-job-posting-link>
           </li>
         </ul>
         <matchd-button class="w-full mt-4">
@@ -119,10 +116,6 @@ export default class CompanyDashboard extends Vue.with(Props) {
 
   get isStudent(): boolean {
     return this.$store.getters["isStudent"];
-  }
-
-  get isCompany(): boolean {
-    return this.$store.getters["isCompany"];
   }
 
   get avatar(): Attachment | undefined {
