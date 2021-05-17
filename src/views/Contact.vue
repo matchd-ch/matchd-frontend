@@ -62,7 +62,7 @@ export default class Contact extends Vue {
 
   get linkRoute(): string {
     if (this.user) {
-      return "Home";
+      return "Dashboard";
     }
     return "Login";
   }

@@ -41,10 +41,7 @@ export type Mutations<S = State> = {
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
   [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
   [MutationTypes.DASHBOARD_LOADING](state: S): void;
-  [MutationTypes.DASHBOARD_LOADED](
-    state: S,
-    payload: { dashboard: Dashboard | null; }
-  ): void;
+  [MutationTypes.DASHBOARD_LOADED](state: S, payload: { dashboard: Dashboard | null }): void;
   [MutationTypes.JOB_POSTING_LOADING](state: S): void;
   [MutationTypes.JOB_POSTING_LOADED](state: S, payload: { jobPosting: JobPosting }): void;
   [MutationTypes.JOB_POSTINGS_LOADING](state: S): void;
@@ -85,7 +82,7 @@ export type Mutations<S = State> = {
       student: Student;
       avatar: Attachment[];
       avatarFallback: Attachment[];
-      certificates: Attachment[]
+      certificates: Attachment[];
     }
   ): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
@@ -118,7 +115,7 @@ export const mutations: MutationTree<State> & Mutations = {
     payload: {
       company: Company;
       logo: Attachment[];
-      media: Attachment[],
+      media: Attachment[];
       logoFallback: Attachment[];
     }
   ) {

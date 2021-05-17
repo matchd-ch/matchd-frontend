@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   purge: {
     content: ["./public/**/*.html", "./src/**/*.vue"],

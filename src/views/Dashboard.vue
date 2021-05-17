@@ -9,11 +9,11 @@ import CompanyDashboard from "@/components/dashboard/CompanyDashboard.vue";
 import StudentDashboard from "@/components/dashboard/StudentDashboard.vue";
 import { ActionTypes as ContentActions } from "@/store/modules/content/action-types";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
-import type { Attachment, User, Dashboard as DashboardData } from "api";
+import type { User, Dashboard as DashboardData } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import { ActionTypes as UploadActionTypes } from '@/store/modules/upload/action-types';
-import { AttachmentKey } from '@/api/models/types';
+import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { AttachmentKey } from "@/api/models/types";
 
 @Options({
   components: {
@@ -35,7 +35,9 @@ export default class Dashboard extends Vue {
         key: this.isStudent ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
       }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: this.isStudent ? AttachmentKey.StudentAvatarFallback : AttachmentKey.CompanyAvatarFallback,
+        key: this.isStudent
+          ? AttachmentKey.StudentAvatarFallback
+          : AttachmentKey.CompanyAvatarFallback,
       }),
     ]);
   }
@@ -52,9 +54,9 @@ export default class Dashboard extends Vue {
     return this.$store.getters["isStudent"];
   }
 
-  get dashboardComponent(): Vue<any, any> {
-    if (this.isStudent) return StudentDashboard;
-    return CompanyDashboard;
+  get dashboardComponent(): string {
+    if (this.isStudent) return "StudentDashboard";
+    return "CompanyDashboard";
   }
 
   get isCompany(): boolean {
