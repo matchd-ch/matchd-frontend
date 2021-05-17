@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="student-dashboard grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
-  >
+  <div class="student-dashboard grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars">
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
       <div class="flex justify-center m-5 lg:m-20 lg:w-86 lg:h-86">
-        <img class="avatar rounded-full object-cover" :src="replaceStack(avatar.url, 'logo')"/>
+        <img class="avatar rounded-full object-cover" :src="replaceStack(avatar.url, 'logo')" />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
         <h2 class="flex-1 mb-8 xl:mb-0">Hallo {{ user.firstName }}, schön dass du da bist!</h2>
@@ -21,14 +19,12 @@
           @click="onClickLogout"
           :disabled="isLogoutLoading"
           :loading="isLogoutLoading"
-        >Logout</MatchdButton>
+          >Logout</MatchdButton
+        >
       </div>
     </div>
     <div class="text-green-1 flex flex-col min-h-full">
-      <profile-section
-        v-if="dashboard?.jobPostings?.length"
-        title="Neue Stellen und Projekte"
-      >
+      <profile-section v-if="dashboard?.jobPostings?.length" title="Neue Stellen und Projekte">
         <ul>
           <li
             v-for="jobPosting in dashboard?.jobPostings"
@@ -42,13 +38,13 @@
           <router-link :to="{ name: 'JobPostingSearch' }">Stelle finden</router-link>
         </matchd-button>
       </profile-section>
-      <profile-section
-        title="Deine offenen Matches">
+      <profile-section title="Deine offenen Matches">
         <p v-if="dashboard?.requestedMatches?.length > 0">
           Sobald deine Matching-Anfrage bestätigt wurde, kanns mit dem Kennenlernen weitergehen.
         </p>
         <p v-if="dashboard?.requestedMatches?.length === 0">
-          Im Moment hast du keine offenen Matches. Sobald du ein Match auslöst, wirst du das hier sehen.
+          Im Moment hast du keine offenen Matches. Sobald du ein Match auslöst, wirst du das hier
+          sehen.
         </p>
         <ul>
           <li
@@ -60,15 +56,14 @@
           </li>
         </ul>
       </profile-section>
-      <profile-section
-        title="Anfragen zum Matching"
-      >
+      <profile-section title="Anfragen zum Matching">
         <p v-if="dashboard?.unconfirmedMatches?.length > 0">
           Dein Matchd-Profil findet Anklang! Es gibt Unternehmen die gerne mit dir in Kontakt treten
           möchten.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Im Moment hast du keine offenen Anfragen. Sobald ein Unternehmen ein Match auslöst, wirst du das hier sehen.
+          Im Moment hast du keine offenen Anfragen. Sobald ein Unternehmen ein Match auslöst, wirst
+          du das hier sehen.
         </p>
         <ul>
           <li
@@ -80,9 +75,7 @@
           </li>
         </ul>
       </profile-section>
-      <profile-section
-        v-if="dashboard?.confirmedMatches?.length > 0"
-        title="Hier hat's gematchd!">
+      <profile-section v-if="dashboard?.confirmedMatches?.length > 0" title="Hier hat's gematchd!">
         <ul>
           <li
             v-for="match in dashboard?.confirmedMatches"
@@ -105,9 +98,9 @@ import ProfileSection from "@/components/ProfileSection.vue";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
-import { AttachmentKey } from '@/api/models/types';
+import { AttachmentKey } from "@/api/models/types";
 import { replaceStack } from "@/helpers/replaceStack";
-import StudentJobPostingLink from '@/components/dashboard/StudentJobPostingLink.vue';
+import StudentJobPostingLink from "@/components/dashboard/StudentJobPostingLink.vue";
 
 class Props {
   dashboard = prop<{ data: Dashboard }>({ required: true });
@@ -119,7 +112,7 @@ class Props {
     MatchdFileUpload,
     MatchdFileView,
     ProfileSection,
-    StudentJobPostingLink
+    StudentJobPostingLink,
   },
 })
 export default class StudentDashboard extends Vue.with(Props) {
@@ -143,9 +136,11 @@ export default class StudentDashboard extends Vue.with(Props) {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatar,
-      })[0] || this.$store.getters["attachmentsByKey"]({
+      })[0] ||
+      this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatarFallback,
-      })[0] || ""
+      })[0] ||
+      ""
     );
   }
 
