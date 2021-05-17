@@ -253,11 +253,11 @@ export default class StudentStep2Form extends Vue {
     }
   }
 
-  onChangeJobType(jobTypeId: string) {
+  onChangeJobType(jobTypeId: string): void {
     this.veeForm.jobTypeId = jobTypeId;
   }
 
-  onChangeBranch(branchId: string) {
+  onChangeBranch(branchId: string): void {
     this.veeForm.branchId = branchId;
   }
 
