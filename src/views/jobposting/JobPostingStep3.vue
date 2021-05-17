@@ -48,6 +48,11 @@
           rules="required|email"
           v-model="employeeForm.email"
         />
+        <template v-slot:info
+          >Die neu erfasste Person erhält per E-Mail einen Link, mit dem der neue Account aktiviert
+          werden kann. Ihrem Unternehmensprofil wird damit ein/e weitere/r User*in
+          zugeordnet.</template
+        >
       </MatchdField>
       <MatchdButton variant="outline" class="block w-full mb-3"
         >Neue Kontaktperson speichern</MatchdButton
