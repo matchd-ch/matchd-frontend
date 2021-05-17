@@ -91,7 +91,7 @@ export type State = {
 export const state: State = {
   dashboard: {
     loading: false,
-    data: null
+    data: null,
   },
   jobTypes: {
     loading: false,
