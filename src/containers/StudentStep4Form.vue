@@ -76,7 +76,7 @@
         </button>
       </template>
       <template v-slot:info v-if="!isValidOnlineProjectUrl"
-        >Bitte gib die URL im folgendem Format ein: http://matchd.ch oder
+        >Bitte gib die URL in folgendem Format ein: http://matchd.ch oder
         https://matchd.ch</template
       >
     </MatchdField>
