@@ -133,9 +133,9 @@
             id="jobToDateMonth"
             name="jobToDateMonth"
             as="select"
-            label="Monat"
+            label="Endtermin Monat"
             class="mr-3 l"
-            :rules="veeForm.values?.jobToDateYear !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobToDateYear"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -146,8 +146,8 @@
             id="jobToDateYear"
             name="jobToDateYear"
             as="select"
-            label="Jahr"
-            :rules="veeForm.values?.jobToDateMonth !== '' ? 'required' : ''"
+            label="Endtermin Jahr"
+            rules="requiredIfNotEmpty:jobToDateMonth"
           >
             <option value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
