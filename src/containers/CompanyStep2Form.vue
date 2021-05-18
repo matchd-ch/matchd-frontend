@@ -8,43 +8,55 @@
     </MatchdField>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
-      <template v-slot:label>Kurzbeschreibung unserer Unternehmung</template>
+      <template v-slot:label>Kurzsteckbrief Ihres Unternehmens</template>
       <Field
         id="description"
         name="description"
         as="textarea"
         maxlength="1000"
-        label="Das zeichnet mich sonst noch aus"
-        class="h-72"
+        label="Kurzsteckbrief Ihres Unternehmens"
+        rows="10"
       />
       <template v-slot:info>Maximal 1000 Zeichen</template>
     </MatchdField>
     <!-- Logo -->
-    <MatchdFileBlock>
+    <MatchdFileBlock class="mb-10">
       <template v-slot:label>Logo</template>
       <MatchdFileView
         v-if="companyAvatar.length > 0 || companyAvatarQueue.length > 0"
         :files="companyAvatar"
         :queuedFiles="companyAvatarQueue"
         @deleteFile="onDeleteCompanyAvatar"
-        class="mb-10"
       />
       <MatchdFileUpload
         v-if="companyAvatar.length === 0"
         :uploadConfiguration="companyAvatarUploadConfigurations"
+        :formal="true"
         @selectFiles="onSelectCompanyAvatar"
-        class="mb-10"
         >Logo auswählen</MatchdFileUpload
+      >
+      <template v-slot:info
+        >Nur folgende Logos werden auf Matchd richtig dargestellt: quadratisches Format, Bild und
+        Wortmarke dürfen nicht weiss sein, transparenter oder weisser Hintergrund.</template
       >
     </MatchdFileBlock>
     <!-- Products & Services Field -->
     <MatchdField id="services" class="mb-10" :errors="veeForm.errors.services">
-      <template v-slot:label>Unsere Produkte und Services</template>
-      <Field id="services" name="services" as="input" label="Services" />
+      <template v-slot:label>Produkte, Services oder Dienstleistungen Ihres Unternehmens</template>
+      <Field
+        id="services"
+        name="services"
+        as="textarea"
+        label="Produkte, Services oder Dienstleistungen Ihres Unternehmens"
+        maxlength="1000"
+        rows="10"
+      />
     </MatchdField>
     <!-- ITrockt Field -->
     <MatchdToggle id="memberItStGallen" class="mb-10" :errors="veeForm.errors.memberItStGallen">
-      <template v-slot:label>Wir sind Mitglied im Verein IT St.Gallen "IT rockt!"</template>
+      <template v-slot:label
+        >Ihr Unternehmen ist Mitglied im Verein IT St.Gallen «IT rockt!»</template
+      >
       <input
         id="memberItStGallen"
         name="memberItStGallen"

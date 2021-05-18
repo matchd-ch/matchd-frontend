@@ -30,7 +30,7 @@
       Tätigkeitsbereich, Benefits und Bilder
     </ProfileNavigationItem>
     <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
-      Diees Talent suchen wir
+      Dieses Talent suchen wir
     </ProfileNavigationItem>
   </ProfileNavigation>
   <div class="profil min-h-screen text-primary-1">
@@ -158,7 +158,7 @@ export default class ProfileEdit extends Vue {
   confirmWhenDirty(next: NavigationGuardNext): void {
     if (this.dirty) {
       const confirmed = window.confirm(
-        "Es sind ungespeicherte Änderungen im Formular enthalten. Seite trotzdem verlassen?"
+        "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
       );
       this.$store.commit(MutationTypes.CLEAR_ONBOARDING_STATE);
       next(confirmed);

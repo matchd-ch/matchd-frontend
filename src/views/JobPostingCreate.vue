@@ -160,7 +160,7 @@ export default class JobPostingCreate extends Vue {
   confirmWhenDirty(next: NavigationGuardNext): void {
     if (this.dirty) {
       const confirmed = window.confirm(
-        "Es sind ungespeicherte Änderungen im Formular enthalten. Seite trotzdem verlassen?"
+        "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
       );
       this.clearCurrentJobPosting();
       next(confirmed);

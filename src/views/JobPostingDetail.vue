@@ -100,7 +100,7 @@
     </section>
     <MatchingBar class="fixed bottom-0 right-0 left-0">
       <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-        Du hast den Startschuss abgegeben.
+        Du hast bereits Interesse gezeigt, fingers crossed! 🤞
       </template>
       <template v-else-if="matchType === matchTypeEnum.FullMatch">
         Gratulation, ihr Matchd euch gegenseitig!
@@ -108,7 +108,7 @@
       <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
         Match bestätigen
       </MatchdButton>
-      <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
+      <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
     </MatchingBar>
     <JobPostingMatchModal
       v-if="showConfirmationModal"
