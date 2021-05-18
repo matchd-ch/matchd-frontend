@@ -7,11 +7,16 @@
         <select
           id="jobPosting"
           name="jobPosting"
-          class="bg-transparent border-b border-white py-2 appearance-none"
+          class="bg-transparent border-b border-white py-2 px-1 appearance-none"
           @change="onChangeJobPosting"
           v-model="jobPostingId"
         >
-          <option v-for="jobPosting in jobPostings" :key="jobPosting.id" :value="jobPosting.id">
+          <option
+            v-for="jobPosting in jobPostings"
+            :key="jobPosting.id"
+            :value="jobPosting.id"
+            class="text-pink-1"
+          >
             {{ jobPosting.title }}
           </option>
         </select>

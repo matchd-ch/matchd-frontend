@@ -99,7 +99,7 @@
         @deleteFile="onDeleteStudentDocument"
       />
       <MatchdFileUpload
-        v-if="studentDocumentsUploadConfigurations.maxFiles >= studentDocuments.length"
+        v-if="studentDocumentsUploadConfigurations.maxFiles > studentDocuments.length"
         :uploadConfiguration="studentDocumentsUploadConfigurations"
         @selectFiles="onSelectStudentDocuments"
         class="mb-10"
@@ -327,12 +327,12 @@ export default class StudentStep4Form extends Vue {
   }
 
   onInputSkill(): void {
-    if (this.skillInput.length < 3) {
+    if (this.skillInput.length < 1) {
       this.filteredSkills = [];
       return;
     }
     this.filteredSkills = this.availableSkills.filter((item) =>
-      item.name.toLowerCase().includes(this.skillInput.toLowerCase())
+      item.name.toLowerCase().startsWith(this.skillInput.toLowerCase())
     );
   }
 

@@ -25,7 +25,7 @@
         }"
       />
       <MatchdFileUpload
-        v-if="companyDocumentsUploadConfigurations.maxFiles >= companyDocuments.length"
+        v-if="companyDocumentsUploadConfigurations.maxFiles > companyDocuments.length"
         :formal="true"
         :uploadConfiguration="companyDocumentsUploadConfigurations"
         @selectFiles="onSelectCompanyDocuments"
