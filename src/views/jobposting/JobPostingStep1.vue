@@ -44,9 +44,7 @@
       name="branches"
       class="mb-10"
     >
-      <template v-slot:label
-        >In diesem Bereich wird das junge Talent tätig sein*</template
-      >
+      <template v-slot:label>In diesem Bereich wird das junge Talent tätig sein*</template>
     </SelectPillMultiple>
     <!-- Stellenprozent Field -->
     <MatchdSelect id="workload" :errors="veeForm.errors.workload" class="mb-10">
@@ -167,7 +165,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
-import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
