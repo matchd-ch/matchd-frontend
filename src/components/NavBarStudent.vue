@@ -1,5 +1,5 @@
 <template>
-  <nav-bar>
+  <nav-bar :is-company="false">
     <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
     <nav-link :to="{ name: 'StudentSearch' }">Projekt finden</nav-link>
     <nav-dropdown :text="user?.firstName">
