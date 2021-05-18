@@ -1,7 +1,7 @@
 <template>
   <div
     x-data="{ open: false }"
-    class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8"
+    class="flex flex-col px-4 md:items-center md:justify-between md:flex-row md:px-6 lg:px-8 border-green-1 border-b py-2.5"
   >
     <div class="p-4 flex flex-row items-center justify-between">
       <a
@@ -38,9 +38,11 @@
       <nav-dropdown :text="userName">
         <router-link
           :to="{ name: 'Profile' }"
+          class="block px-4 py-2 mt-2 md:text-lg text-sm bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
           >Mein Profil</router-link
         >
         <a
+          class="block px-4 py-2 mt-2 md:text-lg text-sm bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
           @click="onClickLogout"
           href="#"
           >Logout</a

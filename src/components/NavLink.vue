@@ -1,8 +1,8 @@
 <template>
-  <a
-    class="px-4 py-2 mt-2 text-sm bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+  <router-link
+    :to="to"
+    class="px-4 py-2 mt-2 md:text-md text-sm text-paragraph-lg bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
   >
-    <router-link :to="to">
       <slot />
     </router-link>
   </a>
