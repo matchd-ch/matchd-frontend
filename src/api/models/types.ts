@@ -167,7 +167,7 @@ export type IJobPostingInputStep1 = {
   /** Description */
   description?: Maybe<Scalars["String"]>;
   jobType: IJobTypeInput;
-  branch: IBranchInput;
+  branches: Array<Maybe<IBranchInput>>;
   /** Workload */
   workload: Scalars["Int"];
   jobFromDate: Scalars["String"];

@@ -141,7 +141,7 @@ type JobPosting = {
   slug: Scalars["String"];
   description: Scalars["String"];
   jobType: JobType;
-  branch: Branch;
+  branches: Array<Branch>;
   workload: Scalars["Int"];
   company: Company;
   jobFromDate: Scalars["Date"];
@@ -774,7 +774,7 @@ type JobPostingInputStep1 = {
   /** Description */
   description?: Maybe<Scalars["String"]>;
   jobType: JobTypeInput;
-  branch: BranchInput;
+  branches: Array<Maybe<BranchInput>>;
   /** Workload */
   workload: Scalars["Int"];
   jobFromDate: Scalars["String"];
