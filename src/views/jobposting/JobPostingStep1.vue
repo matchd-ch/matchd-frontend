@@ -39,7 +39,7 @@
     <!-- Branch Field -->
     <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
       <template v-slot:label
-      >In diesen Bereichen und Projekten kannst du bei uns tätig sein</template
+        >In diesen Bereichen und Projekten kannst du bei uns tätig sein</template
       >
     </SelectPillMultiple>
     <fieldset class="mb-10">
@@ -192,7 +192,7 @@ import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
-import { SelectPillMultipleItem } from '@/components/SelectPillMultiple.vue';
+import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 
 @Options({
   components: {
@@ -265,7 +265,7 @@ export default class JobPostingStep1 extends Vue {
       ...form,
       onSubmit,
       fullTime,
-      branches
+      branches,
     };
   });
   formData = {} as JobPostingStep1Form;
