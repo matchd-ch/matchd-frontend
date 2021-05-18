@@ -4,20 +4,17 @@
   </metainfo>
 
   <div>
-  <nav-bar>
-    <nav-link :to="{ path: '/' }">Dashboard</nav-link>
-    <nav-link :to="{ path: '/firmen' }">Stelle finden</nav-link>
-    <nav-link :to="{ path: '/stellen' }">Projekt finden</nav-link>
-    <nav-link :to="{ path: '/firmen' }">Unternehmen entdecken</nav-link>
-  </nav-bar>
-  <router-view
-    :class="{
-      'theme-student': isStudent,
-      'theme-company': isCompany,
-      'theme-university': isUniversity,
-    }"
-  >
-    <router-view />
+    <nav-bar>
+      <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
+      <nav-link :to="{ name: 'JobPostingSearch' }">Projekt finden</nav-link>
+    </nav-bar>
+    <router-view
+      :class="{
+        'theme-student': isStudent,
+        'theme-company': isCompany,
+        'theme-university': isUniversity,
+      }"
+    />
   </div>
 </template>
 
