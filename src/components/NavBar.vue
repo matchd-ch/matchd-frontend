@@ -54,8 +54,12 @@
 
 <script lang="ts">
 import { ActionTypes } from "@/store/modules/login/action-types";
-import { Options, Vue } from "vue-class-component";
+import { Options, prop, Vue } from "vue-class-component";
 import NavDropdown from "./NavDropdown.vue";
+
+class Props {
+  userName = prop<string>({ required: true });
+}
 
 @Options({
   components: { NavDropdown },
