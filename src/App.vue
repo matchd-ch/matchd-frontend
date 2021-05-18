@@ -4,7 +4,7 @@
   </metainfo>
 
   <div>
-    <nav-bar>
+    <nav-bar v-if="showNavbar" :user-name="user?.firstName">
       <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
       <nav-link :to="{ name: 'JobPostingSearch' }">Projekt finden</nav-link>
     </nav-bar>
@@ -49,6 +49,10 @@ export default class App extends Vue {
 
   get user(): User | null {
     return this.$store.getters["user"];
+  }
+
+  get showNavbar(): boolean {
+    return !this.$route.meta.public;
   }
 }
 </script>
