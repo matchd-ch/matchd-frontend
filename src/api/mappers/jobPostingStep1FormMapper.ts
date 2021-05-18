@@ -10,7 +10,7 @@ export function jobPostingStep1FormMapper(jobPosting: JobPosting): JobPostingSte
     fullTime: jobPosting?.workload === 100,
     workload: String(jobPosting?.workload || 90),
     jobTypeId: jobPosting?.jobType?.id || "",
-    branchId: jobPosting?.branch?.id || "",
+    branches: jobPosting?.branches?.map((branch) => branch.id) || [],
     jobFromDateMonth: jobPosting?.jobFromDate
       ? DateTime.fromSQL(jobPosting?.jobFromDate).month.toString()
       : "",
