@@ -37,9 +37,15 @@
       >
     </SelectPillGroup>
     <!-- Branch Field -->
-    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
+    <SelectPillMultiple
+      :options="branches"
+      :errors="veeForm.errors.branches"
+      @change="onChangeBranch"
+      name="branches"
+      class="mb-10"
+    >
       <template v-slot:label
-        >In diesen Bereichen und Projekten wird das junge Talent tätig sein</template
+        >In diesen Bereichen und Projekten wird das junge Talent tätig sein*</template
       >
     </SelectPillMultiple>
     <fieldset class="mb-10">
@@ -213,7 +219,16 @@ export default class JobPostingStep1 extends Vue {
     const store = useStore();
     const form = useForm<JobPostingStep1Form>();
     const { value: fullTime } = useField<boolean>("fullTime");
-    const { value: branches } = useField<string[]>("branches");
+    const { value: branches } = useField<string[]>(
+      "branches",
+      (value: string[]) => {
+        if (value?.length === 0) {
+          return "In diesen Bereichen und Projekten wird das junge Talent tätig sein ist ein Pflichtfeld";
+        }
+        return true;
+      },
+      { label: "In diesen Bereichen und Projekten wird das junge Talent tätig sein" }
+    );
     const onSubmit = form.handleSubmit(
       async (formData): Promise<void> => {
         if (
@@ -275,9 +290,6 @@ export default class JobPostingStep1 extends Vue {
   }
 
   get jobPostingData(): JobPostingStep1Form {
-    if (!this.currentJobPosting) {
-      return {} as JobPostingStep1Form;
-    }
     return jobPostingStep1FormMapper(this.currentJobPosting);
   }
 
