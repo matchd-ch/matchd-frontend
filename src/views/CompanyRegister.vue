@@ -5,16 +5,16 @@
         class="text-display-xl-fluid text-primary-1 col-span-full lg:fixed lg:transition-all lg:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
-        Registrierung
+        Matchd beitreten
       </h1>
     </div>
     <div class="px-4 lg:px-5">
       <MatchdStep step="1">
         <template v-if="form.type === 'company'" v-slot:title
-          >Möchte ihr Unternehmen Teil der Matchd-Community werden?</template
-        >
+          >Möchte Ihr Unternehmen Talente der Matchd-Community kennenlernen?
+        </template>
         <template v-else v-slot:title
-          >Möchte ihre Organisation Teil der Matchd-Community werden?</template
+          >Möchte ihre Organisation Talente der Matchd-Community kennenlernen?</template
         >
         <MatchdButton
           type="button"
@@ -34,7 +34,10 @@
         step="2"
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
-        <template v-slot:title>Bitte hinterlegen sie die UID-Nummer ihres Unternehmens:</template>
+        <template v-slot:title
+          >Bitte geben Sie uns die Unternehmens-Identifikationsnummer (UID-Nr.) Ihres Unternehmens
+          an.</template
+        >
         <Form @submit="onSubmitUid" v-slot="{ errors }">
           <MatchdField id="uid" class="mb-10" :errors="errors.uid">
             <template v-slot:label>UID-Nr.</template>
@@ -46,8 +49,17 @@
               label="UID-Nr."
               rules="required|uid"
             />
+            <template v-slot:info
+              >Ihre UID-Nr. finden Sie online&nbsp;
+              <a
+                href="https://www.uid.admin.ch/Search.aspx?lang=de"
+                target="_blank"
+                class="underline"
+                >im UID-Register</a
+              >.</template
+            >
           </MatchdField>
-          <MatchdButton variant="outline">Weiter</MatchdButton>
+          <MatchdButton variant="outline">Speichern und weiter</MatchdButton>
         </Form>
       </MatchdStep>
       <MatchdStep
@@ -61,8 +73,8 @@
         <Form @submit="onSubmitCompanyData" v-slot="{ errors }">
           <MatchdField id="name" class="mb-3" :errors="errors.name">
             <template v-if="form.type === 'company'" v-slot:label
-              >Vollständiger Name der Unternehmung</template
-            >
+              >Name des Unternehmens inkl. Rechtsform
+            </template>
             <template v-else v-slot:label>Vollständiger Name der Bildungsinstitution</template>
             <Field
               id="name"
@@ -90,11 +102,11 @@
               class="lg:mr-3 mb-3 lg:flex-grow"
               :errors="errors.firstName"
             >
-              <template v-slot:label>Vorname</template>
+              <template v-slot:label>Vorname Ansprechperson</template>
               <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
             </MatchdField>
             <MatchdField id="lastName" class="mb-3 lg:flex-grow" :errors="errors.lastName">
-              <template v-slot:label>Nachname</template>
+              <template v-slot:label>Nachname Ansprechperson</template>
               <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
             </MatchdField>
           </div>
@@ -110,7 +122,7 @@
             />
           </MatchdField>
           <MatchdField id="email" class="mb-3" :errors="errors.email">
-            <template v-slot:label>E-Mail</template>
+            <template v-slot:label>E-Mail Ansprechperson</template>
             <Field
               id="email"
               name="email"
@@ -144,9 +156,9 @@
               </button>
             </template>
             <template v-slot:info
-              >Nutzen sie mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
-              Sonderzeichen.</template
-            >
+              >Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben,
+              eine Zahl und ein Sonderzeichen enthalten.
+            </template>
           </MatchdField>
 
           <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
@@ -178,8 +190,8 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Fast geschafft:<br />Aktivieren sie ihren Account mit dem Link, den wir ihnen per Mail an
-          {{ form.email || "?" }} geschickt haben.
+          Fast geschafft. Aktivieren Sie Ihren Matchd-Account über den Link, den Sie per E-Mail
+          erhalten haben.
         </template>
       </MatchdStep>
     </div>

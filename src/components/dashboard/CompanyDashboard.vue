@@ -7,10 +7,12 @@
         <img class="w-40" :src="replaceStack(avatar.url, 'logo')" />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
-        <h2 class="flex-1 mb-8 xl:mb-0">Guten Tag, schön dass Sie online sind!</h2>
+        <h2 class="flex-1 mb-8 xl:mb-0">
+          Willkommen zurück bei Matchd! Wir wünschen viel Erfolg bei der Talentsuche
+        </h2>
         <p>
-          Hier zeigen wir Ihnen offene Matching-Anfragen. Alle fürs Matching nötigen Informationen
-          schicken wir Ihnen auch per E-Mail. So verpassen Sie bestimmt kein Match.
+          Auf dieser Seite finden Sie Ihre ausgeschriebenen Stellen sowie den aktuellen Stand Ihrer
+          Matches. Damit Sie keinen Match verpassen, informieren wir Sie jeweils auch per E-Mail.
         </p>
         <MatchdButton
           class="mt-4"
@@ -46,7 +48,8 @@
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
         <p v-if="dashboard?.requestedMatches?.length > 0">
-          Sobald Ihre Matching-Anfrage bestätigt wurde, kann es mit dem Kennenlernen weitergehen.
+          Sobald Ihre Matching-Anfrage vom Talent bestätigt wurde, kanns mit dem Kennenlernen
+          weitergehen.
         </p>
         <p v-if="dashboard?.requestedMatches?.length === 0">
           Im Moment haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
@@ -59,8 +62,7 @@
       </profile-section>
       <profile-section title="Anfragen zum Matching" :pink="true">
         <p v-if="dashboard?.unconfirmedMatches.length > 0">
-          Ihre Ausschreibung stösst auf Interesse! Es gibt Talente die gerne mit Ihnen in Kontakt
-          treten möchten.
+          Ihre Ausschreibung ist beliebt. Folgende Talente möchten Sie gerne kennenlernen.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
           Im Moment haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden
@@ -73,7 +75,7 @@
       </profile-section>
       <profile-section
         v-if="dashboard?.confirmedMatches?.length > 0"
-        title="Hier hat's gematchd!"
+        title="Hier hats gematchd!"
         :pink="true"
       >
         <company-match-group :matches="dashboard?.confirmedMatches"></company-match-group>

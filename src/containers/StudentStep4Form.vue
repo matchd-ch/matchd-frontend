@@ -27,7 +27,7 @@
         v-model="skillInput"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
-        placeholder="Tippe, um Vorschläge zu erhalten"
+        placeholder="Tippe für Vorschläge"
       />
     </MatchdAutocomplete>
     <SelectPillGroup v-if="selectedSkills.length" class="mb-10">
@@ -48,7 +48,7 @@
       :errors="veeForm.errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Sprachliche Skills*</template></LanguagePicker
+      ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
     >
     <h2 class="text-heading-md mb-9">Was zeichnet dich sonst noch aus?</h2>
     <!-- Online Projects Field -->
