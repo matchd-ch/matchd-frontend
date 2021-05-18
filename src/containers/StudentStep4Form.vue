@@ -99,7 +99,7 @@
         @deleteFile="onDeleteStudentDocument"
       />
       <MatchdFileUpload
-        v-if="studentDocumentsUploadConfigurations.maxFiles >= studentDocuments.length"
+        v-if="studentDocumentsUploadConfigurations.maxFiles > studentDocuments.length"
         :uploadConfiguration="studentDocumentsUploadConfigurations"
         @selectFiles="onSelectStudentDocuments"
         class="mb-10"
