@@ -16,7 +16,7 @@
       x-transition:leave-end="transform opacity-0 scale-95"
       class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-auto z-10"
     >
-      <div class="px-2 py-2 bg-white rounded-md shadow">
+      <div class="bg-white rounded-md shadow">
         <slot />
       </div>
     </div>
