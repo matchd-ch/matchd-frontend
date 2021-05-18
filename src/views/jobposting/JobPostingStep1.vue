@@ -39,7 +39,7 @@
     <!-- Branch Field -->
     <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
       <template v-slot:label
-        >In diesen Bereichen und Projekten kannst du bei uns tätig sein</template
+        >In diesen Bereichen und Projekten wird das junge Talent tätig sein</template
       >
     </SelectPillMultiple>
     <fieldset class="mb-10">
