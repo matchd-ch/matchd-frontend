@@ -7,8 +7,7 @@ export function jobPostingStep1FormMapper(jobPosting: JobPosting): JobPostingSte
     title: jobPosting?.title || "",
     description: jobPosting?.description || "",
     url: jobPosting?.url || "",
-    fullTime: jobPosting?.workload === 100,
-    workload: String(jobPosting?.workload || 90),
+    workload: String(jobPosting?.workload || 100),
     jobTypeId: jobPosting?.jobType?.id || "",
     branchId: jobPosting?.branch?.id || "",
     jobFromDateMonth: jobPosting?.jobFromDate

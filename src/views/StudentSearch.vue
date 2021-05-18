@@ -2,7 +2,7 @@
   <div class="student-search-view">
     <SearchFilters class="search-filters fixed right-0 top-0 left-0 bg-company-gradient-t-b z-50">
       <form>
-        Ich suche nach Talenten, welche für meine Stelle als
+        Ich suche nach Talenten, die für meine Stelle als
         <label for="jobPosting" class="sr-only">Stelle auswählen</label>
         <select
           id="jobPosting"

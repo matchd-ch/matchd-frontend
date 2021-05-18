@@ -15,7 +15,7 @@
     </MatchdField>
     <!-- Art Field -->
     <SelectPillGroup :errors="veeForm.errors.jobTypeId" class="mb-10">
-      <template v-slot:label>Welche Art Stelle wollen Sie besetzen*</template>
+      <template v-slot:label>Diese Stellen-Art möchten Sie besetzen*</template>
       <template v-slot:field>
         <Field
           id="jobTypeId"
@@ -59,34 +59,15 @@
         >{{ branch.name }}</SelectPill
       >
     </SelectPillGroup>
-    <fieldset class="mb-10">
-      <label class="block px-8 mb-2 font-medium">Arbeitspensum</label>
-      <div>
-        <!-- Vollzeit-Teilzeit Field -->
-        <MatchdToggle id="fullTime" :errors="veeForm.errors.fullTime">
-          <input
-            id="fullTime"
-            name="fullTime"
-            type="checkbox"
-            value="true"
-            @change="onChangeFullTime($event.target.checked)"
-            :checked="veeForm.fullTime"
-          />
-        </MatchdToggle>
-        <!-- Arbeitspensum Field -->
-        <MatchdSelect
-          v-if="!veeForm.fullTime"
-          id="workload"
-          :errors="veeForm.errors.workload"
-          class="mt-3"
-        >
-          <template v-slot:label>Teilzeit Pensum</template>
-          <Field id="workload" name="workload" as="select" label="Pensum" rules="required">
-            <option v-for="(n, index) in 9" :value="n * 10" :key="index">{{ n * 10 }}%</option>
-          </Field>
-        </MatchdSelect>
-      </div>
-    </fieldset>
+
+    <!-- Stellenprozent Field -->
+    <MatchdSelect id="workload" :errors="veeForm.errors.workload" class="mb-10">
+      <template v-slot:label>Stellenprozent</template>
+      <Field id="workload" name="workload" as="select" label="Stellenprozent" rules="required">
+        <option value="" disabled selected hidden>Stellenprozent</option>
+        <option v-for="(n, index) in 10" :value="n * 10" :key="index">{{ n * 10 }}%</option>
+      </Field>
+    </MatchdSelect>
     <!-- Stellenantritt -->
     <div class="lg:flex">
       <MatchdSelect
@@ -164,7 +145,9 @@
     <MatchdField id="url" class="mb-10" :errors="veeForm.errors.url">
       <template v-slot:label>Link zur Ausschreibung</template>
       <Field id="url" name="url" as="input" label="Link zur Ausschreibung" rules="url" />
-      <template v-slot:info>Weitere Informationen für das Talent.</template>
+      <template v-slot:info
+        >Link muss auf ein Stelleninserate auf Ihrer Website verlinken.</template
+      >
     </MatchdField>
     <MatchdButton
       variant="outline"
@@ -344,13 +327,6 @@ export default class JobPostingStep1 extends Vue {
 
   onChangeBranch(branchId: string): void {
     this.veeForm.setFieldValue("branchId", branchId);
-  }
-
-  onChangeFullTime(value: boolean): void {
-    this.veeForm.fullTime = value;
-    if (!this.veeForm.fullTime) {
-      this.veeForm.setFieldValue("workload", String(90));
-    }
   }
 
   @Watch("veeForm.meta.dirty")

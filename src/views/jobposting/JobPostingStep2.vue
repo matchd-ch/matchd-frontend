@@ -57,7 +57,7 @@
       :errors="veeForm.errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Sprachskills*</template></LanguagePicker
+      ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
     >
     <MatchdButton
       variant="outline"
