@@ -1,10 +1,10 @@
 <template>
   <nav-bar :is-company="false">
     <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
-    <nav-link :to="{ name: 'StudentSearch' }">Projekt finden</nav-link>
+    <nav-link :to="{ name: 'JobPostingSearch' }">Projekt finden</nav-link>
     <nav-dropdown :text="user?.firstName">
       <nav-link :to="{ name: 'Profile' }" :inline="false">Mein Profil</nav-link>
-      <nav-link @click="onClickLogout" :inline="false">Logout</nav-link>
+      <nav-link :to="{ name: 'Login' }" @click="onClickLogout" :inline="false">Logout</nav-link>
     </nav-dropdown>
   </nav-bar>
 </template>
@@ -28,7 +28,12 @@ class Props {
 export default class NavBarStudent extends Vue.with(Props) {
   async onClickLogout(): Promise<void> {
     await this.$store.dispatch(ActionTypes.LOGOUT);
-    this.$router.push({ name: "Login" });
   }
 }
 </script>
+
+<style lang="postcss" scoped>
+.router-link-active {
+  @apply text-green-1;
+}
+</style>

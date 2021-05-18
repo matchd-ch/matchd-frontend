@@ -17,6 +17,7 @@ import { RouteLocationNormalized } from "vue-router";
 class Props {
   to = prop<RouteLocationNormalized>({ default: {} });
   inline = prop<boolean>({ default: true });
+  isCompany = prop<boolean>({ default: false });
 }
 
 @Options({
