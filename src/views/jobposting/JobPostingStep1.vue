@@ -37,28 +37,11 @@
       >
     </SelectPillGroup>
     <!-- Branch Field -->
-    <SelectPillGroup :errors="veeForm.errors.branchId" class="mb-10">
-      <template v-slot:label>In diesem Bereich wird das junge Talent tätig sein*</template>
-      <template v-slot:field>
-        <Field
-          id="branchId"
-          name="branchId"
-          as="input"
-          label="In diesem Bereich wird das junge Talent tätig sein"
-          type="hidden"
-          rules="required"
-        />
-      </template>
-      <SelectPill
-        name="branchPill"
-        v-for="branch in branches"
-        :key="branch.id"
-        :value="branch.id"
-        :checked="branch.id === veeForm.values?.branchId"
-        @change="onChangeBranch"
-        >{{ branch.name }}</SelectPill
+    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
+      <template v-slot:label
+      >In diesen Bereichen und Projekten kannst du bei uns tätig sein</template
       >
-    </SelectPillGroup>
+    </SelectPillMultiple>
     <fieldset class="mb-10">
       <label class="block px-8 mb-2 font-medium">Arbeitspensum</label>
       <div>
@@ -196,6 +179,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
+import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
@@ -208,6 +192,7 @@ import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
+import { SelectPillMultipleItem } from '@/components/SelectPillMultiple.vue';
 
 @Options({
   components: {
@@ -218,6 +203,7 @@ import { Watch } from "vue-property-decorator";
     MatchdSelect,
     MatchdToggle,
     SelectPill,
+    SelectPillMultiple,
     SelectPillGroup,
   },
   emits: ["submitComplete", "changeDirty"],
@@ -227,6 +213,7 @@ export default class JobPostingStep1 extends Vue {
     const store = useStore();
     const form = useForm<JobPostingStep1Form>();
     const { value: fullTime } = useField<boolean>("fullTime");
+    const { value: branches } = useField<string[]>("branches");
     const onSubmit = form.handleSubmit(
       async (formData): Promise<void> => {
         if (
@@ -278,6 +265,7 @@ export default class JobPostingStep1 extends Vue {
       ...form,
       onSubmit,
       fullTime,
+      branches
     };
   });
   formData = {} as JobPostingStep1Form;
@@ -297,8 +285,16 @@ export default class JobPostingStep1 extends Vue {
     return this.$store.getters["jobTypes"];
   }
 
-  get branches(): Branch[] {
-    return this.$store.getters["branches"];
+  get branches(): SelectPillMultipleItem[] {
+    return this.$store.getters["branches"].map((branch) => {
+      return {
+        id: branch.id,
+        name: branch.name,
+        checked: !!this.veeForm.branches?.find(
+          (selectedBranchId) => selectedBranchId === branch.id
+        ),
+      };
+    });
   }
 
   get jobPostingLoading(): boolean {
@@ -342,8 +338,18 @@ export default class JobPostingStep1 extends Vue {
     this.veeForm.setFieldValue("jobTypeId", jobTypeId);
   }
 
-  onChangeBranch(branchId: string): void {
-    this.veeForm.setFieldValue("branchId", branchId);
+  onChangeBranch(branch: Branch): void {
+    const branchExists = !!this.veeForm.branches.find(
+      (selectedBranchId) => selectedBranchId === branch.id
+    );
+    if (branchExists) {
+      this.veeForm.branches = this.veeForm.branches.filter(
+        (selectedBranchId) => selectedBranchId !== branch.id
+      );
+    } else {
+      this.veeForm.branches.push(branch.id);
+      this.veeForm.branches.sort((a: string, b: string) => parseInt(a) - parseInt(b));
+    }
   }
 
   onChangeFullTime(value: boolean): void {
