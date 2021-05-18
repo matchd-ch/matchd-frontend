@@ -42,9 +42,9 @@
           >Link #1</a
         >
         <a
-          class="block px-4 py-2 mt-2 text-sm bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+          @click="onClickLogout"
           href="#"
-          >Link #2</a
+          >Logout</a
         >
       </nav-dropdown>
     </nav>
@@ -52,11 +52,17 @@
 </template>
 
 <script lang="ts">
+import { ActionTypes } from "@/store/modules/login/action-types";
 import { Options, Vue } from "vue-class-component";
 import NavDropdown from "./NavDropdown.vue";
 
 @Options({
   components: { NavDropdown },
 })
-export default class NavBar extends Vue {}
+export default class NavBar extends Vue.with(Props) {
+  async onClickLogout(): Promise<void> {
+    await this.$store.dispatch(ActionTypes.LOGOUT);
+    this.$router.push({ name: "Login" });
+  }
+}
 </script>
