@@ -35,39 +35,18 @@
       class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row"
     >
       <slot />
-      <nav-dropdown :text="userName">
-        <router-link
-          :to="{ name: 'Profile' }"
-          class="block px-4 py-2 mt-2 md:text-lg text-sm bg-transparent rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-          >Mein Profil</router-link
-        >
-        <a
-          class="block px-4 py-2 mt-2 md:text-lg text-sm bg-transparent rounded-lg md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-          @click="onClickLogout"
-          href="#"
-          >Logout</a
-        >
-      </nav-dropdown>
     </nav>
   </div>
 </template>
 
 <script lang="ts">
-import { ActionTypes } from "@/store/modules/login/action-types";
-import { Options, prop, Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
 import NavDropdown from "./NavDropdown.vue";
-
-class Props {
-  userName = prop<string>({ required: true });
-}
+import NavLink from "./NavLink.vue";
 
 @Options({
-  components: { NavDropdown },
+  name: "NavBar",
+  components: { NavDropdown, NavLink },
 })
-export default class NavBar extends Vue.with(Props) {
-  async onClickLogout(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.LOGOUT);
-    this.$router.push({ name: "Login" });
-  }
-}
+export default class NavBar extends Vue {}
 </script>

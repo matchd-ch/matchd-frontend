@@ -1,19 +1,26 @@
 <template>
   <router-link
     :to="to"
-    class="px-4 py-2 mt-2 md:text-md text-sm text-paragraph-lg bg-transparent rounded-lg md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+    :class="{
+      'md:ml-4': inline,
+      block: !inline,
+    }"
+    class="focus:bg-gray-200 focus:outline-none focus:shadow-outline focus:text-gray-900 hover:bg-gray-200 hover:text-gray-900 bg-transparent md:mt-0 md:text-lg mt-2 px-4 py-2 rounded-lg text-sm"
   >
-      <slot />
-    </router-link>
-  </a>
+    <slot />
+  </router-link>
 </template>
 <script lang="ts">
-import { Vue, prop } from "vue-class-component";
+import { Vue, prop, Options } from "vue-class-component";
+import { RouteLocationNormalized } from "vue-router";
 
 class Props {
-  url = prop<string>({ default: "#" });
-  to = prop<string>({ default: undefined });
+  to = prop<RouteLocationNormalized>({ default: {} });
+  inline = prop<boolean>({ default: true });
 }
 
+@Options({
+  name: "NavLink",
+})
 export default class NavLink extends Vue.with(Props) {}
 </script>

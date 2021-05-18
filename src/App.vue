@@ -4,10 +4,7 @@
   </metainfo>
 
   <div>
-    <nav-bar v-if="showNavbar" :user-name="user?.firstName">
-      <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
-      <nav-link :to="{ name: 'JobPostingSearch' }">Projekt finden</nav-link>
-    </nav-bar>
+    <component v-if="showNavbar" :is="navigation" v-bind="{ user }" />
     <router-view
       :class="{
         'theme-student': isStudent,
@@ -22,11 +19,11 @@
 import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import NavBar from "@/components/NavBar.vue";
-import NavLink from "@/components/NavLink.vue";
+import NavBarStudent from "@/components/NavBarStudent.vue";
+import NavBarCompany from "@/components/NavBarCompany.vue";
 
 @Options({
-  components: { NavBar, NavLink },
+  components: { NavBarStudent, NavBarCompany },
 })
 export default class App extends Vue {
   meta = setup(() =>
@@ -53,6 +50,11 @@ export default class App extends Vue {
 
   get showNavbar(): boolean {
     return !this.$route.meta.public;
+  }
+
+  get navigation(): string {
+    if (this.isStudent) return "NavBarStudent";
+    return "NavBarCompany";
   }
 }
 </script>
