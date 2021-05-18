@@ -14,9 +14,10 @@ export function jobPostingStep1InputMapper(
     jobType: {
       id: jobPostingForm.jobTypeId,
     },
-    branches: jobPostingForm.branches?.map((branchId) => {
-      return { id: branchId }
-    }) || [],
+    branches:
+      jobPostingForm.branches?.map((branchId) => {
+        return { id: branchId };
+      }) || [],
     jobFromDate: `${jobPostingForm.jobFromDateMonth}.${jobPostingForm.jobFromDateYear}`,
     jobToDate:
       jobPostingForm.jobToDateMonth && jobPostingForm.jobToDateYear
