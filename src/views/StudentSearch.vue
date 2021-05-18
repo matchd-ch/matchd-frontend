@@ -127,6 +127,12 @@ export default class StudentSearch extends Vue {
     this.calculateMargins();
 
     this.layout = (this.$route.query?.layout as string) || "bubbles";
+    this.softBoost = this.$route.query?.softBoost
+      ? parseInt(this.$route.query?.softBoost as string)
+      : 3;
+    this.techBoost = this.$route.query?.techBoost
+      ? parseInt(this.$route.query?.techBoost as string)
+      : 3;
     this.jobPostingId = (this.$route.query?.jobPostingId as string) || "";
 
     await this.$store.dispatch(ActionTypes.JOB_POSTINGS);
@@ -204,6 +210,8 @@ export default class StudentSearch extends Vue {
     this.$router.replace({
       query: {
         layout: this.layout,
+        softBoost: this.softBoost,
+        techBoost: this.techBoost,
         ...(this.jobPostingId !== "" && { jobPostingId: this.jobPostingId }),
       },
     });
