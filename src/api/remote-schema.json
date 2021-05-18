@@ -718,16 +718,24 @@
             "deprecationReason": null
           },
           {
-            "name": "branch",
+            "name": "branches",
             "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Branch",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Branch",
+                    "ofType": null
+                  }
+                }
               }
             },
             "isDeprecated": false,
@@ -5455,15 +5463,19 @@
             "deprecationReason": null
           },
           {
-            "name": "branch",
+            "name": "branches",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "BranchInput",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "BranchInput",
+                  "ofType": null
+                }
               }
             },
             "defaultValue": null,
