@@ -13,6 +13,7 @@ import type {
   JobType,
   Language,
   LanguageLevel,
+  Match,
   Skill,
   SoftSkill,
   Student,
@@ -24,6 +25,7 @@ import { State } from "./state";
 export type Getters = {
   benefits(state: State): Benefit[];
   branches(state: State): Branch[];
+  companyMatching(state: State): { data: Match[] };
   company(
     state: State
   ): {
@@ -72,6 +74,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
     media: Attachment[];
   } {
     return state.company;
+  },
+  companyMatching(state: State): { data: Match[] } {
+    return state.companyMatching;
   },
   culturalFits(state: State): CulturalFit[] {
     return state.culturalFits.data;

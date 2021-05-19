@@ -7,7 +7,7 @@
         class="lg:mr-3 mb-10 flex-grow"
         :errors="veeForm.errors.firstName"
       >
-        <template v-slot:label>Dein Vorname*</template>
+        <template v-slot:label>Vorname*</template>
         <Field
           id="firstName"
           name="firstName"
@@ -19,7 +19,7 @@
         />
       </MatchdField>
       <MatchdField id="lastName" class="mb-10 flex-grow" :errors="veeForm.errors.lastName">
-        <template v-slot:label>Dein Nachname*</template>
+        <template v-slot:label>Nachname*</template>
         <Field
           id="lastName"
           name="lastName"
@@ -32,7 +32,7 @@
       </MatchdField>
     </div>
     <MatchdSelect id="birthdate" class="mb-10" :errors="veeForm.errors.year">
-      <template v-slot:label>Dein Geburtstag*</template>
+      <template v-slot:label>Geburtstag*</template>
       <fieldset id="birthdate" class="flex">
         <Field id="day" name="day" as="select" label="Tag" class="mr-3" rules="required">
           <option value="" disabled selected hidden>Tag</option>
@@ -67,11 +67,18 @@
       </MatchdField>
     </div>
     <MatchdField id="mobile" class="mb-10" :errors="veeForm.errors.mobile">
-      <template v-slot:label>Deine Mobile-Nummer</template>
-      <Field id="mobile" name="mobile" as="input" label="Mobile-Nummer" rules="phone" />
+      <template v-slot:label>Mobile-Nummer</template>
+      <Field
+        id="mobile"
+        name="mobile"
+        as="input"
+        label="Mobile-Nummer"
+        rules="phone"
+        placeholder="+41792223344"
+      />
       <template v-slot:info
-        >Matchd gibt deine Mobile-Nummer nicht weiter. Du entscheidest selber, wann und mit wem du
-        sie teilst.</template
+        >Matchd gibt deine Mobile-Nummer nicht weiter. Du entscheidest, wann wir sie mit einem
+        Unternehmen teilen dürfen.</template
       >
     </MatchdField>
     <slot />

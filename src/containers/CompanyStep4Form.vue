@@ -1,5 +1,9 @@
 <template>
   <form v-if="profileData && softSkills.length && culturalFits.length" @submit="veeForm.onSubmit">
+    <p class="mb-8">
+      Um den Perfect-Match für Ihr Unternehmen im Talentpool zu finden, können Sie aus den folgenden
+      Vorschlägen alle Eigenschaften und Werte auswählen, die Ihnen bei einem Talent wichtig sind.
+    </p>
     <FormSaveError v-if="showError" />
     <SelectPillMultiple
       :options="softSkills"
@@ -7,15 +11,16 @@
       name="softSkills"
       class="mb-10"
     >
-      <template v-slot:label>Die Kandidat*in mag es ...</template>
+      <template v-slot:label>Das Talent mag es ...</template>
       <template v-if="remainingSoftSkillCount > 0" v-slot:info>
         <template v-if="remainingSoftSkillCount === 1">
-          Wähle noch 1 für dich passende Aussage aus
+          Wählen Sie noch 1 für Sie passende Aussage aus
         </template>
         <template v-else>
-          Wähle {{ this.minSoftSkills - veeForm.softSkills.length }} für dich passende Aussagen aus
-        </template></template
-      >
+          Wählen Sie {{ this.minSoftSkills - veeForm.softSkills.length }} für Sie passende Aussagen
+          aus
+        </template>
+      </template>
     </SelectPillMultiple>
     <SelectPillMultiple
       :options="culturalFits"
@@ -23,16 +28,16 @@
       name="culturalFits"
       class="mb-10"
     >
-      <template v-slot:label>Es ist uns wichtig, dass ...</template>
+      <template v-slot:label>Ihrem Unternehmen ist es wichtig, dass ...</template>
       <template v-if="remainingCulturalFits > 0" v-slot:info>
         <template v-if="remainingCulturalFits === 1">
-          Wähle noch 1 für dich passende Aussage aus
+          Wählen Sie noch 1 für Sie passende Aussage aus
         </template>
         <template v-else>
-          Wähle {{ this.minCulturalFits - veeForm.culturalFits.length }} für dich passende Aussagen
-          aus
-        </template></template
-      >
+          Wählen Sie {{ this.minCulturalFits - veeForm.culturalFits.length }} für Sie passende
+          Aussagen aus
+        </template>
+      </template>
     </SelectPillMultiple>
     <slot />
   </form>

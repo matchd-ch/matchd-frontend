@@ -44,7 +44,7 @@
       </profile-section>
       <profile-section
         v-if="student.data.languages?.length"
-        title="Ich habe Kenntnis in folgenden Sprachen"
+        title="Ich habe Kenntnisse in folgenden Sprachen"
       >
         <ul>
           <li v-for="language in student.data.languages" :key="language.id">
@@ -93,7 +93,7 @@
     </div>
     <MatchingBar class="fixed bottom-0 right-0 left-0">
       <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-        Sie haben den Startschuss abgegeben.
+        Sie haben bereits Interesse an diesem Talent gezeigt
       </template>
       <template v-else-if="matchType === matchTypeEnum.FullMatch">
         Gratulation, ihr Matchd euch gegenseitig!
@@ -101,7 +101,9 @@
       <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
         Match bestätigen
       </MatchdButton>
-      <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
+      <MatchdButton v-else @click="onClickMatch"
+        >Mit {{ student.data.firstName }} matchen</MatchdButton
+      >
     </MatchingBar>
 
     <StudentMatchModal
