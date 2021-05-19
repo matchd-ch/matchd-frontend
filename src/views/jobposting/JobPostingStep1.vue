@@ -180,7 +180,7 @@
       variant="outline"
       :disabled="jobPostingLoading"
       class="block w-full mt-5"
-      @click="$router.push({ name: 'Home' })"
+      @click="$router.push({ name: 'Dashboard' })"
     >
       Abbrechen
     </MatchdButton>

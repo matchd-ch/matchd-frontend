@@ -127,14 +127,12 @@ export default class CompanyDetail extends Vue {
     return additionalMedia;
   }
 
-  get company():
-    {
-      data: Company | null;
-      logo: Attachment | null;
-      media: Attachment[];
-      logoFallback: Attachment | null;
-    }
-  {
+  get company(): {
+    data: Company | null;
+    logo: Attachment | null;
+    media: Attachment[];
+    logoFallback: Attachment | null;
+  } {
     return this.$store.getters["company"];
   }
 

@@ -67,7 +67,7 @@
 <script lang="ts">
 import { studentProfileStep6FormMapper } from "@/api/mappers/studentProfileStep6FormMapper";
 import { studentProfileStep6InputMapper } from "@/api/mappers/studentProfileStep6InputMapper";
-import { AttachmentKey, ProfileState } from "@/api/models/types";
+import { ProfileState } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
@@ -78,7 +78,6 @@ import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

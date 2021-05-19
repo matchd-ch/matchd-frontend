@@ -111,8 +111,7 @@ import { formatDate } from "@/helpers/formatDate";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, User } from "api";
-import { Options, setup, Vue } from "vue-class-component";
-import { useMeta } from "vue-meta";
+import { Options, Vue } from "vue-class-component";
 import { replaceStack } from "@/helpers/replaceStack";
 
 @Options({

@@ -231,7 +231,7 @@ export default class JobPostingSearch extends Vue {
         workload: this.workload,
         softBoost: this.softBoost,
         techBoost: this.techBoost,
-        first: 50,
+        first: 20,
         skip: 0,
       })
     );
