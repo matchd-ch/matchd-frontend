@@ -10,7 +10,7 @@
         :linkTo="{ name: 'CompanyDetail', params: { slug: match.slug } }"
         :imgSrc="replaceStack(match.avatar, 'desktop-square')"
         :imgAlt="`${match.name} Logo`"
-        color="pink"
+        color="green"
       >
         <div class="mt-2">
           <h3 class="text-paragraph-lg">{{ match.name }}</h3>
