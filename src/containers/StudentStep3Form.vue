@@ -1,5 +1,10 @@
 <template>
   <form v-if="profileData && softSkills.length && culturalFits.length" @submit="veeForm.onSubmit">
+    <p class="mb-8">
+      Bei der Suche nach deiner Traumstelle kannst du Unternehmen finden, die ähnlich ticken wie du.
+      Wähle aus den folgenden Vorschlägen alle Eigenschaften und Werte aus, die dich ausmachen und
+      dir wichtig sind.
+    </p>
     <FormSaveError v-if="showError" />
     <SelectPillMultiple
       :options="softSkills"

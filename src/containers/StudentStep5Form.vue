@@ -20,6 +20,11 @@
             @clickNickname="onClickNickname"
           /></div
       ></template>
+
+      <template v-else v-slot:info
+        >Du kannst dein Profil anonym oder öffentlich nutzen. Willst du anonym bleiben, zeigen wir
+        diesen Nickname an.</template
+      >
     </MatchdField>
     <MatchdFileBlock>
       <template v-slot:label>Dein Profilbild</template>
@@ -28,7 +33,7 @@
         :files="studentAvatar"
         :queuedFiles="studentAvatarQueue"
         @deleteFile="onDeleteStudentAvatar"
-        class="mb-3"
+        class="mb-10"
       />
       <MatchdFileUpload
         v-if="studentAvatar.length === 0"

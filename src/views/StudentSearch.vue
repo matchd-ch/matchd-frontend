@@ -2,16 +2,21 @@
   <div class="student-search-view">
     <SearchFilters class="search-filters fixed right-0 top-0 left-0 bg-company-gradient-t-b z-50">
       <form>
-        Ich suche nach Talenten, welche für meine Stelle als
+        Ich suche nach Talenten, die für meine Stelle als
         <label for="jobPosting" class="sr-only">Stelle auswählen</label>
         <select
           id="jobPosting"
           name="jobPosting"
-          class="bg-transparent border-b border-white py-2 appearance-none"
+          class="bg-transparent border-b border-white py-2 px-1 appearance-none"
           @change="onChangeJobPosting"
           v-model="jobPostingId"
         >
-          <option v-for="jobPosting in jobPostings" :key="jobPosting.id" :value="jobPosting.id">
+          <option
+            v-for="jobPosting in jobPostings"
+            :key="jobPosting.id"
+            :value="jobPosting.id"
+            class="text-pink-1"
+          >
             {{ jobPosting.title }}
           </option>
         </select>

@@ -51,8 +51,8 @@
           :loading="loading"
           class="block w-full"
           :variant="buttonVariantOutline ? 'outline' : 'fill'"
-          >Senden</MatchdButton
-        >
+          ><slot name="button-label"
+        /></MatchdButton>
       </div>
     </Form>
   </div>

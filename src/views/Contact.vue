@@ -19,6 +19,7 @@
         Du fragst dich, welche Troll-Fabriken hinter unserem hochkomplexen Matchmaking-Algorithmus
         stecken? Tja, das bleibt wohl unser Geheimnis. Für alle anderen Fragen, schreib uns!
       </p>
+      <template v-slot:button-label>Senden</template>
     </RegisterContactForm>
 
     <RegisterContactFormSent v-else :textBlack="true" :linkRoute="linkRoute" :linkName="linkName" />

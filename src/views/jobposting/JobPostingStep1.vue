@@ -15,7 +15,7 @@
     </MatchdField>
     <!-- Art Field -->
     <SelectPillGroup :errors="veeForm.errors.jobTypeId" class="mb-10">
-      <template v-slot:label>Welche Art Stelle wollen Sie besetzen*</template>
+      <template v-slot:label>Diese Stellen-Art möchten Sie besetzen*</template>
       <template v-slot:field>
         <Field
           id="jobTypeId"
@@ -37,56 +37,23 @@
       >
     </SelectPillGroup>
     <!-- Branch Field -->
-    <SelectPillGroup :errors="veeForm.errors.branchId" class="mb-10">
+    <SelectPillMultiple
+      :options="branches"
+      :errors="veeForm.errors.branches"
+      @change="onChangeBranch"
+      name="branches"
+      class="mb-10"
+    >
       <template v-slot:label>In diesem Bereich wird das junge Talent tätig sein*</template>
-      <template v-slot:field>
-        <Field
-          id="branchId"
-          name="branchId"
-          as="input"
-          label="In diesem Bereich wird das junge Talent tätig sein"
-          type="hidden"
-          rules="required"
-        />
-      </template>
-      <SelectPill
-        name="branchPill"
-        v-for="branch in branches"
-        :key="branch.id"
-        :value="branch.id"
-        :checked="branch.id === veeForm.values?.branchId"
-        @change="onChangeBranch"
-        >{{ branch.name }}</SelectPill
-      >
-    </SelectPillGroup>
-    <fieldset class="mb-10">
-      <label class="block px-8 mb-2 font-medium">Arbeitspensum</label>
-      <div>
-        <!-- Vollzeit-Teilzeit Field -->
-        <MatchdToggle id="fullTime" :errors="veeForm.errors.fullTime">
-          <input
-            id="fullTime"
-            name="fullTime"
-            type="checkbox"
-            value="true"
-            @change="onChangeFullTime($event.target.checked)"
-            :checked="veeForm.fullTime"
-          />
-        </MatchdToggle>
-        <!-- Arbeitspensum Field -->
-        <MatchdSelect
-          v-if="!veeForm.fullTime"
-          id="workload"
-          :errors="veeForm.errors.workload"
-          class="mt-3"
-        >
-          <template v-slot:label>Teilzeit Pensum</template>
-          <Field id="workload" name="workload" as="select" label="Pensum" rules="required">
-            <option v-for="(n, index) in 9" :value="n * 10" :key="index">{{ n * 10 }}%</option>
-          </Field>
-        </MatchdSelect>
-      </div>
-    </fieldset>
+    </SelectPillMultiple>
+    <!-- Stellenprozent Field -->
+    <MatchdSelect id="workload" :errors="veeForm.errors.workload" class="mb-10">
+      <template v-slot:label>Stellenprozent</template>
+      <Field id="workload" name="workload" as="select" label="Stellenprozent" rules="required">
+        <option value="" disabled selected hidden>Stellenprozent</option>
+        <option v-for="(n, index) in 10" :value="n * 10" :key="index">{{ n * 10 }}%</option>
+      </Field>
+    </MatchdSelect>
     <!-- Stellenantritt -->
     <MatchdSelect
       id="positionDateFrom"
@@ -169,7 +136,9 @@
     <MatchdField id="url" class="mb-10" :errors="veeForm.errors.url">
       <template v-slot:label>Link zur Ausschreibung</template>
       <Field id="url" name="url" as="input" label="Link zur Ausschreibung" rules="url" />
-      <template v-slot:info>Weitere Informationen für das Talent.</template>
+      <template v-slot:info
+        >Link muss auf ein Stelleninserate auf Ihrer Website verlinken.</template
+      >
     </MatchdField>
     <MatchdButton
       variant="outline"
@@ -201,6 +170,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
+import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
@@ -223,6 +193,7 @@ import { Watch } from "vue-property-decorator";
     MatchdSelect,
     MatchdToggle,
     SelectPill,
+    SelectPillMultiple,
     SelectPillGroup,
   },
   emits: ["submitComplete", "changeDirty"],
@@ -232,6 +203,16 @@ export default class JobPostingStep1 extends Vue {
     const store = useStore();
     const form = useForm<JobPostingStep1Form>();
     const { value: fullTime } = useField<boolean>("fullTime");
+    const { value: branches } = useField<string[]>(
+      "branches",
+      (value: string[]) => {
+        if (value?.length === 0) {
+          return "In diesen Bereichen und Projekten wird das junge Talent tätig sein ist ein Pflichtfeld";
+        }
+        return true;
+      },
+      { label: "In diesen Bereichen und Projekten wird das junge Talent tätig sein" }
+    );
     const onSubmit = form.handleSubmit(
       async (formData): Promise<void> => {
         if (
@@ -283,6 +264,7 @@ export default class JobPostingStep1 extends Vue {
       ...form,
       onSubmit,
       fullTime,
+      branches,
     };
   });
   formData = {} as JobPostingStep1Form;
@@ -292,9 +274,6 @@ export default class JobPostingStep1 extends Vue {
   }
 
   get jobPostingData(): JobPostingStep1Form {
-    if (!this.currentJobPosting) {
-      return {} as JobPostingStep1Form;
-    }
     return jobPostingStep1FormMapper(this.currentJobPosting);
   }
 
@@ -306,8 +285,16 @@ export default class JobPostingStep1 extends Vue {
     return this.$store.getters["jobTypes"];
   }
 
-  get branches(): Branch[] {
-    return this.$store.getters["branches"];
+  get branches(): SelectPillMultipleItem[] {
+    return this.$store.getters["branches"].map((branch) => {
+      return {
+        id: branch.id,
+        name: branch.name,
+        checked: !!this.veeForm.branches?.find(
+          (selectedBranchId) => selectedBranchId === branch.id
+        ),
+      };
+    });
   }
 
   get jobPostingLoading(): boolean {
@@ -351,14 +338,17 @@ export default class JobPostingStep1 extends Vue {
     this.veeForm.setFieldValue("jobTypeId", jobTypeId);
   }
 
-  onChangeBranch(branchId: string): void {
-    this.veeForm.setFieldValue("branchId", branchId);
-  }
-
-  onChangeFullTime(value: boolean): void {
-    this.veeForm.fullTime = value;
-    if (!this.veeForm.fullTime) {
-      this.veeForm.setFieldValue("workload", String(90));
+  onChangeBranch(branch: Branch): void {
+    const branchExists = !!this.veeForm.branches.find(
+      (selectedBranchId) => selectedBranchId === branch.id
+    );
+    if (branchExists) {
+      this.veeForm.branches = this.veeForm.branches.filter(
+        (selectedBranchId) => selectedBranchId !== branch.id
+      );
+    } else {
+      this.veeForm.branches.push(branch.id);
+      this.veeForm.branches.sort((a: string, b: string) => parseInt(a) - parseInt(b));
     }
   }
 
