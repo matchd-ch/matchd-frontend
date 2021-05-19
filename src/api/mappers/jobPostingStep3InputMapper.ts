@@ -1,4 +1,4 @@
-import { IJobPostingInputStep3, JobPostingState } from "@/api/models/types";
+import { IJobPostingInputStep3 } from "@/api/models/types";
 import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 
 export function jobPostingStep3InputMapper(
@@ -7,7 +7,7 @@ export function jobPostingStep3InputMapper(
 ): IJobPostingInputStep3 {
   return {
     id,
-    state: jobPostingForm.public ? JobPostingState.Public : JobPostingState.Draft,
+    state: jobPostingForm.state,
     employee: {
       id: jobPostingForm.employeeId,
     },

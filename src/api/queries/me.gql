@@ -7,20 +7,66 @@ query {
     email
     type
     student {
+      id
+      city
+      zip
+      street
+      email
+      mobile
+      dateOfBirth
+      jobFromDate
+      jobToDate
+      distinction
+      fieldOfStudy
+      graduation
       profileStep
+      nickname
       state
       branch {
+        id
+        name
+      }
+      culturalFits {
+        id
+      }
+      languages {
+        language {
+          id
+          name
+        }
+        languageLevel {
+          id
+          level
+        }
+      }
+      onlineProjects {
+        id
+        url
+      }
+      hobbies {
         id
         name
       }
       jobType {
         id
         name
+        mode
+      }
+      skills {
+        id
+        name
+      }
+      softSkills {
+        id
       }
     }
     employee {
       id
       role
+      firstName
+      lastName
+      phone
+      email
     }
     company {
       id
@@ -30,11 +76,34 @@ query {
       street
       profileStep
       state
+      description
+      website
+      memberItStGallen
+      services
       jobPostings {
         id
         slug
         title
         state
+        jobType {
+          id
+          name
+        }
+      }
+      branches {
+        id
+        name
+      }
+      benefits {
+        id
+        icon
+        name
+      }
+      culturalFits {
+        id
+      }
+      softSkills {
+        id
       }
     }
   }

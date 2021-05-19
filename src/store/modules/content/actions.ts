@@ -14,6 +14,7 @@ import benefitsQuery from "@/api/queries/benefits.gql";
 import branchesQuery from "@/api/queries/branches.gql";
 import companyQuery from "@/api/queries/company.gql";
 import companyMatchingQuery from "@/api/queries/companyMatching.gql";
+import dashboardQuery from "@/api/queries/dashboard.gql";
 import culturalFitsQuery from "@/api/queries/culturalFits.gql";
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
@@ -49,6 +50,7 @@ export interface Actions {
   ): Promise<void>;
   [ActionTypes.COMPANY_MATCHING]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.CULTURAL_FITS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.DASHBOARD]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_POSTING](
     { commit }: AugmentedActionContext,
     payload: { slug: string }
@@ -116,6 +118,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.COMPANY_LOADED, {
       company: response.data.company,
       logo: response.data.logo,
+      logoFallback: response.data.logoFallback,
       media: response.data.media,
     });
   },
@@ -155,6 +158,18 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.JOB_REQUIREMENTS_LOADED, {
       jobRequirements: response.data.jobRequirements,
+    });
+  },
+  async [ActionTypes.DASHBOARD]({ commit }) {
+    commit(MutationTypes.DASHBOARD_LOADING);
+    const response = await apiClient.query({
+      query: dashboardQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.DASHBOARD_LOADED, {
+      dashboard: response.data.dashboard,
     });
   },
   async [ActionTypes.JOB_POSTING]({ commit }, payload: { slug: string }) {
@@ -294,6 +309,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.STUDENT_LOADED, {
       student: response.data.student,
       avatar: response.data.avatar,
+      avatarFallback: response.data.avatarFallback,
       certificates: response.data.certificates,
     });
   },

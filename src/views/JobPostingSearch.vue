@@ -7,11 +7,16 @@
         <select
           id="jobType"
           name="jobType"
-          class="bg-transparent border-b border-white py-2 appearance-none"
+          class="bg-transparent border-b border-white px-1 py-2 appearance-none"
           @change="onChangeJobType"
           v-model="jobTypeId"
         >
-          <option v-for="jobType in jobTypes" :key="jobType.id" :value="jobType.id">
+          <option
+            v-for="jobType in jobTypes"
+            :key="jobType.id"
+            :value="jobType.id"
+            class="text-green-1"
+          >
             {{ jobType.name }}
             <template v-if="jobType.id === this.user?.student?.jobType?.id"
               >(Profileinstellung)</template
@@ -23,22 +28,29 @@
         <select
           id="workload"
           name="workload"
-          class="bg-transparent border-b border-white py-2 appearance-none"
+          class="bg-transparent border-b border-white px-1 py-2 appearance-none"
           @change="onChangeWorkload"
           v-model="workload"
         >
-          <option v-for="(n, index) in 10" :value="n * 10" :key="index">{{ n * 10 }}%</option>
+          <option v-for="(n, index) in 10" :value="n * 10" :key="index" class="text-green-1">
+            {{ n * 10 }}%
+          </option>
         </select>
         im Bereich
         <label for="branch" class="sr-only">Bereich der Stelle</label>
         <select
           id="branch"
           name="branch"
-          class="bg-transparent border-b border-white py-2 appearance-none"
+          class="bg-transparent border-b border-white px-1 py-2 appearance-none"
           @change="onChangeBranch"
           v-model="branchId"
         >
-          <option v-for="branch in branches" :key="branch.id" :value="branch.id">
+          <option
+            v-for="branch in branches"
+            :key="branch.id"
+            :value="branch.id"
+            class="text-green-1"
+          >
             {{ branch.name }}
             <template v-if="branch.id === this.user?.student?.branch?.id"
               >(Profileinstellung)</template
@@ -50,12 +62,12 @@
         <select
           id="zipCity"
           name="zipCity"
-          class="bg-transparent border-b border-white py-2 appearance-none"
+          class="bg-transparent border-b border-white px-1 py-2 appearance-none"
           @change="onChangeZipCity"
           v-model="zip"
         >
-          <option value="">egal wo</option>
-          <option v-for="city in zipCity" :key="city.zip" :value="city.zip">
+          <option value="" class="text-green-1">egal wo</option>
+          <option v-for="city in zipCity" :key="city.zip" :value="city.zip" class="text-green-1">
             {{ city.zip }} {{ city.city }}
           </option>
         </select>
@@ -170,7 +182,11 @@ export default class JobPostingSearch extends Vue {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatar,
-      })[0] || undefined
+      })[0] ||
+      this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.StudentAvatarFallback,
+      })[0] ||
+      undefined
     );
   }
 
@@ -194,6 +210,9 @@ export default class JobPostingSearch extends Vue {
       this.$store.dispatch(ActionTypes.JOB_TYPE),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentAvatar,
+      }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.StudentAvatarFallback,
       }),
     ]);
   }
@@ -221,7 +240,7 @@ export default class JobPostingSearch extends Vue {
         workload: this.workload,
         softBoost: this.softBoost,
         techBoost: this.techBoost,
-        first: 50,
+        first: 20,
         skip: 0,
       })
     );

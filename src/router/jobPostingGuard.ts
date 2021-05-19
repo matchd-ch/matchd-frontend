@@ -33,7 +33,7 @@ export async function redirectToCurrentJobPostingStep(
         next();
       }
     } catch (e) {
-      next({ name: "Home" });
+      next({ name: "Dashboard" });
     }
   } else {
     next();

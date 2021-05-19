@@ -8,15 +8,16 @@ export function jobPostingStep1InputMapper(
   return {
     id: id || null,
     title: jobPostingForm.title,
-    description: jobPostingForm.description,
-    workload: jobPostingForm.fullTime ? 100 : jobPostingForm.workload,
-    url: jobPostingForm.url,
+    description: jobPostingForm.description || null,
+    workload: +jobPostingForm.workload,
+    url: jobPostingForm.url || null,
     jobType: {
       id: jobPostingForm.jobTypeId,
     },
-    branch: {
-      id: jobPostingForm.branchId,
-    },
+    branches:
+      jobPostingForm.branches?.map((branchId) => {
+        return { id: branchId };
+      }) || [],
     jobFromDate: `${jobPostingForm.jobFromDateMonth}.${jobPostingForm.jobFromDateYear}`,
     jobToDate:
       jobPostingForm.jobToDateMonth && jobPostingForm.jobToDateYear

@@ -7,6 +7,7 @@ import type {
   Branch,
   Company,
   CulturalFit,
+  Dashboard,
   JobPosting,
   JobRequirement,
   JobType,
@@ -24,9 +25,17 @@ import { State } from "./state";
 export type Getters = {
   benefits(state: State): Benefit[];
   branches(state: State): Branch[];
-  company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] };
   companyMatching(state: State): { data: Match[] };
+  company(
+    state: State
+  ): {
+    data: Company | null;
+    logo: Attachment | null;
+    logoFallback: Attachment | null;
+    media: Attachment[];
+  };
   culturalFits(state: State): CulturalFit[];
+  dashboard(state: State): Dashboard | null;
   jobPostingDetail(state: State): JobPosting | null;
   jobPostings(state: State): JobPosting[];
   jobRequirements(state: State): JobRequirement[];
@@ -43,6 +52,7 @@ export type Getters = {
   ): {
     data: Student | null;
     avatar: Attachment | null;
+    avatarFallback: Attachment | null;
     certificates: Attachment[];
   };
   zipCityJobs(state: State): ZipCity[];
@@ -55,7 +65,14 @@ export const getters: GetterTree<State, RootState> & Getters = {
   branches(state: State): Branch[] {
     return state.branches.data;
   },
-  company(state: State): { data: Company | null; logo: Attachment | null; media: Attachment[] } {
+  company(
+    state: State
+  ): {
+    data: Company | null;
+    logo: Attachment | null;
+    logoFallback: Attachment | null;
+    media: Attachment[];
+  } {
     return state.company;
   },
   companyMatching(state: State): { data: Match[] } {
@@ -63,6 +80,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   culturalFits(state: State): CulturalFit[] {
     return state.culturalFits.data;
+  },
+  dashboard(state: State): Dashboard | null {
+    return state.dashboard.data;
   },
   jobPostingDetail(state: State): JobPosting | null {
     return state.jobPosting.data;
@@ -146,6 +166,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   ): {
     data: Student | null;
     avatar: Attachment | null;
+    avatarFallback: Attachment | null;
     certificates: Attachment[];
   } {
     return state.student;

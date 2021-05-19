@@ -6,8 +6,7 @@
       <div class="xl:flex items-start">
         <div class="w-1/2">
           <img
-            v-if="company.logo"
-            :src="replaceStack(company.logo.url, 'logo')"
+            :src="replaceStack(avatarSrc, 'logo')"
             :alt="`Logo ${company.data.name}`"
             class="w-40"
           />
@@ -128,8 +127,17 @@ export default class CompanyDetail extends Vue {
     return additionalMedia;
   }
 
-  get company(): { data: Company | null; logo: Attachment | null; media: Attachment[] } {
+  get company(): {
+    data: Company | null;
+    logo: Attachment | null;
+    media: Attachment[];
+    logoFallback: Attachment | null;
+  } {
     return this.$store.getters["company"];
+  }
+
+  get avatarSrc(): string {
+    return this.company.logo?.url || this.company.logoFallback?.url || "";
   }
 
   replaceStack(url: string, stack: string): string {

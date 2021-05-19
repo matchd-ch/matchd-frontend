@@ -22,7 +22,7 @@
         <h2 class="text-heading-lg mb-8 lg:mb-0">Stelle</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <p>{{ jobPosting.branch.name }}</p>
+        <p v-if="hasBranches">{{ branchesLabel }}</p>
         <p>Arbeitspensum {{ jobPosting.workload }}%</p>
         <p>{{ jobPosting.jobType.name }}</p>
         <p>
@@ -100,7 +100,7 @@
     </section>
     <MatchingBar class="fixed bottom-0 right-0 left-0">
       <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-        Du hast den Startschuss abgegeben.
+        Du hast bereits Interesse gezeigt, fingers crossed! 🤞
       </template>
       <template v-else-if="matchType === matchTypeEnum.FullMatch">
         Gratulation, ihr Matchd euch gegenseitig!
@@ -108,7 +108,7 @@
       <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
         Match bestätigen
       </MatchdButton>
-      <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
+      <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
     </MatchingBar>
     <JobPostingMatchModal
       v-if="showConfirmationModal"
@@ -159,6 +159,14 @@ export default class JobPostingDetail extends Vue {
   meta = setup(() => useMeta({}));
   showConfirmationModal = false;
   showFullMatchModal = false;
+
+  get branchesLabel(): string {
+    return this.jobPosting?.branches.map((branch) => branch.name).join(", ") || "";
+  }
+
+  get hasBranches(): boolean {
+    return this.jobPosting ? this.jobPosting?.branches.length > 0 : false;
+  }
 
   get user(): User | null {
     return this.$store.getters["user"];

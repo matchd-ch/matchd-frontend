@@ -20,32 +20,28 @@
           }}</span>
           <template v-if="currentStep === 1">Vervollständige deine persönlichen Daten</template>
           <template v-else-if="currentStep === 2">Wonach suchst du?</template>
-          <template v-else-if="currentStep === 3"
-            >Zeige uns doch, wie du als Mensch so bist.</template
-          >
-          <template v-else-if="currentStep === 4">Sag uns, was du drauf hast.</template>
-          <template v-else-if="currentStep === 5">Kreiere dein Profil</template>
+          <template v-else-if="currentStep === 3">Erzähl uns mehr von dir</template>
+          <template v-else-if="currentStep === 4">Zeig uns, was du drauf hast</template>
+          <template v-else-if="currentStep === 5">Finalisiere dein Profil</template>
           <template v-else-if="currentStep === 6">Veröffentliche dein Profil</template>
-          <template v-else-if="currentStep > 6"
-            >Willkommen bei Matchd! Was willst du als nächstes tun?
-          </template>
+          <template v-else-if="currentStep > 6">Willkommen in der Matchd-Community 🤩</template>
         </template>
         <template v-else-if="isCompany">
           <span v-if="currentStep <= 4" class="text-display-xl-fluid mr-8 hidden lg:inline">{{
             currentStep
           }}</span>
-          <template v-if="currentStep === 1">Vervollständigen sie ihre Kontaktdaten</template>
+          <template v-if="currentStep === 1">Vervollständigen Sie Ihre Kontaktdaten</template>
           <template v-if="currentStep === 2"
-            >Erzählen sie von ihrem Unternehmen, ihren Produkten und Services</template
+            >Erzählen Sie den Talenten mehr über Ihr Unternehmen</template
           >
           <template v-if="currentStep === 3"
-            >Zeigen sie der Community Bilder und Videos von ihrem Unternehmen und von ihrer
-            Crew</template
+            >Zeigen Sie der Matchd-Community, was Ihr Unternehmen als Arbeitgeber*in
+            bietet</template
           >
-          <template v-if="currentStep === 4">Arbeitskultur</template>
-          <template v-if="currentStep === 5"
-            >Herzliche Gratulation und willkommen in der Matchd-Community!</template
+          <template v-if="currentStep === 4"
+            >Wichtige Eigenschaften und Werte bei der Talentsuche</template
           >
+          <template v-if="currentStep === 5">Willkommen in der Matchd-Community</template>
         </template>
         <template v-else-if="isUniversity">
           <span v-if="currentStep <= 4" class="text-display-xl-fluid mr-8 hidden lg:inline">{{
@@ -67,25 +63,29 @@
       <component
         :is="currentOnboardingComponent"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:px-8 px-4 lg:px-5 py-12"
+        @submitComplete="onSubmitComplete"
+        @clickBack="onClickBack"
       ></component>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { parseStepName } from "@/helpers/parseStepName";
+import { ParamStrings } from "@/router/paramStrings";
 import {
   CompanyStep1,
   CompanyStep2,
   CompanyStep3,
   CompanyStep4,
   CompanyFinish as CompanyStep5,
-} from "@/views/onboarding/company";
+} from "@/views/profile/company";
 import {
   UniversityStep1,
   UniversityStep2,
   UniversityStep3,
   UniversityFinish as UniversityStep4,
-} from "@/views/onboarding/university";
+} from "@/views/profile/university";
 import {
   StudentStep1,
   StudentStep2,
@@ -94,8 +94,12 @@ import {
   StudentStep5,
   StudentStep6,
   StudentFinish as StudentStep7,
-} from "@/views/onboarding/student";
-import { Options, Vue } from "vue-class-component";
+} from "@/views/profile/student";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+
+Vue.registerHooks(["beforeRouteUpdate"]);
 
 @Options({
   components: {
@@ -118,6 +122,14 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class Onboarding extends Vue {
+  meta = setup(() =>
+    useMeta({
+      title: "Profil vervollständigen",
+    })
+  );
+
+  urlStepNumber = 0;
+
   get currentOnboardingComponent(): string {
     if (this.isUniversity) {
       return `UniversityStep${this.currentStep}`;
@@ -129,7 +141,7 @@ export default class Onboarding extends Vue {
   }
 
   get currentStep(): number | undefined {
-    return this.$store.getters["profileStep"];
+    return parseStepName(String(this.$route.params.step)) || this.$store.getters["profileStep"];
   }
 
   get isStudent(): boolean {
@@ -142,6 +154,31 @@ export default class Onboarding extends Vue {
 
   get isUniversity(): boolean {
     return this.$store.getters["isUniversity"];
+  }
+
+  mounted(): void {
+    this.urlStepNumber = parseStepName(String(this.$route.params.step));
+  }
+
+  async beforeRouteUpdate(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ): Promise<void> {
+    this.urlStepNumber = parseStepName(String(to.params.step));
+    next();
+  }
+
+  onClickBack(): void {
+    if (this.currentStep) {
+      this.$router.push({ params: { step: `${ParamStrings.STEP}${this.currentStep - 1}` } });
+    }
+  }
+
+  onSubmitComplete(success: boolean): void {
+    if (success && this.currentStep) {
+      this.$router.push({ params: { step: `${ParamStrings.STEP}${this.currentStep + 1}` } });
+    }
   }
 }
 </script>
