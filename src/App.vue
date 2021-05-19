@@ -3,15 +3,18 @@
     <template v-slot:title="{ content }">{{ content ? `${content} - MATCHD` : `MATCHD` }}</template>
   </metainfo>
 
-  <div>
-    <component v-if="showNavbar" :is="navigation" v-bind="{ user }" />
-    <router-view
-      :class="{
-        'theme-student': isStudent,
-        'theme-company': isCompany,
-        'theme-university': isUniversity,
-      }"
-    />
+  <div
+    :class="{
+      'theme-student': isStudent,
+      'theme-company': isCompany,
+      'theme-university': isUniversity,
+    }"
+  >
+    <header class="header fixed top-0 left-0 right-0 z-20">
+      <component v-if="showNavbar && user" :is="navigation" :user="user" />
+    </header>
+    <router-view />
+    <footer class="footer fixed bottom-0 left-0 right-0 z-20"></footer>
   </div>
 </template>
 
@@ -49,12 +52,29 @@ export default class App extends Vue {
   }
 
   get showNavbar(): boolean {
-    return !this.$route.meta.public;
+    return !this.$route.meta.hideNavigation;
   }
 
   get navigation(): string {
     if (this.isStudent) return "NavBarStudent";
     return "NavBarCompany";
+  }
+
+  mounted(): void {
+    window.addEventListener("resize", this.calculateMargins, true);
+    this.calculateMargins();
+  }
+
+  unmounted(): void {
+    window.removeEventListener("resize", this.calculateMargins, true);
+  }
+
+  calculateMargins(): void {
+    const root = document.documentElement;
+    const headerHeight = (document.querySelector("header") as HTMLElement).offsetHeight;
+    const footerHeight = (document.querySelector("footer") as HTMLElement).offsetHeight;
+    root.style.setProperty("--contentMarginTop", `${headerHeight}px`);
+    root.style.setProperty("--contentMarginBottom", `${footerHeight}px`);
   }
 }
 </script>

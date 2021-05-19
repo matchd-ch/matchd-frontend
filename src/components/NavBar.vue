@@ -2,7 +2,7 @@
   <div
     x-data="{ open: false }"
     :class="{ 'border-green-1': !isCompany, 'border-pink-1': isCompany }"
-    class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 border-b py-2.5"
+    class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 border-b py-2.5 bg-white"
   >
     <div class="p-4 flex flex-row items-center justify-between">
       <a
