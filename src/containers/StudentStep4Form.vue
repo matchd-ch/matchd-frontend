@@ -75,7 +75,12 @@
           Hinzufügen
         </button>
       </template>
+      <template v-slot:info v-if="!isValidOnlineProjectUrl"
+        >Bitte gib die URL in folgendem Format ein: http://matchd.ch oder
+        https://matchd.ch</template
+      >
     </MatchdField>
+
     <SelectPillGroup v-if="veeForm.onlineProjects?.length" class="mb-10">
       <SelectPill
         v-for="onlineProject in veeForm.onlineProjects"
