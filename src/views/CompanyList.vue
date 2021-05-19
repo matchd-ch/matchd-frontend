@@ -28,8 +28,6 @@ import { Vue, Options, setup } from "vue-class-component";
 import { replaceStack } from "@/helpers/replaceStack";
 import { useMeta } from "vue-meta";
 
-Vue.registerHooks(["beforeRouteUpdate"]);
-
 @Options({
   components: {
     GridTile,
