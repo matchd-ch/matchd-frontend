@@ -163,8 +163,10 @@
 
           <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
             <template v-slot:label
-              >Mit umlegen des Sliders akzeptieren sie die
-              <a class="underline" :href="dataProtectionLink">Datenschutzerklärung</a>.</template
+              ><a class="underline" :href="dataProtectionLink" target="_blank"
+                >Datenschutzerklärung</a
+              >
+              von Matchd</template
             >
             <Field
               id="dataProtection"
@@ -174,6 +176,9 @@
               value="true"
               :rules="{ required: true }"
             />
+            <template v-slot:value
+              >Ja, ich habe die Datenschutzerklärung gelesen und akzeptiere sie
+            </template>
           </MatchdToggle>
 
           <MatchdButton
