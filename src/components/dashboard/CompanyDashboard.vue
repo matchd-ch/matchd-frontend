@@ -14,14 +14,6 @@
           Auf dieser Seite finden Sie Ihre ausgeschriebenen Stellen sowie den aktuellen Stand Ihrer
           Matches. Damit Sie keinen Match verpassen, informieren wir Sie jeweils auch per E-Mail.
         </p>
-        <MatchdButton
-          class="mt-4"
-          variant="outline"
-          @click="onClickLogout"
-          :disabled="isLogoutLoading"
-          :loading="isLogoutLoading"
-          >Logout</MatchdButton
-        >
       </div>
     </div>
     <div class="text-pink-1 flex flex-col min-h-full">
@@ -112,10 +104,6 @@ class Props {
   },
 })
 export default class CompanyDashboard extends Vue.with(Props) {
-  get isLogoutLoading(): boolean {
-    return this.$store.getters["logoutLoading"];
-  }
-
   get isStudent(): boolean {
     return this.$store.getters["isStudent"];
   }
@@ -138,11 +126,6 @@ export default class CompanyDashboard extends Vue.with(Props) {
 
   get user(): User | null {
     return this.$store.getters["user"];
-  }
-
-  async onClickLogout(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.LOGOUT);
-    this.$router.push({ name: "Login" });
   }
 }
 </script>
