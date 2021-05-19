@@ -89,6 +89,9 @@
         resultType="jobposting"
         color="green"
       ></SearchResultGrid>
+      <div class="min-h-content-with-fixed-bars flex justify-center items-center" v-else>
+        <div class="">keine Matches gefunden</div>
+      </div>
     </div>
     <SearchBoost
       class="search-boost fixed right-0 bottom-0 left-0"
@@ -170,9 +173,11 @@ export default class JobPostingSearch extends Vue {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatar,
-      })[0] || this.$store.getters["attachmentsByKey"]({
+      })[0] ||
+      this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatarFallback,
-      })[0] || undefined
+      })[0] ||
+      undefined
     );
   }
 

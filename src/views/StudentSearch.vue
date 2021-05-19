@@ -48,6 +48,9 @@
         resultType="student"
         color="pink"
       ></SearchResultGrid>
+      <div class="min-h-content-with-fixed-bars flex justify-center items-center" v-else>
+        <div class="">keine Talente gefunden</div>
+      </div>
     </div>
     <SearchBoost
       class="search-boost fixed right-0 bottom-0 left-0"
@@ -114,9 +117,11 @@ export default class StudentSearch extends Vue {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatar,
-      })[0] || this.$store.getters["attachmentsByKey"]({
+      })[0] ||
+      this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatarFallback,
-      })[0] ||undefined
+      })[0] ||
+      undefined
     );
   }
 
