@@ -100,26 +100,8 @@ enum AttachmentKey {
 type Benefit = {
   __typename?: "Benefit";
   id: Scalars["ID"];
-  title?: Maybe<Scalars["String"]>;
-  slug: Scalars["String"];
-  description: Scalars["String"];
-  jobType: JobType;
-  branches: Array<Branch>;
-  workload: Scalars["Int"];
-  company: Company;
-  jobFromDate: Scalars["Date"];
-  jobToDate?: Maybe<Scalars["Date"]>;
-  url?: Maybe<Scalars["String"]>;
-  jobRequirements: Array<JobRequirement>;
-  skills?: Maybe<Array<Skill>>;
-  formStep: Scalars["Int"];
-  state: JobPostingState;
-  employee?: Maybe<Employee>;
-  dateCreated: Scalars["DateTime"];
-  datePublished?: Maybe<Scalars["DateTime"]>;
-  languages?: Maybe<Array<JobPostingLanguageRelation>>;
-  matchStatus?: Maybe<MatchStatus>;
-  matchHints?: Maybe<MatchHints>;
+  icon: Scalars["String"];
+  name: Scalars["String"];
 };
 
 type BenefitInput = {
@@ -311,7 +293,7 @@ type JobPosting = {
   slug: Scalars["String"];
   description: Scalars["String"];
   jobType: JobType;
-  branch: Branch;
+  branches: Array<Branch>;
   workload: Scalars["Int"];
   company: Company;
   jobFromDate: Scalars["Date"];
@@ -340,7 +322,7 @@ type JobPostingInputStep1 = {
   /** Description */
   description?: Maybe<Scalars["String"]>;
   jobType: JobTypeInput;
-  branch: BranchInput;
+  branches: Array<Maybe<BranchInput>>;
   /** Workload */
   workload: Scalars["Int"];
   jobFromDate: Scalars["String"];
@@ -793,16 +775,6 @@ type OnlineProject = {
 
 type OnlineProjectInput = {
   id?: Maybe<Scalars["ID"]>;
-  /** Title */
-  title: Scalars["String"];
-  /** Description */
-  description?: Maybe<Scalars["String"]>;
-  jobType: JobTypeInput;
-  branches: Array<Maybe<BranchInput>>;
-  /** Workload */
-  workload: Scalars["Int"];
-  jobFromDate: Scalars["String"];
-  jobToDate?: Maybe<Scalars["String"]>;
   url?: Maybe<Scalars["String"]>;
 };
 
