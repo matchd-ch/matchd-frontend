@@ -73,7 +73,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       clearTimeout(this.resizeTimeout);
     }
     this.resizeTimeout = setTimeout(() => {
-      d3.select("svg").remove();
+      d3.select("#search-result-bubbles__svg").remove();
       this.initD3();
     }, 200);
   }
@@ -170,6 +170,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     this.diagram = d3
       .select("#diagram")
       .append("svg")
+      .attr("id", "search-result-bubbles__svg")
       .attr("viewBox", `0 0 ${this.width} ${this.height}`);
     const defs = this.diagram.append("defs");
     defs
