@@ -1,15 +1,15 @@
 <template>
   <li
-    class="search-result-grid__item"
+    class="grid-tile__item"
     :class="{
-      'search-result-grid__item--green': color === 'green',
-      'search-result-grid__item--orange': color === 'orange',
-      'search-result-grid__item--pink': color === 'pink',
+      'grid-tile__item--green': color === 'green',
+      'grid-tile__item--orange': color === 'orange',
+      'grid-tile__item--pink': color === 'pink',
     }"
   >
-    <router-link :to="linkTo" class="search-result-grid__link">
-      <div class="search-result-grid__image-wrap">
-        <div class="search-result-grid__image-box rounded-full border-2">
+    <router-link :to="linkTo" class="grid-tile__link">
+      <div class="grid-tile__image-wrap">
+        <div class="grid-tile__image-box rounded-full border-2">
           <img :src="imgSrc" class="w-full" :alt="imgAlt" />
         </div>
         <slot />
@@ -31,24 +31,23 @@ class Props {
 export default class GridTile extends Vue.with(Props) {}
 </script>
 
-
 <style type="postcss" scoped>
-@block search-result-grid {
+@block grid-tile {
   @modifier student {
-    & .search-result-grid__link {
-      & .search-result-grid__image-box {
+    & .grid-tile__link {
+      & .grid-tile__image-box {
         @apply border-green-1;
       }
     }
   }
 
   @modifier company {
-    & .search-result-grid__link {
-      & .search-result-grid__image-box {
+    & .grid-tile__link {
+      & .grid-tile__image-box {
         @apply border-pink-1;
       }
 
-      & .search-result-grid__match-status {
+      & .grid-tile__match-status {
         @apply bg-pink-1;
       }
     }
@@ -65,7 +64,7 @@ export default class GridTile extends Vue.with(Props) {}
     @modifier orange {
       @apply shadow-orange text-orange-1;
 
-      & .search-result-grid__link:hover {
+      & .grid-tile__link:hover {
         @apply bg-orange-1;
       }
     }
@@ -73,7 +72,7 @@ export default class GridTile extends Vue.with(Props) {}
     @modifier green {
       @apply shadow-green text-green-1;
 
-      & .search-result-grid__link:hover {
+      & .grid-tile__link:hover {
         @apply bg-green-1;
       }
     }
@@ -81,7 +80,7 @@ export default class GridTile extends Vue.with(Props) {}
     @modifier pink {
       @apply shadow-pink text-pink-1;
 
-      & .search-result-grid__link:hover {
+      & .grid-tile__link:hover {
         @apply bg-pink-1;
       }
     }
@@ -116,7 +115,7 @@ export default class GridTile extends Vue.with(Props) {}
     &:hover {
       @apply text-white transition-colors;
 
-      & .search-result-grid__image-box {
+      & .grid-tile__image-box {
         @apply border-white;
       }
     }
