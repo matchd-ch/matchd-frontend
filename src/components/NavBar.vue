@@ -54,5 +54,9 @@ class Props {
   name: "NavBar",
   components: { NavDropdown, NavLink, Logo },
 })
-export default class NavBar extends Vue.with(Props) {}
+export default class NavBar extends Vue.with(Props) {
+  mounted(): void {
+    console.log("MOUNTED NAVBAR");
+  }
+}
 </script>

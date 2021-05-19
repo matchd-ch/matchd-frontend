@@ -1,39 +1,41 @@
 <template>
-  <ProfileNavigation v-if="isStudent">
-    <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
-      Persönliche Daten
-    </ProfileNavigationItem>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
-      Was ich suche
-    </ProfileNavigationItem>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
-      So bin ich
-    </ProfileNavigationItem>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
-      Das habe ich drauf
-    </ProfileNavigationItem>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt5' } }">
-      Nickname & Foto
-    </ProfileNavigationItem>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt6' } }">
-      Profilstatus
-    </ProfileNavigationItem>
-  </ProfileNavigation>
-  <ProfileNavigation v-else-if="isCompany">
-    <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
-      Firmen Daten
-    </ProfileNavigationItem>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
-      Weitere Informationen
-    </ProfileNavigationItem>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
-      Tätigkeitsbereich, Benefits und Bilder
-    </ProfileNavigationItem>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
-      Dieses Talent suchen wir
-    </ProfileNavigationItem>
-  </ProfileNavigation>
-  <div class="profil min-h-screen text-primary-1">
+  <teleport to="header">
+    <ProfileNavigation v-if="isStudent">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
+        Persönliche Daten
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
+        Was ich suche
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
+        So bin ich
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
+        Das habe ich drauf
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt5' } }">
+        Nickname & Foto
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt6' } }">
+        Profilstatus
+      </ProfileNavigationItem>
+    </ProfileNavigation>
+    <ProfileNavigation v-else-if="isCompany">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
+        Firmen Daten
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
+        Weitere Informationen
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
+        Tätigkeitsbereich, Benefits und Bilder
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
+        Dieses Talent suchen wir
+      </ProfileNavigationItem>
+    </ProfileNavigation>
+  </teleport>
+  <div class="profil text-primary-1">
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
         :is="currentProfileComponent"

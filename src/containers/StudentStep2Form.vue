@@ -92,7 +92,9 @@
         >{{ option.name }}</SelectPill
       >
     </SelectPillGroup>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 

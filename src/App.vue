@@ -10,15 +10,18 @@
       'theme-university': isUniversity,
     }"
   >
-    <header class="header fixed top-0 left-0 right-0 z-20">
+    <header class="header bg-white fixed top-0 left-0 right-0 z-20">
       <component v-if="showNavbar && user" :is="navigation" :user="user" />
     </header>
-    <router-view />
+    <div class="mt-fixed-header mb-fixed-footer">
+      <router-view />
+    </div>
     <footer class="footer fixed bottom-0 left-0 right-0 z-20"></footer>
   </div>
 </template>
 
 <script lang="ts">
+import { calculateMargins } from "@/helpers/calculateMargins";
 import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
@@ -61,24 +64,21 @@ export default class App extends Vue {
   }
 
   mounted(): void {
-    window.addEventListener("resize", this.calculateMargins, true);
-    this.calculateMargins();
+    console.log("MOUNTED APP");
+    window.addEventListener("resize", calculateMargins, true);
   }
 
   unmounted(): void {
-    window.removeEventListener("resize", this.calculateMargins, true);
-  }
-
-  calculateMargins(): void {
-    const root = document.documentElement;
-    const headerHeight = (document.querySelector("header") as HTMLElement).offsetHeight;
-    const footerHeight = (document.querySelector("footer") as HTMLElement).offsetHeight;
-    root.style.setProperty("--contentMarginTop", `${headerHeight}px`);
-    root.style.setProperty("--contentMarginBottom", `${footerHeight}px`);
+    window.removeEventListener("resize", calculateMargins, true);
   }
 }
 </script>
 
 <style lang="postcss">
 @import "./styles/index.css";
+
+.header,
+.footer {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 </style>

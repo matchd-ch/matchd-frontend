@@ -1,3 +1,4 @@
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { isLoggedIn } from "@/router/authenticationGuard";
 import { isCompleteProfile } from "@/router/homeGuard";
 import { redirectToCurrentJobPostingStep } from "@/router/jobPostingGuard";
@@ -179,5 +180,6 @@ const router = createRouter({
 
 router.beforeEach(isLoggedIn);
 router.beforeEach(isCompleteProfile);
+router.afterEach(calculateMargins);
 
 export default router;

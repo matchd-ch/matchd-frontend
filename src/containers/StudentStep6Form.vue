@@ -61,7 +61,9 @@
         </p>
       </template>
     </div>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 

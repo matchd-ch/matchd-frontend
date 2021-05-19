@@ -1,7 +1,7 @@
 <template>
   <StudentStep3Form>
     <template v-if="edit">
-      <div class="fixed right-0 bottom-0 left-0 p-8 bg-white flex justify-center">
+      <div class="p-8 bg-white flex justify-center">
         <MatchdButton type="button" variant="outline" @click="$emit('clickCancel')" class="mr-4">
           Abbrechen
         </MatchdButton>

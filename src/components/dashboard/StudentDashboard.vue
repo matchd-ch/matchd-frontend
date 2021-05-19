@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="student-dashboard grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars mt-fixed-header"
-  >
+  <div class="student-dashboard grid grid-cols-1 xl:grid-cols-2">
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >

@@ -1,7 +1,10 @@
 <template>
-  <div v-if="user" class="login min-h-screen grid">
-    <component :is="dashboardComponent" :dashboard="dashboard"></component>
-  </div>
+  <component
+    v-if="user"
+    :is="dashboardComponent"
+    :dashboard="dashboard"
+    class="min-h-content-with-fixed-bars"
+  ></component>
 </template>
 
 <script lang="ts">

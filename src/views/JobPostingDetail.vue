@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="jobPosting"
-    class="jobPosting-detail text-orange-1 flex flex-col xl:min-h-content-with-fixed-bars mb-fixed-footer"
-  >
+  <div v-if="jobPosting" class="jobPosting-detail text-orange-1 flex flex-col">
     <div class="border-b border-orange-1 p-9">
       <button @click="$router.back()">Zurück zur Übersicht</button>
     </div>

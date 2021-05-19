@@ -33,7 +33,7 @@
         </div>
       </SearchFilters>
     </teleport>
-    <div class="mt-fixed-header mb-fixed-footer">
+    <div>
       <SearchResultBubbles
         v-if="
           layout === 'bubbles' &&

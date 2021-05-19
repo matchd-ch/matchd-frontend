@@ -43,7 +43,9 @@
         >Bild hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 

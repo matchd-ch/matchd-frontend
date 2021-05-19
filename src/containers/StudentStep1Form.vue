@@ -81,7 +81,9 @@
         Unternehmen teilen dürfen.</template
       >
     </MatchdField>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 

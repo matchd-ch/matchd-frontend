@@ -39,6 +39,5 @@ export default class SearchBoost extends Vue.with(Props) {}
 @block search-boost {
   @apply p-4 xl:p-8;
   @apply bg-white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 </style>

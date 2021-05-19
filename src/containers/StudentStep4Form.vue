@@ -152,7 +152,9 @@
         placeholder="4-5 Sätze zu deiner Spezialität"
       />
     </MatchdField>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 

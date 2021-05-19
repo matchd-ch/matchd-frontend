@@ -33,7 +33,9 @@
         >Fotos oder Videos auswählen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 

@@ -83,7 +83,7 @@
         </div>
       </SearchFilters>
     </teleport>
-    <div class="mt-fixed-header mb-fixed-footer">
+    <div>
       <SearchResultBubbles
         v-if="
           layout === 'bubbles' &&
@@ -195,6 +195,7 @@ export default class JobPostingSearch extends Vue {
   }
 
   async mounted(): Promise<void> {
+    console.log("MOUNTED JOBPOSTING SEARCH");
     this.layout = (this.$route.query?.layout as string) || "bubbles";
     this.jobTypeId =
       (this.$route.query?.jobTypeId as string) || this.user?.student?.jobType?.id || "";

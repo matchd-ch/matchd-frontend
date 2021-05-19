@@ -13,6 +13,10 @@ import { Options, Vue } from "vue-class-component";
 export default class SearchFilters extends Vue {
   techBoost = 3;
   softBoost = 3;
+
+  mounted(): void {
+    console.log("MOUNTED SEARCH FILTERS");
+  }
 }
 </script>
 
@@ -24,7 +28,6 @@ export default class SearchFilters extends Vue {
 @block search-filters {
   @apply p-4 xl:p-8;
   @apply text-white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
   @element slider {
     & :deep(.slider-target) {

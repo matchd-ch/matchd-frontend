@@ -1,24 +1,26 @@
 <template>
-  <ProfileNavigation>
-    <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
-      Ausschreibung
-    </ProfileNavigationItem>
-    <ProfileNavigationItem
-      :to="{ params: { step: 'schritt2' } }"
-      :disabled="!currentJobPosting || currentJobPosting?.formStep < 2"
-    >
-      Anforderungen
-    </ProfileNavigationItem>
-    <ProfileNavigationItem
-      :to="{ params: { step: 'schritt3' } }"
-      :disabled="!currentJobPosting || currentJobPosting?.formStep < 3"
-    >
-      Kontakt
-    </ProfileNavigationItem>
-  </ProfileNavigation>
+  <teleport to="header">
+    <ProfileNavigation>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
+        Ausschreibung
+      </ProfileNavigationItem>
+      <ProfileNavigationItem
+        :to="{ params: { step: 'schritt2' } }"
+        :disabled="!currentJobPosting || currentJobPosting?.formStep < 2"
+      >
+        Anforderungen
+      </ProfileNavigationItem>
+      <ProfileNavigationItem
+        :to="{ params: { step: 'schritt3' } }"
+        :disabled="!currentJobPosting || currentJobPosting?.formStep < 3"
+      >
+        Kontakt
+      </ProfileNavigationItem>
+    </ProfileNavigation>
+  </teleport>
   <div
     v-if="(requestedCurrentJobPosting && currentJobPosting) || !requestedCurrentJobPosting"
-    class="jobposting min-h-screen text-primary-1"
+    class="jobposting min-h-content-with-fixed-bars text-primary-1"
   >
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component

@@ -67,7 +67,9 @@
       />
     </MatchdToggle>
 
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 

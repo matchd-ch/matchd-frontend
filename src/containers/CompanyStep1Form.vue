@@ -48,7 +48,9 @@
         placeholder="+41712223344"
       />
     </MatchdField>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
