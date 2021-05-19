@@ -65,6 +65,7 @@ module.exports = {
         2: "#AFAFAF",
         3: "#EDEDED",
         4: "#FAFAFA",
+        5: "#F8F8F8",
       },
       primary: {
         1: "var(--color-primary-1)",
