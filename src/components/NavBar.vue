@@ -4,11 +4,7 @@
     class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 border-b py-2.5 bg-white"
   >
     <div class="p-4 flex flex-row items-center justify-between">
-      <a
-        href="#"
-        class="text-lg tracking-widest text-gray-900 uppercase rounded-lg focus:outline-none focus:shadow-outline"
-        ><Logo class="w-36"
-      /></a>
+      <router-link :to="{ name: 'Dashboard' }"><Logo class="w-36" /></router-link>
       <button class="md:hidden rounded-lg focus:outline-none focus:shadow-outline"></button>
     </div>
 
