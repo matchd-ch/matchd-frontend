@@ -112,6 +112,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyDetail.vue"),
   },
   {
+    path: "/firmen",
+    name: "CompanyList",
+    component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyList.vue"),
+    meta: {
+      accessType: ["student"],
+    },
+  },
+  {
     path: "/passwort-vergessen",
     name: "PasswordForgotten",
     component: () => import(/* webpackChunkName: "login" */ "../views/PasswordForgotten.vue"),
