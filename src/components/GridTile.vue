@@ -41,18 +41,6 @@ export default class GridTile extends Vue.with(Props) {}
     }
   }
 
-  @modifier company {
-    & .grid-tile__link {
-      & .grid-tile__image-box {
-        @apply border-pink-1;
-      }
-
-      & .grid-tile__match-status {
-        @apply bg-pink-1;
-      }
-    }
-  }
-
   @element item {
     @apply flex items-center text-center;
 
