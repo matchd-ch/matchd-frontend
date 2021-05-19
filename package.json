@@ -26,7 +26,7 @@
     "omit-deep": "^0.3.0",
     "pretty-bytes": "^5.5.0",
     "register-service-worker": "^1.7.1",
-    "vee-validate": "^4.3.6",
+    "vee-validate": "^4.4.0-alpha.2",
     "video.js": "^7.11.4",
     "vue": "^3.0.11",
     "vue-apollo": "^3.0.0-alpha.3",

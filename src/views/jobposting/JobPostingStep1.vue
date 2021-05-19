@@ -55,54 +55,62 @@
       </Field>
     </MatchdSelect>
     <!-- Stellenantritt -->
-    <div class="lg:flex">
-      <MatchdSelect
-        id="positionDateFrom"
-        class="mb-10 flex-grow w-1/2"
-        :errors="veeForm.errors.jobFromDateMonth || veeForm.errors.jobFromDateYear"
-      >
-        <template v-slot:label>Stellenantritt*</template>
-        <fieldset id="positionDateFrom" class="flex">
-          <Field
-            id="jobFromDateMonth"
-            name="jobFromDateMonth"
-            as="select"
-            label="Stellenantritt Monat"
-            class="mr-3"
-            rules="required"
-          >
-            <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">
-              {{ String(n).padStart(2, "0") }}
-            </option>
-          </Field>
-          <Field
-            id="jobFromDateYear"
-            name="jobFromDateYear"
-            as="select"
-            label="Stellenantritt Jahr"
-            rules="required"
-          >
-            <option value="" disabled selected hidden>Jahr</option>
-            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
-          </Field>
-        </fieldset>
-      </MatchdSelect>
-      <!-- Endtermin -->
-      <MatchdSelect
-        id="positionDateTo"
-        class="mb-10 lg:ml-3 flex-grow w-1/2"
-        :errors="veeForm.errors.jobToDateMonth || veeForm.errors.jobToDateYear"
-      >
-        <template v-slot:label>Endtermin</template>
-        <fieldset id="positionDateTo" class="flex">
+    <MatchdSelect
+      id="positionDateFrom"
+      class="mb-10 flex-grow"
+      :errors="veeForm.errors.jobFromDateMonth || veeForm.errors.jobFromDateYear"
+    >
+      <template v-slot:label>Stellenantritt*</template>
+      <fieldset id="positionDateFrom" class="flex">
+        <Field
+          id="jobFromDateMonth"
+          name="jobFromDateMonth"
+          as="select"
+          label="Stellenantritt Monat"
+          class="mr-3"
+          rules="required"
+        >
+          <option value="" disabled selected hidden>Monat</option>
+          <option v-for="(n, index) in 12" :value="n" :key="index">
+            {{ String(n).padStart(2, "0") }}
+          </option>
+        </Field>
+        <Field
+          id="jobFromDateYear"
+          name="jobFromDateYear"
+          as="select"
+          label="Stellenantritt Jahr"
+          rules="required"
+        >
+          <option v-if="veeForm.values.jobFromDateYear" selected>
+            {{ veeForm.values.jobFromDateYear }}
+          </option>
+          <option v-else value="" disabled selected hidden>Jahr</option>
+          <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
+        </Field>
+      </fieldset>
+    </MatchdSelect>
+    <!-- Endtermin -->
+    <MatchdSelect
+      id="positionDateTo"
+      class="mb-10 flex-grow"
+      :errors="veeForm.errors.jobToDateMonth || veeForm.errors.jobToDateYear"
+    >
+      <template v-slot:label>Endtermin</template>
+      <MatchdToggle id="jobToDateOpenEnd">
+        <Field id="jobToDateOpenEnd" name="jobToDateOpenEnd" type="checkbox" value="true" />
+        <template v-if="jobToDateOpenEnd" v-slot:value>Befristet</template>
+        <template v-else v-slot:value>Unbefristet</template>
+      </MatchdToggle>
+      <template v-if="jobToDateOpenEnd">
+        <fieldset id="positionDateTo" class="flex mt-3">
           <Field
             id="jobToDateMonth"
             name="jobToDateMonth"
             as="select"
-            label="Monat"
-            class="mr-3 l"
-            :rules="veeForm.values?.jobToDateYear !== '' ? 'required' : ''"
+            label="Endtermin Monat"
+            class="mr-3"
+            rules="requiredIfNotEmpty:jobToDateYear"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -113,15 +121,18 @@
             id="jobToDateYear"
             name="jobToDateYear"
             as="select"
-            label="Jahr"
-            :rules="veeForm.values?.jobToDateMonth !== '' ? 'required' : ''"
+            label="Endtermin Jahr"
+            rules="requiredIfNotEmpty:jobToDateMonth"
           >
-            <option value="" disabled selected hidden>Jahr</option>
+            <option v-if="veeForm.values.jobToDateYear" selected>
+              {{ veeForm.values.jobToDateYear }}
+            </option>
+            <option v-else value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
-      </MatchdSelect>
-    </div>
+      </template>
+    </MatchdSelect>
     <!-- Beschreibung Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
       <template v-slot:label>Beschreiben Sie die Besonderheiten der Stelle</template>
@@ -173,7 +184,6 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import type { Branch, JobPosting as JobPostingType, JobType, User } from "api";
-import cloneDeep from "clone-deep";
 import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
@@ -272,6 +282,10 @@ export default class JobPostingStep1 extends Vue {
     return jobPostingStep1FormMapper(this.currentJobPosting);
   }
 
+  get jobToDateOpenEnd(): boolean {
+    return this.veeForm.values.jobToDateOpenEnd === "true";
+  }
+
   get jobTypes(): JobType[] {
     return this.$store.getters["jobTypes"];
   }
@@ -317,12 +331,8 @@ export default class JobPostingStep1 extends Vue {
     ]);
 
     this.veeForm.resetForm({
-      values: cloneDeep(this.jobPostingData),
+      values: this.jobPostingData,
     });
-
-    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 1) {
-      this.veeForm.setValues(cloneDeep(this.jobPostingData));
-    }
   }
 
   onChangeJobType(jobTypeId: string): void {
@@ -338,8 +348,7 @@ export default class JobPostingStep1 extends Vue {
         (selectedBranchId) => selectedBranchId !== branch.id
       );
     } else {
-      this.veeForm.branches.push(branch.id);
-      this.veeForm.branches.sort((a: string, b: string) => parseInt(a) - parseInt(b));
+      this.veeForm.branches = [...this.veeForm.branches, branch.id];
     }
   }
 
