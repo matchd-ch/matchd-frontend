@@ -82,7 +82,10 @@
           label="Stellenantritt Jahr"
           rules="required"
         >
-          <option value="" disabled selected hidden>Jahr</option>
+          <option v-if="veeForm.values.jobFromDateYear" selected>
+            {{ veeForm.values.jobFromDateYear }}
+          </option>
+          <option v-else value="" disabled selected hidden>Jahr</option>
           <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
         </Field>
       </fieldset>
@@ -121,7 +124,10 @@
             label="Endtermin Jahr"
             rules="requiredIfNotEmpty:jobToDateMonth"
           >
-            <option value="" disabled selected hidden>Jahr</option>
+            <option v-if="veeForm.values.jobToDateYear" selected>
+              {{ veeForm.values.jobToDateYear }}
+            </option>
+            <option v-else value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
@@ -178,7 +184,6 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import type { Branch, JobPosting as JobPostingType, JobType, User } from "api";
-import cloneDeep from "clone-deep";
 import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
@@ -326,12 +331,8 @@ export default class JobPostingStep1 extends Vue {
     ]);
 
     this.veeForm.resetForm({
-      values: cloneDeep(this.jobPostingData),
+      values: this.jobPostingData,
     });
-
-    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 1) {
-      this.veeForm.setValues(cloneDeep(this.jobPostingData));
-    }
   }
 
   onChangeJobType(jobTypeId: string): void {
@@ -347,8 +348,7 @@ export default class JobPostingStep1 extends Vue {
         (selectedBranchId) => selectedBranchId !== branch.id
       );
     } else {
-      this.veeForm.branches.push(branch.id);
-      this.veeForm.branches.sort((a: string, b: string) => parseInt(a) - parseInt(b));
+      this.veeForm.branches = [...this.veeForm.branches, branch.id];
     }
   }
 
