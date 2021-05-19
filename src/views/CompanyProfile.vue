@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="user && user.company"
-    class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen"
+    class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen mt-fixed-header"
   >
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
