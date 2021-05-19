@@ -14,7 +14,7 @@
       x-transition:leave="transition ease-in duration-75"
       x-transition:leave-start="transform opacity-100 scale-100"
       x-transition:leave-end="transform opacity-0 scale-95"
-      class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-auto z-10"
+      class="absolute right-0 w-full md:w-64 mt-2 origin-top-right rounded-md shadow-lg z-10"
     >
       <div class="bg-white rounded-md shadow">
         <slot />
