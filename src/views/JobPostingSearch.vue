@@ -90,7 +90,7 @@
         color="green"
       ></SearchResultGrid>
       <div class="min-h-content-with-fixed-bars flex justify-center items-center" v-else>
-        <div class="">keine Matches gefunden</div>
+        <div>👀 ganz schön leer hier. Derzeit gibt es leider keine Suchresultate zum Matchen.</div>
       </div>
     </div>
     <SearchBoost
