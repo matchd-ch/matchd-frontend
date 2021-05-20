@@ -1,5 +1,5 @@
 <template>
-  <div class="onboarding min-h-screen text-primary-1">
+  <div class="onboarding min-h-screen">
     <div class="grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-home gap-x-4 lg:gap-x-5 lg:border-b">
       <h1
         class="text-display-xl-fluid col-start-1 col-span-4 row-start-1 border-r flex items-center px-4 lg:px-5 py-10"

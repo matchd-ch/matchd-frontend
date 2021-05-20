@@ -1,14 +1,9 @@
 <template>
-  <div
-    class="matchd-file-view bg-white border border-primary-1 rounded-30 overflow-hidden text-primary-1"
-  >
+  <div class="matchd-file-view bg-white border rounded-30 overflow-hidden">
     <ul class="matchd-file-view__list">
       <li v-for="file in files" :key="file.id" class="matchd-file-view__item flex items-center">
         <template v-if="file.mimeType.indexOf('image/') > -1"
-          ><img
-            :src="getImageUrlWithStack(file.url)"
-            class="w-40 h-40 border-r border-primary-1"
-            alt="Bild"
+          ><img :src="getImageUrlWithStack(file.url)" class="w-40 h-40 border-r" alt="Bild"
         /></template>
         <template v-else-if="file.mimeType.indexOf('video/') > -1">
           <div class="px-8">
@@ -23,7 +18,7 @@
         <div class="flex-grow flex justify-end py-4 px-4">
           <button
             type="button"
-            class="inline-block font-medium border border-primary-1 rounded-30 text-primary-1 text-lg py-2 px-5 text-center"
+            class="inline-block font-medium border rounded-30 text-lg py-2 px-5 text-center"
             @click="$emit('deleteFile', file)"
           >
             Löschen
@@ -95,7 +90,7 @@ export default class MatchdFileView extends Vue.with(Props) {
   }
   @element item {
     &:not(:last-child) {
-      @apply border-b border-primary-1;
+      @apply border-b;
     }
   }
   @element upload-status {

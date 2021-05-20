@@ -39,7 +39,7 @@
       </div>
       <MatchdImageGrid :attachments="additionalMedia" class="mt-4" />
     </div>
-    <div class="text-pink-1 flex flex-col min-h-full">
+    <div class="flex flex-col min-h-full">
       <ProfileSection :pink="true" title="Über uns" :editStep="getStepName(2)">
         <p v-html="nl2br(user.company.description)"></p>
       </ProfileSection>

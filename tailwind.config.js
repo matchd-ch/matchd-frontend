@@ -125,9 +125,6 @@ module.exports = {
       borderRadius: {
         30: "30px",
       },
-      placeholderColor: {
-        primary: "#000",
-      },
     },
   },
   variants: {

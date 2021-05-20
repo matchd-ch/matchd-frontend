@@ -18,7 +18,7 @@
   </ProfileNavigation>
   <div
     v-if="(requestedCurrentJobPosting && currentJobPosting) || !requestedCurrentJobPosting"
-    class="jobposting min-h-screen text-primary-1"
+    class="jobposting min-h-screen"
   >
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
