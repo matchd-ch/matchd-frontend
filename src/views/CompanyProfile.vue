@@ -1,14 +1,15 @@
 <template>
   <div
-    v-if="user && user.company"
+    v-if="user && user.company && logo"
     class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen"
   >
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
     >
-      <div class="xl:flex items-start">
-        <div class="w-1/2">
-          <CompanyLogo :url="logo.url" :name="user.company.name" class="w-32" />
+      <div class="xl:flex">
+        <div class="xl:w-1/2 flex items-center">
+          <CompanyLogo :url="logo.url" :name="user.company.name" class="w-32 mr-8" />
+          <h1 class="text-heading-sm">{{ user.company.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
           {{ user.company.street }}<br />
@@ -52,7 +53,7 @@
         title="In diesen Bereichen kannst du bei uns tätig sein"
         :editStep="getStepName(3)"
       >
-        <ul class="list list-inside list-disc">
+        <ul class="list list-inside list-disc marker-pink-1">
           <li v-for="branch in user.company.branches" :key="branch.id">
             {{ branch.name }}
           </li>
@@ -68,7 +69,7 @@
           <li
             v-for="benefit in user.company.benefits"
             :key="benefit.id"
-            class="flex items-center border border-pink-1 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2"
+            class="flex items-center border border-pink-5 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
           >
             <span class="material-icons mr-2">{{ benefit.icon }}</span>
             {{ benefit.name }}
@@ -76,15 +77,15 @@
         </ul>
       </ProfileSection>
       <section class="flex-grow p-9">
-        <h2 class="text-heading-lg mb-8">Offene Stellen</h2>
-        <ul class="list list-inside list-disc">
-          <li
-            v-for="position in user.company.jobPostings"
-            :key="position.id"
-            class="text-link-md underline"
-          >
-            <router-link :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }">
+        <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
+        <ul class="list">
+          <li v-for="position in user.company.jobPostings" :key="position.id">
+            <router-link
+              :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
+              class="block text-link-md underline text-pink-1 font-medium mb-2"
+            >
               {{ position.title }}, {{ position.jobType?.name }}
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>
         </ul>
@@ -101,6 +102,7 @@ import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import ArrowFront from "@/assets/icons/arrow-front.svg";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, User } from "api";
@@ -116,6 +118,7 @@ import { nl2br } from "@/helpers/nl2br";
     MatchdVideo,
     MatchdImageGrid,
     ArrowDown,
+    ArrowFront,
   },
 })
 export default class CompanyProfile extends Vue {

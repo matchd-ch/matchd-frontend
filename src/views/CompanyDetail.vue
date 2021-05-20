@@ -3,9 +3,10 @@
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
     >
-      <div class="xl:flex items-start">
-        <div class="w-1/2">
-          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32" />
+      <div class="xl:flex">
+        <div class="xl:w-1/2 flex items-center">
+          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32 mr-8" />
+          <h1 class="text-heading-sm">{{ company.data.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
           {{ company.data.street }}<br />
