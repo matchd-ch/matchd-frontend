@@ -3,6 +3,7 @@ query {
     jobPostings {
       id
       title
+      displayTitle
       datePublished
       dateCreated
       slug
@@ -17,6 +18,7 @@ query {
       jobPosting {
         id
         title
+        displayTitle
         slug
         state
         company {
@@ -36,6 +38,7 @@ query {
       jobPosting {
         id
         title
+        displayTitle
         slug
         state
         company {
@@ -55,6 +58,7 @@ query {
       jobPosting {
         id
         title
+        displayTitle
         slug
         state
         company {
