@@ -59,4 +59,8 @@
     .marker-green-1 ::marker {
         color: var(--color-green-1);
     }
+
+    .marker-orange-1 ::marker {
+        color: var(--color-orange-1);
+    }
 }

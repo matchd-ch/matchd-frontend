@@ -1,17 +1,17 @@
 <template>
   <div
     v-if="jobPosting"
-    class="jobPosting-detail text-orange-1 flex flex-col xl:min-h-content-with-fixed-bars mb-fixed-footer"
+    class="jobPosting-detail flex flex-col xl:min-h-content-with-fixed-bars mb-fixed-footer"
   >
     <div class="border-b border-orange-1 p-9">
-      <button @click="$router.back()">Zurück zur Übersicht</button>
+      <button @click="$router.back()" class="text-orange-1">Zurück zur Übersicht</button>
     </div>
     <div class="border-b border-orange-1 p-9">
-      <h1 class="text-display-lg-fluid break-words">{{ jobPosting.title }}</h1>
+      <h1 class="text-display-lg-fluid break-words text-orange-1">{{ jobPosting.title }}</h1>
     </div>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Beschreibung</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Beschreibung</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <p v-html="nl2br(jobPosting.description)"></p>
@@ -19,7 +19,7 @@
     </section>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Stelle</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Stelle</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <p v-if="hasBranches">{{ branchesLabel }}</p>
@@ -31,7 +31,7 @@
           </template>
           <template v-else> ab {{ jobPosting.jobFromDate }} </template>
         </p>
-        <p v-if="jobPosting.url" class="flex items-center mt-4">
+        <p v-if="jobPosting.url" class="flex items-center mt-4 text-orange-1">
           <span class="material-icons mr-2">open_in_new</span>
           <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
         </p>
@@ -40,12 +40,12 @@
 
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Das bringst du mit</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Das bringst du mit</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <template v-if="jobPosting.jobRequirements.length">
           <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
-          <ul class="list-disc list-inside">
+          <ul class="list-disc list-inside marker-orange-1">
             <li v-for="jobRequirement in jobPosting.jobRequirements" :key="jobRequirement.id">
               {{ jobRequirement.name }}
             </li>
@@ -53,8 +53,8 @@
         </template>
 
         <template v-if="jobPosting.languages?.length">
-          <h3 class="text-heading-sm mb-3">Sprachen</h3>
-          <ul class="list-disc list-inside">
+          <h3 class="text-heading-sm mb-3 text-orange-1">Sprachen</h3>
+          <ul class="list-disc list-inside marker-orange-1">
             <li v-for="language in jobPosting.languages" :key="language.id">
               {{ language.language.name }} {{ language.languageLevel.level }}
             </li>
@@ -62,8 +62,8 @@
         </template>
 
         <template v-if="jobPosting.skills?.length">
-          <h3 class="text-heading-sm mb-3">Skills</h3>
-          <ul class="list-disc list-inside">
+          <h3 class="text-heading-sm mb-3 text-orange-1">Skills</h3>
+          <ul class="list-disc list-inside marker-orange-1">
             <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill }}</li>
           </ul>
         </template>
@@ -71,7 +71,7 @@
     </section>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Unternehmen</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Unternehmen</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <router-link :to="{ name: 'CompanyDetail', params: { slug: jobPosting.company.slug } }">
@@ -85,7 +85,7 @@
     </section>
     <section class="flex-grow lg:flex p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Deine Ansprechperson für Fragen</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Deine Ansprechperson für Fragen</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <p>

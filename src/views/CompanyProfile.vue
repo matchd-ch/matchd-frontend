@@ -8,12 +8,7 @@
     >
       <div class="xl:flex items-start">
         <div class="w-1/2">
-          <img
-            v-if="logo"
-            :src="replaceStack(logo.url, 'logo')"
-            :alt="`Logo ${user.company.name}`"
-            class="w-40"
-          />
+          <CompanyLogo :url="logo.url" :name="user.company.name" class="w-32" />
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
           {{ user.company.street }}<br />
@@ -100,6 +95,7 @@
 
 <script lang="ts">
 import { AttachmentKey } from "@/api/models/types";
+import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
@@ -114,6 +110,7 @@ import { nl2br } from "@/helpers/nl2br";
 
 @Options({
   components: {
+    CompanyLogo,
     ProfileSection,
     MatchdButton,
     MatchdVideo,
