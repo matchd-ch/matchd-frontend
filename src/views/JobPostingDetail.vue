@@ -7,7 +7,7 @@
       <button @click="$router.back()">Zurück zur Übersicht</button>
     </div>
     <div class="border-b border-orange-1 p-9">
-      <h1 class="text-display-lg-fluid break-words">{{ jobPosting.title }}</h1>
+      <h1 class="text-display-lg-fluid break-words">{{ jobPosting.displayTitle }}</h1>
     </div>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
