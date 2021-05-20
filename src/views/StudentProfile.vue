@@ -49,7 +49,7 @@
       </profile-section>
       <profile-section
         v-if="user.student.languages?.length"
-        title="Ich habe Kenntnis in folgenden Sprachen"
+        title="Ich habe Kenntnisse in folgenden Sprachen"
         :editStep="getStepName(4)"
       >
         <ul>

@@ -34,7 +34,7 @@ export default class MatchdSelect extends Vue.with(Props) {}
 <style lang="postcss" scoped>
 @block matchd-select {
   @modifier invalid {
-    & select {
+    & deep(select) {
       @apply border-negative text-negative placeholder-negative;
     }
   }

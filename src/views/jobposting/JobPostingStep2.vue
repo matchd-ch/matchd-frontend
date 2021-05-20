@@ -57,7 +57,7 @@
       :errors="veeForm.errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Sprachskills*</template></LanguagePicker
+      ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
     >
     <MatchdButton
       variant="outline"
@@ -243,12 +243,12 @@ export default class JobPostingStep2 extends Vue {
   }
 
   onInputSkill(): void {
-    if (this.skillInput.length < 3) {
+    if (this.skillInput.length < 1) {
       this.filteredSkills = [];
       return;
     }
     this.filteredSkills = this.availableSkills.filter((item) =>
-      item.name.toLowerCase().includes(this.skillInput.toLowerCase())
+      item.name.toLowerCase().startsWith(this.skillInput.toLowerCase())
     );
   }
 

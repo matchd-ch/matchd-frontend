@@ -2,7 +2,7 @@
   <form v-if="user" @submit="veeForm.onSubmit">
     <FormSaveError v-if="showError" />
     <MatchdField id="name" class="mb-10" :errors="veeForm.errors.name">
-      <template v-slot:label>Vollständiger Name der Unternehmung*</template>
+      <template v-slot:label>Name des Unternehmens inkl. Rechtsform*</template>
       <Field
         id="name"
         name="name"
@@ -26,11 +26,11 @@
       </MatchdField>
     </div>
     <MatchdField id="firstName" class="mb-10" :errors="veeForm.errors.firstName">
-      <template v-slot:label>Vorname*</template>
+      <template v-slot:label>Vorname Ansprechperson*</template>
       <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
     </MatchdField>
     <MatchdField id="lastName" class="mb-10" :errors="veeForm.errors.lastName">
-      <template v-slot:label>Nachname*</template>
+      <template v-slot:label>Nachname Ansprechperson*</template>
       <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
     </MatchdField>
     <MatchdField id="role" class="mb-10" :errors="veeForm.errors.role">
@@ -39,7 +39,14 @@
     </MatchdField>
     <MatchdField id="mobile" class="mb-10" :errors="veeForm.errors.phone">
       <template v-slot:label>Telefonnummer*</template>
-      <Field id="mobile" name="phone" as="input" label="Telefonnummer" rules="required|phone" />
+      <Field
+        id="mobile"
+        name="phone"
+        as="input"
+        label="Telefonnummer"
+        rules="required|phone"
+        placeholder="+41712223344"
+      />
     </MatchdField>
     <slot />
   </form>
