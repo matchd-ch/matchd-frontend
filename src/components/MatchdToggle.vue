@@ -1,5 +1,5 @@
 <template>
-  <div class="matchd-toggle mb-60">
+  <div class="matchd-toggle">
     <label class="matchd-toggle__label"><slot name="label" /></label>
     <div
       class="matchd-toggle__form-element flex items-center"
