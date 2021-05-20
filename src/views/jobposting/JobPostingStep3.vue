@@ -131,6 +131,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { AddEmployeeState } from "@/models/AddEmployeeState";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingState as JobPostingStateEnum } from "@/api/models/types";
@@ -244,6 +245,7 @@ export default class JobPostingStep3 extends Vue {
     if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 1) {
       this.veeForm.setValues(cloneDeep(this.jobPostingData));
     }
+    calculateMargins();
   }
 
   onClickShowEmployeeForm(): void {

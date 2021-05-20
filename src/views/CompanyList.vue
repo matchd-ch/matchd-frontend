@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts">
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import GridTile from "@/components/GridTile.vue";
 import type { Match } from "api";
@@ -38,6 +39,7 @@ export default class CompanyList extends Vue {
 
   async mounted(): Promise<void> {
     await this.loadData();
+    calculateMargins();
   }
 
   get companyMatching(): { data: Match[] } {

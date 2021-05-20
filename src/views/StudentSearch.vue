@@ -76,6 +76,7 @@ import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { SearchResult } from "@/models/SearchResult";
 import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -151,6 +152,7 @@ export default class StudentSearch extends Vue {
         key: AttachmentKey.CompanyAvatarFallback,
       }),
     ]);
+    calculateMargins();
   }
 
   async searchStudents(): Promise<void> {

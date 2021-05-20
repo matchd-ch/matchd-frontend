@@ -77,6 +77,7 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
 import { useStore } from "@/store";
@@ -165,6 +166,8 @@ export default class StudentStep6Form extends Vue {
     if (this.currentStep && this.currentStep > 6) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   @Watch("veeForm.meta.dirty")

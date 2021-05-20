@@ -64,7 +64,6 @@ export default class App extends Vue {
   }
 
   mounted(): void {
-    console.log("MOUNTED APP");
     window.addEventListener("resize", calculateMargins, true);
   }
 

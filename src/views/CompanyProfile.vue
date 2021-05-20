@@ -105,6 +105,7 @@ import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, User } from "api";
@@ -162,6 +163,7 @@ export default class CompanyProfile extends Vue {
         key: AttachmentKey.CompanyDocuments,
       }),
     ]);
+    calculateMargins();
   }
 }
 </script>

@@ -1,7 +1,6 @@
 <template>
   <div
-    :class="{ 'border-green-1': !isCompany, 'border-pink-1': isCompany }"
-    class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 border-b py-2.5 bg-white"
+    class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 border-b py-2.5 bg-white border-primary-1"
   >
     <div class="p-4 flex flex-row items-center justify-between">
       <router-link :to="{ name: 'Dashboard' }"><Logo class="w-36" /></router-link>
@@ -15,22 +14,14 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue, prop } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
 import NavDropdown from "./NavDropdown.vue";
 import NavLink from "./NavLink.vue";
 import Logo from "@/assets/icons/logo.svg";
-
-class Props {
-  isCompany = prop<boolean>({ default: false });
-}
 
 @Options({
   name: "NavBar",
   components: { NavDropdown, NavLink, Logo },
 })
-export default class NavBar extends Vue.with(Props) {
-  mounted(): void {
-    console.log("MOUNTED NAVBAR");
-  }
-}
+export default class NavBar extends Vue {}
 </script>

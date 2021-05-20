@@ -10,6 +10,7 @@
 <script lang="ts">
 import CompanyDashboard from "@/components/dashboard/CompanyDashboard.vue";
 import StudentDashboard from "@/components/dashboard/StudentDashboard.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes as ContentActions } from "@/store/modules/content/action-types";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
 import type { User, Dashboard as DashboardData } from "api";
@@ -43,6 +44,7 @@ export default class Dashboard extends Vue {
           : AttachmentKey.CompanyAvatarFallback,
       }),
     ]);
+    calculateMargins();
   }
 
   get dashboard(): DashboardData | null {

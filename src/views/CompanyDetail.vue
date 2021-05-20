@@ -99,6 +99,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -169,6 +170,7 @@ export default class CompanyDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
+      calculateMargins();
     }
   }
 

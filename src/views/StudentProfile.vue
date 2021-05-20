@@ -104,6 +104,7 @@
 import { AttachmentKey } from "@/api/models/types";
 import ProfileSection from "@/components/ProfileSection.vue";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
@@ -158,6 +159,7 @@ export default class StudentProfile extends Vue {
         key: AttachmentKey.StudentDocuments,
       }),
     ]);
+    calculateMargins();
   }
 }
 </script>

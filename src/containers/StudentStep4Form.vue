@@ -176,6 +176,7 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { isValidUrl } from "@/helpers/isValidUrl";
 import { OnboardingState } from "@/models/OnboardingState";
 import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
@@ -331,6 +332,8 @@ export default class StudentStep4Form extends Vue {
     if (this.currentStep && this.currentStep > 4) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   onInputSkill(): void {

@@ -95,18 +95,20 @@
         </p>
       </div>
     </section>
-    <MatchingBar class="fixed bottom-0 right-0 left-0">
-      <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-        Du hast bereits Interesse gezeigt, fingers crossed! 🤞
-      </template>
-      <template v-else-if="matchType === matchTypeEnum.FullMatch">
-        Gratulation, ihr Matchd euch gegenseitig!
-      </template>
-      <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
-        Match bestätigen
-      </MatchdButton>
-      <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
-    </MatchingBar>
+    <teleport to="footer">
+      <MatchingBar>
+        <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
+          Du hast bereits Interesse gezeigt, fingers crossed! 🤞
+        </template>
+        <template v-else-if="matchType === matchTypeEnum.FullMatch">
+          Gratulation, ihr Matchd euch gegenseitig!
+        </template>
+        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
+          Match bestätigen
+        </MatchdButton>
+        <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
+      </MatchingBar>
+    </teleport>
     <JobPostingMatchModal
       v-if="showConfirmationModal"
       :user="user"
@@ -131,6 +133,7 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import JobPostingFullMatchModal from "@/components/modals/JobPostingFullMatchModal.vue";
 import JobPostingMatchModal from "@/components/modals/JobPostingMatchModal.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
@@ -225,21 +228,8 @@ export default class JobPostingDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
-
-      window.addEventListener("resize", this.calculateMargins, true);
-      this.calculateMargins();
+      calculateMargins();
     }
-  }
-
-  unmounted(): void {
-    window.removeEventListener("resize", this.calculateMargins, true);
-  }
-
-  calculateMargins(): void {
-    const root = document.documentElement;
-    const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement).offsetHeight;
-    root.style.setProperty("--contentMarginTop", `0px`);
-    root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
   }
 
   async loadData(slug: string): Promise<void> {
@@ -260,7 +250,6 @@ export default class JobPostingDetail extends Vue {
         },
       });
       await this.loadData(String(this.$route.params.slug));
-      this.calculateMargins();
       this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
       this.showConfirmationModal = false;
     }

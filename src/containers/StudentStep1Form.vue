@@ -94,6 +94,7 @@ import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
 import { useStore } from "@/store";
@@ -169,6 +170,8 @@ export default class StudentStep1Form extends Vue {
     this.veeForm.resetForm({
       values: cloneDeep(this.profileData),
     });
+
+    calculateMargins();
   }
 
   async onBlurZip(zip: string): Promise<void> {

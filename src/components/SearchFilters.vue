@@ -13,18 +13,14 @@ import { Options, Vue } from "vue-class-component";
 export default class SearchFilters extends Vue {
   techBoost = 3;
   softBoost = 3;
-
-  mounted(): void {
-    console.log("MOUNTED SEARCH FILTERS");
-  }
 }
 </script>
 
-<style type="postcss">
+<style lang="postcss">
 @import "@vueform/slider/themes/default.css";
 </style>
 
-<style type="postcss" scoped>
+<style lang="postcss" scoped>
 @block search-filters {
   @apply p-4 xl:p-8;
   @apply text-white;

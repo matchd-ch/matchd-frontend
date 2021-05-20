@@ -124,6 +124,7 @@ import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { SearchResult } from "@/models/SearchResult";
 import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -195,7 +196,6 @@ export default class JobPostingSearch extends Vue {
   }
 
   async mounted(): Promise<void> {
-    console.log("MOUNTED JOBPOSTING SEARCH");
     this.layout = (this.$route.query?.layout as string) || "bubbles";
     this.jobTypeId =
       (this.$route.query?.jobTypeId as string) || this.user?.student?.jobType?.id || "";
@@ -217,6 +217,7 @@ export default class JobPostingSearch extends Vue {
         key: AttachmentKey.StudentAvatarFallback,
       }),
     ]);
+    calculateMargins();
   }
 
   async searchJobPostings(): Promise<void> {

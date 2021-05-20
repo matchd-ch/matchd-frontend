@@ -1,7 +1,9 @@
 <template>
   <nav-bar :is-company="true">
-    <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
-    <nav-link :to="{ name: 'StudentSearch' }">Talent finden</nav-link>
+    <div class="flex-grow flex justify-center">
+      <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
+      <nav-link :to="{ name: 'StudentSearch' }">Talent finden</nav-link>
+    </div>
     <nav-dropdown :text="user?.company?.name">
       <nav-link :to="{ name: 'Profile' }" :inline="false">Profileinstellungen</nav-link>
       <nav-link :to="{ name: 'Login' }" @click="onClickLogout" :inline="false">Logout</nav-link>

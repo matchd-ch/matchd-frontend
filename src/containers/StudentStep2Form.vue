@@ -108,6 +108,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { useStore } from "@/store";
@@ -253,6 +254,8 @@ export default class StudentStep2Form extends Vue {
     if (this.currentStep && this.currentStep > 2) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   onChangeJobType(jobTypeId: string): void {

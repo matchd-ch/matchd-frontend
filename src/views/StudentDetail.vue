@@ -1,5 +1,8 @@
 <template>
-  <div v-if="student.data" class="student-detail grid grid-cols-1 xl:grid-cols-2">
+  <div
+    v-if="student.data"
+    class="student-detail min-h-content-with-fixed-bars grid grid-cols-1 xl:grid-cols-2"
+  >
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
@@ -10,7 +13,11 @@
         </button>
       </div>
       <div class="flex justify-center mt-9">
-        <img class="avatar rounded-full object-cover" :src="replaceStack(avatarSrc, 'logo')" />
+        <img
+          class="avatar rounded-full object-cover"
+          :src="replaceStack(avatarSrc, 'logo')"
+          :alt="`Profilbild ${student.data.nickname}`"
+        />
       </div>
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
@@ -88,20 +95,22 @@
         </ul>
       </profile-section>
     </div>
-    <MatchingBar class="fixed bottom-0 right-0 left-0">
-      <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-        Sie haben bereits Interesse an diesem Talent gezeigt
-      </template>
-      <template v-else-if="matchType === matchTypeEnum.FullMatch">
-        Gratulation, ihr Matchd euch gegenseitig!
-      </template>
-      <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
-        Match bestätigen
-      </MatchdButton>
-      <MatchdButton v-else @click="onClickMatch"
-        >Mit {{ student.data.firstName }} matchen</MatchdButton
-      >
-    </MatchingBar>
+    <teleport to="footer">
+      <MatchingBar>
+        <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
+          Sie haben bereits Interesse an diesem Talent gezeigt
+        </template>
+        <template v-else-if="matchType === matchTypeEnum.FullMatch">
+          Gratulation, ihr Matchd euch gegenseitig!
+        </template>
+        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
+          Match bestätigen
+        </MatchdButton>
+        <MatchdButton v-else @click="onClickMatch"
+          >Mit {{ student.data.firstName }} matchen</MatchdButton
+        >
+      </MatchingBar>
+    </teleport>
 
     <StudentMatchModal
       v-if="showConfirmationModal"
@@ -129,6 +138,7 @@ import MatchingBar from "@/components/MatchingBar.vue";
 import StudentFullMatchModal from "@/components/modals/StudentFullMatchModal.vue";
 import StudentMatchModal from "@/components/modals/StudentMatchModal.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -245,24 +255,8 @@ export default class StudentDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
-
-      window.addEventListener("resize", this.calculateMargins, true);
-      this.calculateMargins();
+      calculateMargins();
     }
-  }
-
-  unmounted(): void {
-    window.removeEventListener("resize", this.calculateMargins, true);
-  }
-
-  calculateMargins(): void {
-    this.$nextTick(() => {
-      const root = document.documentElement;
-      const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement)
-        .offsetHeight;
-      root.style.setProperty("--contentMarginTop", `0px`);
-      root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
-    });
   }
 
   async loadData(slug: string, jobPostingId: string): Promise<void> {
@@ -288,7 +282,6 @@ export default class StudentDetail extends Vue {
         },
       });
       await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
-      this.calculateMargins();
       this.showConfirmationModal = false;
       this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     }
@@ -305,7 +298,7 @@ export default class StudentDetail extends Vue {
   onClickMatch(): void {
     this.showConfirmationModal = true;
     this.$nextTick(() => {
-      this.calculateMargins();
+      calculateMargins();
     });
   }
 

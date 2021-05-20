@@ -93,6 +93,7 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
@@ -295,6 +296,7 @@ export default class JobPostingStep2 extends Vue {
     if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 2) {
       this.veeForm.setValues(cloneDeep(this.jobPostingData));
     }
+    calculateMargins();
   }
 
   onClickBack(): void {
