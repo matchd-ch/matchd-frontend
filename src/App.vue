@@ -11,7 +11,12 @@
     }"
   >
     <header class="header bg-white fixed top-0 left-0 right-0 z-20">
-      <component v-if="showNavbar && user" :is="navigation" :user="user" />
+      <component
+        v-if="showNavbar && user"
+        :is="navigation"
+        :user="user"
+        @clickLogout="onClickLogout"
+      />
     </header>
     <div class="mt-fixed-header mb-fixed-footer">
       <router-view />
@@ -22,6 +27,7 @@
 
 <script lang="ts">
 import { calculateMargins } from "@/helpers/calculateMargins";
+import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
 import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
@@ -61,6 +67,11 @@ export default class App extends Vue {
   get navigation(): string {
     if (this.isStudent) return "NavBarStudent";
     return "NavBarCompany";
+  }
+
+  async onClickLogout(): Promise<void> {
+    await this.$store.dispatch(LoginActions.LOGOUT);
+    this.$router.push({ name: "Login" });
   }
 
   mounted(): void {
