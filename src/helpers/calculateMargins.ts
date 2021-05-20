@@ -5,6 +5,5 @@ export function calculateMargins(): void {
     const footerHeight = (document.querySelector("footer") as HTMLElement).offsetHeight;
     root.style.setProperty("--contentMarginTop", `${headerHeight}px`);
     root.style.setProperty("--contentMarginBottom", `${footerHeight}px`);
-    console.log("CALCULATE", headerHeight, footerHeight);
   }, 0);
 }
