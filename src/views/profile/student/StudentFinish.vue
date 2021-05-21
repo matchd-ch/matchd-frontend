@@ -13,7 +13,7 @@
       class="block w-full mt-5"
       @click="$router.push({ name: 'Dashboard' })"
     >
-      zum Dashboard wechseln
+      Zum Matchd-Dashboard wechseln
     </MatchdButton>
     <p class="mt-5 text-black text-center">
       Du hast Fragen oder möchtest uns etwas mitteilen?

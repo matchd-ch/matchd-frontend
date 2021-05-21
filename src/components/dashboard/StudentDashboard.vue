@@ -44,7 +44,7 @@
           weitergehen.
         </p>
         <p v-if="dashboard?.requestedMatches?.length === 0">
-          Im Moment hast du keine offenen Matches. Sobald du ein Match auslöst, wirst du das hier
+          Momentan hast du keine offenen Matches. Sobald du ein Match auslöst, wirst du das hier
           sehen.
         </p>
         <ul>
@@ -62,8 +62,8 @@
           Dein Talent ist gesucht! Folgende Unternehmen möchten dich gerne kennenlernen.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Im Moment hast du keine offenen Anfragen. Sobald ein Unternehmen ein Match auslöst, wirst
-          du das hier sehen.
+          Momentan hast du keine offenen Anfragen. Sobald ein Unternehmen dich matchen möchte,
+          siehst du das hier.
         </p>
         <ul>
           <li

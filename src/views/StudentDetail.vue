@@ -96,7 +96,7 @@
         Sie haben bereits Interesse an diesem Talent gezeigt
       </template>
       <template v-else-if="matchType === matchTypeEnum.FullMatch">
-        Gratulation, ihr Matchd euch gegenseitig!
+        Gratulation, it’s a Match!
       </template>
       <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
         Match bestätigen
