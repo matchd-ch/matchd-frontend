@@ -27,7 +27,7 @@
         v-model="skillInput"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
-        placeholder="Tippe, um Vorschläge zu erhalten"
+        placeholder="Tippe für Vorschläge"
       />
     </MatchdAutocomplete>
     <SelectPillGroup v-if="selectedSkills.length" class="mb-10">
@@ -48,7 +48,7 @@
       :errors="veeForm.errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Sprachliche Skills*</template></LanguagePicker
+      ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
     >
     <h2 class="text-heading-md mb-9">Was zeichnet dich sonst noch aus?</h2>
     <!-- Online Projects Field -->
@@ -75,7 +75,12 @@
           Hinzufügen
         </button>
       </template>
+      <template v-slot:info v-if="!isValidOnlineProjectUrl"
+        >Bitte gib die URL in folgendem Format ein: http://matchd.ch oder
+        https://matchd.ch</template
+      >
     </MatchdField>
+
     <SelectPillGroup v-if="veeForm.onlineProjects?.length" class="mb-10">
       <SelectPill
         v-for="onlineProject in veeForm.onlineProjects"
@@ -99,7 +104,7 @@
         @deleteFile="onDeleteStudentDocument"
       />
       <MatchdFileUpload
-        v-if="studentDocumentsUploadConfigurations.maxFiles >= studentDocuments.length"
+        v-if="studentDocumentsUploadConfigurations.maxFiles > studentDocuments.length"
         :uploadConfiguration="studentDocumentsUploadConfigurations"
         @selectFiles="onSelectStudentDocuments"
         class="mb-10"
@@ -327,12 +332,12 @@ export default class StudentStep4Form extends Vue {
   }
 
   onInputSkill(): void {
-    if (this.skillInput.length < 3) {
+    if (this.skillInput.length < 1) {
       this.filteredSkills = [];
       return;
     }
     this.filteredSkills = this.availableSkills.filter((item) =>
-      item.name.toLowerCase().includes(this.skillInput.toLowerCase())
+      item.name.toLowerCase().startsWith(this.skillInput.toLowerCase())
     );
   }
 

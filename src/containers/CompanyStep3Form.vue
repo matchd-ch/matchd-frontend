@@ -4,7 +4,7 @@
     <!-- Branch Field -->
     <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
       <template v-slot:label
-        >In diesen Bereichen und Projekten kannst du bei uns tätig sein</template
+        >In diesen Bereichen und Projekten können Talente bei Ihnen tätig werden</template
       >
     </SelectPillMultiple>
     <!-- Benefits Field -->
@@ -13,7 +13,7 @@
     </SelectIconGroup>
     <!-- Media -->
     <MatchdFileBlock>
-      <template v-slot:label>So sieht es bei uns aus</template>
+      <template v-slot:label>Bilder und Videos Ihres Unternehmens und Ihres Teams</template>
       <MatchdFileView
         v-if="companyDocuments.length > 0 || companyDocumentsQueue.length > 0"
         :files="companyDocuments"
@@ -25,7 +25,8 @@
         }"
       />
       <MatchdFileUpload
-        v-if="companyDocumentsUploadConfigurations.maxFiles >= companyDocuments.length"
+        v-if="companyDocumentsUploadConfigurations.maxFiles > companyDocuments.length"
+        :formal="true"
         :uploadConfiguration="companyDocumentsUploadConfigurations"
         @selectFiles="onSelectCompanyDocuments"
         class="mb-10"

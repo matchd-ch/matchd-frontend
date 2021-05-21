@@ -7,53 +7,34 @@
       'search-result-grid--company': resultType === 'company',
     }"
   >
-    <li
+    <grid-tile
       v-for="match in matches"
       :key="match.id"
-      class="search-result-grid__item"
-      :class="{
-        'search-result-grid__item--green': color === 'green',
-        'search-result-grid__item--orange': color === 'orange',
-        'search-result-grid__item--pink': color === 'pink',
-      }"
+      :linkTo="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
+      :imgSrc="replaceStack(match.img, resultType === 'student' ? 'desktop-square' : 'logo-square')"
+      :imgAlt="`${match.name} ${resultType === 'student' ? 'Profilbild' : 'Logo'}`"
+      :color="color"
     >
-      <router-link
-        :to="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
-        class="search-result-grid__link"
-      >
-        <div class="search-result-grid__image-wrap">
-          <div class="search-result-grid__image-box rounded-full border-2">
-            <img
-              :src="
-                match.img.replace(
-                  '{stack}',
-                  resultType === 'student' ? 'desktop-square' : 'logo-square'
-                )
-              "
-              class="w-full"
-              :alt="`${match.name} Logo`"
-            />
-          </div>
-          <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
-            <div class="search-result-grid__match-status">
-              <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
-              <span v-else class="material-icons">record_voice_over</span>
-            </div>
-          </div>
+      <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
+        <div class="search-result-grid__match-status">
+          <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
+          <span v-else class="material-icons">record_voice_over</span>
         </div>
-        <div class="mt-2">
-          <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
-          <h3 class="text-paragraph-lg">{{ match.name }}</h3>
-        </div>
-      </router-link>
-    </li>
+      </div>
+      <div class="mt-2">
+        <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
+        <h3 class="text-paragraph-lg">{{ match.name }}</h3>
+      </div>
+    </grid-tile>
   </ul>
 </template>
 
 <script lang="ts">
 import { SearchResult } from "@/models/SearchResult";
+import GridTile from "@/components/GridTile.vue";
 import { Options, prop, Vue } from "vue-class-component";
 import { LocationQueryRaw } from "vue-router";
+import { replaceStack } from "@/helpers/replaceStack";
 
 class Props {
   matches = prop<SearchResult[]>({ default: [] });
@@ -63,7 +44,9 @@ class Props {
 }
 
 @Options({
-  components: {},
+  components: {
+    GridTile,
+  },
 })
 export default class SearchBoost extends Vue.with(Props) {
   get queryParams(): LocationQueryRaw {
@@ -71,6 +54,10 @@ export default class SearchBoost extends Vue.with(Props) {
       return {};
     }
     return { jobPostingId: this.jobPostingId };
+  }
+
+  replaceStack(url: string, stack: string): string {
+    return replaceStack(url, stack);
   }
 
   get toRouteName(): string {
@@ -101,12 +88,6 @@ export default class SearchBoost extends Vue.with(Props) {
   }
 
   @modifier student {
-    & .search-result-grid__link {
-      & .search-result-grid__image-box {
-        @apply border-green-1;
-      }
-    }
-
     & .search-result-grid__match-status {
       @apply bg-green-1;
     }
@@ -121,58 +102,6 @@ export default class SearchBoost extends Vue.with(Props) {
       & .search-result-grid__match-status {
         @apply bg-pink-1;
       }
-    }
-  }
-
-  @element item {
-    @apply flex items-center text-center;
-
-    &::before {
-      content: "";
-      @apply inline-block align-top pb-full w-0;
-    }
-
-    @modifier orange {
-      @apply shadow-orange text-orange-1;
-
-      & .search-result-grid__link:hover {
-        @apply bg-orange-1;
-      }
-    }
-
-    @modifier green {
-      @apply shadow-green text-green-1;
-
-      & .search-result-grid__link:hover {
-        @apply bg-green-1;
-      }
-    }
-
-    @modifier pink {
-      @apply shadow-pink text-pink-1;
-
-      & .search-result-grid__link:hover {
-        @apply bg-pink-1;
-      }
-    }
-  }
-
-  @element image-wrap {
-    @apply relative;
-  }
-
-  @element image-box {
-    @apply bg-white overflow-hidden;
-    @apply relative;
-
-    & img {
-      @apply absolute top-1/2;
-      transform: translateY(-50%);
-    }
-
-    &::before {
-      content: "";
-      @apply inline-block align-top pb-full w-0;
     }
   }
 

@@ -6,7 +6,7 @@ mutation(
   $jobFromDate: String!
   $jobToDate: String
   $jobType: JobTypeInput!
-  $branch: BranchInput!
+  $branches: [BranchInput]!
   $url: String
 ) {
   jobPostingStep1(
@@ -14,7 +14,7 @@ mutation(
       id: $id
       title: $title
       description: $description
-      branch: $branch
+      branches: $branches
       workload: $workload
       jobFromDate: $jobFromDate
       jobToDate: $jobToDate
