@@ -127,10 +127,7 @@ export default class StudentSearch extends Vue {
     );
   }
 
-  async mounted(): Promise<void> {
-    window.addEventListener("resize", this.calculateMargins, true);
-    this.calculateMargins();
-
+  beforeMount(): void {
     this.layout = (this.$route.query?.layout as string) || "bubbles";
     this.softBoost = this.$route.query?.softBoost
       ? parseInt(this.$route.query?.softBoost as string)
@@ -139,13 +136,17 @@ export default class StudentSearch extends Vue {
       ? parseInt(this.$route.query?.techBoost as string)
       : 3;
     this.jobPostingId = (this.$route.query?.jobPostingId as string) || "";
+    this.persistFiltersToUrl();
+  }
+
+  async mounted(): Promise<void> {
+    window.addEventListener("resize", this.calculateMargins, true);
+    this.calculateMargins();
 
     await this.$store.dispatch(ActionTypes.JOB_POSTINGS);
     if (this.jobPostings.length > 0 && this.jobPostingId === "") {
       this.jobPostingId = this.jobPostings[0].id;
     }
-
-    this.persistFiltersToUrl();
 
     await Promise.all([
       this.searchStudents(),

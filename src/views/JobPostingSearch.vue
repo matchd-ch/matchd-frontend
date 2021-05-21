@@ -190,10 +190,7 @@ export default class JobPostingSearch extends Vue {
     );
   }
 
-  async mounted(): Promise<void> {
-    window.addEventListener("resize", this.calculateMargins, true);
-    this.calculateMargins();
-
+  beforeMount(): void {
     this.layout = (this.$route.query?.layout as string) || "bubbles";
     this.jobTypeId =
       (this.$route.query?.jobTypeId as string) || this.user?.student?.jobType?.id || "";
@@ -208,6 +205,11 @@ export default class JobPostingSearch extends Vue {
     this.branchId = (this.$route.query?.branchId as string) || this.user?.student?.branch?.id || "";
 
     this.persistFiltersToUrl();
+  }
+
+  async mounted(): Promise<void> {
+    window.addEventListener("resize", this.calculateMargins, true);
+    this.calculateMargins();
 
     await Promise.all([
       this.searchJobPostings(),
@@ -237,6 +239,7 @@ export default class JobPostingSearch extends Vue {
 
   async searchJobPostings(): Promise<void> {
     this.persistFiltersToUrl();
+    console.log(this.softBoost, this.techBoost);
     await this.$store.dispatch(
       ActionTypes.MATCHING,
       jobPostingMatchingInputMapper({
