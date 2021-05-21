@@ -127,19 +127,26 @@ export default class StudentSearch extends Vue {
     );
   }
 
+  beforeMount(): void {
+    this.layout = (this.$route.query?.layout as string) || "bubbles";
+    this.softBoost = this.$route.query?.softBoost
+      ? parseInt(this.$route.query?.softBoost as string)
+      : 3;
+    this.techBoost = this.$route.query?.techBoost
+      ? parseInt(this.$route.query?.techBoost as string)
+      : 3;
+    this.jobPostingId = (this.$route.query?.jobPostingId as string) || "";
+    this.persistFiltersToUrl();
+  }
+
   async mounted(): Promise<void> {
     window.addEventListener("resize", this.calculateMargins, true);
     this.calculateMargins();
-
-    this.layout = (this.$route.query?.layout as string) || "bubbles";
-    this.jobPostingId = (this.$route.query?.jobPostingId as string) || "";
 
     await this.$store.dispatch(ActionTypes.JOB_POSTINGS);
     if (this.jobPostings.length > 0 && this.jobPostingId === "") {
       this.jobPostingId = this.jobPostings[0].id;
     }
-
-    this.persistFiltersToUrl();
 
     await Promise.all([
       this.searchStudents(),
@@ -209,6 +216,8 @@ export default class StudentSearch extends Vue {
     this.$router.replace({
       query: {
         layout: this.layout,
+        softBoost: this.softBoost,
+        techBoost: this.techBoost,
         ...(this.jobPostingId !== "" && { jobPostingId: this.jobPostingId }),
       },
     });
