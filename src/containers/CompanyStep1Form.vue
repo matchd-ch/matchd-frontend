@@ -95,7 +95,8 @@ export default class CompanyStep1Form extends Vue {
             ActionTypes.COMPANY_ONBOARDING_STEP1,
             companyProfileStep1InputMapper(formData)
           );
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e); // todo
         }

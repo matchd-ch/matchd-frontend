@@ -98,7 +98,8 @@ export default class StudentStep5Form extends Vue {
               nickname: "Dieser Nickname ist bereits vergeben.",
             });
           } else {
-            this.$emit("submitComplete", store.getters["onboardingState"]);
+            const onboardingState = store.getters["onboardingState"];
+            this.$emit("submitComplete", onboardingState.success);
           }
         } catch (e) {
           console.log(e);
