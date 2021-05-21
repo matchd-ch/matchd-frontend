@@ -127,7 +127,7 @@ type Company = {
   state: ProfileState;
   profileStep: Scalars["Int"];
   slug: Scalars["String"];
-  name?: Maybe<Scalars["String"]>;
+  name: Scalars["String"];
   zip: Scalars["String"];
   city: Scalars["String"];
   street: Scalars["String"];
@@ -148,6 +148,7 @@ type Company = {
   linkThesis?: Maybe<Scalars["String"]>;
   jobPostings: Array<JobPosting>;
   employees: Array<Employee>;
+  displayName: Scalars["String"];
 };
 
 type CompanyProfileInputStep1 = {
@@ -289,7 +290,7 @@ type HobbyInput = {
 type JobPosting = {
   __typename?: "JobPosting";
   id: Scalars["ID"];
-  title?: Maybe<Scalars["String"]>;
+  title: Scalars["String"];
   slug: Scalars["String"];
   description: Scalars["String"];
   jobType: JobType;
@@ -307,6 +308,7 @@ type JobPosting = {
   dateCreated: Scalars["DateTime"];
   datePublished?: Maybe<Scalars["DateTime"]>;
   languages?: Maybe<Array<JobPostingLanguageRelation>>;
+  displayTitle: Scalars["String"];
   matchStatus?: Maybe<MatchStatus>;
   matchHints?: Maybe<MatchHints>;
 };
