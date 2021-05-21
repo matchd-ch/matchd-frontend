@@ -51,6 +51,7 @@
         maxlength="1000"
         rows="10"
       />
+      <template v-slot:info>Maximal 1000 Zeichen</template>
     </MatchdField>
     <!-- ITrockt Field -->
     <MatchdToggle id="memberItStGallen" class="mb-10" :errors="veeForm.errors.memberItStGallen">
