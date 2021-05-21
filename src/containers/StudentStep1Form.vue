@@ -59,7 +59,14 @@
     <div class="lg:flex">
       <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.zip">
         <template v-slot:label>PLZ</template>
-        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip(veeForm.values?.zip)" />
+        <Field
+          id="zip"
+          name="zip"
+          as="input"
+          label="PLZ"
+          maxlength="4"
+          @blur="onBlurZip(veeForm.values?.zip)"
+        />
       </MatchdField>
       <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="veeForm.errors.city">
         <template v-slot:label>Ort</template>
