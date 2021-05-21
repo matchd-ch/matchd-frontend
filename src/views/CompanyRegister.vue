@@ -89,7 +89,7 @@
           <div class="lg:flex">
             <MatchdField id="zip" class="lg:mr-3 mb-3 lg:w-40" :errors="errors.zip">
               <template v-slot:label>PLZ</template>
-              <Field id="zip" name="zip" as="input" label="PLZ" rules="required" />
+              <Field id="zip" name="zip" as="input" label="PLZ" rules="required" maxlength="4" />
             </MatchdField>
             <MatchdField id="city" class="mb-3 lg:flex-grow" :errors="errors.city">
               <template v-slot:label>Ort</template>
