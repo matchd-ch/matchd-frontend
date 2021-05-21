@@ -10,7 +10,7 @@
       'theme-university': isUniversity,
     }"
   >
-    <header class="header bg-white fixed top-0 left-0 right-0 z-20">
+    <header class="header bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20">
       <component
         v-if="showNavbar && user"
         :is="navigation"
@@ -21,7 +21,7 @@
     <div class="mt-fixed-header mb-fixed-footer">
       <router-view />
     </div>
-    <footer class="footer fixed bottom-0 left-0 right-0 z-20"></footer>
+    <footer class="footer fixed bottom-0 left-0 right-0 z-20 shadow-black-20"></footer>
   </div>
 </template>
 
@@ -86,9 +86,4 @@ export default class App extends Vue {
 
 <style lang="postcss">
 @import "./styles/index.css";
-
-.header,
-.footer {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
 </style>

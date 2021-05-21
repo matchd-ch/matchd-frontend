@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts">
-import { ActionTypes } from "@/store/modules/login/action-types";
 import type { User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import NavBar from "./NavBar.vue";
@@ -41,9 +40,3 @@ export default class NavBarCompany extends Vue.with(Props) {
   }
 }
 </script>
-
-<style lang="postcss" scoped>
-.router-link-active {
-  @apply text-primary-1;
-}
-</style>

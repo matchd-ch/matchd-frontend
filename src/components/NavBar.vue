@@ -26,7 +26,7 @@
     </div>
 
     <nav
-      class="flex-col flex-grow pb-4 md:pb-0 md:flex md:justify-end md:flex-row absolute top-full left-0 right-0 bg-white px-2.5 md:static"
+      class="flex-col flex-grow pb-4 md:pb-0 md:flex md:justify-end md:flex-row absolute top-full left-0 right-0 bg-white px-2.5 md:static border-b border-primary-1 md:border-0"
       :class="{ flex: open, hidden: !open }"
     >
       <slot />
@@ -47,3 +47,9 @@ export default class NavBar extends Vue {
   open = false;
 }
 </script>
+
+<style lang="postcss" scoped>
+:deep(.router-link-active) {
+  @apply text-primary-1;
+}
+</style>

@@ -120,6 +120,7 @@ module.exports = {
         pink: "0 0 0 1px #F21D5E",
         green: "0 0 0 1px #1FAC01",
         orange: "0 0 0 1px #FF8717",
+        "black-20": "0 0 10px rgba(0, 0, 0, 0.2)"
       },
       borderRadius: {
         30: "30px",

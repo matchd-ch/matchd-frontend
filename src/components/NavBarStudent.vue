@@ -39,9 +39,3 @@ export default class NavBarStudent extends Vue.with(Props) {
   }
 }
 </script>
-
-<style lang="postcss" scoped>
-.router-link-active {
-  @apply text-primary-1;
-}
-</style>
