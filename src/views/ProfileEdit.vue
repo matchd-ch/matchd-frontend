@@ -4,13 +4,13 @@
       Persönliche Daten
     </ProfileNavigationItem>
     <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
-      Was ich suche
+      Ich suche
     </ProfileNavigationItem>
     <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
-      So bin ich
+      Über mich
     </ProfileNavigationItem>
     <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
-      Das habe ich drauf
+      Skills & Talente
     </ProfileNavigationItem>
     <ProfileNavigationItem :to="{ params: { step: 'schritt5' } }">
       Nickname & Foto
@@ -21,16 +21,16 @@
   </ProfileNavigation>
   <ProfileNavigation v-else-if="isCompany">
     <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
-      Firmen Daten
+      Kontaktdaten
     </ProfileNavigationItem>
     <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
-      Weitere Informationen
+      Kurzsteckbrief
     </ProfileNavigationItem>
     <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
-      Tätigkeitsbereich, Benefits und Bilder
+      Tätigkeitsbereich & Benefits
     </ProfileNavigationItem>
     <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
-      Dieses Talent suchen wir
+      Set-up Talentsuche
     </ProfileNavigationItem>
   </ProfileNavigation>
   <div class="profil min-h-screen text-primary-1">
