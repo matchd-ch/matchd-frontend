@@ -54,7 +54,9 @@
         color="pink"
       ></SearchResultGrid>
       <div class="min-h-content-with-fixed-bars flex justify-center items-center" v-else>
-        <div>Leider haben wir kein passendes Talent gefunden, haben Sie etwas Geduld.</div>
+        <div class="p-4">
+          Leider haben wir kein passendes Talent gefunden, haben Sie etwas Geduld.
+        </div>
       </div>
     </div>
     <SearchBoost
