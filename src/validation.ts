@@ -48,6 +48,16 @@ defineRule("url", (value: string, _, ctx) => {
   return true;
 });
 
+defineRule("requiredIfNotEmpty", (value: string, fields, ctx) => {
+  const [field] = fields as string[];
+
+  if (!ctx.form[field] || (ctx.form[field] && value)) {
+    return true;
+  }
+
+  return `${ctx.field} darf nicht leer sein`;
+});
+
 defineRule("birthday", (value: string, fields, ctx) => {
   const [day, month, year] = fields as string[];
 
@@ -69,7 +79,7 @@ defineRule("birthday", (value: string, fields, ctx) => {
 
 configure({
   validateOnBlur: false,
-  validateOnChange: true,
+  validateOnChange: false,
   validateOnInput: false,
   validateOnModelUpdate: false,
   generateMessage: localize({
