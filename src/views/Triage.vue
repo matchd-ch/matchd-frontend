@@ -69,7 +69,11 @@
         </p>
         <template v-slot:button-label>Community-Anfrage senden</template>
       </RegisterContactForm>
-      <RegisterContactFormSent v-else />
+      <RegisterContactFormSent
+        v-else
+        title="Merci für die Community-Anfrage"
+        subText="Die Anfrage wird von uns so schnell wie möglich bearbeitet. Wir drücken die Daumen, dass es mit der Matchd-Mitgliedschaft klappt. "
+      />
     </div>
   </div>
 </template>

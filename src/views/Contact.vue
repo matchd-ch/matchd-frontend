@@ -22,7 +22,14 @@
       <template v-slot:button-label>Senden</template>
     </RegisterContactForm>
 
-    <RegisterContactFormSent v-else :textBlack="true" :linkRoute="linkRoute" :linkName="linkName" />
+    <RegisterContactFormSent
+      v-else
+      :textBlack="true"
+      :linkRoute="linkRoute"
+      :linkName="linkName"
+      title="Merci für die Anfrage 📩"
+      subText="Unser Postfach ist gut gefüttert, wir antworten so schnell wie möglich – Stay tuned."
+    />
   </div>
 </template>
 
