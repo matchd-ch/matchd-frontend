@@ -1,8 +1,8 @@
 <template>
   <li class="select-pill flex-shrink-0 m-2">
     <label
-      class="flex items-center rounded-full bg-white border border-current font-medium text-sm py-3 px-8 cursor-pointer"
-      :class="{ 'border-black text-black': checked }"
+      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 px-8 cursor-pointer"
+      :class="{ 'text-primary-1': checked || hasDelete }"
     >
       <input
         type="radio"
@@ -40,7 +40,7 @@ export default class SelectPill extends Vue.with(Props) {}
 </script>
 
 <style lang="postcss" scoped>
-.select-pill {
+@block select-pill {
   max-width: calc(100% - 1rem);
 }
 </style>

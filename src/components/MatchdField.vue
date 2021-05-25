@@ -48,7 +48,7 @@ export default class MatchdField extends Vue.with(Props) {}
 
   @element label {
     @apply block px-8 mb-2;
-    @apply font-medium;
+    @apply font-medium text-primary-1;
   }
 
   @element form-element {
@@ -73,7 +73,7 @@ export default class MatchdField extends Vue.with(Props) {}
   & :deep(textarea) {
     @apply block w-full bg-white rounded-30 px-8 py-4;
     @apply border border-white focus:border-black;
-    @apply text-lg placeholder-black placeholder-opacity-100;
+    @apply text-lg placeholder-black placeholder-opacity-40;
     @apply focus:outline-none;
     @apply transition-colors duration-300;
   }

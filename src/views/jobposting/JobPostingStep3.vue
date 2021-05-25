@@ -105,6 +105,10 @@
           @change="onChangeState($event.target.checked)"
           :checked="veeForm.state === jobPostingStateEnum.Public"
         />
+        <template v-if="veeForm.state === jobPostingStateEnum.Public" v-slot:value
+          >Öffentlich</template
+        >
+        <template v-else v-slot:value>Entwurf</template>
       </MatchdToggle>
       <MatchdButton variant="outline" :disabled="jobPostingLoading" class="block w-full"
         >Speichern</MatchdButton

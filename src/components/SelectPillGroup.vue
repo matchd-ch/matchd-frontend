@@ -1,6 +1,6 @@
 <template>
   <div class="select-pill-group" :class="{ 'select-pill-group--invalid': errors }">
-    <label v-if="$slots.label" class="label"><slot name="label" /></label>
+    <label v-if="$slots.label" class="select-pill-group__label"><slot name="label" /></label>
     <slot name="field" />
     <ul class="flex flex-wrap -m-2">
       <slot />
@@ -33,14 +33,16 @@ export default class SelectPillGroup extends Vue.with(Props) {}
 </script>
 
 <style lang="postcss" scoped>
-.select-pill-group {
-  &.select-pill-group--invalid :deep(.select-pill) {
-    @apply text-negative;
+@block select-pill-group {
+  @modifier invalid {
+    & :deep(.select-pill) {
+      @apply text-negative;
+    }
   }
 
-  & .label {
+  @element label {
     @apply block px-8 mb-2;
-    @apply font-medium;
+    @apply font-medium text-primary-1;
   }
 }
 </style>
