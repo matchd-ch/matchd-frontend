@@ -33,7 +33,9 @@
         >Fotos oder Videos auswählen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -49,6 +51,7 @@ import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 import { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
@@ -225,6 +228,8 @@ export default class CompanyStep3Form extends Vue {
     if (this.currentStep && this.currentStep > 3) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   @Watch("veeForm.meta.dirty")

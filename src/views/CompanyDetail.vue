@@ -1,5 +1,8 @@
 <template>
-  <div v-if="company.data" class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen">
+  <div
+    v-if="company.data"
+    class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
+  >
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
     >
@@ -95,6 +98,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -168,6 +172,7 @@ export default class CompanyDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
+      calculateMargins();
     }
   }
 

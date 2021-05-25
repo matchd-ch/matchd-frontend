@@ -43,7 +43,9 @@
         >Bild hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -57,6 +59,7 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { useStore } from "@/store";
@@ -157,6 +160,8 @@ export default class StudentStep5Form extends Vue {
     if (this.currentStep && this.currentStep > 5) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   onClickNickname(nickname: string): void {

@@ -70,7 +70,9 @@
       <template v-else v-slot:value>Nein</template>
     </MatchdToggle>
 
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -88,6 +90,7 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 import { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
@@ -196,6 +199,7 @@ export default class CompanyStep2Form extends Vue {
     if (this.currentStep && this.currentStep > 2) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+    calculateMargins();
   }
 
   async onSelectCompanyAvatar(files: FileList): Promise<void> {

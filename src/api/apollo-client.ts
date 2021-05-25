@@ -69,9 +69,7 @@ export function createApolloClient(baseUrl: string): ApolloClient<any> {
       for (const err of graphQLErrors) {
         switch (err.message) {
           case "You do not have permission to perform this action":
-            console.log("Attempt refresh with", store.getters["refreshToken"]);
             return fromPromise(store.dispatch(ActionTypes.REFRESH_LOGIN)).flatMap(() => {
-              console.log("Refresh complete");
               return forward(operation);
             });
         }

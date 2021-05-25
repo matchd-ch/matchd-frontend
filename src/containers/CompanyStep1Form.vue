@@ -55,7 +55,9 @@
         placeholder="+41712223344"
       />
     </MatchdField>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -65,6 +67,7 @@ import { companyProfileStep1InputMapper } from "@/api/mappers/companyProfileStep
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import type { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
 import type { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
@@ -139,6 +142,7 @@ export default class CompanyStep1Form extends Vue {
     this.veeForm.resetForm({
       values: cloneDeep(this.profileData),
     });
+    calculateMargins();
   }
 
   async onBlurZip(zip: string): Promise<void> {
