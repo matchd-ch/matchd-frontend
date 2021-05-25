@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="student.data"
-    class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars mb-fixed-footer"
+    class="student-detail min-h-content-with-fixed-bars grid grid-cols-1 xl:grid-cols-2"
   >
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
@@ -13,7 +13,11 @@
         </button>
       </div>
       <div class="flex justify-center mt-9">
-        <img class="avatar rounded-full object-cover" :src="replaceStack(avatarSrc, 'logo')" />
+        <img
+          class="avatar rounded-full object-cover"
+          :src="replaceStack(avatarSrc, 'logo')"
+          :alt="`Profilbild ${student.data.nickname}`"
+        />
       </div>
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
@@ -30,7 +34,7 @@
         </p>
       </div>
     </div>
-    <div class="text-green-1 flex flex-col min-h-full">
+    <div class="flex flex-col min-h-full">
       <profile-section v-if="student.data?.jobType?.mode === 'DATE_RANGE'" title="Ich suche">
         <p>{{ lookingFor }}</p>
       </profile-section>
@@ -38,15 +42,15 @@
         v-if="student.data.skills?.length"
         title="Diese technischen Skills bringe ich mit"
       >
-        <ul>
+        <ul class="list list-inside list-disc marker-green-1">
           <li v-for="skill in student.data.skills" :key="skill.id">{{ skill.name }}</li>
         </ul>
       </profile-section>
       <profile-section
         v-if="student.data.languages?.length"
-        title="Ich habe Kenntnis in folgenden Sprachen"
+        title="Ich habe Kenntnisse in folgenden Sprachen"
       >
-        <ul>
+        <ul class="list list-inside list-disc marker-green-1">
           <li v-for="language in student.data.languages" :key="language.id">
             {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
           </li>
@@ -58,7 +62,7 @@
       >
         <ul>
           <li v-for="project in student.data.onlineProjects" :key="project.id">
-            <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
+            <a class="font-medium underline text-green-1" :href="project.url">{{ project.url }}</a>
           </li>
         </ul>
       </profile-section>
@@ -69,7 +73,7 @@
         v-if="student.data.hobbies?.length"
         title="Das mache ich gerne in meiner Freizeit"
       >
-        <ul>
+        <ul class="list list-inside list-disc marker-green-1">
           <li v-for="hobby in student.data.hobbies" :key="hobby.id">
             {{ hobby.name }}
           </li>
@@ -80,7 +84,7 @@
           <li v-for="certificate in student.certificates" :key="certificate.id">
             <a
               :href="certificateUrl(certificate.id)"
-              class="font-medium underline inline-block"
+              class="font-medium underline inline-block text-green-1"
               download
               ><span>
                 {{ certificate.fileName }}
@@ -91,19 +95,22 @@
         </ul>
       </profile-section>
     </div>
-    <MatchingBar class="fixed bottom-0 right-0 left-0">
-      <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-        Sie haben den Startschuss abgegeben.
-      </template>
-      <template v-else-if="matchType === matchTypeEnum.FullMatch">
-        Gratulation, ihr Matchd euch gegenseitig!
-      </template>
-      <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
-        Match bestätigen
-      </MatchdButton>
-      <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
-    </MatchingBar>
-
+    <teleport to="footer">
+      <MatchingBar>
+        <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
+          Sie haben bereits Interesse an diesem Talent gezeigt
+        </template>
+        <template v-else-if="matchType === matchTypeEnum.FullMatch">
+          Gratulation, it’s a Match!
+        </template>
+        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
+          Match bestätigen
+        </MatchdButton>
+        <MatchdButton v-else @click="onClickMatch"
+          >Mit {{ student.data.firstName }} matchen</MatchdButton
+        >
+      </MatchingBar>
+    </teleport>
     <StudentMatchModal
       v-if="showConfirmationModal"
       :user="user"
@@ -130,6 +137,7 @@ import MatchingBar from "@/components/MatchingBar.vue";
 import StudentFullMatchModal from "@/components/modals/StudentFullMatchModal.vue";
 import StudentMatchModal from "@/components/modals/StudentMatchModal.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -246,24 +254,8 @@ export default class StudentDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
-
-      window.addEventListener("resize", this.calculateMargins, true);
-      this.calculateMargins();
+      calculateMargins();
     }
-  }
-
-  unmounted(): void {
-    window.removeEventListener("resize", this.calculateMargins, true);
-  }
-
-  calculateMargins(): void {
-    this.$nextTick(() => {
-      const root = document.documentElement;
-      const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement)
-        .offsetHeight;
-      root.style.setProperty("--contentMarginTop", `0px`);
-      root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
-    });
   }
 
   async loadData(slug: string, jobPostingId: string): Promise<void> {
@@ -289,7 +281,6 @@ export default class StudentDetail extends Vue {
         },
       });
       await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
-      this.calculateMargins();
       this.showConfirmationModal = false;
       this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     }
@@ -306,7 +297,7 @@ export default class StudentDetail extends Vue {
   onClickMatch(): void {
     this.showConfirmationModal = true;
     this.$nextTick(() => {
-      this.calculateMargins();
+      calculateMargins();
     });
   }
 

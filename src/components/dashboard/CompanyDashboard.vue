@@ -1,28 +1,26 @@
 <template>
-  <div class="company-dashboard grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars">
+  <div class="company-dashboard grid grid-cols-1 xl:grid-cols-2">
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
     >
-      <div class="flex justify-center m-5 lg:m-20 lg:w-86 lg:h-86">
-        <img class="w-40" :src="replaceStack(avatar.url, 'logo')" />
+      <div class="flex justify-center">
+        <CompanyLogo
+          :url="avatar.url"
+          :name="user?.company?.name"
+          class="m-5 w-40 h-40 xl:w-60 xl:h-60"
+        />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
-        <h2 class="flex-1 mb-8 xl:mb-0">Guten Tag, schön dass Sie online sind!</h2>
+        <h2 class="flex-1 mb-8 xl:mb-0">
+          Willkommen zurück bei Matchd! Wir wünschen viel Erfolg bei der Talentsuche
+        </h2>
         <p>
-          Hier zeigen wir Ihnen offene Matching-Anfragen. Alle fürs Matching nötigen Informationen
-          schicken wir Ihnen auch per E-Mail. So verpassen Sie bestimmt kein Match.
+          Auf dieser Seite finden Sie Ihre ausgeschriebenen Stellen sowie den aktuellen Stand Ihrer
+          Matches. Damit Sie keinen Match verpassen, informieren wir Sie jeweils auch per E-Mail.
         </p>
-        <MatchdButton
-          class="mt-4"
-          variant="outline"
-          @click="onClickLogout"
-          :disabled="isLogoutLoading"
-          :loading="isLogoutLoading"
-          >Logout</MatchdButton
-        >
       </div>
     </div>
-    <div class="text-pink-1 flex flex-col min-h-full">
+    <div class="flex flex-col min-h-full">
       <profile-section
         v-if="dashboard?.jobPostings?.length"
         title="Ihre Stellen&shy;ausschreibungen"
@@ -46,10 +44,11 @@
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
         <p v-if="dashboard?.requestedMatches?.length > 0">
-          Sobald Ihre Matching-Anfrage bestätigt wurde, kann es mit dem Kennenlernen weitergehen.
+          Sobald Ihre Matching-Anfrage vom Talent bestätigt wurde, kanns mit dem Kennenlernen
+          weitergehen.
         </p>
         <p v-if="dashboard?.requestedMatches?.length === 0">
-          Im Moment haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
+          Momentan haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
           hier sehen.
         </p>
         <company-match-group
@@ -59,12 +58,11 @@
       </profile-section>
       <profile-section title="Anfragen zum Matching" :pink="true">
         <p v-if="dashboard?.unconfirmedMatches.length > 0">
-          Ihre Ausschreibung stösst auf Interesse! Es gibt Talente die gerne mit Ihnen in Kontakt
-          treten möchten.
+          Ihre Ausschreibung ist beliebt. Folgende Talente möchten Sie gerne kennenlernen.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Im Moment haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden
-          Sie das hier sehen.
+          Momentan haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie
+          das hier sehen.
         </p>
         <company-match-group
           class="mt-4"
@@ -73,7 +71,7 @@
       </profile-section>
       <profile-section
         v-if="dashboard?.confirmedMatches?.length > 0"
-        title="Hier hat's gematchd!"
+        title="Hier hats gematchd!"
         :pink="true"
       >
         <company-match-group :matches="dashboard?.confirmedMatches"></company-match-group>
@@ -83,10 +81,10 @@
 </template>
 
 <script lang="ts">
+import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import { ActionTypes } from "@/store/modules/login/action-types";
 import type { User, Attachment, Dashboard } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from "@/api/models/types";
@@ -101,6 +99,7 @@ class Props {
 
 @Options({
   components: {
+    CompanyLogo,
     MatchdButton,
     MatchdFileUpload,
     MatchdFileView,
@@ -110,10 +109,6 @@ class Props {
   },
 })
 export default class CompanyDashboard extends Vue.with(Props) {
-  get isLogoutLoading(): boolean {
-    return this.$store.getters["logoutLoading"];
-  }
-
   get isStudent(): boolean {
     return this.$store.getters["isStudent"];
   }
@@ -136,11 +131,6 @@ export default class CompanyDashboard extends Vue.with(Props) {
 
   get user(): User | null {
     return this.$store.getters["user"];
-  }
-
-  async onClickLogout(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.LOGOUT);
-    this.$router.push({ name: "Login" });
   }
 }
 </script>

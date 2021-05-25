@@ -7,7 +7,15 @@
       'pr-20': editStep,
     }"
   >
-    <h2 class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4 break-normal">{{ title }}</h2>
+    <h2
+      class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4 break-normal"
+      :class="{
+        'text-green-1': !pink,
+        'text-pink-1': pink,
+      }"
+    >
+      {{ title }}
+    </h2>
     <div class="xl:mb-0 xl:w-1/2">
       <slot />
     </div>

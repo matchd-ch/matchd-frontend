@@ -1,15 +1,15 @@
 <template>
-  <div v-if="company.data" class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen">
+  <div
+    v-if="company.data"
+    class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
+  >
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
     >
-      <div class="xl:flex items-start">
-        <div class="w-1/2">
-          <img
-            :src="replaceStack(avatarSrc, 'logo')"
-            :alt="`Logo ${company.data.name}`"
-            class="w-40"
-          />
+      <div class="xl:flex">
+        <div class="xl:w-1/2 flex items-center">
+          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32 mr-8" />
+          <h1 class="text-heading-sm">{{ company.data.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
           {{ company.data.street }}<br />
@@ -35,10 +35,11 @@
       </div>
       <MatchdImageGrid :attachments="additionalMedia" class="mt-4" @clickMedia="onClickMedia" />
     </div>
-    <div class="text-pink-1 flex flex-col min-h-full">
-      <ProfileSection :pink="true" title="Über uns">
+    <div class="flex flex-col min-h-full">
+      <section class="flex-grow p-9 border-b border-pink-1">
+        <h2 class="text-heading-lg mb-8 text-pink-1">Über uns</h2>
         <p v-html="nl2br(company.data.description)"></p>
-      </ProfileSection>
+      </section>
       <ProfileSection
         v-if="company.data.services"
         :pink="true"
@@ -51,7 +52,7 @@
         :pink="true"
         title="In diesen Bereichen kannst du bei uns tätig sein"
       >
-        <ul class="list list-inside list-disc">
+        <ul class="list list-inside list-disc marker-pink-1">
           <li v-for="branch in company.data.branches" :key="branch.id">
             {{ branch.name }}
           </li>
@@ -66,7 +67,7 @@
           <li
             v-for="benefit in company.data.benefits"
             :key="benefit.id"
-            class="flex items-center border border-pink-1 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2"
+            class="flex items-center border border-pink-5 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
           >
             <span class="material-icons mr-2">{{ benefit.icon }}</span>
             {{ benefit.name }}
@@ -74,15 +75,15 @@
         </ul>
       </ProfileSection>
       <section class="flex-grow p-9">
-        <h2 class="text-heading-lg mb-8">Offene Stellen</h2>
-        <ul class="list list-inside list-disc">
-          <li
-            v-for="position in company.data.jobPostings"
-            :key="position.id"
-            class="text-link-md underline"
-          >
-            <router-link :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }">
+        <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
+        <ul class="list">
+          <li v-for="position in company.data.jobPostings" :key="position.id">
+            <router-link
+              :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
+              class="block text-link-md underline text-pink-1 font-medium mb-2"
+            >
               {{ position.title }}, {{ position.jobType?.name }}
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>
         </ul>
@@ -92,10 +93,12 @@
 </template>
 
 <script lang="ts">
+import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -103,11 +106,14 @@ import type { Attachment, Company } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import ArrowFront from "@/assets/icons/arrow-front.svg";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
 @Options({
   components: {
+    CompanyLogo,
+    ArrowFront,
     MatchdButton,
     MatchdVideo,
     MatchdImageGrid,
@@ -166,6 +172,7 @@ export default class CompanyDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
+      calculateMargins();
     }
   }
 

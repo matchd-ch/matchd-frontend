@@ -2,7 +2,7 @@
   <form v-if="user" @submit="veeForm.onSubmit">
     <FormSaveError v-if="showError" />
     <MatchdField id="name" class="mb-10" :errors="veeForm.errors.name">
-      <template v-slot:label>Vollständiger Name der Unternehmung*</template>
+      <template v-slot:label>Name des Unternehmens inkl. Rechtsform*</template>
       <Field
         id="name"
         name="name"
@@ -18,7 +18,14 @@
     <div class="lg:flex">
       <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.zip">
         <template v-slot:label>PLZ</template>
-        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip(veeForm.values?.zip)" />
+        <Field
+          id="zip"
+          name="zip"
+          as="input"
+          label="PLZ"
+          maxlength="4"
+          @blur="onBlurZip(veeForm.values?.zip)"
+        />
       </MatchdField>
       <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="veeForm.errors.city">
         <template v-slot:label>Ort</template>
@@ -26,11 +33,11 @@
       </MatchdField>
     </div>
     <MatchdField id="firstName" class="mb-10" :errors="veeForm.errors.firstName">
-      <template v-slot:label>Vorname*</template>
+      <template v-slot:label>Vorname Ansprechperson*</template>
       <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
     </MatchdField>
     <MatchdField id="lastName" class="mb-10" :errors="veeForm.errors.lastName">
-      <template v-slot:label>Nachname*</template>
+      <template v-slot:label>Nachname Ansprechperson*</template>
       <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
     </MatchdField>
     <MatchdField id="role" class="mb-10" :errors="veeForm.errors.role">
@@ -39,9 +46,18 @@
     </MatchdField>
     <MatchdField id="mobile" class="mb-10" :errors="veeForm.errors.phone">
       <template v-slot:label>Telefonnummer*</template>
-      <Field id="mobile" name="phone" as="input" label="Telefonnummer" rules="required|phone" />
+      <Field
+        id="mobile"
+        name="phone"
+        as="input"
+        label="Telefonnummer"
+        rules="required|phone"
+        placeholder="+41712223344"
+      />
     </MatchdField>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -51,6 +67,7 @@ import { companyProfileStep1InputMapper } from "@/api/mappers/companyProfileStep
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import type { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
 import type { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
@@ -81,7 +98,8 @@ export default class CompanyStep1Form extends Vue {
             ActionTypes.COMPANY_ONBOARDING_STEP1,
             companyProfileStep1InputMapper(formData)
           );
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e); // todo
         }
@@ -124,6 +142,7 @@ export default class CompanyStep1Form extends Vue {
     this.veeForm.resetForm({
       values: cloneDeep(this.profileData),
     });
+    calculateMargins();
   }
 
   async onBlurZip(zip: string): Promise<void> {

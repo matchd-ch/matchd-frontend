@@ -1,5 +1,5 @@
 <template>
-  <div class="select-pill-multiple">
+  <div class="select-pill-multiple" :class="{ 'select-pill-multiple--invalid': errors }">
     <label v-if="$slots.label" class="select-pill-multiple__label"><slot name="label" /></label>
     <ul class="flex flex-wrap -m-2">
       <li
@@ -10,7 +10,7 @@
         <label
           class="select-pill-multiple__box flex items-center rounded-full bg-white border border-current font-medium text-sm py-3 px-8 cursor-pointer"
           :class="{
-            'text-black border-current': option.checked,
+            'text-primary-1': option.checked,
           }"
         >
           <input
@@ -25,6 +25,9 @@
         </label>
       </li>
     </ul>
+    <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">
+      {{ errors }}
+    </div>
     <p v-if="$slots.info" class="select-pill-multiple__info">
       <IconInfo class="flex-shrink-0 w-5 mr-2" />
       <slot name="info" />
@@ -45,6 +48,7 @@ export interface SelectPillMultipleItem {
 class Props {
   name = prop<string>({ default: "" });
   options = prop<SelectPillMultipleItem[]>({});
+  errors = prop<string>({});
 }
 
 @Options({
@@ -60,9 +64,15 @@ export default class SelectPillMultiple extends Vue.with(Props) {}
 @block select-pill-multiple {
   max-width: calc(100% - 1rem);
 
+  @modifier invalid {
+    & .select-pill-multiple__box {
+      @apply border-negative text-negative placeholder-negative;
+    }
+  }
+
   @element label {
     @apply block px-8 mb-2;
-    @apply font-medium;
+    @apply font-medium text-primary-1;
   }
 
   @element info {

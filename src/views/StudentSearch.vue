@@ -1,32 +1,50 @@
 <template>
   <div class="student-search-view">
-    <SearchFilters class="search-filters fixed right-0 top-0 left-0 bg-company-gradient-t-b z-50">
-      <form>
-        Ich suche nach Talenten, welche für meine Stelle als
-        <label for="jobPosting" class="sr-only">Stelle auswählen</label>
-        <select
-          id="jobPosting"
-          name="jobPosting"
-          class="bg-transparent border-b border-white py-2 appearance-none"
-          @change="onChangeJobPosting"
-          v-model="jobPostingId"
-        >
-          <option v-for="jobPosting in jobPostings" :key="jobPosting.id" :value="jobPosting.id">
-            {{ jobPosting.title }}
-          </option>
-        </select>
-        interessant sind
-      </form>
-      <div class="flex justify-center mt-4 xl:mt-0">
-        <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
-          <span class="material-icons text-icon-lg">bubble_chart</span>
-        </button>
-        <button type="button" @click="onChangeLayout('grid')" class="p-1">
-          <span class="material-icons text-icon-lg">view_comfy</span>
-        </button>
-      </div>
-    </SearchFilters>
-    <div class="mt-fixed-header mb-fixed-footer">
+    <teleport to="header">
+      <SearchFilters class="search-filters bg-company-gradient-t-b z-50">
+        <div class="grid grid-rows-1 grid-cols-1 gap-3">
+          <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between max-w-xl">
+            nach Talenten für meine Stelle als
+            <label for="jobPosting" class="sr-only">Stelle auswählen</label>
+            <select
+              id="jobPosting"
+              name="jobPosting"
+              class="bg-transparent border-b border-white py-2 px-1 appearance-none"
+              @change="onChangeJobPosting"
+              v-model="jobPostingId"
+            >
+              <option
+                v-for="jobPosting in jobPostings"
+                :key="jobPosting.id"
+                :value="jobPosting.id"
+                class="text-pink-1"
+              >
+                {{ jobPosting.title }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <SearchBoost
+          class="search-boost flex xl:hidden mt-4"
+          @changeSoftBoost="onChangeSoftBoost"
+          @changeTechBoost="onChangeTechBoost"
+          :techBoost="techBoost"
+          :softBoost="softBoost"
+        />
+
+        <template v-slot:display-toggles>
+          <div class="hidden xl:flex justify-center mt-4 xl:mt-0">
+            <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
+              <span class="material-icons text-icon-lg">bubble_chart</span>
+            </button>
+            <button type="button" @click="onChangeLayout('grid')" class="p-1">
+              <span class="material-icons text-icon-lg">view_comfy</span>
+            </button>
+          </div>
+        </template>
+      </SearchFilters>
+    </teleport>
+    <div>
       <SearchResultBubbles
         v-if="
           layout === 'bubbles' &&
@@ -42,21 +60,26 @@
         @clickResult="onClickResult"
       />
       <SearchResultGrid
-        v-if="layout === 'grid' && matchesForGrid.length > 0"
+        v-else-if="layout === 'grid' && matchesForGrid.length > 0"
         :matches="matchesForGrid"
         :jobPostingId="jobPostingId"
         resultType="student"
         color="pink"
       ></SearchResultGrid>
+      <div class="min-h-content-with-fixed-bars flex justify-center items-center px-4" v-else>
+        <div>Leider haben wir kein passendes Talent gefunden, haben Sie etwas Geduld.</div>
+      </div>
     </div>
-    <SearchBoost
-      class="search-boost fixed right-0 bottom-0 left-0"
-      @changeSoftBoost="onChangeSoftBoost"
-      @changeTechBoost="onChangeTechBoost"
-      :techBoost="techBoost"
-      :softBoost="softBoost"
-      color="pink"
-    />
+    <teleport to="footer">
+      <SearchBoost
+        class="search-boost hidden xl:flex"
+        @changeSoftBoost="onChangeSoftBoost"
+        @changeTechBoost="onChangeTechBoost"
+        :techBoost="techBoost"
+        :softBoost="softBoost"
+        color="pink"
+      />
+    </teleport>
   </div>
 </template>
 
@@ -67,6 +90,7 @@ import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { SearchResult } from "@/models/SearchResult";
 import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -122,19 +146,23 @@ export default class StudentSearch extends Vue {
     );
   }
 
-  async mounted(): Promise<void> {
-    window.addEventListener("resize", this.calculateMargins, true);
-    this.calculateMargins();
-
+  beforeMount(): void {
     this.layout = (this.$route.query?.layout as string) || "bubbles";
+    this.softBoost = this.$route.query?.softBoost
+      ? parseInt(this.$route.query?.softBoost as string)
+      : 3;
+    this.techBoost = this.$route.query?.techBoost
+      ? parseInt(this.$route.query?.techBoost as string)
+      : 3;
     this.jobPostingId = (this.$route.query?.jobPostingId as string) || "";
+    this.persistFiltersToUrl();
+  }
 
+  async mounted(): Promise<void> {
     await this.$store.dispatch(ActionTypes.JOB_POSTINGS);
     if (this.jobPostings.length > 0 && this.jobPostingId === "") {
       this.jobPostingId = this.jobPostings[0].id;
     }
-
-    this.persistFiltersToUrl();
 
     await Promise.all([
       this.searchStudents(),
@@ -145,18 +173,7 @@ export default class StudentSearch extends Vue {
         key: AttachmentKey.CompanyAvatarFallback,
       }),
     ]);
-  }
-
-  unmounted(): void {
-    window.removeEventListener("resize", this.calculateMargins, true);
-  }
-
-  calculateMargins(): void {
-    const root = document.documentElement;
-    const filterHeight = (document.querySelector(".search-filters") as HTMLElement).offsetHeight;
-    const boostHeight = (document.querySelector(".search-boost") as HTMLElement).offsetHeight;
-    root.style.setProperty("--contentMarginTop", `${filterHeight}px`);
-    root.style.setProperty("--contentMarginBottom", `${boostHeight}px`);
+    calculateMargins();
   }
 
   async searchStudents(): Promise<void> {
@@ -204,6 +221,8 @@ export default class StudentSearch extends Vue {
     this.$router.replace({
       query: {
         layout: this.layout,
+        softBoost: this.softBoost,
+        techBoost: this.techBoost,
         ...(this.jobPostingId !== "" && { jobPostingId: this.jobPostingId }),
       },
     });
