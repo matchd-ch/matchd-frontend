@@ -101,6 +101,9 @@
         resultType="jobposting"
         color="green"
       ></SearchResultGrid>
+      <div class="min-h-content-with-fixed-bars flex justify-center items-center px-4" v-else>
+        <div>👀 ganz schön leer hier. Derzeit gibt es leider keine Suchresultate zum Matchen.</div>
+      </div>
     </div>
     <SearchBoost
       class="search-boost fixed right-0 bottom-0 left-0"
