@@ -1,6 +1,6 @@
 <template>
   <NavBar :open="open" @toggleNavigation="onToggleNavigation">
-    <div class="flex-grow flex justify-center">
+    <div class="flex-grow md:flex-row justify-center pb-4 md:pb-0 md:flex md:justify-center">
       <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
       <nav-link :to="{ name: 'StudentSearch' }">Talent finden</nav-link>
     </div>
