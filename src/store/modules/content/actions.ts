@@ -39,7 +39,6 @@ type AugmentedActionContext = {
 } & Omit<ActionContext<State, RootState>, "commit">;
 
 const apiClient = createApolloClient(process.env.VUE_APP_API || "http://localhost");
-const abortController: AbortController | null = null;
 
 export interface Actions {
   [ActionTypes.BENEFITS]({ commit }: AugmentedActionContext): Promise<void>;
