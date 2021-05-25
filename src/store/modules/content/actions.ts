@@ -39,7 +39,6 @@ type AugmentedActionContext = {
 } & Omit<ActionContext<State, RootState>, "commit">;
 
 const apiClient = createApolloClient(process.env.VUE_APP_API || "http://localhost");
-let abortController: AbortController | null = null;
 
 export interface Actions {
   [ActionTypes.BENEFITS]({ commit }: AugmentedActionContext): Promise<void>;
@@ -255,22 +254,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
   },
   async [ActionTypes.MATCHING]({ commit }, payload: MatchingInput) {
-    if (abortController) {
-      abortController.abort();
-    }
-    abortController = new AbortController();
-
     commit(MutationTypes.MATCHES_LOADING);
     const response = await apiClient.query({
       query: matchingQuery,
       variables: payload,
       fetchPolicy: "no-cache",
       context: {
-        queryDeduplication: false,
         batch: true,
-        fetchOptions: {
-          signal: abortController.signal,
-        },
       },
     });
     commit(MutationTypes.MATCHES_LOADED, { matches: response.data.matches });
