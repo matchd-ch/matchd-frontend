@@ -51,8 +51,8 @@
           :loading="loading"
           class="block w-full"
           :variant="buttonVariantOutline ? 'outline' : 'fill'"
-          >Senden</MatchdButton
-        >
+          ><slot name="button-label"
+        /></MatchdButton>
       </div>
     </Form>
   </div>
@@ -97,7 +97,7 @@ export default class RegisterContactForm extends Vue.with(Props) {
 <style lang="postcss" scoped>
 .form-input {
   @apply block w-full bg-white rounded-30 px-8 py-4;
-  @apply text-lg placeholder-black placeholder-opacity-100 border-2 border-white;
+  @apply text-lg placeholder-black placeholder-opacity-40 border-2 border-white;
   @apply focus:outline-none focus:ring focus:ring-white focus:ring-opacity-50;
   &.invalid {
     @apply border-negative text-negative placeholder-negative;
@@ -105,7 +105,7 @@ export default class RegisterContactForm extends Vue.with(Props) {
 }
 .form-textarea {
   @apply block w-full min-h-145px bg-white rounded-30 px-8 py-5;
-  @apply text-lg placeholder-black placeholder-opacity-100 resize-none border-2 border-white;
+  @apply text-lg placeholder-black placeholder-opacity-40 resize-none border-2 border-white;
   @apply focus:outline-none focus:ring focus:ring-white focus:ring-opacity-50;
   &.invalid {
     @apply border-negative text-negative placeholder-negative;

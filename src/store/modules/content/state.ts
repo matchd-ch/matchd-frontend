@@ -45,6 +45,10 @@ export type State = {
     logoFallback: Attachment | null;
     media: Attachment[];
   };
+  companyMatching: {
+    data: Match[];
+    loading: boolean;
+  };
   match: {
     loading: boolean;
   };
@@ -115,6 +119,10 @@ export const state: State = {
     logo: null,
     logoFallback: null,
     media: [],
+  },
+  companyMatching: {
+    loading: false,
+    data: [],
   },
   match: {
     loading: false,

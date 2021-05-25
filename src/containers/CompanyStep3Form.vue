@@ -4,7 +4,7 @@
     <!-- Branch Field -->
     <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
       <template v-slot:label
-        >In diesen Bereichen und Projekten kannst du bei uns tätig sein</template
+        >In diesen Bereichen und Projekten können Talente bei Ihnen tätig werden</template
       >
     </SelectPillMultiple>
     <!-- Benefits Field -->
@@ -13,7 +13,7 @@
     </SelectIconGroup>
     <!-- Media -->
     <MatchdFileBlock>
-      <template v-slot:label>So sieht es bei uns aus</template>
+      <template v-slot:label>Bilder und Videos Ihres Unternehmens und Ihres Teams</template>
       <MatchdFileView
         v-if="companyDocuments.length > 0 || companyDocumentsQueue.length > 0"
         :files="companyDocuments"
@@ -25,14 +25,17 @@
         }"
       />
       <MatchdFileUpload
-        v-if="companyDocumentsUploadConfigurations.maxFiles >= companyDocuments.length"
+        v-if="companyDocumentsUploadConfigurations.maxFiles > companyDocuments.length"
+        :formal="true"
         :uploadConfiguration="companyDocumentsUploadConfigurations"
         @selectFiles="onSelectCompanyDocuments"
         class="mb-10"
         >Fotos oder Videos auswählen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -48,6 +51,7 @@ import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 import { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
@@ -88,7 +92,8 @@ export default class CompanyStep3Form extends Vue {
             ActionTypes.COMPANY_ONBOARDING_STEP3,
             companyProfileStep3InputMapper(formData)
           );
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e);
         }
@@ -223,6 +228,8 @@ export default class CompanyStep3Form extends Vue {
     if (this.currentStep && this.currentStep > 3) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   @Watch("veeForm.meta.dirty")

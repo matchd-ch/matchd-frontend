@@ -1,75 +1,71 @@
 <template>
   <div class="jobposting-search-view">
-    <SearchFilters class="search-filters fixed right-0 top-0 left-0 bg-student-gradient-t-b z-50">
-      <form>
-        Ich suche
-        <label for="jobType" class="sr-only">Art der Stelle</label>
-        <select
-          id="jobType"
-          name="jobType"
-          class="bg-transparent border-b border-white py-2 appearance-none"
-          @change="onChangeJobType"
-          v-model="jobTypeId"
-        >
-          <option v-for="jobType in jobTypes" :key="jobType.id" :value="jobType.id">
-            {{ jobType.name }}
-            <template v-if="jobType.id === this.user?.student?.jobType?.id"
-              >(Profileinstellung)</template
-            >
-          </option>
-        </select>
-        mit Pensum
-        <label for="workload" class="sr-only">Arbeitspensum</label>
-        <select
-          id="workload"
-          name="workload"
-          class="bg-transparent border-b border-white py-2 appearance-none"
-          @change="onChangeWorkload"
-          v-model="workload"
-        >
-          <option v-for="(n, index) in 10" :value="n * 10" :key="index">{{ n * 10 }}%</option>
-        </select>
-        im Bereich
-        <label for="branch" class="sr-only">Bereich der Stelle</label>
-        <select
-          id="branch"
-          name="branch"
-          class="bg-transparent border-b border-white py-2 appearance-none"
-          @change="onChangeBranch"
-          v-model="branchId"
-        >
-          <option v-for="branch in branches" :key="branch.id" :value="branch.id">
-            {{ branch.name }}
-            <template v-if="branch.id === this.user?.student?.branch?.id"
-              >(Profileinstellung)</template
-            >
-          </option>
-        </select>
-        in
-        <label for="zipCity" class="sr-only">Ort der Stelle</label>
-        <select
-          id="zipCity"
-          name="zipCity"
-          class="bg-transparent border-b border-white py-2 appearance-none"
-          @change="onChangeZipCity"
-          v-model="zip"
-        >
-          <option value="">egal wo</option>
-          <option v-for="city in zipCity" :key="city.zip" :value="city.zip">
-            {{ city.zip }} {{ city.city }}
-          </option>
-        </select>
-      </form>
-      <div class="flex justify-center mt-4 xl:mt-0">
-        <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
-          <span class="material-icons text-icon-lg">bubble_chart</span>
-        </button>
-        <button type="button" @click="onChangeLayout('grid')" class="p-1">
-          <span class="material-icons text-icon-lg">view_comfy</span>
-        </button>
-      </div>
-    </SearchFilters>
-    <div class="mt-fixed-header mb-fixed-footer">
+    <teleport to="header">
+      <SearchFilters class="search-filters bg-student-gradient-t-b">
+        <div class="grid grid-rows-4 grid-cols-1 xl:grid-rows-2-auto xl:grid-cols-2-auto gap-3">
+          <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
+            ein(e)
+            <label for="jobType" class="sr-only">Art der Stelle</label>
+            <select id="jobType" name="jobType" @change="onChangeJobType" v-model="jobTypeId">
+              <option v-for="jobType in jobTypes" :key="jobType.id" :value="jobType.id">
+                {{ jobType.name }}
+                <template v-if="jobType.id === this.user?.student?.jobType?.id"
+                  >(Profileinstellung)</template
+                >
+              </option>
+            </select>
+          </div>
+          <div class="flex flex-col xl:flex-row xl:items-center xl:items-center xl:justify-between">
+            mit Pensum
+            <label for="workload" class="sr-only">Stellenprozent</label>
+            <select id="workload" name="workload" @change="onChangeWorkload" v-model="workload">
+              <option v-for="(n, index) in 10" :value="n * 10" :key="index">{{ n * 10 }}%</option>
+            </select>
+          </div>
+          <div class="flex flex-col xl:flex-row xl:items-center xl:items-center xl:justify-between">
+            im Bereich
+            <label for="branch" class="sr-only">Bereich der Stelle</label>
+            <select id="branch" name="branch" @change="onChangeBranch" v-model="branchId">
+              <option v-for="branch in branches" :key="branch.id" :value="branch.id">
+                {{ branch.name }}
+                <template v-if="branch.id === this.user?.student?.branch?.id"
+                  >(Profileinstellung)</template
+                >
+              </option>
+            </select>
+          </div>
+          <div class="flex flex-col xl:flex-row xl:items-center xl:items-center xl:justify-between">
+            in
+            <label for="zipCity" class="sr-only">Ort der Stelle</label>
+            <select id="zipCity" name="zipCity" @change="onChangeZipCity" v-model="zip">
+              <option value="">egal wo</option>
+              <option v-for="city in zipCity" :key="city.zip" :value="city.zip">
+                {{ city.zip }} {{ city.city }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <SearchBoost
+          class="search-boost flex xl:hidden mt-4"
+          @changeSoftBoost="onChangeSoftBoost"
+          @changeTechBoost="onChangeTechBoost"
+          :techBoost="techBoost"
+          :softBoost="softBoost"
+        />
+
+        <template v-slot:display-toggles>
+          <div class="hidden xl:flex justify-center mt-4 xl:mt-0">
+            <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
+              <span class="material-icons text-icon-lg">bubble_chart</span>
+            </button>
+            <button type="button" @click="onChangeLayout('grid')" class="p-1">
+              <span class="material-icons text-icon-lg">view_comfy</span>
+            </button>
+          </div>
+        </template>
+      </SearchFilters>
+    </teleport>
+    <div>
       <SearchResultBubbles
         v-if="
           layout === 'bubbles' &&
@@ -84,20 +80,24 @@
         @clickResult="onClickResult"
       />
       <SearchResultGrid
-        v-if="layout === 'grid' && matchesForGrid.length > 0"
+        v-else-if="layout === 'grid' && matchesForGrid.length > 0"
         :matches="matchesForGrid"
         resultType="jobposting"
         color="green"
       ></SearchResultGrid>
+      <div class="min-h-content-with-fixed-bars flex justify-center items-center px-4" v-else>
+        <div>👀 ganz schön leer hier. Derzeit gibt es leider keine Suchresultate zum Matchen.</div>
+      </div>
     </div>
-    <SearchBoost
-      class="search-boost fixed right-0 bottom-0 left-0"
-      @changeSoftBoost="onChangeSoftBoost"
-      @changeTechBoost="onChangeTechBoost"
-      :techBoost="techBoost"
-      :softBoost="softBoost"
-      color="green"
-    />
+    <teleport to="footer">
+      <SearchBoost
+        class="search-boost hidden xl:flex"
+        @changeSoftBoost="onChangeSoftBoost"
+        @changeTechBoost="onChangeTechBoost"
+        :techBoost="techBoost"
+        :softBoost="softBoost"
+      />
+    </teleport>
   </div>
 </template>
 
@@ -108,6 +108,7 @@ import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { SearchResult } from "@/models/SearchResult";
 import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
@@ -178,19 +179,24 @@ export default class JobPostingSearch extends Vue {
     );
   }
 
-  async mounted(): Promise<void> {
-    window.addEventListener("resize", this.calculateMargins, true);
-    this.calculateMargins();
-
+  beforeMount(): void {
     this.layout = (this.$route.query?.layout as string) || "bubbles";
     this.jobTypeId =
       (this.$route.query?.jobTypeId as string) || this.user?.student?.jobType?.id || "";
+    this.softBoost = this.$route.query?.softBoost
+      ? parseInt(this.$route.query?.softBoost as string)
+      : 3;
+    this.techBoost = this.$route.query?.techBoost
+      ? parseInt(this.$route.query?.techBoost as string)
+      : 3;
     this.zip = (this.$route.query?.zip as string) || "";
     this.workload = parseInt(this.$route.query?.workload as string) || 100;
     this.branchId = (this.$route.query?.branchId as string) || this.user?.student?.branch?.id || "";
 
     this.persistFiltersToUrl();
+  }
 
+  async mounted(): Promise<void> {
     await Promise.all([
       this.searchJobPostings(),
       this.loadZipCity(),
@@ -203,18 +209,7 @@ export default class JobPostingSearch extends Vue {
         key: AttachmentKey.StudentAvatarFallback,
       }),
     ]);
-  }
-
-  unmounted(): void {
-    window.removeEventListener("resize", this.calculateMargins, true);
-  }
-
-  calculateMargins(): void {
-    const root = document.documentElement;
-    const filterHeight = (document.querySelector(".search-filters") as HTMLElement).offsetHeight;
-    const boostHeight = (document.querySelector(".search-boost") as HTMLElement).offsetHeight;
-    root.style.setProperty("--contentMarginTop", `${filterHeight}px`);
-    root.style.setProperty("--contentMarginBottom", `${boostHeight}px`);
+    calculateMargins();
   }
 
   async searchJobPostings(): Promise<void> {
@@ -281,6 +276,8 @@ export default class JobPostingSearch extends Vue {
     this.$router.replace({
       query: {
         layout: this.layout,
+        softBoost: this.softBoost,
+        techBoost: this.techBoost,
         ...(this.branchId !== "" && { branchId: this.branchId }),
         ...(this.jobTypeId !== "" && { jobTypeId: this.jobTypeId }),
         ...(this.zip !== "" && { zip: this.zip }),

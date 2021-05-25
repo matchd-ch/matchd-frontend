@@ -3,7 +3,7 @@
     <Form v-if="showEmployeeForm" @submit="onAddNewEmployee" v-slot="{ errors }">
       <div class="lg:flex">
         <MatchdField id="firstName" class="lg:mr-3 mb-3 lg:flex-grow" :errors="errors.firstName">
-          <template v-slot:label>Vorname</template>
+          <template v-slot:label>Vorname Ansprechperson*</template>
           <Field
             id="firstName"
             name="firstName"
@@ -14,7 +14,7 @@
           />
         </MatchdField>
         <MatchdField id="lastName" class="mb-3 lg:flex-grow" :errors="errors.lastName">
-          <template v-slot:label>Nachname</template>
+          <template v-slot:label>Nachname Ansprechperson*</template>
           <Field
             id="lastName"
             name="lastName"
@@ -26,7 +26,7 @@
         </MatchdField>
       </div>
       <MatchdField id="role" class="mb-3" :errors="errors.role">
-        <template v-slot:label>Funktion</template>
+        <template v-slot:label>Funktion*</template>
         <Field
           id="role"
           name="role"
@@ -38,7 +38,7 @@
         />
       </MatchdField>
       <MatchdField id="email" class="mb-10" :errors="errors.email">
-        <template v-slot:label>E-Mail</template>
+        <template v-slot:label>E-Mail Ansprechperson*</template>
         <Field
           id="email"
           name="email"
@@ -48,9 +48,14 @@
           rules="required|email"
           v-model="employeeForm.email"
         />
+        <template v-slot:info
+          >Die neu erfasste Person erhält per E-Mail einen Link, mit dem der neue Account aktiviert
+          werden kann. Ihrem Unternehmensprofil wird damit ein/e weitere/r User*in
+          zugeordnet.</template
+        >
       </MatchdField>
       <MatchdButton variant="outline" class="block w-full mb-3"
-        >Neue Kontaktperson speichern</MatchdButton
+        >Ansprechperson speichern</MatchdButton
       >
       <MatchdButton
         type="button"
@@ -60,36 +65,34 @@
         >Abbrechen</MatchdButton
       >
     </Form>
-    <form v-if="employees.length > 0" @submit="veeForm.onSubmit">
+    <form v-if="employees.length > 0 && !showEmployeeForm" @submit="veeForm.onSubmit">
       <FormSaveError v-if="jobPostingState.errors" />
 
       <div class="mb-10">
         <!-- Kontaktperson -->
-        <template v-if="!showEmployeeForm">
-          <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.employeeId">
-            <template v-slot:label>Kontaktperson*</template>
-            <Field
-              id="employeeId"
-              name="employeeId"
-              as="select"
-              label="Kontaktperson"
-              class="mr-3"
-              rules="required"
-            >
-              <option v-for="employee in employees" :value="employee.id" :key="employee.id">
-                {{ employee.firstName }} {{ employee.lastName }} - {{ employee.role }}
-              </option>
-            </Field>
-          </MatchdSelect>
-
-          <MatchdButton
-            type="button"
-            variant="outline"
-            @click="onClickShowEmployeeForm"
-            class="block w-full"
-            >Zusätzliche Kontaktperson erfassen</MatchdButton
+        <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.employeeId">
+          <template v-slot:label>Ansprechperson*</template>
+          <Field
+            id="employeeId"
+            name="employeeId"
+            as="select"
+            label="Kontaktperson"
+            class="mr-3"
+            rules="required"
           >
-        </template>
+            <option v-for="employee in employees" :value="employee.id" :key="employee.id">
+              {{ employee.firstName }} {{ employee.lastName }} - {{ employee.role }}
+            </option>
+          </Field>
+        </MatchdSelect>
+
+        <MatchdButton
+          type="button"
+          variant="outline"
+          @click="onClickShowEmployeeForm"
+          class="block w-full"
+          >Zusätzliche Ansprechperson erfassen</MatchdButton
+        >
       </div>
       <!-- State Field -->
       <MatchdToggle id="state" class="mb-10" :errors="veeForm.errors.state">
@@ -102,6 +105,10 @@
           @change="onChangeState($event.target.checked)"
           :checked="veeForm.state === jobPostingStateEnum.Public"
         />
+        <template v-if="veeForm.state === jobPostingStateEnum.Public" v-slot:value
+          >Öffentlich</template
+        >
+        <template v-else v-slot:value>Entwurf</template>
       </MatchdToggle>
       <MatchdButton variant="outline" :disabled="jobPostingLoading" class="block w-full"
         >Speichern</MatchdButton
@@ -128,6 +135,7 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { AddEmployeeState } from "@/models/AddEmployeeState";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingState as JobPostingStateEnum } from "@/api/models/types";
@@ -135,7 +143,6 @@ import { AddEmployeeSubForm, JobPostingStep3Form } from "@/models/JobPostingStep
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import type { Employee, JobPosting as JobPostingType, User } from "api";
-import cloneDeep from "clone-deep";
 import { Field, Form, FormActions, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -166,7 +173,10 @@ export default class JobPostingStep3 extends Vue {
               ActionTypes.SAVE_JOBPOSTING_STEP3,
               jobPostingStep3InputMapper(store.getters["currentJobPosting"]?.id, formData)
             );
-            this.$emit("submitComplete", store.getters["jobPostingState"]);
+            const jobPostingState = store.getters["jobPostingState"];
+            if (jobPostingState.success) {
+              this.$emit("submitComplete");
+            }
           }
         } catch (e) {
           console.log(e);
@@ -232,12 +242,9 @@ export default class JobPostingStep3 extends Vue {
     await this.$store.dispatch(ActionTypes.EMPLOYEES);
 
     this.veeForm.resetForm({
-      values: cloneDeep(this.jobPostingData),
+      values: this.jobPostingData,
     });
-
-    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 1) {
-      this.veeForm.setValues(cloneDeep(this.jobPostingData));
-    }
+    calculateMargins();
   }
 
   onClickShowEmployeeForm(): void {

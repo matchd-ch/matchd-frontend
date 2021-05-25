@@ -7,7 +7,7 @@
         class="lg:mr-3 mb-10 flex-grow"
         :errors="veeForm.errors.firstName"
       >
-        <template v-slot:label>Dein Vorname*</template>
+        <template v-slot:label>Vorname*</template>
         <Field
           id="firstName"
           name="firstName"
@@ -19,7 +19,7 @@
         />
       </MatchdField>
       <MatchdField id="lastName" class="mb-10 flex-grow" :errors="veeForm.errors.lastName">
-        <template v-slot:label>Dein Nachname*</template>
+        <template v-slot:label>Nachname*</template>
         <Field
           id="lastName"
           name="lastName"
@@ -32,7 +32,7 @@
       </MatchdField>
     </div>
     <MatchdSelect id="birthdate" class="mb-10" :errors="veeForm.errors.year">
-      <template v-slot:label>Dein Geburtstag*</template>
+      <template v-slot:label>Geburtstag*</template>
       <fieldset id="birthdate" class="flex">
         <Field id="day" name="day" as="select" label="Tag" class="mr-3" rules="required">
           <option value="" disabled selected hidden>Tag</option>
@@ -59,7 +59,14 @@
     <div class="lg:flex">
       <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.zip">
         <template v-slot:label>PLZ</template>
-        <Field id="zip" name="zip" as="input" label="PLZ" @blur="onBlurZip(veeForm.values?.zip)" />
+        <Field
+          id="zip"
+          name="zip"
+          as="input"
+          label="PLZ"
+          maxlength="4"
+          @blur="onBlurZip(veeForm.values?.zip)"
+        />
       </MatchdField>
       <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="veeForm.errors.city">
         <template v-slot:label>Ort</template>
@@ -67,14 +74,23 @@
       </MatchdField>
     </div>
     <MatchdField id="mobile" class="mb-10" :errors="veeForm.errors.mobile">
-      <template v-slot:label>Deine Mobile-Nummer</template>
-      <Field id="mobile" name="mobile" as="input" label="Mobile-Nummer" rules="phone" />
+      <template v-slot:label>Mobile-Nummer</template>
+      <Field
+        id="mobile"
+        name="mobile"
+        as="input"
+        label="Mobile-Nummer"
+        rules="phone"
+        placeholder="+41792223344"
+      />
       <template v-slot:info
-        >Matchd gibt deine Mobile-Nummer nicht weiter. Du entscheidest selber, wann und mit wem du
-        sie teilst.</template
+        >Matchd gibt deine Mobile-Nummer nicht weiter. Du entscheidest, wann wir sie mit einem
+        Unternehmen teilen dürfen.</template
       >
     </MatchdField>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -85,6 +101,7 @@ import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
 import { useStore } from "@/store";
@@ -115,7 +132,8 @@ export default class StudentStep1Form extends Vue {
             ActionTypes.STUDENT_ONBOARDING_STEP1,
             studentProfileStep1InputMapper(formData)
           );
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e); // todo
         }
@@ -160,6 +178,8 @@ export default class StudentStep1Form extends Vue {
     this.veeForm.resetForm({
       values: cloneDeep(this.profileData),
     });
+
+    calculateMargins();
   }
 
   async onBlurZip(zip: string): Promise<void> {

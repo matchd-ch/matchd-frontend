@@ -20,6 +20,11 @@
             @clickNickname="onClickNickname"
           /></div
       ></template>
+
+      <template v-else v-slot:info
+        >Du kannst dein Profil anonym oder öffentlich nutzen. Willst du anonym bleiben, zeigen wir
+        diesen Nickname an.</template
+      >
     </MatchdField>
     <MatchdFileBlock>
       <template v-slot:label>Dein Profilbild</template>
@@ -28,7 +33,7 @@
         :files="studentAvatar"
         :queuedFiles="studentAvatarQueue"
         @deleteFile="onDeleteStudentAvatar"
-        class="mb-3"
+        class="mb-10"
       />
       <MatchdFileUpload
         v-if="studentAvatar.length === 0"
@@ -38,7 +43,9 @@
         >Bild hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -52,6 +59,7 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { useStore } from "@/store";
@@ -93,7 +101,8 @@ export default class StudentStep5Form extends Vue {
               nickname: "Dieser Nickname ist bereits vergeben.",
             });
           } else {
-            this.$emit("submitComplete", store.getters["onboardingState"]);
+            const onboardingState = store.getters["onboardingState"];
+            this.$emit("submitComplete", onboardingState.success);
           }
         } catch (e) {
           console.log(e);
@@ -151,6 +160,8 @@ export default class StudentStep5Form extends Vue {
     if (this.currentStep && this.currentStep > 5) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   onClickNickname(nickname: string): void {

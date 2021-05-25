@@ -8,8 +8,6 @@
       @submit="onSubmit"
       :loading="contactFormLoading"
       class="flex-grow"
-      :title="'Get in touch'"
-      :subText="''"
       :buttonVariantOutline="true"
       :name="fullName"
       :email="user?.email"
@@ -19,9 +17,19 @@
         Du fragst dich, welche Troll-Fabriken hinter unserem hochkomplexen Matchmaking-Algorithmus
         stecken? Tja, das bleibt wohl unser Geheimnis. Für alle anderen Fragen, schreib uns!
       </p>
+      <template v-slot:button-label>Senden</template>
     </RegisterContactForm>
 
-    <RegisterContactFormSent v-else :textBlack="true" :linkRoute="linkRoute" :linkName="linkName" />
+    <RegisterContactFormSent v-else>
+      <h2 class="text-display-xs mb-6 text-black">Merci für die Anfrage 📩</h2>
+      <p class="mb-9 text-black">
+        Unser Postfach ist gut gefüttert, wir antworten so schnell wie möglich – Stay tuned.
+      </p>
+      <p>
+        Zurück zum
+        <router-link :to="{ name: linkRoute }" class="underline">{{ linkName }}</router-link>
+      </p>
+    </RegisterContactFormSent>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <label
-    class="matchd-file-upload block border border-dashed p-14 rounded-30 text-primary-1 text-center cursor-pointer"
+    class="matchd-file-upload block border border-dashed p-14 rounded-30 text-center cursor-pointer"
     :class="{
       'border-black bg-grey-3': isDragOver,
       'border-primary-1 bg-white': !isDragOver,
@@ -19,8 +19,13 @@
       :accept="allowedMimeTypes.join(',')"
     />
     <span class="block">
-      <template v-if="uploadConfiguration.maxFiles > 1"
-        >Wähle maximal {{ uploadConfiguration.maxFiles }} Dateien aus
+      <template v-if="uploadConfiguration.maxFiles > 1">
+        <span class="font-medium text-primary-1">
+          <template v-if="formal"
+            >Wählen Sie maximal {{ uploadConfiguration.maxFiles }} Dateien aus</template
+          >
+          <template v-else>Wähle maximal {{ uploadConfiguration.maxFiles }} Dateien aus</template>
+        </span>
         <span v-for="(allowedFile, index) in allowedFiles" :key="index" class="block">
           {{ allowedFile.types.join(", ") }}, max. {{ formatSize(allowedFile.size)
           }}<template v-if="allowedFiles.length > 1 && index < allowedFiles.length - 1">
@@ -28,8 +33,11 @@
           </template>
         </span>
       </template>
-      <template v-else
-        >Wähle eine Datei aus
+      <template v-else>
+        <span class="font-medium text-primary-1">
+          <template v-if="formal">Wählen Sie eine Datei aus</template>
+          <template v-else>Wähle eine Datei aus</template>
+        </span>
         <span v-for="(allowedFile, index) in allowedFiles" :key="index" class="block">
           {{ allowedFile.types.join(", ") }}, max. {{ formatSize(allowedFile.size)
           }}<template v-if="allowedFiles.length > 1 && index < allowedFiles.length - 1">
@@ -60,6 +68,7 @@ interface AllowedFiles {
 
 class Props {
   uploadConfiguration = prop<UploadConfiguration>({});
+  formal = prop<boolean>({ default: false });
 }
 
 @Options({

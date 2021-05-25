@@ -27,7 +27,7 @@
             as="select"
             label="Monat"
             class="mr-3"
-            :rules="veeForm.values?.jobFromDateYear !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobFromDateYear"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -39,7 +39,7 @@
             name="jobFromDateYear"
             as="select"
             label="Jahr"
-            :rules="veeForm.values?.jobFromDateMonth !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobFromDateMonth"
           >
             <option value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
@@ -60,7 +60,7 @@
             as="select"
             label="Monat"
             class="mr-3"
-            :rules="veeForm.values?.jobToDateYear !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobToDateYear"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -72,7 +72,7 @@
             name="jobToDateYear"
             as="select"
             label="Jahr"
-            :rules="veeForm.values?.jobToDateMonth !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobToDateMonth"
           >
             <option value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
@@ -92,7 +92,9 @@
         >{{ option.name }}</SelectPill
       >
     </SelectPillGroup>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -106,6 +108,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { useStore } from "@/store";
@@ -169,7 +172,7 @@ export default class StudentStep2Form extends Vue {
           );
 
           const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState);
+          this.$emit("submitComplete", onboardingState.success);
           if (onboardingState.errors) {
             form.setErrors(onboardingState.errors);
             if (onboardingState.errors?.jobFromDate) {
@@ -251,6 +254,8 @@ export default class StudentStep2Form extends Vue {
     if (this.currentStep && this.currentStep > 2) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   onChangeJobType(jobTypeId: string): void {

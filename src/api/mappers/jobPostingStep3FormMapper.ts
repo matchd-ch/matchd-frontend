@@ -8,6 +8,6 @@ export function jobPostingStep3FormMapper(
 ): JobPostingStep3Form {
   return {
     employeeId: jobPosting.employee?.id || employee.id,
-    state: jobPosting.state || JobPostingState.Draft,
+    state: jobPosting.state || JobPostingState.Public,
   };
 }

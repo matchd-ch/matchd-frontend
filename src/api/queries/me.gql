@@ -71,6 +71,7 @@ query {
     company {
       id
       name
+      displayName
       city
       zip
       street

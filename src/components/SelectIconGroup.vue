@@ -4,8 +4,8 @@
     <ul class="flex flex-wrap -m-2">
       <li v-for="icon in icons" :key="icon.id" class="select-icon-group__item flex-shrink-0 m-2">
         <label
-          class="flex items-center border border-pink-1 rounded-30 font-medium text-sm py-3 px-4 cursor-pointer"
-          :class="{ 'border-black text-black': icon.checked }"
+          class="flex items-center border border-current rounded-30 font-medium text-sm py-3 px-4 cursor-pointer"
+          :class="{ 'text-primary-1': icon.checked }"
         >
           <input
             type="checkbox"
@@ -40,7 +40,7 @@ export default class SelectIconGroup extends Vue.with(Props) {}
 @block select-icon-group {
   @element label {
     @apply block px-8 mb-2;
-    @apply font-medium;
+    @apply font-medium text-primary-1;
   }
 }
 </style>

@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="user && user.student"
-    class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars mb-fixed-footer"
-  >
+  <div v-if="user && user.student" class="student-detail grid grid-cols-1 xl:grid-cols-2">
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
@@ -30,7 +27,7 @@
         </p>
       </div>
     </div>
-    <div class="text-green-1 flex flex-col min-h-full">
+    <div class="flex flex-col min-h-full">
       <profile-section
         v-if="user.student.jobType?.mode === 'DATE_RANGE'"
         title="Ich suche"
@@ -49,7 +46,7 @@
       </profile-section>
       <profile-section
         v-if="user.student.languages?.length"
-        title="Ich habe Kenntnis in folgenden Sprachen"
+        title="Ich habe Kenntnisse in folgenden Sprachen"
         :editStep="getStepName(4)"
       >
         <ul>
@@ -107,6 +104,7 @@
 import { AttachmentKey } from "@/api/models/types";
 import ProfileSection from "@/components/ProfileSection.vue";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
@@ -161,6 +159,7 @@ export default class StudentProfile extends Vue {
         key: AttachmentKey.StudentDocuments,
       }),
     ]);
+    calculateMargins();
   }
 }
 </script>

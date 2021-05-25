@@ -39,3 +39,9 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class MatchingModal extends Vue {}
 </script>
+
+<style lang="postcss" scoped>
+.matching-modal :deep(*) {
+  --color-primary-1: var(--color-orange-1);
+}
+</style>

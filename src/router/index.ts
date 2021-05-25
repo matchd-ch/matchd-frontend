@@ -1,3 +1,4 @@
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { isLoggedIn } from "@/router/authenticationGuard";
 import { isCompleteProfile } from "@/router/homeGuard";
 import { redirectToCurrentJobPostingStep } from "@/router/jobPostingGuard";
@@ -19,6 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "login" */ "../views/Login.vue"),
     meta: {
       public: true,
+      hideNavigation: true,
     },
   },
   {
@@ -27,6 +29,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "register" */ "../views/Triage.vue"),
     meta: {
       public: true,
+      hideNavigation: true,
     },
   },
   {
@@ -35,6 +38,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "register" */ "../views/Activate.vue"),
     meta: {
       public: true,
+      hideNavigation: true,
     },
   },
   {
@@ -42,6 +46,9 @@ const routes: Array<RouteRecordRaw> = [
     name: "Onboarding",
     component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
     beforeEnter: redirectToCurrentOnboardingStep,
+    meta: {
+      hideNavigation: true,
+    },
   },
   {
     path: "/profil",
@@ -105,11 +112,20 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyDetail.vue"),
   },
   {
+    path: "/firmen",
+    name: "CompanyList",
+    component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyList.vue"),
+    meta: {
+      accessType: ["student"],
+    },
+  },
+  {
     path: "/passwort-vergessen",
     name: "PasswordForgotten",
     component: () => import(/* webpackChunkName: "login" */ "../views/PasswordForgotten.vue"),
     meta: {
       public: true,
+      hideNavigation: true,
     },
     beforeEnter: needsStateResetBeforePasswordReset,
   },
@@ -119,6 +135,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "login" */ "../views/PasswordReset.vue"),
     meta: {
       public: true,
+      hideNavigation: true,
     },
   },
   {
@@ -128,6 +145,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "register" */ "../views/StudentRegister.vue"),
     meta: {
       public: true,
+      hideNavigation: true,
     },
   },
   {
@@ -137,6 +155,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "register" */ "../views/CompanyRegister.vue"),
     meta: {
       public: true,
+      hideNavigation: true,
     },
   },
   {
@@ -145,6 +164,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "register" */ "../views/Contact.vue"),
     meta: {
       public: true,
+      hideNavigation: true,
     },
   },
   {
@@ -168,5 +188,6 @@ const router = createRouter({
 
 router.beforeEach(isLoggedIn);
 router.beforeEach(isCompleteProfile);
+router.afterEach(calculateMargins);
 
 export default router;

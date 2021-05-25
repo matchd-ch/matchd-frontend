@@ -34,15 +34,18 @@
       <RegisterTile
         class="row-start-4 col-start-1 xl:col-start-3 xl:row-start-2"
         :to="{ path: '/registrierung/unternehmung' }"
-        >Als Unternehmung registrieren</RegisterTile
-      >
+        >Als Unternehmen registrieren</RegisterTile
+      ><!--
       <RegisterTile
         class="row-start-5 col-start-1 xl:col-start-3 xl:row-start-3"
         :to="{ path: '/registrierung/bildungsinstitution' }"
         >Als Bildungsinstitution registrieren</RegisterTile
-      >
+      >-->
+      <div
+        class="row-start-5 col-start-1 xl:col-start-3 xl:row-start-3 shadow-white hidden xl:block"
+      ></div>
       <RegisterTile
-        class="row-start-6 col-start-1 xl:col-start-4 xl:row-start-3"
+        class="row-start-5 col-start-1 xl:col-start-4 xl:row-start-3"
         :to="{ path: 'registrierung', hash: '#nichts-passendes-gefunden' }"
         >Nichts Passendes gefunden?</RegisterTile
       >
@@ -61,11 +64,18 @@
           Du hast nichts Passendes gefunden? Kein Problem!
         </h2>
         <p class="text-white mb-9">
-          Schreibe uns, woher du kommst und warum du gerne Teil der Matchd-Community werden
-          möchtest. Wir freuen uns auf dich! Dein Matchd-Team.
+          Schreib uns, woher du kommst und warum du gerne Teil der Matchd-Community werden möchtest.
+          Wir schauen uns deine Community-Anfrage so schnell wie möglich an.
         </p>
+        <template v-slot:button-label>Community-Anfrage senden</template>
       </RegisterContactForm>
-      <RegisterContactFormSent v-else />
+      <RegisterContactFormSent v-else>
+        <h2 class="text-display-xs mb-6 text-white">Merci für die Community-Anfrage</h2>
+        <p class="mb-9 text-white">
+          Die Anfrage wird von uns so schnell wie möglich bearbeitet. Wir drücken die Daumen, dass
+          es mit der Matchd-Mitgliedschaft klappt.
+        </p>
+      </RegisterContactFormSent>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="onboarding min-h-screen text-primary-1">
+  <div class="onboarding min-h-screen">
     <div class="grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-home gap-x-4 lg:gap-x-5 lg:border-b">
       <h1
         class="text-display-xl-fluid col-start-1 col-span-4 row-start-1 border-r flex items-center px-4 lg:px-5 py-10"
@@ -20,32 +20,28 @@
           }}</span>
           <template v-if="currentStep === 1">Vervollständige deine persönlichen Daten</template>
           <template v-else-if="currentStep === 2">Wonach suchst du?</template>
-          <template v-else-if="currentStep === 3"
-            >Zeige uns doch, wie du als Mensch so bist.</template
-          >
-          <template v-else-if="currentStep === 4">Sag uns, was du drauf hast.</template>
-          <template v-else-if="currentStep === 5">Kreiere dein Profil</template>
+          <template v-else-if="currentStep === 3">Erzähl uns mehr von dir</template>
+          <template v-else-if="currentStep === 4">Zeig uns, was du drauf hast</template>
+          <template v-else-if="currentStep === 5">Finalisiere dein Profil</template>
           <template v-else-if="currentStep === 6">Veröffentliche dein Profil</template>
-          <template v-else-if="currentStep > 6"
-            >Willkommen bei Matchd! Was willst du als nächstes tun?
-          </template>
+          <template v-else-if="currentStep > 6">Willkommen in der Matchd-Community 🤩</template>
         </template>
         <template v-else-if="isCompany">
           <span v-if="currentStep <= 4" class="text-display-xl-fluid mr-8 hidden lg:inline">{{
             currentStep
           }}</span>
-          <template v-if="currentStep === 1">Vervollständigen sie ihre Kontaktdaten</template>
+          <template v-if="currentStep === 1">Vervollständigen Sie Ihre Kontaktdaten</template>
           <template v-if="currentStep === 2"
-            >Erzählen sie von ihrem Unternehmen, ihren Produkten und Services</template
+            >Erzählen Sie den Talenten mehr über Ihr Unternehmen</template
           >
           <template v-if="currentStep === 3"
-            >Zeigen sie der Community Bilder und Videos von ihrem Unternehmen und von ihrer
-            Crew</template
+            >Zeigen Sie der Matchd-Community, was Ihr Unternehmen als Arbeitgeber*in
+            bietet</template
           >
-          <template v-if="currentStep === 4">Arbeitskultur</template>
-          <template v-if="currentStep === 5"
-            >Herzliche Gratulation und willkommen in der Matchd-Community!</template
+          <template v-if="currentStep === 4"
+            >Wichtige Eigenschaften und Werte bei der Talentsuche</template
           >
+          <template v-if="currentStep === 5">Willkommen in der Matchd-Community</template>
         </template>
         <template v-else-if="isUniversity">
           <span v-if="currentStep <= 4" class="text-display-xl-fluid mr-8 hidden lg:inline">{{

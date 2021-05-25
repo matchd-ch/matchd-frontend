@@ -31,6 +31,13 @@ export default class MatchdButton extends Vue.with(Props) {}
 
 <style lang="postcss" scoped>
 .btn {
+  @apply transition-all;
+
+  &:disabled {
+    @apply opacity-60;
+    @apply cursor-default;
+  }
+
   & svg {
     @apply inline-block;
     @apply text-primary-1;
@@ -56,36 +63,13 @@ export default class MatchdButton extends Vue.with(Props) {}
 }
 
 .fill {
-  @apply bg-black;
-  @apply text-white;
-  z-index: 1;
-  transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:disabled {
-    @apply opacity-60;
-    @apply cursor-default;
-  }
-
-  &::before {
-    content: "";
-    @apply absolute block -top-px -right-px -bottom-px -left-px;
-    @apply bg-white rounded-full;
-    transform: scale(0, 1);
-    transform-origin: right center;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: -1;
-  }
+  @apply bg-black text-white;
 
   &:not(:disabled) {
     &:hover,
     &:focus,
     &.active {
-      @apply text-black;
-
-      &::before {
-        transform-origin: left center;
-        transform: scale(1, 1);
-      }
+      @apply text-black bg-white;
 
       & svg {
         fill: black;
@@ -97,28 +81,12 @@ export default class MatchdButton extends Vue.with(Props) {}
 .outline {
   @apply border border-black;
   @apply text-black;
-  z-index: 1;
-  transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &::before {
-    content: "";
-    @apply absolute block -top-px -right-px -bottom-px -left-px;
-    @apply bg-black rounded-full;
-    transform: scale(0, 1);
-    transform-origin: right center;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: -1;
-  }
 
   &:not(:disabled) {
     &:hover,
     &:focus,
     &.active {
-      @apply text-white;
-      &::before {
-        transform-origin: left center;
-        transform: scale(1, 1);
-      }
+      @apply text-white bg-black;
 
       & svg {
         fill: white;

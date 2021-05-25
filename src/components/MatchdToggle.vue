@@ -2,19 +2,20 @@
   <div class="matchd-toggle">
     <label class="matchd-toggle__label"><slot name="label" /></label>
     <div
-      class="matchd-toggle__form-element"
+      class="matchd-toggle__form-element flex items-center"
       :class="{ 'matchd-toggle__form-element relative': $slots.iconRight }"
     >
       <slot />
       <label
         :for="id"
-        class="matchd-toggle__slider border border-primary-1 relative inline-flex flex-shrink-0 h-9 w-20 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
+        class="matchd-toggle__slider relative inline-flex flex-shrink-0 h-8 w-14 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
       >
         <span
           aria-hidden="true"
-          class="matchd-toggle__slider-knob pointer-events-none inline-block h-9 w-9 rounded-full bg-current transform ring-0 transition ease-in-out duration-200 -m-px translate-x-0"
+          class="matchd-toggle__slider-knob pointer-events-none inline-block h-6 w-6 m-1 rounded-full bg-white transform ring-0 transition ease-in-out duration-200 translate-x-0"
         ></span>
       </label>
+      <span class="matchd-toggle__value-on ml-3"><slot name="value" /></span>
     </div>
     <div v-if="errors" class="matchd-toggle__errors">
       {{ errors }}
@@ -54,7 +55,7 @@ export default class MatchdToggle extends Vue.with(Props) {}
 
   @element label {
     @apply block px-8 mb-2;
-    @apply font-medium;
+    @apply font-medium text-primary-1;
   }
 
   @element errors {
@@ -67,12 +68,21 @@ export default class MatchdToggle extends Vue.with(Props) {}
     @apply text-paragraph-sm text-black;
   }
 
+  @element slider {
+    @apply bg-black;
+  }
+
   & :deep(input) {
     display: none;
   }
 
-  & :deep(input:checked) + .matchd-toggle__slider .matchd-toggle__slider-knob {
-    @apply translate-x-11;
+  & :deep(input:checked) {
+    & + .matchd-toggle__slider {
+      @apply bg-primary-1;
+      & .matchd-toggle__slider-knob {
+        @apply translate-x-6;
+      }
+    }
   }
 }
 </style>

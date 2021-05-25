@@ -34,20 +34,20 @@ export default class MatchdSelect extends Vue.with(Props) {}
 <style lang="postcss" scoped>
 @block matchd-select {
   @modifier invalid {
-    & select {
+    & deep(select) {
       @apply border-negative text-negative placeholder-negative;
     }
   }
 
   @element label {
     @apply block px-8 mb-2;
-    @apply font-medium;
+    @apply font-medium text-primary-1;
   }
 
   & :deep(select) {
     @apply block w-full bg-white rounded-30 px-8 py-4;
     @apply border border-white focus:border-black;
-    @apply text-lg placeholder-black placeholder-opacity-100;
+    @apply text-lg placeholder-black placeholder-opacity-40;
     @apply focus:outline-none;
     @apply transition-colors duration-300;
     @apply appearance-none;

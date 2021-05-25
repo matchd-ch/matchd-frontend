@@ -65,6 +65,7 @@ module.exports = {
         2: "#AFAFAF",
         3: "#EDEDED",
         4: "#FAFAFA",
+        5: "#F8F8F8",
       },
       primary: {
         1: "var(--color-primary-1)",
@@ -87,9 +88,11 @@ module.exports = {
           "calc(100vh - var(--contentMarginTop) - var(--contentMarginBottom))",
       },
       gridTemplateColumns: {
+        "2-auto": "auto auto",
         16: "repeat(16, minmax(0, 1fr))",
       },
       gridTemplateRows: {
+        "2-auto": "auto auto",
         home: "200px",
         register: "1fr auto 1fr",
       },
@@ -120,12 +123,10 @@ module.exports = {
         pink: "0 0 0 1px #F21D5E",
         green: "0 0 0 1px #1FAC01",
         orange: "0 0 0 1px #FF8717",
+        "black-20": "0 0 10px rgba(0, 0, 0, 0.2)"
       },
       borderRadius: {
         30: "30px",
-      },
-      placeholderColor: {
-        primary: "#000",
       },
     },
   },

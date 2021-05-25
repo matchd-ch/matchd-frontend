@@ -1,17 +1,14 @@
 <template>
-  <div
-    v-if="jobPosting"
-    class="jobPosting-detail text-orange-1 flex flex-col xl:min-h-content-with-fixed-bars mb-fixed-footer"
-  >
+  <div v-if="jobPosting" class="jobPosting-detail flex flex-col">
     <div class="border-b border-orange-1 p-9">
-      <button @click="$router.back()">Zurück zur Übersicht</button>
+      <button @click="$router.back()" class="text-orange-1">Zurück zur Übersicht</button>
     </div>
     <div class="border-b border-orange-1 p-9">
-      <h1 class="text-display-lg-fluid break-words">{{ jobPosting.title }}</h1>
+      <h1 class="text-display-lg-fluid break-words text-orange-1">{{ jobPosting.displayTitle }}</h1>
     </div>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Beschreibung</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Beschreibung</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <p v-html="nl2br(jobPosting.description)"></p>
@@ -19,10 +16,10 @@
     </section>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Stelle</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Stelle</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <p>{{ jobPosting.branch.name }}</p>
+        <p v-if="hasBranches">{{ branchesLabel }}</p>
         <p>Arbeitspensum {{ jobPosting.workload }}%</p>
         <p>{{ jobPosting.jobType.name }}</p>
         <p>
@@ -31,7 +28,7 @@
           </template>
           <template v-else> ab {{ jobPosting.jobFromDate }} </template>
         </p>
-        <p v-if="jobPosting.url" class="flex items-center mt-4">
+        <p v-if="jobPosting.url" class="flex items-center mt-4 text-orange-1">
           <span class="material-icons mr-2">open_in_new</span>
           <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
         </p>
@@ -40,12 +37,12 @@
 
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Das bringst du mit</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Das bringst du mit</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <template v-if="jobPosting.jobRequirements.length">
           <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
-          <ul class="list-disc list-inside">
+          <ul class="list-disc list-inside marker-orange-1">
             <li v-for="jobRequirement in jobPosting.jobRequirements" :key="jobRequirement.id">
               {{ jobRequirement.name }}
             </li>
@@ -53,8 +50,8 @@
         </template>
 
         <template v-if="jobPosting.languages?.length">
-          <h3 class="text-heading-sm mb-3">Sprachen</h3>
-          <ul class="list-disc list-inside">
+          <h3 class="text-heading-sm mb-3 text-orange-1">Sprachen</h3>
+          <ul class="list-disc list-inside marker-orange-1">
             <li v-for="language in jobPosting.languages" :key="language.id">
               {{ language.language.name }} {{ language.languageLevel.level }}
             </li>
@@ -62,8 +59,8 @@
         </template>
 
         <template v-if="jobPosting.skills?.length">
-          <h3 class="text-heading-sm mb-3">Skills</h3>
-          <ul class="list-disc list-inside">
+          <h3 class="text-heading-sm mb-3 text-orange-1">Skills</h3>
+          <ul class="list-disc list-inside marker-orange-1">
             <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill }}</li>
           </ul>
         </template>
@@ -71,7 +68,7 @@
     </section>
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Unternehmen</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Unternehmen</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <router-link :to="{ name: 'CompanyDetail', params: { slug: jobPosting.company.slug } }">
@@ -85,7 +82,7 @@
     </section>
     <section class="flex-grow lg:flex p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0">Deine Ansprechperson für Fragen</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Deine Ansprechperson für Fragen</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <p>
@@ -98,18 +95,20 @@
         </p>
       </div>
     </section>
-    <MatchingBar class="fixed bottom-0 right-0 left-0">
-      <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-        Du hast den Startschuss abgegeben.
-      </template>
-      <template v-else-if="matchType === matchTypeEnum.FullMatch">
-        Gratulation, ihr Matchd euch gegenseitig!
-      </template>
-      <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
-        Match bestätigen
-      </MatchdButton>
-      <MatchdButton v-else @click="onClickMatch">Startschuss fürs Matching</MatchdButton>
-    </MatchingBar>
+    <teleport to="footer">
+      <MatchingBar>
+        <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
+          Du hast bereits Interesse gezeigt, fingers crossed! 🤞
+        </template>
+        <template v-else-if="matchType === matchTypeEnum.FullMatch"
+          >Gratulation, it’s a Match!</template
+        >
+        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
+          Match bestätigen
+        </MatchdButton>
+        <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
+      </MatchingBar>
+    </teleport>
     <JobPostingMatchModal
       v-if="showConfirmationModal"
       :user="user"
@@ -134,6 +133,7 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import JobPostingFullMatchModal from "@/components/modals/JobPostingFullMatchModal.vue";
 import JobPostingMatchModal from "@/components/modals/JobPostingMatchModal.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
@@ -159,6 +159,14 @@ export default class JobPostingDetail extends Vue {
   meta = setup(() => useMeta({}));
   showConfirmationModal = false;
   showFullMatchModal = false;
+
+  get branchesLabel(): string {
+    return this.jobPosting?.branches.map((branch) => branch.name).join(", ") || "";
+  }
+
+  get hasBranches(): boolean {
+    return this.jobPosting ? this.jobPosting?.branches.length > 0 : false;
+  }
 
   get user(): User | null {
     return this.$store.getters["user"];
@@ -220,21 +228,8 @@ export default class JobPostingDetail extends Vue {
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
-
-      window.addEventListener("resize", this.calculateMargins, true);
-      this.calculateMargins();
+      calculateMargins();
     }
-  }
-
-  unmounted(): void {
-    window.removeEventListener("resize", this.calculateMargins, true);
-  }
-
-  calculateMargins(): void {
-    const root = document.documentElement;
-    const matchingBarHeight = (document.querySelector(".matching-bar") as HTMLElement).offsetHeight;
-    root.style.setProperty("--contentMarginTop", `0px`);
-    root.style.setProperty("--contentMarginBottom", `${matchingBarHeight}px`);
   }
 
   async loadData(slug: string): Promise<void> {
@@ -255,7 +250,6 @@ export default class JobPostingDetail extends Vue {
         },
       });
       await this.loadData(String(this.$route.params.slug));
-      this.calculateMargins();
       this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
       this.showConfirmationModal = false;
     }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-heading-lg mb-10">Was wollen Sie als nächstes tun?</h2>
+    <h2 class="text-heading-lg mb-10">Was wollen Sie als Nächstes tun?</h2>
     <MatchdButton
       variant="outline"
       class="block w-full mt-5"
@@ -13,13 +13,14 @@
       class="block w-full mt-5"
       @click="$router.push({ name: 'Dashboard' })"
     >
-      zum Dashboard wechseln
+      Zum Matchd-Dashboard wechseln
     </MatchdButton>
     <p class="mt-5 text-black text-center">
-      Falls sie noch Fragen haben,
+      Falls Sie Fragen oder Feedback haben,
       <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
-        >schreiben sie uns</router-link
-      >
+        >schreiben Sie uns</router-link
+      >.<br />
+      Das Matchd-Team freut sich über Ihre Nachricht.
     </p>
   </div>
 </template>

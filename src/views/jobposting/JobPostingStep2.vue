@@ -57,7 +57,7 @@
       :errors="veeForm.errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Sprachskills*</template></LanguagePicker
+      ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
     >
     <MatchdButton
       variant="outline"
@@ -93,6 +93,7 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
@@ -106,7 +107,6 @@ import type {
   LanguageLevel,
   Skill,
 } from "api";
-import cloneDeep from "clone-deep";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -238,23 +238,23 @@ export default class JobPostingStep2 extends Vue {
         (selectedJobRequirementsId) => selectedJobRequirementsId !== jobRequirement.id
       );
     } else {
-      this.veeForm.jobRequirements.push(jobRequirement.id);
+      this.veeForm.jobRequirements = [...this.veeForm.jobRequirements, jobRequirement.id];
     }
   }
 
   onInputSkill(): void {
-    if (this.skillInput.length < 3) {
+    if (this.skillInput.length < 1) {
       this.filteredSkills = [];
       return;
     }
     this.filteredSkills = this.availableSkills.filter((item) =>
-      item.name.toLowerCase().includes(this.skillInput.toLowerCase())
+      item.name.toLowerCase().startsWith(this.skillInput.toLowerCase())
     );
   }
 
   onSelectSkill(skill: Skill): void {
     this.skillInput = "";
-    this.veeForm.skills.push(skill.id);
+    this.veeForm.skills = [...this.veeForm.skills, skill.id];
     this.onInputSkill();
   }
 
@@ -289,12 +289,9 @@ export default class JobPostingStep2 extends Vue {
     ]);
 
     this.veeForm.resetForm({
-      values: cloneDeep(this.jobPostingData),
+      values: this.jobPostingData,
     });
-
-    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 2) {
-      this.veeForm.setValues(cloneDeep(this.jobPostingData));
-    }
+    calculateMargins();
   }
 
   onClickBack(): void {

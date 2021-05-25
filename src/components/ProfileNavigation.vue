@@ -1,5 +1,5 @@
 <template>
-  <ul class="profile-navigation p-8 flex justify-center bg-white">
+  <ul class="profile-navigation px-8 py-6 flex justify-center bg-white border-b border-primary-1">
     <slot />
   </ul>
 </template>

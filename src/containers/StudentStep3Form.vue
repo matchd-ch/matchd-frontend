@@ -1,5 +1,10 @@
 <template>
   <form v-if="profileData && softSkills.length && culturalFits.length" @submit="veeForm.onSubmit">
+    <p class="mb-8">
+      Bei der Suche nach deiner Traumstelle kannst du Unternehmen finden, die ähnlich ticken wie du.
+      Wähle aus den folgenden Vorschlägen alle Eigenschaften und Werte aus, die dich ausmachen und
+      dir wichtig sind.
+    </p>
     <FormSaveError v-if="showError" />
     <SelectPillMultiple
       :options="softSkills"
@@ -34,7 +39,9 @@
         </template></template
       >
     </SelectPillMultiple>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -43,6 +50,7 @@ import { studentProfileStep3FormMapper } from "@/api/mappers/studentProfileStep3
 import { studentProfileStep3InputMapper } from "@/api/mappers/studentProfileStep3InputMapper";
 import FormSaveError from "@/components/FormSaveError.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { useStore } from "@/store";
@@ -84,7 +92,8 @@ export default class StudentStep3Form extends Vue {
             studentProfileStep3InputMapper(formData)
           );
 
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e);
         }
@@ -183,6 +192,8 @@ export default class StudentStep3Form extends Vue {
     if (this.currentStep && this.currentStep > 3) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   @Watch("veeForm.meta.dirty")

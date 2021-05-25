@@ -5,14 +5,12 @@
         class="text-display-xl-fluid text-primary-1 col-span-full lg:fixed lg:transition-all lg:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
-        Match beitreten
+        Matchd beitreten
       </h1>
     </div>
     <div class="px-4 lg:px-5">
       <MatchdStep step="1">
-        <template v-slot:title
-          >Besuchst du im Kanton St.Gallen eine Schule oder Hochschule?</template
-        >
+        <template v-slot:title>Besuchst du im Kanton St.Gallen eine Bildungsinstitution?</template>
         <MatchdButton
           type="button"
           variant="outline"
@@ -56,7 +54,8 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Bei Matchd bist du genau richtig!<br />Schreib dich ein und die Job-Suche kann starten.
+          Bei Matchd bist du genau richtig!<br />Schreib dich ein und deine Job- oder Projektsuche
+          kann starten.
         </template>
         <Form @submit="onSubmitStudentData" v-slot="{ errors }">
           <div class="lg:flex">
@@ -108,15 +107,17 @@
               </button>
             </template>
             <template v-slot:info
-              >Nutze mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
-              Sonderzeichen.</template
-            >
+              >Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben,
+              eine Zahl und ein Sonderzeichen enthalten.
+            </template>
           </MatchdField>
 
           <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
             <template v-slot:label
-              >Mit umlegen des Sliders akzeptierst du die
-              <a class="underline" :href="dataProtectionLink">Datenschutzerklärung</a>.</template
+              ><a class="underline" :href="dataProtectionLink" target="_blank"
+                >Datenschutzerklärung</a
+              >
+              von Matchd</template
             >
             <Field
               id="dataProtection"
@@ -126,12 +127,15 @@
               value="true"
               :rules="{ required: true }"
             />
+            <template v-slot:value
+              >Ja, ich habe die Datenschutzerklärung gelesen und akzeptiere sie
+            </template>
           </MatchdToggle>
           <MatchdButton
             variant="outline"
             :disabled="studentRegistrationLoading"
             :loading="studentRegistrationLoading"
-            >Ich bin dabei!</MatchdButton
+            >Ready to match</MatchdButton
           >
         </Form>
       </MatchdStep>
@@ -141,8 +145,8 @@
         class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
       >
         <template v-slot:title>
-          Fast geschafft:<br />Aktiviere deinen Account mit dem Link, den wir dir per Mail an
-          {{ form.email || "?" }} geschickt haben.
+          Fast geschafft, {{ form.firstName }}! 🥳<br />Aktiviere deinen Matchd-Account über den
+          Link, den wir dir per E-Mail geschickt haben.
         </template>
       </MatchdStep>
     </div>

@@ -10,16 +10,33 @@
       'theme-university': isUniversity,
     }"
   >
-    <router-view />
+    <header class="header bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20">
+      <component
+        v-if="showNavbar && user"
+        :is="navigation"
+        :user="user"
+        @clickLogout="onClickLogout"
+      />
+    </header>
+    <div class="mt-fixed-header mb-fixed-footer">
+      <router-view />
+    </div>
+    <footer class="footer fixed bottom-0 left-0 right-0 z-20 shadow-black-20"></footer>
   </div>
 </template>
 
 <script lang="ts">
+import { calculateMargins } from "@/helpers/calculateMargins";
+import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
 import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
+import NavBarStudent from "@/components/NavBarStudent.vue";
+import NavBarCompany from "@/components/NavBarCompany.vue";
 
-@Options({})
+@Options({
+  components: { NavBarStudent, NavBarCompany },
+})
 export default class App extends Vue {
   meta = setup(() =>
     useMeta({
@@ -41,6 +58,28 @@ export default class App extends Vue {
 
   get user(): User | null {
     return this.$store.getters["user"];
+  }
+
+  get showNavbar(): boolean {
+    return !this.$route.meta.hideNavigation;
+  }
+
+  get navigation(): string {
+    if (this.isStudent) return "NavBarStudent";
+    return "NavBarCompany";
+  }
+
+  async onClickLogout(): Promise<void> {
+    await this.$store.dispatch(LoginActions.LOGOUT);
+    this.$router.push({ name: "Login" });
+  }
+
+  mounted(): void {
+    window.addEventListener("resize", calculateMargins, true);
+  }
+
+  unmounted(): void {
+    window.removeEventListener("resize", calculateMargins, true);
   }
 }
 </script>

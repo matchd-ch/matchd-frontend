@@ -27,7 +27,7 @@
         v-model="skillInput"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
-        placeholder="Tippe, um Vorschläge zu erhalten"
+        placeholder="Tippe für Vorschläge"
       />
     </MatchdAutocomplete>
     <SelectPillGroup v-if="selectedSkills.length" class="mb-10">
@@ -48,15 +48,11 @@
       :errors="veeForm.errors.languages"
       @clickAppendLanguage="onClickAppendLanguage"
       @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Sprachliche Skills*</template></LanguagePicker
+      ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
     >
     <h2 class="text-heading-md mb-9">Was zeichnet dich sonst noch aus?</h2>
     <!-- Online Projects Field -->
-    <MatchdField
-      id="onlineProjects"
-      class="mb-3"
-      :class="{ 'mb-10': veeForm.onlineProjects?.length }"
-    >
+    <MatchdField id="onlineProjects" class="mb-10">
       <template v-slot:label>Deine Onlineprojekte</template>
       <input
         id="onlineProjects"
@@ -75,7 +71,12 @@
           Hinzufügen
         </button>
       </template>
+      <template v-slot:info v-if="!isValidOnlineProjectUrl"
+        >Bitte gib die URL in folgendem Format ein: http://matchd.ch oder
+        https://matchd.ch</template
+      >
     </MatchdField>
+
     <SelectPillGroup v-if="veeForm.onlineProjects?.length" class="mb-10">
       <SelectPill
         v-for="onlineProject in veeForm.onlineProjects"
@@ -99,7 +100,7 @@
         @deleteFile="onDeleteStudentDocument"
       />
       <MatchdFileUpload
-        v-if="studentDocumentsUploadConfigurations.maxFiles >= studentDocuments.length"
+        v-if="studentDocumentsUploadConfigurations.maxFiles > studentDocuments.length"
         :uploadConfiguration="studentDocumentsUploadConfigurations"
         @selectFiles="onSelectStudentDocuments"
         class="mb-10"
@@ -152,7 +153,9 @@
         placeholder="4-5 Sätze zu deiner Spezialität"
       />
     </MatchdField>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -169,6 +172,7 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { isValidUrl } from "@/helpers/isValidUrl";
 import { OnboardingState } from "@/models/OnboardingState";
 import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
@@ -235,7 +239,8 @@ export default class StudentStep4Form extends Vue {
             ActionTypes.STUDENT_ONBOARDING_STEP4,
             studentProfileStep4InputMapper(formData)
           );
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e);
         }
@@ -324,15 +329,17 @@ export default class StudentStep4Form extends Vue {
     if (this.currentStep && this.currentStep > 4) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   onInputSkill(): void {
-    if (this.skillInput.length < 3) {
+    if (this.skillInput.length < 1) {
       this.filteredSkills = [];
       return;
     }
     this.filteredSkills = this.availableSkills.filter((item) =>
-      item.name.toLowerCase().includes(this.skillInput.toLowerCase())
+      item.name.toLowerCase().startsWith(this.skillInput.toLowerCase())
     );
   }
 
