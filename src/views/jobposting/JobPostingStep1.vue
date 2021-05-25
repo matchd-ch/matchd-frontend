@@ -178,6 +178,7 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { useStore } from "@/store";
@@ -333,6 +334,7 @@ export default class JobPostingStep1 extends Vue {
     this.veeForm.resetForm({
       values: this.jobPostingData,
     });
+    calculateMargins();
   }
 
   onChangeJobType(jobTypeId: string): void {

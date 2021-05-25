@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="user && user.company && logo"
-    class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-screen"
+    class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
   >
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
@@ -103,6 +103,7 @@ import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, User } from "api";
@@ -162,6 +163,7 @@ export default class CompanyProfile extends Vue {
         key: AttachmentKey.CompanyDocuments,
       }),
     ]);
+    calculateMargins();
   }
 }
 </script>

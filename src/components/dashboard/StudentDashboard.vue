@@ -1,5 +1,5 @@
 <template>
-  <div class="student-dashboard grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars">
+  <div class="student-dashboard grid grid-cols-1 xl:grid-cols-2">
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
@@ -13,14 +13,6 @@
           aktuellen Stand deiner Matches. Damit du keinen Match verpasst, behalten wir dich auch per
           E-Mail up-to-date.
         </p>
-        <MatchdButton
-          class="mt-4"
-          variant="outline"
-          @click="onClickLogout"
-          :disabled="isLogoutLoading"
-          :loading="isLogoutLoading"
-          >Logout</MatchdButton
-        >
       </div>
     </div>
     <div class="flex flex-col min-h-full">
@@ -95,7 +87,6 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
-import { ActionTypes } from "@/store/modules/login/action-types";
 import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from "@/api/models/types";
@@ -116,10 +107,6 @@ class Props {
   },
 })
 export default class StudentDashboard extends Vue.with(Props) {
-  get isLogoutLoading(): boolean {
-    return this.$store.getters["logoutLoading"];
-  }
-
   get isStudent(): boolean {
     return this.$store.getters["isStudent"];
   }
@@ -146,11 +133,6 @@ export default class StudentDashboard extends Vue.with(Props) {
 
   replaceStack(url: string, stack: string): string {
     return replaceStack(url, stack);
-  }
-
-  async onClickLogout(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.LOGOUT);
-    this.$router.push({ name: "Login" });
   }
 }
 </script>

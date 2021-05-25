@@ -1,5 +1,5 @@
 <template>
-  <div class="company-dashboard grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars">
+  <div class="company-dashboard grid grid-cols-1 xl:grid-cols-2">
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
     >
@@ -18,14 +18,6 @@
           Auf dieser Seite finden Sie Ihre ausgeschriebenen Stellen sowie den aktuellen Stand Ihrer
           Matches. Damit Sie keinen Match verpassen, informieren wir Sie jeweils auch per E-Mail.
         </p>
-        <MatchdButton
-          class="mt-4"
-          variant="outline"
-          @click="onClickLogout"
-          :disabled="isLogoutLoading"
-          :loading="isLogoutLoading"
-          >Logout</MatchdButton
-        >
       </div>
     </div>
     <div class="flex flex-col min-h-full">
@@ -93,7 +85,6 @@ import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import { ActionTypes } from "@/store/modules/login/action-types";
 import type { User, Attachment, Dashboard } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from "@/api/models/types";
@@ -118,10 +109,6 @@ class Props {
   },
 })
 export default class CompanyDashboard extends Vue.with(Props) {
-  get isLogoutLoading(): boolean {
-    return this.$store.getters["logoutLoading"];
-  }
-
   get isStudent(): boolean {
     return this.$store.getters["isStudent"];
   }
@@ -144,11 +131,6 @@ export default class CompanyDashboard extends Vue.with(Props) {
 
   get user(): User | null {
     return this.$store.getters["user"];
-  }
-
-  async onClickLogout(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.LOGOUT);
-    this.$router.push({ name: "Login" });
   }
 }
 </script>

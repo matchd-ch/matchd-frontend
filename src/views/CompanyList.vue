@@ -10,7 +10,7 @@
         :linkTo="{ name: 'CompanyDetail', params: { slug: match.slug } }"
         :imgSrc="replaceStack(match.avatar, 'desktop-square')"
         :imgAlt="`${match.name} Logo`"
-        color="pink"
+        color="green"
       >
         <div class="mt-2">
           <h3 class="text-paragraph-lg">{{ match.name }}</h3>
@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts">
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import GridTile from "@/components/GridTile.vue";
 import type { Match } from "api";
@@ -38,6 +39,7 @@ export default class CompanyList extends Vue {
 
   async mounted(): Promise<void> {
     await this.loadData();
+    calculateMargins();
   }
 
   get companyMatching(): { data: Match[] } {

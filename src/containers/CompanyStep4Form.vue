@@ -39,7 +39,9 @@
         </template>
       </template>
     </SelectPillMultiple>
-    <slot />
+    <teleport to="footer">
+      <slot />
+    </teleport>
   </form>
 </template>
 
@@ -48,6 +50,7 @@ import { companyProfileStep4FormMapper } from "@/api/mappers/companyProfileStep4
 import { companyProfileStep4InputMapper } from "@/api/mappers/companyProfileStep4InputMapper";
 import FormSaveError from "@/components/FormSaveError.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
 import { CompanyProfileStep4Form } from "@/models/CompanyProfileStep4Form";
 import { useStore } from "@/store";
@@ -189,6 +192,8 @@ export default class CompanyStep4Form extends Vue {
     if (this.currentStep && this.currentStep > 3) {
       this.veeForm.setValues(cloneDeep(this.profileData));
     }
+
+    calculateMargins();
   }
 
   @Watch("veeForm.meta.dirty")
