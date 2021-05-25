@@ -187,6 +187,7 @@ export default class JobPostingCreate extends Vue {
 <style lang="postcss" scoped>
 .jobposting,
 .profile-navigation {
+  &,
   & :deep(*) {
     --color-primary-1: var(--color-orange-1);
   }
