@@ -52,11 +52,7 @@
     >
     <h2 class="text-heading-md mb-9">Was zeichnet dich sonst noch aus?</h2>
     <!-- Online Projects Field -->
-    <MatchdField
-      id="onlineProjects"
-      class="mb-3"
-      :class="{ 'mb-10': veeForm.onlineProjects?.length }"
-    >
+    <MatchdField id="onlineProjects" class="mb-10">
       <template v-slot:label>Deine Onlineprojekte</template>
       <input
         id="onlineProjects"
@@ -243,7 +239,8 @@ export default class StudentStep4Form extends Vue {
             ActionTypes.STUDENT_ONBOARDING_STEP4,
             studentProfileStep4InputMapper(formData)
           );
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e);
         }

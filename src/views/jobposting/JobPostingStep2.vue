@@ -107,7 +107,6 @@ import type {
   LanguageLevel,
   Skill,
 } from "api";
-import cloneDeep from "clone-deep";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -239,7 +238,7 @@ export default class JobPostingStep2 extends Vue {
         (selectedJobRequirementsId) => selectedJobRequirementsId !== jobRequirement.id
       );
     } else {
-      this.veeForm.jobRequirements.push(jobRequirement.id);
+      this.veeForm.jobRequirements = [...this.veeForm.jobRequirements, jobRequirement.id];
     }
   }
 
@@ -255,7 +254,7 @@ export default class JobPostingStep2 extends Vue {
 
   onSelectSkill(skill: Skill): void {
     this.skillInput = "";
-    this.veeForm.skills.push(skill.id);
+    this.veeForm.skills = [...this.veeForm.skills, skill.id];
     this.onInputSkill();
   }
 
@@ -290,12 +289,8 @@ export default class JobPostingStep2 extends Vue {
     ]);
 
     this.veeForm.resetForm({
-      values: cloneDeep(this.jobPostingData),
+      values: this.jobPostingData,
     });
-
-    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 2) {
-      this.veeForm.setValues(cloneDeep(this.jobPostingData));
-    }
     calculateMargins();
   }
 

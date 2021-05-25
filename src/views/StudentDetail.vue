@@ -34,7 +34,7 @@
         </p>
       </div>
     </div>
-    <div class="text-green-1 flex flex-col min-h-full">
+    <div class="flex flex-col min-h-full">
       <profile-section v-if="student.data?.jobType?.mode === 'DATE_RANGE'" title="Ich suche">
         <p>{{ lookingFor }}</p>
       </profile-section>
@@ -42,7 +42,7 @@
         v-if="student.data.skills?.length"
         title="Diese technischen Skills bringe ich mit"
       >
-        <ul>
+        <ul class="list list-inside list-disc marker-green-1">
           <li v-for="skill in student.data.skills" :key="skill.id">{{ skill.name }}</li>
         </ul>
       </profile-section>
@@ -50,7 +50,7 @@
         v-if="student.data.languages?.length"
         title="Ich habe Kenntnisse in folgenden Sprachen"
       >
-        <ul>
+        <ul class="list list-inside list-disc marker-green-1">
           <li v-for="language in student.data.languages" :key="language.id">
             {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
           </li>
@@ -62,7 +62,7 @@
       >
         <ul>
           <li v-for="project in student.data.onlineProjects" :key="project.id">
-            <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
+            <a class="font-medium underline text-green-1" :href="project.url">{{ project.url }}</a>
           </li>
         </ul>
       </profile-section>
@@ -73,7 +73,7 @@
         v-if="student.data.hobbies?.length"
         title="Das mache ich gerne in meiner Freizeit"
       >
-        <ul>
+        <ul class="list list-inside list-disc marker-green-1">
           <li v-for="hobby in student.data.hobbies" :key="hobby.id">
             {{ hobby.name }}
           </li>
@@ -84,7 +84,7 @@
           <li v-for="certificate in student.certificates" :key="certificate.id">
             <a
               :href="certificateUrl(certificate.id)"
-              class="font-medium underline inline-block"
+              class="font-medium underline inline-block text-green-1"
               download
               ><span>
                 {{ certificate.fileName }}
@@ -101,7 +101,7 @@
           Sie haben bereits Interesse an diesem Talent gezeigt
         </template>
         <template v-else-if="matchType === matchTypeEnum.FullMatch">
-          Gratulation, ihr Matchd euch gegenseitig!
+          Gratulation, it’s a Match!
         </template>
         <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
           Match bestätigen
@@ -111,7 +111,6 @@
         >
       </MatchingBar>
     </teleport>
-
     <StudentMatchModal
       v-if="showConfirmationModal"
       :user="user"

@@ -1,14 +1,11 @@
 <template>
-  <div
-    class="search-boost-slider flex items-center justify-between"
-    :class="{
-      'search-boost-slider--pink': color === 'pink',
-      'search-boost-slider--green': color === 'green',
-      'search-boost-slider--orange': color === 'orange',
-    }"
-  >
-    <slot />
-    <Slider v-model="sliderValue" :tooltips="false" :min="1" :max="5" />
+  <div class="search-boost-slider flex flex-col xl:flex-row xl:items-center xl:justify-between">
+    <div class="text-center xl:text-left xl:mr-4"><slot /></div>
+    <div class="flex items-center xl:justify-between">
+      <slot name="label-left" />
+      <Slider v-model="sliderValue" :tooltips="false" :min="1" :max="5" />
+      <slot name="label-right" />
+    </div>
   </div>
 </template>
 
@@ -42,47 +39,27 @@ export default class SearchBoostSlider extends Vue.with(Props) {
 @import "@vueform/slider/themes/default.css";
 </style>
 
-<style type="postcss" scoped>
+<style lang="postcss" scoped>
 @block search-boost-slider {
-  @modifier pink {
-    & :deep(.slider-target) {
-      & .slider-handle {
-        @apply bg-pink-1;
-      }
-    }
-  }
-
-  @modifier green {
-    & :deep(.slider-target) {
-      & .slider-handle {
-        @apply bg-green-1;
-      }
-    }
-  }
-
-  @modifier orange {
-    & :deep(.slider-target) {
-      & .slider-handle {
-        @apply bg-orange-1;
-      }
-    }
-  }
-
   & :deep(.slider-target) {
-    @apply ml-8;
-    height: 1px;
-    width: 100%;
-    @screen lg {
+    @apply flex-grow mx-4;
+    height: 2px;
+
+    @screen xl {
       width: 200px;
     }
 
-    & .slider-base,
+    & .slider-base {
+      @apply bg-white xl:bg-black;
+    }
+
     & .slider-connect {
-      @apply bg-black;
+      @apply bg-black xl:bg-primary-1;
     }
 
     & .slider-handle {
-      @apply shadow-none;
+      @apply bg-black xl:bg-primary-1 shadow-none;
+      @apply border border-white border-solid xl:border-none;
     }
   }
 }

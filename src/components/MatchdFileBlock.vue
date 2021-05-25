@@ -25,7 +25,7 @@ export default class MatchdFileBlock extends Vue {}
 @block matchd-file-block {
   @element label {
     @apply px-8 mb-2;
-    @apply font-medium;
+    @apply font-medium text-primary-1;
   }
 
   @element info {

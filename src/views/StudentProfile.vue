@@ -27,7 +27,7 @@
         </p>
       </div>
     </div>
-    <div class="text-green-1 flex flex-col min-h-full">
+    <div class="flex flex-col min-h-full">
       <profile-section
         v-if="user.student.jobType?.mode === 'DATE_RANGE'"
         title="Ich suche"

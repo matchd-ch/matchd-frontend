@@ -20,7 +20,7 @@
   </teleport>
   <div
     v-if="(requestedCurrentJobPosting && currentJobPosting) || !requestedCurrentJobPosting"
-    class="jobposting min-h-content-with-fixed-bars text-primary-1"
+    class="jobposting min-h-content-with-fixed-bars"
   >
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
@@ -94,13 +94,17 @@ export default class JobPostingCreate extends Vue {
     from: RouteLocationNormalized,
     next: NavigationGuardNext
   ): Promise<void> {
-    this.urlStepNumber = parseStepName(String(to.params.step));
-    if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
-      await this.loadJobPostingWithSlug(String(to.params.slug));
+    if (this.dirty && !this.confirmLeaveDirtyForm()) {
+      next(false);
     } else {
-      this.clearCurrentJobPosting();
+      next();
+      this.urlStepNumber = parseStepName(String(to.params.step));
+      if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
+        await this.loadJobPostingWithSlug(String(to.params.slug));
+      } else {
+        this.clearCurrentJobPosting();
+      }
     }
-    this.confirmWhenDirty(next);
   }
 
   async beforeRouteLeave(
@@ -108,7 +112,11 @@ export default class JobPostingCreate extends Vue {
     from: RouteLocationNormalized,
     next: NavigationGuardNext
   ): Promise<void> {
-    this.confirmWhenDirty(next);
+    if (this.dirty && !this.confirmLeaveDirtyForm()) {
+      next(false);
+    } else {
+      next();
+    }
   }
 
   mounted(): void {
@@ -159,16 +167,10 @@ export default class JobPostingCreate extends Vue {
     this.dirty = dirty;
   }
 
-  confirmWhenDirty(next: NavigationGuardNext): void {
-    if (this.dirty) {
-      const confirmed = window.confirm(
-        "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
-      );
-      this.clearCurrentJobPosting();
-      next(confirmed);
-    } else {
-      next();
-    }
+  confirmLeaveDirtyForm(): boolean {
+    return window.confirm(
+      "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
+    );
   }
 
   clearCurrentJobPosting(): void {
@@ -182,4 +184,11 @@ export default class JobPostingCreate extends Vue {
 }
 </script>
 
-<style></style>
+<style lang="postcss" scoped>
+.jobposting,
+.profile-navigation {
+  & :deep(*) {
+    --color-primary-1: var(--color-orange-1);
+  }
+}
+</style>

@@ -10,27 +10,41 @@
     </p>
 
     <h3 class="mb-2 font-medium mt-14">Profil</h3>
-    <div class="flex justify-between items-center mt-4">
-      <div class="flex-grow w-40" :class="{ 'font-medium': isAnonymous }">anonym</div>
-      <button
-        type="button"
-        class="border border-primary-1 relative inline-flex flex-shrink-0 h-9 w-20 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
-        aria-pressed="false"
-        @click="onToggleUserState"
-      >
-        <span class="sr-only">Status ändern</span>
-        <span
-          aria-hidden="true"
-          class="pointer-events-none inline-block h-9 w-9 rounded-full bg-current transform ring-0 transition ease-in-out duration-200 -m-px"
-          :class="isAnonymous ? 'translate-x-0' : 'translate-x-11'"
-        ></span>
-      </button>
-      <div class="flex-grow w-40 text-right" :class="{ 'font-medium': !isAnonymous }">
-        öffentlich
+    <div class="flex justify-center">
+      <div class="flex justify-between items-center mt-4">
+        <div
+          class="flex-grow mr-8"
+          :class="{ 'text-black': isAnonymous, 'text-grey-2': !isAnonymous }"
+        >
+          anonym
+        </div>
+        <button
+          type="button"
+          class="relative inline-flex flex-shrink-0 h-8 w-14 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
+          :class="{ 'bg-black': isAnonymous, 'bg-primary-1': !isAnonymous }"
+          aria-pressed="false"
+          @click="onToggleUserState"
+        >
+          <span class="sr-only">Status ändern</span>
+          <span
+            aria-hidden="true"
+            class="pointer-events-none inline-block h-6 w-6 m-1 rounded-full bg-white transform ring-0 transition ease-in-out duration-200 translate-x-0"
+            :class="isAnonymous ? 'translate-x-0' : 'translate-x-6'"
+          ></span>
+        </button>
+        <div
+          class="flex-grow text-right ml-8"
+          :class="{ 'text-primary-1': !isAnonymous, 'text-grey-2': isAnonymous }"
+        >
+          öffentlich
+        </div>
       </div>
     </div>
 
-    <div class="rounded-30 bg-green-5 border border-green-1 text-green-1 py-4 px-8 mb-10 mt-16">
+    <div
+      class="rounded-30 border py-4 px-8 mb-10 mt-16 transition-colors"
+      :class="{ 'text-green-1 bg-green-5': !isAnonymous, 'bg-grey-3': isAnonymous }"
+    >
       <template v-if="isAnonymous">
         <p>Dein Profil ist anonym. Unternehmen und Bildungseinrichtungen sehen nur:</p>
         <ul class="list list-disc list-inside text-lg mb-2">
@@ -112,7 +126,8 @@ export default class StudentStep6Form extends Vue {
             ActionTypes.STUDENT_ONBOARDING_STEP6,
             studentProfileStep6InputMapper(formData)
           );
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e);
         }

@@ -3,8 +3,12 @@
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
     >
-      <div class="flex justify-center m-5 lg:m-20 lg:w-86 lg:h-86">
-        <img class="w-40" :src="replaceStack(avatar.url, 'logo')" />
+      <div class="flex justify-center">
+        <CompanyLogo
+          :url="avatar.url"
+          :name="user?.company?.name"
+          class="m-5 w-40 h-40 xl:w-60 xl:h-60"
+        />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
         <h2 class="flex-1 mb-8 xl:mb-0">
@@ -16,7 +20,7 @@
         </p>
       </div>
     </div>
-    <div class="text-pink-1 flex flex-col min-h-full">
+    <div class="flex flex-col min-h-full">
       <profile-section
         v-if="dashboard?.jobPostings?.length"
         title="Ihre Stellen&shy;ausschreibungen"
@@ -44,7 +48,7 @@
           weitergehen.
         </p>
         <p v-if="dashboard?.requestedMatches?.length === 0">
-          Im Moment haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
+          Momentan haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
           hier sehen.
         </p>
         <company-match-group
@@ -57,8 +61,8 @@
           Ihre Ausschreibung ist beliebt. Folgende Talente möchten Sie gerne kennenlernen.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Im Moment haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden
-          Sie das hier sehen.
+          Momentan haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie
+          das hier sehen.
         </p>
         <company-match-group
           class="mt-4"
@@ -77,6 +81,7 @@
 </template>
 
 <script lang="ts">
+import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
@@ -95,6 +100,7 @@ class Props {
 
 @Options({
   components: {
+    CompanyLogo,
     MatchdButton,
     MatchdFileUpload,
     MatchdFileView,

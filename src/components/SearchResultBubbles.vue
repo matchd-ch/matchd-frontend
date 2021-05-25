@@ -371,7 +371,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       visibility: hidden;
 
       & text {
-      font-size: 1.125rem;
+        font-size: 1.125rem;
       }
     }
 

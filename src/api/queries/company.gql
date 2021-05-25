@@ -28,6 +28,7 @@ query($slug: String) {
     jobPostings {
       id
       title
+      displayTitle
       jobType {
         id
         name

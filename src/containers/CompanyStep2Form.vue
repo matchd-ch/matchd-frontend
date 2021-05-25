@@ -51,6 +51,7 @@
         maxlength="1000"
         rows="10"
       />
+      <template v-slot:info>Maximal 1000 Zeichen</template>
     </MatchdField>
     <!-- ITrockt Field -->
     <MatchdToggle id="memberItStGallen" class="mb-10" :errors="veeForm.errors.memberItStGallen">
@@ -65,6 +66,8 @@
         @change="onToggleMemberItStGallen($event.target.checked)"
         :checked="veeForm.memberItStGallen"
       />
+      <template v-if="veeForm.memberItStGallen" v-slot:value>Ja</template>
+      <template v-else v-slot:value>Nein</template>
     </MatchdToggle>
 
     <teleport to="footer">
@@ -130,7 +133,8 @@ export default class CompanyStep2Form extends Vue {
             ActionTypes.COMPANY_ONBOARDING_STEP2,
             companyProfileStep2InputMapper(formData)
           );
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e); // todo
         }

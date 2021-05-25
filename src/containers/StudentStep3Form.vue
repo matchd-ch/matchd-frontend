@@ -92,7 +92,8 @@ export default class StudentStep3Form extends Vue {
             studentProfileStep3InputMapper(formData)
           );
 
-          this.$emit("submitComplete", store.getters["onboardingState"]);
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         } catch (e) {
           console.log(e);
         }
