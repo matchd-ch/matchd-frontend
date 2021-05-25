@@ -89,7 +89,7 @@
           <div class="lg:flex">
             <MatchdField id="zip" class="lg:mr-3 mb-3 lg:w-40" :errors="errors.zip">
               <template v-slot:label>PLZ</template>
-              <Field id="zip" name="zip" as="input" label="PLZ" rules="required" />
+              <Field id="zip" name="zip" as="input" label="PLZ" rules="required" maxlength="4" />
             </MatchdField>
             <MatchdField id="city" class="mb-3 lg:flex-grow" :errors="errors.city">
               <template v-slot:label>Ort</template>
@@ -163,8 +163,10 @@
 
           <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
             <template v-slot:label
-              >Mit umlegen des Sliders akzeptieren sie die
-              <a class="underline" :href="dataProtectionLink">Datenschutzerklärung</a>.</template
+              ><a class="underline" :href="dataProtectionLink" target="_blank"
+                >Datenschutzerklärung</a
+              >
+              von Matchd</template
             >
             <Field
               id="dataProtection"
@@ -174,6 +176,9 @@
               value="true"
               :rules="{ required: true }"
             />
+            <template v-slot:value
+              >Ja, ich habe die Datenschutzerklärung gelesen und akzeptiere sie
+            </template>
           </MatchdToggle>
 
           <MatchdButton

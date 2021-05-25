@@ -138,7 +138,6 @@ import { AddEmployeeSubForm, JobPostingStep3Form } from "@/models/JobPostingStep
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import type { Employee, JobPosting as JobPostingType, User } from "api";
-import cloneDeep from "clone-deep";
 import { Field, Form, FormActions, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -238,12 +237,8 @@ export default class JobPostingStep3 extends Vue {
     await this.$store.dispatch(ActionTypes.EMPLOYEES);
 
     this.veeForm.resetForm({
-      values: cloneDeep(this.jobPostingData),
+      values: this.jobPostingData,
     });
-
-    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep > 1) {
-      this.veeForm.setValues(cloneDeep(this.jobPostingData));
-    }
   }
 
   onClickShowEmployeeForm(): void {

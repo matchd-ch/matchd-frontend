@@ -52,7 +52,7 @@
           weitergehen.
         </p>
         <p v-if="dashboard?.requestedMatches?.length === 0">
-          Im Moment haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
+          Momentan haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
           hier sehen.
         </p>
         <company-match-group
@@ -65,8 +65,8 @@
           Ihre Ausschreibung ist beliebt. Folgende Talente möchten Sie gerne kennenlernen.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Im Moment haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden
-          Sie das hier sehen.
+          Momentan haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie
+          das hier sehen.
         </p>
         <company-match-group
           class="mt-4"

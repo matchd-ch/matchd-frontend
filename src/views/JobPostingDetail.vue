@@ -102,9 +102,9 @@
       <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
         Du hast bereits Interesse gezeigt, fingers crossed! 🤞
       </template>
-      <template v-else-if="matchType === matchTypeEnum.FullMatch">
-        Gratulation, ihr Matchd euch gegenseitig!
-      </template>
+      <template v-else-if="matchType === matchTypeEnum.FullMatch"
+        >Gratulation, it’s a Match!</template
+      >
       <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
         Match bestätigen
       </MatchdButton>

@@ -92,13 +92,17 @@ export default class JobPostingCreate extends Vue {
     from: RouteLocationNormalized,
     next: NavigationGuardNext
   ): Promise<void> {
-    this.urlStepNumber = parseStepName(String(to.params.step));
-    if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
-      await this.loadJobPostingWithSlug(String(to.params.slug));
+    if (this.dirty && !this.confirmLeaveDirtyForm()) {
+      next(false);
     } else {
-      this.clearCurrentJobPosting();
+      next();
+      this.urlStepNumber = parseStepName(String(to.params.step));
+      if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
+        await this.loadJobPostingWithSlug(String(to.params.slug));
+      } else {
+        this.clearCurrentJobPosting();
+      }
     }
-    this.confirmWhenDirty(next);
   }
 
   async beforeRouteLeave(
@@ -106,7 +110,11 @@ export default class JobPostingCreate extends Vue {
     from: RouteLocationNormalized,
     next: NavigationGuardNext
   ): Promise<void> {
-    this.confirmWhenDirty(next);
+    if (this.dirty && !this.confirmLeaveDirtyForm()) {
+      next(false);
+    } else {
+      next();
+    }
   }
 
   mounted(): void {
@@ -157,16 +165,10 @@ export default class JobPostingCreate extends Vue {
     this.dirty = dirty;
   }
 
-  confirmWhenDirty(next: NavigationGuardNext): void {
-    if (this.dirty) {
-      const confirmed = window.confirm(
-        "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
-      );
-      this.clearCurrentJobPosting();
-      next(confirmed);
-    } else {
-      next();
-    }
+  confirmLeaveDirtyForm(): boolean {
+    return window.confirm(
+      "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
+    );
   }
 
   clearCurrentJobPosting(): void {

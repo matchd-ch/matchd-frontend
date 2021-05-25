@@ -27,7 +27,7 @@
             as="select"
             label="Monat"
             class="mr-3"
-            :rules="veeForm.values?.jobFromDateYear !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobFromDateYear"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -39,7 +39,7 @@
             name="jobFromDateYear"
             as="select"
             label="Jahr"
-            :rules="veeForm.values?.jobFromDateMonth !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobFromDateMonth"
           >
             <option value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
@@ -60,7 +60,7 @@
             as="select"
             label="Monat"
             class="mr-3"
-            :rules="veeForm.values?.jobToDateYear !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobToDateYear"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -72,7 +72,7 @@
             name="jobToDateYear"
             as="select"
             label="Jahr"
-            :rules="veeForm.values?.jobToDateMonth !== '' ? 'required' : ''"
+            rules="requiredIfNotEmpty:jobToDateMonth"
           >
             <option value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
@@ -169,7 +169,7 @@ export default class StudentStep2Form extends Vue {
           );
 
           const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState);
+          this.$emit("submitComplete", onboardingState.success);
           if (onboardingState.errors) {
             form.setErrors(onboardingState.errors);
             if (onboardingState.errors?.jobFromDate) {

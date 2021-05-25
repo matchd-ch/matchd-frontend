@@ -6,6 +6,7 @@ export interface JobPostingStep1Form {
   workload: string;
   jobFromDateMonth: string;
   jobFromDateYear: string;
+  jobToDateOpenEnd: string;
   jobToDateMonth: string;
   jobToDateYear: string;
   url: string;
