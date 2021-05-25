@@ -1,7 +1,7 @@
 <template>
   <router-link :to="{ name: 'JobPostingDetail', params: { slug: jobPosting.slug } }">
     <p class="font-bold">
-      {{ jobPosting.title }} {{ jobPosting.state === "PUBLIC" ? "" : " (Entwurf)" }}
+      {{ jobPosting.displayTitle }} {{ jobPosting.state === "PUBLIC" ? "" : " (Entwurf)" }}
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
     </p>
     <p>
