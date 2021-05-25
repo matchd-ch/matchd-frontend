@@ -85,7 +85,6 @@ import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import { ActionTypes } from "@/store/modules/login/action-types";
 import type { User, Attachment, Dashboard } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from "@/api/models/types";

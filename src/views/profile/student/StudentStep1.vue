@@ -21,7 +21,6 @@
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
 import StudentStep1Form from "@/containers/StudentStep1Form.vue";
-import { calculateMargins } from "@/helpers/calculateMargins";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

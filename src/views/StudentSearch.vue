@@ -60,7 +60,7 @@
         @clickResult="onClickResult"
       />
       <SearchResultGrid
-        v-if="layout === 'grid' && matchesForGrid.length > 0"
+        v-else-if="layout === 'grid' && matchesForGrid.length > 0"
         :matches="matchesForGrid"
         :jobPostingId="jobPostingId"
         resultType="student"

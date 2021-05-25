@@ -87,7 +87,6 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
-import { ActionTypes } from "@/store/modules/login/action-types";
 import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from "@/api/models/types";
