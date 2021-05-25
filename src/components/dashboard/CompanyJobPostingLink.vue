@@ -3,7 +3,7 @@
     :to="{ name: 'JobPostingCreate', params: { slug: jobPosting.slug, step: 'schritt1' } }"
   >
     <p class="font-bold">
-      {{ jobPosting.title }} {{ isPublic(jobPosting) ? "" : " (Entwurf)" }}
+      {{ jobPosting.displayTitle }} {{ isPublic(jobPosting) ? "" : " (Entwurf)" }}
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
     </p>
   </router-link>

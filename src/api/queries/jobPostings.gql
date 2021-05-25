@@ -3,5 +3,6 @@ query {
     id
     slug
     title
+    displayTitle
   }
 }
