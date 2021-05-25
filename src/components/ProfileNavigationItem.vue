@@ -1,7 +1,8 @@
 <template>
-  <li class="mr-4">
+  <li class="profile-navigation-item flex-shrink-0">
     <router-link
       :to="to"
+      class="block px-4 py-6"
       :class="{ 'text-grey-2 pointer-events-none': disabled, 'text-primary-1': !disabled }"
     >
       <slot />
@@ -22,4 +23,10 @@ class Props {
 export default class ProfileNavigationItem extends Vue.with(Props) {}
 </script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.profile-navigation-item {
+  &:not(:last-child) {
+    @apply mr-4;
+  }
+}
+</style>
