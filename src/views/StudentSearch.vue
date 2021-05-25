@@ -1,35 +1,46 @@
 <template>
   <div class="student-search-view">
     <SearchFilters class="search-filters fixed right-0 top-0 left-0 bg-company-gradient-t-b z-50">
-      <form>
-        Ich suche nach Talenten, die für meine Stelle als
-        <label for="jobPosting" class="sr-only">Stelle auswählen</label>
-        <select
-          id="jobPosting"
-          name="jobPosting"
-          class="bg-transparent border-b border-white py-2 px-1 appearance-none"
-          @change="onChangeJobPosting"
-          v-model="jobPostingId"
-        >
-          <option
-            v-for="jobPosting in jobPostings"
-            :key="jobPosting.id"
-            :value="jobPosting.id"
-            class="text-pink-1"
+      <div class="grid grid-rows-1 grid-cols-1 gap-3">
+        <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between max-w-xl">
+          nach Talenten für meine Stelle als
+          <label for="jobPosting" class="sr-only">Stelle auswählen</label>
+          <select
+            id="jobPosting"
+            name="jobPosting"
+            class="bg-transparent border-b border-white py-2 px-1 appearance-none"
+            @change="onChangeJobPosting"
+            v-model="jobPostingId"
           >
-            {{ jobPosting.title }}
-          </option>
-        </select>
-        interessant sind
-      </form>
-      <div class="flex justify-center mt-4 xl:mt-0">
-        <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
-          <span class="material-icons text-icon-lg">bubble_chart</span>
-        </button>
-        <button type="button" @click="onChangeLayout('grid')" class="p-1">
-          <span class="material-icons text-icon-lg">view_comfy</span>
-        </button>
+            <option
+              v-for="jobPosting in jobPostings"
+              :key="jobPosting.id"
+              :value="jobPosting.id"
+              class="text-pink-1"
+            >
+              {{ jobPosting.title }}
+            </option>
+          </select>
+        </div>
       </div>
+      <SearchBoost
+        class="search-boost flex xl:hidden mt-4"
+        @changeSoftBoost="onChangeSoftBoost"
+        @changeTechBoost="onChangeTechBoost"
+        :techBoost="techBoost"
+        :softBoost="softBoost"
+      />
+
+      <template v-slot:display-toggles>
+        <div class="hidden xl:flex justify-center mt-4 xl:mt-0">
+          <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
+            <span class="material-icons text-icon-lg">bubble_chart</span>
+          </button>
+          <button type="button" @click="onChangeLayout('grid')" class="p-1">
+            <span class="material-icons text-icon-lg">view_comfy</span>
+          </button>
+        </div>
+      </template>
     </SearchFilters>
     <div class="mt-fixed-header mb-fixed-footer">
       <SearchResultBubbles
@@ -58,12 +69,11 @@
       </div>
     </div>
     <SearchBoost
-      class="search-boost fixed right-0 bottom-0 left-0"
+      class="search-boost hidden xl:flex fixed right-0 bottom-0 left-0"
       @changeSoftBoost="onChangeSoftBoost"
       @changeTechBoost="onChangeTechBoost"
       :techBoost="techBoost"
       :softBoost="softBoost"
-      color="pink"
     />
   </div>
 </template>

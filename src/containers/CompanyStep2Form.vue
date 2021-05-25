@@ -66,6 +66,8 @@
         @change="onToggleMemberItStGallen($event.target.checked)"
         :checked="veeForm.memberItStGallen"
       />
+      <template v-if="veeForm.memberItStGallen" v-slot:value>Ja</template>
+      <template v-else v-slot:value>Nein</template>
     </MatchdToggle>
 
     <slot />

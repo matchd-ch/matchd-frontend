@@ -23,10 +23,13 @@
     </p>
 
     <div class="flex items-center">
-      <MatchdToggle id="permissionGranted"
-        ><template v-slot:label>Deine Kontaktdaten und Zertifikate freigeben</template
-        ><input id="permissionGranted" type="checkbox" v-model="permissionGranted"
-      /></MatchdToggle>
+      <MatchdToggle id="permissionGranted">
+        <template v-slot:label>Deine Kontaktdaten und Zertifikate freigeben</template>
+        <input id="permissionGranted" type="checkbox" v-model="permissionGranted" />
+        <template v-slot:value>
+          <span :class="{ 'text-primary-1': permissionGranted }">Einverstanden</span>
+        </template>
+      </MatchdToggle>
     </div>
 
     <template v-slot:footer>

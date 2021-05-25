@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user" class="login min-h-screen grid">
+  <div v-if="user" class="dashboard min-h-screen">
     <component :is="dashboardComponent" :dashboard="dashboard"></component>
   </div>
 </template>

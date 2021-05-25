@@ -10,7 +10,7 @@
         <label
           class="select-pill-multiple__box flex items-center rounded-full bg-white border border-current font-medium text-sm py-3 px-8 cursor-pointer"
           :class="{
-            'text-black border-current': option.checked,
+            'text-primary-1': option.checked,
           }"
         >
           <input
@@ -72,7 +72,7 @@ export default class SelectPillMultiple extends Vue.with(Props) {}
 
   @element label {
     @apply block px-8 mb-2;
-    @apply font-medium;
+    @apply font-medium text-primary-1;
   }
 
   @element info {
