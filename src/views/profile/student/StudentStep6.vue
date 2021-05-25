@@ -1,8 +1,13 @@
 <template>
   <StudentStep6Form>
     <template v-if="edit">
-      <div class="p-8 bg-white flex justify-center">
-        <MatchdButton type="button" variant="outline" @click="$emit('clickCancel')" class="mr-4">
+      <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
+        <MatchdButton
+          type="button"
+          variant="outline"
+          @click="$emit('clickCancel')"
+          class="mb-2 xl:mr-4 xl:mb-0"
+        >
           Abbrechen
         </MatchdButton>
         <MatchdButton variant="outline" :disabled="onboardingLoading" :loading="onboardingLoading">
