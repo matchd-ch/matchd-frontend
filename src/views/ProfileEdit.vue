@@ -35,7 +35,7 @@
       </ProfileNavigationItem>
     </ProfileNavigation>
   </teleport>
-  <div class="profil min-h-screen">
+  <div class="profil min-h-content-with-fixed-bars">
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
         :is="currentProfileComponent"

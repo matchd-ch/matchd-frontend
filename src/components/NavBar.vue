@@ -3,7 +3,9 @@
     class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 border-b py-2.5 bg-white border-primary-1 relative"
   >
     <div class="p-4 flex flex-row items-center justify-between">
-      <router-link :to="{ name: 'Dashboard' }"><Logo class="w-36" /></router-link>
+      <router-link :to="{ name: 'Dashboard' }" class="logo hover:text-primary-1 transition-colors"
+        ><Logo class="w-36"
+      /></router-link>
       <button
         class="md:hidden rounded-lg focus:outline-none focus:shadow-outline"
         @click="open = !open"
@@ -49,7 +51,7 @@ export default class NavBar extends Vue {
 </script>
 
 <style lang="postcss" scoped>
-:deep(.router-link-active) {
+:deep(.router-link-active:not(.logo)) {
   @apply text-primary-1;
 }
 </style>
