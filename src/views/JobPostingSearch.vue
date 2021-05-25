@@ -83,6 +83,9 @@
         resultType="jobposting"
         color="green"
       ></SearchResultGrid>
+      <div class="min-h-content-with-fixed-bars flex justify-center items-center px-4" v-else>
+        <div>👀 ganz schön leer hier. Derzeit gibt es leider keine Suchresultate zum Matchen.</div>
+      </div>
     </div>
     <SearchBoost
       class="search-boost hidden xl:flex fixed right-0 bottom-0 left-0"
@@ -171,18 +174,26 @@ export default class JobPostingSearch extends Vue {
     );
   }
 
-  async mounted(): Promise<void> {
-    window.addEventListener("resize", this.calculateMargins, true);
-    this.calculateMargins();
-
+  beforeMount(): void {
     this.layout = (this.$route.query?.layout as string) || "bubbles";
     this.jobTypeId =
       (this.$route.query?.jobTypeId as string) || this.user?.student?.jobType?.id || "";
+    this.softBoost = this.$route.query?.softBoost
+      ? parseInt(this.$route.query?.softBoost as string)
+      : 3;
+    this.techBoost = this.$route.query?.techBoost
+      ? parseInt(this.$route.query?.techBoost as string)
+      : 3;
     this.zip = (this.$route.query?.zip as string) || "";
     this.workload = parseInt(this.$route.query?.workload as string) || 100;
     this.branchId = (this.$route.query?.branchId as string) || this.user?.student?.branch?.id || "";
 
     this.persistFiltersToUrl();
+  }
+
+  async mounted(): Promise<void> {
+    window.addEventListener("resize", this.calculateMargins, true);
+    this.calculateMargins();
 
     await Promise.all([
       this.searchJobPostings(),
@@ -212,6 +223,7 @@ export default class JobPostingSearch extends Vue {
 
   async searchJobPostings(): Promise<void> {
     this.persistFiltersToUrl();
+    console.log(this.softBoost, this.techBoost);
     await this.$store.dispatch(
       ActionTypes.MATCHING,
       jobPostingMatchingInputMapper({
@@ -274,6 +286,8 @@ export default class JobPostingSearch extends Vue {
     this.$router.replace({
       query: {
         layout: this.layout,
+        softBoost: this.softBoost,
+        techBoost: this.techBoost,
         ...(this.branchId !== "" && { branchId: this.branchId }),
         ...(this.jobTypeId !== "" && { jobTypeId: this.jobTypeId }),
         ...(this.zip !== "" && { zip: this.zip }),

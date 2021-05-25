@@ -1,7 +1,7 @@
 <template>
   <ul v-if="matches">
     <li v-for="jobPosting in uniqueJobPostings" :key="jobPosting.id" class="link-list__item mb-4">
-      <p class="mb-2">{{ jobPosting.title }}</p>
+      <p class="mb-2">{{ jobPosting.displayTitle }}</p>
       <ul>
         <li v-for="student in getStudents(jobPosting.id)" :key="student.id" class="link-list__item">
           <router-link

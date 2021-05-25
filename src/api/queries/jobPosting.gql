@@ -2,6 +2,7 @@ query($id: ID, $slug: String) {
   jobPosting(id: $id, slug: $slug) {
     id
     title
+    displayTitle
     description
     jobFromDate
     jobToDate
