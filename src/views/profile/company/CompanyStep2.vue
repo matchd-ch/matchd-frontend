@@ -66,7 +66,9 @@
         @change="onToggleMemberItStGallen($event.target.checked)"
         :checked="veeForm.memberItStGallen"
       />
-      <template v-if="veeForm.memberItStGallen" v-slot:value>Ja</template>
+      <template v-if="veeForm.memberItStGallen" v-slot:value>
+        <span class="text-pink-1">Ja</span>
+      </template>
       <template v-else v-slot:value>Nein</template>
     </MatchdToggle>
 
@@ -83,7 +85,7 @@
           </MatchdButton>
           <MatchdButton
             type="button"
-            variant="outline"
+            variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
@@ -99,7 +101,7 @@
       </MatchdButton>
       <MatchdButton
         type="button"
-        variant="outline"
+        variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"

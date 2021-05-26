@@ -35,6 +35,7 @@
     <template v-slot:footer>
       <MatchdButton
         @click="$emit('clickCancel')"
+        variant="outline"
         class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
       >
         Abbrechen

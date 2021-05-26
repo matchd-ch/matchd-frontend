@@ -54,7 +54,7 @@
         :editStep="getStepName(3)"
       >
         <ul class="list list-inside list-disc marker-pink-1">
-          <li v-for="branch in user.company.branches" :key="branch.id">
+          <li v-for="branch in user.company.branches" :key="branch.id" class="text-lg">
             {{ branch.name }}
           </li>
         </ul>
@@ -69,7 +69,7 @@
           <li
             v-for="benefit in user.company.benefits"
             :key="benefit.id"
-            class="flex items-center border border-pink-5 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
+            class="flex items-center border border-pink-5 rounded-30 font-medium text-md py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
           >
             <span class="material-icons mr-2">{{ benefit.icon }}</span>
             {{ benefit.name }}
@@ -82,7 +82,7 @@
           <li v-for="position in user.company.jobPostings" :key="position.id">
             <router-link
               :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
-              class="block text-link-md underline text-pink-1 font-medium mb-2"
+              class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ position.title }}, {{ position.jobType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />

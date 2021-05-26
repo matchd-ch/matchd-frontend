@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper bg-white border-b border-primary-1">
+  <div class="profile-navigation-wrapper bg-white border-b border-t border-primary-1">
     <ul
       class="profile-navigation flex lg:justify-center min-w-full overflow-y-hidden overflow-x-auto"
     >
@@ -16,7 +16,7 @@ export default class ProfileNavigation extends Vue {}
 </script>
 
 <style lang="postcss" scoped>
-.wrapper {
+.profile-navigation-wrapper {
   @apply relative;
 
   &::before,

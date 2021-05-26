@@ -3,7 +3,11 @@
     <router-link
       :to="to"
       class="block px-4 py-6"
-      :class="{ 'text-grey-2 pointer-events-none': disabled, 'text-primary-1': !disabled }"
+      :class="{
+        'text-grey-2 pointer-events-none': disabled,
+        'text-primary-1': !disabled,
+        'opacity-60': !active && !disabled,
+      }"
     >
       <slot />
     </router-link>
@@ -16,6 +20,7 @@ import { RouteLocationNormalized } from "vue-router";
 
 class Props {
   to = prop<RouteLocationNormalized>({ required: true });
+  active = prop<boolean>({ default: false });
   disabled = prop<boolean>({ default: false });
 }
 

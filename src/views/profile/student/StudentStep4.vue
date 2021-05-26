@@ -50,7 +50,6 @@
       @clickRemoveLanguage="onClickRemoveLanguage"
       ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
     >
-    <h2 class="text-heading-md mb-9">Was zeichnet dich sonst noch aus?</h2>
     <!-- Online Projects Field -->
     <MatchdField id="onlineProjects" class="mb-10">
       <template v-slot:label>Deine Onlineprojekte</template>
@@ -166,7 +165,7 @@
           </MatchdButton>
           <MatchdButton
             type="button"
-            variant="outline"
+            variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
@@ -182,7 +181,7 @@
       </MatchdButton>
       <MatchdButton
         type="button"
-        variant="outline"
+        variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"

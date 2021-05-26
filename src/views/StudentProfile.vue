@@ -43,7 +43,7 @@
         title="Diese technischen Skills bringe ich mit"
         :editStep="getStepName(4)"
       >
-        <ul>
+        <ul class="text-lg">
           <li v-for="skill in user.student.skills" :key="skill.id">{{ skill.name }}</li>
         </ul>
       </profile-section>
@@ -52,7 +52,7 @@
         title="Ich habe Kenntnisse in folgenden Sprachen"
         :editStep="getStepName(4)"
       >
-        <ul>
+        <ul class="text-lg">
           <li v-for="language in user.student.languages" :key="language.id">
             {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
           </li>
@@ -63,9 +63,13 @@
         title="Das sind meine eigenen Projekte"
         :editStep="getStepName(4)"
       >
-        <ul>
+        <ul class="text-lg">
           <li v-for="project in user.student.onlineProjects" :key="project.id">
-            <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
+            <a
+              class="font-medium underline hover:text-primary-1 transition-colors"
+              :href="project.url"
+              >{{ project.url }}</a
+            >
           </li>
         </ul>
       </profile-section>
@@ -74,14 +78,14 @@
         title="Was mich sonst noch auszeichnet"
         :editStep="getStepName(4)"
       >
-        {{ user.student.distinction }}
+        <p class="text-lg">{{ user.student.distinction }}</p>
       </profile-section>
       <profile-section
         v-if="user.student.hobbies?.length"
         title="Das mache ich gerne in meiner Freizeit"
         :editStep="getStepName(4)"
       >
-        <ul>
+        <ul class="text-lg">
           <li v-for="hobby in user.student.hobbies" :key="hobby.id">
             {{ hobby.name }}
           </li>
@@ -90,7 +94,10 @@
       <profile-section v-if="certificates?.length" title="Zertifikate" :editStep="getStepName(4)">
         <ul>
           <li v-for="certificate in certificates" :key="certificate.id">
-            <a :href="certificate.url" class="font-medium underline inline-block" download
+            <a
+              :href="certificate.url"
+              class="font-medium underline inline-block text-lg hover:text-primary-1 transition-colors"
+              download
               ><span>
                 {{ certificate.fileName }}
               </span>

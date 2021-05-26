@@ -52,7 +52,7 @@
           </MatchdButton>
           <MatchdButton
             type="button"
-            variant="outline"
+            variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
@@ -68,7 +68,7 @@
       </MatchdButton>
       <MatchdButton
         type="button"
-        variant="outline"
+        variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"

@@ -41,7 +41,6 @@
           >
         </MatchdField>
         <MatchdButton
-          variant="outline"
           :disabled="passwordResetLoading"
           :loading="passwordResetLoading"
           class="block w-full"

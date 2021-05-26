@@ -101,7 +101,7 @@
           </MatchdButton>
           <MatchdButton
             type="button"
-            variant="outline"
+            variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
@@ -114,7 +114,7 @@
     <template v-else>
       <MatchdButton
         type="button"
-        variant="outline"
+        variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"

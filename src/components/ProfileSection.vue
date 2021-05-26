@@ -1,6 +1,6 @@
 <template>
   <section
-    class="relative xl:flex-grow p-9 xl:flex"
+    class="profile-section relative xl:flex-grow p-9 xl:flex"
     :class="{
       'border-green-1': !pink,
       'border-pink-1': pink,
@@ -8,7 +8,7 @@
     }"
   >
     <h2
-      class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-1/4 break-normal"
+      class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-8 2xl:pr-1/4 break-normal"
       :class="{
         'text-green-1': !pink,
         'text-pink-1': pink,
@@ -22,7 +22,7 @@
     <router-link
       v-if="editStep"
       :to="{ name: 'ProfileEdit', params: { step: editStep } }"
-      class="absolute top-9 right-9"
+      class="profile-section__button absolute top-9 right-9 rounded-full border border-black w-10 h-10 flex justify-center items-center hover:bg-black hover:text-white transition-colors"
     >
       <span class="material-icons">edit</span>
     </router-link>
@@ -41,7 +41,17 @@ export default class ProfileSection extends Vue.with(Props) {}
 </script>
 
 <style lang="postcss" scoped>
-section:not(:last-of-type) {
-  @apply border-b;
+@block profile-section {
+  &:not(:last-of-type) {
+    @apply border-b;
+  }
+
+  @element button {
+    @apply transition-all;
+
+    &:hover {
+      box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+  }
 }
 </style>

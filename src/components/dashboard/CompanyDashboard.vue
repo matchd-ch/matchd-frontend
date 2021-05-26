@@ -7,14 +7,14 @@
         <CompanyLogo
           :url="avatar.url"
           :name="user?.company?.name"
-          class="m-5 w-40 h-40 xl:w-60 xl:h-60"
+          class="m-5 lg:m-20 w-40 h-40 xl:w-60 xl:h-60"
         />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
-        <h2 class="flex-1 mb-8 xl:mb-0">
+        <h2 class="flex-1 xl:mb-0 text-display-xs">
           Willkommen zurück bei Matchd! Wir wünschen viel Erfolg bei der Talentsuche
         </h2>
-        <p>
+        <p class="mt-4">
           Auf dieser Seite finden Sie Ihre ausgeschriebenen Stellen sowie den aktuellen Stand Ihrer
           Matches. Damit Sie keinen Match verpassen, informieren wir Sie jeweils auch per E-Mail.
         </p>

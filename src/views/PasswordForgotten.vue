@@ -34,7 +34,6 @@
           >
         </MatchdField>
         <MatchdButton
-          variant="outline"
           :disabled="passwordForgottenLoading"
           :loading="passwordForgottenLoading"
           class="block w-full"
