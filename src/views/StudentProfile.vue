@@ -1,14 +1,17 @@
 <template>
-  <div v-if="user && user.student" class="student-detail grid grid-cols-1 xl:grid-cols-2">
+  <div
+    v-if="user && user.student"
+    class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
+  >
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
-      <div v-if="avatar" class="flex justify-center mt-9">
+      <div v-if="avatarSrc" class="flex justify-center mt-9">
         <img
           class="avatar rounded-full object-cover"
           width="300"
           height="300"
-          :src="replaceStack(avatar.url, 'desktop-square')"
+          :src="replaceStack(avatarSrc, 'desktop-square')"
           :alt="`Profilbild von ${user.firstName} ${user.lastName}`"
         />
       </div>
@@ -123,8 +126,18 @@ export default class StudentProfile extends Vue {
     return this.$store.getters["user"];
   }
 
+  get avatarSrc(): string {
+    return this.avatar?.url || this.avatarFallback?.url || "";
+  }
+
   get avatar(): Attachment {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar })?.[0];
+  }
+
+  get avatarFallback(): Attachment {
+    return this.$store.getters["attachmentsByKey"]({
+      key: AttachmentKey.StudentAvatarFallback,
+    })?.[0];
   }
 
   get certificates(): Attachment[] {
@@ -155,6 +168,9 @@ export default class StudentProfile extends Vue {
   async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.StudentAvatarFallback,
+      }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentDocuments,
       }),
