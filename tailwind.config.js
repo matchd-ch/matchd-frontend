@@ -25,7 +25,7 @@ module.exports = {
       "heading-sm": ["1.5rem", "123%"],
       "heading-md": ["1.75rem", "108%"],
       "heading-lg": ["2rem", "114%"],
-      "display-xs": ["2.1875rem", "102%"],
+      "display-xs": ["2.1875rem", "116%"],
       "display-sm": ["2.8125rem", "106%"],
       "display-md": ["3.625rem", "104%"],
       "display-lg": ["4.25rem", "97%"],

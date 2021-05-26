@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="user && user.company && logo"
+    v-if="user && user.company && logoSrc"
     class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
   >
     <div
@@ -8,7 +8,7 @@
     >
       <div class="xl:flex">
         <div class="xl:w-1/2 flex items-center">
-          <CompanyLogo :url="logo.url" :name="user.company.name" class="w-32 mr-8" />
+          <CompanyLogo :url="logoSrc" :name="user.company.name" class="w-32 mr-8" />
           <h1 class="text-heading-sm">{{ user.company.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
@@ -54,7 +54,7 @@
         :editStep="getStepName(3)"
       >
         <ul class="list list-inside list-disc marker-pink-1">
-          <li v-for="branch in user.company.branches" :key="branch.id">
+          <li v-for="branch in user.company.branches" :key="branch.id" class="text-lg">
             {{ branch.name }}
           </li>
         </ul>
@@ -69,7 +69,7 @@
           <li
             v-for="benefit in user.company.benefits"
             :key="benefit.id"
-            class="flex items-center border border-pink-5 rounded-30 font-medium text-sm py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
+            class="flex items-center border border-pink-5 rounded-30 font-medium text-md py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
           >
             <span class="material-icons mr-2">{{ benefit.icon }}</span>
             {{ benefit.name }}
@@ -82,7 +82,7 @@
           <li v-for="position in user.company.jobPostings" :key="position.id">
             <router-link
               :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
-              class="block text-link-md underline text-pink-1 font-medium mb-2"
+              class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ position.title }}, {{ position.jobType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
@@ -127,8 +127,18 @@ export default class CompanyProfile extends Vue {
     return this.$store.getters["user"];
   }
 
+  get logoSrc(): string {
+    return this.logo?.url || this.logoFallback?.url || "";
+  }
+
   get logo(): Attachment {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0];
+  }
+
+  get logoFallback(): Attachment {
+    return this.$store.getters["attachmentsByKey"]({
+      key: AttachmentKey.CompanyAvatarFallback,
+    })?.[0];
   }
 
   get mainMedia(): Attachment {
@@ -159,6 +169,9 @@ export default class CompanyProfile extends Vue {
   async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.CompanyAvatarFallback,
+      }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.CompanyDocuments,
       }),

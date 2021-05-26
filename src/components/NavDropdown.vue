@@ -2,7 +2,7 @@
   <div class="relative" ref="navDropdown">
     <button
       @click.prevent="open = !open"
-      class="flex flex-row items-center w-full rounded-full px-10 py-2 mt-2 md:text-lg text-sm border text-left bg-transparent md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+      class="flex flex-row items-center w-full rounded-full px-10 py-2 mt-2 md:text-lg text-sm border text-left bg-transparent md:w-auto md:inline md:mt-0 md:ml-4 hover:bg-black hover:border-black hover:text-white transition-colors focus:text-gray-900 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
     >
       {{ text }}
     </button>

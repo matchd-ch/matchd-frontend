@@ -10,7 +10,7 @@
       >
       <button
         @click="$emit('clickLogout')"
-        class="block focus:bg-gray-200 focus:outline-none focus:shadow-outline focus:text-gray-900 hover:bg-gray-200 hover:text-gray-900 bg-transparent md:mt-0 md:text-lg mt-2 px-4 py-2 text-sm"
+        class="block focus:bg-gray-200 focus:outline-none focus:shadow-outline focus:text-gray-900 hover:text-primary-1 bg-transparent md:mt-0 md:text-lg mt-2 px-4 py-2 text-sm"
       >
         Logout
       </button>

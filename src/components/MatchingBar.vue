@@ -1,5 +1,5 @@
 <template>
-  <div class="matching-bar flex justify-center bg-white p-4 xl:p-8">
+  <div class="matching-bar flex justify-center bg-white p-4 xl:p-8 text-lg xl:text-2xl">
     <slot />
   </div>
 </template>

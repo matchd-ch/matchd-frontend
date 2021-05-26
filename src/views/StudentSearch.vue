@@ -66,7 +66,10 @@
         resultType="student"
         color="pink"
       ></SearchResultGrid>
-      <div class="min-h-content-with-fixed-bars flex justify-center items-center px-4" v-else>
+      <div
+        class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
+        v-else
+      >
         <div>Leider haben wir kein passendes Talent gefunden, haben Sie etwas Geduld.</div>
       </div>
     </div>
