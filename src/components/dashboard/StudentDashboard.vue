@@ -7,8 +7,10 @@
         <img class="avatar rounded-full object-cover" :src="replaceStack(avatar.url, 'logo')" />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
-        <h2 class="flex-1 mb-8 xl:mb-0">Hey {{ user.firstName }}, ready to match?</h2>
-        <p>
+        <h2 class="flex-1 mb-8 xl:mb-0 text-display-xs">
+          Hey {{ user.firstName }}, ready to match?
+        </h2>
+        <p class="mt-4">
           Auf dieser Seite findest du die neuesten Stellenausschreibungen, neue Projekte sowie den
           aktuellen Stand deiner Matches. Damit du keinen Match verpasst, behalten wir dich auch per
           E-Mail up-to-date.

@@ -63,13 +63,14 @@ export default class MatchdButton extends Vue.with(Props) {}
 }
 
 .fill {
-  @apply bg-black text-white;
+  @apply bg-black text-white border border-black;
 
   &:not(:disabled) {
     &:hover,
     &:focus,
     &.active {
-      @apply text-black bg-white;
+      @apply bg-white border-black;
+      @apply text-black;
 
       & svg {
         fill: black;

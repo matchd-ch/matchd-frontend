@@ -59,25 +59,30 @@
       @clickRemoveLanguage="onClickRemoveLanguage"
       ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
     >
-    <MatchdButton
-      variant="outline"
-      :disabled="jobPostingLoading"
-      :loading="jobPostingLoading"
-      class="block w-full"
-    >
-      <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
-      <template v-else>Speichern und weiter</template>
-    </MatchdButton>
-    <MatchdButton
-      type="button"
-      variant="outline"
-      :disabled="jobPostingLoading"
-      @click="onClickBack"
-      class="block w-full mt-5"
-    >
-      <template v-if="currentJobPosting?.formStep > 3">Abbrechen</template>
-      <template v-else>Zurück zu Schritt 1</template>
-    </MatchdButton>
+    <teleport to="footer">
+      <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
+        <MatchdButton
+          type="button"
+          variant="outline"
+          :disabled="jobPostingLoading"
+          class="mb-2 xl:mr-4 xl:mb-0"
+          @click="onClickBack"
+        >
+          <template v-if="currentJobPosting?.formStep > 3">Abbrechen</template>
+          <template v-else>Zurück zu Schritt 1</template>
+        </MatchdButton>
+        <MatchdButton
+          type="button"
+          variant="fill"
+          :disabled="jobPostingLoading"
+          :loading="jobPostingLoading"
+          @click="veeForm.onSubmit"
+        >
+          <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
+          <template v-else>Speichern und weiter</template>
+        </MatchdButton>
+      </div>
+    </teleport>
   </form>
 </template>
 

@@ -48,7 +48,7 @@
     </span>
 
     <span
-      class="inline-block font-medium bg-primary-1 rounded-full text-white text-xl py-3 px-10 text-center mt-4"
+      class="inline-block font-medium bg-primary-1 rounded-full text-white text-xl py-3 px-10 text-center mt-4 hover:bg-black transition-colors"
     >
       <slot />
     </span>

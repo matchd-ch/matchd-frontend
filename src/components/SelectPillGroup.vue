@@ -1,5 +1,8 @@
 <template>
-  <div class="select-pill-group" :class="{ 'select-pill-group--invalid': errors }">
+  <div
+    class="select-pill-group transition-colors"
+    :class="{ 'select-pill-group--invalid': errors }"
+  >
     <label v-if="$slots.label" class="select-pill-group__label"><slot name="label" /></label>
     <slot name="field" />
     <ul class="flex flex-wrap -m-2">

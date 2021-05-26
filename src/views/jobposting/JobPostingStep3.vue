@@ -54,9 +54,7 @@
           zugeordnet.</template
         >
       </MatchdField>
-      <MatchdButton variant="outline" class="block w-full mb-3"
-        >Ansprechperson speichern</MatchdButton
-      >
+      <MatchdButton variant="fill" class="block w-full mb-3">Ansprechperson speichern</MatchdButton>
       <MatchdButton
         type="button"
         variant="outline"
@@ -105,24 +103,32 @@
           @change="onChangeState($event.target.checked)"
           :checked="veeForm.state === jobPostingStateEnum.Public"
         />
-        <template v-if="veeForm.state === jobPostingStateEnum.Public" v-slot:value
-          >Öffentlich</template
-        >
+        <template v-if="veeForm.state === jobPostingStateEnum.Public" v-slot:value>
+          <span class="text-primary-1">Öffentlich</span>
+        </template>
         <template v-else v-slot:value>Entwurf</template>
       </MatchdToggle>
-      <MatchdButton variant="outline" :disabled="jobPostingLoading" class="block w-full"
-        >Speichern</MatchdButton
-      >
-      <MatchdButton
-        type="button"
-        variant="outline"
-        :disabled="jobPostingLoading"
-        @click="onClickBack"
-        class="block w-full mt-5"
-      >
-        <template v-if="currentJobPosting?.formStep > 3">Abbrechen</template>
-        <template v-else>Zurück zu Schritt 2</template>
-      </MatchdButton>
+      <teleport to="footer">
+        <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
+          <MatchdButton
+            type="button"
+            variant="outline"
+            :disabled="jobPostingLoading"
+            class="mb-2 xl:mr-4 xl:mb-0"
+            @click="onClickBack"
+          >
+            <template v-if="currentJobPosting?.formStep > 3">Abbrechen</template>
+            <template v-else>Zurück zu Schritt 2</template>
+          </MatchdButton>
+          <MatchdButton
+            type="button"
+            variant="fill"
+            :disabled="jobPostingLoading"
+            @click="veeForm.onSubmit"
+            >Speichern</MatchdButton
+          >
+        </div>
+      </teleport>
     </form>
   </div>
 </template>

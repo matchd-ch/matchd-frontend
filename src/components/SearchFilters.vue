@@ -40,7 +40,7 @@ export default class SearchFilters extends Vue {
   @apply text-white;
 
   & :deep(select) {
-    @apply bg-white rounded-full px-4 py-2 appearance-none text-black mt-1 xl:mt-0 xl:ml-2;
+    @apply bg-white rounded-full px-4 py-2 appearance-none text-black;
   }
 }
 </style>

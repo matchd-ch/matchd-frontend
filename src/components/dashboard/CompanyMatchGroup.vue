@@ -10,8 +10,9 @@
               params: { slug: student.slug },
               query: { jobPostingId: jobPosting.id },
             }"
+            class="hover:text-primary-1 transition-colors underline"
           >
-            <p class="font-bold">
+            <p class="font-medium">
               <template v-if="student.firstName"
                 >{{ student.firstName }} {{ student.lastName }}</template
               >

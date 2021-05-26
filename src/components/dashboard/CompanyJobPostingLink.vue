@@ -1,11 +1,12 @@
 <template>
   <router-link
     :to="{ name: 'JobPostingCreate', params: { slug: jobPosting.slug, step: 'schritt1' } }"
+    class="hover:text-primary-1 transition-colors underline"
   >
-    <p class="font-bold">
+    <h3 class="font-medium text-lg">
       {{ jobPosting.displayTitle }} {{ isPublic(jobPosting) ? "" : " (Entwurf)" }}
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
-    </p>
+    </h3>
   </router-link>
 </template>
 
