@@ -1,7 +1,7 @@
 <template>
   <li class="select-pill flex-shrink-0 m-2">
     <label
-      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 px-8 cursor-pointer"
+      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 pl-8 pr-4 cursor-pointer hover:text-black transition-colors"
       :class="{ 'text-primary-1': checked || hasDelete }"
     >
       <input
@@ -13,7 +13,7 @@
       />
       <slot />
       <button v-if="hasDelete" type="button" @click.stop="$emit('remove', value)">
-        <IconClose class="w-6 ml-4" />
+        <IconClose class="w-6 h-6" />
       </button>
     </label>
   </li>
@@ -42,5 +42,16 @@ export default class SelectPill extends Vue.with(Props) {}
 <style lang="postcss" scoped>
 @block select-pill {
   max-width: calc(100% - 1rem);
+
+  & button {
+    @apply ml-4;
+    @apply transition-all transform;
+  }
+
+  &:hover {
+    & button {
+      @apply rotate-90;
+    }
+  }
 }
 </style>

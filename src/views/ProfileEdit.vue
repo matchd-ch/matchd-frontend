@@ -1,36 +1,36 @@
 <template>
   <teleport to="header">
     <ProfileNavigation v-if="isStudent">
-      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="urlStepNumber === 1">
         Persönliche Daten
       </ProfileNavigationItem>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }" :active="urlStepNumber === 2">
         Ich suche
       </ProfileNavigationItem>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }" :active="urlStepNumber === 3">
         Über mich
       </ProfileNavigationItem>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }" :active="urlStepNumber === 4">
         Skills & Talente
       </ProfileNavigationItem>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt5' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt5' } }" :active="urlStepNumber === 5">
         Nickname & Foto
       </ProfileNavigationItem>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt6' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt6' } }" :active="urlStepNumber === 6">
         Profilstatus
       </ProfileNavigationItem>
     </ProfileNavigation>
     <ProfileNavigation v-else-if="isCompany">
-      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="urlStepNumber === 1">
         Kontaktdaten
       </ProfileNavigationItem>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }" :active="urlStepNumber === 2">
         Kurzsteckbrief
       </ProfileNavigationItem>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }" :active="urlStepNumber === 3">
         Tätigkeitsbereich & Benefits
       </ProfileNavigationItem>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }" :active="urlStepNumber === 4">
         Set-up Talentsuche
       </ProfileNavigationItem>
     </ProfileNavigation>

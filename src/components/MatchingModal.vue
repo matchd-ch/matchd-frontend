@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <div
-      class="matching-modal fixed z-10 inset-0 overflow-y-auto"
+      class="matching-modal fixed z-50 inset-0 overflow-y-auto"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -14,7 +14,7 @@
         <span class="hidden sm:inline-block align-middle h-screen" aria-hidden="true">&#8203;</span>
 
         <div
-          class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 max-w-lg w-full"
+          class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 max-w-xl w-full"
         >
           <div class="bg-white px-4 pt-5 pb-4 sm:p-8 sm:pb-4">
             <slot />

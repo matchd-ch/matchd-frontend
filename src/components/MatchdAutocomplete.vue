@@ -64,10 +64,11 @@ export default class MatchdAutocomplete extends Vue.with(Props) {}
     & button {
       @apply block w-full px-8 py-4;
       @apply text-left;
+      @apply transition-all;
 
       &:hover,
       &:focus {
-        @apply bg-primary-1 text-white;
+        @apply bg-black text-white;
       }
     }
   }

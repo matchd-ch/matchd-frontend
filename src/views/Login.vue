@@ -42,15 +42,13 @@
           />
         </MatchdField>
         <p class="mb-5 px-8 text-paragraph-md mb-10">
-          <router-link :to="{ name: 'PasswordForgotten' }">Passwort vergessen</router-link>
+          <router-link :to="{ name: 'PasswordForgotten' }" class="underline">
+            Passwort vergessen
+          </router-link>
         </p>
-        <MatchdButton
-          variant="outline"
-          :disabled="loginLoading"
-          :loading="loginLoading"
-          class="block w-full"
-          >Login</MatchdButton
-        >
+        <MatchdButton :disabled="loginLoading" :loading="loginLoading" class="block w-full">
+          Login
+        </MatchdButton>
       </Form>
     </div>
   </div>

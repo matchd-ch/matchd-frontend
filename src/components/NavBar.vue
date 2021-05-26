@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 border-b py-2.5 bg-white border-primary-1 relative"
+    class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 py-2.5 bg-white border-primary-1 relative"
   >
     <div class="p-4 flex flex-row items-center justify-between">
       <router-link :to="{ name: 'Dashboard' }" class="logo hover:text-primary-1 transition-colors"

@@ -1,18 +1,20 @@
 <template>
   <teleport to="header">
     <ProfileNavigation>
-      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="currentStep === 1">
         Ausschreibung
       </ProfileNavigationItem>
       <ProfileNavigationItem
         :to="{ params: { step: 'schritt2' } }"
         :disabled="!currentJobPosting || currentJobPosting?.formStep < 2"
+        :active="currentStep === 2"
       >
         Anforderungen
       </ProfileNavigationItem>
       <ProfileNavigationItem
         :to="{ params: { step: 'schritt3' } }"
         :disabled="!currentJobPosting || currentJobPosting?.formStep < 3"
+        :active="currentStep === 3"
       >
         Kontakt
       </ProfileNavigationItem>
@@ -186,7 +188,7 @@ export default class JobPostingCreate extends Vue {
 
 <style lang="postcss" scoped>
 .jobposting,
-.profile-navigation {
+.profile-navigation-wrapper {
   &,
   & :deep(*) {
     --color-primary-1: var(--color-orange-1);

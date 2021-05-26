@@ -1,14 +1,17 @@
 <template>
-  <div v-if="user && user.student" class="student-detail grid grid-cols-1 xl:grid-cols-2">
+  <div
+    v-if="user && user.student"
+    class="student-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
+  >
     <div
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
-      <div v-if="avatar" class="flex justify-center mt-9">
+      <div v-if="avatarSrc" class="flex justify-center mt-9">
         <img
           class="avatar rounded-full object-cover"
           width="300"
           height="300"
-          :src="replaceStack(avatar.url, 'desktop-square')"
+          :src="replaceStack(avatarSrc, 'desktop-square')"
           :alt="`Profilbild von ${user.firstName} ${user.lastName}`"
         />
       </div>
@@ -40,7 +43,7 @@
         title="Diese technischen Skills bringe ich mit"
         :editStep="getStepName(4)"
       >
-        <ul>
+        <ul class="text-lg">
           <li v-for="skill in user.student.skills" :key="skill.id">{{ skill.name }}</li>
         </ul>
       </profile-section>
@@ -49,7 +52,7 @@
         title="Ich habe Kenntnisse in folgenden Sprachen"
         :editStep="getStepName(4)"
       >
-        <ul>
+        <ul class="text-lg">
           <li v-for="language in user.student.languages" :key="language.id">
             {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
           </li>
@@ -60,9 +63,13 @@
         title="Das sind meine eigenen Projekte"
         :editStep="getStepName(4)"
       >
-        <ul>
+        <ul class="text-lg">
           <li v-for="project in user.student.onlineProjects" :key="project.id">
-            <a class="font-medium underline" :href="project.url">{{ project.url }}</a>
+            <a
+              class="font-medium underline hover:text-primary-1 transition-colors"
+              :href="project.url"
+              >{{ project.url }}</a
+            >
           </li>
         </ul>
       </profile-section>
@@ -71,14 +78,14 @@
         title="Was mich sonst noch auszeichnet"
         :editStep="getStepName(4)"
       >
-        {{ user.student.distinction }}
+        <p class="text-lg">{{ user.student.distinction }}</p>
       </profile-section>
       <profile-section
         v-if="user.student.hobbies?.length"
         title="Das mache ich gerne in meiner Freizeit"
         :editStep="getStepName(4)"
       >
-        <ul>
+        <ul class="text-lg">
           <li v-for="hobby in user.student.hobbies" :key="hobby.id">
             {{ hobby.name }}
           </li>
@@ -87,7 +94,10 @@
       <profile-section v-if="certificates?.length" title="Zertifikate" :editStep="getStepName(4)">
         <ul>
           <li v-for="certificate in certificates" :key="certificate.id">
-            <a :href="certificate.url" class="font-medium underline inline-block" download
+            <a
+              :href="certificate.url"
+              class="font-medium underline inline-block text-lg hover:text-primary-1 transition-colors"
+              download
               ><span>
                 {{ certificate.fileName }}
               </span>
@@ -123,8 +133,18 @@ export default class StudentProfile extends Vue {
     return this.$store.getters["user"];
   }
 
+  get avatarSrc(): string {
+    return this.avatar?.url || this.avatarFallback?.url || "";
+  }
+
   get avatar(): Attachment {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar })?.[0];
+  }
+
+  get avatarFallback(): Attachment {
+    return this.$store.getters["attachmentsByKey"]({
+      key: AttachmentKey.StudentAvatarFallback,
+    })?.[0];
   }
 
   get certificates(): Attachment[] {
@@ -155,6 +175,9 @@ export default class StudentProfile extends Vue {
   async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.StudentAvatarFallback,
+      }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.StudentDocuments,
       }),

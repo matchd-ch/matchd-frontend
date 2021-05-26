@@ -146,24 +146,29 @@
         >Link muss auf ein Stelleninserate auf Ihrer Website verlinken.</template
       >
     </MatchdField>
-    <MatchdButton
-      variant="outline"
-      :disabled="jobPostingLoading"
-      :loading="jobPostingLoading"
-      class="block w-full"
-    >
-      <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
-      <template v-else>Speichern und weiter</template>
-    </MatchdButton>
-    <MatchdButton
-      type="button"
-      variant="outline"
-      :disabled="jobPostingLoading"
-      class="block w-full mt-5"
-      @click="$router.push({ name: 'Dashboard' })"
-    >
-      Abbrechen
-    </MatchdButton>
+    <teleport to="footer">
+      <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
+        <MatchdButton
+          type="button"
+          variant="outline"
+          :disabled="jobPostingLoading"
+          class="mb-2 xl:mr-4 xl:mb-0"
+          @click="$router.push({ name: 'Dashboard' })"
+        >
+          Abbrechen
+        </MatchdButton>
+        <MatchdButton
+          type="button"
+          variant="fill"
+          :disabled="jobPostingLoading"
+          :loading="jobPostingLoading"
+          @click="veeForm.onSubmit"
+        >
+          <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
+          <template v-else>Speichern und weiter</template>
+        </MatchdButton>
+      </div>
+    </teleport>
   </form>
 </template>
 
