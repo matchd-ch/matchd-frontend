@@ -11,7 +11,7 @@
           class="avatar rounded-full object-cover"
           width="300"
           height="300"
-          :src="replaceStack(avatarSrc, 'desktop-square')"
+          :src="replaceStack(avatarSrc, 'avatar')"
           :alt="`Profilbild von ${user.firstName} ${user.lastName}`"
         />
       </div>
@@ -67,6 +67,7 @@
           <li v-for="project in user.student.onlineProjects" :key="project.id">
             <a
               class="font-medium underline hover:text-primary-1 transition-colors"
+              target="_blank"
               :href="project.url"
               >{{ project.url }}</a
             >
@@ -97,6 +98,7 @@
             <a
               :href="certificate.url"
               class="font-medium underline inline-block text-lg hover:text-primary-1 transition-colors"
+              target="_blank"
               download
               ><span>
                 {{ certificate.fileName }}

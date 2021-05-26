@@ -80,6 +80,7 @@
               id="name"
               name="name"
               as="input"
+              maxlength="255"
               :label="
                 form.type === 'company' ? 'Name der Unternehmung' : 'Name der Bildungsinstitution'
               "
