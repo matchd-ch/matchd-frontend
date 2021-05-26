@@ -111,7 +111,7 @@
           Match bestätigen
         </MatchdButton>
         <MatchdButton v-else @click="onClickMatch"
-          >Mit {{ student.data.firstName }} matchen</MatchdButton
+          >Mit {{ student.data.firstName || student.data.nickname }} matchen</MatchdButton
         >
       </MatchingBar>
     </teleport>
