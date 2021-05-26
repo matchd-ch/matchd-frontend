@@ -64,6 +64,7 @@
           <li v-for="project in student.data.onlineProjects" :key="project.id">
             <a
               class="font-medium underline text-lg text-black hover:text-green-1 transition-colors"
+              target="_blank"
               :href="project.url"
               >{{ project.url }}</a
             >
@@ -88,6 +89,7 @@
           <li v-for="certificate in student.certificates" :key="certificate.id">
             <a
               :href="certificateUrl(certificate.id)"
+              target="_blank"
               class="font-medium underline inline-block text-green-1 text-lg"
               download
               ><span>
@@ -111,7 +113,7 @@
           Match bestätigen
         </MatchdButton>
         <MatchdButton v-else @click="onClickMatch"
-          >Mit {{ student.data.firstName }} matchen</MatchdButton
+          >Mit {{ student.data.firstName || student.data.nickname }} matchen</MatchdButton
         >
       </MatchingBar>
     </teleport>
