@@ -12,8 +12,9 @@
         <div class="grid-tile__image-box rounded-full border-2">
           <img :src="imgSrc" class="w-full" :alt="imgAlt" />
         </div>
-        <slot />
+        <slot name="match-status" />
       </div>
+      <slot />
     </router-link>
   </li>
 </template>

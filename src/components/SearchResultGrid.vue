@@ -11,16 +11,18 @@
       v-for="match in matches"
       :key="match.id"
       :linkTo="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
-      :imgSrc="replaceStack(match.img, resultType === 'student' ? 'desktop-square' : 'logo-square')"
+      :imgSrc="replaceStack(match.img, resultType === 'student' ? 'avatar' : 'logo')"
       :imgAlt="`${match.name} ${resultType === 'student' ? 'Profilbild' : 'Logo'}`"
       :color="color"
     >
-      <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
-        <div class="search-result-grid__match-status">
-          <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
-          <span v-else class="material-icons">record_voice_over</span>
+      <template v-slot:match-status>
+        <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
+          <div class="search-result-grid__match-status">
+            <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
+            <span v-else class="material-icons">record_voice_over</span>
+          </div>
         </div>
-      </div>
+      </template>
       <div class="mt-2">
         <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
         <h3 class="text-paragraph-lg">{{ match.name }}</h3>

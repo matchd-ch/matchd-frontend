@@ -8,7 +8,7 @@
         v-for="match in companyMatching.data"
         :key="match.id"
         :linkTo="{ name: 'CompanyDetail', params: { slug: match.slug } }"
-        :imgSrc="replaceStack(match.avatar, 'desktop-square')"
+        :imgSrc="replaceStack(match.avatar, 'logo')"
         :imgAlt="`${match.name} Logo`"
         color="green"
       >

@@ -8,7 +8,7 @@
     >
       <div class="xl:flex">
         <div class="xl:w-1/2 flex items-center">
-          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32 mr-8" />
+          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32 mr-8 flex-shrink-0" />
           <h1 class="text-heading-sm">{{ company.data.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
@@ -74,7 +74,7 @@
           </li>
         </ul>
       </ProfileSection>
-      <section class="flex-grow p-9">
+      <section v-if="company.data.jobPostings.length" class="flex-grow p-9">
         <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
         <ul class="list">
           <li v-for="position in company.data.jobPostings" :key="position.id">
