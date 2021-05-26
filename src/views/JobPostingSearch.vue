@@ -85,7 +85,10 @@
         resultType="jobposting"
         color="green"
       ></SearchResultGrid>
-      <div class="min-h-content-with-fixed-bars flex justify-center items-center px-4" v-else>
+      <div
+        class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
+        v-else
+      >
         <div>👀 ganz schön leer hier. Derzeit gibt es leider keine Suchresultate zum Matchen.</div>
       </div>
     </div>

@@ -8,7 +8,7 @@
         class="select-pill-multiple__item flex-shrink-0 m-2"
       >
         <label
-          class="select-pill-multiple__box flex items-center rounded-full bg-white border border-current font-medium text-sm py-3 px-8 cursor-pointer"
+          class="select-pill-multiple__box flex items-center rounded-full bg-white border border-current font-medium text-sm py-3 px-8 cursor-pointer transition-colors"
           :class="{
             'text-primary-1': option.checked,
           }"

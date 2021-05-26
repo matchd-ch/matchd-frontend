@@ -42,7 +42,7 @@
         v-if="student.data.skills?.length"
         title="Diese technischen Skills bringe ich mit"
       >
-        <ul class="list list-inside list-disc marker-green-1">
+        <ul class="list list-inside list-disc marker-green-1 text-lg">
           <li v-for="skill in student.data.skills" :key="skill.id">{{ skill.name }}</li>
         </ul>
       </profile-section>
@@ -50,7 +50,7 @@
         v-if="student.data.languages?.length"
         title="Ich habe Kenntnisse in folgenden Sprachen"
       >
-        <ul class="list list-inside list-disc marker-green-1">
+        <ul class="list list-inside list-disc marker-green-1 text-lg">
           <li v-for="language in student.data.languages" :key="language.id">
             {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
           </li>
@@ -62,29 +62,33 @@
       >
         <ul>
           <li v-for="project in student.data.onlineProjects" :key="project.id">
-            <a class="font-medium underline text-green-1" :href="project.url">{{ project.url }}</a>
+            <a
+              class="font-medium underline text-lg text-black hover:text-green-1 transition-colors"
+              :href="project.url"
+              >{{ project.url }}</a
+            >
           </li>
         </ul>
       </profile-section>
       <profile-section v-if="student.data.distinction" title="Was mich sonst noch auszeichnet">
-        {{ student.data.distinction }}
+        <p class="text-lg">{{ student.data.distinction }}</p>
       </profile-section>
       <profile-section
         v-if="student.data.hobbies?.length"
         title="Das mache ich gerne in meiner Freizeit"
       >
-        <ul class="list list-inside list-disc marker-green-1">
+        <ul class="list list-inside list-disc marker-green-1 text-lg">
           <li v-for="hobby in student.data.hobbies" :key="hobby.id">
             {{ hobby.name }}
           </li>
         </ul>
       </profile-section>
       <profile-section v-if="student.certificates?.length" title="Zertifikate">
-        <ul>
+        <ul class="text-lg">
           <li v-for="certificate in student.certificates" :key="certificate.id">
             <a
               :href="certificateUrl(certificate.id)"
-              class="font-medium underline inline-block text-green-1"
+              class="font-medium underline inline-block text-green-1 text-lg"
               download
               ><span>
                 {{ certificate.fileName }}
@@ -283,6 +287,9 @@ export default class StudentDetail extends Vue {
       await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
       this.showConfirmationModal = false;
       this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
+      this.$nextTick(() => {
+        calculateMargins();
+      });
     }
   }
 
@@ -296,9 +303,6 @@ export default class StudentDetail extends Vue {
 
   onClickMatch(): void {
     this.showConfirmationModal = true;
-    this.$nextTick(() => {
-      calculateMargins();
-    });
   }
 
   onClickClose(): void {

@@ -1,7 +1,9 @@
 <template>
-  <div v-if="jobPosting" class="jobPosting-detail flex flex-col">
+  <div v-if="jobPosting" class="jobPosting-detail flex flex-col min-h-content-with-fixed-bars">
     <div class="border-b border-orange-1 p-9">
-      <button @click="$router.back()" class="text-orange-1">Zurück zur Übersicht</button>
+      <button @click="$router.back()" class="text-black">
+        <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /> Zurück zur Übersicht
+      </button>
     </div>
     <div class="border-b border-orange-1 p-9">
       <h1 class="text-display-lg-fluid break-words text-orange-1">{{ jobPosting.displayTitle }}</h1>
@@ -28,7 +30,10 @@
           </template>
           <template v-else> ab {{ jobPosting.jobFromDate }} </template>
         </p>
-        <p v-if="jobPosting.url" class="flex items-center mt-4 text-orange-1">
+        <p
+          v-if="jobPosting.url"
+          class="flex items-center mt-4 text-black hover:text-orange-1 transition-colors"
+        >
           <span class="material-icons mr-2">open_in_new</span>
           <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
         </p>
@@ -42,7 +47,7 @@
       <div class="lg:w-1/2 lg:p-9">
         <template v-if="jobPosting.jobRequirements.length">
           <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
-          <ul class="list-disc list-inside marker-orange-1">
+          <ul class="list-disc list-inside marker-orange-1 text-lg">
             <li v-for="jobRequirement in jobPosting.jobRequirements" :key="jobRequirement.id">
               {{ jobRequirement.name }}
             </li>
@@ -51,7 +56,7 @@
 
         <template v-if="jobPosting.languages?.length">
           <h3 class="text-heading-sm mb-3 text-orange-1">Sprachen</h3>
-          <ul class="list-disc list-inside marker-orange-1">
+          <ul class="list-disc list-inside marker-orange-1 text-lg">
             <li v-for="language in jobPosting.languages" :key="language.id">
               {{ language.language.name }} {{ language.languageLevel.level }}
             </li>
@@ -60,7 +65,7 @@
 
         <template v-if="jobPosting.skills?.length">
           <h3 class="text-heading-sm mb-3 text-orange-1">Skills</h3>
-          <ul class="list-disc list-inside marker-orange-1">
+          <ul class="list-disc list-inside marker-orange-1 text-lg">
             <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill }}</li>
           </ul>
         </template>
@@ -72,10 +77,15 @@
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <router-link :to="{ name: 'CompanyDetail', params: { slug: jobPosting.company.slug } }">
-          <address class="not-italic">
-            <h3 class="text-heading-sm">{{ jobPosting.company.name }}</h3>
-            {{ jobPosting.company.street }}<br />{{ jobPosting.company.zip }}
-            {{ jobPosting.company.city }}
+          <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
+            <div>
+              <h3 class="text-heading-sm mb-3">
+                {{ jobPosting.company.name }}
+              </h3>
+              {{ jobPosting.company.street }}<br />{{ jobPosting.company.zip }}
+              {{ jobPosting.company.city }}
+            </div>
+            <IconArrow class="w-8 ml-8" />
           </address>
         </router-link>
       </div>
@@ -86,12 +96,15 @@
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <p>
-          <span class="text-heading-sm"
+          <span class="block text-heading-sm mb-3"
             >{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</span
-          ><br />
-          <a :href="`mailto:${jobPosting.employee?.email}`" target="_blank">{{
-            jobPosting.employee?.email
-          }}</a>
+          >
+          <a
+            :href="`mailto:${jobPosting.employee?.email}`"
+            target="_blank"
+            class="underline font-medium text-black hover:text-orange-1 transition-colors"
+            >{{ jobPosting.employee?.email }}</a
+          >
         </p>
       </div>
     </section>
@@ -127,6 +140,8 @@
 </template>
 
 <script lang="ts">
+import ArrowBack from "@/assets/icons/arrow-back.svg";
+import IconArrow from "@/assets/icons/arrow.svg";
 import { ProfileType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
@@ -148,6 +163,8 @@ Vue.registerHooks(["beforeRouteUpdate"]);
 
 @Options({
   components: {
+    ArrowBack,
+    IconArrow,
     MatchdButton,
     MatchdToggle,
     MatchingBar,

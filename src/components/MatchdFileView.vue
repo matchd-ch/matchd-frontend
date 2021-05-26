@@ -18,7 +18,7 @@
         <div class="flex-grow flex justify-end py-4 px-4">
           <button
             type="button"
-            class="inline-block font-medium border rounded-30 text-lg py-2 px-5 text-center"
+            class="inline-block font-medium border rounded-30 text-lg py-2 px-5 text-center border-black hover:bg-black hover:text-white transition-colors"
             @click="$emit('deleteFile', file)"
           >
             Löschen
