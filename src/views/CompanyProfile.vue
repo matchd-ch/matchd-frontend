@@ -8,7 +8,7 @@
     >
       <div class="xl:flex">
         <div class="xl:w-1/2 flex items-center">
-          <CompanyLogo :url="logoSrc" :name="user.company.name" class="w-32 mr-8" />
+          <CompanyLogo :url="logoSrc" :name="user.company.name" class="w-32 mr-8 flex-shrink-0" />
           <h1 class="text-heading-sm">{{ user.company.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
@@ -48,7 +48,7 @@
         <p>{{ user.company.services }}</p>
       </ProfileSection>
       <ProfileSection
-        v-if="user.company.branches && user.company.branches.length > 0"
+        v-if="user.company.branches.length"
         :pink="true"
         title="In diesen Bereichen kannst du bei uns tätig sein"
         :editStep="getStepName(3)"
@@ -76,7 +76,7 @@
           </li>
         </ul>
       </ProfileSection>
-      <section class="flex-grow p-9">
+      <section v-if="user.company.jobPostings.length" class="flex-grow p-9">
         <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
         <ul class="list">
           <li v-for="position in user.company.jobPostings" :key="position.id">

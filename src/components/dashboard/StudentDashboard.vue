@@ -4,7 +4,11 @@
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
       <div class="flex justify-center m-5 lg:m-20 lg:w-86 lg:h-86">
-        <img class="avatar rounded-full object-cover" :src="replaceStack(avatar.url, 'logo')" />
+        <img
+          class="avatar rounded-full object-cover"
+          :src="replaceStack(avatar.url, 'avatar')"
+          :alt="`${user.firstName} Profilbild`"
+        />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
         <h2 class="flex-1 mb-8 xl:mb-0 text-display-xs">

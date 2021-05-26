@@ -8,6 +8,7 @@
         name="name"
         as="input"
         label="Vollständiger Name der Unternehmung"
+        maxlength="255"
         rules="required"
       />
     </MatchdField>
