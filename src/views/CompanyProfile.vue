@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="user && user.company && logo"
+    v-if="user && user.company && logoSrc"
     class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
   >
     <div
@@ -8,7 +8,7 @@
     >
       <div class="xl:flex">
         <div class="xl:w-1/2 flex items-center">
-          <CompanyLogo :url="logo.url" :name="user.company.name" class="w-32 mr-8" />
+          <CompanyLogo :url="logoSrc" :name="user.company.name" class="w-32 mr-8" />
           <h1 class="text-heading-sm">{{ user.company.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
@@ -127,8 +127,18 @@ export default class CompanyProfile extends Vue {
     return this.$store.getters["user"];
   }
 
+  get logoSrc(): string {
+    return this.logo?.url || this.logoFallback?.url || "";
+  }
+
   get logo(): Attachment {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0];
+  }
+
+  get logoFallback(): Attachment {
+    return this.$store.getters["attachmentsByKey"]({
+      key: AttachmentKey.CompanyAvatarFallback,
+    })?.[0];
   }
 
   get mainMedia(): Attachment {
@@ -159,6 +169,9 @@ export default class CompanyProfile extends Vue {
   async mounted(): Promise<void> {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
+      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+        key: AttachmentKey.CompanyAvatarFallback,
+      }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
         key: AttachmentKey.CompanyDocuments,
       }),

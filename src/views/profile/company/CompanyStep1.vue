@@ -44,10 +44,10 @@
       <template v-slot:label>Funktion*</template>
       <Field id="role" name="role" as="input" label="Funktion" rules="required" />
     </MatchdField>
-    <MatchdField id="mobile" class="mb-10" :errors="veeForm.errors.phone">
+    <MatchdField id="phone" class="mb-10" :errors="veeForm.errors.phone">
       <template v-slot:label>Telefonnummer*</template>
       <Field
-        id="mobile"
+        id="phone"
         name="phone"
         as="input"
         label="Telefonnummer"
