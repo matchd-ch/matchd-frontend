@@ -1,55 +1,57 @@
 <template>
-  <div
-    class="login min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
-  >
-    <h1 class="text-display-xl-fluid text-black col-start-1 col-span-2">Login</h1>
-    <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
-      <GenericError v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
-        Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
-        <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
-      </GenericError>
+  <div class="login min-h-screen flex flex-col px-4 lg:px-5">
+    <h1 class="text-display-xl-fluid text-black">Login</h1>
+    <div class="flex-grow flex justify-center items-center">
+      <div class="max-w-2xl my-8">
+        <GenericError v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
+          Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
+          <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
+        </GenericError>
 
-      <GenericError v-else-if="loginState.errors?.nonFieldErrors?.includes('invalid_credentials')">
-        E-Mail oder Passwort ungültig.
-      </GenericError>
+        <GenericError
+          v-else-if="loginState.errors?.nonFieldErrors?.includes('invalid_credentials')"
+        >
+          E-Mail oder Passwort ungültig.
+        </GenericError>
 
-      <GenericSuccess v-else-if="passwordResetState.success">
-        Dein neues Passwort wurde gespeichert. Du kannst dich nun einloggen.
-      </GenericSuccess>
+        <GenericSuccess v-else-if="passwordResetState.success">
+          Dein neues Passwort wurde gespeichert. Du kannst dich nun einloggen.
+        </GenericSuccess>
 
-      <Form @submit="onSubmit" v-slot="{ errors }">
-        <MatchdField id="username" class="mb-3" :errors="errors.username">
-          <template v-slot:label>E-Mail</template>
-          <Field
-            id="username"
-            name="username"
-            as="input"
-            type="email"
-            label="E-Mail"
-            rules="required"
-          />
-        </MatchdField>
-        <MatchdField id="password" class="mb-5" :errors="errors.password">
-          <template v-slot:label>Passwort</template>
-          <Field
-            id="password"
-            name="password"
-            as="input"
-            type="password"
-            label="Passwort"
-            rules="required"
-            autocomplete
-          />
-        </MatchdField>
-        <p class="mb-5 px-8 text-paragraph-md mb-10">
-          <router-link :to="{ name: 'PasswordForgotten' }" class="underline">
-            Passwort vergessen
-          </router-link>
-        </p>
-        <MatchdButton :disabled="loginLoading" :loading="loginLoading" class="block w-full">
-          Login
-        </MatchdButton>
-      </Form>
+        <Form @submit="onSubmit" v-slot="{ errors }">
+          <MatchdField id="username" class="mb-3" :errors="errors.username">
+            <template v-slot:label>E-Mail</template>
+            <Field
+              id="username"
+              name="username"
+              as="input"
+              type="email"
+              label="E-Mail"
+              rules="required"
+            />
+          </MatchdField>
+          <MatchdField id="password" class="mb-5" :errors="errors.password">
+            <template v-slot:label>Passwort</template>
+            <Field
+              id="password"
+              name="password"
+              as="input"
+              type="password"
+              label="Passwort"
+              rules="required"
+              autocomplete
+            />
+          </MatchdField>
+          <p class="mb-5 px-8 text-paragraph-md mb-10">
+            <router-link :to="{ name: 'PasswordForgotten' }" class="underline">
+              Passwort vergessen
+            </router-link>
+          </p>
+          <MatchdButton :disabled="loginLoading" :loading="loginLoading" class="block w-full">
+            Login
+          </MatchdButton>
+        </Form>
+      </div>
     </div>
   </div>
 </template>

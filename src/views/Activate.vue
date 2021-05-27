@@ -1,44 +1,37 @@
 <template>
-  <div
-    class="activate min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
-  >
-    <h1 class="text-display-xl-fluid text-black col-start-1 col-span-8">Matchd starten</h1>
-    <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
-      <template v-if="activationLoading">
-        <p class="text-heading-md">Bitte warte während dein Account aktiviert wird.</p>
-      </template>
-      <template v-else-if="activationState.success">
-        <p class="text-heading-md mb-6">
-          Willkommen in der Matchd-Community. Tauch doch gleich ein!
-        </p>
-        <MatchdButton
-          type="button"
-          variant="outline"
-          size="xl"
-          @click="$router.push({ name: 'Login' })"
-          >Einloggen und Profil anlegen</MatchdButton
+  <div class="activate min-h-screen flex flex-col px-4 lg:px-5">
+    <h1 class="text-display-xl-fluid text-black">Matchd starten</h1>
+    <div class="flex-grow flex justify-center items-center">
+      <div class="max-w-2xl my-8">
+        <template v-if="activationLoading">
+          <p class="text-heading-md">Bitte warte während dein Account aktiviert wird.</p>
+        </template>
+        <template v-else-if="activationState.success">
+          <p class="text-heading-md mb-6">
+            Willkommen in der Matchd-Community. Tauch doch gleich ein!
+          </p>
+          <MatchdButton type="button" variant="outline" @click="$router.push({ name: 'Login' })"
+            >Einloggen und Profil anlegen</MatchdButton
+          >
+        </template>
+        <template
+          v-else-if="
+            activationState.errors?.nonFieldErrors?.includes('invalid_token') ||
+            activationState.errors?.nonFieldErrors?.includes('expired_token')
+          "
         >
-      </template>
-      <template v-else-if="activationState.errors?.nonFieldErrors?.includes('invalid_token')">
-        <p class="text-heading-md mb-6">Dein Aktivierungslink ist abgelaufen oder ungültig.</p>
-        <MatchdButton
-          type="button"
-          variant="outline"
-          size="xl"
-          @click="$router.push({ name: 'Triage' })"
-          >Registriere dich erneut</MatchdButton
-        >
-      </template>
-      <template v-else-if="activationState.errors?.nonFieldErrors?.includes('already_verified')">
-        <p class="text-heading-md mb-6">Dein Account ist bereits aktiviert.</p>
-        <MatchdButton
-          type="button"
-          variant="outline"
-          size="xl"
-          @click="$router.push({ name: 'Login' })"
-          >Einloggen und Profil anlegen</MatchdButton
-        >
-      </template>
+          <p class="text-heading-md mb-6">Dein Aktivierungslink ist abgelaufen oder ungültig.</p>
+          <MatchdButton type="button" variant="outline" @click="$router.push({ name: 'Triage' })"
+            >Registriere dich erneut</MatchdButton
+          >
+        </template>
+        <template v-else-if="activationState.errors?.nonFieldErrors?.includes('already_verified')">
+          <p class="text-heading-md mb-6">Dein Account ist bereits aktiviert.</p>
+          <MatchdButton type="button" variant="outline" @click="$router.push({ name: 'Login' })"
+            >Einloggen und Profil anlegen</MatchdButton
+          >
+        </template>
+      </div>
     </div>
   </div>
 </template>
