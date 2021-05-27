@@ -22,7 +22,10 @@
     </div>
     <div class="flex flex-col min-h-full">
       <profile-section title="Ihre Stellen&shy;ausschreibungen" :pink="true">
-        <p v-if="dashboard?.jobPostings.length === 0">Sie haben keine Stellen ausgeschrieben.</p>
+        <p v-if="dashboard?.jobPostings.length === 0">
+          Momentan haben Sie noch keine Stelle ausgeschrieben. Sobald Sie eine Stelle ausschreiben,
+          kann die Talentsuche beginnen.
+        </p>
         <ul v-if="dashboard?.jobPostings?.length">
           <li
             v-for="jobPosting in dashboard?.jobPostings"
