@@ -1,14 +1,14 @@
 <template>
   <div class="bg-grey-4">
-    <div class="register-student grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5">
+    <div class="register-student grid grid-cols-8 xl:grid-cols-16 gap-x-4 xl:gap-x-5 px-4 xl:px-5">
       <h1
-        class="text-display-xl-fluid text-primary-1 col-span-full lg:fixed lg:transition-all lg:top-0"
+        class="text-display-xl-fluid text-primary-1 col-span-full xl:fixed xl:transition-all xl:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
         Matchd beitreten
       </h1>
     </div>
-    <div class="px-4 lg:px-5">
+    <div class="px-4 xl:px-5">
       <MatchdStep step="1">
         <template v-slot:title>Besuchst du im Kanton St.Gallen eine Bildungsinstitution?</template>
         <MatchdButton
@@ -16,7 +16,7 @@
           variant="outline"
           :active="isValidStudent === true"
           @click="onClickConfirmStudent(true)"
-          class="mb-3 lg:mb-0 mr-3"
+          class="mb-3 xl:mb-0 mr-3"
           >Ja</MatchdButton
         >
         <MatchdButton
@@ -31,7 +31,7 @@
         v-if="isValidStudent === false"
         v-show="activeStep >= 2"
         step="2"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
+        class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
         <template v-slot:title
           >Suchst du in der Ostschweiz ein Praktikum, eine Lehrstelle oder Festanstellung?</template
@@ -41,7 +41,7 @@
           variant="outline"
           :active="isValidPosition"
           @click="onClickConfirmPosition(true)"
-          class="mb-3 lg:mb-0 mr-3"
+          class="mb-3 xl:mb-0 mr-3"
           >Ja</MatchdButton
         >
         <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
@@ -51,23 +51,23 @@
       <MatchdStep
         v-show="activeStep >= 3"
         step="3"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
+        class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
         <template v-slot:title>
           Bei Matchd bist du genau richtig!<br />Schreib dich ein und deine Job- oder Projektsuche
           kann starten.
         </template>
         <Form @submit="onSubmitStudentData" v-slot="{ errors }">
-          <div class="lg:flex">
+          <div class="xl:flex">
             <MatchdField
               id="firstName"
-              class="lg:mr-3 mb-3 lg:flex-grow"
+              class="xl:mr-3 mb-3 xl:flex-grow"
               :errors="errors.firstName"
             >
               <template v-slot:label>Vorname</template>
               <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
             </MatchdField>
-            <MatchdField id="lastName" class="mb-3 lg:flex-grow" :errors="errors.lastName">
+            <MatchdField id="lastName" class="mb-3 xl:flex-grow" :errors="errors.lastName">
               <template v-slot:label>Nachname</template>
               <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
             </MatchdField>
@@ -142,7 +142,7 @@
       <MatchdStep
         v-show="activeStep >= 4"
         step="4"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
+        class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
         <template v-slot:title>
           Fast geschafft, {{ form.firstName }}! 🥳<br />Aktiviere deinen Matchd-Account über den

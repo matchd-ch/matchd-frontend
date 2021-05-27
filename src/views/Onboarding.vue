@@ -1,18 +1,20 @@
 <template>
   <div class="onboarding min-h-screen">
-    <div class="grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-home gap-x-4 lg:gap-x-5 lg:border-b">
+    <div
+      class="grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-home gap-x-4 lg:gap-x-5 lg:border-b border-primary-1"
+    >
       <h1
-        class="text-display-xl-fluid col-start-1 col-span-4 row-start-1 border-r flex items-center px-4 lg:px-5 py-10"
+        class="text-display-xl-fluid col-start-1 col-span-4 row-start-1 border-r border-primary-1 flex items-center px-4 lg:px-5 py-10 text-primary-1"
       >
         Profil
       </h1>
       <div
-        class="col-start-5 col-span-4 row-start-1 text-display-xl-fluid lg:hidden flex items-center justify-center px-4 lg:px-5 py-10"
+        class="col-start-5 col-span-4 row-start-1 text-display-xl-fluid lg:hidden flex items-center justify-center px-4 lg:px-5 py-10 text-primary-1"
       >
         <template v-if="currentStep <= 6">{{ currentStep }}</template>
       </div>
       <h2
-        class="text-display-xs-fluid flex items-center col-start-1 lg:col-start-5 col-span-8 row-start-3 lg:row-start-1 border-t lg:border-t-0 lg:border-r flex items-center px-4 lg:px-8 py-10"
+        class="text-display-xs-fluid flex items-center col-start-1 lg:col-start-5 col-span-8 row-start-3 lg:row-start-1 border-t lg:border-t-0 lg:border-r flex items-center px-4 lg:px-8 py-10 text-primary-1"
       >
         <template v-if="isStudent">
           <span v-if="currentStep <= 6" class="text-display-xl-fluid mr-8 hidden lg:inline">{{

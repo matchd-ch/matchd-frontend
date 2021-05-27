@@ -1,11 +1,11 @@
 <template>
   <div
     :id="`step-${step}`"
-    class="step-wrapper grid grid-cols-8 lg:grid-cols-16 grid-rows-register gap-x-4 lg:gap-x-5 min-h-screen"
+    class="step-wrapper grid grid-cols-8 xl:grid-cols-16 grid-rows-register gap-x-4 xl:gap-x-5 min-h-screen"
   >
     <div class="step-line-start"></div>
     <div
-      class="step col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2 flex items-center"
+      class="step col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2 flex items-center"
     >
       <div class="flex-grow">
         <h2
@@ -63,11 +63,11 @@ export default class MatchdStep extends Vue.with(Props) {}
 
 .step-line-start {
   content: "";
-  @apply col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-1;
+  @apply col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-1;
 }
 
 .step-line-end {
-  @apply col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-3;
+  @apply col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-3;
 }
 
 .step-heading {

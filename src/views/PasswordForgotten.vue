@@ -1,45 +1,47 @@
 <template>
-  <div
-    class="password-forgotten min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
-  >
-    <h1 class="text-display-xl-fluid text-black col-start-1 col-span-full">Passwort vergessen</h1>
-    <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
-      <GenericSuccess v-if="passwordForgottenState.success">
-        Du hast eine E-Mail erhalten, mit welcher du dein Passwort resetten kannst. Falls du in den
-        nächsten Minuten keine E-Mail erhältst, melde dich
-        <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
-      </GenericSuccess>
+  <div class="password-forgotten min-h-screen flex flex-col px-4 lg:px-5">
+    <h1 class="text-display-xl-fluid text-black">Passwort vergessen</h1>
+    <div class="flex-grow flex justify-center items-center">
+      <div class="max-w-2xl my-8">
+        <GenericSuccess v-if="passwordForgottenState.success">
+          Du hast eine E-Mail erhalten, mit welcher du dein Passwort resetten kannst. Falls du in
+          den nächsten Minuten keine E-Mail erhältst, melde dich
+          <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
+        </GenericSuccess>
 
-      <GenericError
-        v-else-if="passwordResetState.tokenVerificationComplete && !passwordResetState.tokenIsValid"
-      >
-        Dein Passwort-Reset Link ist abgelaufen oder ungültig. Fordere einen neuen Link an oder
-        melde dich
-        <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
-      </GenericError>
-
-      <Form @submit="onSubmit" v-slot="{ errors }">
-        <MatchdField id="email" class="mb-10" :errors="errors.email">
-          <template v-slot:label>E-Mail</template>
-          <Field
-            id="email"
-            name="email"
-            as="input"
-            type="email"
-            label="E-Mail"
-            rules="required|email"
-          />
-          <template v-slot:info
-            >Gib die E-Mail ein, mit welcher du dich bei Matchd registriert hast.</template
-          >
-        </MatchdField>
-        <MatchdButton
-          :disabled="passwordForgottenLoading"
-          :loading="passwordForgottenLoading"
-          class="block w-full"
-          >Passwort-Reset anfordern</MatchdButton
+        <GenericError
+          v-else-if="
+            passwordResetState.tokenVerificationComplete && !passwordResetState.tokenIsValid
+          "
         >
-      </Form>
+          Dein Passwort-Reset Link ist abgelaufen oder ungültig. Fordere einen neuen Link an oder
+          melde dich
+          <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
+        </GenericError>
+
+        <Form @submit="onSubmit" v-slot="{ errors }">
+          <MatchdField id="email" class="mb-10" :errors="errors.email">
+            <template v-slot:label>E-Mail</template>
+            <Field
+              id="email"
+              name="email"
+              as="input"
+              type="email"
+              label="E-Mail"
+              rules="required|email"
+            />
+            <template v-slot:info
+              >Gib die E-Mail ein, mit welcher du dich bei Matchd registriert hast.</template
+            >
+          </MatchdField>
+          <MatchdButton
+            :disabled="passwordForgottenLoading"
+            :loading="passwordForgottenLoading"
+            class="block w-full"
+            >Passwort-Reset anfordern</MatchdButton
+          >
+        </Form>
+      </div>
     </div>
   </div>
 </template>
