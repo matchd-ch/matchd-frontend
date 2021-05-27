@@ -21,15 +21,12 @@
       </div>
     </div>
     <div class="flex flex-col min-h-full">
-      <profile-section
-        v-if="dashboard?.jobPostings?.length"
-        title="Ihre Stellen&shy;ausschreibungen"
-        :pink="true"
-      >
-        <p class="mt-4" v-if="dashboard?.jobPostings.length === 0">
-          Sie haben keine offenen Stellen ausgeschrieben.
+      <profile-section title="Ihre Stellen&shy;ausschreibungen" :pink="true">
+        <p v-if="dashboard?.jobPostings.length === 0">
+          Momentan haben Sie noch keine Stelle ausgeschrieben. Sobald Sie eine Stelle ausschreiben,
+          kann die Talentsuche beginnen.
         </p>
-        <ul>
+        <ul v-if="dashboard?.jobPostings?.length">
           <li
             v-for="jobPosting in dashboard?.jobPostings"
             :key="jobPosting.id"
@@ -38,7 +35,7 @@
             <company-job-posting-link :jobPosting="jobPosting"></company-job-posting-link>
           </li>
         </ul>
-        <matchd-button class="w-full mt-4">
+        <matchd-button class="w-full mt-8">
           <router-link :to="{ name: 'JobPostingCreate' }">Neue Stelle ausschreiben</router-link>
         </matchd-button>
       </profile-section>

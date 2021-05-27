@@ -16,19 +16,6 @@ export async function isCompleteProfile(
     const isUniversity = store.getters["isUniversity"];
 
     if (
-      (to.meta?.accessType &&
-        (to.meta?.accessType as string[])?.includes("student") &&
-        !isStudent) ||
-      (to.meta?.accessType &&
-        (to.meta?.accessType as string[])?.includes("company") &&
-        !isCompany) ||
-      (to.meta?.accessType &&
-        (to.meta?.accessType as string[])?.includes("university") &&
-        !isUniversity)
-    ) {
-      console.error("Access denied");
-      next({ name: "Dashboard" });
-    } else if (
       to.name !== "Onboarding" &&
       profileStep &&
       ((isStudent && profileStep <= 6) ||
@@ -36,8 +23,17 @@ export async function isCompleteProfile(
         (isUniversity && profileStep <= 3))
     ) {
       next({ name: "Onboarding" });
-    } else {
+    } else if (!to.meta?.accessType) {
       next();
+    } else if (
+      ((to.meta?.accessType as string[])?.includes("student") && isStudent) ||
+      ((to.meta?.accessType as string[])?.includes("company") && isCompany) ||
+      ((to.meta?.accessType as string[])?.includes("university") && isUniversity)
+    ) {
+      next();
+    } else {
+      console.error("Access denied");
+      next({ name: "Dashboard" });
     }
   }
 }
