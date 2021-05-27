@@ -16,11 +16,14 @@
           {{ company.data.zip }} {{ company.data.city }}<br />
           <a :href="company.data.website" target="_blank" class="underline">{{
             company.data.website
-          }}</a
-          ><br /><a :href="`mailto:${company.data.employees[0].email}`" class="underline">{{
-            company.data.employees[0].email
-          }}</a
-          ><br />
+          }}</a>
+          <template v-if="company.data.employees.length">
+            <br />
+            <a :href="`mailto:${company.data.employees[0].email}`" class="underline"
+              >{{ company.data.employees[0].email }}
+            </a>
+          </template>
+          <br />
           <a :href="`tel:${company.data.phone}`">{{ company.data.phone }}</a>
         </address>
       </div>
