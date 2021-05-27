@@ -1,14 +1,14 @@
 <template>
   <div class="bg-grey-4">
-    <div class="register-company grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5 px-4 lg:px-5">
+    <div class="register-company grid grid-cols-8 xl:grid-cols-16 gap-x-4 xl:gap-x-5 px-4 xl:px-5">
       <h1
-        class="text-display-xl-fluid text-primary-1 col-span-full lg:fixed lg:transition-all lg:top-0"
+        class="text-display-xl-fluid text-primary-1 col-span-full xl:fixed xl:transition-all xl:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
         Matchd beitreten
       </h1>
     </div>
-    <div class="px-4 lg:px-5">
+    <div class="px-4 xl:px-5">
       <MatchdStep step="1">
         <template v-if="form.type === 'company'" v-slot:title
           >Möchte Ihr Unternehmen Talente der Matchd-Community kennenlernen?
@@ -21,7 +21,7 @@
           variant="outline"
           :active="isValidCompany"
           @click="onClickConfirmCompany(true)"
-          class="mb-3 lg:mb-0 mr-3"
+          class="mb-3 xl:mb-0 mr-3"
           >Ja</MatchdButton
         >
         <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
@@ -32,7 +32,7 @@
         v-if="form.type === 'company'"
         v-show="activeStep >= 2"
         step="2"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
+        class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
         <template v-slot:title
           >Bitte geben Sie uns die Unternehmens-Identifikationsnummer (UID-Nr.) Ihres Unternehmens
@@ -65,7 +65,7 @@
       <MatchdStep
         v-show="activeStep >= 3"
         step="3"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
+        class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
         <template v-slot:title>
           Erzählen sie, wer sie sind. Diese Angaben erscheinen später auf ihrem Profil.
@@ -87,26 +87,26 @@
               rules="required"
             />
           </MatchdField>
-          <div class="lg:flex">
-            <MatchdField id="zip" class="lg:mr-3 mb-3 lg:w-40" :errors="errors.zip">
+          <div class="xl:flex">
+            <MatchdField id="zip" class="xl:mr-3 mb-3 xl:w-40" :errors="errors.zip">
               <template v-slot:label>PLZ</template>
               <Field id="zip" name="zip" as="input" label="PLZ" rules="required" maxlength="4" />
             </MatchdField>
-            <MatchdField id="city" class="mb-3 lg:flex-grow" :errors="errors.city">
+            <MatchdField id="city" class="mb-3 xl:flex-grow" :errors="errors.city">
               <template v-slot:label>Ort</template>
               <Field id="city" name="city" as="input" label="Ort" rules="required" />
             </MatchdField>
           </div>
-          <div class="lg:flex">
+          <div class="xl:flex">
             <MatchdField
               id="firstName"
-              class="lg:mr-3 mb-3 lg:flex-grow"
+              class="xl:mr-3 mb-3 xl:flex-grow"
               :errors="errors.firstName"
             >
               <template v-slot:label>Vorname Ansprechperson</template>
               <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
             </MatchdField>
-            <MatchdField id="lastName" class="mb-3 lg:flex-grow" :errors="errors.lastName">
+            <MatchdField id="lastName" class="mb-3 xl:flex-grow" :errors="errors.lastName">
               <template v-slot:label>Nachname Ansprechperson</template>
               <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
             </MatchdField>
@@ -193,7 +193,7 @@
       <MatchdStep
         v-show="activeStep >= 4"
         step="4"
-        class="col-start-1 col-span-8 lg:col-start-5 lg:col-span-8 row-start-2"
+        class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
         <template v-slot:title>
           Fast geschafft. Aktivieren Sie Ihren Matchd-Account über den Link, den Sie per E-Mail

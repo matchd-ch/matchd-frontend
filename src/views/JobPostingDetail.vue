@@ -1,7 +1,7 @@
 <template>
   <div v-if="jobPosting" class="jobPosting-detail flex flex-col min-h-content-with-fixed-bars">
     <div class="border-b border-orange-1 p-9">
-      <button @click="$router.back()" class="text-black">
+      <button @click="$router.back()" class="text-black hover:text-orange-1 transition-colors">
         <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /> Zurück zur Übersicht
       </button>
     </div>
@@ -55,7 +55,7 @@
         </template>
 
         <template v-if="jobPosting.languages?.length">
-          <h3 class="text-heading-sm mb-3 text-orange-1">Sprachen</h3>
+          <h3 class="text-heading-sm mb-3 mt-8">Sprachen</h3>
           <ul class="list-disc list-inside marker-orange-1 text-lg">
             <li v-for="language in jobPosting.languages" :key="language.id">
               {{ language.language.name }} {{ language.languageLevel.level }}
@@ -64,9 +64,9 @@
         </template>
 
         <template v-if="jobPosting.skills?.length">
-          <h3 class="text-heading-sm mb-3 text-orange-1">Skills</h3>
+          <h3 class="text-heading-sm mb-3 mt-8">Skills</h3>
           <ul class="list-disc list-inside marker-orange-1 text-lg">
-            <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill }}</li>
+            <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill.name }}</li>
           </ul>
         </template>
       </div>

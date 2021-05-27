@@ -163,6 +163,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.DASHBOARD_LOADING);
     const response = await apiClient.query({
       query: dashboardQuery,
+      fetchPolicy: "no-cache",
       context: {
         batch: true,
       },

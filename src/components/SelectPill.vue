@@ -1,8 +1,12 @@
 <template>
   <li class="select-pill flex-shrink-0 m-2">
     <label
-      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 pl-8 pr-4 cursor-pointer hover:text-black transition-colors"
-      :class="{ 'text-primary-1': checked || hasDelete }"
+      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 cursor-pointer transition-colors"
+      :class="{
+        'text-primary-1': checked || hasDelete,
+        'pl-8 pr-4': hasDelete,
+        'px-8': !hasDelete,
+      }"
     >
       <input
         type="radio"
