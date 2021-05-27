@@ -2,7 +2,7 @@
   <div class="password-forgotten min-h-screen flex flex-col px-4 lg:px-5">
     <h1 class="text-display-xl-fluid text-black">Passwort vergessen</h1>
     <div class="flex-grow flex justify-center items-center">
-      <div class="max-w-2xl my-8">
+      <div class="max-w-2xl my-8 w-full">
         <GenericSuccess v-if="passwordForgottenState.success">
           Du hast eine E-Mail erhalten, mit welcher du dein Passwort resetten kannst. Falls du in
           den nächsten Minuten keine E-Mail erhältst, melde dich
