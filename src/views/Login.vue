@@ -2,7 +2,7 @@
   <div class="login min-h-screen flex flex-col px-4 lg:px-5">
     <h1 class="text-display-xl-fluid text-black">Login</h1>
     <div class="flex-grow flex justify-center items-center">
-      <div class="max-w-2xl my-8">
+      <div class="max-w-2xl my-8 w-full">
         <GenericError v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
           Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
           <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
