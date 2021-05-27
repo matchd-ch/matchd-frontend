@@ -1,58 +1,59 @@
 <template>
   <div
     v-if="passwordResetState.tokenIsValid"
-    class="password-forgotten min-h-screen grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-3 gap-x-4 lg:gap-x-5 px-4 lg:px-5"
+    class="password-reset min-h-screen flex flex-col px-4 lg:px-5"
   >
-    <h1 class="text-display-xl-fluid text-black col-start-1 col-span-full">
-      Neues Passwort festlegen
-    </h1>
-    <div class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:row-start-2">
-      <GenericError v-if="passwordResetState.errors?.nonFieldErrors?.includes('not_verified')">
-        Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
-        <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
-      </GenericError>
+    <h1 class="text-display-xl-fluid text-black">Neues Passwort festlegen</h1>
+    <div class="flex-grow flex justify-center items-center">
+      <div class="max-w-2xl my-8">
+        <GenericError v-if="passwordResetState.errors?.nonFieldErrors?.includes('not_verified')">
+          Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
+          <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
+        </GenericError>
 
-      <Form @submit="onSubmit" v-slot="{ errors }">
-        <MatchdField id="password" class="mb-10" :errors="errors.password" icon-right="true">
-          <template v-slot:label>Neues Passwort</template>
-          <Field
-            id="password"
-            name="password"
-            as="input"
-            :type="passwordFieldType"
-            label="Passwort"
-            rules="required|password-strengh"
-            autocomplete
-          />
-          <template v-slot:iconRight>
-            <button
-              type="button"
-              @click="onTogglePasswordVisibility"
-              class="h-full flex justify-center items-center p-2"
+        <Form @submit="onSubmit" v-slot="{ errors }">
+          <MatchdField id="password" class="mb-10" :errors="errors.password" icon-right="true">
+            <template v-slot:label>Neues Passwort</template>
+            <Field
+              id="password"
+              name="password"
+              as="input"
+              :type="passwordFieldType"
+              label="Passwort"
+              rules="required|password-strengh"
+              autocomplete
+            />
+            <template v-slot:iconRight>
+              <button
+                type="button"
+                @click="onTogglePasswordVisibility"
+                class="h-full flex justify-center items-center p-2"
+              >
+                <component
+                  :is="passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
+                  class="w-6"
+                />
+              </button>
+            </template>
+            <template v-slot:info
+              >Nutze mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
+              Sonderzeichen.</template
             >
-              <component
-                :is="passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
-                class="w-6"
-              />
-            </button>
-          </template>
-          <template v-slot:info
-            >Nutze mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern, Sonderzeichen.</template
+          </MatchdField>
+          <MatchdButton
+            :disabled="passwordResetLoading"
+            :loading="passwordResetLoading"
+            class="block w-full"
+            >Passwort speichern</MatchdButton
           >
-        </MatchdField>
-        <MatchdButton
-          :disabled="passwordResetLoading"
-          :loading="passwordResetLoading"
-          class="block w-full"
-          >Passwort speichern</MatchdButton
-        >
-        <p class="mt-5 text-black text-center">
-          Hats nicht funktioniert?
-          <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
-            >Just leave a message!</router-link
-          >
-        </p>
-      </Form>
+          <p class="mt-5 text-black text-center">
+            Hats nicht funktioniert?
+            <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
+              >Just leave a message!</router-link
+            >
+          </p>
+        </Form>
+      </div>
     </div>
   </div>
 </template>
