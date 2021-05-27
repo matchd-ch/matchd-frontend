@@ -206,7 +206,7 @@ deploy:integration:
   resource_group: integration
 
 deploy:production:
-  extends: .deploy
+  extends: .deploy:production
   dependencies:
     - build:production
   variables:
