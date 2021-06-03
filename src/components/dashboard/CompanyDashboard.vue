@@ -21,8 +21,26 @@
       </div>
     </div>
     <div class="flex flex-col min-h-full">
-      <profile-section title="Ihre Stellen&shy;ausschreibungen" :pink="true">
-        <p v-if="dashboard?.jobPostings.length === 0">
+      <profile-section title="Ihre Ausschreibungen" :pink="true">
+        <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
+        <p v-if="dashboard?.projectPostings?.length === 0">
+          Momentan haben Sie noch keine Projekte ausgeschrieben. Sobald Sie ein Projekt
+          ausschreiben, kann die Talentsuche beginnen.
+        </p>
+        <ul v-if="dashboard?.projectPostings?.length">
+          <li
+            v-for="jobPosting in dashboard?.jobPostings"
+            :key="jobPosting.id"
+            class="link-list__item"
+          >
+            <company-job-posting-link :jobPosting="jobPosting"></company-job-posting-link>
+          </li>
+        </ul>
+        <matchd-button class="w-full mt-8" :to="{ name: 'ProjectPostingCreate' }">
+          Neues Projekt ausschreiben
+        </matchd-button>
+        <h2 class="text-base font-medium text-primary-1 mt-12 mb-4">Stellen</h2>
+        <p v-if="dashboard?.jobPostings?.length === 0">
           Momentan haben Sie noch keine Stelle ausgeschrieben. Sobald Sie eine Stelle ausschreiben,
           kann die Talentsuche beginnen.
         </p>
@@ -35,14 +53,8 @@
             <company-job-posting-link :jobPosting="jobPosting"></company-job-posting-link>
           </li>
         </ul>
-        <matchd-button class="w-full mt-8">
-          <router-link :to="{ name: 'JobPostingCreate' }">Neue Stelle ausschreiben</router-link>
-        </matchd-button>
-
-        <matchd-button class="w-full mt-8">
-          <router-link :to="{ name: 'ProjectPostingCreate' }"
-            >Neue Projektarbeit ausschreiben</router-link
-          >
+        <matchd-button class="w-full mt-8" :to="{ name: 'JobPostingCreate' }">
+          Neue Stelle ausschreiben
         </matchd-button>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
