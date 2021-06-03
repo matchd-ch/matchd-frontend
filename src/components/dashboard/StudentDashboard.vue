@@ -23,6 +23,7 @@
     </div>
     <div class="flex flex-col min-h-full">
       <profile-section v-if="dashboard?.jobPostings?.length" title="Neue Stellen und Projekte">
+        <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
         <ul>
           <li
             v-for="jobPosting in dashboard?.jobPostings"
@@ -32,8 +33,32 @@
             <student-job-posting-link :jobPosting="jobPosting"></student-job-posting-link>
           </li>
         </ul>
-        <matchd-button class="w-full mt-4">
-          <router-link :to="{ name: 'JobPostingSearch' }">Weitere Stellen finden</router-link>
+        <matchd-button
+          class="block w-full mt-8 text-center"
+          :to="{ name: 'JobPostingSearch' }"
+          tag="router-link"
+          >Weitere Stellen finden
+        </matchd-button>
+        <h2 class="text-base font-medium text-primary-1 mb-4 mt-12">Projekte</h2>
+        <p v-if="dashboard?.projectPostings?.length === 0">
+          Momentan hast du noch keine Projekte ausgeschrieben. Sobald du ein Projekt ausschreibst,
+          kann die Suche nach einem Unternehmen beginnen.
+        </p>
+        <ul v-if="dashboard?.projectPostings?.length">
+          <li
+            v-for="jobPosting in dashboard?.jobPostings"
+            :key="jobPosting.id"
+            class="link-list__item"
+          >
+            <CompanyJobPostingLink :jobPosting="jobPosting"></CompanyJobPostingLink>
+          </li>
+        </ul>
+        <matchd-button
+          class="block w-full mt-8 text-center"
+          :to="{ name: 'ProjectPostingCreate' }"
+          tag="router-link"
+        >
+          Neues Projekt ausschreiben
         </matchd-button>
       </profile-section>
       <profile-section title="Deine offenen Matches">
@@ -89,6 +114,7 @@
 </template>
 
 <script lang="ts">
+import CompanyJobPostingLink from "@/components/dashboard/CompanyJobPostingLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
@@ -105,6 +131,7 @@ class Props {
 
 @Options({
   components: {
+    CompanyJobPostingLink,
     MatchdButton,
     MatchdFileUpload,
     MatchdFileView,
