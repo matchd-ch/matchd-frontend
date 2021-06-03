@@ -1,0 +1,6 @@
+query {
+  projectTypes {
+    id
+    name
+  }
+}

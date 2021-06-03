@@ -38,6 +38,12 @@
         <matchd-button class="w-full mt-8">
           <router-link :to="{ name: 'JobPostingCreate' }">Neue Stelle ausschreiben</router-link>
         </matchd-button>
+
+        <matchd-button class="w-full mt-8">
+          <router-link :to="{ name: 'ProjectPostingCreate' }"
+            >Neue Projektarbeit ausschreiben</router-link
+          >
+        </matchd-button>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
         <p v-if="dashboard?.requestedMatches?.length > 0">
