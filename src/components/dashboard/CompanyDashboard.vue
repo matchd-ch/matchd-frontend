@@ -36,7 +36,11 @@
             <company-job-posting-link :jobPosting="jobPosting"></company-job-posting-link>
           </li>
         </ul>
-        <matchd-button class="w-full mt-8" :to="{ name: 'ProjectPostingCreate' }">
+        <matchd-button
+          class="block w-full mt-8 text-center"
+          :to="{ name: 'ProjectPostingCreate' }"
+          tag="router-link"
+        >
           Neues Projekt ausschreiben
         </matchd-button>
         <h2 class="text-base font-medium text-primary-1 mt-12 mb-4">Stellen</h2>
@@ -53,8 +57,12 @@
             <company-job-posting-link :jobPosting="jobPosting"></company-job-posting-link>
           </li>
         </ul>
-        <matchd-button class="w-full mt-8" :to="{ name: 'JobPostingCreate' }">
-          Neue Stelle ausschreiben
+        <matchd-button
+          class="block w-full mt-8 text-center"
+          :to="{ name: 'JobPostingCreate' }"
+          tag="router-link"
+        >
+          Neues Stelle ausschreiben
         </matchd-button>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
