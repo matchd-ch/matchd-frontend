@@ -1,7 +1,7 @@
 mutation(
   $id: ID!
   $state: String!
-  $employee: EmployeeInput!
+  $employee: EmployeeInput
 ) {
   projectPostingStep2(
     step2: {
