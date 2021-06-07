@@ -58,7 +58,9 @@
     <!-- Neugierig -->
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Neugierig?</h2>
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">
+          Neugierig? Dann lassen wir es matchen!
+        </h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <template v-if="projectPosting.company">
