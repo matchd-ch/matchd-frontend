@@ -35,6 +35,19 @@ query($slug: String) {
       }
       slug
     }
+    projectPostings {
+      title
+      displayTitle
+      topic {
+        id
+        name
+      }
+      projectType {
+        id
+        name
+      }
+      slug
+    }
   }
   logo: attachments(key: COMPANY_AVATAR, slug: $slug) {
     id
