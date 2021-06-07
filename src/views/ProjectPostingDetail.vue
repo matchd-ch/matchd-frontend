@@ -114,8 +114,17 @@
         <MatchdButton v-else @click="onClickMatch">Mit diesem Projekt matchen</MatchdButton>
       </MatchingBar>
     </teleport>
-    <ProjectPostingMatchModal
-      v-if="showConfirmationModal"
+    <ProjectPostingCompanyMatchModal
+      v-if="showConfirmationModal && isStudent"
+      :user="user"
+      :projectPosting="projectPosting"
+      :loading="matchLoading"
+      :matchType="matchType"
+      @clickConfirm="onClickMatchConfirm"
+      @clickCancel="onClickCancel"
+    />
+    <ProjectPostingStudentMatchModal
+      v-if="showConfirmationModal && !isStudent"
       :user="user"
       :projectPosting="projectPosting"
       :loading="matchLoading"
@@ -133,7 +142,8 @@ import { ProfileType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
-import ProjectPostingMatchModal from "@/components/modals/ProjectPostingMatchModal.vue";
+import ProjectPostingCompanyMatchModal from "@/components/modals/ProjectPostingCompanyMatchModal.vue";
+import ProjectPostingStudentMatchModal from "@/components/modals/ProjectPostingStudentMatchModal.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
@@ -154,7 +164,8 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchdButton,
     MatchdToggle,
     MatchingBar,
-    ProjectPostingMatchModal,
+    ProjectPostingCompanyMatchModal,
+    ProjectPostingStudentMatchModal,
   },
 })
 export default class ProjectPostingDetail extends Vue {
@@ -164,6 +175,10 @@ export default class ProjectPostingDetail extends Vue {
 
   get user(): User | null {
     return this.$store.getters["user"];
+  }
+
+  get isStudent(): boolean {
+    return this.$store.getters["isStudent"];
   }
 
   get matchLoading(): boolean {

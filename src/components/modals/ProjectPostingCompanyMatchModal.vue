@@ -2,12 +2,12 @@
   <MatchingModal>
     <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user.firstName }}</h2>
     <p class="mb-3 px-8">
-      Cool! Das ist der erste Schritt zum gegenseitigen Matching. Nach dem Klick auf "Freigeben",
-      bekommt
+      Cool! Nach dem Klick auf "Freigeben", bekommt
       <strong
         >{{ projectPosting.employee?.firstName }} {{ projectPosting.employee?.lastName }}</strong
       >
-      von <strong>{{ projectPosting.company.name }}</strong> den Link zu deinem Profil.
+      von <strong>{{ projectPosting.company.name }}</strong> eine Meldung, dass du an der
+      ausgeschriebenen Projektarbeit interessiert bist.
     </p>
     <p class="mb-3 px-8">
       Wenn du damit einverstanden bist, werden wir diese Daten von dir bekannt geben:
