@@ -15,6 +15,7 @@ import type {
   Language,
   LanguageLevel,
   Match,
+  ProjectPosting,
   ProjectType,
   Skill,
   SoftSkill,
@@ -49,6 +50,7 @@ export type Getters = {
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
   matchLoading(state: State): boolean;
+  projectPostingDetail(state: State): ProjectPosting | null;
   projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
@@ -126,7 +128,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
           return {
             id: match.slug,
             name: match.name,
-            jobPostingTitle: match.jobPostingTitle,
+            jobPostingTitle: match.title,
             img: match.avatar || "",
             main: false,
             score: match.score,
@@ -151,7 +153,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       return {
         id: match.slug,
         name: match.name,
-        jobPostingTitle: match.jobPostingTitle,
+        jobPostingTitle: match.title,
         img: match.avatar || "",
         score: match.score,
         rawScore: match.rawScore,
@@ -163,6 +165,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   matchLoading(state: State): boolean {
     return state.match.loading;
+  },
+  projectPostingDetail(state: State): ProjectPosting | null {
+    return state.projectPosting.data;
   },
   projectTypes(state: State): ProjectType[] {
     return state.projectTypes.data;

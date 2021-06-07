@@ -41,13 +41,13 @@ class Props {
 })
 export default class CompanyMatchGroup extends Vue.with(Props) {
   get uniqueJobPostings(): JobPosting[] {
-    return [...new Set(this.matches.map((match) => match.jobPosting))];
+    return [...new Set(this.matches.map((match) => match.jobPosting as JobPosting))];
   }
 
   getStudents(jobPostingId: string): Student[] {
     return this.matches
-      .filter((matchInfo) => matchInfo.jobPosting.id === jobPostingId)
-      .map((matchInfo) => matchInfo.student);
+      .filter((matchInfo) => matchInfo.jobPosting?.id === jobPostingId)
+      .map((matchInfo) => matchInfo.student as Student);
   }
 }
 </script>

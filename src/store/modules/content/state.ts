@@ -12,6 +12,7 @@ import type {
   Language,
   LanguageLevel,
   Match,
+  ProjectPosting,
   ProjectType,
   Skill,
   SoftSkill,
@@ -64,6 +65,10 @@ export type State = {
     data: Match[];
     zipCityJobsLoading: boolean;
     zipCityJobs: ZipCity[];
+  };
+  projectPosting: {
+    loading: boolean;
+    data: ProjectPosting | null;
   };
   projectTypes: {
     loading: boolean;
@@ -151,6 +156,10 @@ export const state: State = {
     data: [],
     zipCityJobsLoading: false,
     zipCityJobs: [],
+  },
+  projectPosting: {
+    loading: false,
+    data: null,
   },
   projectTypes: {
     loading: false,

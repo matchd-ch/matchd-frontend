@@ -238,9 +238,13 @@ type CulturalFitInput = {
 type Dashboard = {
   __typename?: "Dashboard";
   jobPostings?: Maybe<Array<JobPosting>>;
+  projectPostings?: Maybe<Array<ProjectPosting>>;
+  latestJobPostings?: Maybe<Array<JobPosting>>;
+  latestProjectPostings?: Maybe<Array<ProjectPosting>>;
   requestedMatches?: Maybe<Array<MatchInfo>>;
   unconfirmedMatches?: Maybe<Array<MatchInfo>>;
   confirmedMatches?: Maybe<Array<MatchInfo>>;
+  confirmedProjectMatches?: Maybe<Array<MatchInfo>>;
 };
 
 /** An enumeration. */
@@ -457,7 +461,7 @@ type Match = {
   avatar?: Maybe<Scalars["String"]>;
   score: Scalars["Float"];
   rawScore: Scalars["Float"];
-  jobPostingTitle?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars["String"]>;
   matchStatus?: Maybe<MatchStatus>;
 };
 
@@ -470,8 +474,9 @@ type MatchHints = {
 type MatchInfo = {
   __typename?: "MatchInfo";
   id: Scalars["ID"];
-  student: Student;
-  jobPosting: JobPosting;
+  student?: Maybe<Student>;
+  jobPosting?: Maybe<JobPosting>;
+  projectPosting?: Maybe<ProjectPosting>;
 };
 
 /** Initiate or confirm Matching */
@@ -484,6 +489,18 @@ type MatchJobPosting = {
 
 type MatchJobPostingInput = {
   jobPosting: JobPostingInput;
+};
+
+/** Initiate or confirm Matching */
+type MatchProjectPosting = {
+  __typename?: "MatchProjectPosting";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  confirmed: Scalars["Boolean"];
+};
+
+type MatchProjectPostingInput = {
+  projectPosting: ProjectPostingInput;
 };
 
 type MatchStatus = {
@@ -509,6 +526,7 @@ type MatchStudentInput = {
 enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
+  ProjectPosting = "PROJECT_POSTING",
   Company = "COMPANY",
 }
 
@@ -522,6 +540,8 @@ type Mutation = {
   matchStudent?: Maybe<MatchStudent>;
   /** Initiate or confirm Matching */
   matchJobPosting?: Maybe<MatchJobPosting>;
+  /** Initiate or confirm Matching */
+  matchProjectPosting?: Maybe<MatchProjectPosting>;
   /** Adds a new emplyoee to a comany */
   addEmployee?: Maybe<AddEmployee>;
   /** Creates a job posting */
@@ -630,6 +650,10 @@ type MutationMatchStudentArgs = {
 
 type MutationMatchJobPostingArgs = {
   match: MatchJobPostingInput;
+};
+
+type MutationMatchProjectPostingArgs = {
+  match: MatchProjectPostingInput;
 };
 
 type MutationAddEmployeeArgs = {
@@ -843,6 +867,7 @@ type ProjectPosting = {
   __typename?: "ProjectPosting";
   id: Scalars["ID"];
   title: Scalars["String"];
+  slug: Scalars["String"];
   projectType: ProjectType;
   topic: Topic;
   keywords?: Maybe<Array<Keyword>>;
@@ -859,6 +884,11 @@ type ProjectPosting = {
   datePublished?: Maybe<Scalars["DateTime"]>;
   displayTitle: Scalars["String"];
   matchStatus?: Maybe<MatchStatus>;
+  matchHints?: Maybe<MatchHints>;
+};
+
+type ProjectPostingInput = {
+  id: Scalars["ID"];
 };
 
 type ProjectPostingInputStep1 = {
@@ -881,6 +911,10 @@ type ProjectPostingInputStep2 = {
   /** State */
   state: Scalars["String"];
   employee?: Maybe<EmployeeInput>;
+};
+
+type ProjectPostingMatchingInput = {
+  projectPosting: ProjectPostingInput;
 };
 
 /** An enumeration. */
@@ -965,6 +999,7 @@ type QueryMatchesArgs = {
   softBoost?: Maybe<Scalars["Int"]>;
   jobPostingMatching?: Maybe<JobPostingMatchingInput>;
   studentMatching?: Maybe<StudentMatchingInput>;
+  projectPostingMatching?: Maybe<ProjectPostingMatchingInput>;
 };
 
 type QueryJobPostingsArgs = {
