@@ -1,5 +1,4 @@
 <template>
-  <div>Uni</div>
   <div
     v-if="company.data"
     class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
@@ -57,31 +56,34 @@
             <h3 class="font-medium text-lg">Aus- und Weiterbildung</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline">
-            <a target="_blank" :href="company.data.linkEducation">{{
-              company.data.linkEducation
-            }}</a>
-
-            <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+            <a target="_blank" :href="company.data.linkEducation"
+              >{{ company.data.linkEducation }} <ArrowFront class="w-5 mb-1 ml-2 inline-block"
+            /></a>
           </li>
         </ul>
-        <ul v-if="company.data.linkProjects">
+        <ul v-if="company.data.linkProjects" v-bind:class="{ 'mt-5': company.data.linkEducation }">
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Praxisprojekte</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline">
             <a target="_blank" :href="company.data.linkProjects" class="inline-block"
               >{{ company.data.linkProjects }}
-              <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </a>
           </li>
         </ul>
-        <ul v-if="company.data.linkThesis">
+        <ul
+          v-if="company.data.linkThesis"
+          v-bind:class="{ 'mt-5': company.data.linkProjects, 'mt-5': company.data.linkEducation }"
+        >
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Abschlussarbeiten</h3>
           </li>
-          <li class="link-list__item hover:text-primary-1 transition-colors underline">
-            <a target="_blank" :href="company.data.linkThesis">{{ company.data.linkThesis }}</a>
-            <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+          <li class="link-list__item hover:text-primary-1 transition-colors underline block">
+            <a class="" target="_blank" :href="company.data.linkThesis"
+              >{{ company.data.linkThesis }}
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+            </a>
           </li>
         </ul>
       </ProfileSection>
@@ -89,7 +91,18 @@
         <h2 class="text-heading-lg mb-8 text-pink-1">
           Themen für wissenschaftliche Projektarbeiten
         </h2>
-        <p>Link</p>
+        <ul class="list">
+          <li v-for="project in company.data.projectPostings" :key="project.id">
+            <!--@Todo change JobPostingDetail to ProjectPostingDetail -->
+            <router-link
+              :to="{ name: 'JobPostingDetail', params: { slug: project.slug } }"
+              class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
+            >
+              {{ project.title }}
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+            </router-link>
+          </li>
+        </ul>
       </section>
       <ProfileSection v-if="company.data.employees[0]" :pink="true" title="Ansprechspartner">
         <ul class="list">
