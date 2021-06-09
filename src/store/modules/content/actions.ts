@@ -90,7 +90,7 @@ export interface Actions {
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.STUDENT](
     { commit }: AugmentedActionContext,
-    payload: { slug: string; jobPostingId: string }
+    payload: { slug: string; jobPostingId?: string }
   ): Promise<void>;
   [ActionTypes.TOPICS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ZIP_CITY_JOBS](
@@ -347,7 +347,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.SOFT_SKILLS_LOADED, { softSkills: response.data.softSkills });
   },
-  async [ActionTypes.STUDENT]({ commit }, payload: { slug: string; jobPostingId: string }) {
+  async [ActionTypes.STUDENT]({ commit }, payload: { slug: string; jobPostingId?: string }) {
     commit(MutationTypes.STUDENT_LOADING);
     const response = await apiClient.query({
       query: studentQuery,

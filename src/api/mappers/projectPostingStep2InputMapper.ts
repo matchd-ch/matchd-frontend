@@ -8,8 +8,10 @@ export function projectPostingStep2InputMapper(
   return {
     id,
     state: projectPostingForm.state,
-    employee: {
-      id: projectPostingForm.employeeId,
-    },
+    ...(projectPostingForm.employeeId && {
+      employee: {
+        id: projectPostingForm.employeeId,
+      },
+    }),
   };
 }
