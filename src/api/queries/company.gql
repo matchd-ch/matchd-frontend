@@ -43,6 +43,14 @@ query($slug: String) {
       id
       title
       slug
+      projectType {
+        id
+        name
+      }
+      topic {
+        id
+        name
+      }
 
     }
   }

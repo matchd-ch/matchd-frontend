@@ -7,7 +7,7 @@
       <grid-tile
         v-for="match in companyMatching.data"
         :key="match.id"
-        :linkTo="{ name: 'CompanyDetail', params: { slug: match.slug } }"
+        :linkTo="{ name: detailSiteLink(match.type), params: { slug: match.slug } }"
         :imgSrc="replaceStack(match.avatar, 'logo')"
         :imgAlt="`${match.name} Logo`"
         color="green"
@@ -56,6 +56,10 @@ export default class CompanyList extends Vue {
     } catch (e) {
       console.error(e);
     }
+  }
+  detailSiteLink(type: string) {
+    console.log(type);
+    return type == "university" ? "UniversityDetail" : "CompanyDetail";
   }
 }
 </script>
