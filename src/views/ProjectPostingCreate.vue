@@ -9,7 +9,8 @@
         :disabled="!currentProjectPosting || currentProjectPosting?.formStep < 2"
         :active="currentStep === 2"
       >
-        Kontakt
+        <template v-if="isStudent">Sichtbarkeit</template>
+        <template v-else>Kontakt und Sichtbarkeit</template>
       </ProfileNavigationItem>
     </ProfileNavigation>
   </teleport>
@@ -60,6 +61,10 @@ export default class ProjectPostingCreate extends Vue {
   dirty = false;
   urlStepNumber: number | null = null;
   requestedCurrentProjectPosting = false;
+
+  get isStudent(): boolean {
+    return this.$store.getters["isStudent"];
+  }
 
   get paramStrings(): typeof ParamStrings {
     return ParamStrings;

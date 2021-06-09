@@ -63,10 +63,10 @@
         >Abbrechen</MatchdButton
       >
     </Form>
-    <form v-if="employees.length > 0 && !showEmployeeForm" @submit="veeForm.onSubmit">
+    <form @submit="veeForm.onSubmit">
       <FormSaveError v-if="projectPostingState.errors" />
 
-      <div class="mb-10">
+      <div v-if="employees?.length > 0 && !showEmployeeForm && !isStudent" class="mb-10">
         <!-- Kontaktperson -->
         <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.employeeId">
           <template v-slot:label>Ansprechperson*</template>
@@ -211,10 +211,14 @@ export default class ProjectPostingStep2 extends Vue {
   }
 
   get projectPostingData(): ProjectPostingStep2Form {
-    if (!this.currentProjectPosting || !this.user?.employee) {
+    if (!this.currentProjectPosting) {
       return {} as ProjectPostingStep2Form;
     }
     return projectPostingStep2FormMapper(this.currentProjectPosting, this.user?.employee);
+  }
+
+  get isStudent(): boolean {
+    return this.$store.getters["isStudent"];
   }
 
   get projectPostingLoading(): boolean {
@@ -246,7 +250,9 @@ export default class ProjectPostingStep2 extends Vue {
   }
 
   async mounted(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.EMPLOYEES);
+    if (!this.isStudent) {
+      await this.$store.dispatch(ActionTypes.EMPLOYEES);
+    }
 
     this.veeForm.resetForm({
       values: this.projectPostingData,
