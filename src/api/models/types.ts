@@ -227,6 +227,10 @@ export type IMatchJobPostingInput = {
   jobPosting: IJobPostingInput;
 };
 
+export type IMatchProjectPostingInput = {
+  projectPosting: IProjectPostingInput;
+};
+
 export type IMatchStudentInput = {
   student: IStudentInput;
   jobPosting: IJobPostingInput;
@@ -236,6 +240,7 @@ export type IMatchStudentInput = {
 export enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
+  ProjectPosting = "PROJECT_POSTING",
   Company = "COMPANY",
 }
 
@@ -262,6 +267,10 @@ export enum ProfileType {
   Other = "OTHER",
 }
 
+export type IProjectPostingInput = {
+  id: Scalars["ID"];
+};
+
 export type IProjectPostingInputStep1 = {
   id?: Maybe<Scalars["ID"]>;
   /** Title */
@@ -282,6 +291,10 @@ export type IProjectPostingInputStep2 = {
   /** State */
   state: Scalars["String"];
   employee?: Maybe<IEmployeeInput>;
+};
+
+export type IProjectPostingMatchingInput = {
+  projectPosting: IProjectPostingInput;
 };
 
 /** An enumeration. */
