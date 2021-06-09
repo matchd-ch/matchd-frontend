@@ -117,7 +117,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/bildungs-instituten/:slug",
+    path: "/bildungsinstitute/:slug",
     name: "CompanyDetail",
     component: () => import(/* webpackChunkName: "company-detail" */ "../views/UniversityDetail.vue"),
   },
