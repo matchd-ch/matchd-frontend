@@ -15,7 +15,7 @@ query(
     techBoost: $techBoost
   ) {
     name
-    jobPostingTitle
+    title
     avatar
     type
     slug
