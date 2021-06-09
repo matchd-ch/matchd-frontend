@@ -10,10 +10,6 @@
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <!-- Branch Field -->
-    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
-      <template v-slot:label>Fachbereich</template>
-    </SelectPillMultiple>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
       <template v-slot:label>Kurzbeschreibung der Bildungsinstitution</template>
@@ -116,7 +112,6 @@ import { Options, Vue } from "vue-class-component";
 export default class UniversityStep2 extends Vue {
   form: UniversityProfileStep2Form = {
     description: "",
-    branches: [],
   };
 
   get onboardingLoading(): boolean {
@@ -153,29 +148,6 @@ export default class UniversityStep2 extends Vue {
 
   get universityDocumentsUploadConfigurations(): UploadConfiguration | undefined {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  get branches(): SelectPillMultipleItem[] {
-    return this.$store.getters["branches"].map((branch) => {
-      return {
-        id: branch.id,
-        name: branch.name,
-        checked: !!this.form.branches.find((selectedBranch) => selectedBranch.id === branch.id),
-      };
-    });
-  }
-
-  onChangeBranch(branch: Branch): void {
-    const branchExists = !!this.form.branches.find(
-      (selectedBranches) => selectedBranches.id === branch.id
-    );
-    if (branchExists) {
-      this.form.branches = this.form.branches.filter(
-        (selectedBranches) => selectedBranches.id !== branch.id
-      );
-    } else {
-      this.form.branches.push(branch);
-    }
   }
 
   async mounted(): Promise<void> {

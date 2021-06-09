@@ -39,6 +39,12 @@ query($slug: String) {
     linkEducation
     linkProjects
     linkThesis
+    projectPostings {
+      id
+      title
+      slug
+
+    }
   }
   logo: attachments(key: COMPANY_AVATAR, slug: $slug) {
     id

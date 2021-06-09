@@ -218,8 +218,17 @@ export type IJobTypeInput = {
   mode?: Maybe<Scalars["String"]>;
 };
 
+export type IKeywordInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 export type IMatchJobPostingInput = {
   jobPosting: IJobPostingInput;
+};
+
+export type IMatchProjectPostingInput = {
+  projectPosting: IProjectPostingInput;
 };
 
 export type IMatchStudentInput = {
@@ -231,6 +240,7 @@ export type IMatchStudentInput = {
 export enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
+  ProjectPosting = "PROJECT_POSTING",
   Company = "COMPANY",
 }
 
@@ -256,6 +266,47 @@ export enum ProfileType {
   University = "UNIVERSITY",
   Other = "OTHER",
 }
+
+export type IProjectPostingInput = {
+  id: Scalars["ID"];
+};
+
+export type IProjectPostingInputStep1 = {
+  id?: Maybe<Scalars["ID"]>;
+  /** Title */
+  title: Scalars["String"];
+  projectType: IProjectTypeInput;
+  topic: ITopicInput;
+  keywords?: Maybe<Array<Maybe<IKeywordInput>>>;
+  /** Description */
+  description: Scalars["String"];
+  /** Additional Information */
+  additionalInformation?: Maybe<Scalars["String"]>;
+  projectFromDate?: Maybe<Scalars["String"]>;
+  website?: Maybe<Scalars["String"]>;
+};
+
+export type IProjectPostingInputStep2 = {
+  id?: Maybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
+  employee?: Maybe<IEmployeeInput>;
+};
+
+export type IProjectPostingMatchingInput = {
+  projectPosting: IProjectPostingInput;
+};
+
+/** An enumeration. */
+export enum ProjectPostingState {
+  Draft = "DRAFT",
+  Public = "PUBLIC",
+}
+
+export type IProjectTypeInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
 
 export type IRegisterCompanyInput = {
   /** Name */
@@ -343,6 +394,11 @@ export type IStudentProfileInputStep6 = {
   state: Scalars["String"];
 };
 
+export type ITopicInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 export type IUniversityProfileInputStep1 = {
   /** First name */
   firstName: Scalars["String"];
@@ -369,8 +425,6 @@ export type IUniversityProfileInputStep1 = {
 };
 
 export type IUniversityProfileInputStep2 = {
-  /** Branches */
-  branches?: Maybe<Array<Maybe<IBranchInput>>>;
   /** description */
   description?: Maybe<Scalars["String"]>;
 };
@@ -384,6 +438,17 @@ export type IUniversityProfileInputStep3 = {
   linkProjects?: Maybe<Scalars["String"]>;
   /** website thesis */
   linkThesis?: Maybe<Scalars["String"]>;
+  /** Branches */
+  branches?: Maybe<Array<Maybe<IBranchInput>>>;
+  /** Benefits */
+  benefits?: Maybe<Array<Maybe<IBenefitInput>>>;
+};
+
+export type IUniversityProfileInputStep4 = {
+  /** Soft Skills */
+  softSkills?: Maybe<Array<Maybe<ISoftSkillInput>>>;
+  /** Cultural Fit */
+  culturalFits?: Maybe<Array<Maybe<ICulturalFitInput>>>;
 };
 
 export type IUserLanguageRelationInput = {
