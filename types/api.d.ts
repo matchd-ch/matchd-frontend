@@ -241,10 +241,10 @@ type Dashboard = {
   projectPostings?: Maybe<Array<ProjectPosting>>;
   latestJobPostings?: Maybe<Array<JobPosting>>;
   latestProjectPostings?: Maybe<Array<ProjectPosting>>;
-  requestedMatches?: Maybe<Array<JobPostingMatchInfo>>;
-  unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
-  confirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
-  projectMatches?: Maybe<Array<ProjectPostingMatchInfo>>;
+  requestedMatches?: Maybe<Array<MatchInfo>>;
+  unconfirmedMatches?: Maybe<Array<MatchInfo>>;
+  confirmedMatches?: Maybe<Array<MatchInfo>>;
+  confirmedProjectMatches?: Maybe<Array<MatchInfo>>;
 };
 
 /** An enumeration. */
@@ -364,13 +364,6 @@ type JobPostingLanguageRelationInput = {
   languageLevel?: Maybe<Scalars["ID"]>;
 };
 
-type JobPostingMatchInfo = {
-  __typename?: "JobPostingMatchInfo";
-  id: Scalars["ID"];
-  student: Student;
-  jobPosting: JobPosting;
-};
-
 type JobPostingMatchingInput = {
   branch?: Maybe<BranchInput>;
   jobType?: Maybe<JobTypeInput>;
@@ -476,6 +469,14 @@ type MatchHints = {
   __typename?: "MatchHints";
   hasRequestedMatch: Scalars["Boolean"];
   hasConfirmedMatch: Scalars["Boolean"];
+};
+
+type MatchInfo = {
+  __typename?: "MatchInfo";
+  id: Scalars["ID"];
+  student?: Maybe<Student>;
+  jobPosting?: Maybe<JobPosting>;
+  projectPosting?: Maybe<ProjectPosting>;
 };
 
 /** Initiate or confirm Matching */
@@ -910,14 +911,6 @@ type ProjectPostingInputStep2 = {
   /** State */
   state: Scalars["String"];
   employee?: Maybe<EmployeeInput>;
-};
-
-type ProjectPostingMatchInfo = {
-  __typename?: "ProjectPostingMatchInfo";
-  id: Scalars["ID"];
-  student?: Maybe<Student>;
-  projectPosting: ProjectPosting;
-  company?: Maybe<Company>;
 };
 
 type ProjectPostingMatchingInput = {

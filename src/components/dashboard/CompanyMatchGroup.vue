@@ -1,22 +1,14 @@
 <template>
   <ul v-if="matches">
-    <li v-for="(match, index) in matches" :key="index" class="link-list__item mb-4">
-      <p class="mb-2">
-        <template v-if="isJobPosting">
-          {{ match.jobPosting.displayTitle }}
-        </template>
-        <template v-else>
-          {{ match.projectPosting.displayTitle }}
-        </template>
-      </p>
-
+    <li v-for="jobPosting in uniqueJobPostings" :key="jobPosting.id" class="link-list__item mb-4">
+      <p class="mb-2">{{ jobPosting.displayTitle }}</p>
       <ul>
-        <li v-for="student in match.students" :key="student.id" class="link-list__item">
+        <li v-for="student in getStudents(jobPosting.id)" :key="student.id" class="link-list__item">
           <router-link
             :to="{
               name: 'StudentDetail',
               params: { slug: student.slug },
-              query: isJobPosting ? { jobPostingId: match.jobPosting.id } : null,
+              query: { jobPostingId: jobPosting.id },
             }"
             class="hover:text-primary-1 transition-colors underline"
           >
@@ -35,16 +27,12 @@
 </template>
 
 <script lang="ts">
-import {
-  GroupedJobPostingMatching,
-  GroupedProjectPostingMatching,
-} from "@/models/CompanyDashboard";
 import { Options, prop, Vue } from "vue-class-component";
+import type { JobPosting, MatchInfo, Student } from "api";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
 
 class Props {
-  type = prop<"JobPosting" | "ProjectPosting">({ default: "JobPosting" });
-  matches = prop<GroupedJobPostingMatching[] | GroupedProjectPostingMatching[]>({ required: true });
+  matches = prop<MatchInfo[]>({ required: true });
 }
 @Options({
   components: {
@@ -52,8 +40,14 @@ class Props {
   },
 })
 export default class CompanyMatchGroup extends Vue.with(Props) {
-  get isJobPosting(): boolean {
-    return this.type === "JobPosting";
+  get uniqueJobPostings(): JobPosting[] {
+    return [...new Set(this.matches.map((match) => match.jobPosting as JobPosting))];
+  }
+
+  getStudents(jobPostingId: string): Student[] {
+    return this.matches
+      .filter((matchInfo) => matchInfo.jobPosting?.id === jobPostingId)
+      .map((matchInfo) => matchInfo.student as Student);
   }
 }
 </script>

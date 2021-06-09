@@ -1,0 +1,11 @@
+mutation(
+  $projectPosting: ProjectPostingInput!
+) {
+  matchProjectPosting(match: {
+    projectPosting: $projectPosting
+  }) {
+    success
+    errors
+    confirmed
+  }
+}
