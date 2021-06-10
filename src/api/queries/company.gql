@@ -15,6 +15,7 @@ query($slug: String) {
       firstName
       lastName
       email
+      role
     }
     benefits {
       id
@@ -35,6 +36,9 @@ query($slug: String) {
       }
       slug
     }
+    linkEducation
+    linkProjects
+    linkThesis
     projectPostings {
       title
       displayTitle

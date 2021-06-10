@@ -557,6 +557,8 @@ type Mutation = {
   universityProfileStep2?: Maybe<UniversityProfileStep2>;
   /** Updates website services */
   universityProfileStep3?: Maybe<UniversityProfileStep3>;
+  /** Updates a company profile with soft skills and cultural fit */
+  universityProfileStep4?: Maybe<UniversityProfileStep4>;
   /** Updates the profile of a Company */
   companyProfileStep1?: Maybe<CompanyProfileStep1>;
   /** Updates website url, description, services, member IT St.Gallen */
@@ -690,6 +692,10 @@ type MutationUniversityProfileStep2Args = {
 
 type MutationUniversityProfileStep3Args = {
   step3: UniversityProfileInputStep3;
+};
+
+type MutationUniversityProfileStep4Args = {
+  step4: UniversityProfileInputStep4;
 };
 
 type MutationCompanyProfileStep1Args = {
@@ -1297,8 +1303,6 @@ type UniversityProfileInputStep1 = {
 };
 
 type UniversityProfileInputStep2 = {
-  /** Branches */
-  branches?: Maybe<Array<Maybe<BranchInput>>>;
   /** description */
   description?: Maybe<Scalars["String"]>;
 };
@@ -1312,6 +1316,17 @@ type UniversityProfileInputStep3 = {
   linkProjects?: Maybe<Scalars["String"]>;
   /** website thesis */
   linkThesis?: Maybe<Scalars["String"]>;
+  /** Branches */
+  branches?: Maybe<Array<Maybe<BranchInput>>>;
+  /** Benefits */
+  benefits?: Maybe<Array<Maybe<BenefitInput>>>;
+};
+
+type UniversityProfileInputStep4 = {
+  /** Soft Skills */
+  softSkills?: Maybe<Array<Maybe<SoftSkillInput>>>;
+  /** Cultural Fit */
+  culturalFits?: Maybe<Array<Maybe<CulturalFitInput>>>;
 };
 
 /** Updates the profile of a university */
@@ -1331,6 +1346,13 @@ type UniversityProfileStep2 = {
 /** Updates website services */
 type UniversityProfileStep3 = {
   __typename?: "UniversityProfileStep3";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+/** Updates a company profile with soft skills and cultural fit */
+type UniversityProfileStep4 = {
+  __typename?: "UniversityProfileStep4";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };

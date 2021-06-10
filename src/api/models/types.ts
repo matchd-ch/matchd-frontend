@@ -425,8 +425,6 @@ export type IUniversityProfileInputStep1 = {
 };
 
 export type IUniversityProfileInputStep2 = {
-  /** Branches */
-  branches?: Maybe<Array<Maybe<IBranchInput>>>;
   /** description */
   description?: Maybe<Scalars["String"]>;
 };
@@ -440,6 +438,17 @@ export type IUniversityProfileInputStep3 = {
   linkProjects?: Maybe<Scalars["String"]>;
   /** website thesis */
   linkThesis?: Maybe<Scalars["String"]>;
+  /** Branches */
+  branches?: Maybe<Array<Maybe<IBranchInput>>>;
+  /** Benefits */
+  benefits?: Maybe<Array<Maybe<IBenefitInput>>>;
+};
+
+export type IUniversityProfileInputStep4 = {
+  /** Soft Skills */
+  softSkills?: Maybe<Array<Maybe<ISoftSkillInput>>>;
+  /** Cultural Fit */
+  culturalFits?: Maybe<Array<Maybe<ICulturalFitInput>>>;
 };
 
 export type IUserLanguageRelationInput = {
