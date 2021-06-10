@@ -70,6 +70,10 @@ export type State = {
     loading: boolean;
     data: ProjectPosting | null;
   };
+  projectPostings: {
+    loading: boolean;
+    data: ProjectPosting[];
+  };
   projectTypes: {
     loading: boolean;
     data: ProjectType[];
@@ -160,6 +164,10 @@ export const state: State = {
   projectPosting: {
     loading: false,
     data: null,
+  },
+  projectPostings: {
+    loading: false,
+    data: [],
   },
   projectTypes: {
     loading: false,

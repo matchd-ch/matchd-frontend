@@ -6,6 +6,5 @@ export function universityProfileStep2Mapper(
 ): IUniversityProfileInputStep2 {
   return {
     ...universityProfileForm,
-
   };
 }

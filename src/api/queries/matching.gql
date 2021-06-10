@@ -1,6 +1,7 @@
 query(
   $studentMatchingInput: StudentMatchingInput
   $jobPostingMatchingInput: JobPostingMatchingInput
+  $projectPostingMatchingInput: ProjectPostingMatchingInput
   $softBoost: Int!
   $techBoost: Int!
   $first: Int
@@ -9,6 +10,7 @@ query(
   matches(
     studentMatching: $studentMatchingInput
     jobPostingMatching: $jobPostingMatchingInput
+    projectPostingMatching: $projectPostingMatchingInput
     first: $first
     skip: $skip
     softBoost: $softBoost

@@ -98,6 +98,15 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   {
+    path: "/projekte",
+    name: "ProjectPostingSearch",
+    component: () =>
+      import(/* webpackChunkName: "projectposting-search" */ "../views/ProjectPostingSearch.vue"),
+    meta: {
+      accessType: ["student", "company", "university"],
+    },
+  },
+  {
     path: "/projekte/:slug",
     name: "ProjectPostingDetail",
     component: () =>
@@ -137,7 +146,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/bildungsinstitute/:slug",
     name: "CompanyDetail",
-    component: () => import(/* webpackChunkName: "company-detail" */ "../views/UniversityDetail.vue"),
+    component: () =>
+      import(/* webpackChunkName: "company-detail" */ "../views/UniversityDetail.vue"),
   },
   {
     path: "/passwort-vergessen",

@@ -59,6 +59,7 @@ export type Getters = {
   matchesForGrid(state: State): SearchResult[];
   matchLoading(state: State): boolean;
   projectPostingDetail(state: State): ProjectPosting | null;
+  projectPostings(state: State): ProjectPosting[];
   projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
@@ -224,6 +225,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   projectPostingDetail(state: State): ProjectPosting | null {
     return state.projectPosting.data;
+  },
+  projectPostings(state: State): ProjectPosting[] {
+    return state.projectPostings.data;
   },
   projectTypes(state: State): ProjectType[] {
     return state.projectTypes.data;

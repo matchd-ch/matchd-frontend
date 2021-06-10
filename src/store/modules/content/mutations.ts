@@ -89,6 +89,11 @@ export type Mutations<S = State> = {
     state: S,
     payload: { projectPosting: ProjectPosting }
   ): void;
+  [MutationTypes.PROJECT_POSTINGS_LOADING](state: S): void;
+  [MutationTypes.PROJECT_POSTINGS_LOADED](
+    state: S,
+    payload: { projectPostings: ProjectPosting[] }
+  ): void;
   [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
   [MutationTypes.PROJECT_TYPES_LOADED](state: S, payload: { projectTypes: ProjectType[] }): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
@@ -295,6 +300,16 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.PROJECT_POSTING_LOADING](state: State) {
     state.projectPosting.loading = true;
+  },
+  [MutationTypes.PROJECT_POSTINGS_LOADING](state: State) {
+    state.projectPostings.loading = true;
+  },
+  [MutationTypes.PROJECT_POSTINGS_LOADED](
+    state: State,
+    payload: { projectPostings: ProjectPosting[] }
+  ) {
+    state.projectPostings.loading = false;
+    state.projectPostings.data = payload.projectPostings;
   },
   [MutationTypes.PROJECT_TYPES_LOADING](state: State) {
     state.projectTypes.loading = true;

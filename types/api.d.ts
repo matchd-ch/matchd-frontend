@@ -968,6 +968,7 @@ type ProjectTypeInput = {
 type Query = {
   __typename?: "Query";
   projectPosting?: Maybe<ProjectPosting>;
+  projectPostings?: Maybe<Array<Maybe<ProjectPosting>>>;
   projectTypes?: Maybe<Array<Maybe<ProjectType>>>;
   topics?: Maybe<Array<Maybe<Topic>>>;
   keywords?: Maybe<Array<Maybe<Keyword>>>;
@@ -1346,6 +1347,13 @@ type UniversityProfileStep2 = {
 /** Updates website services */
 type UniversityProfileStep3 = {
   __typename?: "UniversityProfileStep3";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+/** Updates a company profile with soft skills and cultural fit */
+type UniversityProfileStep4 = {
+  __typename?: "UniversityProfileStep4";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };
