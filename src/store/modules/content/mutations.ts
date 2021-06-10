@@ -10,14 +10,17 @@ import type {
   JobPosting,
   JobRequirement,
   JobType,
+  Keyword,
   Language,
   LanguageLevel,
   Match,
   MatchJobPosting,
   MatchStudent,
+  ProjectType,
   Skill,
   SoftSkill,
   Student,
+  Topic,
   ZipCity,
 } from "api";
 import { MutationTree } from "vuex";
@@ -55,6 +58,8 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.JOB_TYPES_LOADING](state: S): void;
   [MutationTypes.JOB_TYPES_LOADED](state: S, payload: { jobTypes: JobType[] }): void;
+  [MutationTypes.KEYWORDS_LOADING](state: S): void;
+  [MutationTypes.KEYWORDS_LOADED](state: S, payload: { keywords: Keyword[] }): void;
   [MutationTypes.LANGUAGES_LOADING](state: S): void;
   [MutationTypes.LANGUAGES_LOADED](state: S, payload: { languages: Language[] }): void;
   [MutationTypes.LANGUAGE_LEVELS_LOADING](state: S): void;
@@ -73,6 +78,8 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.MATCHES_LOADING](state: S): void;
   [MutationTypes.MATCHES_LOADED](state: S, payload: { matches: Match[] }): void;
+  [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
+  [MutationTypes.PROJECT_TYPES_LOADED](state: S, payload: { projectTypes: ProjectType[] }): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
@@ -87,6 +94,8 @@ export type Mutations<S = State> = {
       certificates: Attachment[];
     }
   ): void;
+  [MutationTypes.TOPICS_LOADING](state: S): void;
+  [MutationTypes.TOPICS_LOADED](state: S, payload: { topics: Topic[] }): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
 };
@@ -205,6 +214,13 @@ export const mutations: MutationTree<State> & Mutations = {
     state.languages.loading = false;
     state.languages.levels = payload.languageLevels;
   },
+  [MutationTypes.KEYWORDS_LOADING](state: State) {
+    state.keywords.loading = true;
+  },
+  [MutationTypes.KEYWORDS_LOADED](state: State, payload: { keywords: Keyword[] }) {
+    state.keywords.loading = false;
+    state.keywords.data = payload.keywords;
+  },
   [MutationTypes.MATCH_LOADING](state: State) {
     state.match.loading = true;
   },
@@ -243,6 +259,13 @@ export const mutations: MutationTree<State> & Mutations = {
     state.matches.loading = false;
     state.matches.data = payload.matches;
   },
+  [MutationTypes.PROJECT_TYPES_LOADING](state: State) {
+    state.projectTypes.loading = true;
+  },
+  [MutationTypes.PROJECT_TYPES_LOADED](state: State, payload: { projectTypes: ProjectType[] }) {
+    state.projectTypes.loading = false;
+    state.projectTypes.data = payload.projectTypes;
+  },
   [MutationTypes.SKILLS_LOADING](state: State) {
     state.skills.loading = true;
   },
@@ -280,6 +303,13 @@ export const mutations: MutationTree<State> & Mutations = {
       avatarFallback: payload.avatarFallback?.[0] ?? null,
       certificates: payload.certificates,
     };
+  },
+  [MutationTypes.TOPICS_LOADING](state: State) {
+    state.topics.loading = true;
+  },
+  [MutationTypes.TOPICS_LOADED](state: State, payload: { topics: Topic[] }) {
+    state.topics.loading = false;
+    state.topics.data = payload.topics;
   },
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: State) {
     state.matches.zipCityJobsLoading = true;

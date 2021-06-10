@@ -4,6 +4,7 @@ import { isCompleteProfile } from "@/router/homeGuard";
 import { redirectToCurrentJobPostingStep } from "@/router/jobPostingGuard";
 import { redirectToCurrentOnboardingStep } from "@/router/onboardingGuard";
 import { needsStateResetBeforePasswordReset } from "@/router/passwordResetGuard";
+import { redirectToCurrentProjectPostingStep } from "@/router/projectPostingGuard";
 import { studentsOnlyWithPublishedJobPostingGuard } from "@/router/studentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
@@ -84,6 +85,16 @@ const routes: Array<RouteRecordRaw> = [
     name: "JobPostingDetail",
     component: () =>
       import(/* webpackChunkName: "jobposting-detail" */ "../views/JobPostingDetail.vue"),
+  },
+  {
+    path: "/projekte/ausschreiben/:slug?/:step?",
+    name: "ProjectPostingCreate",
+    component: () =>
+      import(/* webpackChunkName: "projectposting-create" */ "../views/ProjectPostingCreate.vue"),
+    beforeEnter: redirectToCurrentProjectPostingStep,
+    meta: {
+      accessType: ["company", "student", "university"],
+    },
   },
   {
     path: "/talente",

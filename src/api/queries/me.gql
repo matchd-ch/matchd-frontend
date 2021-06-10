@@ -92,6 +92,15 @@ query {
           name
         }
       }
+      projectPostings {
+        id
+        title
+        state
+        projectType {
+          id
+          name
+        }
+      }
       branches {
         id
         name

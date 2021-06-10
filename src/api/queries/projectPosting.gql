@@ -1,0 +1,51 @@
+query($id: ID, $slug: String) {
+  projectPosting(id: $id, slug: $slug) {
+    id
+    title
+    displayTitle
+    description
+    additionalInformation
+    formStep
+    state
+    projectFromDate
+    datePublished
+    matchStatus {
+      initiator
+      confirmed
+    }
+    topic {
+      id
+      name
+    }
+    projectType {
+      id
+      name
+    }
+    keywords {
+      id
+      name
+    }
+    company {
+      id
+      slug
+      name
+      street
+      zip
+      city
+    }
+    student {
+      id
+      firstName
+      lastName
+      nickname
+      city
+    }
+    employee {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+}

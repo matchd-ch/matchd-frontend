@@ -11,12 +11,15 @@ import type {
   JobPosting,
   JobRequirement,
   JobType,
+  Keyword,
   Language,
   LanguageLevel,
   Match,
+  ProjectType,
   Skill,
   SoftSkill,
   Student,
+  Topic,
   ZipCity,
 } from "api";
 import { GetterTree } from "vuex";
@@ -41,10 +44,12 @@ export type Getters = {
   jobRequirements(state: State): JobRequirement[];
   jobTypes(state: State): JobType[];
   languages(state: State): Language[];
+  keywords(state: State): Keyword[];
   languageLevels(state: State): LanguageLevel[];
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
   matchLoading(state: State): boolean;
+  projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
   student(
@@ -55,6 +60,7 @@ export type Getters = {
     avatarFallback: Attachment | null;
     certificates: Attachment[];
   };
+  topics(state: State): Topic[];
   zipCityJobs(state: State): ZipCity[];
 };
 
@@ -95,6 +101,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   jobTypes(state: State): JobType[] {
     return state.jobTypes.data;
+  },
+  keywords(state: State): Keyword[] {
+    return state.keywords.data;
   },
   languages(state: State): Language[] {
     return state.languages.data;
@@ -155,6 +164,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   matchLoading(state: State): boolean {
     return state.match.loading;
   },
+  projectTypes(state: State): ProjectType[] {
+    return state.projectTypes.data;
+  },
   skills(state: State): Skill[] {
     return state.skills.data;
   },
@@ -170,6 +182,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
     certificates: Attachment[];
   } {
     return state.student;
+  },
+  topics(state: State): Topic[] {
+    return state.topics.data;
   },
   zipCityJobs(state: State): ZipCity[] {
     return state.matches.zipCityJobs;
