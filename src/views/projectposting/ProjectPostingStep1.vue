@@ -118,7 +118,7 @@
       />
     </MatchdField>
     <!-- Website Field -->
-    <MatchdField id="website" class="mb-10" :errors="veeForm.errors.website">
+    <MatchdField v-if="!isStudent" id="website" class="mb-10" :errors="veeForm.errors.website">
       <template v-slot:label>Website</template>
       <Field id="website" name="website" as="input" label="Website" rules="url" />
       <template v-slot:info>Link zu mehr Informationen auf Ihrer Webseite.</template>
@@ -255,6 +255,10 @@ export default class ProjectPostingStep1 extends Vue {
   formData = {} as ProjectPostingStep1Form;
   filteredKeywords: Keyword[] = [];
   keywordInput = "";
+
+  get isStudent(): boolean {
+    return this.$store.getters["isStudent"];
+  }
 
   get currentProjectPosting(): ProjectPostingType | null {
     return this.$store.getters["currentProjectPosting"];
