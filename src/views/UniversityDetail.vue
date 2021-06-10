@@ -96,9 +96,8 @@
         </h2>
         <ul class="list">
           <li v-for="project in company.data.projectPostings" :key="project.id">
-            <!--@Todo change JobPostingDetail to ProjectPostingDetail -->
             <router-link
-              :to="{ name: 'JobPostingDetail', params: { slug: project.slug } }"
+              :to="{ name: 'ProjectPostingDetail', params: { slug: project.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ project.projectType.name }} ({{ project.topic.name }})

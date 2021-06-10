@@ -7,7 +7,7 @@
       <grid-tile
         v-for="match in companyMatching.data"
         :key="match.id"
-        :linkTo="{ name: detailSiteLink(match.type), params: { slug: match.slug } }"
+        :linkTo="{ name: detailSiteRoute(match.type), params: { slug: match.slug } }"
         :imgSrc="replaceStack(match.avatar, 'logo')"
         :imgAlt="`${match.name} Logo`"
         color="green"
@@ -28,6 +28,7 @@ import type { Match } from "api";
 import { Vue, Options, setup } from "vue-class-component";
 import { replaceStack } from "@/helpers/replaceStack";
 import { useMeta } from "vue-meta";
+import { ProfileType } from "@/api/models/types";
 
 @Options({
   components: {
@@ -57,8 +58,9 @@ export default class CompanyList extends Vue {
       console.error(e);
     }
   }
-  detailSiteLink(type: string) {
-    return type == "UNIVERSITY" ? "UniversityDetail" : "CompanyDetail";
+  detailSiteRoute(type: string) {
+    const university = ProfileType.University;
+    return university == type ? "UniversityDetail" : "CompanyDetail";
   }
 }
 </script>
