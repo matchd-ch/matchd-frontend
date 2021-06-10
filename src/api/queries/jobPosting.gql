@@ -21,6 +21,7 @@ query($id: ID, $slug: String) {
       street
       zip
       city
+      type
     }
     jobType {
       id

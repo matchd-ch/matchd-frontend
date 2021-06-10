@@ -58,7 +58,7 @@ export default class CompanyList extends Vue {
     }
   }
   detailSiteLink(type: string) {
-    return type == "university" ? "UniversityDetail" : "CompanyDetail";
+    return type == "UNIVERSITY" ? "UniversityDetail" : "CompanyDetail";
   }
 }
 </script>
