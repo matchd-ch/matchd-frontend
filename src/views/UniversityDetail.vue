@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="company.data"
-    class="company-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
+    class="university-detail grid grid-cols-1 xl:grid-cols-2 xl:min-h-content-with-fixed-bars"
   >
     <div
       class="bg-company-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-pink-1"
@@ -61,7 +61,7 @@
             /></a>
           </li>
         </ul>
-        <ul v-if="company.data.linkProjects" v-bind:class="{ 'mt-5': company.data.linkEducation }">
+        <ul v-if="company.data.linkProjects" :class="{ 'mt-5': company.data.linkEducation }">
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Praxisprojekte</h3>
           </li>
@@ -74,7 +74,7 @@
         </ul>
         <ul
           v-if="company.data.linkThesis"
-          v-bind:class="{ 'mt-5': company.data.linkProjects, 'mt-5': company.data.linkEducation }"
+          v-bind:class="{ 'mt-5': company.data.linkProjects || company.data.linkEducation }"
         >
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Abschlussarbeiten</h3>
@@ -87,7 +87,10 @@
           </li>
         </ul>
       </ProfileSection>
-      <section class="flex-grow p-9 border-b border-pink-1">
+      <section
+        class="flex-grow p-9 border-b border-pink-1"
+        v-if="company.data.projectPostings.length > 0"
+      >
         <h2 class="text-heading-lg mb-8 text-pink-1">
           Themen für wissenschaftliche Projektarbeiten
         </h2>
@@ -98,27 +101,33 @@
               :to="{ name: 'JobPostingDetail', params: { slug: project.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
-              {{ project.title }}
+              {{ project.projectType.name }} ({{ project.topic.name }})
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+            </router-link>
+          </li>
+        </ul>
+      </section>
+      <section v-if="company.data.jobPostings.length" class="flex-grow p-9 border-b border-pink-1">
+        <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
+        <ul class="list">
+          <li v-for="position in company.data.jobPostings" :key="position.id">
+            <router-link
+              :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
+              class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
+            >
+              {{ position.title }}, {{ position.jobType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>
         </ul>
       </section>
       <ProfileSection v-if="company.data.employees[0]" :pink="true" title="Ansprechspartner">
-        <ul class="list">
-          <li>
-            {{ company.data.employees[0].firstName }} {{ company.data.employees[0].lastName }}
-          </li>
-          <li>
-            {{ company.data.employees[0].role }}
-          </li>
-          <li>
-            {{ company.data.employees[0].email }}
-          </li>
-          <li>
-            {{ company.data.phone }}
-          </li>
-        </ul>
+        <p>
+          {{ company.data.employees[0].firstName }} {{ company.data.employees[0].lastName }} <br />
+          {{ company.data.employees[0].role }} <br />
+          {{ company.data.employees[0].email }} <br />
+          {{ company.data.phone }}
+        </p>
       </ProfileSection>
     </div>
   </div>
