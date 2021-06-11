@@ -1,10 +1,6 @@
 <template>
   <Form
-    v-if="
-      universityAvatarUploadConfigurations &&
-      universityDocumentsUploadConfigurations &&
-      branches.length
-    "
+    v-if="universityAvatarUploadConfigurations && universityDocumentsUploadConfigurations"
     @submit="onSubmit"
   >
     <GenericError v-if="onboardingState.errors">
@@ -25,44 +21,44 @@
       <template v-slot:info>Maximal 1000 Zeichen</template>
     </MatchdField>
     <!-- Logo -->
-    <MatchdFileBlock>
-      <template v-slot:label>Logo</template>
-      <MatchdFileView
-        v-if="universityAvatar.length > 0 || universityAvatarQueue.length > 0"
-        :files="universityAvatar"
-        :queuedFiles="universityAvatarQueue"
-        @deleteFile="onDeleteUniversityAvatar"
-        class="mb-3"
-      />
-      <MatchdFileUpload
-        v-if="universityAvatar.length === 0"
-        :uploadConfiguration="universityAvatarUploadConfigurations"
-        @selectFiles="onSelectUniversityAvatar"
-        class="mb-10"
-        >Logo auswählen</MatchdFileUpload
-      >
-    </MatchdFileBlock>
-    <!-- Media -->
-    <MatchdFileBlock>
-      <template v-slot:label>So sieht es bei uns aus</template>
-      <MatchdFileView
-        v-if="universityDocuments.length > 0 || universityDocumentsQueue.length > 0"
-        :files="universityDocuments"
-        :queuedFiles="universityDocumentsQueue"
-        @deleteFile="onDeleteUniversityDocuments"
-        class="mb-3"
-        :class="{
-          'mb-10': universityDocumentsUploadConfigurations.maxFiles < universityDocuments.length,
-        }"
-      />
-      <MatchdFileUpload
-        v-if="universityDocumentsUploadConfigurations.maxFiles >= universityDocuments.length"
-        :uploadConfiguration="universityDocumentsUploadConfigurations"
-        @selectFiles="onSelectUniversityDocuments"
-        class="mb-10"
-        >Fotos oder Videos auswählen</MatchdFileUpload
-      >
-    </MatchdFileBlock>
+    <!--    <MatchdFileBlock>-->
+    <!--      <template v-slot:label>Logo</template>-->
+    <!--      <MatchdFileView-->
+    <!--        v-if="universityAvatar.length > 0 || universityAvatarQueue.length > 0"-->
+    <!--        :files="universityAvatar"-->
+    <!--        :queuedFiles="universityAvatarQueue"-->
+    <!--        @deleteFile="onDeleteUniversityAvatar"-->
+    <!--        class="mb-3"-->
+    <!--      />-->
+    <!--      <MatchdFileUpload-->
+    <!--        v-if="universityAvatar.length === 0"-->
+    <!--        :uploadConfiguration="universityAvatarUploadConfigurations"-->
+    <!--        @selectFiles="onSelectUniversityAvatar"-->
+    <!--        class="mb-10"-->
+    <!--        >Logo auswählen</MatchdFileUpload-->
+    <!--      >-->
+    <!--    </MatchdFileBlock>-->
+    <!--    &lt;!&ndash; Media &ndash;&gt;-->
+    <!--    <MatchdFileBlock>-->
+    <!--      <template v-slot:label>So sieht es bei uns aus</template>-->
+    <!--      <MatchdFileView-->
+    <!--        v-if="universityDocuments.length > 0 || universityDocumentsQueue.length > 0"-->
+    <!--        :files="universityDocuments"-->
+    <!--        :queuedFiles="universityDocumentsQueue"-->
+    <!--        @deleteFile="onDeleteUniversityDocuments"-->
+    <!--        class="mb-3"-->
+    <!--        :class="{-->
+    <!--          'mb-10': universityDocumentsUploadConfigurations.maxFiles < universityDocuments.length,-->
+    <!--        }"-->
+    <!--      />-->
+    <!--      <MatchdFileUpload-->
+    <!--        v-if="universityDocumentsUploadConfigurations.maxFiles >= universityDocuments.length"-->
+    <!--        :uploadConfiguration="universityDocumentsUploadConfigurations"-->
+    <!--        @selectFiles="onSelectUniversityDocuments"-->
+    <!--        class="mb-10"-->
+    <!--        >Fotos oder Videos auswählen</MatchdFileUpload-->
+    <!--      >-->
+    <!--    </MatchdFileBlock>-->
     <MatchdButton
       variant="outline"
       :disabled="onboardingLoading"

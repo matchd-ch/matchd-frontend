@@ -1,4 +1,4 @@
-import type { Branch } from "api";
+import type {Benefit, Branch} from "api";
 
 export interface UniversityProfileStep3Form {
   services: string;
@@ -6,4 +6,5 @@ export interface UniversityProfileStep3Form {
   linkProjects: string;
   linkThesis: string;
   branches: Branch[];
+  benefits: Benefit[];
 }

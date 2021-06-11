@@ -7,6 +7,10 @@
     <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
       <template v-slot:label>Fachbereich</template>
     </SelectPillMultiple>
+    <!-- Benefits -->
+    <SelectIconGroup class="mb-10" :icons="benefits" name="benefits" @change="onChangeBenefits">
+      <template v-slot:label>Das erwartet dich bei uns</template>
+    </SelectIconGroup>
     <!-- Description Field -->
     <MatchdField id="services" class="mb-10">
       <template v-slot:label>Unser Angebot</template>

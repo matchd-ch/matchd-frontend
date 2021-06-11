@@ -9,5 +9,8 @@ export function universityProfileStep3Mapper(
     branches: universityProfileForm.branches.map((branch) => {
       return { id: branch.id };
     }),
+    benefits: universityProfileForm.benefits.map((benefit) => {
+      return { id: benefit.id };
+    }),
   };
 }
