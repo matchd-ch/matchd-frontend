@@ -4,8 +4,15 @@
     <MatchdButton variant="outline" class="block w-full" @click="onClickStudentSearch"
       >Talente finden</MatchdButton
     >
+    <MatchdButton
+      variant="outline"
+      class="block w-full mt-5"
+      @click="$router.push({ name: 'JobPostingCreate', params: { step: 'schritt1' } })"
+    >
+      Stelle ausschreiben
+    </MatchdButton>
     <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickJobPostingCreate"
-      >Projekte ausschreiben</MatchdButton
+      >Projektidee ausschreiben</MatchdButton
     >
     <p class="mt-5 text-black text-center">
       Falls sie noch Fragen haben,
