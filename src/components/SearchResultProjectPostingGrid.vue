@@ -17,10 +17,13 @@
           </div>
         </div>
       </template>
-      <div class="mt-2">
-        <h2 class="text-paragraph-lg font-medium">{{ match.jobPostingTitle }}</h2>
-        <h3 class="text-paragraph-lg">{{ match.name }}</h3>
-      </div>
+
+      <h2 class="text-paragraph-lg font-medium mb-4">{{ match.title }}</h2>
+      <p v-if="match.description" class="mb-2 text-paragraph-md">
+        {{ match.description.slice(0, 100)
+        }}<template v-if="match.description.length > 100">&hellip;</template>
+      </p>
+      <p v-if="match.keywords.length" class="text-paragraph-md">{{ match.keywords.join(", ") }}</p>
     </project-posting-grid-tile>
   </ul>
 </template>

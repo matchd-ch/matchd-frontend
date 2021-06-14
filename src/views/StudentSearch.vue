@@ -97,6 +97,7 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { SearchResult } from "@/models/SearchResult";
 import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
+import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, JobPosting } from "api";
 import { Options, setup, Vue } from "vue-class-component";
@@ -177,6 +178,10 @@ export default class StudentSearch extends Vue {
       }),
     ]);
     calculateMargins();
+  }
+
+  unmounted(): void {
+    this.$store.commit(MutationTypes.RESET_MATCHES);
   }
 
   async searchStudents(): Promise<void> {

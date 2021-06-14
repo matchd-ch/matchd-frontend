@@ -18,6 +18,11 @@ query(
   ) {
     name
     title
+    description
+    keywords {
+      id
+      name
+    }
     avatar
     type
     slug

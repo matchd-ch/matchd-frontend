@@ -17,12 +17,6 @@ type Scalars = {
    */
   Date: any;
   /**
-   * The `DateTime` scalar type represents a DateTime
-   * value as specified by
-   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
-   */
-  DateTime: any;
-  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -95,6 +89,9 @@ enum AttachmentKey {
   CompanyDocuments = "COMPANY_DOCUMENTS",
   StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
   CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
+  ProjectPostingImages = "PROJECT_POSTING_IMAGES",
+  ProjectPostingDocuments = "PROJECT_POSTING_DOCUMENTS",
+  ProjectPostingFallback = "PROJECT_POSTING_FALLBACK",
 }
 
 type Benefit = {
@@ -310,8 +307,8 @@ type JobPosting = {
   formStep: Scalars["Int"];
   state: JobPostingState;
   employee?: Maybe<Employee>;
-  dateCreated: Scalars["DateTime"];
-  datePublished?: Maybe<Scalars["DateTime"]>;
+  dateCreated?: Maybe<Scalars["Date"]>;
+  datePublished?: Maybe<Scalars["Date"]>;
   languages?: Maybe<Array<JobPostingLanguageRelation>>;
   displayTitle: Scalars["String"];
   matchStatus?: Maybe<MatchStatus>;
@@ -470,6 +467,8 @@ type Match = {
   rawScore: Scalars["Float"];
   title?: Maybe<Scalars["String"]>;
   matchStatus?: Maybe<MatchStatus>;
+  description?: Maybe<Scalars["String"]>;
+  keywords?: Maybe<Array<Keyword>>;
 };
 
 type MatchHints = {
@@ -527,6 +526,7 @@ enum MatchType {
   JobPosting = "JOB_POSTING",
   ProjectPosting = "PROJECT_POSTING",
   Company = "COMPANY",
+  University = "UNIVERSITY",
 }
 
 type Mutation = {
@@ -680,6 +680,7 @@ type MutationDeleteAttachmentArgs = {
 type MutationUploadArgs = {
   file: Scalars["Upload"];
   key: AttachmentKey;
+  projectPosting?: Maybe<ProjectPostingInput>;
 };
 
 type MutationUniversityProfileStep1Args = {
@@ -885,8 +886,8 @@ type ProjectPosting = {
   company?: Maybe<Company>;
   formStep: Scalars["Int"];
   state: ProjectPostingState;
-  dateCreated: Scalars["DateTime"];
-  datePublished?: Maybe<Scalars["DateTime"]>;
+  dateCreated?: Maybe<Scalars["Date"]>;
+  datePublished?: Maybe<Scalars["Date"]>;
   displayTitle: Scalars["String"];
   matchStatus?: Maybe<MatchStatus>;
   matchHints?: Maybe<MatchHints>;
@@ -1347,13 +1348,6 @@ type UniversityProfileStep2 = {
 /** Updates website services */
 type UniversityProfileStep3 = {
   __typename?: "UniversityProfileStep3";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-};
-
-/** Updates a company profile with soft skills and cultural fit */
-type UniversityProfileStep4 = {
-  __typename?: "UniversityProfileStep4";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };

@@ -31,6 +31,7 @@
           class="search-boost flex xl:hidden mt-4"
           @changeSoftBoost="onChangeSoftBoost"
           @changeTechBoost="onChangeTechBoost"
+          techBoostLabel="Stichworte"
           :techBoost="techBoost"
           :softBoost="softBoost"
         />
@@ -58,9 +59,9 @@
         class="search-boost hidden xl:flex"
         @changeSoftBoost="onChangeSoftBoost"
         @changeTechBoost="onChangeTechBoost"
+        techBoostLabel="Stichworte"
         :techBoost="techBoost"
         :softBoost="softBoost"
-        :color="isStudent ? 'green' : 'pink'"
       />
     </teleport>
   </div>
@@ -77,6 +78,7 @@ import SearchResultProjectPostingGrid from "@/components/SearchResultProjectPost
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { SearchResult } from "@/models/SearchResult";
 import { ActionTypes } from "@/store/modules/content/action-types";
+import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, ProjectPosting } from "api";
 import { Options, setup, Vue } from "vue-class-component";
@@ -170,6 +172,10 @@ export default class ProjectPostingSearch extends Vue {
         skip: 0,
       })
     );
+  }
+
+  unmounted(): void {
+    this.$store.commit(MutationTypes.RESET_MATCHES);
   }
 
   onChangeFilter(): void {

@@ -1,7 +1,7 @@
 <template>
   <div class="search-boost flex flex-col xl:flex-row xl:justify-center">
     <SearchBoostSlider @changeValue="$emit('changeSoftBoost', $event)" :value="softBoost">
-      Gemeinsamkeiten
+      {{ softBoostLabel }}
       <template v-slot:label-left>Keine</template>
       <template v-slot:label-right>100% Match</template>
     </SearchBoostSlider>
@@ -10,7 +10,7 @@
       :value="techBoost"
       class="mt-4 xl:mt-0 xl:ml-8"
     >
-      Technische Skills
+      {{ techBoostLabel }}
       <template v-slot:label-left>Keine</template>
       <template v-slot:label-right>100% Match</template>
     </SearchBoostSlider>
@@ -22,6 +22,8 @@ import SearchBoostSlider from "@/components/SearchBoostSlider.vue";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
+  techBoostLabel = prop<string>({ default: "Technische Skills" });
+  softBoostLabel = prop<string>({ default: "Gemeinsamkeiten" });
   techBoost = prop<number>({ default: 3 });
   softBoost = prop<number>({ default: 3 });
 }

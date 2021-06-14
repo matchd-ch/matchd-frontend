@@ -96,6 +96,7 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
   [MutationTypes.PROJECT_TYPES_LOADED](state: S, payload: { projectTypes: ProjectType[] }): void;
+  [MutationTypes.RESET_MATCHES](state: S): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
@@ -317,6 +318,9 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.PROJECT_TYPES_LOADED](state: State, payload: { projectTypes: ProjectType[] }) {
     state.projectTypes.loading = false;
     state.projectTypes.data = payload.projectTypes;
+  },
+  [MutationTypes.RESET_MATCHES](state: State) {
+    state.matches.data = [];
   },
   [MutationTypes.SKILLS_LOADING](state: State) {
     state.skills.loading = true;
