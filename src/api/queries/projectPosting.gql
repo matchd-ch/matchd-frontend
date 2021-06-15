@@ -1,6 +1,7 @@
 query($id: ID, $slug: String) {
   projectPosting(id: $id, slug: $slug) {
     id
+    slug
     title
     displayTitle
     description
@@ -9,6 +10,7 @@ query($id: ID, $slug: String) {
     state
     projectFromDate
     datePublished
+    website
     matchStatus {
       initiator
       confirmed

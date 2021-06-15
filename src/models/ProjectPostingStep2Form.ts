@@ -1,6 +1,5 @@
-import { ProjectPostingState } from "@/api/models/types";
-
 export interface ProjectPostingStep2Form {
-  state: ProjectPostingState;
-  employeeId?: string;
+  projectFromDateMonth: string;
+  projectFromDateYear: string;
+  website: string;
 }

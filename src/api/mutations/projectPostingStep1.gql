@@ -3,8 +3,6 @@ mutation(
   $title: String!
   $description: String!
   $additionalInformation: String
-  $projectFromDate: String
-  $website: String
   $projectType: ProjectTypeInput!
   $topic: TopicInput!
   $keywords: [KeywordInput]
@@ -15,8 +13,6 @@ mutation(
       title: $title
       description: $description
       additionalInformation: $additionalInformation
-      projectFromDate: $projectFromDate
-      website: $website
       projectType: $projectType
       topic: $topic
       keywords: $keywords,
