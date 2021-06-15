@@ -1,113 +1,101 @@
 <template>
-  <div>
-    <Form v-if="showEmployeeForm" @submit="onAddNewEmployee" v-slot="{ errors }">
-      <div class="lg:flex">
-        <MatchdField id="firstName" class="lg:mr-3 mb-3 lg:flex-grow" :errors="errors.firstName">
-          <template v-slot:label>Vorname Ansprechperson*</template>
-          <Field
-            id="firstName"
-            name="firstName"
-            as="input"
-            label="Vorname"
-            rules="required"
-            v-model="employeeForm.firstName"
-          />
-        </MatchdField>
-        <MatchdField id="lastName" class="mb-3 lg:flex-grow" :errors="errors.lastName">
-          <template v-slot:label>Nachname Ansprechperson*</template>
-          <Field
-            id="lastName"
-            name="lastName"
-            as="input"
-            label="Nachname"
-            rules="required"
-            v-model="employeeForm.lastName"
-          />
-        </MatchdField>
-      </div>
-      <MatchdField id="role" class="mb-3" :errors="errors.role">
-        <template v-slot:label>Funktion*</template>
-        <Field
-          id="role"
-          name="role"
-          as="input"
-          label="Funktion"
-          rules="required"
-          :class="{ invalid: errors.role }"
-          v-model="employeeForm.role"
-        />
-      </MatchdField>
-      <MatchdField id="email" class="mb-10" :errors="errors.email">
-        <template v-slot:label>E-Mail Ansprechperson*</template>
-        <Field
-          id="email"
-          name="email"
-          as="input"
-          type="email"
-          label="E-Mail"
-          rules="required|email"
-          v-model="employeeForm.email"
-        />
-        <template v-slot:info
-          >Die neu erfasste Person erhält per E-Mail einen Link, mit dem der neue Account aktiviert
-          werden kann. Ihrem Unternehmensprofil wird damit ein/e weitere/r User*in
-          zugeordnet.</template
-        >
-      </MatchdField>
-      <MatchdButton variant="fill" class="block w-full mb-3">Ansprechperson speichern</MatchdButton>
-      <MatchdButton
-        type="button"
-        variant="outline"
-        @click="onClickShowEmployeeForm"
-        class="block w-full"
-        >Abbrechen</MatchdButton
-      >
-    </Form>
-    <form v-if="employees.length > 0 && !showEmployeeForm" @submit="veeForm.onSubmit">
+  <div
+    v-if="
+      currentProjectPosting &&
+      projectPostingImagesUploadConfigurations &&
+      projectPostingDocumentsUploadConfigurations
+    "
+  >
+    <form @submit="veeForm.onSubmit">
       <FormSaveError v-if="projectPostingState.errors" />
 
-      <div class="mb-10">
-        <!-- Kontaktperson -->
-        <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.employeeId">
-          <template v-slot:label>Ansprechperson*</template>
+      <!-- Website Field -->
+      <MatchdField v-if="!isStudent" id="website" class="mb-10" :errors="veeForm.errors.website">
+        <template v-slot:label>Website</template>
+        <Field id="website" name="website" as="input" label="Website" rules="url" />
+        <template v-slot:info>Link zu mehr Informationen auf Ihrer Webseite.</template>
+      </MatchdField>
+      <!-- Starttermin -->
+      <MatchdSelect
+        id="projectDateFrom"
+        class="mb-10 flex-grow"
+        :errors="veeForm.errors.projectFromDateMonth || veeForm.errors.projectFromDateYear"
+      >
+        <template v-slot:label>Starttermin</template>
+        <fieldset id="projectDateFrom" class="flex">
           <Field
-            id="employeeId"
-            name="employeeId"
+            id="projectFromDateMonth"
+            name="projectFromDateMonth"
             as="select"
-            label="Kontaktperson"
+            label="Starttermin Monat"
             class="mr-3"
-            rules="required"
           >
-            <option v-for="employee in employees" :value="employee.id" :key="employee.id">
-              {{ employee.firstName }} {{ employee.lastName }} - {{ employee.role }}
+            <option value="" disabled selected hidden>Monat</option>
+            <option v-for="(n, index) in 12" :value="n" :key="index">
+              {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
-        </MatchdSelect>
-
-        <MatchdButton
-          type="button"
-          variant="outline"
-          @click="onClickShowEmployeeForm"
-          class="block w-full"
-          >Zusätzliche Ansprechperson erfassen</MatchdButton
-        >
-      </div>
-      <!-- State Field -->
-      <MatchdToggle id="state" class="mb-10" :errors="veeForm.errors.state">
-        <template v-slot:label>Sichtbarkeit der Projektausschreibung</template>
-        <input
-          id="state"
-          name="state"
-          type="checkbox"
-          value="true"
-          @change="onChangeState($event.target.checked)"
-          :checked="veeForm.state === projectPostingStateEnum.Public"
+          <Field
+            id="projectFromDateYear"
+            name="projectFromDateYear"
+            as="select"
+            label="Starttermin Jahr"
+          >
+            <option v-if="veeForm.values.projectFromDateYear" selected>
+              {{ veeForm.values.projectFromDateYear }}
+            </option>
+            <option v-else value="" disabled selected hidden>Jahr</option>
+            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
+          </Field>
+        </fieldset>
+      </MatchdSelect>
+      <!-- Logo -->
+      <MatchdFileBlock class="mb-10">
+        <template v-slot:label>Bilder zur Projektausschreibung</template>
+        <MatchdFileView
+          v-if="projectPostingImages.length > 0 || projectPostingImagesQueue.length > 0"
+          :files="projectPostingImages"
+          :queuedFiles="projectPostingImagesQueue"
+          @deleteFile="onDeleteProjectPostingImages"
+          class="mb-3"
+          :class="{
+            'mb-10':
+              projectPostingImagesUploadConfigurations.maxFiles < projectPostingImagesQueue.length,
+          }"
         />
-        <template v-if="veeForm.state === projectPostingStateEnum.Public" v-slot:value>
-          <span class="text-primary-1">Öffentlich</span>
-        </template>
-        <template v-else v-slot:value>Entwurf</template>
-      </MatchdToggle>
+        <MatchdFileUpload
+          v-if="projectPostingImagesUploadConfigurations.maxFiles > projectPostingImages.length"
+          :uploadConfiguration="projectPostingImagesUploadConfigurations"
+          :formal="!isStudent"
+          @selectFiles="onSelectProjectPostingImages"
+          >Logo auswählen</MatchdFileUpload
+        >
+      </MatchdFileBlock>
+      <!-- Media -->
+      <MatchdFileBlock>
+        <template v-slot:label>Dokumente zur Projektausschreibung</template>
+        <MatchdFileView
+          v-if="projectPostingDocuments.length > 0 || projectPostingDocumentsQueue.length > 0"
+          :files="projectPostingDocuments"
+          :queuedFiles="projectPostingDocumentsQueue"
+          @deleteFile="onDeleteProjectPostingDocuments"
+          class="mb-3"
+          :class="{
+            'mb-10':
+              projectPostingDocumentsUploadConfigurations.maxFiles < projectPostingDocuments.length,
+          }"
+        />
+        <MatchdFileUpload
+          v-if="
+            projectPostingDocumentsUploadConfigurations.maxFiles > projectPostingDocuments.length
+          "
+          :formal="!isStudent"
+          :uploadConfiguration="projectPostingDocumentsUploadConfigurations"
+          @selectFiles="onSelectProjectPostingDocuments"
+          class="mb-10"
+          >Fotos oder Videos auswählen</MatchdFileUpload
+        >
+      </MatchdFileBlock>
       <teleport to="footer">
         <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
           <MatchdButton
@@ -139,18 +127,25 @@ import { projectPostingStep2InputMapper } from "@/api/mappers/projectPostingStep
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
+import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
+import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
+import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
-import MatchdToggle from "@/components/MatchdToggle.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { AddEmployeeState } from "@/models/AddEmployeeState";
-import { AddEmployeeSubForm } from "@/models/JobPostingStep3Form";
 import { ProjectPostingState } from "@/models/ProjectPostingState";
-import { ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
+import { AttachmentKey, ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import { ProjectPostingStep2Form } from "@/models/ProjectPostingStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
-import type { Employee, ProjectPosting as ProjectPostingType, User } from "api";
-import { Field, Form, FormActions, useField, useForm } from "vee-validate";
+import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { QueuedFile } from "@/store/modules/upload/state";
+import type {
+  Attachment,
+  UploadConfiguration,
+  ProjectPosting as ProjectPostingType,
+  User,
+} from "api";
+import { Field, Form, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
@@ -162,7 +157,9 @@ import { Watch } from "vue-property-decorator";
     MatchdButton,
     MatchdSelect,
     MatchdField,
-    MatchdToggle,
+    MatchdFileBlock,
+    MatchdFileView,
+    MatchdFileUpload,
   },
   emits: ["submitComplete", "changeDirty", "navigateBack"],
 })
@@ -183,6 +180,11 @@ export default class ProjectPostingStep2 extends Vue {
             const projectPostingState = store.getters["projectPostingState"];
             if (projectPostingState.success) {
               this.$emit("submitComplete");
+            } else if (projectPostingState.errors) {
+              form.setErrors(projectPostingState.errors);
+              if (projectPostingState.errors?.projectFromDate) {
+                form.setErrors({ projectFromDateMonth: "Stellenantritt darf nicht leer sein." });
+              }
             }
           }
         } catch (e) {
@@ -198,23 +200,16 @@ export default class ProjectPostingStep2 extends Vue {
     };
   });
   formData = {} as ProjectPostingStep2Form;
-  showEmployeeForm = false;
-  employeeForm: AddEmployeeSubForm = {
-    firstName: "",
-    lastName: "",
-    role: "",
-    email: "",
-  };
-
-  get projectPostingStateEnum(): typeof ProjectPostingStateEnum {
-    return ProjectPostingStateEnum;
-  }
 
   get projectPostingData(): ProjectPostingStep2Form {
-    if (!this.currentProjectPosting || !this.user?.employee) {
+    if (!this.currentProjectPosting) {
       return {} as ProjectPostingStep2Form;
     }
-    return projectPostingStep2FormMapper(this.currentProjectPosting, this.user?.employee);
+    return projectPostingStep2FormMapper(this.currentProjectPosting);
+  }
+
+  get isStudent(): boolean {
+    return this.$store.getters["isStudent"];
   }
 
   get projectPostingLoading(): boolean {
@@ -225,63 +220,108 @@ export default class ProjectPostingStep2 extends Vue {
     return this.$store.getters["projectPostingState"];
   }
 
-  get addEmployeeLoading(): boolean {
-    return this.$store.getters["addEmployeeLoading"];
-  }
-
-  get addEmployeeState(): AddEmployeeState {
-    return this.$store.getters["addEmployeeState"];
-  }
-
   get currentProjectPosting(): ProjectPostingType | null {
     return this.$store.getters["currentProjectPosting"];
   }
 
-  get employees(): Employee[] {
-    return this.$store.getters["employees"];
+  get validYears(): number[] {
+    const currentYear = new Date().getFullYear();
+    const maxYear = currentYear + 10;
+    const validYears = [];
+    for (let i = currentYear; maxYear > i; i++) {
+      validYears.push(i);
+    }
+    return validYears;
   }
 
   get user(): User | null {
     return this.$store.getters["user"];
   }
 
-  async mounted(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.EMPLOYEES);
+  get projectPostingImagesQueue(): QueuedFile[] {
+    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingImages });
+  }
 
+  get projectPostingImages(): Attachment[] {
+    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingImages });
+  }
+
+  get projectPostingImagesUploadConfigurations(): UploadConfiguration | undefined {
+    return this.$store.getters["uploadConfigurationByKey"]({
+      key: AttachmentKey.ProjectPostingImages,
+    });
+  }
+
+  get projectPostingDocumentsQueue(): QueuedFile[] {
+    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingDocuments });
+  }
+
+  get projectPostingDocuments(): Attachment[] {
+    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingDocuments });
+  }
+
+  get projectPostingDocumentsUploadConfigurations(): UploadConfiguration | undefined {
+    return this.$store.getters["uploadConfigurationByKey"]({
+      key: AttachmentKey.ProjectPostingDocuments,
+    });
+  }
+
+  async mounted(): Promise<void> {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS);
+    if (this.currentProjectPosting) {
+      await Promise.all([
+        this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
+          key: AttachmentKey.ProjectPostingImages,
+          slug: this.currentProjectPosting?.slug,
+        }),
+        this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
+          key: AttachmentKey.ProjectPostingFallback,
+          slug: this.currentProjectPosting?.slug,
+        }),
+        this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
+          key: AttachmentKey.ProjectPostingDocuments,
+          slug: this.currentProjectPosting?.slug,
+        }),
+      ]);
+    }
     this.veeForm.resetForm({
       values: this.projectPostingData,
     });
     calculateMargins();
   }
 
-  onClickShowEmployeeForm(): void {
-    this.showEmployeeForm = !this.showEmployeeForm;
+  async onSelectProjectPostingImages(files: FileList): Promise<void> {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
+      key: AttachmentKey.ProjectPostingImages,
+      files,
+      id: this.currentProjectPosting?.id || "",
+    });
+  }
+
+  async onDeleteProjectPostingImages(file: Attachment): Promise<void> {
+    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
+      key: AttachmentKey.ProjectPostingImages,
+      id: file.id,
+    });
+  }
+
+  async onSelectProjectPostingDocuments(files: FileList): Promise<void> {
+    await this.$store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
+      key: AttachmentKey.ProjectPostingDocuments,
+      files,
+      id: this.currentProjectPosting?.id || "",
+    });
+  }
+
+  async onDeleteProjectPostingDocuments(file: Attachment): Promise<void> {
+    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
+      key: AttachmentKey.ProjectPostingDocuments,
+      id: file.id,
+    });
   }
 
   onClickBack(): void {
     this.$emit("navigateBack");
-  }
-
-  onChangeState(value: boolean): void {
-    this.veeForm.state = value ? ProjectPostingStateEnum.Public : ProjectPostingStateEnum.Draft;
-  }
-
-  async onAddNewEmployee(
-    form: AddEmployeeSubForm,
-    actions: FormActions<Partial<AddEmployeeSubForm>>
-  ): Promise<void> {
-    await this.$store.dispatch(ActionTypes.ADD_EMPLOYEE, this.employeeForm);
-    if (this.addEmployeeState?.errors) {
-      actions.setErrors(this.addEmployeeState.errors);
-      if (this.addEmployeeState.errors.username?.[0] === "unique") {
-        actions.setErrors({
-          email: "Mit dieser E-Mailadresse wurde bereits eine Kontaktperson erfasst.",
-        });
-      }
-      return;
-    } else if (this.addEmployeeState.success) {
-      this.showEmployeeForm = false;
-    }
   }
 
   @Watch("veeForm.meta.dirty")

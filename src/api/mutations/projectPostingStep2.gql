@@ -1,13 +1,13 @@
 mutation(
   $id: ID!
-  $state: String!
-  $employee: EmployeeInput!
+  $projectFromDate: String
+  $website: String
 ) {
   projectPostingStep2(
     step2: {
       id: $id,
-      state: $state
-      employee: $employee
+      projectFromDate: $projectFromDate
+      website: $website
     }
   ) {
     success

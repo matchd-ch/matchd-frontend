@@ -1,10 +1,12 @@
 <template>
-  <component
-    v-if="user"
-    :is="dashboardComponent"
-    :dashboard="dashboard"
-    class="min-h-content-with-fixed-bars"
-  ></component>
+  <template v-if="user">
+    <StudentDashboard
+      v-if="isStudent"
+      :dashboard="studentDashboard"
+      class="min-h-content-with-fixed-bars"
+    />
+    <CompanyDashboard v-else :dashboard="companyDashboard" class="min-h-content-with-fixed-bars" />
+  </template>
 </template>
 
 <script lang="ts">
@@ -12,7 +14,8 @@ import CompanyDashboard from "@/components/dashboard/CompanyDashboard.vue";
 import StudentDashboard from "@/components/dashboard/StudentDashboard.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes as ContentActions } from "@/store/modules/content/action-types";
-import type { User, Dashboard as DashboardData } from "api";
+import type { User, Dashboard as IDashboard } from "api";
+import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
@@ -46,8 +49,12 @@ export default class Dashboard extends Vue {
     calculateMargins();
   }
 
-  get dashboard(): DashboardData | null {
+  get studentDashboard(): IDashboard | null {
     return this.$store.getters["dashboard"];
+  }
+
+  get companyDashboard(): ICompanyDashboard | null {
+    return this.$store.getters["companyDashboard"];
   }
 
   get isStudent(): boolean {
