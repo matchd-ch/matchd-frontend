@@ -56,7 +56,7 @@
         }"
       />
       <MatchdFileUpload
-        v-if="universityDocumentsUploadConfigurations.maxFiles >= universityDocuments.length"
+        v-if="universityDocumentsUploadConfigurations.maxFiles > universityDocuments.length"
         :uploadConfiguration="universityDocumentsUploadConfigurations"
         @selectFiles="onSelectUniversityDocuments"
         class="mb-10"
