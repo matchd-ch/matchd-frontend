@@ -116,6 +116,9 @@ query {
       softSkills {
         id
       }
+      linkEducation
+      linkProjects
+      linkThesis
     }
   }
 }

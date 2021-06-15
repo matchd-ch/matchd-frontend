@@ -101,7 +101,6 @@
 <script lang="ts">
 import { companyProfileStep3FormMapper } from "@/api/mappers/companyProfileStep3FormMapper";
 import { companyProfileStep3InputMapper } from "@/api/mappers/companyProfileStep3InputMapper";
-import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
@@ -121,6 +120,9 @@ import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 import MatchdField from "@/components/MatchdField.vue";
+import { universityProfileStep3InputMapper } from "@/api/mappers/universityProfileStep3InputMapper";
+import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
+import { universityProfileStep3FormMapper } from "@/api/mappers/universityProfileStep3FormMapper";
 
 class Props {
   edit = prop<boolean>({ default: false });
@@ -144,7 +146,7 @@ class Props {
 export default class UniversityStep3Form extends Vue.with(Props) {
   veeForm = setup(() => {
     const store = useStore();
-    const form = useForm<CompanyProfileStep3Form>();
+    const form = useForm<UniversityProfileStep3Form>();
     const { value: branches } = useField<string[]>("branches");
     const { value: benefits } = useField<string[]>("benefits");
 
@@ -153,7 +155,7 @@ export default class UniversityStep3Form extends Vue.with(Props) {
         try {
           await store.dispatch(
             ActionTypes.UNIVERSITY_ONBOARDING_STEP3,
-            companyProfileStep3InputMapper(formData)
+            universityProfileStep3InputMapper(formData)
           );
           const onboardingState = store.getters["onboardingState"];
           this.$emit("submitComplete", onboardingState.success);
@@ -171,7 +173,7 @@ export default class UniversityStep3Form extends Vue.with(Props) {
     };
   });
 
-  formData = {} as CompanyProfileStep3Form;
+  formData = {} as UniversityProfileStep3Form;
 
   get branches(): SelectPillMultipleItem[] {
     return this.$store.getters["branches"].map((branch) => {
@@ -212,12 +214,12 @@ export default class UniversityStep3Form extends Vue.with(Props) {
     return this.$store.getters["profileStep"];
   }
 
-  get profileData(): CompanyProfileStep3Form {
+  get profileData(): UniversityProfileStep3Form {
     const user = this.$store.getters["user"];
     if (!user) {
-      return {} as CompanyProfileStep3Form;
+      return {} as UniversityProfileStep3Form;
     }
-    return companyProfileStep3FormMapper(user);
+    return universityProfileStep3FormMapper(user);
   }
 
   onChangeBranch(branch: Branch): void {

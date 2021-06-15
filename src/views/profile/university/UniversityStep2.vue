@@ -20,8 +20,7 @@
       />
       <template v-slot:info>Maximal 1000 Zeichen</template>
     </MatchdField>
-    Logo
-    <MatchdFileBlock>
+    <MatchdFileBlock class="mb-10">
       <template v-slot:label>Logo</template>
       <MatchdFileView
         v-if="universityAvatar.length > 0 || universityAvatarQueue.length > 0"
@@ -34,12 +33,17 @@
         v-if="universityAvatar.length === 0"
         :uploadConfiguration="universityAvatarUploadConfigurations"
         @selectFiles="onSelectUniversityAvatar"
-        class="mb-10"
+        :formal="true"
         >Logo auswählen</MatchdFileUpload
       >
+      <template v-slot:info
+        >Nur folgende Logos werden auf Matchd richtig dargestellt: quadratisches Format, Bild und
+        Wortmarke dürfen nicht weiss sein, transparenter oder weisser Hintergrund.</template
+      >
     </MatchdFileBlock>
+
     <!-- Media -->
-    <MatchdFileBlock>
+    <MatchdFileBlock class="mb-10">
       <template v-slot:label>So sieht es bei uns aus</template>
       <MatchdFileView
         v-if="universityDocuments.length > 0 || universityDocumentsQueue.length > 0"
@@ -56,6 +60,7 @@
         :uploadConfiguration="universityDocumentsUploadConfigurations"
         @selectFiles="onSelectUniversityDocuments"
         class="mb-10"
+        :formal="true"
         >Fotos oder Videos auswählen</MatchdFileUpload
       >
     </MatchdFileBlock>

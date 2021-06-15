@@ -1,10 +1,14 @@
-import type {Benefit, Branch} from "api";
+import type { Benefit } from "api";
+
+export interface BenefitWithStatus extends Benefit {
+  checked: boolean;
+}
 
 export interface UniversityProfileStep3Form {
-  services: string;
   linkEducation: string;
   linkProjects: string;
   linkThesis: string;
-  branches: Branch[];
-  benefits: Benefit[];
+  services: string;
+  branches: string[];
+  benefits: string[];
 }

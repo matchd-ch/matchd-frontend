@@ -1,7 +1,7 @@
 <template>
   <form v-if="profileData && softSkills.length && culturalFits.length" @submit="veeForm.onSubmit">
     <p class="mb-8">
-      Um den Perfect-Match für Ihr Bildungsinstut im Talentpool zu finden, können Sie aus den
+      Um den Perfect-Match für Ihr Bildungsinstitut im Talentpool zu finden, können Sie aus den
       folgenden Vorschlägen alle Eigenschaften und Werte auswählen, die Ihnen bei einem Talent
       wichtig sind.
     </p>
@@ -29,7 +29,7 @@
       name="culturalFits"
       class="mb-10"
     >
-      <template v-slot:label>Ihrem Unternehmen ist es wichtig, dass ...</template>
+      <template v-slot:label>Ihrem Bildungsinstitut ist es wichtig, dass ...</template>
       <template v-if="remainingCulturalFits > 0" v-slot:info>
         <template v-if="remainingCulturalFits === 1">
           Wählen Sie noch 1 für Sie passende Aussage aus
@@ -81,8 +81,6 @@
 </template>
 
 <script lang="ts">
-import { companyProfileStep4FormMapper } from "@/api/mappers/companyProfileStep4FormMapper";
-import { companyProfileStep4InputMapper } from "@/api/mappers/companyProfileStep4InputMapper";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
@@ -96,6 +94,9 @@ import type { CulturalFit, SoftSkill } from "api";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
+import { UniversityProfileStep4Form } from "@/models/UniversityProfileStep4Form";
+import { universityProfileStep4FormMapper } from "@/api/mappers/universityProfileStep4FormMapper";
+import { universityProfileStep4InputMapper } from "@/api/mappers/universityProfileStep4InputMapper";
 
 class Props {
   edit = prop<boolean>({ default: false });
@@ -128,8 +129,8 @@ export default class UniversityStep4Form extends Vue.with(Props) {
       async (formData): Promise<void> => {
         try {
           await store.dispatch(
-            ActionTypes.COMPANY_ONBOARDING_STEP4,
-            companyProfileStep4InputMapper(formData)
+            ActionTypes.UNIVERSITY_ONBOARDING_STEP4,
+            universityProfileStep4InputMapper(formData)
           );
 
           const onboardingState = store.getters["onboardingState"];
@@ -213,12 +214,12 @@ export default class UniversityStep4Form extends Vue.with(Props) {
     }
   }
 
-  get profileData(): CompanyProfileStep4Form {
+  get profileData(): UniversityProfileStep4Form {
     const user = this.$store.getters["user"];
     if (!user) {
-      return {} as CompanyProfileStep4Form;
+      return {} as UniversityProfileStep4Form;
     }
-    return companyProfileStep4FormMapper(user);
+    return universityProfileStep4FormMapper(user);
   }
 
   async mounted(): Promise<void> {
