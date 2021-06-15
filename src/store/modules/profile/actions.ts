@@ -12,7 +12,8 @@ import {
   IStudentProfileInputStep6,
   IUniversityProfileInputStep1,
   IUniversityProfileInputStep2,
-  IUniversityProfileInputStep3, IUniversityProfileInputStep4,
+  IUniversityProfileInputStep3,
+  IUniversityProfileInputStep4,
 } from "@/api/models/types";
 import { RootState } from "@/store";
 import { ActionContext, ActionTree } from "vuex";

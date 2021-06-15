@@ -84,14 +84,13 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
-import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment, Branch, UploadConfiguration, User } from "api";
+import type { Attachment, UploadConfiguration, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 

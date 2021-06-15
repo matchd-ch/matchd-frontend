@@ -163,7 +163,6 @@ import type { JobPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import StudentProfile from "@/views/StudentProfile.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -293,7 +292,7 @@ export default class JobPostingDetail extends Vue {
   onClickMatch(): void {
     this.showConfirmationModal = true;
   }
-  detailSiteRoute(type: string) {
+  detailSiteRoute(type: string): string {
     return type == ProfileType.University ? "UniversityDetail" : "CompanyDetail";
   }
 }

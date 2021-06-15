@@ -99,8 +99,6 @@
 </template>
 
 <script lang="ts">
-import { companyProfileStep3FormMapper } from "@/api/mappers/companyProfileStep3FormMapper";
-import { companyProfileStep3InputMapper } from "@/api/mappers/companyProfileStep3InputMapper";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
@@ -110,12 +108,11 @@ import SelectIconGroup from "@/components/SelectIconGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 import { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import type { Branch, Benefit, UploadConfiguration } from "api";
+import type { Branch, Benefit } from "api";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
