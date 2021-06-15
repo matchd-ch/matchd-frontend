@@ -6,8 +6,15 @@
       </ProfileNavigationItem>
       <ProfileNavigationItem
         :to="{ params: { step: 'schritt2' } }"
-        :disabled="!currentProjectPosting || currentProjectPosting?.formStep < 2"
         :active="currentStep === 2"
+        :disabled="!currentProjectPosting || currentProjectPosting?.formStep < 2"
+      >
+        Weitere Informationen
+      </ProfileNavigationItem>
+      <ProfileNavigationItem
+        :to="{ params: { step: 'schritt3' } }"
+        :disabled="!currentProjectPosting || currentProjectPosting?.formStep < 3"
+        :active="currentStep === 3"
       >
         <template v-if="isStudent">Sichtbarkeit</template>
         <template v-else>Kontakt und Sichtbarkeit</template>

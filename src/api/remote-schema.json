@@ -304,6 +304,24 @@
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "PROJECT_POSTING_IMAGES",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PROJECT_POSTING_DOCUMENTS",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PROJECT_POSTING_FALLBACK",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "possibleTypes": null
@@ -1519,6 +1537,66 @@
             "deprecationReason": null
           },
           {
+            "name": "projectPostings",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ProjectPosting",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "latestJobPostings",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "JobPosting",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "latestProjectPostings",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ProjectPosting",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "requestedMatches",
             "description": null,
             "args": [],
@@ -1530,7 +1608,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "MatchInfo",
+                  "name": "JobPostingMatchInfo",
                   "ofType": null
                 }
               }
@@ -1550,7 +1628,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "MatchInfo",
+                  "name": "JobPostingMatchInfo",
                   "ofType": null
                 }
               }
@@ -1570,7 +1648,27 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "MatchInfo",
+                  "name": "JobPostingMatchInfo",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "projectMatches",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "ProjectPostingMatchInfo",
                   "ofType": null
                 }
               }
@@ -1615,16 +1713,6 @@
             "deprecationReason": null
           }
         ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "DateTime",
-        "description": "The `DateTime` scalar type represents a DateTime\nvalue as specified by\n[iso8601](https://en.wikipedia.org/wiki/ISO_8601).",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -2203,13 +2291,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "Date",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2220,7 +2304,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "DateTime",
+              "name": "Date",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2691,6 +2775,65 @@
           }
         ],
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "JobPostingMatchInfo",
+        "description": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "student",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Student",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "jobPosting",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "JobPosting",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -3435,7 +3578,7 @@
             "deprecationReason": null
           },
           {
-            "name": "jobPostingTitle",
+            "name": "title",
             "description": null,
             "args": [],
             "type": {
@@ -3454,6 +3597,38 @@
               "kind": "OBJECT",
               "name": "MatchStatus",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "description",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "keywords",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Keyword",
+                  "ofType": null
+                }
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3505,65 +3680,6 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "MatchInfo",
-        "description": null,
-        "fields": [
-          {
-            "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "student",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Student",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "jobPosting",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "JobPosting",
                 "ofType": null
               }
             },
@@ -3642,6 +3758,84 @@
               "ofType": {
                 "kind": "INPUT_OBJECT",
                 "name": "JobPostingInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MatchProjectPosting",
+        "description": "Initiate or confirm Matching",
+        "fields": [
+          {
+            "name": "success",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "errors",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "ExpectedErrorType",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "confirmed",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "MatchProjectPostingInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "projectPosting",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "ProjectPostingInput",
                 "ofType": null
               }
             },
@@ -3812,7 +4006,19 @@
             "deprecationReason": null
           },
           {
+            "name": "PROJECT_POSTING",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "COMPANY",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "UNIVERSITY",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -3856,7 +4062,7 @@
           },
           {
             "name": "projectPostingStep2",
-            "description": "Updates a project posting",
+            "description": "Creates a project posting",
             "args": [
               {
                 "name": "step2",
@@ -3878,6 +4084,35 @@
             "type": {
               "kind": "OBJECT",
               "name": "ProjectPostingStep2",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "projectPostingStep3",
+            "description": "Updates a project posting",
+            "args": [
+              {
+                "name": "step3",
+                "description": "Project Posting Input Step 3 is required.",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "ProjectPostingInputStep3",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ProjectPostingStep3",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3936,6 +4171,35 @@
             "type": {
               "kind": "OBJECT",
               "name": "MatchJobPosting",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "matchProjectPosting",
+            "description": "Initiate or confirm Matching",
+            "args": [
+              {
+                "name": "match",
+                "description": "MatchInput",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "MatchProjectPostingInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MatchProjectPosting",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4117,6 +4381,18 @@
                 "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
+              },
+              {
+                "name": "projectPosting",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ProjectPostingInput",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -4209,6 +4485,35 @@
             "type": {
               "kind": "OBJECT",
               "name": "UniversityProfileStep3",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "universityProfileStep4",
+            "description": "Updates a company profile with soft skills and cultural fit",
+            "args": [
+              {
+                "name": "step4",
+                "description": "Profile Input Step 4 is required.",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UniversityProfileInputStep4",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "UniversityProfileStep4",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5420,6 +5725,22 @@
             "deprecationReason": null
           },
           {
+            "name": "slug",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "projectType",
             "description": null,
             "args": [],
@@ -5604,13 +5925,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "Date",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5621,7 +5938,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "DateTime",
+              "name": "Date",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5654,10 +5971,49 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "matchHints",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MatchHints",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ProjectPostingInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },
@@ -5770,6 +6126,29 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ProjectPostingInputStep2",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           },
           {
             "name": "projectFromDate",
@@ -5802,7 +6181,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "ProjectPostingInputStep2",
+        "name": "ProjectPostingInputStep3",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -5841,6 +6220,100 @@
               "kind": "INPUT_OBJECT",
               "name": "EmployeeInput",
               "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ProjectPostingMatchInfo",
+        "description": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "student",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Student",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "projectPosting",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ProjectPosting",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "company",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Company",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ProjectPostingMatchingInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "projectPosting",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "ProjectPostingInput",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -5936,6 +6409,65 @@
       {
         "kind": "OBJECT",
         "name": "ProjectPostingStep2",
+        "description": "Creates a project posting",
+        "fields": [
+          {
+            "name": "success",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "errors",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "ExpectedErrorType",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "slug",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "projectPostingId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ProjectPostingStep3",
         "description": "Updates a project posting",
         "fields": [
           {
@@ -6117,6 +6649,22 @@
             "deprecationReason": null
           },
           {
+            "name": "projectPostings",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ProjectPosting",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "projectTypes",
             "description": null,
             "args": [],
@@ -6283,6 +6831,18 @@
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "StudentMatchingInput",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "projectPostingMatching",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ProjectPostingMatchingInput",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -8549,22 +9109,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "branches",
-            "description": "Branches",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "BranchInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "description",
             "description": "description",
             "type": {
@@ -8630,6 +9174,81 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "branches",
+            "description": "Branches",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "BranchInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "benefits",
+            "description": "Benefits",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "BenefitInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UniversityProfileInputStep4",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "softSkills",
+            "description": "Soft Skills",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "SoftSkillInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "culturalFits",
+            "description": "Cultural Fit",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "CulturalFitInput",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -8714,6 +9333,41 @@
         "kind": "OBJECT",
         "name": "UniversityProfileStep3",
         "description": "Updates website services",
+        "fields": [
+          {
+            "name": "success",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "errors",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "ExpectedErrorType",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UniversityProfileStep4",
+        "description": "Updates a company profile with soft skills and cultural fit",
         "fields": [
           {
             "name": "success",

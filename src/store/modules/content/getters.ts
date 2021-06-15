@@ -126,7 +126,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
           return {
             id: match.slug,
             name: match.name,
-            jobPostingTitle: match.jobPostingTitle,
+            title: match.title,
             img: match.avatar || "",
             main: false,
             score: match.score,
@@ -151,7 +151,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       return {
         id: match.slug,
         name: match.name,
-        jobPostingTitle: match.jobPostingTitle,
+        title: match.title,
         img: match.avatar || "",
         score: match.score,
         rawScore: match.rawScore,
