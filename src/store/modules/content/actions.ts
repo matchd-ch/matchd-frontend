@@ -20,12 +20,15 @@ import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
+import keywordsQuery from "@/api/queries/keywords.gql";
 import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
 import matchingQuery from "@/api/queries/matching.gql";
+import projectTypesQuery from "@/api/queries/projectTypes.gql";
 import skillsQuery from "@/api/queries/skills.gql";
 import studentQuery from "@/api/queries/student.gql";
 import softSkillsQuery from "@/api/queries/softSkills.gql";
+import topicsQuery from "@/api/queries/topics.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
 
 import matchJobPostingMutation from "@/api/mutations/matchJobPosting.gql";
@@ -62,6 +65,7 @@ export interface Actions {
     payload: { shortList: boolean }
   ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.KEYWORDS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.MATCH_JOB_POSTING](
     { commit }: AugmentedActionContext,
     payload: MatchJobPostingInput
@@ -71,12 +75,14 @@ export interface Actions {
     payload: MatchStudentInput
   ): Promise<void>;
   [ActionTypes.MATCHING]({ commit }: AugmentedActionContext, payload: MatchingInput): Promise<void>;
+  [ActionTypes.PROJECT_TYPES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.STUDENT](
     { commit }: AugmentedActionContext,
     payload: { slug: string; jobPostingId: string }
   ): Promise<void>;
+  [ActionTypes.TOPICS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ZIP_CITY_JOBS](
     { commit }: AugmentedActionContext,
     payload: ZipCityJobsInput
@@ -209,6 +215,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.JOB_TYPES_LOADED, { jobTypes: response.data.jobTypes });
   },
+  async [ActionTypes.KEYWORDS]({ commit }) {
+    commit(MutationTypes.KEYWORDS_LOADING);
+    const response = await apiClient.query({
+      query: keywordsQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.KEYWORDS_LOADED, { keywords: response.data.keywords });
+  },
   async [ActionTypes.LANGUAGES]({ commit }, payload: { shortList: boolean }) {
     commit(MutationTypes.LANGUAGES_LOADING);
     const response = await apiClient.query({
@@ -276,6 +292,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.SKILLS_LOADED, { skills: response.data.skills });
   },
+  async [ActionTypes.PROJECT_TYPES]({ commit }) {
+    commit(MutationTypes.PROJECT_TYPES_LOADING);
+    const response = await apiClient.query({
+      query: projectTypesQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.PROJECT_TYPES_LOADED, { projectTypes: response.data.projectTypes });
+  },
   async [ActionTypes.SOFT_SKILLS]({ commit }) {
     commit(MutationTypes.SOFT_SKILLS_LOADING);
     const response = await apiClient.query({
@@ -303,6 +329,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
       avatarFallback: response.data.avatarFallback,
       certificates: response.data.certificates,
     });
+  },
+  async [ActionTypes.TOPICS]({ commit }) {
+    commit(MutationTypes.TOPICS_LOADING);
+    const response = await apiClient.query({
+      query: topicsQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.TOPICS_LOADED, { topics: response.data.topics });
   },
   async [ActionTypes.ZIP_CITY_JOBS]({ commit }, payload?: ZipCityJobsInput) {
     commit(MutationTypes.ZIP_CITY_JOBS_LOADING);

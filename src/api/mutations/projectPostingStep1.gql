@@ -1,0 +1,26 @@
+mutation(
+  $id: ID
+  $title: String!
+  $description: String!
+  $additionalInformation: String
+  $projectType: ProjectTypeInput!
+  $topic: TopicInput!
+  $keywords: [KeywordInput]
+) {
+  projectPostingStep1(
+    step1: {
+      id: $id
+      title: $title
+      description: $description
+      additionalInformation: $additionalInformation
+      projectType: $projectType
+      topic: $topic
+      keywords: $keywords,
+    }
+  ) {
+    success
+    errors
+    projectPostingId
+    slug
+  }
+}

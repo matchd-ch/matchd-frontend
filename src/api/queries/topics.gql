@@ -1,0 +1,6 @@
+query {
+  topics {
+    id
+    name
+  }
+}

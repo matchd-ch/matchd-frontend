@@ -17,12 +17,6 @@ type Scalars = {
    */
   Date: any;
   /**
-   * The `DateTime` scalar type represents a DateTime
-   * value as specified by
-   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
-   */
-  DateTime: any;
-  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -95,6 +89,9 @@ enum AttachmentKey {
   CompanyDocuments = "COMPANY_DOCUMENTS",
   StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
   CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
+  ProjectPostingImages = "PROJECT_POSTING_IMAGES",
+  ProjectPostingDocuments = "PROJECT_POSTING_DOCUMENTS",
+  ProjectPostingFallback = "PROJECT_POSTING_FALLBACK",
 }
 
 type Benefit = {
@@ -148,6 +145,7 @@ type Company = {
   linkThesis?: Maybe<Scalars["String"]>;
   jobPostings: Array<JobPosting>;
   employees: Array<Employee>;
+  projectPostings: Array<ProjectPosting>;
   displayName: Scalars["String"];
 };
 
@@ -237,9 +235,13 @@ type CulturalFitInput = {
 type Dashboard = {
   __typename?: "Dashboard";
   jobPostings?: Maybe<Array<JobPosting>>;
-  requestedMatches?: Maybe<Array<MatchInfo>>;
-  unconfirmedMatches?: Maybe<Array<MatchInfo>>;
-  confirmedMatches?: Maybe<Array<MatchInfo>>;
+  projectPostings?: Maybe<Array<ProjectPosting>>;
+  latestJobPostings?: Maybe<Array<JobPosting>>;
+  latestProjectPostings?: Maybe<Array<ProjectPosting>>;
+  requestedMatches?: Maybe<Array<JobPostingMatchInfo>>;
+  unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
+  confirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
+  projectMatches?: Maybe<Array<ProjectPostingMatchInfo>>;
 };
 
 /** An enumeration. */
@@ -305,8 +307,8 @@ type JobPosting = {
   formStep: Scalars["Int"];
   state: JobPostingState;
   employee?: Maybe<Employee>;
-  dateCreated: Scalars["DateTime"];
-  datePublished?: Maybe<Scalars["DateTime"]>;
+  dateCreated?: Maybe<Scalars["Date"]>;
+  datePublished?: Maybe<Scalars["Date"]>;
   languages?: Maybe<Array<JobPostingLanguageRelation>>;
   displayTitle: Scalars["String"];
   matchStatus?: Maybe<MatchStatus>;
@@ -357,6 +359,13 @@ type JobPostingLanguageRelationInput = {
   id?: Maybe<Scalars["ID"]>;
   language?: Maybe<Scalars["ID"]>;
   languageLevel?: Maybe<Scalars["ID"]>;
+};
+
+type JobPostingMatchInfo = {
+  __typename?: "JobPostingMatchInfo";
+  id: Scalars["ID"];
+  student: Student;
+  jobPosting: JobPosting;
 };
 
 type JobPostingMatchingInput = {
@@ -423,6 +432,17 @@ type JobTypeInput = {
   mode?: Maybe<Scalars["String"]>;
 };
 
+type Keyword = {
+  __typename?: "Keyword";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+type KeywordInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 type Language = {
   __typename?: "Language";
   id: Scalars["ID"];
@@ -445,21 +465,16 @@ type Match = {
   avatar?: Maybe<Scalars["String"]>;
   score: Scalars["Float"];
   rawScore: Scalars["Float"];
-  jobPostingTitle?: Maybe<Scalars["String"]>;
+  title?: Maybe<Scalars["String"]>;
   matchStatus?: Maybe<MatchStatus>;
+  description?: Maybe<Scalars["String"]>;
+  keywords?: Maybe<Array<Keyword>>;
 };
 
 type MatchHints = {
   __typename?: "MatchHints";
   hasRequestedMatch: Scalars["Boolean"];
   hasConfirmedMatch: Scalars["Boolean"];
-};
-
-type MatchInfo = {
-  __typename?: "MatchInfo";
-  id: Scalars["ID"];
-  student: Student;
-  jobPosting: JobPosting;
 };
 
 /** Initiate or confirm Matching */
@@ -472,6 +487,18 @@ type MatchJobPosting = {
 
 type MatchJobPostingInput = {
   jobPosting: JobPostingInput;
+};
+
+/** Initiate or confirm Matching */
+type MatchProjectPosting = {
+  __typename?: "MatchProjectPosting";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  confirmed: Scalars["Boolean"];
+};
+
+type MatchProjectPostingInput = {
+  projectPosting: ProjectPostingInput;
 };
 
 type MatchStatus = {
@@ -497,15 +524,25 @@ type MatchStudentInput = {
 enum MatchType {
   Student = "STUDENT",
   JobPosting = "JOB_POSTING",
+  ProjectPosting = "PROJECT_POSTING",
   Company = "COMPANY",
+  University = "UNIVERSITY",
 }
 
 type Mutation = {
   __typename?: "Mutation";
+  /** Creates a project posting */
+  projectPostingStep1?: Maybe<ProjectPostingStep1>;
+  /** Creates a project posting */
+  projectPostingStep2?: Maybe<ProjectPostingStep2>;
+  /** Updates a project posting */
+  projectPostingStep3?: Maybe<ProjectPostingStep3>;
   /** Initiate or confirm Matching */
   matchStudent?: Maybe<MatchStudent>;
   /** Initiate or confirm Matching */
   matchJobPosting?: Maybe<MatchJobPosting>;
+  /** Initiate or confirm Matching */
+  matchProjectPosting?: Maybe<MatchProjectPosting>;
   /** Adds a new emplyoee to a comany */
   addEmployee?: Maybe<AddEmployee>;
   /** Creates a job posting */
@@ -522,6 +559,8 @@ type Mutation = {
   universityProfileStep2?: Maybe<UniversityProfileStep2>;
   /** Updates website services */
   universityProfileStep3?: Maybe<UniversityProfileStep3>;
+  /** Updates a company profile with soft skills and cultural fit */
+  universityProfileStep4?: Maybe<UniversityProfileStep4>;
   /** Updates the profile of a Company */
   companyProfileStep1?: Maybe<CompanyProfileStep1>;
   /** Updates website url, description, services, member IT St.Gallen */
@@ -600,12 +639,28 @@ type Mutation = {
   verifyAccount?: Maybe<VerifyAccount>;
 };
 
+type MutationProjectPostingStep1Args = {
+  step1: ProjectPostingInputStep1;
+};
+
+type MutationProjectPostingStep2Args = {
+  step2: ProjectPostingInputStep2;
+};
+
+type MutationProjectPostingStep3Args = {
+  step3: ProjectPostingInputStep3;
+};
+
 type MutationMatchStudentArgs = {
   match: MatchStudentInput;
 };
 
 type MutationMatchJobPostingArgs = {
   match: MatchJobPostingInput;
+};
+
+type MutationMatchProjectPostingArgs = {
+  match: MatchProjectPostingInput;
 };
 
 type MutationAddEmployeeArgs = {
@@ -631,6 +686,7 @@ type MutationDeleteAttachmentArgs = {
 type MutationUploadArgs = {
   file: Scalars["Upload"];
   key: AttachmentKey;
+  projectPosting?: Maybe<ProjectPostingInput>;
 };
 
 type MutationUniversityProfileStep1Args = {
@@ -643,6 +699,10 @@ type MutationUniversityProfileStep2Args = {
 
 type MutationUniversityProfileStep3Args = {
   step3: UniversityProfileInputStep3;
+};
+
+type MutationUniversityProfileStep4Args = {
+  step4: UniversityProfileInputStep4;
 };
 
 type MutationCompanyProfileStep1Args = {
@@ -815,8 +875,123 @@ enum ProfileType {
   Other = "OTHER",
 }
 
+type ProjectPosting = {
+  __typename?: "ProjectPosting";
+  id: Scalars["ID"];
+  title: Scalars["String"];
+  slug: Scalars["String"];
+  projectType: ProjectType;
+  topic: Topic;
+  keywords?: Maybe<Array<Keyword>>;
+  description: Scalars["String"];
+  additionalInformation: Scalars["String"];
+  website: Scalars["String"];
+  projectFromDate?: Maybe<Scalars["Date"]>;
+  employee?: Maybe<Employee>;
+  student?: Maybe<Student>;
+  company?: Maybe<Company>;
+  formStep: Scalars["Int"];
+  state: ProjectPostingState;
+  dateCreated?: Maybe<Scalars["Date"]>;
+  datePublished?: Maybe<Scalars["Date"]>;
+  displayTitle: Scalars["String"];
+  matchStatus?: Maybe<MatchStatus>;
+  matchHints?: Maybe<MatchHints>;
+};
+
+type ProjectPostingInput = {
+  id: Scalars["ID"];
+};
+
+type ProjectPostingInputStep1 = {
+  id?: Maybe<Scalars["ID"]>;
+  /** Title */
+  title: Scalars["String"];
+  projectType: ProjectTypeInput;
+  topic: TopicInput;
+  keywords?: Maybe<Array<Maybe<KeywordInput>>>;
+  /** Description */
+  description: Scalars["String"];
+  /** Additional Information */
+  additionalInformation?: Maybe<Scalars["String"]>;
+};
+
+type ProjectPostingInputStep2 = {
+  id?: Maybe<Scalars["ID"]>;
+  projectFromDate?: Maybe<Scalars["String"]>;
+  website?: Maybe<Scalars["String"]>;
+};
+
+type ProjectPostingInputStep3 = {
+  id?: Maybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
+  employee?: Maybe<EmployeeInput>;
+};
+
+type ProjectPostingMatchInfo = {
+  __typename?: "ProjectPostingMatchInfo";
+  id: Scalars["ID"];
+  student?: Maybe<Student>;
+  projectPosting: ProjectPosting;
+  company?: Maybe<Company>;
+};
+
+type ProjectPostingMatchingInput = {
+  projectPosting: ProjectPostingInput;
+};
+
+/** An enumeration. */
+enum ProjectPostingState {
+  Draft = "DRAFT",
+  Public = "PUBLIC",
+}
+
+/** Creates a project posting */
+type ProjectPostingStep1 = {
+  __typename?: "ProjectPostingStep1";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  projectPostingId?: Maybe<Scalars["ID"]>;
+};
+
+/** Creates a project posting */
+type ProjectPostingStep2 = {
+  __typename?: "ProjectPostingStep2";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  projectPostingId?: Maybe<Scalars["ID"]>;
+};
+
+/** Updates a project posting */
+type ProjectPostingStep3 = {
+  __typename?: "ProjectPostingStep3";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  projectPostingId?: Maybe<Scalars["ID"]>;
+};
+
+type ProjectType = {
+  __typename?: "ProjectType";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+type ProjectTypeInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 type Query = {
   __typename?: "Query";
+  projectPosting?: Maybe<ProjectPosting>;
+  projectPostings?: Maybe<Array<Maybe<ProjectPosting>>>;
+  projectTypes?: Maybe<Array<Maybe<ProjectType>>>;
+  topics?: Maybe<Array<Maybe<Topic>>>;
+  keywords?: Maybe<Array<Maybe<Keyword>>>;
   dashboard?: Maybe<Dashboard>;
   student?: Maybe<Student>;
   matches?: Maybe<Array<Maybe<Match>>>;
@@ -841,6 +1016,11 @@ type Query = {
   verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
 };
 
+type QueryProjectPostingArgs = {
+  id?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+};
+
 type QueryStudentArgs = {
   slug?: Maybe<Scalars["String"]>;
   jobPostingId?: Maybe<Scalars["ID"]>;
@@ -853,6 +1033,7 @@ type QueryMatchesArgs = {
   softBoost?: Maybe<Scalars["Int"]>;
   jobPostingMatching?: Maybe<JobPostingMatchingInput>;
   studentMatching?: Maybe<StudentMatchingInput>;
+  projectPostingMatching?: Maybe<ProjectPostingMatchingInput>;
 };
 
 type QueryJobPostingsArgs = {
@@ -1106,6 +1287,17 @@ type StudentProfileStep6 = {
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };
 
+type Topic = {
+  __typename?: "Topic";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+type TopicInput = {
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+};
+
 type UniversityProfileInputStep1 = {
   /** First name */
   firstName: Scalars["String"];
@@ -1132,8 +1324,6 @@ type UniversityProfileInputStep1 = {
 };
 
 type UniversityProfileInputStep2 = {
-  /** Branches */
-  branches?: Maybe<Array<Maybe<BranchInput>>>;
   /** description */
   description?: Maybe<Scalars["String"]>;
 };
@@ -1147,6 +1337,17 @@ type UniversityProfileInputStep3 = {
   linkProjects?: Maybe<Scalars["String"]>;
   /** website thesis */
   linkThesis?: Maybe<Scalars["String"]>;
+  /** Branches */
+  branches?: Maybe<Array<Maybe<BranchInput>>>;
+  /** Benefits */
+  benefits?: Maybe<Array<Maybe<BenefitInput>>>;
+};
+
+type UniversityProfileInputStep4 = {
+  /** Soft Skills */
+  softSkills?: Maybe<Array<Maybe<SoftSkillInput>>>;
+  /** Cultural Fit */
+  culturalFits?: Maybe<Array<Maybe<CulturalFitInput>>>;
 };
 
 /** Updates the profile of a university */
@@ -1166,6 +1367,13 @@ type UniversityProfileStep2 = {
 /** Updates website services */
 type UniversityProfileStep3 = {
   __typename?: "UniversityProfileStep3";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+};
+
+/** Updates a company profile with soft skills and cultural fit */
+type UniversityProfileStep4 = {
+  __typename?: "UniversityProfileStep4";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
 };

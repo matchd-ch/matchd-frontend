@@ -10,10 +10,6 @@
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
-    <!-- Branch Field -->
-    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
-      <template v-slot:label>Fachbereich</template>
-    </SelectPillMultiple>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
       <template v-slot:label>Kurzbeschreibung der Bildungsinstitution</template>
@@ -87,14 +83,12 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
-import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment, Branch, UploadConfiguration, User } from "api";
+import type { Attachment, UploadConfiguration, User } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -110,13 +104,11 @@ import { Options, Vue } from "vue-class-component";
     MatchdFileBlock,
     MatchdFileView,
     MatchdFileUpload,
-    SelectPillMultiple,
   },
 })
 export default class UniversityStep2 extends Vue {
   form: UniversityProfileStep2Form = {
     description: "",
-    branches: [],
   };
 
   get onboardingLoading(): boolean {
@@ -155,32 +147,8 @@ export default class UniversityStep2 extends Vue {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get branches(): SelectPillMultipleItem[] {
-    return this.$store.getters["branches"].map((branch) => {
-      return {
-        id: branch.id,
-        name: branch.name,
-        checked: !!this.form.branches.find((selectedBranch) => selectedBranch.id === branch.id),
-      };
-    });
-  }
-
-  onChangeBranch(branch: Branch): void {
-    const branchExists = !!this.form.branches.find(
-      (selectedBranches) => selectedBranches.id === branch.id
-    );
-    if (branchExists) {
-      this.form.branches = this.form.branches.filter(
-        (selectedBranches) => selectedBranches.id !== branch.id
-      );
-    } else {
-      this.form.branches.push(branch);
-    }
-  }
-
   async mounted(): Promise<void> {
     await Promise.all([
-      this.$store.dispatch(ContentActionTypes.BRANCHES),
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
