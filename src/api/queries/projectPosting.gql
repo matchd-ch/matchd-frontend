@@ -10,6 +10,7 @@ query($id: ID, $slug: String) {
     state
     projectFromDate
     datePublished
+    website
     matchStatus {
       initiator
       confirmed

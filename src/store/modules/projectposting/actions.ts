@@ -38,6 +38,10 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: ProjectPostingInputStep2
   ): Promise<void>;
+  [ActionTypes.SAVE_PROJECTPOSTING_STEP3](
+    { commit }: AugmentedActionContext,
+    payload: ProjectPostingInputStep3
+  ): Promise<void>;
   [ActionTypes.PROJECTPOSTING](
     { commit }: AugmentedActionContext,
     payload: { slug: string }
