@@ -11,6 +11,9 @@ import { State } from "@/store/modules/upload/state";
 import uploadMutation from "@/api/mutations/upload.gql";
 import uploadTypesQuery from "@/api/queries/uploadConfigurations.gql";
 import attachmentsQuery from "@/api/queries/attachments.gql";
+import attachmentsProjectPostingQuery from "@/api/queries/attachmentsProjectPosting.gql";
+import uploadProjectPostingMutation from "@/api/mutations/uploadProjectPosting.gql";
+
 import deleteAttachmentMutation from "@/api/mutations/deleteAttachment.gql";
 
 type AugmentedActionContext = {
@@ -28,9 +31,17 @@ export interface Actions {
     { commit, dispatch }: AugmentedActionContext,
     payload: { key: AttachmentKey; files: FileList }
   ): Promise<void>;
+  [ActionTypes.UPLOAD_PROJECT_POSTING_FILE](
+    { commit, dispatch }: AugmentedActionContext,
+    payload: { key: AttachmentKey; files: FileList; id: string }
+  ): Promise<void>;
   [ActionTypes.UPLOADED_FILES](
     { commit }: AugmentedActionContext,
     payload: { key: AttachmentKey }
+  ): Promise<void>;
+  [ActionTypes.UPLOADED_PROJECT_POSTING_FILES](
+    { commit }: AugmentedActionContext,
+    payload: { key: AttachmentKey; slug: string }
   ): Promise<void>;
   [ActionTypes.DELETE_FILE](
     { commit, dispatch }: AugmentedActionContext,
@@ -68,10 +79,48 @@ export const actions: ActionTree<State, RootState> & Actions = {
       await dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
     }
   },
+  async [ActionTypes.UPLOAD_PROJECT_POSTING_FILE](
+    { commit, dispatch },
+    payload: { key: AttachmentKey; files: FileList; id: string }
+  ) {
+    commit(MutationTypes.ADD_FILE_TO_QUEUE, payload);
+    for (const file of payload.files) {
+      commit(MutationTypes.UPLOAD_FILE_START, { key: payload.key, file });
+      const response = await apiClient.mutate({
+        mutation: uploadProjectPostingMutation,
+        variables: {
+          key: payload.key,
+          projectPostingId: payload.id,
+          file: file,
+        },
+      });
+      commit(MutationTypes.UPLOAD_FILE_COMPLETE, {
+        key: payload.key,
+        file,
+        response: response.data.upload,
+      });
+      await dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
+    }
+  },
   async [ActionTypes.UPLOADED_FILES]({ commit }, payload: { key: AttachmentKey }) {
     commit(MutationTypes.UPLOADED_FILES_LOADING, payload);
     const response = await apiClient.query({
       query: attachmentsQuery,
+      variables: payload,
+      fetchPolicy: "no-cache",
+    });
+    commit(MutationTypes.UPLOADED_FILES_LOADED, {
+      key: payload.key,
+      data: response.data.attachments,
+    });
+  },
+  async [ActionTypes.UPLOADED_PROJECT_POSTING_FILES](
+    { commit },
+    payload: { key: AttachmentKey; slug: string }
+  ) {
+    commit(MutationTypes.UPLOADED_FILES_LOADING, payload);
+    const response = await apiClient.query({
+      query: attachmentsProjectPostingQuery,
       variables: payload,
       fetchPolicy: "no-cache",
     });

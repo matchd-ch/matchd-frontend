@@ -19,6 +19,12 @@ import {
   State as JobPostingState,
 } from "@/store/modules/jobposting";
 
+import {
+  store as projectPosting,
+  ProjectPostingStore,
+  State as ProjectPostingState,
+} from "@/store/modules/projectposting";
+
 import { store as content, ContentStore, State as ContentState } from "@/store/modules/content";
 
 const persistedLoginState = createPersistedState({
@@ -31,6 +37,7 @@ export type RootState = {
   profile: ProfileState;
   upload: UploadState;
   jobPosting: JobPostingState;
+  projectPosting: ProjectPostingState;
   content: ContentState;
 };
 
@@ -39,6 +46,7 @@ export type Store = RegistrationStore<Pick<RootState, "registration">> &
   ProfileStore<Pick<RootState, "profile">> &
   UploadStore<Pick<RootState, "upload">> &
   JobPostingStore<Pick<RootState, "jobPosting">> &
+  ProjectPostingStore<Pick<RootState, "projectPosting">> &
   ContentStore<Pick<RootState, "content">>;
 
 // Plug in logger when in development environment
@@ -52,6 +60,7 @@ export const store = createStore<RootState>({
     profile,
     upload,
     jobPosting,
+    projectPosting,
     content,
   },
   plugins,

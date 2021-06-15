@@ -28,11 +28,11 @@
 
 <script lang="ts">
 import { Options, prop, Vue } from "vue-class-component";
-import type { JobPosting, MatchInfo, Student } from "api";
+import type { JobPosting, JobPostingMatchInfo, Student } from "api";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
 
 class Props {
-  matches = prop<MatchInfo[]>({ required: true });
+  matches = prop<JobPostingMatchInfo[]>({ required: true });
 }
 @Options({
   components: {
