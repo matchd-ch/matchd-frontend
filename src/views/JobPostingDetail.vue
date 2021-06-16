@@ -9,7 +9,10 @@
       <h1 class="text-display-lg-fluid break-words text-orange-1">{{ jobPosting.displayTitle }}</h1>
     </div>
 
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
+    <section
+      v-if="jobPosting.datePublished"
+      class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0"
+    >
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
         <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Veröffentlicht am</h2>
       </div>
