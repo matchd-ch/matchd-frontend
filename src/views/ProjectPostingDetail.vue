@@ -37,22 +37,36 @@
           v-html="nl2br(projectPosting.data.additionalInformation)"
           class="mt-4"
         ></p>
-        <ul
-          v-if="projectPosting.documents.length"
-          class="list list-inside list-disc marker-orange-1 mt-4"
-        >
-          <li v-for="document in projectPosting.documents" :key="document.id">
-            <a :href="document.url" target="_blank" download>{{ document.fileName }}</a>
-          </li>
-        </ul>
-        <ul
-          v-if="projectPosting.images.length"
-          class="list list-inside list-disc marker-orange-1 mt-4"
-        >
-          <li v-for="image in projectPosting.images" :key="image.id">
-            <a :href="image.url">{{ image.fileName }}</a>
-          </li>
-        </ul>
+        <template v-if="projectPosting.documents.length">
+          <h2 class="text-heading-sm mt-10">Dokumente</h2>
+          <ul
+            v-if="projectPosting.documents.length"
+            class="list list-inside list-disc marker-orange-1 mt-4"
+          >
+            <li v-for="document in projectPosting.documents" :key="document.id">
+              <a
+                :href="replaceStack(document.url)"
+                target="_blank"
+                download
+                class="underline hover:text-orange-1 transition-colors"
+                >{{ document.fileName }}</a
+              >
+            </li>
+          </ul>
+        </template>
+        <template v-if="projectPosting.images.length">
+          <h2 class="text-heading-sm mt-10">Bilder</h2>
+          <ul class="list list-inside list-disc marker-orange-1 mt-4">
+            <li v-for="image in projectPosting.images" :key="image.id">
+              <a
+                :href="replaceStack(image.url, 'image-large')"
+                target="_blank"
+                class="underline hover:text-orange-1 transition-colors"
+                >{{ image.fileName }}</a
+              >
+            </li>
+          </ul>
+        </template>
       </div>
     </section>
     <!-- Weitere Informationen -->
