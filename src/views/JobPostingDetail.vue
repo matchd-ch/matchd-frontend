@@ -14,7 +14,7 @@
         <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Veröffentlicht am</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <template v-if="jobPosting.jobToDate">
+        <template v-if="jobPosting.datePublished">
           {{ formatDateWithDay(jobPosting.datePublished) }}
         </template>
       </div>
