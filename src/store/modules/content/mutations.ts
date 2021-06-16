@@ -15,7 +15,9 @@ import type {
   LanguageLevel,
   Match,
   MatchJobPosting,
+  MatchProjectPosting,
   MatchStudent,
+  ProjectPosting,
   ProjectType,
   Skill,
   SoftSkill,
@@ -72,12 +74,21 @@ export type Mutations<S = State> = {
     state: S,
     payload: { id: string; match: MatchJobPosting }
   ): void;
+  [MutationTypes.MATCH_PROJECT_POSTING_LOADED](
+    state: S,
+    payload: { id: string; match: MatchProjectPosting }
+  ): void;
   [MutationTypes.MATCH_STUDENT_LOADED](
     state: S,
     payload: { id: string; match: MatchStudent }
   ): void;
   [MutationTypes.MATCHES_LOADING](state: S): void;
   [MutationTypes.MATCHES_LOADED](state: S, payload: { matches: Match[] }): void;
+  [MutationTypes.PROJECT_POSTING_LOADING](state: S): void;
+  [MutationTypes.PROJECT_POSTING_LOADED](
+    state: S,
+    payload: { projectPosting: ProjectPosting }
+  ): void;
   [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
   [MutationTypes.PROJECT_TYPES_LOADED](state: S, payload: { projectTypes: ProjectType[] }): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
@@ -240,6 +251,22 @@ export const mutations: MutationTree<State> & Mutations = {
       };
     }
   },
+  [MutationTypes.MATCH_PROJECT_POSTING_LOADED](
+    state: State,
+    payload: { id: string; match: MatchProjectPosting }
+  ) {
+    state.match.loading = false;
+    if (state.projectPosting.data?.id === payload.id) {
+      state.projectPosting.data = {
+        ...state.projectPosting.data,
+        matchStatus: {
+          ...state.projectPosting.data.matchStatus,
+          initiator: ProfileType.Student,
+          confirmed: payload.match.confirmed,
+        },
+      };
+    }
+  },
   [MutationTypes.MATCH_STUDENT_LOADED](state: State, payload: { id: string; match: MatchStudent }) {
     state.match.loading = false;
     if (state.student.data?.id === payload.id) {
@@ -258,6 +285,16 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.MATCHES_LOADED](state: State, payload: { matches: Match[] }) {
     state.matches.loading = false;
     state.matches.data = payload.matches;
+  },
+  [MutationTypes.PROJECT_POSTING_LOADED](
+    state: State,
+    payload: { projectPosting: ProjectPosting }
+  ) {
+    state.projectPosting.loading = false;
+    state.projectPosting.data = payload.projectPosting;
+  },
+  [MutationTypes.PROJECT_POSTING_LOADING](state: State) {
+    state.projectPosting.loading = true;
   },
   [MutationTypes.PROJECT_TYPES_LOADING](state: State) {
     state.projectTypes.loading = true;

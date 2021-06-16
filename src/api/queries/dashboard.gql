@@ -8,6 +8,10 @@ query {
       dateCreated
       slug
       state
+      projectType {
+        id
+        name
+      }
       company {
         name
         city
@@ -18,6 +22,40 @@ query {
         lastName
         nickname
         zip
+      }
+    }
+    latestJobPostings {
+      id
+      title
+      displayTitle
+      datePublished
+      dateCreated
+      slug
+      state
+      company {
+        name
+        city
+        zip
+      }
+    }
+    latestProjectPostings {
+      id
+      title
+      displayTitle
+      datePublished
+      dateCreated
+      slug
+      state
+      company {
+        name
+        city
+        zip
+      }
+      student {
+        id
+        nickname
+        firstName
+        lastName
       }
     }
     jobPostings {
