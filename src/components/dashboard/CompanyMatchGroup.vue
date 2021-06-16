@@ -8,7 +8,7 @@
       </template>
       <template v-else>
         <h3 class="font-medium text-lg">{{ match.projectPosting.displayTitle }}</h3>
-        <h4 class="text-sm">{{ match.projectPosting }}</h4>
+        <h4 class="text-sm">{{ match.projectPosting.projectType.name }}</h4>
       </template>
 
       <ul>
