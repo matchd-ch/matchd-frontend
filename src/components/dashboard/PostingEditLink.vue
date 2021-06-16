@@ -7,9 +7,12 @@
     class="hover:text-primary-1 transition-colors underline"
   >
     <h3 class="font-medium text-lg">
-      {{ posting.displayTitle }} {{ isPublic(posting) ? "" : " (Entwurf)" }}
+      {{ posting.displayTitle }} {{ isPublic ? "" : " (Entwurf)" }}
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
     </h3>
+    <p v-if="!isJob" class="text-sm">
+      {{ posting.projectType.name }}
+    </p>
   </router-link>
 </template>
 
@@ -21,16 +24,23 @@ import { JobPostingState, ProjectPostingState } from "@/api/models/types";
 
 class Props {
   type = prop<"job" | "project">({ default: "job" });
-  posting = prop<JobPosting | ProjectPosting>({});
+  posting = prop<JobPosting | ProjectPosting>({ required: true });
 }
 @Options({
   components: {
     ArrowFrontIcon,
   },
 })
-export default class CompanypostingLink extends Vue.with(Props) {
-  isPublic(posting: JobPosting | ProjectPosting): boolean {
-    return posting.state === JobPostingState.Public || posting.state === ProjectPostingState.Public;
+export default class PostingEditLink extends Vue.with(Props) {
+  get isJob(): boolean {
+    return this.type === "job";
+  }
+
+  get isPublic(): boolean {
+    return (
+      this.posting.state === JobPostingState.Public ||
+      this.posting.state === ProjectPostingState.Public
+    );
   }
 }
 </script>

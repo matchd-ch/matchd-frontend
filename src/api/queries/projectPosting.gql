@@ -37,6 +37,7 @@ query($id: ID, $slug: String) {
     }
     student {
       id
+      slug
       firstName
       lastName
       nickname

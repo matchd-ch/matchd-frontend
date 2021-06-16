@@ -33,7 +33,7 @@
             :key="projectPosting.id"
             class="link-list__item"
           >
-            <CompanyPostingLink :posting="projectPosting" type="project"></CompanyPostingLink>
+            <PostingEditLink :posting="projectPosting" type="project"></PostingEditLink>
           </li>
         </ul>
         <matchd-button
@@ -54,7 +54,7 @@
             :key="jobPosting.id"
             class="link-list__item"
           >
-            <CompanyPostingLink :posting="jobPosting"></CompanyPostingLink>
+            <PostingEditLink :posting="jobPosting"></PostingEditLink>
           </li>
         </ul>
         <matchd-button
@@ -132,7 +132,7 @@ import { AttachmentKey } from "@/api/models/types";
 import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
 import { replaceStack } from "@/helpers/replaceStack";
 import ProfileSection from "@/components/ProfileSection.vue";
-import CompanyPostingLink from "@/components/dashboard/CompanyPostingLink.vue";
+import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 
 class Props {
@@ -146,7 +146,7 @@ class Props {
     MatchdFileUpload,
     MatchdFileView,
     ProfileSection,
-    CompanyPostingLink,
+    PostingEditLink,
     CompanyMatchGroup,
   },
 })
