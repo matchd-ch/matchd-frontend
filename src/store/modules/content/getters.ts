@@ -1,3 +1,8 @@
+import {
+  CompanyDashboard,
+  GroupedJobPostingMatching,
+  GroupedProjectPostingMatching,
+} from "@/models/CompanyDashboard";
 import { SearchResult } from "@/models/SearchResult";
 import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { RootState } from "@/store";
@@ -9,12 +14,14 @@ import type {
   CulturalFit,
   Dashboard,
   JobPosting,
+  JobPostingMatchInfo,
   JobRequirement,
   JobType,
   Keyword,
   Language,
   LanguageLevel,
   Match,
+  ProjectPostingMatchInfo,
   ProjectType,
   Skill,
   SoftSkill,
@@ -38,6 +45,7 @@ export type Getters = {
     media: Attachment[];
   };
   culturalFits(state: State): CulturalFit[];
+  companyDashboard(state: State): CompanyDashboard | null;
   dashboard(state: State): Dashboard | null;
   jobPostingDetail(state: State): JobPosting | null;
   jobPostings(state: State): JobPosting[];
@@ -87,6 +95,54 @@ export const getters: GetterTree<State, RootState> & Getters = {
   culturalFits(state: State): CulturalFit[] {
     return state.culturalFits.data;
   },
+  companyDashboard(state: State): CompanyDashboard | null {
+    if (!state.dashboard.data) {
+      return null;
+    }
+
+    function jobPostingReducer(r: GroupedJobPostingMatching[], a: JobPostingMatchInfo) {
+      const existingJobPosting = r.find(
+        (groupedJobPosting) => groupedJobPosting.jobPosting.id === a.jobPosting.id
+      );
+      if (!existingJobPosting) {
+        r.push({ jobPosting: a.jobPosting, students: [a.student] });
+      } else {
+        existingJobPosting.students.push(a.student);
+      }
+      return r;
+    }
+    function projectPostingReducer(r: GroupedProjectPostingMatching[], a: ProjectPostingMatchInfo) {
+      const existingProjectPosting = r.find(
+        (groupedJobPosting) => groupedJobPosting.projectPosting.id === a.projectPosting.id
+      );
+      if (!existingProjectPosting) {
+        r.push({ projectPosting: a.projectPosting, ...(a.student && { students: [a.student] }) });
+      } else if (existingProjectPosting.students && a.student) {
+        existingProjectPosting.students.push(a.student);
+      }
+      return r;
+    }
+
+    return {
+      ...state.dashboard.data,
+      uniqueUnconfirmedJobPostingMatchings: state.dashboard.data.unconfirmedMatches?.reduce(
+        jobPostingReducer,
+        []
+      ),
+      uniqueRequestedJobPostingMatchings: state.dashboard.data.requestedMatches?.reduce(
+        jobPostingReducer,
+        []
+      ),
+      uniqueJobPostingMatchings: state.dashboard.data.confirmedMatches?.reduce(
+        jobPostingReducer,
+        []
+      ),
+      uniqueProjectPostingMatchings: state.dashboard.data.projectMatches?.reduce(
+        projectPostingReducer,
+        []
+      ),
+    };
+  },
   dashboard(state: State): Dashboard | null {
     return state.dashboard.data;
   },
@@ -126,7 +182,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
           return {
             id: match.slug,
             name: match.name,
-            title: match.title,
+            jobPostingTitle: match.title,
             img: match.avatar || "",
             main: false,
             score: match.score,
@@ -151,7 +207,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       return {
         id: match.slug,
         name: match.name,
-        title: match.title,
+        jobPostingTitle: match.title,
         img: match.avatar || "",
         score: match.score,
         rawScore: match.rawScore,
