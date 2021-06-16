@@ -51,4 +51,19 @@ query($id: ID, $slug: String) {
       phone
     }
   }
+  images: attachments(key: COMPANY_AVATAR, slug: $slug) {
+    id
+    url
+    mimeType
+  }
+  imageFallback: attachments(key: COMPANY_AVATAR_FALLBACK, slug: $slug) {
+    id
+    url
+    mimeType
+  }
+  documents: attachments(key: COMPANY_DOCUMENTS, slug: $slug) {
+    id
+    url
+    mimeType
+  }
 }

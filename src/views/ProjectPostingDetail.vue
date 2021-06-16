@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="projectPosting"
+    v-if="projectPosting.data"
     class="projectPosting-detail flex flex-col min-h-content-with-fixed-bars"
   >
     <div class="border-b border-orange-1 p-9">
@@ -14,9 +14,9 @@
       </div>
       <div class="lg:w-1/2 lg:p-9">
         <h1 class="text-heading-sm">
-          {{ projectPosting.displayTitle }}
+          {{ projectPosting.data.displayTitle }}
         </h1>
-        <p class="mt-4">{{ projectPosting.projectType.name }}</p>
+        <p class="mt-4">{{ projectPosting.data.projectType.name }}</p>
       </div>
     </section>
     <!-- Details zur Projektidee -->
@@ -25,16 +25,34 @@
         <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Details zur Projektidee</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <p>{{ projectPosting.topic.name }}</p>
+        <p>{{ projectPosting.data.topic.name }}</p>
         <ul class="list list-inside list-disc marker-orange-1 mt-4">
-          <li v-for="keyword in projectPosting.keywords" :key="keyword.id">{{ keyword.name }}</li>
+          <li v-for="keyword in projectPosting.data.keywords" :key="keyword.id">
+            {{ keyword.name }}
+          </li>
         </ul>
-        <p v-html="nl2br(projectPosting.description)" class="mt-4"></p>
+        <p v-html="nl2br(projectPosting.data.description)" class="mt-4"></p>
         <p
-          v-if="projectPosting.additionalInformation"
-          v-html="nl2br(projectPosting.additionalInformation)"
+          v-if="projectPosting.data.additionalInformation"
+          v-html="nl2br(projectPosting.data.additionalInformation)"
           class="mt-4"
         ></p>
+        <ul
+          v-if="projectPosting.documents.length"
+          class="list list-inside list-disc marker-orange-1 mt-4"
+        >
+          <li v-for="document in projectPosting.documents" :key="document.id">
+            <a :href="document.url" target="_blank" download>{{ document.fileName }}</a>
+          </li>
+        </ul>
+        <ul
+          v-if="projectPosting.images.length"
+          class="list list-inside list-disc marker-orange-1 mt-4"
+        >
+          <li v-for="image in projectPosting.images" :key="image.id">
+            <a :href="image.url">{{ image.fileName }}</a>
+          </li>
+        </ul>
       </div>
     </section>
     <!-- Weitere Informationen -->
@@ -43,13 +61,13 @@
         <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Weitere Informationen</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <p>ab {{ formatDate(projectPosting.projectFromDate) }}</p>
+        <p>ab {{ formatDate(projectPosting.data.projectFromDate) }}</p>
         <p
-          v-if="projectPosting.website"
+          v-if="projectPosting.data.website"
           class="flex items-center mt-4 text-black hover:text-orange-1 transition-colors"
         >
           <span class="material-icons mr-2">open_in_new</span>
-          <a :href="projectPosting.website" target="_blank" class="underline"
+          <a :href="projectPosting.data.website" target="_blank" class="underline"
             >weitere Informationen</a
           >
         </p>
@@ -63,46 +81,52 @@
         </h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <template v-if="projectPosting.company">
+        <template v-if="projectPosting.data.company">
           <router-link
-            :to="{ name: 'CompanyDetail', params: { slug: projectPosting.company.slug } }"
+            :to="{ name: 'CompanyDetail', params: { slug: projectPosting.data.company.slug } }"
           >
             <address
               class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg"
             >
               <div>
                 <h3 class="text-heading-sm mb-3">
-                  {{ projectPosting.company?.name }}
+                  {{ projectPosting.data.company?.name }}
                 </h3>
-                {{ projectPosting.company?.street }}<br />{{ projectPosting.company?.zip }}
-                {{ projectPosting.company?.city }}
+                {{ projectPosting.data.company?.street }}<br />{{
+                  projectPosting.data.company?.zip
+                }}
+                {{ projectPosting.data.company?.city }}
               </div>
               <IconArrow class="w-8 ml-8" />
             </address>
             <h3 class="block text-heading-sm mb-3 mt-4">
-              {{ projectPosting.employee?.firstName }} {{ projectPosting.employee?.lastName }}
+              {{ projectPosting.data.employee?.firstName }}
+              {{ projectPosting.data.employee?.lastName }}
             </h3>
             <p>
-              <span>{{ projectPosting.employee?.role }}</span>
+              <span>{{ projectPosting.data.employee?.role }}</span>
               <a
-                :href="`mailto:${projectPosting.employee?.email}`"
+                :href="`mailto:${projectPosting.data.employee?.email}`"
                 target="_blank"
                 class="underline font-medium text-black hover:text-orange-1 transition-colors"
-                >{{ projectPosting.employee?.email }}</a
+                >{{ projectPosting.data.employee?.email }}</a
               >
             </p>
           </router-link>
         </template>
         <template v-else>
           <router-link
-            :to="{ name: 'StudentDetail', params: { slug: projectPosting.student?.slug } }"
+            :to="{ name: 'StudentDetail', params: { slug: projectPosting.data.student?.slug } }"
             class="underline font-medium text-black hover:text-orange-1 transition-colors"
           >
-            <template v-if="projectPosting.student?.firstName && projectPosting.student?.lastName">
-              {{ projectPosting.student?.firstName }} {{ projectPosting.student?.lastName }}
+            <template
+              v-if="projectPosting.data.student?.firstName && projectPosting.data.student?.lastName"
+            >
+              {{ projectPosting.data.student?.firstName }}
+              {{ projectPosting.data.student?.lastName }}
             </template>
             <template v-else>
-              {{ projectPosting.student?.nickname }}
+              {{ projectPosting.data.student?.nickname }}
             </template>
           </router-link>
         </template>
@@ -152,7 +176,7 @@ import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { ProjectPosting, User } from "api";
+import type { Attachment, ProjectPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
@@ -187,7 +211,12 @@ export default class ProjectPostingDetail extends Vue {
     return this.$store.getters["matchLoading"];
   }
 
-  get projectPosting(): ProjectPosting | null {
+  get projectPosting(): {
+    data: ProjectPosting | null;
+    images: Attachment[];
+    imageFallback: Attachment | null;
+    documents: Attachment[];
+  } {
     return this.$store.getters["projectPostingDetail"];
   }
 
@@ -196,16 +225,16 @@ export default class ProjectPostingDetail extends Vue {
   }
 
   get matchType(): MatchTypeEnum {
-    if (this.projectPosting?.matchStatus === null) {
+    if (this.projectPosting.data?.matchStatus === null) {
       return MatchTypeEnum.EmptyMatch;
     } else if (
-      this.projectPosting?.matchStatus?.confirmed === false &&
-      this.projectPosting?.matchStatus?.initiator === ProfileType.Company
+      this.projectPosting.data?.matchStatus?.confirmed === false &&
+      this.projectPosting.data?.matchStatus?.initiator === ProfileType.Company
     ) {
       return MatchTypeEnum.HalfMatch;
     } else if (
-      this.projectPosting?.matchStatus?.confirmed === false &&
-      this.projectPosting?.matchStatus?.initiator === ProfileType.Student
+      this.projectPosting.data?.matchStatus?.confirmed === false &&
+      this.projectPosting.data?.matchStatus?.initiator === ProfileType.Student
     ) {
       return MatchTypeEnum.HalfOwnMatch;
     } else {
@@ -246,7 +275,7 @@ export default class ProjectPostingDetail extends Vue {
   async loadData(slug: string): Promise<void> {
     try {
       await this.$store.dispatch(ActionTypes.PROJECT_POSTING, { slug });
-      this.meta.meta.title = `${this.projectPosting?.title}`;
+      this.meta.meta.title = `${this.projectPosting.data?.title}`;
       this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
     } catch (e) {
       this.$router.replace("/404");
@@ -254,10 +283,10 @@ export default class ProjectPostingDetail extends Vue {
   }
 
   async mutateMatch(): Promise<void> {
-    if (this.projectPosting?.id) {
+    if (this.projectPosting.data?.id) {
       await this.$store.dispatch(ActionTypes.MATCH_PROJECT_POSTING, {
         projectPosting: {
-          id: this.projectPosting.id,
+          id: this.projectPosting.data.id,
         },
       });
       await this.loadData(String(this.$route.params.slug));
