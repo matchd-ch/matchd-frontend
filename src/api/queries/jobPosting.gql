@@ -6,7 +6,6 @@ query($id: ID, $slug: String) {
     description
     jobFromDate
     jobToDate
-    dateCreated
     datePublished
     url
     workload
