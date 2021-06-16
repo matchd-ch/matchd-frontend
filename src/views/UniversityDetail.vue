@@ -120,6 +120,20 @@
           </li>
         </ul>
       </section>
+      <ProfileSection
+        v-if="company.data.topLevelOrganisationWebsite"
+        :pink="true"
+        title="Dachorganisation"
+      >
+        <p>
+          <a class="underline" target="_blank" :href="company.data.topLevelOrganisationWebsite">
+            {{ company.data.topLevelOrganisationWebsite }}
+            <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+          </a>
+          <br />
+          {{ company.data.topLevelOrganisationDescription }}
+        </p>
+      </ProfileSection>
       <ProfileSection v-if="company.data.employees[0]" :pink="true" title="Ansprechspartner">
         <p>
           {{ company.data.employees[0].firstName }} {{ company.data.employees[0].lastName }} <br />

@@ -53,6 +53,8 @@ query($slug: String) {
       }
 
     }
+    topLevelOrganisationDescription
+    topLevelOrganisationWebsite
   }
   logo: attachments(key: COMPANY_AVATAR, slug: $slug) {
     id
