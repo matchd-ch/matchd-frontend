@@ -10,7 +10,6 @@ export function projectPostingStep1InputMapper(
     title: projectPostingForm.title,
     description: projectPostingForm.description,
     additionalInformation: projectPostingForm.additionalInformation || null,
-    website: projectPostingForm.website || null,
     projectType: {
       id: projectPostingForm.projectTypeId,
     },
@@ -22,6 +21,5 @@ export function projectPostingStep1InputMapper(
         id: keywordId,
       };
     }),
-    projectFromDate: `${projectPostingForm.projectFromDateMonth}.${projectPostingForm.projectFromDateYear}`,
   };
 }

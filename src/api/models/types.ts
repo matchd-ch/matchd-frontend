@@ -17,12 +17,6 @@ export type Scalars = {
    */
   Date: any;
   /**
-   * The `DateTime` scalar type represents a DateTime
-   * value as specified by
-   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
-   */
-  DateTime: any;
-  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
@@ -78,6 +72,9 @@ export enum AttachmentKey {
   CompanyDocuments = "COMPANY_DOCUMENTS",
   StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
   CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
+  ProjectPostingImages = "PROJECT_POSTING_IMAGES",
+  ProjectPostingDocuments = "PROJECT_POSTING_DOCUMENTS",
+  ProjectPostingFallback = "PROJECT_POSTING_FALLBACK",
 }
 
 export type IBenefitInput = {
@@ -242,6 +239,7 @@ export enum MatchType {
   JobPosting = "JOB_POSTING",
   ProjectPosting = "PROJECT_POSTING",
   Company = "COMPANY",
+  University = "UNIVERSITY",
 }
 
 export type IOnlineProjectInput = {
@@ -282,11 +280,15 @@ export type IProjectPostingInputStep1 = {
   description: Scalars["String"];
   /** Additional Information */
   additionalInformation?: Maybe<Scalars["String"]>;
+};
+
+export type IProjectPostingInputStep2 = {
+  id?: Maybe<Scalars["ID"]>;
   projectFromDate?: Maybe<Scalars["String"]>;
   website?: Maybe<Scalars["String"]>;
 };
 
-export type IProjectPostingInputStep2 = {
+export type IProjectPostingInputStep3 = {
   id?: Maybe<Scalars["ID"]>;
   /** State */
   state: Scalars["String"];

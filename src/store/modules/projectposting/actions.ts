@@ -1,6 +1,11 @@
 import { createApolloClient } from "@/api/apollo-client";
 import { RootState } from "@/store";
-import type { AddEmployeeInput, ProjectPostingInputStep1, ProjectPostingInputStep2 } from "api";
+import type {
+  AddEmployeeInput,
+  ProjectPostingInputStep1,
+  ProjectPostingInputStep2,
+  ProjectPostingInputStep3,
+} from "api";
 import { ActionContext, ActionTree } from "vuex";
 
 import { ActionTypes } from "./action-types";
@@ -12,6 +17,7 @@ import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import employeesQuery from "@/api/queries/employees.gql";
 import projectPostingStep1Mutation from "@/api/mutations/projectPostingStep1.gql";
 import projectPostingStep2Mutation from "@/api/mutations/projectPostingStep2.gql";
+import projectPostingStep3Mutation from "@/api/mutations/projectPostingStep3.gql";
 import addEmployeeMutation from "@/api/mutations/addEmployee.gql";
 
 type AugmentedActionContext = {
@@ -31,6 +37,10 @@ export interface Actions {
   [ActionTypes.SAVE_PROJECTPOSTING_STEP2](
     { commit }: AugmentedActionContext,
     payload: ProjectPostingInputStep2
+  ): Promise<void>;
+  [ActionTypes.SAVE_PROJECTPOSTING_STEP3](
+    { commit }: AugmentedActionContext,
+    payload: ProjectPostingInputStep3
   ): Promise<void>;
   [ActionTypes.PROJECTPOSTING](
     { commit }: AugmentedActionContext,
@@ -59,6 +69,14 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.PROJECTPOSTING_STEP_LOADED, response.data.projectPostingStep2);
+  },
+  async [ActionTypes.SAVE_PROJECTPOSTING_STEP3]({ commit }, payload: ProjectPostingInputStep3) {
+    commit(MutationTypes.PROJECTPOSTING_STEP_LOADING);
+    const response = await apiClient.mutate({
+      mutation: projectPostingStep3Mutation,
+      variables: payload,
+    });
+    commit(MutationTypes.PROJECTPOSTING_STEP_LOADED, response.data.projectPostingStep3);
   },
   async [ActionTypes.PROJECTPOSTING]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.PROJECTPOSTING_LOADING);
