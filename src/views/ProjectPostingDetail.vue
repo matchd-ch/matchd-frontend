@@ -8,6 +8,18 @@
         <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /> Zurück zur Übersicht
       </button>
     </div>
+    <section
+      v-if="projectPosting.data.datePublished"
+      class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0"
+    >
+      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Veröffentlicht am</h2>
+      </div>
+      <div class="lg:w-1/2 lg:p-9">
+        {{ formatDateWithDay(projectPosting.data.datePublished) }}
+      </div>
+    </section>
+
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
         <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Projektbeschreibung</h2>
@@ -262,6 +274,10 @@ export default class ProjectPostingDetail extends Vue {
 
   formatDate(isoString: string): string {
     return formatDate(isoString, "LLLL yyyy");
+  }
+
+  formatDateWithDay(isoString: string): string {
+    return formatDate(isoString, "DDD");
   }
 
   nl2br(text: string): string {
