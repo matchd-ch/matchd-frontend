@@ -1,13 +1,17 @@
-import { ProjectPostingState } from "@/api/models/types";
 import { ProjectPostingStep2Form } from "@/models/ProjectPostingStep2Form";
-import type { Employee, ProjectPosting } from "api";
+import type { ProjectPosting } from "api";
+import { DateTime } from "luxon";
 
 export function projectPostingStep2FormMapper(
-  projectPosting: ProjectPosting,
-  employee: Employee
+  projectPosting: ProjectPosting | null
 ): ProjectPostingStep2Form {
   return {
-    employeeId: projectPosting.employee?.id || employee.id,
-    state: projectPosting.state || ProjectPostingState.Public,
+    website: projectPosting?.website || "",
+    projectFromDateMonth: projectPosting?.projectFromDate
+      ? DateTime.fromSQL(projectPosting?.projectFromDate).month.toString()
+      : "",
+    projectFromDateYear: projectPosting?.projectFromDate
+      ? DateTime.fromSQL(projectPosting?.projectFromDate).year.toString()
+      : "",
   };
 }

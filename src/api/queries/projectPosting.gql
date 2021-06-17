@@ -1,6 +1,7 @@
 query($id: ID, $slug: String) {
   projectPosting(id: $id, slug: $slug) {
     id
+    slug
     title
     displayTitle
     description
@@ -9,6 +10,7 @@ query($id: ID, $slug: String) {
     state
     projectFromDate
     datePublished
+    website
     matchStatus {
       initiator
       confirmed
@@ -48,5 +50,23 @@ query($id: ID, $slug: String) {
       email
       phone
     }
+  }
+  images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug) {
+    id
+    fileName
+    url
+    mimeType
+  }
+  imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug) {
+    id
+    fileName
+    url
+    mimeType
+  }
+  documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug) {
+    id
+    fileName
+    url
+    mimeType
   }
 }

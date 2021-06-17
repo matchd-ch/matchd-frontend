@@ -286,15 +286,29 @@ export const mutations: MutationTree<State> & Mutations = {
     state.matches.loading = false;
     state.matches.data = payload.matches;
   },
+  [MutationTypes.PROJECT_POSTING_LOADING](state: State) {
+    state.projectPosting.loading = true;
+    state.projectPosting.data = null;
+    state.projectPosting.images = [];
+    state.projectPosting.documents = [];
+    state.projectPosting.imageFallback = null;
+  },
   [MutationTypes.PROJECT_POSTING_LOADED](
     state: State,
-    payload: { projectPosting: ProjectPosting }
+    payload: {
+      projectPosting: ProjectPosting;
+      images: Attachment[];
+      documents: Attachment[];
+      imageFallback: Attachment[];
+    }
   ) {
     state.projectPosting.loading = false;
     state.projectPosting.data = payload.projectPosting;
-  },
-  [MutationTypes.PROJECT_POSTING_LOADING](state: State) {
-    state.projectPosting.loading = true;
+    state.projectPosting.images = payload.images;
+    if (payload.imageFallback.length > 0) {
+      state.projectPosting.imageFallback = payload.imageFallback[0];
+    }
+    state.projectPosting.documents = payload.documents;
   },
   [MutationTypes.PROJECT_TYPES_LOADING](state: State) {
     state.projectTypes.loading = true;

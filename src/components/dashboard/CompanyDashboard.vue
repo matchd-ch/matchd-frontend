@@ -29,11 +29,11 @@
         </p>
         <ul v-if="dashboard?.projectPostings?.length">
           <li
-            v-for="jobPosting in dashboard?.jobPostings"
-            :key="jobPosting.id"
+            v-for="projectPosting in dashboard?.projectPostings"
+            :key="projectPosting.id"
             class="link-list__item"
           >
-            <company-job-posting-link :jobPosting="jobPosting"></company-job-posting-link>
+            <PostingEditLink :posting="projectPosting" type="project"></PostingEditLink>
           </li>
         </ul>
         <matchd-button
@@ -54,7 +54,7 @@
             :key="jobPosting.id"
             class="link-list__item"
           >
-            <company-job-posting-link :jobPosting="jobPosting"></company-job-posting-link>
+            <PostingEditLink :posting="jobPosting"></PostingEditLink>
           </li>
         </ul>
         <matchd-button
@@ -76,7 +76,7 @@
         </p>
         <company-match-group
           class="mt-4"
-          :matches="dashboard?.requestedMatches"
+          :matches="dashboard?.uniqueRequestedJobPostingMatchings"
         ></company-match-group>
       </profile-section>
       <profile-section title="Anfragen zum Matching" :pink="true">
@@ -89,15 +89,33 @@
         </p>
         <company-match-group
           class="mt-4"
-          :matches="dashboard?.unconfirmedMatches"
+          :matches="dashboard?.uniqueUnconfirmedJobPostingMatchings"
         ></company-match-group>
       </profile-section>
       <profile-section
-        v-if="dashboard?.confirmedMatches?.length > 0"
+        v-if="dashboard?.confirmedMatches?.length || dashboard?.projectMatches?.length"
         title="Hier hats gematchd!"
         :pink="true"
       >
-        <company-match-group :matches="dashboard?.confirmedMatches"></company-match-group>
+        <template v-if="dashboard?.projectMatches.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
+          <company-match-group
+            type="ProjectPosting"
+            :matches="dashboard?.uniqueProjectPostingMatchings"
+          ></company-match-group>
+        </template>
+
+        <template v-if="dashboard?.confirmedMatches.length">
+          <h2
+            class="text-base font-medium text-primary-1 mb-4"
+            :class="{ 'mt-8': dashboard?.projectMatches.length }"
+          >
+            Stellen
+          </h2>
+          <company-match-group
+            :matches="dashboard?.uniqueJobPostingMatchings"
+          ></company-match-group>
+        </template>
       </profile-section>
     </div>
   </div>
@@ -108,16 +126,17 @@ import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import type { User, Attachment, Dashboard } from "api";
+import type { User, Attachment } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from "@/api/models/types";
+import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
 import { replaceStack } from "@/helpers/replaceStack";
 import ProfileSection from "@/components/ProfileSection.vue";
-import CompanyJobPostingLink from "@/components/dashboard/CompanyJobPostingLink.vue";
+import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 
 class Props {
-  dashboard = prop<{ data: Dashboard }>({ required: true });
+  dashboard = prop<{ data: ICompanyDashboard }>({ required: true });
 }
 
 @Options({
@@ -127,7 +146,7 @@ class Props {
     MatchdFileUpload,
     MatchdFileView,
     ProfileSection,
-    CompanyJobPostingLink,
+    PostingEditLink,
     CompanyMatchGroup,
   },
 })

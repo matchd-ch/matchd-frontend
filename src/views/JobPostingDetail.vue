@@ -76,7 +76,12 @@
         <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Unternehmen</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <router-link :to="{ name: 'CompanyDetail', params: { slug: jobPosting.company.slug } }">
+        <router-link
+          :to="{
+            name: detailSiteRoute(jobPosting.company.type),
+            params: { slug: jobPosting.company.slug },
+          }"
+        >
           <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
             <div>
               <h3 class="text-heading-sm mb-3">
@@ -158,6 +163,7 @@ import type { JobPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import StudentProfile from "@/views/StudentProfile.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -286,6 +292,9 @@ export default class JobPostingDetail extends Vue {
 
   onClickMatch(): void {
     this.showConfirmationModal = true;
+  }
+  detailSiteRoute(type: string) {
+    return type == ProfileType.University ? "UniversityDetail" : "CompanyDetail";
   }
 }
 </script>

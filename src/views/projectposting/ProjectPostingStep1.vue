@@ -117,46 +117,6 @@
         class="h-72"
       />
     </MatchdField>
-    <!-- Website Field -->
-    <MatchdField id="website" class="mb-10" :errors="veeForm.errors.website">
-      <template v-slot:label>Website</template>
-      <Field id="website" name="website" as="input" label="Website" rules="url" />
-      <template v-slot:info>Link zu mehr Informationen auf Ihrer Webseite.</template>
-    </MatchdField>
-    <!-- Starttermin -->
-    <MatchdSelect
-      id="projectDateFrom"
-      class="mb-10 flex-grow"
-      :errors="veeForm.errors.projectFromDateMonth || veeForm.errors.projectFromDateYear"
-    >
-      <template v-slot:label>Starttermin</template>
-      <fieldset id="projectDateFrom" class="flex">
-        <Field
-          id="projectFromDateMonth"
-          name="projectFromDateMonth"
-          as="select"
-          label="Starttermin Monat"
-          class="mr-3"
-        >
-          <option value="" disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :value="n" :key="index">
-            {{ String(n).padStart(2, "0") }}
-          </option>
-        </Field>
-        <Field
-          id="projectFromDateYear"
-          name="projectFromDateYear"
-          as="select"
-          label="Starttermin Jahr"
-        >
-          <option v-if="veeForm.values.projectFromDateYear" selected>
-            {{ veeForm.values.projectFromDateYear }}
-          </option>
-          <option v-else value="" disabled selected hidden>Jahr</option>
-          <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
-        </Field>
-      </fieldset>
-    </MatchdSelect>
     <teleport to="footer">
       <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
         <MatchdButton
@@ -234,11 +194,6 @@ export default class ProjectPostingStep1 extends Vue {
           const projectPostingState = store.getters["projectPostingState"];
           if (projectPostingState.success) {
             this.$emit("submitComplete");
-          } else if (projectPostingState.errors) {
-            form.setErrors(projectPostingState.errors);
-            if (projectPostingState.errors?.projectFromDate) {
-              form.setErrors({ projectFromDateMonth: "Stellenantritt darf nicht leer sein." });
-            }
           }
         } catch (e) {
           console.log(e); // todo
@@ -255,6 +210,10 @@ export default class ProjectPostingStep1 extends Vue {
   formData = {} as ProjectPostingStep1Form;
   filteredKeywords: Keyword[] = [];
   keywordInput = "";
+
+  get isStudent(): boolean {
+    return this.$store.getters["isStudent"];
+  }
 
   get currentProjectPosting(): ProjectPostingType | null {
     return this.$store.getters["currentProjectPosting"];
@@ -298,16 +257,6 @@ export default class ProjectPostingStep1 extends Vue {
 
   get user(): User | null {
     return this.$store.getters["user"];
-  }
-
-  get validYears(): number[] {
-    const currentYear = new Date().getFullYear();
-    const maxYear = currentYear + 10;
-    const validYears = [];
-    for (let i = currentYear; maxYear > i; i++) {
-      validYears.push(i);
-    }
-    return validYears;
   }
 
   async mounted(): Promise<void> {

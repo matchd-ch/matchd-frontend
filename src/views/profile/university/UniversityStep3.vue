@@ -3,6 +3,10 @@
     <GenericError v-if="onboardingState.errors">
       Beim Speichern ist etwas schief gelaufen.
     </GenericError>
+    <!-- Branch Field -->
+    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
+      <template v-slot:label>Fachbereich</template>
+    </SelectPillMultiple>
     <!-- Description Field -->
     <MatchdField id="services" class="mb-10">
       <template v-slot:label>Unser Angebot</template>
@@ -71,9 +75,10 @@ import MatchdField from "@/components/MatchdField.vue";
 import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { User } from "api";
+import type { User, Branch } from "api";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
+import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 
 @Options({
   components: {
@@ -91,6 +96,7 @@ export default class UniversityStep3 extends Vue {
     linkEducation: "",
     linkProjects: "",
     linkThesis: "",
+    branches: [],
   };
 
   get onboardingLoading(): boolean {
@@ -117,6 +123,29 @@ export default class UniversityStep3 extends Vue {
       this.$router.push({ params: { step: "schritt4" } });
     } else if (this.onboardingState.errors) {
       actions.setErrors(this.onboardingState.errors);
+    }
+  }
+
+  get branches(): SelectPillMultipleItem[] {
+    return this.$store.getters["branches"].map((branch) => {
+      return {
+        id: branch.id,
+        name: branch.name,
+        checked: !!this.form.branches.find((selectedBranch) => selectedBranch.id === branch.id),
+      };
+    });
+  }
+
+  onChangeBranch(branch: Branch): void {
+    const branchExists = !!this.form.branches.find(
+      (selectedBranches) => selectedBranches.id === branch.id
+    );
+    if (branchExists) {
+      this.form.branches = this.form.branches.filter(
+        (selectedBranches) => selectedBranches.id !== branch.id
+      );
+    } else {
+      this.form.branches.push(branch);
     }
   }
 }
