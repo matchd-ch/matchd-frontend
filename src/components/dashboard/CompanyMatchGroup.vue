@@ -2,9 +2,9 @@
   <ul v-if="matches">
     <li v-for="(match, index) in matches" :key="index" class="link-list__item mb-4">
       <template v-if="isJobPosting">
-        <p class="mb-2">
+        <h3 class="mb-2">
           {{ match.jobPosting.displayTitle }}
-        </p>
+        </h3>
       </template>
       <template v-else>
         <h3 class="font-medium text-lg">{{ match.projectPosting.displayTitle }}</h3>
