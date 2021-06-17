@@ -323,9 +323,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
         batch: true,
       },
     });
-    commit(MutationTypes.PROJECT_POSTING_LOADED, {
-      projectPosting: response.data.projectPosting,
-    });
+    commit(MutationTypes.PROJECT_POSTING_LOADED, response.data);
   },
   async [ActionTypes.PROJECT_TYPES]({ commit }) {
     commit(MutationTypes.PROJECT_TYPES_LOADING);

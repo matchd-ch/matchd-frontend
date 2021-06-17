@@ -41,11 +41,15 @@ export interface Actions {
   ): Promise<void>;
   [ActionTypes.UPLOADED_PROJECT_POSTING_FILES](
     { commit }: AugmentedActionContext,
-    payload: { key: AttachmentKey; slug: string }
+    payload: { key: AttachmentKey; id: string }
   ): Promise<void>;
   [ActionTypes.DELETE_FILE](
     { commit, dispatch }: AugmentedActionContext,
     payload: { key: AttachmentKey; id: string }
+  ): Promise<void>;
+  [ActionTypes.DELETE_PROJECT_POSTING_FILE](
+    { commit, dispatch }: AugmentedActionContext,
+    payload: { key: AttachmentKey; id: string; projectPostingId: string }
   ): Promise<void>;
 }
 
@@ -99,7 +103,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
         file,
         response: response.data.upload,
       });
-      await dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
+      await dispatch(ActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
+        key: payload.key,
+        id: payload.id,
+      });
     }
   },
   async [ActionTypes.UPLOADED_FILES]({ commit }, payload: { key: AttachmentKey }) {
@@ -116,7 +123,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.UPLOADED_PROJECT_POSTING_FILES](
     { commit },
-    payload: { key: AttachmentKey; slug: string }
+    payload: { key: AttachmentKey; id: string }
   ) {
     commit(MutationTypes.UPLOADED_FILES_LOADING, payload);
     const response = await apiClient.query({
@@ -144,6 +151,26 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     if (response.data.deleteAttachment?.success) {
       dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
+    }
+  },
+  async [ActionTypes.DELETE_PROJECT_POSTING_FILE](
+    { commit, dispatch },
+    payload: { key: AttachmentKey; id: string; projectPostingId: string }
+  ) {
+    commit(MutationTypes.DELETE_FILE_LOADING, payload);
+    const response = await apiClient.mutate({
+      mutation: deleteAttachmentMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.DELETE_FILE_LOADED, {
+      key: payload.key,
+      data: response.data.deleteAttachment,
+    });
+    if (response.data.deleteAttachment?.success) {
+      dispatch(ActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
+        key: payload.key,
+        id: payload.projectPostingId,
+      });
     }
   },
 };

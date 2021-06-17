@@ -138,6 +138,7 @@ import { ProjectPostingStep2Form } from "@/models/ProjectPostingStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import { MutationTypes as UploadMutationTypes } from "@/store/modules/upload/mutation-types";
 import { QueuedFile } from "@/store/modules/upload/state";
 import type {
   Attachment,
@@ -266,21 +267,30 @@ export default class ProjectPostingStep2 extends Vue {
     });
   }
 
+  beforeMount(): void {
+    this.$store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
+      key: AttachmentKey.ProjectPostingImages,
+    });
+    this.$store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
+      key: AttachmentKey.ProjectPostingDocuments,
+    });
+  }
+
   async mounted(): Promise<void> {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS);
     if (this.currentProjectPosting) {
       await Promise.all([
         this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
           key: AttachmentKey.ProjectPostingImages,
-          slug: this.currentProjectPosting?.slug,
+          id: this.currentProjectPosting?.id || "",
         }),
         this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
           key: AttachmentKey.ProjectPostingFallback,
-          slug: this.currentProjectPosting?.slug,
+          id: this.currentProjectPosting?.id || "",
         }),
         this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
           key: AttachmentKey.ProjectPostingDocuments,
-          slug: this.currentProjectPosting?.slug,
+          id: this.currentProjectPosting?.id || "",
         }),
       ]);
     }
@@ -299,9 +309,10 @@ export default class ProjectPostingStep2 extends Vue {
   }
 
   async onDeleteProjectPostingImages(file: Attachment): Promise<void> {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
+    await this.$store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
       key: AttachmentKey.ProjectPostingImages,
       id: file.id,
+      projectPostingId: this.currentProjectPosting?.id || "",
     });
   }
 
@@ -314,9 +325,10 @@ export default class ProjectPostingStep2 extends Vue {
   }
 
   async onDeleteProjectPostingDocuments(file: Attachment): Promise<void> {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
+    await this.$store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
       key: AttachmentKey.ProjectPostingDocuments,
       id: file.id,
+      projectPostingId: this.currentProjectPosting?.id || "",
     });
   }
 
