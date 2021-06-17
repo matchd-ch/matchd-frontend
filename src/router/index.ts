@@ -108,7 +108,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "StudentSearch",
     component: () => import(/* webpackChunkName: "student-search" */ "../views/StudentSearch.vue"),
     meta: {
-      accessType: ["company"],
+      accessType: ["company", "university"],
     },
     beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
   },
@@ -117,7 +117,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "StudentDetail",
     component: () => import(/* webpackChunkName: "student-detail" */ "../views/StudentDetail.vue"),
     meta: {
-      accessType: ["company"],
+      accessType: ["company", "university"],
     },
     beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
   },

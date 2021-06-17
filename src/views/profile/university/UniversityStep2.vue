@@ -41,7 +41,6 @@
         Wortmarke dürfen nicht weiss sein, transparenter oder weisser Hintergrund.</template
       >
     </MatchdFileBlock>
-
     <!-- Media -->
     <MatchdFileBlock class="mb-10">
       <template v-slot:label>So sieht es bei uns aus</template>
@@ -84,7 +83,6 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
-import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
 import { ActionTypes } from "@/store/modules/profile/action-types";
@@ -106,7 +104,6 @@ import { Options, Vue } from "vue-class-component";
     MatchdFileBlock,
     MatchdFileView,
     MatchdFileUpload,
-    SelectPillMultiple,
   },
 })
 export default class UniversityStep2 extends Vue {

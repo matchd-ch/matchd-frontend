@@ -6,8 +6,15 @@
       </ProfileNavigationItem>
       <ProfileNavigationItem
         :to="{ params: { step: 'schritt2' } }"
-        :disabled="!currentProjectPosting || currentProjectPosting?.formStep < 2"
         :active="currentStep === 2"
+        :disabled="!currentProjectPosting || currentProjectPosting?.formStep < 2"
+      >
+        Weitere Informationen
+      </ProfileNavigationItem>
+      <ProfileNavigationItem
+        :to="{ params: { step: 'schritt3' } }"
+        :disabled="!currentProjectPosting || currentProjectPosting?.formStep < 3"
+        :active="currentStep === 3"
       >
         <template v-if="isStudent">Sichtbarkeit</template>
         <template v-else>Kontakt und Sichtbarkeit</template>
@@ -41,6 +48,7 @@ import { ActionTypes } from "@/store/modules/projectposting/action-types";
 import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
 import ProjectPostingStep1 from "@/views/projectposting/ProjectPostingStep1.vue";
 import ProjectPostingStep2 from "@/views/projectposting/ProjectPostingStep2.vue";
+import ProjectPostingStep3 from "@/views/projectposting/ProjectPostingStep3.vue";
 import { Options, setup, Vue } from "vue-class-component";
 import type { ProjectPosting as ProjectPostingType } from "api";
 import { useMeta } from "vue-meta";
@@ -54,6 +62,7 @@ Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
     ProfileNavigationItem,
     ProjectPostingStep1,
     ProjectPostingStep2,
+    ProjectPostingStep3,
   },
 })
 export default class ProjectPostingCreate extends Vue {
@@ -139,7 +148,7 @@ export default class ProjectPostingCreate extends Vue {
         },
       });
     }
-    if (this.currentProjectPosting?.formStep && this.currentProjectPosting?.formStep >= 2) {
+    if (this.currentProjectPosting?.formStep && this.currentProjectPosting?.formStep >= 3) {
       this.$router.push({ name: "Dashboard" });
     } else if (this.currentStep) {
       this.$router.push({
@@ -152,7 +161,7 @@ export default class ProjectPostingCreate extends Vue {
   }
 
   async onNavigateBack(): Promise<void> {
-    if (this.currentProjectPosting?.formStep && this.currentProjectPosting?.formStep >= 2) {
+    if (this.currentProjectPosting?.formStep && this.currentProjectPosting?.formStep >= 3) {
       this.$router.push({ name: "Dashboard" });
     } else if (this.currentStep) {
       this.$router.push({

@@ -1,0 +1,18 @@
+mutation(
+  $id: ID!
+  $state: String!
+  $employee: EmployeeInput
+) {
+  projectPostingStep3(
+    step3: {
+      id: $id,
+      state: $state
+      employee: $employee
+    }
+  ) {
+    success
+    errors
+    projectPostingId
+    slug
+  }
+}
