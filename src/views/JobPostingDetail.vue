@@ -312,7 +312,7 @@ export default class JobPostingDetail extends Vue {
     this.showConfirmationModal = true;
   }
   detailSiteRoute(type: string): string {
-    return type == ProfileType.University ? "UniversityDetail" : "CompanyDetail";
+    return type === ProfileType.University ? "UniversityDetail" : "CompanyDetail";
   }
 }
 </script>
