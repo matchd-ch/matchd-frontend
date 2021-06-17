@@ -11,7 +11,8 @@
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
     </h3>
     <p v-if="!isJob" class="text-sm">
-      {{ posting.projectType.name }}
+      {{ posting.projectType.name }} <br />
+      {{ posting.topic.name }}
     </p>
   </router-link>
 </template>

@@ -12,6 +12,10 @@ query {
         id
         name
       }
+      topic {
+        id
+        name
+      }
       company {
         name
         city
