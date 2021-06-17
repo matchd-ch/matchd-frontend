@@ -1052,6 +1052,7 @@ type QueryCompanyArgs = {
 type QueryAttachmentsArgs = {
   key: AttachmentKey;
   slug?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["ID"]>;
 };
 
 type QueryZipCityJobsArgs = {
