@@ -280,11 +280,15 @@ export type IProjectPostingInputStep1 = {
   description: Scalars["String"];
   /** Additional Information */
   additionalInformation?: Maybe<Scalars["String"]>;
+};
+
+export type IProjectPostingInputStep2 = {
+  id?: Maybe<Scalars["ID"]>;
   projectFromDate?: Maybe<Scalars["String"]>;
   website?: Maybe<Scalars["String"]>;
 };
 
-export type IProjectPostingInputStep2 = {
+export type IProjectPostingInputStep3 = {
   id?: Maybe<Scalars["ID"]>;
   /** State */
   state: Scalars["String"];

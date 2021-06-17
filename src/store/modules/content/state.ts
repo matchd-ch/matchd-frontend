@@ -69,6 +69,9 @@ export type State = {
   projectPosting: {
     loading: boolean;
     data: ProjectPosting | null;
+    images: Attachment[];
+    imageFallback: Attachment | null;
+    documents: Attachment[];
   };
   projectPostings: {
     loading: boolean;
@@ -164,6 +167,9 @@ export const state: State = {
   projectPosting: {
     loading: false,
     data: null,
+    images: [],
+    imageFallback: null,
+    documents: [],
   },
   projectPostings: {
     loading: false,

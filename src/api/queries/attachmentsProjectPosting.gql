@@ -1,0 +1,9 @@
+query($key: AttachmentKey!, $id: ID!) {
+  attachments(key: $key, id: $id) {
+    id
+    fileSize
+    fileName
+    mimeType
+    url
+  }
+}

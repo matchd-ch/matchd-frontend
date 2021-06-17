@@ -58,7 +58,14 @@ export type Getters = {
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
   matchLoading(state: State): boolean;
-  projectPostingDetail(state: State): ProjectPosting | null;
+  projectPostingDetail(
+    state: State
+  ): {
+    data: ProjectPosting | null;
+    images: Attachment[];
+    imageFallback: Attachment | null;
+    documents: Attachment[];
+  };
   projectPostings(state: State): ProjectPosting[];
   projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];
@@ -228,8 +235,15 @@ export const getters: GetterTree<State, RootState> & Getters = {
   matchLoading(state: State): boolean {
     return state.match.loading;
   },
-  projectPostingDetail(state: State): ProjectPosting | null {
-    return state.projectPosting.data;
+  projectPostingDetail(
+    state: State
+  ): {
+    data: ProjectPosting | null;
+    images: Attachment[];
+    imageFallback: Attachment | null;
+    documents: Attachment[];
+  } {
+    return state.projectPosting;
   },
   projectPostings(state: State): ProjectPosting[] {
     return state.projectPostings.data;

@@ -8,6 +8,21 @@
     <div class="border-b border-orange-1 p-9">
       <h1 class="text-display-lg-fluid break-words text-orange-1">{{ jobPosting.displayTitle }}</h1>
     </div>
+
+    <section
+      v-if="jobPosting.datePublished"
+      class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0"
+    >
+      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
+        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Veröffentlicht am</h2>
+      </div>
+      <div class="lg:w-1/2 lg:p-9">
+        <template v-if="jobPosting.datePublished">
+          {{ formatDateWithDay(jobPosting.datePublished) }}
+        </template>
+      </div>
+    </section>
+
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
         <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Beschreibung</h2>
@@ -76,7 +91,12 @@
         <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Unternehmen</h2>
       </div>
       <div class="lg:w-1/2 lg:p-9">
-        <router-link :to="{ name: 'CompanyDetail', params: { slug: jobPosting.company.slug } }">
+        <router-link
+          :to="{
+            name: detailSiteRoute(jobPosting.company.type),
+            params: { slug: jobPosting.company.slug },
+          }"
+        >
           <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
             <div>
               <h3 class="text-heading-sm mb-3">
@@ -158,6 +178,7 @@ import type { JobPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import StudentProfile from "@/views/StudentProfile.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -227,6 +248,10 @@ export default class JobPostingDetail extends Vue {
     return formatDate(isoString, "LLLL yyyy");
   }
 
+  formatDateWithDay(isoString: string): string {
+    return formatDate(isoString, "DDD");
+  }
+
   nl2br(text: string): string {
     return nl2br(text);
   }
@@ -286,6 +311,9 @@ export default class JobPostingDetail extends Vue {
 
   onClickMatch(): void {
     this.showConfirmationModal = true;
+  }
+  detailSiteRoute(type: string) {
+    return type == ProfileType.University ? "UniversityDetail" : "CompanyDetail";
   }
 }
 </script>

@@ -533,8 +533,10 @@ type Mutation = {
   __typename?: "Mutation";
   /** Creates a project posting */
   projectPostingStep1?: Maybe<ProjectPostingStep1>;
-  /** Updates a project posting */
+  /** Creates a project posting */
   projectPostingStep2?: Maybe<ProjectPostingStep2>;
+  /** Updates a project posting */
+  projectPostingStep3?: Maybe<ProjectPostingStep3>;
   /** Initiate or confirm Matching */
   matchStudent?: Maybe<MatchStudent>;
   /** Initiate or confirm Matching */
@@ -643,6 +645,10 @@ type MutationProjectPostingStep1Args = {
 
 type MutationProjectPostingStep2Args = {
   step2: ProjectPostingInputStep2;
+};
+
+type MutationProjectPostingStep3Args = {
+  step3: ProjectPostingInputStep3;
 };
 
 type MutationMatchStudentArgs = {
@@ -908,11 +914,15 @@ type ProjectPostingInputStep1 = {
   description: Scalars["String"];
   /** Additional Information */
   additionalInformation?: Maybe<Scalars["String"]>;
+};
+
+type ProjectPostingInputStep2 = {
+  id?: Maybe<Scalars["ID"]>;
   projectFromDate?: Maybe<Scalars["String"]>;
   website?: Maybe<Scalars["String"]>;
 };
 
-type ProjectPostingInputStep2 = {
+type ProjectPostingInputStep3 = {
   id?: Maybe<Scalars["ID"]>;
   /** State */
   state: Scalars["String"];
@@ -946,9 +956,18 @@ type ProjectPostingStep1 = {
   projectPostingId?: Maybe<Scalars["ID"]>;
 };
 
-/** Updates a project posting */
+/** Creates a project posting */
 type ProjectPostingStep2 = {
   __typename?: "ProjectPostingStep2";
+  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  projectPostingId?: Maybe<Scalars["ID"]>;
+};
+
+/** Updates a project posting */
+type ProjectPostingStep3 = {
+  __typename?: "ProjectPostingStep3";
   success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   slug?: Maybe<Scalars["String"]>;
@@ -1033,6 +1052,7 @@ type QueryCompanyArgs = {
 type QueryAttachmentsArgs = {
   key: AttachmentKey;
   slug?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["ID"]>;
 };
 
 type QueryZipCityJobsArgs = {

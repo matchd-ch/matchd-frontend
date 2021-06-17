@@ -96,7 +96,6 @@ const routes: Array<RouteRecordRaw> = [
       accessType: ["company", "student", "university"],
     },
   },
-
   {
     path: "/projekte",
     name: "ProjectPostingSearch",
@@ -117,7 +116,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "StudentSearch",
     component: () => import(/* webpackChunkName: "student-search" */ "../views/StudentSearch.vue"),
     meta: {
-      accessType: ["company"],
+      accessType: ["company", "university"],
     },
     beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
   },
@@ -126,7 +125,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "StudentDetail",
     component: () => import(/* webpackChunkName: "student-detail" */ "../views/StudentDetail.vue"),
     meta: {
-      accessType: ["company"],
+      accessType: ["company", "university"],
     },
     beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
   },
@@ -145,9 +144,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/bildungsinstitute/:slug",
-    name: "CompanyDetail",
-    component: () =>
-      import(/* webpackChunkName: "company-detail" */ "../views/UniversityDetail.vue"),
+    name: "UniversityDetail",
+    component: () => import(/* webpackChunkName: "university-detail" */ "../views/UniversityDetail.vue"),
   },
   {
     path: "/passwort-vergessen",

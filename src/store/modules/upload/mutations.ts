@@ -12,6 +12,7 @@ export type Mutations<S = State> = {
     state: S,
     payload: { key: AttachmentKey; files: FileList }
   ): void;
+  [MutationTypes.CLEAR_FILES_FOR_KEY](state: S, payload: { key: AttachmentKey }): void;
   [MutationTypes.UPLOAD_FILE_START](state: S, payload: { key: AttachmentKey; file: File }): void;
   [MutationTypes.UPLOAD_FILE_COMPLETE](
     state: S,
@@ -36,6 +37,9 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.CONFIGURATIONS_LOADED](state: State, payload: UploadConfiguration[]) {
     state.uploadConfigurations.loading = false;
     state.uploadConfigurations.data = payload;
+  },
+  [MutationTypes.CLEAR_FILES_FOR_KEY](state: State, payload: { key: AttachmentKey }) {
+    state.attachments[payload.key] = { loading: true, deleting: false, data: [] };
   },
   [MutationTypes.ADD_FILE_TO_QUEUE](
     state: State,
