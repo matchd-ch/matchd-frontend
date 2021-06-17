@@ -3,6 +3,8 @@ mutation(
   $linkEducation: String
   $linkProjects: String
   $linkThesis: String
+  $branches: [BranchInput]
+  $benefits: [BenefitInput]
 ) {
   universityProfileStep3(
     step3: {
@@ -10,6 +12,8 @@ mutation(
       linkEducation: $linkEducation
       linkProjects: $linkProjects
       linkThesis: $linkThesis
+      branches: $branches
+      benefits: $benefits
     }
   ) {
     success

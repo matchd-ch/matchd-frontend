@@ -1,13 +1,19 @@
 import { IUniversityProfileInputStep3 } from "@/api/models/types";
 import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
 
-export function universityProfileStep3Mapper(
+export function universityProfileStep3InputMapper(
   universityProfileForm: UniversityProfileStep3Form
 ): IUniversityProfileInputStep3 {
   return {
-    ...universityProfileForm,
-    branches: universityProfileForm.branches.map((branch) => {
-      return { id: branch.id };
+    linkEducation: universityProfileForm.linkEducation,
+    linkProjects: universityProfileForm.linkProjects,
+    linkThesis: universityProfileForm.linkThesis,
+    services: universityProfileForm.services,
+    branches: universityProfileForm.branches.map((branchId) => {
+      return { id: branchId };
+    }),
+    benefits: universityProfileForm.benefits.map((benefitId) => {
+      return { id: benefitId };
     }),
   };
 }
