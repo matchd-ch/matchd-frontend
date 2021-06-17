@@ -1,5 +1,5 @@
-query($key: AttachmentKey!, $slug: String!) {
-  attachments(key: $key, slug: $slug) {
+query($key: AttachmentKey!, $id: ID!) {
+  attachments(key: $key, id: $id) {
     id
     fileSize
     fileName
