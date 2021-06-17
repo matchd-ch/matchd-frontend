@@ -68,7 +68,7 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "jobposting-create" */ "../views/JobPostingCreate.vue"),
     beforeEnter: redirectToCurrentJobPostingStep,
     meta: {
-      accessType: ["company"],
+      accessType: ["company", "university"],
     },
   },
   {

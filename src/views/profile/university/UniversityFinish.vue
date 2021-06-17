@@ -1,8 +1,17 @@
 <template>
   <div>
     <h2 class="text-heading-lg mb-10">Was wollen sie als nächstes tun?</h2>
-    <MatchdButton variant="outline" class="block w-full" @click="onClickStudentSearch"
-      >Talente finden</MatchdButton
+    <MatchdButton
+      variant="outline"
+      class="block w-full"
+      @click="$router.push({ name: 'Dashboard' })"
+      >zum Dashboard wechseln</MatchdButton
+    >
+    <MatchdButton
+      variant="outline"
+      class="block w-full mt-5"
+      @click="$router.push({ name: 'ProjectPostingCreate', params: { step: 'schritt1' } })"
+      >Projektidee ausschreiben</MatchdButton
     >
     <MatchdButton
       variant="outline"
@@ -11,9 +20,6 @@
     >
       Stelle ausschreiben
     </MatchdButton>
-    <MatchdButton variant="outline" class="block w-full mt-5" @click="onClickJobPostingCreate"
-      >Projektidee ausschreiben</MatchdButton
-    >
     <p class="mt-5 text-black text-center">
       Falls sie noch Fragen haben,
       <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
