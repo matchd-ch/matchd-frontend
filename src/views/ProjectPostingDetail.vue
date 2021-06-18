@@ -8,29 +8,24 @@
         <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /> Zurück zur Übersicht
       </button>
     </div>
-    <section
-      v-if="projectPosting.data.datePublished"
-      class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0"
-    >
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Veröffentlicht am</h2>
-      </div>
+    <PostingSection v-if="projectPosting.data.datePublished" title="Veröffentlicht am">
       <div class="lg:w-1/2 lg:p-9">
         {{ formatDateWithDay(projectPosting.data.datePublished) }}
       </div>
-    </section>
+    </PostingSection>
 
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Projektbeschreibung</h2>
-      </div>
+    <PostingSection
+      :editStep="getStepName(1)"
+      title="Projektbeschreibung"
+      :slug="projectPosting.data.slug"
+    >
       <div class="lg:w-1/2 lg:p-9">
         <h1 class="text-heading-sm">
           {{ projectPosting.data.displayTitle }}
         </h1>
         <p class="mt-4">{{ projectPosting.data.projectType.name }}</p>
       </div>
-    </section>
+    </PostingSection>
     <!-- Details zur Projektidee -->
     <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
       <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
@@ -206,6 +201,8 @@ import type { Attachment, ProjectPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { ParamStrings } from "@/router/paramStrings";
+import PostingSection from "@/components/PostingSection.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -218,6 +215,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchingBar,
     ProjectPostingCompanyMatchModal,
     ProjectPostingStudentMatchModal,
+    PostingSection,
   },
 })
 export default class ProjectPostingDetail extends Vue {
@@ -235,6 +233,17 @@ export default class ProjectPostingDetail extends Vue {
 
   get matchLoading(): boolean {
     return this.$store.getters["matchLoading"];
+  }
+
+  getStepName(step: number): string {
+    if (
+      this.user?.student?.id === this.projectPosting?.data?.student?.id ||
+      this.user?.company?.id === this.projectPosting?.data?.company?.id
+    ) {
+      return `${ParamStrings.STEP}${step}`;
+    }
+
+    return "";
   }
 
   get projectPosting(): {
