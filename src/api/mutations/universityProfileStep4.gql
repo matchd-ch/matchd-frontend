@@ -1,0 +1,14 @@
+mutation(
+  $softSkills: [SoftSkillInput]
+  $culturalFits: [CulturalFitInput]
+) {
+  universityProfileStep4(
+    step4: {
+      softSkills: $softSkills
+      culturalFits: $culturalFits
+    }
+  ) {
+    success
+    errors
+  }
+}
