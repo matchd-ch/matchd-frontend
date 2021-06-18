@@ -8,6 +8,10 @@ query {
       dateCreated
       slug
       state
+      topic {
+        id
+        name
+      }
       projectType {
         id
         name
@@ -143,6 +147,14 @@ query {
         displayTitle
         slug
         state
+        topic {
+          id
+          name
+        }
+        projectType {
+          id
+          name
+        }
         company {
           name
           city

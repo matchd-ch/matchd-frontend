@@ -1,14 +1,15 @@
 <template>
   <ul v-if="matches">
     <li v-for="(match, index) in matches" :key="index" class="link-list__item mb-4">
-      <p class="mb-2">
-        <template v-if="isJobPosting">
+      <template v-if="isJobPosting">
+        <h3 class="mb-2">
           {{ match.jobPosting.displayTitle }}
-        </template>
-        <template v-else>
-          {{ match.projectPosting.displayTitle }}
-        </template>
-      </p>
+        </h3>
+      </template>
+      <template v-else>
+        <h3 class="font-medium text-lg">{{ match.projectPosting.displayTitle }}</h3>
+        <h4 class="text-sm">{{ match.projectPosting.projectType.name }}</h4>
+      </template>
 
       <ul>
         <li v-for="student in match.students" :key="student.id" class="link-list__item">
