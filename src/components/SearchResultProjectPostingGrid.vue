@@ -10,8 +10,11 @@
       :imgAlt="match.name"
     >
       <template v-slot:match-status>
-        <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
-          <div class="search-result-grid__match-status">
+        <div
+          v-if="match.matchStatus?.initiator"
+          class="search-result-project-posting-grid__match-status-helper"
+        >
+          <div class="search-result-project-posting-grid__match-status">
             <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
             <span v-else class="material-icons">record_voice_over</span>
           </div>
@@ -67,6 +70,7 @@ export default class SearchResultProjectPostingGrid extends Vue.with(Props) {
     @apply rounded-full p-2;
     @apply text-white;
     @apply transform translate-x-1/2 -translate-y-1/2 -rotate-45;
+    @apply bg-primary-1;
   }
 
   @element link {

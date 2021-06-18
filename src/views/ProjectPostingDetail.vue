@@ -159,7 +159,11 @@
       </div>
     </section>
     <teleport to="footer">
-      <MatchingBar>
+      <MatchingBar
+        v-if="
+          (projectPosting.data.student && !isStudent) || (projectPosting.data.company && isStudent)
+        "
+      >
         <template v-if="matchType === matchTypeEnum.FullMatch"
           >Du hast dein Interesse gezeigt!</template
         >
@@ -169,7 +173,7 @@
     <ProjectPostingCompanyMatchModal
       v-if="showConfirmationModal && isStudent"
       :user="user"
-      :projectPosting="projectPosting"
+      :projectPosting="projectPosting.data"
       :loading="matchLoading"
       :matchType="matchType"
       @clickConfirm="onClickMatchConfirm"
@@ -178,7 +182,7 @@
     <ProjectPostingStudentMatchModal
       v-if="showConfirmationModal && !isStudent"
       :user="user"
-      :projectPosting="projectPosting"
+      :projectPosting="projectPosting.data"
       :loading="matchLoading"
       :matchType="matchType"
       @clickConfirm="onClickMatchConfirm"
