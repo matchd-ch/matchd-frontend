@@ -2,7 +2,7 @@
   <router-link
     v-if="editStep"
     :to="{ name: route, params: { slug: slug, step: editStep } }"
-    class="edit-link__button absolute top-9 right-9 rounded-full border border-black w-10 h-10 flex justify-center items-center hover:bg-black hover:text-white transition-colors"
+    class="edit-links absolute top-9 right-9 rounded-full border border-black w-10 h-10 flex justify-center items-center hover:bg-black hover:text-white transition-colors"
   >
     <span class="material-icons">edit</span>
   </router-link>
@@ -21,12 +21,10 @@ export default class EditLink extends Vue.with(Props) {}
 
 <style lang="postcss" scoped>
 @block edit-link {
-  @element button {
-    @apply transition-all;
+  @apply transition-all;
 
-    &:hover {
-      box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+  &:hover {
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.2);
   }
 }
 </style>
