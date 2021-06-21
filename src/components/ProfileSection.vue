@@ -19,13 +19,13 @@
     <div class="xl:mb-0 xl:w-1/2">
       <slot />
     </div>
-    <routerSection v-if="editStep" :editStep="editStep" route="ProfileEdit"> </routerSection>
+    <EditLink v-if="editStep" :editStep="editStep" route="ProfileEdit"> </EditLink>
   </section>
 </template>
 
 <script lang="ts">
 import { Vue, prop, Options } from "vue-class-component";
-import RouterSection from "@/components/routerSection.vue";
+import EditLink from "@/components/EditLink.vue";
 
 class Props {
   pink = prop<boolean>({ default: false });
@@ -35,7 +35,7 @@ class Props {
 
 @Options({
   components: {
-    RouterSection,
+    RouterSection: EditLink,
   },
 })
 export default class ProfileSection extends Vue.with(Props) {}

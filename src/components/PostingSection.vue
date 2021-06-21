@@ -11,14 +11,14 @@
     <div class="xl:mb-0 xl:w-1/2">
       <slot />
     </div>
-    <routerSection v-if="editStep" :slug="slug" :editStep="editStep" route="ProjectPostingCreate">
-    </routerSection>
+    <EditLink v-if="editStep" :slug="slug" :editStep="editStep" route="ProjectPostingCreate">
+    </EditLink>
   </section>
 </template>
 
 <script lang="ts">
 import { Vue, prop, Options } from "vue-class-component";
-import RouterSection from "@/components/routerSection.vue";
+import EditLink from "@/components/EditLink.vue";
 
 class Props {
   title = prop<string>({ required: true });
@@ -27,7 +27,7 @@ class Props {
 }
 @Options({
   components: {
-    RouterSection,
+    RouterSection: EditLink,
   },
 })
 export default class PostingSection extends Vue.with(Props) {}
