@@ -293,7 +293,7 @@ export default class CompanyRegister extends Vue {
   onClickConfirmCompany(response: boolean): void {
     const nextStep = this.form.type === "company" ? 2 : 3;
     this.isValidCompany = response;
-    this.registration.scrollToStep(nextStep);
+    this.registration.scrollToStep(this.$route.path, nextStep);
   }
 
   onSubmitUid(form: RegistrationCompanyFormUid): void {
@@ -302,7 +302,7 @@ export default class CompanyRegister extends Vue {
       ...form,
     };
     this.isCompanyUidFormValid = true;
-    this.registration.scrollToStep(3);
+    this.registration.scrollToStep(this.$route.path, 3);
   }
 
   async onSubmitCompanyData(
@@ -327,7 +327,7 @@ export default class CompanyRegister extends Vue {
       return;
     }
     this.isCompanyDataFormValid = true;
-    this.registration.scrollToStep(4);
+    this.registration.scrollToStep(this.$route.path, 4);
   }
 }
 </script>

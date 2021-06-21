@@ -1,4 +1,8 @@
-import type { JobPostingMatchingInput, StudentMatchingInput } from "api";
+import type {
+  JobPostingMatchingInput,
+  ProjectPostingMatchingInput,
+  StudentMatchingInput,
+} from "api";
 
 export interface MatchingInput {
   first: number;
@@ -6,5 +10,6 @@ export interface MatchingInput {
   softBoost: number;
   techBoost: number;
   jobPostingMatchingInput?: JobPostingMatchingInput;
+  projectPostingMatchingInput?: ProjectPostingMatchingInput;
   studentMatchingInput?: StudentMatchingInput;
 }

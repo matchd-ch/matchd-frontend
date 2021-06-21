@@ -53,7 +53,7 @@
         </p>
         <ul v-if="dashboard?.latestProjectPostings?.length">
           <li
-            v-for="projectPosting in dashboard?.projectPostings"
+            v-for="projectPosting in dashboard?.latestProjectPostings"
             :key="projectPosting.id"
             class="link-list__item"
           >
@@ -68,14 +68,11 @@
           Neues Projekt ausschreiben
         </matchd-button>
       </profile-section>
-      <profile-section
-        v-if="dashboard?.latestJobPostings?.length || dashboard?.latestProjectPostings?.length"
-        title="Deine Projekt-Ideen"
-      >
-        <p v-if="dashboard?.latestProjectPostings?.length === 0">
+      <profile-section v-if="dashboard?.projectPostings?.length" title="Deine Projekt-Ideen">
+        <p v-if="dashboard?.projectPostings?.length === 0">
           Momentan sind keine zu dir passenden Projekte ausgeschrieben.
         </p>
-        <ul v-if="dashboard?.latestProjectPostings?.length">
+        <ul v-if="dashboard?.projectPostings?.length">
           <li
             v-for="projectPosting in dashboard?.projectPostings"
             :key="projectPosting.id"
@@ -100,7 +97,7 @@
             :key="match.id"
             class="link-list__item mt-4"
           >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
+            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
           </li>
         </ul>
       </profile-section>
@@ -109,7 +106,7 @@
           Dein Talent ist gesucht! Folgende Unternehmen möchten dich gerne kennenlernen.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Momentan hast du keine offenen Anfragen. Sobald ein Unternehmen dich matchen möchte,
+          Momentan hast du keine offenen An2fragen. Sobald ein Unternehmen dich matchen möchte,
           siehst du das hier.
         </p>
         <ul>
@@ -118,7 +115,7 @@
             :key="match.jobPosting.id"
             class="link-list__item mt-4"
           >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
+            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
           </li>
         </ul>
       </profile-section>
@@ -129,7 +126,7 @@
             :key="match.jobPosting.id"
             class="link-list__item"
           >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
+            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
           </li>
         </ul>
       </profile-section>
