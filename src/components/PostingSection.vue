@@ -11,24 +11,25 @@
     <div class="xl:mb-0 xl:w-1/2">
       <slot />
     </div>
-    <router-link
-      v-if="editStep"
-      :to="{ name: 'ProjectPostingCreate', params: { slug: slug, step: editStep } }"
-      class="posting-section__button absolute top-9 right-9 rounded-full border border-black w-10 h-10 flex justify-center items-center hover:bg-black hover:text-white transition-colors"
-    >
-      <span class="material-icons">edit</span>
-    </router-link>
+    <routerSection v-if="editStep" :slug="slug" :editStep="editStep" route="ProjectPostingCreate">
+    </routerSection>
   </section>
 </template>
 
 <script lang="ts">
-import { Vue, prop } from "vue-class-component";
+import { Vue, prop, Options } from "vue-class-component";
+import RouterSection from "@/components/routerSection.vue";
 
 class Props {
   title = prop<string>({ required: true });
   editStep = prop<string>({});
   slug = prop<string>({});
 }
+@Options({
+  components: {
+    RouterSection,
+  },
+})
 export default class PostingSection extends Vue.with(Props) {}
 </script>
 <style lang="postcss" scoped>

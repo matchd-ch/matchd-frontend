@@ -9,32 +9,20 @@
       <h1 class="text-display-lg-fluid break-words text-orange-1">{{ jobPosting.displayTitle }}</h1>
     </div>
 
-    <section
-      v-if="jobPosting.datePublished"
-      class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0"
-    >
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Veröffentlicht am</h2>
-      </div>
+    <PostingSection v-if="jobPosting.datePublished" title="Veröffentlicht am">
       <div class="lg:w-1/2 lg:p-9">
         <template v-if="jobPosting.datePublished">
           {{ formatDateWithDay(jobPosting.datePublished) }}
         </template>
       </div>
-    </section>
+    </PostingSection>
 
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Beschreibung</h2>
-      </div>
+    <PostingSection title="Beschreibung">
       <div class="lg:w-1/2 lg:p-9">
         <p v-html="nl2br(jobPosting.description)"></p>
       </div>
-    </section>
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Stelle</h2>
-      </div>
+    </PostingSection>
+    <PostingSection title="Stelle">
       <div class="lg:w-1/2 lg:p-9">
         <p v-if="hasBranches">{{ branchesLabel }}</p>
         <p>Arbeitspensum {{ jobPosting.workload }}%</p>
@@ -53,12 +41,9 @@
           <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
         </p>
       </div>
-    </section>
+    </PostingSection>
 
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Das bringst du mit</h2>
-      </div>
+    <PostingSection title="Das bringst du mit">
       <div class="lg:w-1/2 lg:p-9">
         <template v-if="jobPosting.jobRequirements.length">
           <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
@@ -85,11 +70,8 @@
           </ul>
         </template>
       </div>
-    </section>
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Unternehmen</h2>
-      </div>
+    </PostingSection>
+    <PostingSection title="Unternehmen">
       <div class="lg:w-1/2 lg:p-9">
         <router-link
           :to="{
@@ -109,11 +91,8 @@
           </address>
         </router-link>
       </div>
-    </section>
-    <section class="flex-grow lg:flex p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Deine Ansprechperson für Fragen</h2>
-      </div>
+    </PostingSection>
+    <PostingSection title="Deine Ansprechperson für Fragen">
       <div class="lg:w-1/2 lg:p-9">
         <p>
           <span class="block text-heading-sm mb-3"
@@ -127,7 +106,7 @@
           >
         </p>
       </div>
-    </section>
+    </PostingSection>
     <teleport to="footer">
       <MatchingBar>
         <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
@@ -178,6 +157,7 @@ import type { JobPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import PostingSection from "@/components/PostingSection.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -190,6 +170,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchingBar,
     JobPostingMatchModal,
     JobPostingFullMatchModal,
+    PostingSection,
   },
 })
 export default class JobPostingDetail extends Vue {

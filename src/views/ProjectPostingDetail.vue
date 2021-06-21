@@ -8,12 +8,7 @@
         <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /> Zurück zur Übersicht
       </button>
     </div>
-    <PostingSection
-      v-if="projectPosting.data.datePublished"
-      title="Veröffentlicht am"
-      :editStep="getStepName(2)"
-      :slug="projectPosting.data.slug"
-    >
+    <PostingSection v-if="projectPosting.data.datePublished" title="Veröffentlicht am">
       <div class="lg:w-1/2 lg:p-9">
         {{ formatDateWithDay(projectPosting.data.datePublished) }}
       </div>
@@ -85,7 +80,7 @@
     <!-- Weitere Informationen -->
     <PostingSection
       title="Weitere Informationen"
-      :editStep="getStepName(1)"
+      :editStep="getStepName(2)"
       :slug="projectPosting.data.slug"
     >
       <div class="lg:w-1/2 lg:p-9">
@@ -238,7 +233,7 @@ export default class ProjectPostingDetail extends Vue {
   }
 
   getStepName(step: number): string {
-    if (this.user?.student?.id === this.projectPosting?.data?.student?.id) {
+    if (this.isStudent && this.user?.student?.id === this.projectPosting?.data?.student?.id) {
       return `${ParamStrings.STEP}${step}`;
     }
     if (!this.isStudent && this.user?.company?.id === this.projectPosting?.data?.company?.id) {
