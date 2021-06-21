@@ -25,6 +25,7 @@ import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
 import matchingQuery from "@/api/queries/matching.gql";
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
+import projectPostingsQuery from "@/api/queries/projectPostings.gql";
 import projectTypesQuery from "@/api/queries/projectTypes.gql";
 import skillsQuery from "@/api/queries/skills.gql";
 import studentQuery from "@/api/queries/student.gql";
@@ -85,6 +86,7 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: { slug: string }
   ): Promise<void>;
+  [ActionTypes.PROJECT_POSTINGS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.PROJECT_TYPES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
@@ -324,6 +326,19 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.PROJECT_POSTING_LOADED, response.data);
+  },
+  async [ActionTypes.PROJECT_POSTINGS]({ commit }) {
+    commit(MutationTypes.PROJECT_POSTINGS_LOADING);
+    const response = await apiClient.query({
+      query: projectPostingsQuery,
+      fetchPolicy: "no-cache",
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.PROJECT_POSTINGS_LOADED, {
+      projectPostings: response.data.projectPostings,
+    });
   },
   async [ActionTypes.PROJECT_TYPES]({ commit }) {
     commit(MutationTypes.PROJECT_TYPES_LOADING);

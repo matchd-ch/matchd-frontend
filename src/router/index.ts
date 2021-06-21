@@ -96,7 +96,15 @@ const routes: Array<RouteRecordRaw> = [
       accessType: ["company", "student", "university"],
     },
   },
-
+  {
+    path: "/projekte",
+    name: "ProjectPostingSearch",
+    component: () =>
+      import(/* webpackChunkName: "projectposting-search" */ "../views/ProjectPostingSearch.vue"),
+    meta: {
+      accessType: ["student", "company", "university"],
+    },
+  },
   {
     path: "/projekte/:slug",
     name: "ProjectPostingDetail",

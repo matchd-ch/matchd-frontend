@@ -1,0 +1,8 @@
+query {
+  projectPostings {
+    id
+    slug
+    title
+    displayTitle
+  }
+}

@@ -2,7 +2,7 @@
   <form v-if="branches.length" @submit="veeForm.onSubmit">
     <FormSaveError v-if="showError" />
     <!-- Link Education Field -->
-    <MatchdField id="linkEducation" class="mb-10">
+    <MatchdField id="linkEducation" class="mb-10" :errors="veeForm.errors.linkEducation">
       <template v-slot:label>Wissenswertes zur Aus- und Weiterbildung</template>
       <Field
         id="linkEducation"
@@ -13,7 +13,7 @@
       />
     </MatchdField>
     <!-- Link Projects Field -->
-    <MatchdField id="linkProjects" class="mb-10">
+    <MatchdField id="linkProjects" class="mb-10" :errors="veeForm.errors.linkProjects">
       <template v-slot:label>Wissenswertes zum Thema Praxisprojekte</template>
       <Field
         id="linkProjects"
@@ -24,7 +24,7 @@
       />
     </MatchdField>
     <!-- Link Thesis Field -->
-    <MatchdField id="linkThesis" class="mb-10">
+    <MatchdField id="linkThesis" class="mb-10" :errors="veeForm.errors.linkThesis">
       <template v-slot:label>Wissenswertes zur Thema Abschlussarbeiten</template>
       <Field
         id="linkThesis"
@@ -35,7 +35,7 @@
       />
     </MatchdField>
     <!-- Description Field -->
-    <MatchdField id="services" class="mb-10">
+    <MatchdField id="services" class="mb-10" :errors="veeForm.errors.services">
       <template v-slot:label>Unser Angebot</template>
       <Field
         id="services"
@@ -48,7 +48,13 @@
       <template v-slot:info>Maximal 300 Zeichen</template>
     </MatchdField>
     <!-- Branch Field -->
-    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
+    <SelectPillMultiple
+      :options="branches"
+      @change="onChangeBranch"
+      name="branches"
+      class="mb-10"
+      :errors="veeForm.errors.branches"
+    >
       <template v-slot:label
         >In diesen Bereichen und Projekten können Talente bei Ihnen tätig werden</template
       >
