@@ -49,7 +49,7 @@ export default class GridTile extends Vue.with(Props) {}
   }
 
   @element link {
-    @apply flex min-w-full min-h-full p-8;
+    @apply flex min-w-full min-h-full p-8 items-start;
 
     &:visited {
       @apply text-grey-2;
@@ -58,7 +58,7 @@ export default class GridTile extends Vue.with(Props) {}
     &:hover {
       @apply text-white transition-colors;
 
-      & .grid-tile__image-box {
+      & .project-posting-grid-tile__image-box {
         @apply border-white;
       }
     }

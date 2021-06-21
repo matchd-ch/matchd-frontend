@@ -97,7 +97,7 @@
             :key="match.id"
             class="link-list__item mt-4"
           >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
+            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
           </li>
         </ul>
       </profile-section>
@@ -106,7 +106,7 @@
           Dein Talent ist gesucht! Folgende Unternehmen möchten dich gerne kennenlernen.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Momentan hast du keine offenen Anfragen. Sobald ein Unternehmen dich matchen möchte,
+          Momentan hast du keine offenen An2fragen. Sobald ein Unternehmen dich matchen möchte,
           siehst du das hier.
         </p>
         <ul>
@@ -115,7 +115,7 @@
             :key="match.jobPosting.id"
             class="link-list__item mt-4"
           >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
+            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
           </li>
         </ul>
       </profile-section>
@@ -126,7 +126,7 @@
             :key="match.jobPosting.id"
             class="link-list__item"
           >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
+            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
           </li>
         </ul>
       </profile-section>

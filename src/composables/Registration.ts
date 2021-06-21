@@ -24,8 +24,8 @@ export function useRegistration() {
     passwordFieldType.value = passwordFieldType.value === "password" ? "text" : "password";
   }
 
-  function scrollToStep(stepNumber: number) {
-    router.replace({ hash: `#step-${stepNumber}` });
+  function scrollToStep(path: string, stepNumber: number) {
+    router.replace({ path, hash: `#step-${stepNumber}` });
   }
 
   function mounted(className: string) {
