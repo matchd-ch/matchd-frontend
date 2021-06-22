@@ -86,14 +86,13 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import AddEmployeeForm from "@/containers/AddEmployeeForm.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { AddEmployeeState } from "@/models/AddEmployeeState";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingState as JobPostingStateEnum } from "@/api/models/types";
-import { AddEmployeeSubForm, JobPostingStep3Form } from "@/models/JobPostingStep3Form";
+import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import type { Employee, JobPosting as JobPostingType, User } from "api";
-import { Field, Form, FormActions, useField, useForm } from "vee-validate";
+import { Field, Form, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
