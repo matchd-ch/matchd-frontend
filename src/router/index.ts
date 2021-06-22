@@ -1,11 +1,12 @@
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { isLoggedIn } from "@/router/authenticationGuard";
-import { isCompleteProfile } from "@/router/homeGuard";
-import { redirectToCurrentJobPostingStep } from "@/router/jobPostingGuard";
-import { redirectToCurrentOnboardingStep } from "@/router/onboardingGuard";
-import { needsStateResetBeforePasswordReset } from "@/router/passwordResetGuard";
-import { redirectToCurrentProjectPostingStep } from "@/router/projectPostingGuard";
-import { studentsOnlyWithPublishedJobPostingGuard } from "@/router/studentsOnlyWithPublishedJobPostingGuard";
+import { isLoggedInGuard } from "@/router/guards/isLoggedInGuard";
+import { isProfileCompleteGuard } from "@/router/guards/isProfileCompleteGuard";
+import { redirectToCurrentJobPostingStepGuard } from "@/router/guards/redirectToCurrentJobPostingStepGuard";
+import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectToCurrentOnboardingStepGuard";
+import { needsStateResetBeforePasswordResetGuard } from "@/router/guards/needsStateResetBeforePasswordResetGuard";
+import { redirectToCurrentProjectPostingStepGuard } from "@/router/guards/redirectToCurrentProjectPostingStepGuard";
+import { projectsOnlyWithPublishedProjectPostingGuard } from "@/router/guards/projectsOnlyWithPublishedProjectPostingGuard";
+import { studentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/studentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 
@@ -46,7 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/onboarding/:step?",
     name: "Onboarding",
     component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
-    beforeEnter: redirectToCurrentOnboardingStep,
+    beforeEnter: redirectToCurrentOnboardingStepGuard,
     meta: {
       hideNavigation: true,
     },
@@ -66,7 +67,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "JobPostingCreate",
     component: () =>
       import(/* webpackChunkName: "jobposting-create" */ "../views/JobPostingCreate.vue"),
-    beforeEnter: redirectToCurrentJobPostingStep,
+    beforeEnter: redirectToCurrentJobPostingStepGuard,
     meta: {
       accessType: ["company", "university"],
     },
@@ -91,7 +92,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "ProjectPostingCreate",
     component: () =>
       import(/* webpackChunkName: "projectposting-create" */ "../views/ProjectPostingCreate.vue"),
-    beforeEnter: redirectToCurrentProjectPostingStep,
+    beforeEnter: redirectToCurrentProjectPostingStepGuard,
     meta: {
       accessType: ["company", "student", "university"],
     },
@@ -104,12 +105,14 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       accessType: ["student", "company", "university"],
     },
+    beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
   },
   {
     path: "/projekte/:slug",
     name: "ProjectPostingDetail",
     component: () =>
       import(/* webpackChunkName: "projectposting-detail" */ "../views/ProjectPostingDetail.vue"),
+    beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
   },
   {
     path: "/talente",
@@ -156,7 +159,7 @@ const routes: Array<RouteRecordRaw> = [
       public: true,
       hideNavigation: true,
     },
-    beforeEnter: needsStateResetBeforePasswordReset,
+    beforeEnter: needsStateResetBeforePasswordResetGuard,
   },
   {
     path: "/passwort-reset/:token",
@@ -215,8 +218,8 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(isLoggedIn);
-router.beforeEach(isCompleteProfile);
+router.beforeEach(isLoggedInGuard);
+router.beforeEach(isProfileCompleteGuard);
 router.afterEach(calculateMargins);
 
 export default router;

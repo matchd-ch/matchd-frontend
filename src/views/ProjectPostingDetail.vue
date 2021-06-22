@@ -169,9 +169,10 @@
           (projectPosting.data.student && !isStudent) || (projectPosting.data.company && isStudent)
         "
       >
-        <template v-if="matchType === matchTypeEnum.FullMatch"
-          >Du hast dein Interesse gezeigt!</template
-        >
+        <template v-if="matchType === matchTypeEnum.FullMatch">
+          <template v-if="isStudent">Du hast dein Interesse gezeigt!</template>
+          <template v-else>Sie haben Ihr Interesse gezeigt!</template>
+        </template>
         <MatchdButton v-else @click="onClickMatch">Mit diesem Projekt matchen</MatchdButton>
       </MatchingBar>
     </teleport>

@@ -68,7 +68,7 @@
           :uploadConfiguration="projectPostingImagesUploadConfigurations"
           :formal="!isStudent"
           @selectFiles="onSelectProjectPostingImages"
-          >Logo auswählen</MatchdFileUpload
+          >Bilder auswählen</MatchdFileUpload
         >
       </MatchdFileBlock>
       <!-- Media -->
@@ -93,7 +93,7 @@
           :uploadConfiguration="projectPostingDocumentsUploadConfigurations"
           @selectFiles="onSelectProjectPostingDocuments"
           class="mb-10"
-          >Fotos oder Videos auswählen</MatchdFileUpload
+          >Dokumente auswählen</MatchdFileUpload
         >
       </MatchdFileBlock>
       <teleport to="footer">

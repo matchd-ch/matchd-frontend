@@ -90,7 +90,7 @@
     </SelectPillGroup>
     <!-- Beschreibung Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
-      <template v-slot:label>Beschreibung des Themenschwerpunktes</template>
+      <template v-slot:label>Beschreibung des Themenschwerpunktes*</template>
       <Field
         id="description"
         name="description"
