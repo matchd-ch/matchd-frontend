@@ -137,21 +137,30 @@
             :to="{ name: 'StudentDetail', params: { slug: projectPosting.data.student?.slug } }"
             class="underline font-medium text-black hover:text-orange-1 transition-colors"
           >
-            <template
-              v-if="projectPosting.data.student?.firstName && projectPosting.data.student?.lastName"
-            >
-              {{ projectPosting.data.student?.firstName }}
-              {{ projectPosting.data.student?.lastName }}
-            </template>
-            <template v-else>
-              {{ projectPosting.data.student?.nickname }}
-            </template>
+            <h3 class="text-heading-sm flex">
+              <template
+                v-if="
+                  projectPosting.data.student?.firstName && projectPosting.data.student?.lastName
+                "
+              >
+                {{ projectPosting.data.student?.firstName }}
+                {{ projectPosting.data.student?.lastName }}
+              </template>
+              <template v-else>
+                {{ projectPosting.data.student?.nickname }}
+              </template>
+              <IconArrow class="w-8 ml-8" />
+            </h3>
           </router-link>
         </template>
       </div>
     </PostingSection>
     <teleport to="footer">
-      <MatchingBar>
+      <MatchingBar
+        v-if="
+          (projectPosting.data.student && !isStudent) || (projectPosting.data.company && isStudent)
+        "
+      >
         <template v-if="matchType === matchTypeEnum.FullMatch"
           >Du hast dein Interesse gezeigt!</template
         >
@@ -161,7 +170,7 @@
     <ProjectPostingCompanyMatchModal
       v-if="showConfirmationModal && isStudent"
       :user="user"
-      :projectPosting="projectPosting"
+      :projectPosting="projectPosting.data"
       :loading="matchLoading"
       :matchType="matchType"
       @clickConfirm="onClickMatchConfirm"
@@ -170,7 +179,7 @@
     <ProjectPostingStudentMatchModal
       v-if="showConfirmationModal && !isStudent"
       :user="user"
-      :projectPosting="projectPosting"
+      :projectPosting="projectPosting.data"
       :loading="matchLoading"
       :matchType="matchType"
       @clickConfirm="onClickMatchConfirm"

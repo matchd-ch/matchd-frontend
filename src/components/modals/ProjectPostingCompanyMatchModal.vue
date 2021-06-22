@@ -1,16 +1,14 @@
 <template>
   <MatchingModal>
-    <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user.firstName }}</h2>
+    <h2 class="text-heading-sm mb-3 px-8">Hey {{ user.firstName }}</h2>
     <p class="mb-3 px-8">
-      Cool! Nach dem Klick auf "Freigeben", bekommt
+      Du hast im Matchd-Pool ein spannendes Projekt gefunden – Yaay! Jetzt brauchen wir nur noch
+      dein Okay und
       <strong
         >{{ projectPosting.employee?.firstName }} {{ projectPosting.employee?.lastName }}</strong
       >
-      von <strong>{{ projectPosting.company.name }}</strong> eine Meldung, dass du an der
-      ausgeschriebenen Projektarbeit interessiert bist.
-    </p>
-    <p class="mb-3 px-8">
-      Wenn du damit einverstanden bist, werden wir diese Daten von dir bekannt geben:
+      von <strong>{{ projectPosting.company.name }}</strong> erhält den Link zu deinem
+      Matchd-Profil.
     </p>
 
     <div class="flex items-center">

@@ -73,6 +73,10 @@ export type State = {
     imageFallback: Attachment | null;
     documents: Attachment[];
   };
+  projectPostings: {
+    loading: boolean;
+    data: ProjectPosting[];
+  };
   projectTypes: {
     loading: boolean;
     data: ProjectType[];
@@ -166,6 +170,10 @@ export const state: State = {
     images: [],
     imageFallback: null,
     documents: [],
+  },
+  projectPostings: {
+    loading: false,
+    data: [],
   },
   projectTypes: {
     loading: false,

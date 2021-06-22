@@ -3,6 +3,7 @@
     <div class="flex-grow md:flex-row justify-center pb-4 md:pb-0 md:flex md:justify-center">
       <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
       <nav-link :to="{ name: 'JobPostingSearch' }">Stelle finden</nav-link>
+      <nav-link :to="{ name: 'ProjectPostingSearch' }">Projekt finden</nav-link>
       <nav-link :to="{ name: 'CompanyList' }">Unternehmen entdecken</nav-link>
     </div>
     <NavDropdown :text="user?.firstName">

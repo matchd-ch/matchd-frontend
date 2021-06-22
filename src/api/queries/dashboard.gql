@@ -54,16 +54,24 @@ query {
       dateCreated
       slug
       state
+      projectType {
+        id
+        name
+      }
+      topic {
+        id
+        name
+      }
       company {
         name
         city
         zip
       }
       student {
-        id
-        nickname
         firstName
         lastName
+        nickname
+        zip
       }
     }
     jobPostings {

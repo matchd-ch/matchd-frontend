@@ -1,11 +1,14 @@
 <template>
   <MatchingModal>
-    <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user.firstName }} {{ user.lastName }}</h2>
-    <p class="mb-3 px-8">
-      Cool! Nach dem Klick auf "Bestätigen", bekommt
+    <h2 class="text-heading-sm mb-3 px-8">
+      Toll, dass Sie mit
       <strong>{{ projectPosting.student?.firstName || projectPosting.student?.nickname }}</strong>
-      eine Meldung, dass Sie Interesse haben, die ausgeschriebene Projektarbeit
-      <strong>{{ projectPosting.displayTitle }}</strong> in Ihrem Betrieb durchzuführen.
+      ein Projekt umsetzen möchten!
+    </h2>
+    <p class="mb-3 px-8">
+      Wir schicken
+      <strong>{{ projectPosting.student?.firstName || projectPosting.student?.nickname }}</strong>
+      den Link zu Ihrem Matchd-Profil. So steht eurem Kennenlernen bald nichts mehr im Weg.
     </p>
 
     <template v-slot:footer>
