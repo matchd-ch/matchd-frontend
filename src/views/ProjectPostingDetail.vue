@@ -8,34 +8,30 @@
         <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /> Zurück zur Übersicht
       </button>
     </div>
-    <section
-      v-if="projectPosting.data.datePublished"
-      class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0"
-    >
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Veröffentlicht am</h2>
-      </div>
+    <PostingSection v-if="projectPosting.data.datePublished" title="Veröffentlicht am">
       <div class="lg:w-1/2 lg:p-9">
         {{ formatDateWithDay(projectPosting.data.datePublished) }}
       </div>
-    </section>
+    </PostingSection>
 
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Projektbeschreibung</h2>
-      </div>
+    <PostingSection
+      :editStep="getStepName(1)"
+      title="Projektbeschreibung"
+      :slug="projectPosting.data.slug"
+    >
       <div class="lg:w-1/2 lg:p-9">
         <h1 class="text-heading-sm">
           {{ projectPosting.data.displayTitle }}
         </h1>
         <p class="mt-4">{{ projectPosting.data.projectType.name }}</p>
       </div>
-    </section>
+    </PostingSection>
     <!-- Details zur Projektidee -->
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Details zur Projektidee</h2>
-      </div>
+    <PostingSection
+      title="Details zur Projektidee"
+      :editStep="getStepName(1)"
+      :slug="projectPosting.data.slug"
+    >
       <div class="lg:w-1/2 lg:p-9">
         <p>{{ projectPosting.data.topic.name }}</p>
         <ul class="list list-inside list-disc marker-orange-1 mt-4">
@@ -80,12 +76,13 @@
           </ul>
         </template>
       </div>
-    </section>
+    </PostingSection>
     <!-- Weitere Informationen -->
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">Weitere Informationen</h2>
-      </div>
+    <PostingSection
+      title="Weitere Informationen"
+      :editStep="getStepName(2)"
+      :slug="projectPosting.data.slug"
+    >
       <div class="lg:w-1/2 lg:p-9">
         <p>ab {{ formatDate(projectPosting.data.projectFromDate) }}</p>
         <p
@@ -98,14 +95,9 @@
           >
         </p>
       </div>
-    </section>
+    </PostingSection>
     <!-- Neugierig -->
-    <section class="flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0">
-      <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
-        <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">
-          Neugierig? Dann lassen wir es matchen!
-        </h2>
-      </div>
+    <PostingSection title="Neugierig? Dann lassen wir es matchen!">
       <div class="lg:w-1/2 lg:p-9">
         <template v-if="projectPosting.data.company">
           <router-link
@@ -162,7 +154,7 @@
           </router-link>
         </template>
       </div>
-    </section>
+    </PostingSection>
     <teleport to="footer">
       <MatchingBar
         v-if="
@@ -215,6 +207,8 @@ import type { Attachment, ProjectPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { ParamStrings } from "@/router/paramStrings";
+import PostingSection from "@/components/PostingSection.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -227,6 +221,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchingBar,
     ProjectPostingCompanyMatchModal,
     ProjectPostingStudentMatchModal,
+    PostingSection,
   },
 })
 export default class ProjectPostingDetail extends Vue {
@@ -244,6 +239,17 @@ export default class ProjectPostingDetail extends Vue {
 
   get matchLoading(): boolean {
     return this.$store.getters["matchLoading"];
+  }
+
+  getStepName(step: number): string {
+    if (this.isStudent && this.user?.student?.id === this.projectPosting?.data?.student?.id) {
+      return `${ParamStrings.STEP}${step}`;
+    }
+    if (!this.isStudent && this.user?.company?.id === this.projectPosting?.data?.company?.id) {
+      return `${ParamStrings.STEP}${step}`;
+    }
+
+    return "";
   }
 
   get projectPosting(): {
