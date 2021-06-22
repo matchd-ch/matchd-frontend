@@ -4,6 +4,7 @@ import type { User } from "api";
 
 export function studentProfileStep6FormMapper(user: User): StudentProfileStep6Form {
   return {
-    state: user.student?.state || ProfileState.Anonymous,
+    state:
+      user.student?.state === ProfileState.Public ? ProfileState.Public : ProfileState.Anonymous,
   };
 }
