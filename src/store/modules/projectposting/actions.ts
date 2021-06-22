@@ -1,7 +1,6 @@
 import { createApolloClient } from "@/api/apollo-client";
 import { RootState } from "@/store";
 import type {
-  AddEmployeeInput,
   ProjectPostingInputStep1,
   ProjectPostingInputStep2,
   ProjectPostingInputStep3,
