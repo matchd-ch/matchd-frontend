@@ -35,7 +35,7 @@ class Props {
 
 @Options({
   components: {
-    RouterSection: EditLink,
+    EditLink,
   },
 })
 export default class ProfileSection extends Vue.with(Props) {}

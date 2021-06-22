@@ -22,6 +22,7 @@ import { Options, prop, Vue } from "vue-class-component";
 import type { JobPosting, ProjectPosting } from "api";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
 import { JobPostingState, ProjectPostingState } from "@/api/models/types";
+import { RouteParams } from "vue-router";
 
 class Props {
   type = prop<"job" | "project">({ default: "job" });
@@ -33,7 +34,7 @@ class Props {
   },
 })
 export default class PostingEditLink extends Vue.with(Props) {
-  get params() {
+  get params(): RouteParams {
     return this.type === "job"
       ? { slug: this.posting.slug, step: "schritt1" }
       : { slug: this.posting.slug };
