@@ -1,8 +1,8 @@
 <template>
   <router-link
     :to="{
-      name: type === 'job' ? 'JobPostingCreate' : 'ProjectPostingCreate',
-      params: { slug: posting.slug, step: 'schritt1' },
+      name: type === 'job' ? 'JobPostingCreate' : 'ProjectPostingDetail',
+      params: params,
     }"
     class="hover:text-primary-1 transition-colors underline"
   >
@@ -33,6 +33,12 @@ class Props {
   },
 })
 export default class PostingEditLink extends Vue.with(Props) {
+  get params() {
+    return this.type === "job"
+      ? { slug: this.posting.slug, step: "schritt1" }
+      : { slug: this.posting.slug };
+  }
+
   get isJob(): boolean {
     return this.type === "job";
   }

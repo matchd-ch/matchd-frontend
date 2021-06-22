@@ -27,7 +27,7 @@ class Props {
 }
 @Options({
   components: {
-    RouterSection: EditLink,
+    EditLink,
   },
 })
 export default class PostingSection extends Vue.with(Props) {}
