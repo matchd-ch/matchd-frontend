@@ -14,11 +14,9 @@ import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
 import { State } from "@/store/modules/projectposting/state";
 
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
-import employeesQuery from "@/api/queries/employees.gql";
 import projectPostingStep1Mutation from "@/api/mutations/projectPostingStep1.gql";
 import projectPostingStep2Mutation from "@/api/mutations/projectPostingStep2.gql";
 import projectPostingStep3Mutation from "@/api/mutations/projectPostingStep3.gql";
-import addEmployeeMutation from "@/api/mutations/addEmployee.gql";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -46,11 +44,6 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: { slug: string }
   ): Promise<void>;
-  [ActionTypes.ADD_EMPLOYEE](
-    { commit }: AugmentedActionContext,
-    payload: AddEmployeeInput
-  ): Promise<void>;
-  [ActionTypes.EMPLOYEES]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -86,24 +79,5 @@ export const actions: ActionTree<State, RootState> & Actions = {
       fetchPolicy: "no-cache",
     });
     commit(MutationTypes.PROJECTPOSTING_LOADED, response.data.projectPosting);
-  },
-  async [ActionTypes.ADD_EMPLOYEE]({ commit }, payload: AddEmployeeInput) {
-    commit(MutationTypes.ADD_EMPLOYEE_LOADING);
-    const response = await apiClient.mutate({
-      mutation: addEmployeeMutation,
-      variables: payload,
-    });
-    commit(MutationTypes.ADD_EMPLOYEE_LOADED, response.data.addEmployee);
-  },
-  async [ActionTypes.EMPLOYEES]({ commit }) {
-    commit(MutationTypes.EMPLOYEES_LOADING);
-    const response = await apiClient.query({
-      query: employeesQuery,
-      fetchPolicy: "no-cache",
-      context: {
-        batch: true,
-      },
-    });
-    commit(MutationTypes.EMPLOYEES_LOADED, response.data.me?.company?.employees);
   },
 };
