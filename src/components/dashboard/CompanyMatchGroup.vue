@@ -42,9 +42,7 @@
               >{{ match.projectPosting.student.firstName }}
               {{ match.projectPosting.student.lastName }}</template
             >
-            <template v-if="!match.projectPosting.student.firstName">{{
-              match.projectPosting.student.nickname
-            }}</template>
+            <template v-else>{{ match.projectPosting.student.nickname }}</template>
             <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
           </router-link>
         </li>

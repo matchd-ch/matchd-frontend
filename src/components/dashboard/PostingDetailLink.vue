@@ -20,10 +20,10 @@
     </p>
   </router-link>
   <router-link
-    v-if="posting.student && matcher"
+    v-else-if="posting.student && company"
     :to="{
       name: 'CompanyDetail',
-      params: { slug: matcher.slug },
+      params: { slug: company.slug },
     }"
     class="hover:text-primary-1 transition-colors underline"
   >
@@ -35,7 +35,7 @@
       {{ posting.projectType.name }}
     </p>
     <p class="text-sm">
-      {{ matcher.name }}
+      {{ company.name }}
     </p>
   </router-link>
 </template>
@@ -48,7 +48,7 @@ import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
 class Props {
   type = prop<"job" | "project">({ default: "job" });
   posting = prop<JobPosting | ProjectPosting>({});
-  matcher = prop<Company>({});
+  company = prop<Company>({});
 }
 @Options({
   components: {
