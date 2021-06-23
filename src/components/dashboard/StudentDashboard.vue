@@ -137,7 +137,11 @@
             :key="match.projectPosting.id"
             class="link-list__item"
           >
-            <PostingDetailLink :posting="match.projectPosting" type="project"></PostingDetailLink>
+            <PostingDetailLink
+              :posting="match.projectPosting"
+              type="project"
+              :matcher="match.company"
+            ></PostingDetailLink>
           </li>
           <li>
             <h2

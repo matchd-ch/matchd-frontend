@@ -1,5 +1,6 @@
 <template>
   <router-link
+    v-if="posting.company"
     :to="{
       name: isJob ? 'JobPostingDetail' : 'ProjectPostingDetail',
       params: { slug: posting.slug },
@@ -18,16 +19,36 @@
       {{ posting.company.zip }} {{ posting.company.city }}
     </p>
   </router-link>
+  <router-link
+    v-if="posting.student && matcher"
+    :to="{
+      name: 'CompanyDetail',
+      params: { slug: matcher.slug },
+    }"
+    class="hover:text-primary-1 transition-colors underline"
+  >
+    <h3 class="font-medium text-lg">
+      {{ posting.displayTitle }}
+      <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+    </h3>
+    <p class="text-sm">
+      {{ posting.projectType.name }}
+    </p>
+    <p class="text-sm">
+      {{ matcher.name }}
+    </p>
+  </router-link>
 </template>
 
 <script lang="ts">
 import { Options, prop, Vue } from "vue-class-component";
-import type { JobPosting, ProjectPosting } from "api";
+import type { Company, JobPosting, ProjectPosting } from "api";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
 
 class Props {
   type = prop<"job" | "project">({ default: "job" });
   posting = prop<JobPosting | ProjectPosting>({});
+  matcher = prop<Company>({});
 }
 @Options({
   components: {
