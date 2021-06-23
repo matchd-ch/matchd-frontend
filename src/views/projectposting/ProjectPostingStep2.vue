@@ -21,7 +21,7 @@
         class="mb-10 flex-grow"
         :errors="veeForm.errors.projectFromDateMonth || veeForm.errors.projectFromDateYear"
       >
-        <template v-slot:label>Starttermin</template>
+        <template v-slot:label>Starttermin*</template>
         <fieldset id="projectDateFrom" class="flex">
           <Field
             id="projectFromDateMonth"
@@ -29,6 +29,7 @@
             as="select"
             label="Starttermin Monat"
             class="mr-3"
+            rules="required"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -40,6 +41,7 @@
             name="projectFromDateYear"
             as="select"
             label="Starttermin Jahr"
+            rules="required"
           >
             <option v-if="veeForm.values.projectFromDateYear" selected>
               {{ veeForm.values.projectFromDateYear }}

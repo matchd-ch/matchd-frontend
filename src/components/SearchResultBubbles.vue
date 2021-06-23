@@ -262,7 +262,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .attr("y", this.resultRadius * 2 + 16)
       .attr("dominant-baseline", "middle")
       .attr("text-anchor", "middle")
-      .text((d: any) => (this.resultType === "jobposting" ? d.jobPostingTitle : d.name));
+      .text((d: any) => (this.resultType === "jobposting" ? d.title : d.name));
     if (this.resultType === "jobposting") {
       /* Second Text Line */
       result

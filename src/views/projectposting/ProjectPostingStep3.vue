@@ -3,13 +3,13 @@
     <AddEmployeeForm
       v-if="showEmployeeForm"
       @submitComplete="onAddEmployeeComplete"
-      @clickClose="showEmployeeForm = false"
+      @clickClose="onClickClose"
     >
     </AddEmployeeForm>
     <form @submit="veeForm.onSubmit">
       <FormSaveError v-if="projectPostingState.errors" />
 
-      <div v-if="employees?.length > 0 && !showEmployeeForm && !isStudent">
+      <template v-if="employees?.length > 0 && !showEmployeeForm && !isStudent">
         <!-- Kontaktperson -->
         <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.employeeId">
           <template v-slot:label>Ansprechperson*</template>
@@ -34,6 +34,8 @@
           class="block w-full mb-10"
           >Zusätzliche Ansprechperson erfassen</MatchdButton
         >
+      </template>
+      <template v-if="!showEmployeeForm || isStudent">
         <!-- State Field -->
         <MatchdToggle id="state" class="mb-10" :errors="veeForm.errors.state">
           <template v-slot:label>Sichtbarkeit der Projektausschreibung</template>
@@ -50,7 +52,7 @@
           </template>
           <template v-else v-slot:value>Entwurf</template>
         </MatchdToggle>
-      </div>
+      </template>
       <teleport to="footer">
         <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
           <MatchdButton
@@ -200,6 +202,13 @@ export default class ProjectPostingStep3 extends Vue {
 
   onChangeState(value: boolean): void {
     this.veeForm.state = value ? ProjectPostingStateEnum.Public : ProjectPostingStateEnum.Draft;
+  }
+
+  onClickClose(): void {
+    this.veeForm.resetForm({
+      values: this.projectPostingData,
+    });
+    this.showEmployeeForm = false;
   }
 
   async onAddEmployeeComplete(): Promise<void> {
