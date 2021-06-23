@@ -123,40 +123,34 @@
         v-if="dashboard?.confirmedMatches?.length || dashboard?.projectMatches?.length"
         title="Hier hats gematchd!"
       >
-        <h2
-          class="text-base font-medium text-primary-1 mb-4"
-          v-if="dashboard?.projectMatches.length"
-        >
-          Projekte
-        </h2>
-        <ul>
-          <li
-            v-for="match in dashboard?.projectMatches"
-            :key="match.projectPosting.id"
-            class="link-list__item"
-          >
-            <PostingDetailLink
-              :posting="match.projectPosting"
-              type="project"
-              :matcher="match.company"
-            ></PostingDetailLink>
-          </li>
-        </ul>
-        <ul>
-          <h2
-            class="text-base font-medium text-primary-1 mb-4"
-            v-if="dashboard?.confirmedMatches.length"
-          >
-            Stellen
-          </h2>
-          <li
-            v-for="match in dashboard?.confirmedMatches"
-            :key="match.jobPosting.id"
-            class="link-list__item"
-          >
-            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
-          </li>
-        </ul>
+        <template v-if="dashboard?.projectMatches.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
+          <ul>
+            <li
+              v-for="match in dashboard?.projectMatches"
+              :key="match.projectPosting.id"
+              class="link-list__item"
+            >
+              <PostingDetailLink
+                :posting="match.projectPosting"
+                type="project"
+                :matcher="match.company"
+              ></PostingDetailLink>
+            </li>
+          </ul>
+        </template>
+        <template v-if="dashboard?.confirmedMatches.length">
+          <ul>
+            <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
+            <li
+              v-for="match in dashboard?.confirmedMatches"
+              :key="match.jobPosting.id"
+              class="link-list__item"
+            >
+              <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
+            </li>
+          </ul>
+        </template>
       </profile-section>
     </div>
   </div>

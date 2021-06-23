@@ -36,18 +36,16 @@
               name: 'ProjectPostingDetail',
               params: { slug: match.projectPosting.slug },
             }"
-            class="hover:text-primary-1 transition-colors underline"
+            class="hover:text-primary-1 transition-colors underline font-medium"
           >
-            <p class="font-medium">
-              <template v-if="match.projectPosting.student.firstName"
-                >{{ match.projectPosting.student.firstName }}
-                {{ match.projectPosting.student.lastName }}</template
-              >
-              <template v-if="!match.projectPosting.student.firstName">{{
-                match.projectPosting.student.nickname
-              }}</template>
-              <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
-            </p>
+            <template v-if="match.projectPosting.student.firstName"
+              >{{ match.projectPosting.student.firstName }}
+              {{ match.projectPosting.student.lastName }}</template
+            >
+            <template v-if="!match.projectPosting.student.firstName">{{
+              match.projectPosting.student.nickname
+            }}</template>
+            <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
           </router-link>
         </li>
       </ul>
