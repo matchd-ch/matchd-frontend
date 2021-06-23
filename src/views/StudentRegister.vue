@@ -237,12 +237,12 @@ export default class StudentRegister extends Vue {
     const nextStep = response ? 3 : 2;
     this.isValidStudent = response;
     this.isValidPosition = null;
-    this.registration.scrollToStep(nextStep);
+    this.registration.scrollToStep(this.$route.path, nextStep);
   }
 
   onClickConfirmPosition(response: boolean): void {
     this.isValidPosition = response;
-    this.registration.scrollToStep(3);
+    this.registration.scrollToStep(this.$route.path, 3);
   }
 
   async onSubmitStudentData(
@@ -267,7 +267,7 @@ export default class StudentRegister extends Vue {
       return;
     }
     this.isStudentDataFormValid = true;
-    this.registration.scrollToStep(4);
+    this.registration.scrollToStep(this.$route.path, 4);
   }
 }
 </script>

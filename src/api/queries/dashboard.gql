@@ -1,5 +1,79 @@
 query {
   dashboard {
+    projectPostings {
+      id
+      title
+      displayTitle
+      datePublished
+      dateCreated
+      slug
+      state
+      topic {
+        id
+        name
+      }
+      projectType {
+        id
+        name
+      }
+      topic {
+        id
+        name
+      }
+      company {
+        name
+        city
+        zip
+      }
+      student {
+        firstName
+        lastName
+        nickname
+        zip
+      }
+    }
+    latestJobPostings {
+      id
+      title
+      displayTitle
+      datePublished
+      dateCreated
+      slug
+      state
+      company {
+        name
+        city
+        zip
+      }
+    }
+    latestProjectPostings {
+      id
+      title
+      displayTitle
+      datePublished
+      dateCreated
+      slug
+      state
+      projectType {
+        id
+        name
+      }
+      topic {
+        id
+        name
+      }
+      company {
+        name
+        city
+        zip
+      }
+      student {
+        firstName
+        lastName
+        nickname
+        zip
+      }
+    }
     jobPostings {
       id
       title
@@ -71,6 +145,47 @@ query {
         nickname
         firstName
         lastName
+        slug
+      }
+    }
+    projectMatches {
+      projectPosting {
+        id
+        title
+        displayTitle
+        slug
+        state
+        topic {
+          id
+          name
+        }
+        projectType {
+          id
+          name
+        }
+        company {
+          name
+          city
+          zip
+          slug
+        }
+        student {
+          id
+          slug
+          firstName
+          lastName
+          nickname
+        }
+      }
+      student {
+        nickname
+        firstName
+        lastName
+        slug
+      }
+      company {
+        id
+        name
         slug
       }
     }

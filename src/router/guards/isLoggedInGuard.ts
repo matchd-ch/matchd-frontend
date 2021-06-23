@@ -2,7 +2,7 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
-export async function isLoggedIn(
+export async function isLoggedInGuard(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext

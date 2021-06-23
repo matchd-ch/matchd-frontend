@@ -2,7 +2,7 @@ import { createApolloClient } from "@/api/apollo-client";
 import { MatchingInput } from "@/models/MatchingInput";
 import { ZipCityJobsInput } from "@/models/ZipCityJobsInput";
 import { RootState } from "@/store";
-import type { MatchJobPostingInput, MatchStudentInput } from "api";
+import type { MatchJobPostingInput, MatchProjectPostingInput, MatchStudentInput } from "api";
 import { ActionContext, ActionTree } from "vuex";
 
 import { ActionTypes } from "./action-types";
@@ -20,15 +20,21 @@ import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
+import keywordsQuery from "@/api/queries/keywords.gql";
 import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
 import matchingQuery from "@/api/queries/matching.gql";
+import projectPostingQuery from "@/api/queries/projectPosting.gql";
+import projectPostingsQuery from "@/api/queries/projectPostings.gql";
+import projectTypesQuery from "@/api/queries/projectTypes.gql";
 import skillsQuery from "@/api/queries/skills.gql";
 import studentQuery from "@/api/queries/student.gql";
 import softSkillsQuery from "@/api/queries/softSkills.gql";
+import topicsQuery from "@/api/queries/topics.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
 
 import matchJobPostingMutation from "@/api/mutations/matchJobPosting.gql";
+import matchProjectPostingMutation from "@/api/mutations/matchProjectPosting.gql";
 import matchStudentMutation from "@/api/mutations/matchStudent.gql";
 
 type AugmentedActionContext = {
@@ -62,21 +68,33 @@ export interface Actions {
     payload: { shortList: boolean }
   ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.KEYWORDS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.MATCH_JOB_POSTING](
     { commit }: AugmentedActionContext,
     payload: MatchJobPostingInput
+  ): Promise<void>;
+  [ActionTypes.MATCH_PROJECT_POSTING](
+    { commit }: AugmentedActionContext,
+    payload: MatchProjectPostingInput
   ): Promise<void>;
   [ActionTypes.MATCH_STUDENT](
     { commit }: AugmentedActionContext,
     payload: MatchStudentInput
   ): Promise<void>;
   [ActionTypes.MATCHING]({ commit }: AugmentedActionContext, payload: MatchingInput): Promise<void>;
+  [ActionTypes.PROJECT_POSTING](
+    { commit }: AugmentedActionContext,
+    payload: { slug: string }
+  ): Promise<void>;
+  [ActionTypes.PROJECT_POSTINGS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.PROJECT_TYPES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.STUDENT](
     { commit }: AugmentedActionContext,
-    payload: { slug: string; jobPostingId: string }
+    payload: { slug: string; jobPostingId?: string }
   ): Promise<void>;
+  [ActionTypes.TOPICS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ZIP_CITY_JOBS](
     { commit }: AugmentedActionContext,
     payload: ZipCityJobsInput
@@ -209,6 +227,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.JOB_TYPES_LOADED, { jobTypes: response.data.jobTypes });
   },
+  async [ActionTypes.KEYWORDS]({ commit }) {
+    commit(MutationTypes.KEYWORDS_LOADING);
+    const response = await apiClient.query({
+      query: keywordsQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.KEYWORDS_LOADED, { keywords: response.data.keywords });
+  },
   async [ActionTypes.LANGUAGES]({ commit }, payload: { shortList: boolean }) {
     commit(MutationTypes.LANGUAGES_LOADING);
     const response = await apiClient.query({
@@ -241,6 +269,17 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.MATCH_JOB_POSTING_LOADED, {
       id: payload.jobPosting?.id,
       match: response.data.matchJobPosting,
+    });
+  },
+  async [ActionTypes.MATCH_PROJECT_POSTING]({ commit }, payload: MatchProjectPostingInput) {
+    commit(MutationTypes.MATCH_LOADING);
+    const response = await apiClient.mutate({
+      mutation: matchProjectPostingMutation,
+      variables: payload,
+    });
+    commit(MutationTypes.MATCH_JOB_POSTING_LOADED, {
+      id: payload.projectPosting?.id,
+      match: response.data.matchProjectPosting,
     });
   },
   async [ActionTypes.MATCH_STUDENT]({ commit }, payload: MatchStudentInput) {
@@ -276,6 +315,41 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.SKILLS_LOADED, { skills: response.data.skills });
   },
+  async [ActionTypes.PROJECT_POSTING]({ commit }, payload: { slug: string }) {
+    commit(MutationTypes.PROJECT_POSTING_LOADING);
+    const response = await apiClient.query({
+      query: projectPostingQuery,
+      fetchPolicy: "no-cache",
+      variables: payload,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.PROJECT_POSTING_LOADED, response.data);
+  },
+  async [ActionTypes.PROJECT_POSTINGS]({ commit }) {
+    commit(MutationTypes.PROJECT_POSTINGS_LOADING);
+    const response = await apiClient.query({
+      query: projectPostingsQuery,
+      fetchPolicy: "no-cache",
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.PROJECT_POSTINGS_LOADED, {
+      projectPostings: response.data.projectPostings,
+    });
+  },
+  async [ActionTypes.PROJECT_TYPES]({ commit }) {
+    commit(MutationTypes.PROJECT_TYPES_LOADING);
+    const response = await apiClient.query({
+      query: projectTypesQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.PROJECT_TYPES_LOADED, { projectTypes: response.data.projectTypes });
+  },
   async [ActionTypes.SOFT_SKILLS]({ commit }) {
     commit(MutationTypes.SOFT_SKILLS_LOADING);
     const response = await apiClient.query({
@@ -286,7 +360,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.SOFT_SKILLS_LOADED, { softSkills: response.data.softSkills });
   },
-  async [ActionTypes.STUDENT]({ commit }, payload: { slug: string; jobPostingId: string }) {
+  async [ActionTypes.STUDENT]({ commit }, payload: { slug: string; jobPostingId?: string }) {
     commit(MutationTypes.STUDENT_LOADING);
     const response = await apiClient.query({
       query: studentQuery,
@@ -303,6 +377,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
       avatarFallback: response.data.avatarFallback,
       certificates: response.data.certificates,
     });
+  },
+  async [ActionTypes.TOPICS]({ commit }) {
+    commit(MutationTypes.TOPICS_LOADING);
+    const response = await apiClient.query({
+      query: topicsQuery,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.TOPICS_LOADED, { topics: response.data.topics });
   },
   async [ActionTypes.ZIP_CITY_JOBS]({ commit }, payload?: ZipCityJobsInput) {
     commit(MutationTypes.ZIP_CITY_JOBS_LOADING);

@@ -1,10 +1,8 @@
 mutation(
-  $branches: [BranchInput]
   $description: String
 ) {
   universityProfileStep2(
     step2: {
-      branches: $branches
       description: $description
     }
   ) {

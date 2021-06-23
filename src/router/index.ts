@@ -1,10 +1,12 @@
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { isLoggedIn } from "@/router/authenticationGuard";
-import { isCompleteProfile } from "@/router/homeGuard";
-import { redirectToCurrentJobPostingStep } from "@/router/jobPostingGuard";
-import { redirectToCurrentOnboardingStep } from "@/router/onboardingGuard";
-import { needsStateResetBeforePasswordReset } from "@/router/passwordResetGuard";
-import { studentsOnlyWithPublishedJobPostingGuard } from "@/router/studentsOnlyWithPublishedJobPostingGuard";
+import { isLoggedInGuard } from "@/router/guards/isLoggedInGuard";
+import { isProfileCompleteGuard } from "@/router/guards/isProfileCompleteGuard";
+import { redirectToCurrentJobPostingStepGuard } from "@/router/guards/redirectToCurrentJobPostingStepGuard";
+import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectToCurrentOnboardingStepGuard";
+import { needsStateResetBeforePasswordResetGuard } from "@/router/guards/needsStateResetBeforePasswordResetGuard";
+import { redirectToCurrentProjectPostingStepGuard } from "@/router/guards/redirectToCurrentProjectPostingStepGuard";
+import { projectsOnlyWithPublishedProjectPostingGuard } from "@/router/guards/projectsOnlyWithPublishedProjectPostingGuard";
+import { studentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/studentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 
@@ -45,7 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/onboarding/:step?",
     name: "Onboarding",
     component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
-    beforeEnter: redirectToCurrentOnboardingStep,
+    beforeEnter: redirectToCurrentOnboardingStepGuard,
     meta: {
       hideNavigation: true,
     },
@@ -65,9 +67,9 @@ const routes: Array<RouteRecordRaw> = [
     name: "JobPostingCreate",
     component: () =>
       import(/* webpackChunkName: "jobposting-create" */ "../views/JobPostingCreate.vue"),
-    beforeEnter: redirectToCurrentJobPostingStep,
+    beforeEnter: redirectToCurrentJobPostingStepGuard,
     meta: {
-      accessType: ["company"],
+      accessType: ["company", "university"],
     },
   },
   {
@@ -86,11 +88,38 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "jobposting-detail" */ "../views/JobPostingDetail.vue"),
   },
   {
+    path: "/projekte/ausschreiben/:slug?/:step?",
+    name: "ProjectPostingCreate",
+    component: () =>
+      import(/* webpackChunkName: "projectposting-create" */ "../views/ProjectPostingCreate.vue"),
+    beforeEnter: redirectToCurrentProjectPostingStepGuard,
+    meta: {
+      accessType: ["company", "student", "university"],
+    },
+  },
+  {
+    path: "/projekte",
+    name: "ProjectPostingSearch",
+    component: () =>
+      import(/* webpackChunkName: "projectposting-search" */ "../views/ProjectPostingSearch.vue"),
+    meta: {
+      accessType: ["student", "company", "university"],
+    },
+    beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
+  },
+  {
+    path: "/projekte/:slug",
+    name: "ProjectPostingDetail",
+    component: () =>
+      import(/* webpackChunkName: "projectposting-detail" */ "../views/ProjectPostingDetail.vue"),
+    beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
+  },
+  {
     path: "/talente",
     name: "StudentSearch",
     component: () => import(/* webpackChunkName: "student-search" */ "../views/StudentSearch.vue"),
     meta: {
-      accessType: ["company"],
+      accessType: ["company", "university"],
     },
     beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
   },
@@ -99,7 +128,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "StudentDetail",
     component: () => import(/* webpackChunkName: "student-detail" */ "../views/StudentDetail.vue"),
     meta: {
-      accessType: ["company"],
+      accessType: ["company", "university"],
     },
     beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
   },
@@ -117,6 +146,12 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/bildungsinstitute/:slug",
+    name: "UniversityDetail",
+    component: () =>
+      import(/* webpackChunkName: "university-detail" */ "../views/UniversityDetail.vue"),
+  },
+  {
     path: "/passwort-vergessen",
     name: "PasswordForgotten",
     component: () => import(/* webpackChunkName: "login" */ "../views/PasswordForgotten.vue"),
@@ -124,7 +159,7 @@ const routes: Array<RouteRecordRaw> = [
       public: true,
       hideNavigation: true,
     },
-    beforeEnter: needsStateResetBeforePasswordReset,
+    beforeEnter: needsStateResetBeforePasswordResetGuard,
   },
   {
     path: "/passwort-reset/:token",
@@ -183,8 +218,8 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(isLoggedIn);
-router.beforeEach(isCompleteProfile);
+router.beforeEach(isLoggedInGuard);
+router.beforeEach(isProfileCompleteGuard);
 router.afterEach(calculateMargins);
 
 export default router;

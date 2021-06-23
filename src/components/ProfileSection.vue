@@ -19,24 +19,25 @@
     <div class="xl:mb-0 xl:w-1/2">
       <slot />
     </div>
-    <router-link
-      v-if="editStep"
-      :to="{ name: 'ProfileEdit', params: { step: editStep } }"
-      class="profile-section__button absolute top-9 right-9 rounded-full border border-black w-10 h-10 flex justify-center items-center hover:bg-black hover:text-white transition-colors"
-    >
-      <span class="material-icons">edit</span>
-    </router-link>
+    <EditLink v-if="editStep" :editStep="editStep" route="ProfileEdit"> </EditLink>
   </section>
 </template>
 
 <script lang="ts">
-import { Vue, prop } from "vue-class-component";
+import { Vue, prop, Options } from "vue-class-component";
+import EditLink from "@/components/EditLink.vue";
 
 class Props {
   pink = prop<boolean>({ default: false });
   title = prop<string>({ required: true });
   editStep = prop<string>({});
 }
+
+@Options({
+  components: {
+    EditLink,
+  },
+})
 export default class ProfileSection extends Vue.with(Props) {}
 </script>
 

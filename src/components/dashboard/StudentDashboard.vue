@@ -22,19 +22,65 @@
       </div>
     </div>
     <div class="flex flex-col min-h-full">
-      <profile-section v-if="dashboard?.jobPostings?.length" title="Neue Stellen und Projekte">
-        <ul>
+      <profile-section
+        v-if="dashboard?.latestJobPostings?.length || dashboard?.latestProjectPostings?.length"
+        title="Neue Stellen und Projekte"
+      >
+        <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
+        <p v-if="dashboard?.latestJobPostings?.length === 0">
+          Momentan sind keine zu dir passenden Stellen ausgeschrieben.
+        </p>
+        <template v-if="dashboard?.latestJobPostings?.length">
+          <ul>
+            <li
+              v-for="jobPosting in dashboard?.latestJobPostings"
+              :key="jobPosting.id"
+              class="link-list__item"
+            >
+              <PostingDetailLink :posting="jobPosting"></PostingDetailLink>
+            </li>
+          </ul>
+          <matchd-button
+            class="block w-full mt-8 text-center"
+            :to="{ name: 'JobPostingSearch' }"
+            tag="router-link"
+            >Weitere Stellen finden
+          </matchd-button>
+        </template>
+        <h2 class="text-base font-medium text-primary-1 mb-4 mt-12">Projekte</h2>
+        <p v-if="dashboard?.latestProjectPostings?.length === 0">
+          Momentan sind keine zu dir passenden Projekte ausgeschrieben.
+        </p>
+        <ul v-if="dashboard?.latestProjectPostings?.length">
           <li
-            v-for="jobPosting in dashboard?.jobPostings"
-            :key="jobPosting.id"
+            v-for="projectPosting in dashboard?.latestProjectPostings"
+            :key="projectPosting.id"
             class="link-list__item"
           >
-            <student-job-posting-link :jobPosting="jobPosting"></student-job-posting-link>
+            <PostingDetailLink type="project" :posting="projectPosting"></PostingDetailLink>
           </li>
         </ul>
-        <matchd-button class="w-full mt-4">
-          <router-link :to="{ name: 'JobPostingSearch' }">Weitere Stellen finden</router-link>
+        <matchd-button
+          class="block w-full mt-8 text-center"
+          :to="{ name: 'ProjectPostingCreate' }"
+          tag="router-link"
+        >
+          Neues Projekt ausschreiben
         </matchd-button>
+      </profile-section>
+      <profile-section v-if="dashboard?.projectPostings?.length" title="Deine Projekt-Ideen">
+        <p v-if="dashboard?.projectPostings?.length === 0">
+          Momentan sind keine zu dir passenden Projekte ausgeschrieben.
+        </p>
+        <ul v-if="dashboard?.projectPostings?.length">
+          <li
+            v-for="projectPosting in dashboard?.projectPostings"
+            :key="projectPosting.id"
+            class="link-list__item"
+          >
+            <PostingEditLink type="project" :posting="projectPosting"></PostingEditLink>
+          </li>
+        </ul>
       </profile-section>
       <profile-section title="Deine offenen Matches">
         <p v-if="dashboard?.requestedMatches?.length > 0">
@@ -51,7 +97,7 @@
             :key="match.id"
             class="link-list__item mt-4"
           >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
+            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
           </li>
         </ul>
       </profile-section>
@@ -60,7 +106,7 @@
           Dein Talent ist gesucht! Folgende Unternehmen möchten dich gerne kennenlernen.
         </p>
         <p v-if="dashboard?.unconfirmedMatches?.length === 0">
-          Momentan hast du keine offenen Anfragen. Sobald ein Unternehmen dich matchen möchte,
+          Momentan hast du keine offenen An2fragen. Sobald ein Unternehmen dich matchen möchte,
           siehst du das hier.
         </p>
         <ul>
@@ -69,26 +115,50 @@
             :key="match.jobPosting.id"
             class="link-list__item mt-4"
           >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
+            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
           </li>
         </ul>
       </profile-section>
-      <profile-section v-if="dashboard?.confirmedMatches?.length > 0" title="Hier hats gematchd!">
-        <ul>
-          <li
-            v-for="match in dashboard?.confirmedMatches"
-            :key="match.jobPosting.id"
-            class="link-list__item"
-          >
-            <student-job-posting-link :jobPosting="match.jobPosting"></student-job-posting-link>
-          </li>
-        </ul>
+      <profile-section
+        v-if="dashboard?.confirmedMatches?.length || dashboard?.projectMatches?.length"
+        title="Hier hats gematchd!"
+      >
+        <template v-if="dashboard?.projectMatches.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
+          <ul>
+            <li
+              v-for="match in dashboard?.projectMatches"
+              :key="match.projectPosting.id"
+              class="link-list__item"
+            >
+              <PostingDetailLink
+                :posting="match.projectPosting"
+                type="project"
+                :matcher="match.company"
+              ></PostingDetailLink>
+            </li>
+          </ul>
+        </template>
+        <template v-if="dashboard?.confirmedMatches.length">
+          <ul>
+            <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
+            <li
+              v-for="match in dashboard?.confirmedMatches"
+              :key="match.jobPosting.id"
+              class="link-list__item"
+            >
+              <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
+            </li>
+          </ul>
+        </template>
       </profile-section>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import PostingDetailLink from "@/components/dashboard/PostingDetailLink.vue";
+import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
@@ -97,7 +167,7 @@ import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from "@/api/models/types";
 import { replaceStack } from "@/helpers/replaceStack";
-import StudentJobPostingLink from "@/components/dashboard/StudentJobPostingLink.vue";
+import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 
 class Props {
   dashboard = prop<{ data: Dashboard }>({ required: true });
@@ -105,11 +175,13 @@ class Props {
 
 @Options({
   components: {
+    PostingDetailLink,
+    PostingEditLink,
     MatchdButton,
     MatchdFileUpload,
     MatchdFileView,
     ProfileSection,
-    StudentJobPostingLink,
+    CompanyMatchGroup,
   },
 })
 export default class StudentDashboard extends Vue.with(Props) {

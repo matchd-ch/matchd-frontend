@@ -8,12 +8,16 @@ import type {
   JobPosting,
   JobRequirement,
   JobType,
+  Keyword,
   Language,
   LanguageLevel,
   Match,
+  ProjectPosting,
+  ProjectType,
   Skill,
   SoftSkill,
   Student,
+  Topic,
   ZipCity,
 } from "api";
 
@@ -49,6 +53,10 @@ export type State = {
     data: Match[];
     loading: boolean;
   };
+  keywords: {
+    data: Keyword[];
+    loading: boolean;
+  };
   match: {
     loading: boolean;
   };
@@ -57,6 +65,21 @@ export type State = {
     data: Match[];
     zipCityJobsLoading: boolean;
     zipCityJobs: ZipCity[];
+  };
+  projectPosting: {
+    loading: boolean;
+    data: ProjectPosting | null;
+    images: Attachment[];
+    imageFallback: Attachment | null;
+    documents: Attachment[];
+  };
+  projectPostings: {
+    loading: boolean;
+    data: ProjectPosting[];
+  };
+  projectTypes: {
+    loading: boolean;
+    data: ProjectType[];
   };
   skills: {
     loading: boolean;
@@ -89,6 +112,10 @@ export type State = {
   jobPosting: {
     loading: boolean;
     data: JobPosting | null;
+  };
+  topics: {
+    loading: boolean;
+    data: Topic[];
   };
 };
 
@@ -124,6 +151,10 @@ export const state: State = {
     loading: false,
     data: [],
   },
+  keywords: {
+    loading: false,
+    data: [],
+  },
   match: {
     loading: false,
   },
@@ -132,6 +163,21 @@ export const state: State = {
     data: [],
     zipCityJobsLoading: false,
     zipCityJobs: [],
+  },
+  projectPosting: {
+    loading: false,
+    data: null,
+    images: [],
+    imageFallback: null,
+    documents: [],
+  },
+  projectPostings: {
+    loading: false,
+    data: [],
+  },
+  projectTypes: {
+    loading: false,
+    data: [],
   },
   skills: {
     loading: false,
@@ -164,5 +210,9 @@ export const state: State = {
   jobPosting: {
     loading: false,
     data: null,
+  },
+  topics: {
+    loading: false,
+    data: [],
   },
 };

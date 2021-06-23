@@ -1,0 +1,72 @@
+query($id: ID, $slug: String) {
+  projectPosting(id: $id, slug: $slug) {
+    id
+    slug
+    title
+    displayTitle
+    description
+    additionalInformation
+    formStep
+    state
+    projectFromDate
+    datePublished
+    website
+    matchStatus {
+      initiator
+      confirmed
+    }
+    topic {
+      id
+      name
+    }
+    projectType {
+      id
+      name
+    }
+    keywords {
+      id
+      name
+    }
+    company {
+      id
+      slug
+      name
+      street
+      zip
+      city
+    }
+    student {
+      id
+      slug
+      firstName
+      lastName
+      nickname
+      city
+    }
+    employee {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+  images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug) {
+    id
+    fileName
+    url
+    mimeType
+  }
+  imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug) {
+    id
+    fileName
+    url
+    mimeType
+  }
+  documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug) {
+    id
+    fileName
+    url
+    mimeType
+  }
+}
