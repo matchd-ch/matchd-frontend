@@ -120,18 +120,16 @@
         </ul>
       </profile-section>
       <profile-section
-        v-if="dashboard?.confirmedMatches?.length > 0 || dashboard?.projectMatches?.length"
+        v-if="dashboard?.confirmedMatches?.length || dashboard?.projectMatches?.length"
         title="Hier hats gematchd!"
       >
+        <h2
+          class="text-base font-medium text-primary-1 mb-4"
+          v-if="dashboard?.projectMatches.length"
+        >
+          Projekte
+        </h2>
         <ul>
-          <li>
-            <h2
-              class="text-base font-medium text-primary-1 mb-4"
-              v-if="dashboard?.projectMatches.length"
-            >
-              Projekte
-            </h2>
-          </li>
           <li
             v-for="match in dashboard?.projectMatches"
             :key="match.projectPosting.id"
@@ -143,14 +141,14 @@
               :matcher="match.company"
             ></PostingDetailLink>
           </li>
-          <li>
-            <h2
-              class="text-base font-medium text-primary-1 mb-4"
-              v-if="dashboard?.confirmedMatches.length"
-            >
-              Stellen
-            </h2>
-          </li>
+        </ul>
+        <ul>
+          <h2
+            class="text-base font-medium text-primary-1 mb-4"
+            v-if="dashboard?.confirmedMatches.length"
+          >
+            Stellen
+          </h2>
           <li
             v-for="match in dashboard?.confirmedMatches"
             :key="match.jobPosting.id"
