@@ -167,12 +167,25 @@ query {
           name
           city
           zip
+          slug
+        }
+        student {
+          id
+          slug
+          firstName
+          lastName
+          nickname
         }
       }
       student {
         nickname
         firstName
         lastName
+        slug
+      }
+      company {
+        id
+        name
         slug
       }
     }

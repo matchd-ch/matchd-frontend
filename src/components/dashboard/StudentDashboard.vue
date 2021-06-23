@@ -119,16 +119,38 @@
           </li>
         </ul>
       </profile-section>
-      <profile-section v-if="dashboard?.confirmedMatches?.length > 0" title="Hier hats gematchd!">
-        <ul>
-          <li
-            v-for="match in dashboard?.confirmedMatches"
-            :key="match.jobPosting.id"
-            class="link-list__item"
-          >
-            <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
-          </li>
-        </ul>
+      <profile-section
+        v-if="dashboard?.confirmedMatches?.length || dashboard?.projectMatches?.length"
+        title="Hier hats gematchd!"
+      >
+        <template v-if="dashboard?.projectMatches.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
+          <ul>
+            <li
+              v-for="match in dashboard?.projectMatches"
+              :key="match.projectPosting.id"
+              class="link-list__item"
+            >
+              <PostingDetailLink
+                :posting="match.projectPosting"
+                type="project"
+                :matcher="match.company"
+              ></PostingDetailLink>
+            </li>
+          </ul>
+        </template>
+        <template v-if="dashboard?.confirmedMatches.length">
+          <ul>
+            <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
+            <li
+              v-for="match in dashboard?.confirmedMatches"
+              :key="match.jobPosting.id"
+              class="link-list__item"
+            >
+              <PostingDetailLink :posting="match.jobPosting" type="job"></PostingDetailLink>
+            </li>
+          </ul>
+        </template>
       </profile-section>
     </div>
   </div>
@@ -145,6 +167,7 @@ import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { AttachmentKey } from "@/api/models/types";
 import { replaceStack } from "@/helpers/replaceStack";
+import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 
 class Props {
   dashboard = prop<{ data: Dashboard }>({ required: true });
@@ -158,6 +181,7 @@ class Props {
     MatchdFileUpload,
     MatchdFileView,
     ProfileSection,
+    CompanyMatchGroup,
   },
 })
 export default class StudentDashboard extends Vue.with(Props) {
