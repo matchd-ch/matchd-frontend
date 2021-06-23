@@ -3,7 +3,7 @@
     <AddEmployeeForm
       v-if="showEmployeeForm"
       @submitComplete="onAddEmployeeComplete"
-      @clickClose="showEmployeeForm = false"
+      @clickClose="onClickClose"
     >
     </AddEmployeeForm>
     <form v-if="employees.length > 0 && !showEmployeeForm" @submit="veeForm.onSubmit">
@@ -189,6 +189,13 @@ export default class JobPostingStep3 extends Vue {
 
   onChangeState(value: boolean): void {
     this.veeForm.state = value ? JobPostingStateEnum.Public : JobPostingStateEnum.Draft;
+  }
+
+  onClickClose(): void {
+    this.veeForm.resetForm({
+      values: this.jobPostingData,
+    });
+    this.showEmployeeForm = false;
   }
 
   async onAddEmployeeComplete(): Promise<void> {

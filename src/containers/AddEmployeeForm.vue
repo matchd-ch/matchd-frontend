@@ -77,7 +77,7 @@ import { Options, Vue } from "vue-class-component";
     MatchdButton,
     MatchdField,
   },
-  emits: ["submitComplete", "clickCancel"],
+  emits: ["submitComplete", "clickClose"],
 })
 export default class AddEmployeeForm extends Vue {
   employeeForm: AddEmployeeSubForm = {
