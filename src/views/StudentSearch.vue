@@ -3,13 +3,13 @@
     <teleport to="header">
       <SearchFilters class="search-filters bg-company-gradient-t-b z-50">
         <div class="grid grid-rows-1 grid-cols-1 gap-3">
-          <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between max-w-xl">
+          <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
             nach Talenten für meine Stelle als
             <label for="jobPosting" class="sr-only">Stelle auswählen</label>
             <select
               id="jobPosting"
               name="jobPosting"
-              class="bg-transparent border-b border-white py-2 px-1 appearance-none"
+              class="bg-transparent border-b border-white py-2 px-1 appearance-none flex-grow xl:ml-4"
               @change="onChangeJobPosting"
               v-model="jobPostingId"
             >
@@ -97,6 +97,7 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { SearchResult } from "@/models/SearchResult";
 import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
+import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, JobPosting } from "api";
 import { Options, setup, Vue } from "vue-class-component";
@@ -177,6 +178,10 @@ export default class StudentSearch extends Vue {
       }),
     ]);
     calculateMargins();
+  }
+
+  unmounted(): void {
+    this.$store.commit(MutationTypes.RESET_MATCHES);
   }
 
   async searchStudents(): Promise<void> {

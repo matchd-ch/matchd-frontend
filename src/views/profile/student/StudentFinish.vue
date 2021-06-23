@@ -6,7 +6,7 @@
       class="block w-full mt-5"
       @click="$router.push({ name: 'JobPostingSearch' })"
     >
-      Stelle und Projekte finden
+      Stelle finden
     </MatchdButton>
     <MatchdButton
       variant="outline"
@@ -14,6 +14,20 @@
       @click="$router.push({ name: 'Dashboard' })"
     >
       Zum Matchd-Dashboard wechseln
+    </MatchdButton>
+    <MatchdButton
+      variant="outline"
+      class="block w-full mt-5"
+      @click="$router.push({ name: 'ProjectPostingCreate', params: { step: 'schritt1' } })"
+    >
+      Projektidee ausschreiben
+    </MatchdButton>
+    <MatchdButton
+      variant="outline"
+      class="block w-full mt-5"
+      @click="$router.push({ name: 'ProjectPostingSearch' })"
+    >
+      Projekte finden
     </MatchdButton>
     <p class="mt-5 text-black text-center">
       Du hast Fragen oder möchtest uns etwas mitteilen?

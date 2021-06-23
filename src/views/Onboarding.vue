@@ -46,7 +46,7 @@
           <template v-if="currentStep === 5">Willkommen in der Matchd-Community</template>
         </template>
         <template v-else-if="isUniversity">
-          <span v-if="currentStep <= 4" class="text-display-xl-fluid mr-8 hidden lg:inline">{{
+          <span v-if="currentStep <= 5" class="text-display-xl-fluid mr-8 hidden lg:inline">{{
             currentStep
           }}</span>
           <template v-if="currentStep === 1">Vervollständigen sie ihre Kontaktdaten</template>
@@ -55,6 +55,9 @@
             >Weitere Informationen ihrer Bildungsinstitution</template
           >
           <template v-if="currentStep === 4"
+            >Wichtige Eigenschaften und Werte bei der Talentsuche</template
+          >
+          <template v-if="currentStep === 5"
             >Herzliche Gratulation und willkommen in der Matchd-Community!</template
           >
         </template>
@@ -86,7 +89,8 @@ import {
   UniversityStep1,
   UniversityStep2,
   UniversityStep3,
-  UniversityFinish as UniversityStep4,
+  UniversityStep4,
+  UniversityFinish as UniversityStep5,
 } from "@/views/profile/university";
 import {
   StudentStep1,
@@ -121,6 +125,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     UniversityStep2,
     UniversityStep3,
     UniversityStep4,
+    UniversityStep5,
   },
 })
 export default class Onboarding extends Vue {

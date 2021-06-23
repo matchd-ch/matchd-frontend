@@ -6,8 +6,5 @@ export function universityProfileStep2Mapper(
 ): IUniversityProfileInputStep2 {
   return {
     ...universityProfileForm,
-    branches: universityProfileForm.branches.map((branch) => {
-      return { id: branch.id };
-    }),
   };
 }

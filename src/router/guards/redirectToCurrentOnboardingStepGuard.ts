@@ -2,7 +2,7 @@ import { parseStepName } from "@/helpers/parseStepName";
 import { useStore } from "@/store";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
-export async function redirectToCurrentOnboardingStep(
+export async function redirectToCurrentOnboardingStepGuard(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext

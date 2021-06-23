@@ -77,7 +77,11 @@
           </li>
         </ul>
       </ProfileSection>
-      <section v-if="company.data.jobPostings.length" class="flex-grow p-9">
+      <section
+        v-if="company.data.jobPostings.length"
+        class="flex-grow p-9"
+        :class="{ 'border-b border-pink-1': company.data.projectPostings.length }"
+      >
         <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
         <ul class="list">
           <li v-for="position in company.data.jobPostings" :key="position.id">
@@ -86,6 +90,21 @@
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ position.title }}, {{ position.jobType?.name }}
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+            </router-link>
+          </li>
+        </ul>
+      </section>
+      <section v-if="company.data.projectPostings.length" class="flex-grow p-9">
+        <h2 class="text-heading-lg mb-8 text-pink-1">Projekte</h2>
+        <ul class="list">
+          <li v-for="projectPosting in company.data.projectPostings" :key="projectPosting.id">
+            <router-link
+              :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
+              class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
+            >
+              {{ projectPosting.title }}, {{ projectPosting.topic?.name }},
+              {{ projectPosting.projectType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>

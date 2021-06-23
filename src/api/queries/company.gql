@@ -10,11 +10,17 @@ query($slug: String) {
     city
     phone
     website
+    linkEducation
+    linkProjects
+    linkThesis
+    topLevelOrganisationDescription
+    topLevelOrganisationWebsite
     employees {
       id
       firstName
       lastName
       email
+      role
     }
     benefits {
       id
@@ -34,6 +40,19 @@ query($slug: String) {
         name
       }
       slug
+    }
+    projectPostings {
+      title
+      displayTitle
+      slug
+      topic {
+        id
+        name
+      }
+      projectType {
+        id
+        name
+      }
     }
   }
   logo: attachments(key: COMPANY_AVATAR, slug: $slug) {

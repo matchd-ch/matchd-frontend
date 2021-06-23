@@ -60,6 +60,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.mutate({
       mutation: logoutMutation,
     });
+    await apiClient.resetStore();
     commit(MutationTypes.LOGOUT_LOADED, response.data.logout);
   },
   async [ActionTypes.REFRESH_LOGIN]({ commit, getters }) {

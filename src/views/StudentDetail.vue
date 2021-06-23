@@ -102,7 +102,7 @@
       </profile-section>
     </div>
     <teleport to="footer">
-      <MatchingBar>
+      <MatchingBar v-if="hasMatchingBar">
         <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
           Sie haben bereits Interesse an diesem Talent gezeigt
         </template>
@@ -173,6 +173,10 @@ export default class StudentDetail extends Vue {
 
   get user(): User | null {
     return this.$store.getters["user"];
+  }
+
+  get hasMatchingBar(): boolean {
+    return !!this.$route.query.jobPostingId;
   }
 
   get matchLoading(): boolean {
@@ -252,21 +256,30 @@ export default class StudentDetail extends Vue {
     next: NavigationGuardNext
   ): Promise<void> {
     if (to.params.slug) {
-      await this.loadData(String(to.params.slug), String(to.query.jobPostingId));
+      await this.loadData(
+        String(to.params.slug),
+        to.query.jobPostingId ? String(to.query.jobPostingId) : undefined
+      );
     }
     next();
   }
 
   async mounted(): Promise<void> {
     if (this.$route.params.slug) {
-      await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
+      await this.loadData(
+        String(this.$route.params.slug),
+        this.$route.query.jobPostingId ? String(this.$route.query.jobPostingId) : undefined
+      );
       calculateMargins();
     }
   }
 
-  async loadData(slug: string, jobPostingId: string): Promise<void> {
+  async loadData(slug: string, jobPostingId?: string): Promise<void> {
     try {
-      await this.$store.dispatch(ActionTypes.STUDENT, { slug, jobPostingId });
+      await this.$store.dispatch(ActionTypes.STUDENT, {
+        slug,
+        ...(jobPostingId && { jobPostingId }),
+      });
       this.meta.meta.title = this.student.data?.firstName
         ? `${this.student.data?.firstName} ${this.student.data?.lastName} (${this.student.data?.nickname})`
         : this.student.data?.nickname;
@@ -286,7 +299,10 @@ export default class StudentDetail extends Vue {
           id: this.student.data.id,
         },
       });
-      await this.loadData(String(this.$route.params.slug), String(this.$route.query.jobPostingId));
+      await this.loadData(
+        String(this.$route.params.slug),
+        this.$route.query.jobPostingId ? String(this.$route.query.jobPostingId) : undefined
+      );
       this.showConfirmationModal = false;
       this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
       this.$nextTick(() => {

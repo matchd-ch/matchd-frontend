@@ -1,14 +1,23 @@
 <template>
   <ul v-if="matches">
-    <li v-for="jobPosting in uniqueJobPostings" :key="jobPosting.id" class="link-list__item mb-4">
-      <p class="mb-2">{{ jobPosting.displayTitle }}</p>
+    <li v-for="(match, index) in matches" :key="index" class="link-list__item mb-4">
+      <template v-if="isJobPosting">
+        <h3 class="mb-2">
+          {{ match.jobPosting.displayTitle }}
+        </h3>
+      </template>
+      <template v-else>
+        <h3 class="font-medium text-lg">{{ match.projectPosting.displayTitle }}</h3>
+        <h4 class="text-sm">{{ match.projectPosting.projectType.name }}</h4>
+      </template>
+
       <ul>
-        <li v-for="student in getStudents(jobPosting.id)" :key="student.id" class="link-list__item">
+        <li v-for="student in match.students" :key="student.id" class="link-list__item">
           <router-link
             :to="{
               name: 'StudentDetail',
               params: { slug: student.slug },
-              query: { jobPostingId: jobPosting.id },
+              query: isJobPosting ? { jobPostingId: match.jobPosting.id } : null,
             }"
             class="hover:text-primary-1 transition-colors underline"
           >
@@ -21,18 +30,38 @@
             </p>
           </router-link>
         </li>
+        <li v-if="!isJobPosting && match.projectPosting.student">
+          <router-link
+            :to="{
+              name: 'ProjectPostingDetail',
+              params: { slug: match.projectPosting.slug },
+            }"
+            class="hover:text-primary-1 transition-colors underline font-medium"
+          >
+            <template v-if="match.projectPosting.student.firstName"
+              >{{ match.projectPosting.student.firstName }}
+              {{ match.projectPosting.student.lastName }}</template
+            >
+            <template v-else>{{ match.projectPosting.student.nickname }}</template>
+            <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+          </router-link>
+        </li>
       </ul>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
+import {
+  GroupedJobPostingMatching,
+  GroupedProjectPostingMatching,
+} from "@/models/CompanyDashboard";
 import { Options, prop, Vue } from "vue-class-component";
-import type { JobPosting, MatchInfo, Student } from "api";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
 
 class Props {
-  matches = prop<MatchInfo[]>({ required: true });
+  type = prop<"JobPosting" | "ProjectPosting">({ default: "JobPosting" });
+  matches = prop<GroupedJobPostingMatching[] | GroupedProjectPostingMatching[]>({ required: true });
 }
 @Options({
   components: {
@@ -40,14 +69,8 @@ class Props {
   },
 })
 export default class CompanyMatchGroup extends Vue.with(Props) {
-  get uniqueJobPostings(): JobPosting[] {
-    return [...new Set(this.matches.map((match) => match.jobPosting))];
-  }
-
-  getStudents(jobPostingId: string): Student[] {
-    return this.matches
-      .filter((matchInfo) => matchInfo.jobPosting.id === jobPostingId)
-      .map((matchInfo) => matchInfo.student);
+  get isJobPosting(): boolean {
+    return this.type === "JobPosting";
   }
 }
 </script>

@@ -75,7 +75,7 @@ export default class SearchBoost extends Vue.with(Props) {
 }
 </script>
 
-<style type="postcss" scoped>
+<style lang="postcss" scoped>
 @block search-result-grid {
   @modifier jobposting {
     & .search-result-grid__link {

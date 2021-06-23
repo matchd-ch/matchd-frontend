@@ -8,7 +8,9 @@
     >
       <slot />
     </form>
-    <slot name="display-toggles" />
+    <div class="search-filters__display-toggles">
+      <slot name="display-toggles" />
+    </div>
     <div class="flex justify-center mt-4 xl:hidden">
       <button @click="open = !open">
         <ArrowDown class="w-8 transform transition" :class="{ 'rotate-180': open }" />
