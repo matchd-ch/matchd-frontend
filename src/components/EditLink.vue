@@ -2,7 +2,7 @@
   <router-link
     v-if="editStep"
     :to="{ name: route, params: { slug: slug, step: editStep } }"
-    class="edit-links absolute top-9 right-9 rounded-full border border-black w-10 h-10 flex justify-center items-center hover:bg-black hover:text-white transition-colors"
+    class="edit-link absolute top-9 right-9 rounded-full border border-black w-10 h-10 flex justify-center items-center hover:bg-black hover:text-white transition-colors"
   >
     <span class="material-icons">edit</span>
   </router-link>

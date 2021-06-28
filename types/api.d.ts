@@ -1183,6 +1183,7 @@ type Student = {
   firstName?: Maybe<Scalars["String"]>;
   lastName?: Maybe<Scalars["String"]>;
   matchStatus?: Maybe<MatchStatus>;
+  projectPostings: Array<ProjectPosting>;
 };
 
 type StudentInput = {
