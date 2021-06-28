@@ -1177,7 +1177,7 @@ type Student = {
   culturalFits: Array<CulturalFit>;
   slug: Scalars["String"];
   hobbies?: Maybe<Array<Hobby>>;
-  onlineProjects: Array<OnlineProject>;
+  onlineProjects?: Maybe<Array<OnlineProject>>;
   languages: Array<UserLanguageRelation>;
   email?: Maybe<Scalars["String"]>;
   firstName?: Maybe<Scalars["String"]>;
