@@ -8,7 +8,7 @@
     <div class="lg:w-1/2 lg:p-9 lg:border-r lg:border-orange-1">
       <h2 class="text-heading-lg mb-8 lg:mb-0 text-orange-1">{{ title }}</h2>
     </div>
-    <div class="xl:mb-0 xl:w-1/2">
+    <div class="lg:mb-0 lg:w-1/2 lg:p-9">
       <slot />
     </div>
     <EditLink v-if="editStep" :slug="slug" :editStep="editStep" route="ProjectPostingCreate">
