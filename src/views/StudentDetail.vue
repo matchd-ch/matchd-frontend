@@ -103,13 +103,13 @@
       <section v-if="student.data.projectPostings.length" class="flex-grow p-9">
         <h2 class="text-heading-lg mb-8 text-green-1">Projektideen</h2>
         <ul class="list">
-          <li v-for="projectPosting in student.data.projectPostings" :key="projectPosting?.id">
+          <li v-for="projectPosting in student.data.projectPostings" :key="projectPosting.id">
             <router-link
-              :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting?.slug } }"
+              :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
               class="block text-lg underline hover:text-green-1 font-medium mb-2 transition-colors"
             >
-              {{ projectPosting?.title }}, {{ projectPosting?.topic?.name }},
-              {{ projectPosting?.projectType?.name }}
+              {{ projectPosting.title }}, {{ projectPosting.topic?.name }},
+              {{ projectPosting.projectType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>

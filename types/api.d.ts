@@ -1177,13 +1177,13 @@ type Student = {
   culturalFits: Array<CulturalFit>;
   slug: Scalars["String"];
   hobbies?: Maybe<Array<Hobby>>;
-  onlineProjects?: Maybe<Array<OnlineProject>>;
+  onlineProjects: Array<OnlineProject>;
   languages: Array<UserLanguageRelation>;
   email?: Maybe<Scalars["String"]>;
   firstName?: Maybe<Scalars["String"]>;
   lastName?: Maybe<Scalars["String"]>;
   matchStatus?: Maybe<MatchStatus>;
-  projectPostings: Array<Maybe<ProjectPosting>>;
+  projectPostings: Array<ProjectPosting>;
 };
 
 type StudentInput = {
