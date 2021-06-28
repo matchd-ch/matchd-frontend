@@ -100,6 +100,21 @@
           </li>
         </ul>
       </profile-section>
+      <section v-if="student.data.projectPostings.length" class="flex-grow p-9">
+        <h2 class="text-heading-lg mb-8 text-green-1">Projektideen</h2>
+        <ul class="list">
+          <li v-for="projectPosting in student.data.projectPostings" :key="projectPosting?.id">
+            <router-link
+              :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting?.slug } }"
+              class="block text-lg underline hover:text-green-1 font-medium mb-2 transition-colors"
+            >
+              {{ projectPosting?.title }}, {{ projectPosting?.topic?.name }},
+              {{ projectPosting?.projectType?.name }}
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+            </router-link>
+          </li>
+        </ul>
+      </section>
     </div>
     <teleport to="footer">
       <MatchingBar v-if="hasMatchingBar">
@@ -138,6 +153,7 @@
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import ArrowFront from "@/assets/icons/arrow-front.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import StudentFullMatchModal from "@/components/modals/StudentFullMatchModal.vue";
@@ -158,6 +174,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
 @Options({
   components: {
     ArrowBack,
+    ArrowFront,
     ArrowDown,
     ProfileSection,
     MatchdButton,
