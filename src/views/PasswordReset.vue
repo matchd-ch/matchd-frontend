@@ -3,6 +3,7 @@
     v-if="passwordResetState.tokenIsValid"
     class="password-reset min-h-screen flex flex-col px-4 lg:px-5"
   >
+    <BackLink :to="{ name: 'Login' }" />
     <h1 class="text-display-xl-fluid text-black">Neues Passwort festlegen</h1>
     <div class="flex-grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
@@ -61,6 +62,7 @@
 <script lang="ts">
 import IconHide from "@/assets/icons/hide.svg";
 import IconShow from "@/assets/icons/show.svg";
+import BackLink from "@/components/BackLink.vue";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -72,6 +74,7 @@ import { useMeta } from "vue-meta";
 
 @Options({
   components: {
+    BackLink,
     Form,
     Field,
     ErrorMessage,

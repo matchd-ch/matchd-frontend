@@ -64,6 +64,19 @@ query($slug: String!, $jobPostingId: ID) {
         id
       }
     }
+    projectPostings {
+      title
+      displayTitle
+      slug
+      topic {
+        id
+        name
+      }
+      projectType {
+        id
+        name
+      }
+    }
   }
   avatar: attachments(key: STUDENT_AVATAR, slug: $slug) {
     id

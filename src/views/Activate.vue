@@ -1,5 +1,6 @@
 <template>
   <div class="activate min-h-screen flex flex-col px-4 lg:px-5">
+    <BackLink :to="{ name: 'Login' }" />
     <h1 class="text-display-xl-fluid text-black">Matchd starten</h1>
     <div class="flex-grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
@@ -37,6 +38,7 @@
 </template>
 
 <script lang="ts">
+import BackLink from "@/components/BackLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import type { ActivationState } from "@/models/ActivationState";
 import { ActionTypes } from "@/store/modules/registration/action-types";
@@ -45,6 +47,7 @@ import { useMeta } from "vue-meta";
 
 @Options({
   components: {
+    BackLink,
     MatchdButton,
   },
 })

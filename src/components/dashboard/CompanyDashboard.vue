@@ -62,7 +62,7 @@
           :to="{ name: 'JobPostingCreate' }"
           tag="router-link"
         >
-          Neues Stelle ausschreiben
+          Neue Stelle ausschreiben
         </matchd-button>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
