@@ -1,12 +1,13 @@
 <template>
   <div class="bg-grey-4">
     <div class="register-company grid grid-cols-8 xl:grid-cols-16 gap-x-4 xl:gap-x-5 px-4 xl:px-5">
-      <h1
-        class="text-display-xl-fluid text-primary-1 col-span-full xl:fixed xl:transition-all xl:top-0"
+      <div
+        class="col-span-full xl:fixed xl:transition-all xl:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
-        Matchd beitreten
-      </h1>
+        <BackLink :to="{ name: 'Triage' }" class="backlink" />
+        <h1 class="text-display-xl-fluid text-primary-1">Matchd beitreten</h1>
+      </div>
     </div>
     <div class="px-4 xl:px-5">
       <MatchdStep step="1">
@@ -205,6 +206,7 @@
 </template>
 
 <script lang="ts">
+import BackLink from "@/components/BackLink.vue";
 import { useRegistration } from "@/composables/Registration";
 import { CompanyRegistrationState } from "@/models/CompanyRegistrationState";
 import { NewCompanyAccount } from "@/models/NewAccount";
@@ -225,6 +227,7 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 
 @Options({
   components: {
+    BackLink,
     MatchdButton,
     MatchdStep,
     MatchdField,
@@ -336,7 +339,14 @@ export default class CompanyRegister extends Vue {
 .attach-heading {
   top: 50%;
   transform: translateY(-50%);
-  @apply text-display-sm;
+
+  & .backlink {
+    display: none;
+  }
+
+  & h1 {
+    @apply text-display-sm;
+  }
 }
 
 .register-company {

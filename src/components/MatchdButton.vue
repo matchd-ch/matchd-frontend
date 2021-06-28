@@ -1,7 +1,7 @@
 <template>
   <component
     :is="tag"
-    class="btn relative overflow-hidden rounded-full font-medium text-xl py-3 px-10 focus:outline-none focus:ring focus:ring-black focus:ring-opacity-50"
+    class="btn relative overflow-hidden rounded-full font-medium text-xl py-3 px-6 xl:px-10 focus:outline-none focus:ring focus:ring-black focus:ring-opacity-50"
     :class="[variant, size, active ? 'active' : '']"
   >
     <Loading v-if="loading" />

@@ -1,5 +1,6 @@
 <template>
   <div class="password-forgotten min-h-screen flex flex-col px-4 lg:px-5">
+    <BackLink :to="{ name: 'Login' }" />
     <h1 class="text-display-xl-fluid text-black">Passwort vergessen</h1>
     <div class="flex-grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
@@ -47,6 +48,7 @@
 </template>
 
 <script lang="ts">
+import BackLink from "@/components/BackLink.vue";
 import GenericSuccess from "@/components/GenericSuccess.vue";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -62,6 +64,7 @@ Vue.registerHooks(["beforeRouteEnter"]);
 
 @Options({
   components: {
+    BackLink,
     Form,
     Field,
     ErrorMessage,

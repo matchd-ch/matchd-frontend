@@ -1,12 +1,13 @@
 <template>
   <div class="bg-grey-4">
     <div class="register-student grid grid-cols-8 xl:grid-cols-16 gap-x-4 xl:gap-x-5 px-4 xl:px-5">
-      <h1
-        class="text-display-xl-fluid text-primary-1 col-span-full xl:fixed xl:transition-all xl:top-0"
+      <div
+        class="col-span-full xl:fixed xl:transition-all xl:top-0"
         :class="{ 'attach-heading': registration.attached }"
       >
-        Matchd beitreten
-      </h1>
+        <BackLink :to="{ name: 'Triage' }" class="backlink" />
+        <h1 class="text-display-xl-fluid text-primary-1">Matchd beitreten</h1>
+      </div>
     </div>
     <div class="px-4 xl:px-5">
       <MatchdStep step="1">
@@ -156,6 +157,7 @@
 <script lang="ts">
 import IconHide from "@/assets/icons/hide.svg";
 import IconShow from "@/assets/icons/show.svg";
+import BackLink from "@/components/BackLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdStep from "@/components/MatchdStep.vue";
@@ -171,6 +173,7 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 
 @Options({
   components: {
+    BackLink,
     MatchdButton,
     MatchdStep,
     MatchdField,
@@ -276,7 +279,14 @@ export default class StudentRegister extends Vue {
 .attach-heading {
   top: 50%;
   transform: translateY(-50%);
-  @apply text-display-sm;
+
+  & .backlink {
+    display: none;
+  }
+
+  & h1 {
+    @apply text-display-sm;
+  }
 }
 
 .register-student {
