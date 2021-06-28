@@ -1,5 +1,6 @@
 <template>
   <div class="login min-h-screen flex flex-col px-4 lg:px-5">
+    <BackLink :to="{ name: 'Triage' }" />
     <h1 class="text-display-xl-fluid text-black">Login</h1>
     <div class="flex-grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
@@ -57,6 +58,7 @@
 </template>
 
 <script lang="ts">
+import BackLink from "@/components/BackLink.vue";
 import GenericError from "@/components/GenericError.vue";
 import GenericSuccess from "@/components/GenericSuccess.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -69,9 +71,11 @@ import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
+import ArrowBack from "@/assets/icons/arrow-back.svg";
 
 @Options({
   components: {
+    BackLink,
     Form,
     Field,
     ErrorMessage,
@@ -79,6 +83,7 @@ import { useMeta } from "vue-meta";
     MatchdButton,
     GenericError,
     GenericSuccess,
+    ArrowBack,
   },
 })
 export default class Login extends Vue {

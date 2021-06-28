@@ -10,102 +10,90 @@
     </div>
 
     <PostingSection v-if="jobPosting.datePublished" title="Veröffentlicht am">
-      <div class="lg:w-1/2 lg:p-9">
-        <template v-if="jobPosting.datePublished">
-          {{ formatDateWithDay(jobPosting.datePublished) }}
-        </template>
-      </div>
+      <template v-if="jobPosting.datePublished">
+        {{ formatDateWithDay(jobPosting.datePublished) }}
+      </template>
     </PostingSection>
 
     <PostingSection title="Beschreibung">
-      <div class="lg:w-1/2 lg:p-9">
-        <p v-html="nl2br(jobPosting.description)"></p>
-      </div>
+      <p v-html="nl2br(jobPosting.description)"></p>
     </PostingSection>
     <PostingSection title="Stelle">
-      <div class="lg:w-1/2 lg:p-9">
-        <p v-if="hasBranches">{{ branchesLabel }}</p>
-        <p>Arbeitspensum {{ jobPosting.workload }}%</p>
-        <p>{{ jobPosting.jobType.name }}</p>
-        <p>
-          <template v-if="jobPosting.jobToDate">
-            {{ formatDate(jobPosting.jobFromDate) }} bis {{ formatDate(jobPosting.jobToDate) }}
-          </template>
-          <template v-else> ab {{ jobPosting.jobFromDate }} </template>
-        </p>
-        <p
-          v-if="jobPosting.url"
-          class="flex items-center mt-4 text-black hover:text-orange-1 transition-colors"
-        >
-          <span class="material-icons mr-2">open_in_new</span>
-          <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
-        </p>
-      </div>
+      <p v-if="hasBranches">{{ branchesLabel }}</p>
+      <p>Arbeitspensum {{ jobPosting.workload }}%</p>
+      <p>{{ jobPosting.jobType.name }}</p>
+      <p>
+        <template v-if="jobPosting.jobToDate">
+          {{ formatDate(jobPosting.jobFromDate) }} bis {{ formatDate(jobPosting.jobToDate) }}
+        </template>
+        <template v-else> ab {{ jobPosting.jobFromDate }} </template>
+      </p>
+      <p
+        v-if="jobPosting.url"
+        class="flex items-center mt-4 text-black hover:text-orange-1 transition-colors"
+      >
+        <span class="material-icons mr-2">open_in_new</span>
+        <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
+      </p>
     </PostingSection>
 
     <PostingSection title="Das bringst du mit">
-      <div class="lg:w-1/2 lg:p-9">
-        <template v-if="jobPosting.jobRequirements.length">
-          <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
-          <ul class="list-disc list-inside marker-orange-1 text-lg">
-            <li v-for="jobRequirement in jobPosting.jobRequirements" :key="jobRequirement.id">
-              {{ jobRequirement.name }}
-            </li>
-          </ul>
-        </template>
+      <template v-if="jobPosting.jobRequirements.length">
+        <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
+        <ul class="list-disc list-inside marker-orange-1 text-lg">
+          <li v-for="jobRequirement in jobPosting.jobRequirements" :key="jobRequirement.id">
+            {{ jobRequirement.name }}
+          </li>
+        </ul>
+      </template>
 
-        <template v-if="jobPosting.languages?.length">
-          <h3 class="text-heading-sm mb-3 mt-8">Sprachen</h3>
-          <ul class="list-disc list-inside marker-orange-1 text-lg">
-            <li v-for="language in jobPosting.languages" :key="language.id">
-              {{ language.language.name }} {{ language.languageLevel.level }}
-            </li>
-          </ul>
-        </template>
+      <template v-if="jobPosting.languages?.length">
+        <h3 class="text-heading-sm mb-3 mt-8">Sprachen</h3>
+        <ul class="list-disc list-inside marker-orange-1 text-lg">
+          <li v-for="language in jobPosting.languages" :key="language.id">
+            {{ language.language.name }} {{ language.languageLevel.level }}
+          </li>
+        </ul>
+      </template>
 
-        <template v-if="jobPosting.skills?.length">
-          <h3 class="text-heading-sm mb-3 mt-8">Skills</h3>
-          <ul class="list-disc list-inside marker-orange-1 text-lg">
-            <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill.name }}</li>
-          </ul>
-        </template>
-      </div>
+      <template v-if="jobPosting.skills?.length">
+        <h3 class="text-heading-sm mb-3 mt-8">Skills</h3>
+        <ul class="list-disc list-inside marker-orange-1 text-lg">
+          <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill.name }}</li>
+        </ul>
+      </template>
     </PostingSection>
     <PostingSection title="Unternehmen">
-      <div class="lg:w-1/2 lg:p-9">
-        <router-link
-          :to="{
-            name: detailSiteRoute(jobPosting.company.type),
-            params: { slug: jobPosting.company.slug },
-          }"
-        >
-          <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
-            <div>
-              <h3 class="text-heading-sm mb-3">
-                {{ jobPosting.company.name }}
-              </h3>
-              {{ jobPosting.company.street }}<br />{{ jobPosting.company.zip }}
-              {{ jobPosting.company.city }}
-            </div>
-            <IconArrow class="w-8 ml-8" />
-          </address>
-        </router-link>
-      </div>
+      <router-link
+        :to="{
+          name: detailSiteRoute(jobPosting.company.type),
+          params: { slug: jobPosting.company.slug },
+        }"
+      >
+        <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
+          <div>
+            <h3 class="text-heading-sm mb-3">
+              {{ jobPosting.company.name }}
+            </h3>
+            {{ jobPosting.company.street }}<br />{{ jobPosting.company.zip }}
+            {{ jobPosting.company.city }}
+          </div>
+          <IconArrow class="w-8 ml-8" />
+        </address>
+      </router-link>
     </PostingSection>
     <PostingSection title="Deine Ansprechperson für Fragen">
-      <div class="lg:w-1/2 lg:p-9">
-        <p>
-          <span class="block text-heading-sm mb-3"
-            >{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</span
-          >
-          <a
-            :href="`mailto:${jobPosting.employee?.email}`"
-            target="_blank"
-            class="underline font-medium text-black hover:text-orange-1 transition-colors"
-            >{{ jobPosting.employee?.email }}</a
-          >
-        </p>
-      </div>
+      <p>
+        <span class="block text-heading-sm mb-3"
+          >{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</span
+        >
+        <a
+          :href="`mailto:${jobPosting.employee?.email}`"
+          target="_blank"
+          class="underline font-medium text-black hover:text-orange-1 transition-colors"
+          >{{ jobPosting.employee?.email }}</a
+        >
+      </p>
     </PostingSection>
     <teleport to="footer">
       <MatchingBar>
