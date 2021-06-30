@@ -80,8 +80,16 @@ query {
       description
       website
       memberItStGallen
+      topLevelOrganisationWebsite
+      topLevelOrganisationDescription
       services
       phone
+      employees {
+        firstName
+        lastName
+        email
+        role
+      }
       jobPostings {
         id
         slug
@@ -97,6 +105,10 @@ query {
         title
         state
         projectType {
+          id
+          name
+        }
+        topic {
           id
           name
         }

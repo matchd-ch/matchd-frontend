@@ -1,13 +1,11 @@
 <template>
-  <Form
+  <form
+    @submit="veeForm.onSubmit"
     v-if="universityAvatarUploadConfigurations && universityDocumentsUploadConfigurations"
-    @submit="onSubmit"
   >
-    <GenericError v-if="onboardingState.errors">
-      Beim Speichern ist etwas schief gelaufen.
-    </GenericError>
+    <FormSaveError v-if="showError" />
     <!-- Description Field -->
-    <MatchdField id="description" class="mb-10">
+    <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
       <template v-slot:label>Kurzbeschreibung der Bildungsinstitution</template>
       <Field
         id="description"
@@ -15,7 +13,6 @@
         as="textarea"
         maxlength="1000"
         label="Das zeichnet mich sonst noch aus"
-        v-model="form.description"
         class="h-72"
       />
       <template v-slot:info>Maximal 1000 Zeichen</template>
@@ -63,53 +60,111 @@
         >Fotos oder Videos auswählen</MatchdFileUpload
       >
     </MatchdFileBlock>
-    <MatchdButton
-      variant="outline"
-      :disabled="onboardingLoading"
-      :loading="onboardingLoading"
-      class="block w-full"
-      >Speichern und weiter</MatchdButton
-    >
-  </Form>
+    <template v-if="edit">
+      <teleport to="footer">
+        <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
+          <MatchdButton
+            type="button"
+            variant="outline"
+            @click="$emit('clickCancel')"
+            class="mb-2 xl:mr-4 xl:mb-0"
+          >
+            Abbrechen
+          </MatchdButton>
+          <MatchdButton
+            type="button"
+            variant="fill"
+            :disabled="onboardingLoading"
+            :loading="onboardingLoading"
+            @click="veeForm.onSubmit"
+          >
+            Speichern
+          </MatchdButton>
+        </div>
+      </teleport>
+    </template>
+    <template v-else>
+      <MatchdButton
+        type="button"
+        variant="fill"
+        :disabled="onboardingLoading"
+        :loading="onboardingLoading"
+        @click="veeForm.onSubmit"
+      >
+        Speichern und weiter
+      </MatchdButton>
+    </template>
+  </form>
 </template>
 
 <script lang="ts">
-import { universityProfileStep2Mapper } from "@/api/mappers/universityProfileStep2InputMapper";
+import { universityProfileStep2FormMapper } from "@/api/mappers/universityProfileStep2FormMapper";
+import { universityProfileStep2InputMapper } from "@/api/mappers/universityProfileStep2InputMapper";
 import { AttachmentKey } from "@/api/models/types";
+import FormSaveError from "@/components/FormSaveError.vue";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdToggle from "@/components/MatchdToggle.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
+import { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1Form";
 import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { QueuedFile } from "@/store/modules/upload/state";
 import type { Attachment, UploadConfiguration, User } from "api";
-import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { ErrorMessage, Field, Form, useForm } from "vee-validate";
+import { Options, prop, setup, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
+
+class Props {
+  edit = prop<boolean>({ default: false });
+}
 
 @Options({
   components: {
+    FormSaveError,
     Form,
     Field,
     ErrorMessage,
     GenericError,
     MatchdButton,
-    MatchdToggle,
     MatchdField,
     MatchdFileBlock,
     MatchdFileView,
     MatchdFileUpload,
   },
+  emits: ["submitComplete", "changeDirty", "clickCancel"],
 })
-export default class UniversityStep2 extends Vue {
-  form: UniversityProfileStep2Form = {
-    description: "",
-  };
+export default class UniversityStep2 extends Vue.with(Props) {
+  veeForm = setup(() => {
+    const store = useStore();
+    const form = useForm<UniversityProfileStep2Form>();
+    const onSubmit = form.handleSubmit(
+      async (formData): Promise<void> => {
+        try {
+          await store.dispatch(
+            ActionTypes.UNIVERSITY_ONBOARDING_STEP2,
+            universityProfileStep2InputMapper(formData)
+          );
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
+        } catch (e) {
+          console.log(e); // todo
+        }
+      }
+    );
+
+    return {
+      ...form,
+      onSubmit,
+    };
+  });
+  formData = {} as UniversityProfileStep1Form;
 
   get onboardingLoading(): boolean {
     return this.$store.getters["onboardingLoading"];
@@ -121,6 +176,22 @@ export default class UniversityStep2 extends Vue {
 
   get user(): User | null {
     return this.$store.getters["user"];
+  }
+
+  get showError(): boolean {
+    return !!this.onboardingState.errors;
+  }
+
+  get currentStep(): number | undefined {
+    return this.$store.getters["profileStep"];
+  }
+
+  get profileData(): UniversityProfileStep2Form {
+    const user = this.$store.getters["user"];
+    if (!user) {
+      return {} as UniversityProfileStep2Form;
+    }
+    return universityProfileStep2FormMapper(user);
   }
 
   get universityAvatarQueue(): QueuedFile[] {
@@ -155,6 +226,12 @@ export default class UniversityStep2 extends Vue {
         key: AttachmentKey.CompanyDocuments,
       }),
     ]);
+
+    this.veeForm.resetForm({
+      values: this.profileData,
+    });
+
+    calculateMargins();
   }
 
   async onSelectUniversityAvatar(files: FileList): Promise<void> {
@@ -185,19 +262,9 @@ export default class UniversityStep2 extends Vue {
     });
   }
 
-  async onSubmit(
-    form: UniversityProfileStep2Form,
-    actions: FormActions<Partial<UniversityProfileStep2Form>>
-  ): Promise<void> {
-    await this.$store.dispatch(
-      ActionTypes.UNIVERSITY_ONBOARDING_STEP2,
-      universityProfileStep2Mapper(this.form)
-    );
-    if (this.onboardingState.success) {
-      this.$router.push({ params: { step: "schritt3" } });
-    } else if (this.onboardingState.errors) {
-      actions.setErrors(this.onboardingState.errors);
-    }
+  @Watch("veeForm.meta.dirty")
+  checkDirty(): void {
+    this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }
 </script>

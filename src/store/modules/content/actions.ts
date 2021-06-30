@@ -393,7 +393,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.query({
       query: zipCityJobsQuery,
       variables: payload,
-      fetchPolicy: "network-only",
+      fetchPolicy: "no-cache",
       context: {
         batch: true,
       },
