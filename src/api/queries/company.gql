@@ -42,6 +42,7 @@ query($slug: String) {
       slug
     }
     projectPostings {
+      id
       title
       displayTitle
       slug

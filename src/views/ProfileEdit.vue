@@ -34,6 +34,20 @@
         Set-up Talentsuche
       </ProfileNavigationItem>
     </ProfileNavigation>
+    <ProfileNavigation v-else-if="isUniversity">
+      <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="urlStepNumber === 1">
+        Kontaktdaten
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt2' } }" :active="urlStepNumber === 2">
+        Kurzsteckbrief
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt3' } }" :active="urlStepNumber === 3">
+        Tätigkeitsbereich & Benefits
+      </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }" :active="urlStepNumber === 4">
+        Set-up Talentsuche
+      </ProfileNavigationItem>
+    </ProfileNavigation>
   </teleport>
   <div class="profil min-h-content-with-fixed-bars">
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
@@ -65,7 +79,8 @@ import {
   UniversityStep1,
   UniversityStep2,
   UniversityStep3,
-  UniversityFinish as UniversityStep4,
+  UniversityStep4,
+  UniversityFinish as UniversityStep5,
 } from "@/views/profile/university";
 import {
   StudentStep1,
@@ -100,6 +115,7 @@ Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
     UniversityStep2,
     UniversityStep3,
     UniversityStep4,
+    UniversityStep5,
     ProfileNavigation,
     ProfileNavigationItem,
   },
