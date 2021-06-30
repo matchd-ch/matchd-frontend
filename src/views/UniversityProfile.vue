@@ -77,7 +77,7 @@
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="user.company.branches && user.company.branches.length > 0"
+        v-if="user.company.linkEducation || user.company.linkProjects || user.company.linkThesis"
         :pink="true"
         title="Wissenswertes zu..."
         :editStep="getStepName(3)"

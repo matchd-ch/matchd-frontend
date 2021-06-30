@@ -74,7 +74,7 @@
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="company.data.branches && company.data.branches.length > 0"
+        v-if="company.data.linkEducation || company.data.linkProjects || company.data.linkThesis"
         :pink="true"
         title="Wissenswertes zu..."
       >
