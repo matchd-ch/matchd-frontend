@@ -15,8 +15,9 @@
           Willkommen zurück bei Matchd! Wir wünschen viel Erfolg bei der Talentsuche
         </h2>
         <p class="mt-4">
-          Auf dieser Seite finden Sie Ihre ausgeschriebenen Stellen sowie den aktuellen Stand Ihrer
-          Matches. Damit Sie keinen Match verpassen, informieren wir Sie jeweils auch per E-Mail.
+          Auf dieser Seite finden Sie Ihre ausgeschriebenen Projekte und Stellen sowie den aktuellen
+          Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir Sie jeweils auch
+          per E-Mail.
         </p>
       </div>
     </div>
