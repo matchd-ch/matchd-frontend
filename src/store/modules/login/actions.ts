@@ -77,7 +77,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.ME_LOADING);
     const response = await apiClient.query({
       query: meQuery,
-      fetchPolicy: "network-only",
+      fetchPolicy: "no-cache",
     });
     commit(MutationTypes.ME_LOADED, response.data.me);
   },
@@ -86,7 +86,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.query({
       query: verifyPasswordResetTokenQuery,
       variables: payload,
-      fetchPolicy: "network-only",
+      fetchPolicy: "no-cache",
     });
     commit(MutationTypes.VERIFY_PASSWORD_RESET_TOKEN_LOADED, {
       valid: response.data.verifyPasswordResetToken,

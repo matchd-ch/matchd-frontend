@@ -30,7 +30,7 @@ export async function redirectToCurrentOnboardingStepGuard(
       nextStep &&
       ((isStudent && nextStep <= 6) ||
         (isCompany && nextStep <= 3) ||
-        (isUniversity && nextStep <= 3))
+        (isUniversity && nextStep <= 4))
     ) {
       next({ name: `Onboarding`, params: { step: `schritt${profileStep}` } });
     } else {

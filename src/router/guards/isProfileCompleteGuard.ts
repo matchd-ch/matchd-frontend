@@ -20,7 +20,7 @@ export async function isProfileCompleteGuard(
       profileStep &&
       ((isStudent && profileStep <= 6) ||
         (isCompany && profileStep <= 4) ||
-        (isUniversity && profileStep <= 3))
+        (isUniversity && profileStep <= 4))
     ) {
       next({ name: "Onboarding" });
     } else if (!to.meta?.accessType) {
