@@ -6,12 +6,14 @@
 import CompanyProfile from "@/views/CompanyProfile.vue";
 import { Options, setup, Vue } from "vue-class-component";
 import StudentProfile from "@/views/StudentProfile.vue";
+import UniversityProfile from "@/views/UniversityProfile.vue";
 import { useMeta } from "vue-meta";
 
 @Options({
   components: {
     CompanyProfile,
     StudentProfile,
+    UniversityProfile,
   },
 })
 export default class Profile extends Vue {
