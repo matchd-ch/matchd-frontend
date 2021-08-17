@@ -150,7 +150,7 @@
 </template>
 
 <script lang="ts">
-import { ProfileType } from "@/api/models/types";
+import { ProfileType, DateMode } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
@@ -165,7 +165,6 @@ import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Student, User } from "api";
-import { DateMode } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";

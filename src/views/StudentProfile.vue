@@ -109,14 +109,13 @@
 </template>
 
 <script lang="ts">
-import { AttachmentKey } from "@/api/models/types";
+import { AttachmentKey, DateMode } from "@/api/models/types";
 import ProfileSection from "@/components/ProfileSection.vue";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { DateMode } from "api";
 import type { Attachment, User } from "api";
 import { Options, Vue } from "vue-class-component";
 import { replaceStack } from "@/helpers/replaceStack";
