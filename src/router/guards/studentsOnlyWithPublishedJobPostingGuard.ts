@@ -9,13 +9,21 @@ export async function studentsOnlyWithPublishedJobPostingGuard(
   next: NavigationGuardNext
 ): Promise<void> {
   const store = useStore();
-  await store.dispatch(ActionTypes.JOB_POSTINGS);
-  if (store.getters["jobPostings"].length) {
-    next();
-  } else {
+  await Promise.all([
+    store.dispatch(ActionTypes.JOB_POSTINGS),
+    store.dispatch(ActionTypes.PROJECT_POSTINGS),
+  ]);
+  if (store.getters["jobPostings"].length === 0) {
     next({
       name: "JobPostingCreate",
       params: { step: `${ParamStrings.STEP}1`, slug: ParamStrings.NEW },
     });
+  } else if (store.getters["projectPostings"].length === 0) {
+    next({
+      name: "ProjectPostingCreate",
+      params: { step: `${ParamStrings.STEP}1`, slug: ParamStrings.NEW },
+    });
+  } else {
+    next();
   }
 }
