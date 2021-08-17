@@ -1,6 +1,10 @@
 <template>
   <form v-if="topics.length && projectTypes.length" @submit="veeForm.onSubmit">
     <FormSaveError v-if="projectPostingState.errors" />
+    <p v-if="!hasProjectPostings" class="mb-14">
+      <template v-if="isStudent">Platzhaltertext student</template>
+      <template v-else>Platzhaltertext company</template>
+    </p>
     <!-- Art der Projektarbeit Field -->
     <SelectPillGroup :errors="veeForm.errors.projectTypeId" class="mb-10">
       <template v-slot:label>Art der Projektarbeit*</template>
@@ -239,6 +243,10 @@ export default class ProjectPostingStep1 extends Vue {
     });
   }
 
+  get hasProjectPostings(): boolean {
+    return !!this.$store.getters["projectPostings"].length;
+  }
+
   get projectTypes(): ProjectType[] {
     return this.$store.getters["projectTypes"];
   }
@@ -264,6 +272,7 @@ export default class ProjectPostingStep1 extends Vue {
       this.$store.dispatch(ContentActionsTypes.KEYWORDS),
       this.$store.dispatch(ContentActionsTypes.PROJECT_TYPES),
       this.$store.dispatch(ContentActionsTypes.TOPICS),
+      this.$store.dispatch(ContentActionsTypes.PROJECT_POSTINGS),
     ]);
 
     this.veeForm.resetForm({
