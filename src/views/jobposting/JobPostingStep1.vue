@@ -1,7 +1,9 @@
 <template>
   <form v-if="branches.length && jobTypes.length" @submit="veeForm.onSubmit">
     <FormSaveError v-if="jobPostingState.errors" />
-    <p v-if="!hasJobPostings" class="mb-14">Platzhaltertext company</p>
+    <p v-if="!hasJobPostings" class="mb-14">
+      Den Perfect-Match aus unserem Talentpool finden Sie, wenn Sie hier eine Stelle ausschreiben.
+    </p>
     <!-- Bezeichnung Field -->
     <MatchdField id="title" class="mb-10" :errors="veeForm.errors.title">
       <template v-slot:label>Geben Sie der Stelle eine passende Bezeichnung*</template>
