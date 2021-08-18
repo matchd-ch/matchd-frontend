@@ -19,7 +19,7 @@
         class="mb-10 flex-grow"
         :errors="veeForm.errors.jobFromDateMonth || veeForm.errors.jobFromDateYear"
       >
-        <template v-slot:label>Ab</template>
+        <template v-slot:label>Ab*</template>
         <fieldset id="searchDateFrom" class="flex">
           <Field
             id="jobFromDateMonth"
@@ -27,7 +27,7 @@
             as="select"
             label="Monat"
             class="mr-3"
-            rules="requiredIfNotEmpty:jobFromDateYear"
+            rules="required"
           >
             <option value="" disabled selected hidden>Monat</option>
             <option v-for="(n, index) in 12" :value="n" :key="index">
@@ -39,7 +39,7 @@
             name="jobFromDateYear"
             as="select"
             label="Jahr"
-            rules="requiredIfNotEmpty:jobFromDateMonth"
+            rules="required"
           >
             <option value="" disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
