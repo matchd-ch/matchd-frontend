@@ -1,6 +1,9 @@
 <template>
   <form v-if="branches.length && jobTypes.length" @submit="veeForm.onSubmit">
     <FormSaveError v-if="jobPostingState.errors" />
+    <p v-if="!hasJobPostings" class="mb-14">
+      Den Perfect-Match aus unserem Talentpool finden Sie, wenn Sie hier eine Stelle ausschreiben.
+    </p>
     <!-- Bezeichnung Field -->
     <MatchdField id="title" class="mb-10" :errors="veeForm.errors.title">
       <template v-slot:label>Geben Sie der Stelle eine passende Bezeichnung*</template>
@@ -292,6 +295,10 @@ export default class JobPostingStep1 extends Vue {
     return this.veeForm.values.jobToDateOpenEnd === "true";
   }
 
+  get hasJobPostings(): boolean {
+    return !!this.$store.getters["jobPostings"].length;
+  }
+
   get jobTypes(): JobType[] {
     return this.$store.getters["jobTypes"];
   }
@@ -334,6 +341,7 @@ export default class JobPostingStep1 extends Vue {
     await Promise.all([
       this.$store.dispatch(ContentActionsTypes.JOB_TYPE),
       this.$store.dispatch(ContentActionsTypes.BRANCHES),
+      this.$store.dispatch(ContentActionsTypes.JOB_POSTINGS),
     ]);
 
     this.veeForm.resetForm({

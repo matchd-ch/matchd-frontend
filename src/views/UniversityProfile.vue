@@ -151,20 +151,6 @@
           </li>
         </ul>
       </section>
-      <section v-if="user.company.jobPostings.length" class="flex-grow p-9">
-        <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
-        <ul class="list">
-          <li v-for="position in user.company.jobPostings" :key="position.id">
-            <router-link
-              :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
-              class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
-            >
-              {{ position.title }}, {{ position.jobType?.name }}
-              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
-            </router-link>
-          </li>
-        </ul>
-      </section>
       <ProfileSection
         v-if="
           user.company.topLevelOrganisationWebsite && user.company.topLevelOrganisationDescription

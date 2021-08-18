@@ -10,9 +10,7 @@
     </div>
 
     <PostingSection v-if="jobPosting.datePublished" title="Veröffentlicht am">
-      <template v-if="jobPosting.datePublished">
-        {{ formatDateWithDay(jobPosting.datePublished) }}
-      </template>
+      {{ formatDateWithDay(jobPosting.datePublished) }}
     </PostingSection>
 
     <PostingSection title="Beschreibung">

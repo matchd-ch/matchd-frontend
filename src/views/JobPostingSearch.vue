@@ -89,7 +89,13 @@
         class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
         v-else
       >
-        <div>👀 ganz schön leer hier. Derzeit gibt es leider keine Suchresultate zum Matchen.</div>
+        <div>
+          👀 ganz schön leer hier. Derzeit gibt es leider keine Suchresultate zum Matchen.<br />Welche
+          Unternehmen dennoch zu dir passen, siehst du unter
+          <router-link :to="{ name: 'CompanyList' }" class="text-primary-1 underline"
+            >«Unternehmen entdecken»</router-link
+          >.
+        </div>
       </div>
     </div>
     <teleport to="footer">
