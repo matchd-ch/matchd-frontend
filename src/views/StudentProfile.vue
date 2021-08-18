@@ -31,11 +31,7 @@
       </div>
     </div>
     <div class="flex flex-col min-h-full">
-      <profile-section
-        v-if="user.student.jobType?.mode === 'DATE_RANGE'"
-        title="Ich suche"
-        :editStep="getStepName(2)"
-      >
+      <profile-section title="Ich suche" :editStep="getStepName(2)">
         <p>{{ lookingFor }}</p>
       </profile-section>
       <profile-section
@@ -113,7 +109,7 @@
 </template>
 
 <script lang="ts">
-import { AttachmentKey } from "@/api/models/types";
+import { AttachmentKey, DateMode } from "@/api/models/types";
 import ProfileSection from "@/components/ProfileSection.vue";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import { calculateMargins } from "@/helpers/calculateMargins";
@@ -158,12 +154,16 @@ export default class StudentProfile extends Vue {
   }
 
   get lookingFor(): string {
-    const jobType = this.user?.student?.jobType?.name;
+    const jobType = this.user?.student?.jobType;
     const jobFromDate = formatDate(this.user?.student?.jobFromDate, "LLLL yyyy");
     const jobToDate = formatDate(this.user?.student?.jobToDate, "LLLL yyyy");
     const branch = this.user?.student?.branch?.name;
 
-    return `Ich suche ein(e) ${jobType} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
+    if (jobType?.mode === DateMode.DateRange) {
+      return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
+    } else {
+      return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
+    }
   }
 
   replaceStack(url: string, stack: string): string {

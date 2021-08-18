@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="flex flex-col min-h-full">
-      <profile-section v-if="student.data?.jobType?.mode === 'DATE_RANGE'" title="Ich suche">
+      <profile-section title="Ich suche">
         <p>{{ lookingFor }}</p>
       </profile-section>
       <profile-section
@@ -150,7 +150,7 @@
 </template>
 
 <script lang="ts">
-import { ProfileType } from "@/api/models/types";
+import { ProfileType, DateMode } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
@@ -161,13 +161,13 @@ import StudentMatchModal from "@/components/modals/StudentMatchModal.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
+import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, Student, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import { replaceStack } from "@/helpers/replaceStack";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -255,12 +255,16 @@ export default class StudentDetail extends Vue {
   }
 
   get lookingFor(): string {
-    const jobType = this.student.data?.jobType?.name;
+    const jobType = this.student.data?.jobType;
     const jobFromDate = formatDate(this.student.data?.jobFromDate, "LLLL yyyy");
     const jobToDate = formatDate(this.student.data?.jobToDate, "LLLL yyyy");
     const branch = this.student.data?.branch?.name;
 
-    return `Ich suche ein(e) ${jobType} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
+    if (jobType?.mode === DateMode.DateRange) {
+      return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
+    } else {
+      return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
+    }
   }
 
   certificateUrl(id: string): string {

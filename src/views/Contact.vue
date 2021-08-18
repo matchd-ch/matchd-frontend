@@ -1,4 +1,7 @@
 <template>
+  <div class="px-4 lg:px-5">
+    <BackLink :to="{ name: 'Dashboard' }" class="fixed" />
+  </div>
   <div
     id="nichts-passendes-gefunden"
     class="max-w-screen-sm mx-auto min-h-screen flex items-center p-10 xl:p-0"
@@ -34,6 +37,7 @@
 </template>
 
 <script lang="ts">
+import BackLink from "@/components/BackLink.vue";
 import { ActionTypes } from "@/store/modules/registration/action-types";
 import type { UserRequestInput } from "api";
 import { Options, setup, Vue } from "vue-class-component";
@@ -47,6 +51,7 @@ import type { User } from "api";
 
 @Options({
   components: {
+    BackLink,
     RegisterTile,
     MatchdButton,
     RegisterContactForm,
