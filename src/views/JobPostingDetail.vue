@@ -94,7 +94,7 @@
       </p>
     </PostingSection>
     <teleport to="footer">
-      <MatchingBar>
+      <MatchingBar v-if="isStudent">
         <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
           Du hast bereits Interesse gezeigt, fingers crossed! 🤞
         </template>
@@ -163,6 +163,10 @@ export default class JobPostingDetail extends Vue {
   meta = setup(() => useMeta({}));
   showConfirmationModal = false;
   showFullMatchModal = false;
+
+  get isStudent(): boolean {
+    return this.$store.getters["isStudent"];
+  }
 
   get branchesLabel(): string {
     return this.jobPosting?.branches.map((branch) => branch.name).join(", ") || "";
