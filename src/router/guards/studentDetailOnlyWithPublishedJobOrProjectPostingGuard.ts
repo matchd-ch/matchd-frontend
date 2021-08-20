@@ -3,7 +3,7 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
-export async function studentsOnlyWithPublishedJobPostingGuard(
+export async function studentDetailOnlyWithPublishedJobOrProjectPostingGuard(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
@@ -13,7 +13,9 @@ export async function studentsOnlyWithPublishedJobPostingGuard(
     store.dispatch(ActionTypes.JOB_POSTINGS),
     store.dispatch(ActionTypes.PROJECT_POSTINGS),
   ]);
-  if (store.getters["jobPostings"].length === 0) {
+  if (store.getters["jobPostings"].length > 0 || store.getters["projectPostings"].length > 0) {
+    next();
+  } else if (store.getters["jobPostings"].length === 0) {
     next({
       name: "JobPostingCreate",
       params: { step: `${ParamStrings.STEP}1`, slug: ParamStrings.NEW },
