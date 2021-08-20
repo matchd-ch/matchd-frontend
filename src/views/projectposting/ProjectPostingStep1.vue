@@ -10,8 +10,8 @@
       </template>
       <template v-else
         >Erfassen Sie hier Ihre Ideen und Herausforderungen für fachwissenschaftlich und
-        anwendungsorientiert Projektarbeiten.<br />Matchd zeigt Ihnen Projektideen von Studierenden,
-        die dazu passen.
+        anwendungsorientiert Projektarbeiten.<br /><br />Matchd zeigt Ihnen Projektideen von
+        Studierenden, die dazu passen.
       </template>
     </p>
     <!-- Art der Projektarbeit Field -->
