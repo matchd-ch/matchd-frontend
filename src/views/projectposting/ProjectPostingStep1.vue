@@ -5,13 +5,13 @@
       <template v-if="isStudent"
         >Erfasse hier deine Ideen für eine Bachelor-, Master- oder Projektarbeit und Matchd zeigt
         dir Projekte von Unternehmen, die dazu passen.<br /><br />
-        Keine konkrete Idee? Dann versuche deinen Wunsch zu skizieren, damit Matchd dir eine Auswahl
-        bieten kann.
+        Keine konkrete Idee? Dann fülle vorerst nur die Pflichtfelder aus und lass Matchd passende
+        Projekte für dich finden.
       </template>
       <template v-else
         >Erfassen Sie hier Ihre Ideen und Herausforderungen für fachwissenschaftlich und
-        anwendungsorientiert Projektarbeiten. Matchd zeigt Ihnen Projektideen von Studierenden, die
-        dazu passen.
+        anwendungsorientiert Projektarbeiten.<br /><br />Matchd zeigt Ihnen Projektideen von
+        Studierenden, die dazu passen.
       </template>
     </p>
     <!-- Art der Projektarbeit Field -->
