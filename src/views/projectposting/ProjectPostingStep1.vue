@@ -9,8 +9,8 @@
         Projekte für dich finden.
       </template>
       <template v-else
-        >Erfassen Sie hier Ihre Ideen und Herausforderungen für fachwissenschaftlich und
-        anwendungsorientiert Projektarbeiten.<br /><br />Matchd zeigt Ihnen Projektideen von
+        >Erfassen Sie hier Ihre Ideen und Herausforderungen für fachwissenschaftliche und
+        anwendungsorientierte Projektarbeiten.<br /><br />Matchd zeigt Ihnen Projektideen von
         Studierenden, die dazu passen.
       </template>
     </p>
