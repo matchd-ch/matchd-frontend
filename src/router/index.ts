@@ -6,7 +6,8 @@ import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectTo
 import { needsStateResetBeforePasswordResetGuard } from "@/router/guards/needsStateResetBeforePasswordResetGuard";
 import { redirectToCurrentProjectPostingStepGuard } from "@/router/guards/redirectToCurrentProjectPostingStepGuard";
 import { projectsOnlyWithPublishedProjectPostingGuard } from "@/router/guards/projectsOnlyWithPublishedProjectPostingGuard";
-import { studentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/studentsOnlyWithPublishedJobPostingGuard";
+import { studentDetailOnlyWithPublishedJobOrProjectPostingGuard } from "@/router/guards/studentDetailOnlyWithPublishedJobOrProjectPostingGuard";
+import { talentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/talentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 
@@ -121,7 +122,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       accessType: ["company", "university"],
     },
-    beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
+    beforeEnter: talentsOnlyWithPublishedJobPostingGuard,
   },
   {
     path: "/talente/:slug",
@@ -130,7 +131,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       accessType: ["company", "university"],
     },
-    beforeEnter: studentsOnlyWithPublishedJobPostingGuard,
+    beforeEnter: studentDetailOnlyWithPublishedJobOrProjectPostingGuard,
   },
   {
     path: "/firmen/:slug",
