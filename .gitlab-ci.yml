@@ -72,6 +72,7 @@ prepare:development:
     VUE_APP_DATA_PROTECTION_URL: $DEVELOPMENT_DATA_PROTECTION_URL
   only:
     - develop
+    - feature/MATCHD-415
   resource_group: development
 
 prepare:integration:
@@ -129,6 +130,7 @@ build:development:
     - prepare:development
   only:
     - develop
+    - feature/MATCHD-415
   resource_group: development
 
 build:integration:
@@ -170,7 +172,6 @@ build:production:
   stage: "Deploy"
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - rm .oriented/docker-compose.override.yml
     - ${DOCKER_COMPOSE_SCRIPT}
     - docker logout $CI_REGISTRY
 
@@ -184,6 +185,7 @@ deploy:development:
     VUE_APP_DOMAIN: $DEVELOPMENT_VUE_APP_DOMAIN
   only:
     - develop
+    - feature/MATCHD-415
   tags:
     - matchd
     - development
