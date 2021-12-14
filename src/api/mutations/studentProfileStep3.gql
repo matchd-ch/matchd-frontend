@@ -1,12 +1,6 @@
-mutation(
-  $softSkills: [SoftSkillInput]
-  $culturalFits: [CulturalFitInput]
-) {
+mutation($softSkills: [SoftSkillInput], $culturalFits: [CulturalFitInput]) {
   studentProfileStep3(
-    step3: {
-      softSkills: $softSkills
-      culturalFits: $culturalFits
-    }
+    step3: { softSkills: $softSkills, culturalFits: $culturalFits }
   ) {
     success
     errors
