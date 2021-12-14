@@ -5,7 +5,7 @@ mutation(
   $street: String!
   $firstName: String!
   $lastName: String!
-  $role: String!,
+  $role: String!
   $phone: String
 ) {
   companyProfileStep1(

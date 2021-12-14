@@ -1,30 +1,30 @@
 @tailwind base;
 
 :root {
-    --contentMarginTop: 0px;
-    --contentMarginBottom: 0px;
+  --contentMarginTop: 0px;
+  --contentMarginBottom: 0px;
 }
 
 .theme-student {
-    --color-primary-1: #FFF;
-    --color-primary-2: #FFF;
-    --color-primary-3: #FFF;
-    --color-primary-5: #FFF;
+  --color-primary-1: #fff;
+  --color-primary-2: #fff;
+  --color-primary-3: #fff;
+  --color-primary-5: #fff;
 }
 
 .theme-student {
-    --color-primary-1: #1FAC01;
-    --color-primary-2: #58B624;
-    --color-primary-3: #95CC3C;
-    --color-primary-5: #E0F3DE;
+  --color-primary-1: #1fac01;
+  --color-primary-2: #58b624;
+  --color-primary-3: #95cc3c;
+  --color-primary-5: #e0f3de;
 }
 
 .theme-university,
 .theme-company {
-    --color-primary-1: #F21D5E;
-    --color-primary-2: #FC3F78;
-    --color-primary-3: #FB617B;
-    --color-primary-5: #FFE9E9;
+  --color-primary-1: #f21d5e;
+  --color-primary-2: #fc3f78;
+  --color-primary-3: #fb617b;
+  --color-primary-5: #ffe9e9;
 }
 
 @tailwind components;
@@ -32,35 +32,35 @@
 @tailwind screens;
 
 @layer base {
-    h1 {
-        @apply text-5xl;
-    }
-    h2 {
-        @apply text-4xl;
-    }
+  h1 {
+    @apply text-5xl;
+  }
+  h2 {
+    @apply text-4xl;
+  }
 
-    p {
-        @apply text-lg;
-    }
+  p {
+    @apply text-lg;
+  }
 
-    #app {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
+  #app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-    body {
-        overflow-y:scroll;
-    }
+  body {
+    overflow-y: scroll;
+  }
 
-    .marker-pink-1 ::marker {
-        color: var(--color-pink-1);
-    }
+  .marker-pink-1 ::marker {
+    color: var(--color-pink-1);
+  }
 
-    .marker-green-1 ::marker {
-        color: var(--color-green-1);
-    }
+  .marker-green-1 ::marker {
+    color: var(--color-green-1);
+  }
 
-    .marker-orange-1 ::marker {
-        color: var(--color-orange-1);
-    }
+  .marker-orange-1 ::marker {
+    color: var(--color-orange-1);
+  }
 }

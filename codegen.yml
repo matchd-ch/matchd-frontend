@@ -15,7 +15,7 @@ generates:
     plugins:
       - "typescript"
       - add:
-          content: '/* eslint-disable */'
+          content: "/* eslint-disable */"
     config:
       onlyOperationTypes: true
       typesPrefix: I

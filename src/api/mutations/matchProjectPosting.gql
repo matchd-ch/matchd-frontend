@@ -1,9 +1,5 @@
-mutation(
-  $projectPosting: ProjectPostingInput!
-) {
-  matchProjectPosting(match: {
-    projectPosting: $projectPosting
-  }) {
+mutation($projectPosting: ProjectPostingInput!) {
+  matchProjectPosting(match: { projectPosting: $projectPosting }) {
     success
     errors
     confirmed

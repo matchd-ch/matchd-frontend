@@ -124,7 +124,7 @@ module.exports = {
         green: "0 0 0 1px #1FAC01",
         orange: "0 0 0 1px #FF8717",
         "primary-1": "0 0 0 1px var(--color-primary-1)",
-        "black-20": "0 0 10px rgba(0, 0, 0, 0.2)"
+        "black-20": "0 0 10px rgba(0, 0, 0, 0.2)",
       },
       borderRadius: {
         30: "30px",
