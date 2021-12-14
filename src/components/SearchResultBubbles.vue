@@ -214,10 +214,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         .attr("y", 0)
         .attr(
           "href",
-          this.avatar?.url.replace(
-            "{stack}",
-            this.rootType === "student" ? "avatar" : "logo"
-          ) || ""
+          this.avatar?.url.replace("{stack}", this.rootType === "student" ? "avatar" : "logo") || ""
         )
         .attr("width", this.rootRadius * 2)
         .attr("height", this.rootRadius * 2);

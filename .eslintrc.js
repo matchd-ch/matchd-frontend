@@ -1,7 +1,10 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    browser: true,
+  },
+  globals: {
+    process: true,
   },
   extends: [
     "plugin:vue/vue3-essential",
@@ -12,10 +15,6 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 2020,
-  },
-  rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
   },
   overrides: [
     {
@@ -28,6 +27,19 @@ module.exports = {
       files: ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
       env: {
         jest: true,
+      },
+    },
+    {
+      files: [
+        ".eslintrc.js",
+        "babel.config.js",
+        "jest.config.js",
+        "postcss.config.js",
+        "vue.config.js",
+      ],
+      env: {
+        node: true,
+        browser: false,
       },
     },
   ],

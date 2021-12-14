@@ -1,5 +1,5 @@
 mutation($file: Upload!, $key: AttachmentKey!, $projectPostingId: ID!) {
-  upload(file: $file, key: $key, projectPosting: {id: $projectPostingId}) {
+  upload(file: $file, key: $key, projectPosting: { id: $projectPostingId }) {
     success
     errors
   }

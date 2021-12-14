@@ -1,11 +1,5 @@
-mutation(
-  $nickname: String!
-) {
-  studentProfileStep5(
-    step5: {
-      nickname: $nickname
-    }
-  ) {
+mutation($nickname: String!) {
+  studentProfileStep5(step5: { nickname: $nickname }) {
     success
     errors
     nicknameSuggestions
