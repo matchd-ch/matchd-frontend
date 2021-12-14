@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
-    "@vee-validate/i18n": "^4.0.2",
+    "@vee-validate/i18n": "^4.5.7",
     "@vee-validate/rules": "^4.0.4",
     "@vueform/slider": "^1.0.3",
     "apollo-upload-client": "^14.1.3",
