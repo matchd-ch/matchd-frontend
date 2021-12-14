@@ -1,5 +1,7 @@
 # matchd-frontend
 
+[![.github/workflows/ci.yml](https://github.com/matchd-ch/matchd-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/matchd-ch/matchd-frontend/actions/workflows/ci.yml)
+
 ## Project setup
 ```
 npm install
