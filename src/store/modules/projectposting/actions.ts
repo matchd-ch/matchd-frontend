@@ -16,6 +16,7 @@ import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import projectPostingStep1Mutation from "@/api/mutations/projectPostingStep1.gql";
 import projectPostingStep2Mutation from "@/api/mutations/projectPostingStep2.gql";
 import projectPostingStep3Mutation from "@/api/mutations/projectPostingStep3.gql";
+import getEnv from "@/helpers/env";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -24,7 +25,7 @@ type AugmentedActionContext = {
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
-const apiClient = createApolloClient(process.env.VUE_APP_API || "http://localhost");
+const apiClient = createApolloClient(getEnv("VUE_APP_API", "http://localhost"));
 
 export interface Actions {
   [ActionTypes.SAVE_PROJECTPOSTING_STEP1](

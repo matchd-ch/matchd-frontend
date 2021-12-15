@@ -224,6 +224,7 @@ import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import MatchdToggle from "@/components/MatchdToggle.vue";
+import getEnv from "@/helpers/env";
 
 @Options({
   components: {
@@ -244,7 +245,7 @@ export default class CompanyRegister extends Vue {
   isValidCompany: boolean | null = null;
   isCompanyUidFormValid = false;
   isCompanyDataFormValid = false;
-  dataProtectionLink = process.env.VUE_APP_DATA_PROTECTION_URL || "";
+  dataProtectionLink = getEnv("VUE_APP_DATA_PROTECTION_URL", "");
   form: NewCompanyAccount = {
     uid: "",
     firstName: "",
