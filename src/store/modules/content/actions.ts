@@ -36,6 +36,7 @@ import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
 import matchJobPostingMutation from "@/api/mutations/matchJobPosting.gql";
 import matchProjectPostingMutation from "@/api/mutations/matchProjectPosting.gql";
 import matchStudentMutation from "@/api/mutations/matchStudent.gql";
+import getEnv from "@/helpers/env";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -44,7 +45,7 @@ type AugmentedActionContext = {
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
-const apiClient = createApolloClient(process.env.VUE_APP_API || "http://localhost");
+const apiClient = createApolloClient(getEnv("VUE_APP_API", "http://localhost"));
 
 export interface Actions {
   [ActionTypes.BENEFITS]({ commit }: AugmentedActionContext): Promise<void>;

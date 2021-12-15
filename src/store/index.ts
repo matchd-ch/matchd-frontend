@@ -26,6 +26,7 @@ import {
 } from "@/store/modules/projectposting";
 
 import { store as content, ContentStore, State as ContentState } from "@/store/modules/content";
+import getEnv from "@/helpers/env";
 
 const persistedLoginState = createPersistedState({
   paths: ["login.isLoggedIn", "login.refreshToken"],
@@ -50,7 +51,7 @@ export type Store = RegistrationStore<Pick<RootState, "registration">> &
   ContentStore<Pick<RootState, "content">>;
 
 // Plug in logger when in development environment
-const debug = process.env.NODE_ENV !== "production";
+const debug = getEnv("NODE_ENV") !== "production";
 const plugins = debug ? [createLogger({}), persistedLoginState] : [persistedLoginState];
 
 export const store = createStore<RootState>({

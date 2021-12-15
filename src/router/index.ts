@@ -10,6 +10,7 @@ import { studentDetailOnlyWithPublishedJobOrProjectPostingGuard } from "@/router
 import { talentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/talentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
+import getEnv from "@/helpers/env";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -215,7 +216,7 @@ const router = createRouter({
       };
     }
   },
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(getEnv("BASE_URL")),
   routes,
 });
 
