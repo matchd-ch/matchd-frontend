@@ -15,30 +15,28 @@ import {
   IUniversityProfileInputStep3,
   IUniversityProfileInputStep4,
 } from "@/api/models/types";
-import { RootState } from "@/store";
-import { ActionContext, ActionTree } from "vuex";
-
-import { ActionTypes } from "./action-types";
-import { Mutations } from "@/store/modules/profile/mutations";
-import { MutationTypes } from "@/store/modules/profile/mutation-types";
-import { State } from "@/store/modules/profile/state";
-
+import companyProfileStep1Mutation from "@/api/mutations/companyProfileStep1.gql";
+import companyProfileStep2Mutation from "@/api/mutations/companyProfileStep2.gql";
+import companyProfileStep3Mutation from "@/api/mutations/companyProfileStep3.gql";
+import companyProfileStep4Mutation from "@/api/mutations/companyProfileStep4.gql";
 import studentProfileStep1Mutation from "@/api/mutations/studentProfileStep1.gql";
 import studentProfileStep2Mutation from "@/api/mutations/studentProfileStep2.gql";
 import studentProfileStep3Mutation from "@/api/mutations/studentProfileStep3.gql";
 import studentProfileStep4Mutation from "@/api/mutations/studentProfileStep4.gql";
 import studentProfileStep5Mutation from "@/api/mutations/studentProfileStep5.gql";
 import studentProfileStep6Mutation from "@/api/mutations/studentProfileStep6.gql";
-import companyProfileStep1Mutation from "@/api/mutations/companyProfileStep1.gql";
-import companyProfileStep2Mutation from "@/api/mutations/companyProfileStep2.gql";
-import companyProfileStep3Mutation from "@/api/mutations/companyProfileStep3.gql";
-import companyProfileStep4Mutation from "@/api/mutations/companyProfileStep4.gql";
 import universityProfileStep1Mutation from "@/api/mutations/universityProfileStep1.gql";
 import universityProfileStep2Mutation from "@/api/mutations/universityProfileStep2.gql";
 import universityProfileStep3Mutation from "@/api/mutations/universityProfileStep3.gql";
 import universityProfileStep4Mutation from "@/api/mutations/universityProfileStep4.gql";
 import zipCityQuery from "@/api/queries/zipCity.gql";
-import getEnv from "@/helpers/env";
+import { RootState } from "@/store";
+import { MutationTypes } from "@/store/modules/profile/mutation-types";
+import { Mutations } from "@/store/modules/profile/mutations";
+import { State } from "@/store/modules/profile/state";
+import { ActionContext, ActionTree } from "vuex";
+import { config } from "./../../../config";
+import { ActionTypes } from "./action-types";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -47,7 +45,7 @@ type AugmentedActionContext = {
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
-const apiClient = createApolloClient(getEnv("VUE_APP_API", "http://localhost"));
+const apiClient = createApolloClient(config.API_URL);
 
 export interface Actions {
   [ActionTypes.STUDENT_ONBOARDING_STEP1](

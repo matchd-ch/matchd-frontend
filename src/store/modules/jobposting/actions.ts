@@ -1,5 +1,14 @@
 import { createApolloClient } from "@/api/apollo-client";
+import addEmployeeMutation from "@/api/mutations/addEmployee.gql";
+import jobPostingStep1Mutation from "@/api/mutations/jobPostingStep1.gql";
+import jobPostingStep2Mutation from "@/api/mutations/jobPostingStep2.gql";
+import jobPostingStep3Mutation from "@/api/mutations/jobPostingStep3.gql";
+import employeesQuery from "@/api/queries/employees.gql";
+import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import { RootState } from "@/store";
+import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
+import { Mutations } from "@/store/modules/jobposting/mutations";
+import { State } from "@/store/modules/jobposting/state";
 import type {
   AddEmployeeInput,
   JobPostingInputStep1,
@@ -7,19 +16,8 @@ import type {
   JobPostingInputStep3,
 } from "api";
 import { ActionContext, ActionTree } from "vuex";
-
+import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
-import { Mutations } from "@/store/modules/jobposting/mutations";
-import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
-import { State } from "@/store/modules/jobposting/state";
-
-import jobPostingQuery from "@/api/queries/jobPosting.gql";
-import employeesQuery from "@/api/queries/employees.gql";
-import jobPostingStep1Mutation from "@/api/mutations/jobPostingStep1.gql";
-import jobPostingStep2Mutation from "@/api/mutations/jobPostingStep2.gql";
-import jobPostingStep3Mutation from "@/api/mutations/jobPostingStep3.gql";
-import addEmployeeMutation from "@/api/mutations/addEmployee.gql";
-import getEnv from "@/helpers/env";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -28,7 +26,7 @@ type AugmentedActionContext = {
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
-const apiClient = createApolloClient(getEnv("VUE_APP_API", "http://localhost"));
+const apiClient = createApolloClient(config.API_URL);
 
 export interface Actions {
   [ActionTypes.SAVE_JOBPOSTING_STEP1](

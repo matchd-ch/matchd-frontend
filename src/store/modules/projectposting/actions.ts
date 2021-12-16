@@ -1,22 +1,20 @@
 import { createApolloClient } from "@/api/apollo-client";
+import projectPostingStep1Mutation from "@/api/mutations/projectPostingStep1.gql";
+import projectPostingStep2Mutation from "@/api/mutations/projectPostingStep2.gql";
+import projectPostingStep3Mutation from "@/api/mutations/projectPostingStep3.gql";
+import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import { RootState } from "@/store";
+import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
+import { Mutations } from "@/store/modules/projectposting/mutations";
+import { State } from "@/store/modules/projectposting/state";
 import type {
   ProjectPostingInputStep1,
   ProjectPostingInputStep2,
   ProjectPostingInputStep3,
 } from "api";
 import { ActionContext, ActionTree } from "vuex";
-
+import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
-import { Mutations } from "@/store/modules/projectposting/mutations";
-import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
-import { State } from "@/store/modules/projectposting/state";
-
-import projectPostingQuery from "@/api/queries/projectPosting.gql";
-import projectPostingStep1Mutation from "@/api/mutations/projectPostingStep1.gql";
-import projectPostingStep2Mutation from "@/api/mutations/projectPostingStep2.gql";
-import projectPostingStep3Mutation from "@/api/mutations/projectPostingStep3.gql";
-import getEnv from "@/helpers/env";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -25,7 +23,7 @@ type AugmentedActionContext = {
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
-const apiClient = createApolloClient(getEnv("VUE_APP_API", "http://localhost"));
+const apiClient = createApolloClient(config.API_URL);
 
 export interface Actions {
   [ActionTypes.SAVE_PROJECTPOSTING_STEP1](

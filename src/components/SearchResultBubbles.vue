@@ -35,7 +35,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
   resultRadius = 40;
   rootRadius = 60;
 
-  resizeTimeout: number | null = null;
+  resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   get nodes(): SearchNode[] {
     return this.matches.nodes.map((node) => {

@@ -1,21 +1,18 @@
 import { createApolloClient } from "@/api/apollo-client";
 import { AttachmentKey } from "@/api/models/types";
-import { RootState } from "@/store";
-import { ActionContext, ActionTree } from "vuex";
-
-import { ActionTypes } from "./action-types";
-import { Mutations } from "@/store/modules/upload/mutations";
-import { MutationTypes } from "@/store/modules/upload/mutation-types";
-import { State } from "@/store/modules/upload/state";
-
+import deleteAttachmentMutation from "@/api/mutations/deleteAttachment.gql";
 import uploadMutation from "@/api/mutations/upload.gql";
-import uploadTypesQuery from "@/api/queries/uploadConfigurations.gql";
+import uploadProjectPostingMutation from "@/api/mutations/uploadProjectPosting.gql";
 import attachmentsQuery from "@/api/queries/attachments.gql";
 import attachmentsProjectPostingQuery from "@/api/queries/attachmentsProjectPosting.gql";
-import uploadProjectPostingMutation from "@/api/mutations/uploadProjectPosting.gql";
-
-import deleteAttachmentMutation from "@/api/mutations/deleteAttachment.gql";
-import getEnv from "@/helpers/env";
+import uploadTypesQuery from "@/api/queries/uploadConfigurations.gql";
+import { RootState } from "@/store";
+import { MutationTypes } from "@/store/modules/upload/mutation-types";
+import { Mutations } from "@/store/modules/upload/mutations";
+import { State } from "@/store/modules/upload/state";
+import { ActionContext, ActionTree } from "vuex";
+import { config } from "./../../../config";
+import { ActionTypes } from "./action-types";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -24,7 +21,7 @@ type AugmentedActionContext = {
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
-const apiClient = createApolloClient(getEnv("VUE_APP_API", "http://localhost"));
+const apiClient = createApolloClient(config.API_URL);
 
 export interface Actions {
   [ActionTypes.UPLOAD_CONFIGURATIONS]({ commit }: AugmentedActionContext): Promise<void>;
