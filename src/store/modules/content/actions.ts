@@ -1,42 +1,39 @@
 import { createApolloClient } from "@/api/apollo-client";
-import { MatchingInput } from "@/models/MatchingInput";
-import { ZipCityJobsInput } from "@/models/ZipCityJobsInput";
-import { RootState } from "@/store";
-import type { MatchJobPostingInput, MatchProjectPostingInput, MatchStudentInput } from "api";
-import { ActionContext, ActionTree } from "vuex";
-
-import { ActionTypes } from "./action-types";
-import { Mutations } from "@/store/modules/content/mutations";
-import { MutationTypes } from "@/store/modules/content/mutation-types";
-import { State } from "@/store/modules/content/state";
-
+import matchJobPostingMutation from "@/api/mutations/matchJobPosting.gql";
+import matchProjectPostingMutation from "@/api/mutations/matchProjectPosting.gql";
+import matchStudentMutation from "@/api/mutations/matchStudent.gql";
 import benefitsQuery from "@/api/queries/benefits.gql";
 import branchesQuery from "@/api/queries/branches.gql";
 import companyQuery from "@/api/queries/company.gql";
 import companyMatchingQuery from "@/api/queries/companyMatching.gql";
-import dashboardQuery from "@/api/queries/dashboard.gql";
 import culturalFitsQuery from "@/api/queries/culturalFits.gql";
+import dashboardQuery from "@/api/queries/dashboard.gql";
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
 import keywordsQuery from "@/api/queries/keywords.gql";
-import languagesQuery from "@/api/queries/languages.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
+import languagesQuery from "@/api/queries/languages.gql";
 import matchingQuery from "@/api/queries/matching.gql";
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import projectPostingsQuery from "@/api/queries/projectPostings.gql";
 import projectTypesQuery from "@/api/queries/projectTypes.gql";
 import skillsQuery from "@/api/queries/skills.gql";
-import studentQuery from "@/api/queries/student.gql";
 import softSkillsQuery from "@/api/queries/softSkills.gql";
+import studentQuery from "@/api/queries/student.gql";
 import topicsQuery from "@/api/queries/topics.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
-
-import matchJobPostingMutation from "@/api/mutations/matchJobPosting.gql";
-import matchProjectPostingMutation from "@/api/mutations/matchProjectPosting.gql";
-import matchStudentMutation from "@/api/mutations/matchStudent.gql";
-import getEnv from "@/helpers/env";
+import { MatchingInput } from "@/models/MatchingInput";
+import { ZipCityJobsInput } from "@/models/ZipCityJobsInput";
+import { RootState } from "@/store";
+import { MutationTypes } from "@/store/modules/content/mutation-types";
+import { Mutations } from "@/store/modules/content/mutations";
+import { State } from "@/store/modules/content/state";
+import type { MatchJobPostingInput, MatchProjectPostingInput, MatchStudentInput } from "api";
+import { ActionContext, ActionTree } from "vuex";
+import { config } from "./../../../config";
+import { ActionTypes } from "./action-types";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -45,7 +42,7 @@ type AugmentedActionContext = {
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
-const apiClient = createApolloClient(getEnv("VUE_APP_API", "http://localhost"));
+const apiClient = createApolloClient(config.API_URL);
 
 export interface Actions {
   [ActionTypes.BENEFITS]({ commit }: AugmentedActionContext): Promise<void>;

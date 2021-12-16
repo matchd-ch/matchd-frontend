@@ -1,20 +1,17 @@
 import { createApolloClient } from "@/api/apollo-client";
-import { RootState } from "@/store";
-import type { UserRequestInput } from "api";
-import { ActionContext, ActionTree } from "vuex";
-
-import { ActionTypes } from "./action-types";
-import { Mutations } from "@/store/modules/registration/mutations";
-import { MutationTypes } from "@/store/modules/registration/mutation-types";
-import { State } from "@/store/modules/registration/state";
-
-import userRequestMutation from "@/api/mutations/userRequest.gql";
 import registerCompanyMutation from "@/api/mutations/registerCompany.gql";
 import registerStudentMutation from "@/api/mutations/registerStudent.gql";
+import userRequestMutation from "@/api/mutations/userRequest.gql";
 import verifyAccountMutation from "@/api/mutations/verifyAccount.gql";
-
 import { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
-import getEnv from "@/helpers/env";
+import { RootState } from "@/store";
+import { MutationTypes } from "@/store/modules/registration/mutation-types";
+import { Mutations } from "@/store/modules/registration/mutations";
+import { State } from "@/store/modules/registration/state";
+import type { UserRequestInput } from "api";
+import { ActionContext, ActionTree } from "vuex";
+import { config } from "./../../../config";
+import { ActionTypes } from "./action-types";
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -23,7 +20,7 @@ type AugmentedActionContext = {
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
-const apiClient = createApolloClient(getEnv("VUE_APP_API", "http://localhost"));
+const apiClient = createApolloClient(config.API_URL);
 
 export interface Actions {
   [ActionTypes.SAVE_COMPANY_REGISTRATION](

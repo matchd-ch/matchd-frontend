@@ -1,16 +1,16 @@
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { isLoggedInGuard } from "@/router/guards/isLoggedInGuard";
 import { isProfileCompleteGuard } from "@/router/guards/isProfileCompleteGuard";
+import { needsStateResetBeforePasswordResetGuard } from "@/router/guards/needsStateResetBeforePasswordResetGuard";
+import { projectsOnlyWithPublishedProjectPostingGuard } from "@/router/guards/projectsOnlyWithPublishedProjectPostingGuard";
 import { redirectToCurrentJobPostingStepGuard } from "@/router/guards/redirectToCurrentJobPostingStepGuard";
 import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectToCurrentOnboardingStepGuard";
-import { needsStateResetBeforePasswordResetGuard } from "@/router/guards/needsStateResetBeforePasswordResetGuard";
 import { redirectToCurrentProjectPostingStepGuard } from "@/router/guards/redirectToCurrentProjectPostingStepGuard";
-import { projectsOnlyWithPublishedProjectPostingGuard } from "@/router/guards/projectsOnlyWithPublishedProjectPostingGuard";
 import { studentDetailOnlyWithPublishedJobOrProjectPostingGuard } from "@/router/guards/studentDetailOnlyWithPublishedJobOrProjectPostingGuard";
 import { talentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/talentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
-import getEnv from "@/helpers/env";
+import { config } from "./../config";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -216,7 +216,7 @@ const router = createRouter({
       };
     }
   },
-  history: createWebHistory(getEnv("BASE_URL")),
+  history: createWebHistory(config.BASE_URL),
   routes,
 });
 

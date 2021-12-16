@@ -27,7 +27,7 @@ class Props {
 
 @Options({})
 export default class NavDropdown extends Vue.with(Props) {
-  $refs!: {
+  declare $refs: {
     navDropdown: HTMLFormElement;
   };
 

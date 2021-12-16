@@ -13,6 +13,7 @@ export function useRegistration() {
   const router = useRouter();
 
   function onScroll() {
+    if (!window?.top?.scrollY) return;
     attached.value = window.top.scrollY > 100;
   }
 
