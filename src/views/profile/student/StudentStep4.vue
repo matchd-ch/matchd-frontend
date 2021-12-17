@@ -270,20 +270,18 @@ export default class StudentStep4 extends Vue.with(Props) {
     const { value: onlineProjects } = useField<OnlineProjectInput[]>("onlineProjects");
     const { value: hobbies } = useField<HobbyInput[]>("hobbies");
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.STUDENT_ONBOARDING_STEP4,
-            studentProfileStep4InputMapper(formData)
-          );
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e);
-        }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.STUDENT_ONBOARDING_STEP4,
+          studentProfileStep4InputMapper(formData)
+        );
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,

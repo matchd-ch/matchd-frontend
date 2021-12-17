@@ -1,4 +1,4 @@
-mutation($softSkills: [SoftSkillInput], $culturalFits: [CulturalFitInput]) {
+mutation ($softSkills: [SoftSkillInput], $culturalFits: [CulturalFitInput]) {
   companyProfileStep4(
     step4: { softSkills: $softSkills, culturalFits: $culturalFits }
   ) {

@@ -10,23 +10,23 @@ jobs:
     name: "Test"
 
     uses: matchd-ch/matchd-frontend/.github/workflows/part_test.yml@main
-  
+
   build:
     name: "Build"
 
     uses: matchd-ch/matchd-frontend/.github/workflows/part_build.yml@main
-  
+
   dependabot:
     name: "Dependabot"
 
-    needs: ['test', 'build']
+    needs: ["test", "build"]
 
     uses: matchd-ch/matchd-frontend/.github/workflows/part_dependabot.yml@main
 
   deploy:
     name: "Deploy"
 
-    needs: ['build']
+    needs: ["build"]
 
     uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
     with:

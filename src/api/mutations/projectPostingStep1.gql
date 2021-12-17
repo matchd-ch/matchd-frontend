@@ -1,4 +1,4 @@
-mutation(
+mutation (
   $id: ID
   $title: String!
   $description: String!

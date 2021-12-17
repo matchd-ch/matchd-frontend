@@ -123,21 +123,19 @@ export default class CompanyStep4Form extends Vue.with(Props) {
       (value: string[]) => value?.length >= this.minCulturalFits
     );
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.COMPANY_ONBOARDING_STEP4,
-            companyProfileStep4InputMapper(formData)
-          );
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.COMPANY_ONBOARDING_STEP4,
+          companyProfileStep4InputMapper(formData)
+        );
 
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e);
-        }
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,

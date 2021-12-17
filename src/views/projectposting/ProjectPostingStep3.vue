@@ -118,24 +118,22 @@ export default class ProjectPostingStep3 extends Vue {
     const form = useForm<ProjectPostingStep3Form>();
     const { value: state } = useField<ProjectPostingStateEnum>("state");
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          if (store.getters["currentProjectPosting"]?.id) {
-            await store.dispatch(
-              ActionTypes.SAVE_PROJECTPOSTING_STEP3,
-              projectPostingStep3InputMapper(store.getters["currentProjectPosting"]?.id, formData)
-            );
-            const projectPostingState = store.getters["projectPostingState"];
-            if (projectPostingState.success) {
-              this.$emit("submitComplete");
-            }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        if (store.getters["currentProjectPosting"]?.id) {
+          await store.dispatch(
+            ActionTypes.SAVE_PROJECTPOSTING_STEP3,
+            projectPostingStep3InputMapper(store.getters["currentProjectPosting"]?.id, formData)
+          );
+          const projectPostingState = store.getters["projectPostingState"];
+          if (projectPostingState.success) {
+            this.$emit("submitComplete");
           }
-        } catch (e) {
-          console.log(e);
         }
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,

@@ -123,21 +123,19 @@ export default class StudentStep3 extends Vue.with(Props) {
       (value: string[]) => value?.length >= this.minCulturalFits
     );
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.STUDENT_ONBOARDING_STEP3,
-            studentProfileStep3InputMapper(formData)
-          );
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.STUDENT_ONBOARDING_STEP3,
+          studentProfileStep3InputMapper(formData)
+        );
 
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e);
-        }
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,

@@ -128,26 +128,24 @@ export default class StudentStep5 extends Vue.with(Props) {
     const store = useStore();
     const form = useForm<StudentProfileStep5Form>();
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.STUDENT_ONBOARDING_STEP5,
-            studentProfileStep5InputMapper(formData)
-          );
-          if (store.getters["onboardingState"]?.errors?.nickname[0] === "unique") {
-            form.setErrors({
-              nickname: "Dieser Nickname ist bereits vergeben.",
-            });
-          } else {
-            const onboardingState = store.getters["onboardingState"];
-            this.$emit("submitComplete", onboardingState.success);
-          }
-        } catch (e) {
-          console.log(e);
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.STUDENT_ONBOARDING_STEP5,
+          studentProfileStep5InputMapper(formData)
+        );
+        if (store.getters["onboardingState"]?.errors?.nickname[0] === "unique") {
+          form.setErrors({
+            nickname: "Dieser Nickname ist bereits vergeben.",
+          });
+        } else {
+          const onboardingState = store.getters["onboardingState"];
+          this.$emit("submitComplete", onboardingState.success);
         }
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,

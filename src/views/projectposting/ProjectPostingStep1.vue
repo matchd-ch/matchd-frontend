@@ -197,22 +197,20 @@ export default class ProjectPostingStep1 extends Vue {
     const store = useStore();
     const form = useForm<ProjectPostingStep1Form>();
     const { value: keywords } = useField<string[]>("keywords");
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.SAVE_PROJECTPOSTING_STEP1,
-            projectPostingStep1InputMapper(store.getters["currentProjectPosting"]?.id, formData)
-          );
-          const projectPostingState = store.getters["projectPostingState"];
-          if (projectPostingState.success) {
-            this.$emit("submitComplete");
-          }
-        } catch (e) {
-          console.log(e); // todo
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.SAVE_PROJECTPOSTING_STEP1,
+          projectPostingStep1InputMapper(store.getters["currentProjectPosting"]?.id, formData)
+        );
+        const projectPostingState = store.getters["projectPostingState"];
+        if (projectPostingState.success) {
+          this.$emit("submitComplete");
         }
+      } catch (e) {
+        console.log(e); // todo
       }
-    );
+    });
 
     return {
       ...form,

@@ -1,4 +1,4 @@
-mutation($description: String) {
+mutation ($description: String) {
   universityProfileStep2(step2: { description: $description }) {
     success
     errors

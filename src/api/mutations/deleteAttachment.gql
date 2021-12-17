@@ -1,4 +1,4 @@
-mutation($id: ID) {
+mutation ($id: ID) {
   deleteAttachment(id: $id) {
     success
     errors

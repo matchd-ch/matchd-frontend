@@ -1,4 +1,4 @@
-query($slug: String!, $jobPostingId: ID) {
+query ($slug: String!, $jobPostingId: ID) {
   student(slug: $slug, jobPostingId: $jobPostingId) {
     id
     email

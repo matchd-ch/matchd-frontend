@@ -159,20 +159,18 @@ export default class StudentStep1 extends Vue.with(Props) {
   veeForm = setup(() => {
     const store = useStore();
     const form = useForm<StudentProfileStep1Form>();
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.STUDENT_ONBOARDING_STEP1,
-            studentProfileStep1InputMapper(formData)
-          );
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e); // todo
-        }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.STUDENT_ONBOARDING_STEP1,
+          studentProfileStep1InputMapper(formData)
+        );
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e); // todo
       }
-    );
+    });
 
     return {
       ...form,

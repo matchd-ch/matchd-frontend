@@ -1,4 +1,4 @@
-mutation($id: ID!, $projectFromDate: String, $website: String) {
+mutation ($id: ID!, $projectFromDate: String, $website: String) {
   projectPostingStep2(
     step2: { id: $id, projectFromDate: $projectFromDate, website: $website }
   ) {

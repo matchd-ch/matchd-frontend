@@ -158,20 +158,18 @@ export default class StudentStep6 extends Vue.with(Props) {
     const form = useForm<StudentProfileStep6Form>();
     const { value: state } = useField<ProfileState>("state");
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.STUDENT_ONBOARDING_STEP6,
-            studentProfileStep6InputMapper(formData)
-          );
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e);
-        }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.STUDENT_ONBOARDING_STEP6,
+          studentProfileStep6InputMapper(formData)
+        );
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,
