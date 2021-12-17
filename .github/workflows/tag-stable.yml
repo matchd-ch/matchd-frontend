@@ -16,12 +16,6 @@ jobs:
 
     needs: ['build']
 
-    environment:
-      name: production
-      url: https://matchd.ch
-
-    concurrency: production
-
     uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
     with:
       namespace: matchd-frontend-production

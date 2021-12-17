@@ -28,12 +28,6 @@ jobs:
 
     needs: ['build']
 
-    environment:
-      name: review-${{ github.event.pull_request.number }}
-      url: https://review-matchd-frontend-${{ github.event.pull_request.number }}.joshmartin.ch
-
-    concurrency: review-${{ github.event.pull_request.number }}
-
     uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
     with:
       namespace: matchd-frontend-review
