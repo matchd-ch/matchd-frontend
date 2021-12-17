@@ -61,9 +61,7 @@ jobs:
           project_id: "joshmartin-cluster"
 
       - name: 'Prepare Helm Chart'
-        run: |
-          helm dependency update .helm/chart/
-          helm dependency build .helm/chart/
+        run: helm dependency update .helm/chart/
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
