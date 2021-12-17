@@ -44,24 +44,13 @@ spec:
         {{- end }}
       {{- end }}
     spec:
-      serviceAccountName: {{ template "matchd-frontend.fullname" $ }}
       imagePullSecrets:
-      {{- if $.Values.image.secrets }}
 {{ toYaml $.Values.image.secrets | indent 8 }}
-      {{- end }}
       containers:
         - name: {{ $.Chart.Name }}
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
-          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          imagePullPolicy: Always
           env:
-            - name: POD_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
-            - name: KUBERNETES_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
           {{- range $key, $variable := $.Values.env -}}
             {{- $envKey := $key | upper | replace "." "_" | replace "-" "_" }}
             - name: {{ $envKey }}
@@ -70,47 +59,34 @@ spec:
                   name: {{ include "matchd-frontend.fullname" $ }}
                   key: {{ $envKey }}
           {{- end }}
-          {{- if not (empty $.Values.ingress.hosts) }}
           ports:
-          {{- range $host, $hostDefinition := $.Values.ingress.hosts }}
-            - containerPort: {{ $hostDefinition.port }}
-              name: {{ $hostDefinition.name }}
-          {{- end }}
-          {{- if $.Values.livenessProbe.enabled }}
+            - containerPort: 8080
+              name: http
           livenessProbe:
-            {{- if eq $.Values.livenessProbe.type "httpGet" }}
             httpGet:
-              path: {{ $.Values.livenessProbe.httpGet.path }}
-              port: {{ (first $.Values.ingress.hosts).port }}
-            {{- else if eq $.Values.livenessProbe.type "tcpSocket" }}
-            tcpSocket:
-              port: {{ (first $.Values.ingress.hosts).port }}
-            {{- end }}
-            initialDelaySeconds: {{ $.Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ $.Values.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ $.Values.livenessProbe.timeoutSeconds }}
-            successThreshold: {{ $.Values.livenessProbe.successThreshold }}
-            failureThreshold: {{ $.Values.livenessProbe.failureThreshold }}
-          {{- end }}
-          {{- if $.Values.readinessProbe.enabled }}
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 2
           readinessProbe:
-            {{- if eq $.Values.readinessProbe.type "httpGet" }}
             httpGet:
-              path: {{ $.Values.readinessProbe.httpGet.path }}
-              port: {{ (first $.Values.ingress.hosts).port }}
-            {{- else if eq $.Values.readinessProbe.type "tcpSocket" }}
-            tcpSocket:
-              port: {{ (first $.Values.ingress.hosts).port }}
-            {{- end }}
-            initialDelaySeconds: {{ $.Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ $.Values.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ $.Values.readinessProbe.timeoutSeconds }}
-            successThreshold: {{ $.Values.readinessProbe.successThreshold }}
-            failureThreshold: {{ $.Values.readinessProbe.failureThreshold }}
-          {{- end }}
-          {{- end }}
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 2
           resources:
-{{ toYaml $.Values.resources | indent 12 }}
+            limits:
+              cpu: 50m
+              memory: 128Mi
+            requests:
+              cpu: 25m
+              memory: 64Mi
       affinity:
 {{- if $variant.nodeAffinity }}
         nodeAffinity:

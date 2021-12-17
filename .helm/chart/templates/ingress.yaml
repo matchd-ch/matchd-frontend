@@ -1,5 +1,3 @@
-{{- if not (empty $.Values.ingress.hosts) }}
-{{- if $.Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -12,9 +10,9 @@ metadata:
     app.matchd.ch/environment: {{ template "matchd-frontend.environment" .}}
     helm.sh/chart: {{ template "matchd-frontend.chart" .}}
   annotations:
-    {{- range $key, $value := .Values.ingress.annotations }}
-    {{ $key }}: {{ $value | quote }}
-    {{- end }}
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 1m
 {{- if .Values.ingress.letsencrypt }}
     cert-manager.io/acme-http01-edit-in-place: 'false'
     cert-manager.io/cluster-issuer: letsencrypt-production
@@ -26,25 +24,18 @@ metadata:
 spec:
   tls:
     - hosts:
-      {{- range $hostDefinition := .Values.ingress.hosts }}
-        - {{ $hostDefinition.host }}
-      {{- end }}
+      - {{ .Values.ingress.domain }}
       {{- if .Values.ingress.tlsSecretName }}
       secretName: {{ .Values.ingress.tlsSecretName }}
       {{- end }}
   rules:
-    {{- range $hostDefinition := .Values.ingress.hosts }}
-    {{- if not $hostDefinition.tlsOnly | default false }}
-    - host: {{ $hostDefinition.host }}
+    - host: {{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ include "matchd-frontend.fullname" $ }}
                 port:
-                  number: {{ $hostDefinition.port }}
-    {{- end -}}
-    {{- end -}}
-{{- end -}}
-{{- end -}}
+                  number: 8080

@@ -99,8 +99,6 @@ All optional variables have smart defaults and can be set if necessary.
 
 `MATCHD_REGULAR_AUTOSCALING_ENABLED`
 
-`MATCHD_SERVICE_INTERNAL_PORT`
-
 ---
 
 ## Scripts

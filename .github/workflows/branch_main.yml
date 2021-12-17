@@ -1,0 +1,33 @@
+on:
+  push:
+    branches:
+      - "main"
+
+name: "Main Branch"
+
+jobs:
+  test:
+    name: "Test"
+
+    uses: matchd-ch/matchd-frontend/.github/workflows/part_test.yml@main
+  
+  build:
+    name: "Build"
+
+    uses: matchd-ch/matchd-frontend/.github/workflows/part_build.yml@main
+
+  deploy:
+    name: "Deploy"
+
+    needs: ['build']
+
+    uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
+    with:
+      namespace: matchd-frontend-development
+      release: matchd-frontend
+      environment: development
+      domain: development-matchd-frontend.joshmartin.ch
+      apiUrl: "https://development-matchd-backend.joshmartin.ch/"
+    secrets:
+      DOCKER_PULL_USERNAME: ${{ secrets.DOCKER_PULL_USERNAME }}
+      DOCKER_PULL_SECRET: ${{ secrets.DOCKER_PULL_SECRET }}
