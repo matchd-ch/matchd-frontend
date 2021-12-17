@@ -45,7 +45,7 @@ on:
 
 jobs:
   deploy_review:
-    name: "Review Environment"
+    name: "Helm"
 
     permissions:
       contents: 'read'
@@ -130,5 +130,5 @@ jobs:
               monitoring: ${{ inputs.monitoringEnabled }}
             env:
               BASE_URL: "/"
-              VUE_APP_API_URL: "${{ inputs.apiUrl }}"
-              VUE_APP_DATA_PROTECTION_URL: "https://example.com"
+              API_URL: "${{ inputs.apiUrl }}"
+              DATA_PROTECTION_URL: "https://example.com"

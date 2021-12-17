@@ -21,12 +21,6 @@ jobs:
 
     needs: ['build']
 
-    environment:
-      name: development
-      url: https://development-matchd-backend.joshmartin.ch/
-
-    concurrency: development
-
     uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
     with:
       namespace: matchd-frontend-development

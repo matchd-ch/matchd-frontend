@@ -16,12 +16,6 @@ jobs:
 
     needs: ['build']
 
-    environment:
-      name: staging
-      url: https://staging-matchd-frontend.joshmartin.ch
-
-    concurrency: staging
-
     uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
     with:
       namespace: matchd-frontend-staging
