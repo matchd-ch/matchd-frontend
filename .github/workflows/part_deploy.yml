@@ -45,7 +45,7 @@ on:
 
 jobs:
   deploy_review:
-    name: "Review Environment"
+    name: "Helm"
 
     permissions:
       contents: "read"
@@ -61,9 +61,7 @@ jobs:
           project_id: "joshmartin-cluster"
 
       - name: "Prepare Helm Chart"
-        run: |
-          helm dependency update .helm/chart/
-          helm dependency build .helm/chart/
+        run: "helm dependency update .helm/chart/"
 
       - id: "auth"
         name: "Authenticate to Google Cloud"
@@ -130,5 +128,5 @@ jobs:
               monitoring: ${{ inputs.monitoringEnabled }}
             env:
               BASE_URL: "/"
-              VUE_APP_API_URL: "${{ inputs.apiUrl }}"
-              VUE_APP_DATA_PROTECTION_URL: "https://example.com"
+              API_URL: "${{ inputs.apiUrl }}"
+              DATA_PROTECTION_URL: "https://example.com"

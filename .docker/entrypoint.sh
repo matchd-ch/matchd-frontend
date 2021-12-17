@@ -4,9 +4,9 @@ set -eux
 
 JSON_STRING='{ \
   "BASE_URL":"'"${BASE_URL-}"'", \
-  "VUE_APP_API_URL":"'"${VUE_APP_API_URL-}"'", \
+  "API_URL":"'"${API_URL-}"'", \
   "NODE_ENV":"'"${NODE_ENV-}"'", \
-  "VUE_APP_DATA_PROTECTION_URL":"'"${VUE_APP_DATA_PROTECTION_URL-}"'" \
+  "DATA_PROTECTION_URL":"'"${DATA_PROTECTION_URL-}"'" \
 }'
 
 JSON_STRING_CLEANED="$(echo "${JSON_STRING}" | tr -d '[:space:]')"
