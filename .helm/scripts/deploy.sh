@@ -57,9 +57,7 @@ function deploy() {
     --set image.pullPolicy="$MATCHD_IMAGE_PULL_POLICY" \
     --set image.secrets[0].name="$MATCHD_IMAGE_PULL_SECRET_NAME" \
     \
-    --set ingress.hosts[0].host="$MATCHD_DOMAIN" \
-    --set ingress.hosts[0].name="http" \
-    --set ingress.hosts[0].port="$MATCHD_SERVICE_INTERNAL_PORT" \
+    --set ingress.domain="$MATCHD_DOMAIN" \
     --set ingress.letsencrypt=$MATCHD_USE_LETSENCRYPT \
     --set ingress.monitoring=$MATCHD_MONITORING_ENABLED \
     --set ingress.tlsSecretName="$MATCHD_TLS_SECRET_NAME" \

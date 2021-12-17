@@ -52,7 +52,3 @@ variable_default "MATCHD_TLS_SECRET_NAME" "$MATCHD_ENVIRONMENT_SLUG-tls"
 
 variable_default "MATCHD_STABLE_AUTOSCALING_ENABLED" "true"
 variable_default "MATCHD_REGULAR_AUTOSCALING_ENABLED" "true"
-
-## Network
-
-variable_default "MATCHD_SERVICE_INTERNAL_PORT" 80

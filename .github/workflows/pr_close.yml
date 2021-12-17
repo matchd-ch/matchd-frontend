@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    types: [closed]
+
+name: "Pull Request Cleanup"
+
+jobs:
+  undeploy:
+    name: "Undeploy"
+
+    # TODO: Change to main
+    uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@deploy
+    with:
+      namespace: matchd-frontend-review
+      release: review-matchd-frontend-${{ github.event.pull_request.number }}
+      environment: review-${{ github.event.pull_request.number }}
+      domain: review-matchd-frontend-${{ github.event.pull_request.number }}.joshmartin.ch
+      task: remove
