@@ -8,6 +8,8 @@ jobs:
   undeploy:
     name: "Undeploy"
 
+    concurrency: review-${{ github.event.pull_request.number }}
+
     uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
     with:
       namespace: matchd-frontend-review

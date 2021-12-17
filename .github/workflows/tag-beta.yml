@@ -16,13 +16,19 @@ jobs:
 
     needs: ['build']
 
+    environment:
+      name: staging
+      url: https://staging-matchd-frontend.joshmartin.ch
+
+    concurrency: staging
+
     uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
     with:
       namespace: matchd-frontend-staging
       release: matchd-frontend
       environment: staging
       domain: staging-matchd-frontend.joshmartin.ch
-      version: "${{ jobs.build.outputs.tag }}"
+      version: "${{ needs.build.outputs.tag }}"
       apiUrl: "https://staging-matchd-backend.joshmartin.ch/"
     secrets:
       DOCKER_PULL_USERNAME: ${{ secrets.DOCKER_PULL_USERNAME }}
