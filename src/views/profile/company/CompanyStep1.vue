@@ -127,20 +127,18 @@ export default class CompanyStep1 extends Vue.with(Props) {
   veeForm = setup(() => {
     const store = useStore();
     const form = useForm<CompanyProfileStep1Form>();
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.COMPANY_ONBOARDING_STEP1,
-            companyProfileStep1InputMapper(formData)
-          );
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e); // todo
-        }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.COMPANY_ONBOARDING_STEP1,
+          companyProfileStep1InputMapper(formData)
+        );
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e); // todo
       }
-    );
+    });
 
     return {
       ...form,

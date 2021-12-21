@@ -1,4 +1,4 @@
-mutation(
+mutation (
   $jobType: JobTypeInput!
   $jobFromDate: String
   $jobToDate: String

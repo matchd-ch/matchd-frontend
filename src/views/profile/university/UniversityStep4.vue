@@ -125,21 +125,19 @@ export default class UniversityStep4Form extends Vue.with(Props) {
       (value: string[]) => value?.length >= this.minCulturalFits
     );
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.UNIVERSITY_ONBOARDING_STEP4,
-            universityProfileStep4InputMapper(formData)
-          );
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.UNIVERSITY_ONBOARDING_STEP4,
+          universityProfileStep4InputMapper(formData)
+        );
 
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e);
-        }
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,

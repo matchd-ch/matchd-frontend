@@ -1,4 +1,4 @@
-mutation($refreshToken: String!) {
+mutation ($refreshToken: String!) {
   refreshToken(refreshToken: $refreshToken) {
     success
     errors

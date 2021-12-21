@@ -166,20 +166,18 @@ export default class CompanyStep2Form extends Vue.with(Props) {
     const form = useForm<CompanyProfileStep2Form>();
     const { value: memberItStGallen } = useField<boolean>("memberItStGallen");
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.COMPANY_ONBOARDING_STEP2,
-            companyProfileStep2InputMapper(formData)
-          );
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e); // todo
-        }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.COMPANY_ONBOARDING_STEP2,
+          companyProfileStep2InputMapper(formData)
+        );
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e); // todo
       }
-    );
+    });
 
     return {
       ...form,

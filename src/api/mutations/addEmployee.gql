@@ -1,4 +1,4 @@
-mutation(
+mutation (
   $firstName: String!
   $lastName: String!
   $email: String!

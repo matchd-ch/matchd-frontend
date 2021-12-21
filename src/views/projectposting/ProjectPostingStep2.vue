@@ -172,29 +172,27 @@ export default class ProjectPostingStep2 extends Vue {
     const form = useForm<ProjectPostingStep2Form>();
     const { value: state } = useField<ProjectPostingStateEnum>("state");
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          if (store.getters["currentProjectPosting"]?.id) {
-            await store.dispatch(
-              ActionTypes.SAVE_PROJECTPOSTING_STEP2,
-              projectPostingStep2InputMapper(store.getters["currentProjectPosting"]?.id, formData)
-            );
-            const projectPostingState = store.getters["projectPostingState"];
-            if (projectPostingState.success) {
-              this.$emit("submitComplete");
-            } else if (projectPostingState.errors) {
-              form.setErrors(projectPostingState.errors);
-              if (projectPostingState.errors?.projectFromDate) {
-                form.setErrors({ projectFromDateMonth: "Stellenantritt darf nicht leer sein." });
-              }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        if (store.getters["currentProjectPosting"]?.id) {
+          await store.dispatch(
+            ActionTypes.SAVE_PROJECTPOSTING_STEP2,
+            projectPostingStep2InputMapper(store.getters["currentProjectPosting"]?.id, formData)
+          );
+          const projectPostingState = store.getters["projectPostingState"];
+          if (projectPostingState.success) {
+            this.$emit("submitComplete");
+          } else if (projectPostingState.errors) {
+            form.setErrors(projectPostingState.errors);
+            if (projectPostingState.errors?.projectFromDate) {
+              form.setErrors({ projectFromDateMonth: "Stellenantritt darf nicht leer sein." });
             }
           }
-        } catch (e) {
-          console.log(e);
         }
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,

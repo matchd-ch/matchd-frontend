@@ -178,52 +178,50 @@ export default class StudentStep2 extends Vue.with(Props) {
       label: "Ich suche nach",
     });
     const { value: branchId } = useField<string>("branchId", "required", { label: "Fachrichtung" });
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        if (
-          formData.jobFromDateMonth &&
-          formData.jobFromDateYear &&
-          formData.jobToDateMonth &&
-          formData.jobToDateYear
-        ) {
-          const toDate = DateTime.fromObject({
-            month: +formData.jobToDateMonth,
-            year: +formData.jobToDateYear,
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      if (
+        formData.jobFromDateMonth &&
+        formData.jobFromDateYear &&
+        formData.jobToDateMonth &&
+        formData.jobToDateYear
+      ) {
+        const toDate = DateTime.fromObject({
+          month: +formData.jobToDateMonth,
+          year: +formData.jobToDateYear,
+        });
+        const fromDate = DateTime.fromObject({
+          month: +formData.jobFromDateMonth,
+          year: +formData.jobFromDateYear,
+        });
+        if (toDate <= fromDate) {
+          form.setErrors({
+            jobToDateMonth: 'Muss später als Feld "Ab" sein',
           });
-          const fromDate = DateTime.fromObject({
-            month: +formData.jobFromDateMonth,
-            year: +formData.jobFromDateYear,
-          });
-          if (toDate <= fromDate) {
-            form.setErrors({
-              jobToDateMonth: 'Muss später als Feld "Ab" sein',
-            });
-            return;
-          }
-        }
-
-        try {
-          await store.dispatch(
-            ActionTypes.STUDENT_ONBOARDING_STEP2,
-            studentProfileStep2InputMapper(formData)
-          );
-
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-          if (onboardingState.errors) {
-            form.setErrors(onboardingState.errors);
-            if (onboardingState.errors?.jobFromDate) {
-              form.setErrors({ jobFromDateMonth: "Ab darf nicht leer sein." });
-            }
-            if (onboardingState.errors?.jobToDate) {
-              form.setErrors({ jobToDateMonth: "Bis darf nicht leer sein." });
-            }
-          }
-        } catch (e) {
-          console.log(e);
+          return;
         }
       }
-    );
+
+      try {
+        await store.dispatch(
+          ActionTypes.STUDENT_ONBOARDING_STEP2,
+          studentProfileStep2InputMapper(formData)
+        );
+
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+        if (onboardingState.errors) {
+          form.setErrors(onboardingState.errors);
+          if (onboardingState.errors?.jobFromDate) {
+            form.setErrors({ jobFromDateMonth: "Ab darf nicht leer sein." });
+          }
+          if (onboardingState.errors?.jobToDate) {
+            form.setErrors({ jobToDateMonth: "Bis darf nicht leer sein." });
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    });
 
     return {
       ...form,

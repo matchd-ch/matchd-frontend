@@ -1,4 +1,4 @@
-mutation(
+mutation (
   $services: String
   $linkEducation: String
   $linkProjects: String

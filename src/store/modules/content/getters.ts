@@ -37,9 +37,7 @@ export type Getters = {
   benefits(state: State): Benefit[];
   branches(state: State): Branch[];
   companyMatching(state: State): { data: Match[] };
-  company(
-    state: State
-  ): {
+  company(state: State): {
     data: Company | null;
     logo: Attachment | null;
     logoFallback: Attachment | null;
@@ -58,9 +56,7 @@ export type Getters = {
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
   matchLoading(state: State): boolean;
-  projectPostingDetail(
-    state: State
-  ): {
+  projectPostingDetail(state: State): {
     data: ProjectPosting | null;
     images: Attachment[];
     imageFallback: Attachment | null;
@@ -70,9 +66,7 @@ export type Getters = {
   projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
-  student(
-    state: State
-  ): {
+  student(state: State): {
     data: Student | null;
     avatar: Attachment | null;
     avatarFallback: Attachment | null;
@@ -89,9 +83,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   branches(state: State): Branch[] {
     return state.branches.data;
   },
-  company(
-    state: State
-  ): {
+  company(state: State): {
     data: Company | null;
     logo: Attachment | null;
     logoFallback: Attachment | null;
@@ -235,9 +227,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   matchLoading(state: State): boolean {
     return state.match.loading;
   },
-  projectPostingDetail(
-    state: State
-  ): {
+  projectPostingDetail(state: State): {
     data: ProjectPosting | null;
     images: Attachment[];
     imageFallback: Attachment | null;
@@ -257,9 +247,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   softSkills(state: State): SoftSkill[] {
     return state.softSkills.data;
   },
-  student(
-    state: State
-  ): {
+  student(state: State): {
     data: Student | null;
     avatar: Attachment | null;
     avatarFallback: Attachment | null;

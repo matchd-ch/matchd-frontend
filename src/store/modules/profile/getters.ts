@@ -21,10 +21,12 @@ export const getters: GetterTree<State, RootState> & Getters = {
       errors: state.profile.errors || null,
     };
   },
-  cityByZip: (state: State) => (payload: { zip: string }): string => {
-    const match = state.zipCity.data.find((location: ZipCity) => location.zip === payload.zip);
-    return match?.city || "";
-  },
+  cityByZip:
+    (state: State) =>
+    (payload: { zip: string }): string => {
+      const match = state.zipCity.data.find((location: ZipCity) => location.zip === payload.zip);
+      return match?.city || "";
+    },
   nicknameSuggestions(state: State): string[] {
     return state.profile.nicknameSuggestions;
   },

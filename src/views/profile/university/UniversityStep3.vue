@@ -153,20 +153,18 @@ export default class UniversityStep3Form extends Vue.with(Props) {
     const { value: branches } = useField<string[]>("branches");
     const { value: benefits } = useField<string[]>("benefits");
 
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          await store.dispatch(
-            ActionTypes.UNIVERSITY_ONBOARDING_STEP3,
-            universityProfileStep3InputMapper(formData)
-          );
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        } catch (e) {
-          console.log(e);
-        }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        await store.dispatch(
+          ActionTypes.UNIVERSITY_ONBOARDING_STEP3,
+          universityProfileStep3InputMapper(formData)
+        );
+        const onboardingState = store.getters["onboardingState"];
+        this.$emit("submitComplete", onboardingState.success);
+      } catch (e) {
+        console.log(e);
       }
-    );
+    });
 
     return {
       ...form,

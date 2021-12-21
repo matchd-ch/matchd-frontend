@@ -1,4 +1,4 @@
-mutation($branches: [BranchInput], $benefits: [BenefitInput]) {
+mutation ($branches: [BranchInput], $benefits: [BenefitInput]) {
   companyProfileStep3(step3: { branches: $branches, benefits: $benefits }) {
     success
     errors

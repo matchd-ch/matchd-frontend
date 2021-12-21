@@ -227,52 +227,50 @@ export default class JobPostingStep1 extends Vue {
       },
       { label: "In diesen Bereichen und Projekten wird das junge Talent tätig sein" }
     );
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        if (
-          formData.jobFromDateMonth &&
-          formData.jobFromDateYear &&
-          formData.jobToDateMonth &&
-          formData.jobToDateYear
-        ) {
-          const toDate = DateTime.fromObject({
-            month: +formData.jobToDateMonth,
-            year: +formData.jobToDateYear,
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      if (
+        formData.jobFromDateMonth &&
+        formData.jobFromDateYear &&
+        formData.jobToDateMonth &&
+        formData.jobToDateYear
+      ) {
+        const toDate = DateTime.fromObject({
+          month: +formData.jobToDateMonth,
+          year: +formData.jobToDateYear,
+        });
+        const fromDate = DateTime.fromObject({
+          month: +formData.jobFromDateMonth,
+          year: +formData.jobFromDateYear,
+        });
+        if (toDate <= fromDate) {
+          form.setErrors({
+            jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
           });
-          const fromDate = DateTime.fromObject({
-            month: +formData.jobFromDateMonth,
-            year: +formData.jobFromDateYear,
-          });
-          if (toDate <= fromDate) {
-            form.setErrors({
-              jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
-            });
-            return;
-          }
-        }
-
-        try {
-          await store.dispatch(
-            ActionTypes.SAVE_JOBPOSTING_STEP1,
-            jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
-          );
-          const jobPostingState = store.getters["jobPostingState"];
-          if (jobPostingState.success) {
-            this.$emit("submitComplete");
-          } else if (jobPostingState.errors) {
-            form.setErrors(jobPostingState.errors);
-            if (jobPostingState.errors?.jobFromDate) {
-              form.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
-            }
-            if (jobPostingState.errors?.jobToDate) {
-              form.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
-            }
-          }
-        } catch (e) {
-          console.log(e); // todo
+          return;
         }
       }
-    );
+
+      try {
+        await store.dispatch(
+          ActionTypes.SAVE_JOBPOSTING_STEP1,
+          jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
+        );
+        const jobPostingState = store.getters["jobPostingState"];
+        if (jobPostingState.success) {
+          this.$emit("submitComplete");
+        } else if (jobPostingState.errors) {
+          form.setErrors(jobPostingState.errors);
+          if (jobPostingState.errors?.jobFromDate) {
+            form.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
+          }
+          if (jobPostingState.errors?.jobToDate) {
+            form.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
+          }
+        }
+      } catch (e) {
+        console.log(e); // todo
+      }
+    });
 
     return {
       ...form,

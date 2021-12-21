@@ -151,24 +151,22 @@ export default class JobPostingStep2 extends Vue {
       }
     );
     const { value: jobRequirements } = useField<string[]>("jobRequirements");
-    const onSubmit = form.handleSubmit(
-      async (formData): Promise<void> => {
-        try {
-          if (store.getters["currentJobPosting"]?.id) {
-            await store.dispatch(
-              ActionTypes.SAVE_JOBPOSTING_STEP2,
-              jobPostingStep2InputMapper(store.getters["currentJobPosting"]?.id, formData)
-            );
-            const jobPostingState = store.getters["jobPostingState"];
-            if (jobPostingState.success) {
-              this.$emit("submitComplete");
-            }
+    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+      try {
+        if (store.getters["currentJobPosting"]?.id) {
+          await store.dispatch(
+            ActionTypes.SAVE_JOBPOSTING_STEP2,
+            jobPostingStep2InputMapper(store.getters["currentJobPosting"]?.id, formData)
+          );
+          const jobPostingState = store.getters["jobPostingState"];
+          if (jobPostingState.success) {
+            this.$emit("submitComplete");
           }
-        } catch (e) {
-          console.log(e); // todo
         }
+      } catch (e) {
+        console.log(e); // todo
       }
-    );
+    });
 
     return {
       ...form,

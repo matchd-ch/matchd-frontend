@@ -1,4 +1,4 @@
-query(
+query (
   $studentMatchingInput: StudentMatchingInput
   $jobPostingMatchingInput: JobPostingMatchingInput
   $projectPostingMatchingInput: ProjectPostingMatchingInput

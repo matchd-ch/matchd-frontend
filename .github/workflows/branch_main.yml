@@ -10,7 +10,7 @@ jobs:
     name: "Test"
 
     uses: matchd-ch/matchd-frontend/.github/workflows/part_test.yml@main
-  
+
   build:
     name: "Build"
 
@@ -19,7 +19,7 @@ jobs:
   deploy:
     name: "Deploy"
 
-    needs: ['build']
+    needs: ["build"]
 
     uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
     with:

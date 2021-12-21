@@ -36,6 +36,7 @@ module.exports = {
         "jest.config.js",
         "postcss.config.js",
         "vue.config.js",
+        ".prettier.config.js",
       ],
       env: {
         node: true,

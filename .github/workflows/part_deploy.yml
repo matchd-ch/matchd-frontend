@@ -48,8 +48,8 @@ jobs:
     name: "Helm"
 
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
 
     runs-on: ubuntu-latest
 
@@ -60,23 +60,23 @@ jobs:
         with:
           project_id: "joshmartin-cluster"
 
-      - name: 'Prepare Helm Chart'
-        run: helm dependency update .helm/chart/
+      - name: "Prepare Helm Chart"
+        run: "helm dependency update .helm/chart/"
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0.4.3'
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0.4.3"
         with:
-          workload_identity_provider: 'projects/182803428686/locations/global/workloadIdentityPools/github/providers/github'
-          service_account: 'matchd-deployer@joshmartin-cluster.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/182803428686/locations/global/workloadIdentityPools/github/providers/github"
+          service_account: "matchd-deployer@joshmartin-cluster.iam.gserviceaccount.com"
 
-      - id: 'get-credentials'
-        uses: 'google-github-actions/get-gke-credentials@v0.5.0'
+      - id: "get-credentials"
+        uses: "google-github-actions/get-gke-credentials@v0.5.0"
         with:
-          cluster_name: 'joshmartin-cluster'
-          location: 'europe-west6-a'
+          cluster_name: "joshmartin-cluster"
+          location: "europe-west6-a"
 
-      - name: 'Create Pull Secret'
+      - name: "Create Pull Secret"
         if: ${{ inputs.task != 'remove' }}
         run: |
           kubectl create secret --namespace="${{ inputs.namespace }}" \
@@ -93,16 +93,16 @@ jobs:
               --force \
               --filename=-
 
-      - name: 'Deploy'
-        uses: 'deliverybot/helm@v1'
+      - name: "Deploy"
+        uses: "deliverybot/helm@v1"
         with:
-          task: '${{ inputs.task }}'
-          release: '${{ inputs.release }}'
-          namespace: '${{ inputs.namespace }}'
+          task: "${{ inputs.task }}"
+          release: "${{ inputs.release }}"
+          namespace: "${{ inputs.namespace }}"
           helm: helm3
-          version: '${{ inputs.version }}'
-          chart: '.helm/chart'
-          token: '${{ github.token }}'
+          version: "${{ inputs.version }}"
+          chart: ".helm/chart"
+          token: "${{ github.token }}"
           values: |
             deployment:
               variants:

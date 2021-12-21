@@ -1,4 +1,4 @@
-query($shortList: Boolean) {
+query ($shortList: Boolean) {
   languages(shortList: $shortList) {
     id
     name
