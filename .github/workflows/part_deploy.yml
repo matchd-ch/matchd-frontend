@@ -129,4 +129,4 @@ jobs:
             env:
               BASE_URL: "/"
               API_URL: "${{ inputs.apiUrl }}"
-              DATA_PROTECTION_URL: "https://example.com"
+              DATA_PROTECTION_URL: "https://matchd.ch/impressum-datenschutz/"
