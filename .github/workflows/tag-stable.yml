@@ -21,7 +21,7 @@ jobs:
       namespace: matchd-frontend-production
       release: matchd-frontend
       environment: production
-      domain: matchd.ch
+      domain: get.matchd.ch
       regularReplicaCount: 2
       letsencryptEnabled: true
       monitoringEnabled: true
