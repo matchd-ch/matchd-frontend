@@ -35,7 +35,7 @@
     "vue-meta": "^3.0.0-alpha.4",
     "vue-property-decorator": "^10.0.0-rc.3",
     "vue-router": "^4.0.12",
-    "vuex": "^4.0.0-0",
+    "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@types/jest": "^24.9.0",
     "@types/luxon": "^2.0.8",
     "@types/pretty-bytes": "^5.2.0",
-    "@types/video.js": "^7.3.28",
+    "@types/video.js": "^7.3.29",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "@vue/cli-plugin-babel": "~4.5.15",
@@ -66,7 +66,7 @@
     "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
-    "@vue/test-utils": "^2.0.0-0",
+    "@vue/test-utils": "^2.0.0-rc.18",
     "autoprefixer": "^9.8.8",
     "eslint": "^7.0.0",
     "eslint-plugin-import": "^2.25.3",
