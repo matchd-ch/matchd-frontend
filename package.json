@@ -10,7 +10,10 @@
     "build:server": "tsc --project server/tsconfig.json",
     "codegen": "graphql-codegen --config codegen.yml",
     "format": "prettier -w .",
-    "format:check": "prettier -c ."
+    "format:check": "prettier -c .",
+    "test:ct": "cypress run-ct --headless --browser chrome",
+    "test:ct:prepare": "cypress install",
+    "test:ct:open": "cypress open-ct --browser chrome"
   },
   "dependencies": {
     "@apollo/client": "^3.5.7",
@@ -39,6 +42,8 @@
     "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
+    "@cypress/vue": "^3.1.0",
+    "@cypress/webpack-dev-server": "^1.8.0",
     "@graphql-codegen/add": "^3.1.1",
     "@graphql-codegen/cli": "^2.3.1",
     "@graphql-codegen/fragment-matcher": "^3.2.1",
@@ -68,6 +73,7 @@
     "@vue/eslint-config-typescript": "^9.1.0",
     "@vue/test-utils": "^2.0.0-rc.18",
     "autoprefixer": "^9.8.8",
+    "cypress": "^9.3.1",
     "eslint": "^7.0.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
@@ -85,6 +91,7 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
     "typescript": "~4.5.4",
     "vue-jest": "^5.0.0-alpha.10",
-    "vue-svg-loader": "^0.17.0-beta.2"
+    "vue-svg-loader": "^0.17.0-beta.2",
+    "webpack-dev-server": "^4.7.3"
   }
 }
