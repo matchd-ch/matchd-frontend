@@ -50,7 +50,7 @@
     "@types/d3": "^7.1.0",
     "@types/ejs": "^3.1.0",
     "@types/jest": "^24.9.0",
-    "@types/luxon": "^2.0.8",
+    "@types/luxon": "^2.0.9",
     "@types/pretty-bytes": "^5.2.0",
     "@types/video.js": "^7.3.29",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
