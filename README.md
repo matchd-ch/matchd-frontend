@@ -2,6 +2,10 @@
 
 [![.github/workflows/ci.yml](https://github.com/matchd-ch/matchd-frontend/actions/workflows/branch_main.yml/badge.svg)](https://github.com/matchd-ch/matchd-frontend/actions/workflows/branch_main.yml)
 
+## Bugs / Feature Requests
+
+https://github.com/matchd-ch/stories
+
 ## Project setup
 
 ```
