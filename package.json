@@ -19,7 +19,7 @@
     "@vueform/slider": "^1.0.3",
     "apollo-upload-client": "^17.0.0",
     "core-js": "^3.21.0",
-    "d3": "^6.6.2",
+    "d3": "^7.3.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "graphql": "^16.3.0",
