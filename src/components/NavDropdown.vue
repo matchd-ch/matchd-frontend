@@ -1,8 +1,8 @@
 <template>
-  <div class="relative" ref="navDropdown">
+  <div ref="navDropdown" class="relative">
     <button
-      @click.prevent="open = !open"
       class="flex flex-row items-center w-full rounded-full px-10 py-2 mt-2 md:text-lg text-sm border text-left bg-transparent md:w-auto md:inline md:mt-0 md:ml-4 hover:bg-black hover:border-black hover:text-white transition-colors focus:text-gray-900 focus:bg-gray-200 focus:outline-none focus:shadow-outline lg:max-w-lg whitespace-nowrap overflow-ellipsis overflow-hidden"
+      @click.prevent="open = !open"
     >
       {{ text }}
     </button>
@@ -19,7 +19,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, prop, Options } from "vue-class-component";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   text = prop<string>({ required: true });
@@ -58,18 +58,18 @@ export default class NavDropdown extends Vue.with(Props) {
   @apply transition ease-out duration-100;
 }
 .v-enter-from {
-  @apply transform opacity-0 scale-95;
+  @apply opacity-0 scale-95;
 }
 .v-enter-to {
-  @apply transform opacity-100 scale-100;
+  @apply opacity-100 scale-100;
 }
 .v-leave-active {
   @apply transition ease-in duration-75;
 }
 .v-leave-from {
-  @apply transform opacity-100 scale-100;
+  @apply opacity-100 scale-100;
 }
 .v-leave-to {
-  @apply transform opacity-0 scale-95;
+  @apply opacity-0 scale-95;
 }
 </style>

@@ -7,7 +7,7 @@
     <div
       class="step col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2 flex items-center"
     >
-      <div class="flex-grow">
+      <div class="grow">
         <h2
           class="step-heading relative text-heading-md flex items-center"
           :class="{ 'mb-12': $slots.default }"
@@ -35,6 +35,11 @@ export default class MatchdStep extends Vue.with(Props) {}
 </script>
 
 <style lang="postcss" scoped>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
 .step-wrapper {
   &:first-child {
     & .step-line-start {
@@ -86,11 +91,12 @@ export default class MatchdStep extends Vue.with(Props) {}
     width: 36px;
     height: 36px;
 
-    @screen lg {
+    @apply lg:text-heading-md;
+
+    @media screen(lg) {
       width: 66px;
       height: 66px;
       left: -98px;
-      @apply text-heading-md;
     }
   }
 }
@@ -109,7 +115,8 @@ export default class MatchdStep extends Vue.with(Props) {}
     @apply bg-primary-1;
     width: 2px;
     left: -41px;
-    @screen lg {
+
+    @media screen(lg) {
       left: -66px;
     }
   }

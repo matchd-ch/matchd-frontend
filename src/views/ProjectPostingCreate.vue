@@ -31,9 +31,9 @@
       <component
         :is="projectPostingCreateComponent"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:px-8 px-4 lg:px-5 py-12"
-        @submitComplete="onSubmitComplete"
-        @navigateBack="onNavigateBack"
-        @changeDirty="onChangeDirty"
+        @submit-complete="onSubmitComplete"
+        @navigate-back="onNavigateBack"
+        @change-dirty="onChangeDirty"
       ></component>
     </div>
   </div>
@@ -49,8 +49,8 @@ import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
 import ProjectPostingStep1 from "@/views/projectposting/ProjectPostingStep1.vue";
 import ProjectPostingStep2 from "@/views/projectposting/ProjectPostingStep2.vue";
 import ProjectPostingStep3 from "@/views/projectposting/ProjectPostingStep3.vue";
-import { Options, setup, Vue } from "vue-class-component";
 import type { ProjectPosting as ProjectPostingType } from "api";
+import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 

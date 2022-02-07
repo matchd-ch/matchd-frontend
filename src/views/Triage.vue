@@ -5,8 +5,7 @@
         href="https://matchd.ch"
         class="text-paragraph-lg flex items-center hover:text-green-1 transition-colors"
       >
-        <ArrowBack class="w-5 mr-2 flex-shrink-0 inline-block" />
-        Zurück zur Landingpage
+        <ArrowBack class="w-5 mr-2 shrink-0 inline-block" />Zurück zur Landingpage
       </a>
     </div>
     <div class="bg-pink-2 xl:bg-matchd-gradient-l-r">
@@ -17,9 +16,7 @@
           class="row-start-1 xl:col-start-1 xl:col-span-2 flex justify-center items-center text-white px-4 py-10 xl:p-10 shadow-white bg-green-1 xl:bg-transparent"
         >
           <Logo class="w-full" />
-          <MatchdButton
-            @click="$router.push({ name: 'Login' })"
-            class="xl:hidden ml-8 flex-shrink-0"
+          <MatchdButton class="xl:hidden ml-8 shrink-0" @click="$router.push({ name: 'Login' })"
             >Login</MatchdButton
           >
         </div>
@@ -35,9 +32,8 @@
         <RegisterTile
           class="row-start-2 col-start-1 xl:col-start-2 xl:row-start-2"
           :to="{ path: '/registrierung/schueler*in-lernender' }"
+          >Als Schüler*in / Lernender registrieren</RegisterTile
         >
-          Als Schüler*in / Lernender registrieren
-        </RegisterTile>
         <div
           class="row-start-3 col-start-1 xl:col-start-2 xl:row-start-3 shadow-white hidden xl:block"
         ></div>
@@ -68,9 +64,9 @@
       >
         <RegisterContactForm
           v-if="!contactFormSent"
-          @submit="onSubmit"
           :loading="contactFormLoading"
-          class="flex-grow"
+          class="grow"
+          @submit="onSubmit"
         >
           <h2 class="text-white text-display-xs mb-6">
             Du hast nichts Passendes gefunden? Kein Problem!
@@ -79,7 +75,7 @@
             Schreib uns, woher du kommst und warum du gerne Teil der Matchd-Community werden
             möchtest. Wir schauen uns deine Community-Anfrage so schnell wie möglich an.
           </p>
-          <template v-slot:button-label>Community-Anfrage senden</template>
+          <template #button-label>Community-Anfrage senden</template>
         </RegisterContactForm>
         <RegisterContactFormSent v-else>
           <h2 class="text-display-xs mb-6 text-white">Merci für die Community-Anfrage</h2>
@@ -94,15 +90,15 @@
 </template>
 
 <script lang="ts">
-import { ActionTypes } from "@/store/modules/registration/action-types";
-import type { UserRequestInput } from "api";
-import { Options, setup, Vue } from "vue-class-component";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import Logo from "@/assets/logo.svg";
-import RegisterTile from "@/components/RegisterTile.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import RegisterContactForm from "@/components/RegisterContactForm.vue";
 import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
+import RegisterTile from "@/components/RegisterTile.vue";
+import { ActionTypes } from "@/store/modules/registration/action-types";
+import type { UserRequestInput } from "api";
+import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
 @Options({

@@ -10,12 +10,12 @@
     <grid-tile
       v-for="match in matches"
       :key="match.id"
-      :linkTo="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
-      :imgSrc="replaceStack(match.img, resultType === 'student' ? 'avatar' : 'logo')"
-      :imgAlt="`${match.name} ${resultType === 'student' ? 'Profilbild' : 'Logo'}`"
+      :link-to="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
+      :img-src="replaceStack(match.img, resultType === 'student' ? 'avatar' : 'logo')"
+      :img-alt="`${match.name} ${resultType === 'student' ? 'Profilbild' : 'Logo'}`"
       :color="color"
     >
-      <template v-slot:match-status>
+      <template #match-status>
         <div v-if="match.matchStatus?.initiator" class="search-result-grid__match-status-helper">
           <div class="search-result-grid__match-status">
             <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
@@ -32,11 +32,11 @@
 </template>
 
 <script lang="ts">
-import { SearchResult } from "@/models/SearchResult";
 import GridTile from "@/components/GridTile.vue";
+import { replaceStack } from "@/helpers/replaceStack";
+import { SearchResult } from "@/models/SearchResult";
 import { Options, prop, Vue } from "vue-class-component";
 import { LocationQueryRaw } from "vue-router";
-import { replaceStack } from "@/helpers/replaceStack";
 
 class Props {
   matches = prop<SearchResult[]>({ default: [] });
@@ -110,7 +110,7 @@ export default class SearchBoost extends Vue.with(Props) {
   @element match-status-helper {
     @apply absolute top-0 right-0 bottom-0 left-0;
     @apply rounded-full;
-    @apply origin-center transform rotate-45;
+    @apply origin-center rotate-45;
   }
 
   @element match-status {
@@ -118,7 +118,7 @@ export default class SearchBoost extends Vue.with(Props) {
     @apply flex items-center justify-center;
     @apply rounded-full p-2;
     @apply text-white;
-    @apply transform translate-x-1/2 -translate-y-1/2 -rotate-45;
+    @apply translate-x-1/2 -translate-y-1/2 -rotate-45;
   }
 
   @element link {

@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, prop } from "vue-class-component";
+import { prop, Vue } from "vue-class-component";
 
 class Props {
   linkTo = prop<string>({});

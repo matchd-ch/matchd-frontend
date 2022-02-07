@@ -8,10 +8,10 @@
             <label for="jobPosting" class="sr-only">Stelle auswählen</label>
             <select
               id="jobPosting"
-              name="jobPosting"
-              class="bg-transparent border-b border-white py-2 px-1 appearance-none flex-grow xl:ml-4"
-              @change="onChangeJobPosting"
               v-model="jobPostingId"
+              name="jobPosting"
+              class="bg-transparent border-b border-white py-2 px-1 appearance-none grow xl:ml-4"
+              @change="onChangeJobPosting"
             >
               <option
                 v-for="jobPosting in jobPostings"
@@ -26,18 +26,18 @@
         </div>
         <SearchBoost
           class="search-boost flex xl:hidden mt-4"
-          @changeSoftBoost="onChangeSoftBoost"
-          @changeTechBoost="onChangeTechBoost"
-          :techBoost="techBoost"
-          :softBoost="softBoost"
+          :tech-boost="techBoost"
+          :soft-boost="softBoost"
+          @change-soft-boost="onChangeSoftBoost"
+          @change-tech-boost="onChangeTechBoost"
         />
 
-        <template v-slot:display-toggles>
+        <template #display-toggles>
           <div class="hidden xl:flex justify-center mt-4 xl:mt-0">
-            <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
+            <button type="button" class="p-1" @click="onChangeLayout('bubbles')">
               <span class="material-icons text-icon-lg">bubble_chart</span>
             </button>
-            <button type="button" @click="onChangeLayout('grid')" class="p-1">
+            <button type="button" class="p-1" @click="onChangeLayout('grid')">
               <span class="material-icons text-icon-lg">view_comfy</span>
             </button>
           </div>
@@ -54,21 +54,21 @@
         "
         :matches="matchesForBubbles"
         :avatar="avatar"
-        :jobPostingId="jobPostingId"
-        rootType="jobposting"
-        resultType="student"
-        @clickResult="onClickResult"
+        :job-posting-id="jobPostingId"
+        root-type="jobposting"
+        result-type="student"
+        @click-result="onClickResult"
       />
       <SearchResultGrid
         v-else-if="layout === 'grid' && matchesForGrid.length > 0"
         :matches="matchesForGrid"
-        :jobPostingId="jobPostingId"
-        resultType="student"
+        :job-posting-id="jobPostingId"
+        result-type="student"
         color="pink"
       ></SearchResultGrid>
       <div
-        class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
         v-else
+        class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
       >
         <div>Leider haben wir kein passendes Talent gefunden, haben Sie etwas Geduld.</div>
       </div>
@@ -76,11 +76,11 @@
     <teleport to="footer">
       <SearchBoost
         class="search-boost hidden xl:flex"
-        @changeSoftBoost="onChangeSoftBoost"
-        @changeTechBoost="onChangeTechBoost"
-        :techBoost="techBoost"
-        :softBoost="softBoost"
+        :tech-boost="techBoost"
+        :soft-boost="softBoost"
         color="pink"
+        @change-soft-boost="onChangeSoftBoost"
+        @change-tech-boost="onChangeTechBoost"
       />
     </teleport>
   </div>

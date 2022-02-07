@@ -1,6 +1,6 @@
 <template>
   <section
-    class="posting-section flex-grow lg:flex border-b border-orange-1 p-9 lg:p-0 relative"
+    class="posting-section grow lg:flex border-b border-orange-1 p-9 lg:p-0 relative"
     :class="{
       'pr-20': editStep,
     }"
@@ -11,14 +11,18 @@
     <div class="lg:mb-0 lg:w-1/2 lg:p-9">
       <slot />
     </div>
-    <EditLink v-if="editStep" :slug="slug" :editStep="editStep" route="ProjectPostingCreate">
-    </EditLink>
+    <EditLink
+      v-if="editStep"
+      :slug="slug"
+      :edit-step="editStep"
+      route="ProjectPostingCreate"
+    ></EditLink>
   </section>
 </template>
 
 <script lang="ts">
-import { Vue, prop, Options } from "vue-class-component";
 import EditLink from "@/components/EditLink.vue";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   title = prop<string>({ required: true });

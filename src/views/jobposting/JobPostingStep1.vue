@@ -6,7 +6,7 @@
     </p>
     <!-- Bezeichnung Field -->
     <MatchdField id="title" class="mb-10" :errors="veeForm.errors.title">
-      <template v-slot:label>Geben Sie der Stelle eine passende Bezeichnung*</template>
+      <template #label>Geben Sie der Stelle eine passende Bezeichnung*</template>
       <Field
         id="title"
         name="title"
@@ -18,8 +18,8 @@
     </MatchdField>
     <!-- Art Field -->
     <SelectPillGroup :errors="veeForm.errors.jobTypeId" class="mb-10">
-      <template v-slot:label>Diese Stellen-Art möchten Sie besetzen*</template>
-      <template v-slot:field>
+      <template #label>Diese Stellen-Art möchten Sie besetzen*</template>
+      <template #field>
         <Field
           id="jobTypeId"
           name="jobTypeId"
@@ -30,9 +30,9 @@
         />
       </template>
       <SelectPill
-        name="jobTypePill"
         v-for="option in jobTypes"
         :key="option.id"
+        name="jobTypePill"
         :value="option.id"
         :checked="option.id === veeForm.values?.jobTypeId"
         @change="onChangeJobType"
@@ -43,27 +43,27 @@
     <SelectPillMultiple
       :options="branches"
       :errors="veeForm.errors.branches"
-      @change="onChangeBranch"
       name="branches"
       class="mb-10"
+      @change="onChangeBranch"
     >
-      <template v-slot:label>In diesem Bereich wird das junge Talent tätig sein*</template>
+      <template #label>In diesem Bereich wird das junge Talent tätig sein*</template>
     </SelectPillMultiple>
     <!-- Stellenprozent Field -->
     <MatchdSelect id="workload" :errors="veeForm.errors.workload" class="mb-10">
-      <template v-slot:label>Stellenprozent</template>
+      <template #label>Stellenprozent</template>
       <Field id="workload" name="workload" as="select" label="Stellenprozent" rules="required">
-        <option value="" disabled selected hidden>Stellenprozent</option>
-        <option v-for="(n, index) in 10" :value="n * 10" :key="index">{{ n * 10 }}%</option>
+        <option value disabled selected hidden>Stellenprozent</option>
+        <option v-for="(n, index) in 10" :key="index" :value="n * 10">{{ n * 10 }}%</option>
       </Field>
     </MatchdSelect>
     <!-- Stellenantritt -->
     <MatchdSelect
       id="positionDateFrom"
-      class="mb-10 flex-grow"
+      class="mb-10 grow"
       :errors="veeForm.errors.jobFromDateMonth || veeForm.errors.jobFromDateYear"
     >
-      <template v-slot:label>Stellenantritt*</template>
+      <template #label>Stellenantritt*</template>
       <fieldset id="positionDateFrom" class="flex">
         <Field
           id="jobFromDateMonth"
@@ -73,8 +73,8 @@
           class="mr-3"
           rules="required"
         >
-          <option value="" disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :value="n" :key="index">
+          <option value disabled selected hidden>Monat</option>
+          <option v-for="(n, index) in 12" :key="index" :value="n">
             {{ String(n).padStart(2, "0") }}
           </option>
         </Field>
@@ -88,7 +88,7 @@
           <option v-if="veeForm.values.jobFromDateYear" selected>
             {{ veeForm.values.jobFromDateYear }}
           </option>
-          <option v-else value="" disabled selected hidden>Jahr</option>
+          <option v-else value disabled selected hidden>Jahr</option>
           <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
         </Field>
       </fieldset>
@@ -96,14 +96,14 @@
     <!-- Endtermin -->
     <MatchdSelect
       id="positionDateTo"
-      class="mb-10 flex-grow"
+      class="mb-10 grow"
       :errors="veeForm.errors.jobToDateMonth || veeForm.errors.jobToDateYear"
     >
-      <template v-slot:label>Endtermin</template>
+      <template #label>Endtermin</template>
       <MatchdToggle id="jobToDateOpenEnd">
         <Field id="jobToDateOpenEnd" name="jobToDateOpenEnd" type="checkbox" value="true" />
-        <template v-if="jobToDateOpenEnd" v-slot:value>Befristet</template>
-        <template v-else v-slot:value>Unbefristet</template>
+        <template v-if="jobToDateOpenEnd" #value>Befristet</template>
+        <template v-else #value>Unbefristet</template>
       </MatchdToggle>
       <template v-if="jobToDateOpenEnd">
         <fieldset id="positionDateTo" class="flex mt-3">
@@ -115,8 +115,8 @@
             class="mr-3"
             rules="requiredIfNotEmpty:jobToDateYear"
           >
-            <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">
+            <option value disabled selected hidden>Monat</option>
+            <option v-for="(n, index) in 12" :key="index" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -130,7 +130,7 @@
             <option v-if="veeForm.values.jobToDateYear" selected>
               {{ veeForm.values.jobToDateYear }}
             </option>
-            <option v-else value="" disabled selected hidden>Jahr</option>
+            <option v-else value disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
@@ -138,16 +138,14 @@
     </MatchdSelect>
     <!-- Beschreibung Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
-      <template v-slot:label>Beschreiben Sie die Besonderheiten der Stelle</template>
+      <template #label>Beschreiben Sie die Besonderheiten der Stelle</template>
       <Field id="description" name="description" as="textarea" label="Beschreibung" class="h-72" />
     </MatchdField>
     <!-- Link Ausschreibung Field -->
     <MatchdField id="url" class="mb-10" :errors="veeForm.errors.url">
-      <template v-slot:label>Link zur Ausschreibung</template>
+      <template #label>Link zur Ausschreibung</template>
       <Field id="url" name="url" as="input" label="Link zur Ausschreibung" rules="url" />
-      <template v-slot:info
-        >Link muss auf ein Stelleninserate auf Ihrer Website verlinken.</template
-      >
+      <template #info>Link muss auf ein Stelleninserate auf Ihrer Website verlinken.</template>
     </MatchdField>
     <teleport to="footer">
       <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
@@ -157,9 +155,8 @@
           :disabled="jobPostingLoading"
           class="mb-2 xl:mr-4 xl:mb-0"
           @click="$router.push({ name: 'Dashboard' })"
+          >Abbrechen</MatchdButton
         >
-          Abbrechen
-        </MatchdButton>
         <MatchdButton
           type="button"
           variant="fill"
@@ -184,14 +181,14 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
-import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { useStore } from "@/store";
-import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
+import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import type { Branch, JobPosting as JobPostingType, JobType, User } from "api";
 import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";

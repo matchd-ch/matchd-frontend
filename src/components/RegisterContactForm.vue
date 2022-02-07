@@ -1,11 +1,12 @@
 <template>
   <div class="register-contact-form">
     <slot></slot>
-    <Form @submit="$emit('submit', $event)" v-slot="{ errors }">
+    <Form v-slot="{ errors }" @submit="$emit('submit', $event)">
       <div class="mb-6">
         <label for="name" class="sr-only">Dein Name</label>
         <Field
           id="name"
+          v-model="form.name"
           name="name"
           as="input"
           placeholder="Dein Name"
@@ -13,13 +14,13 @@
           rules="required"
           class="form-input"
           :class="{ invalid: errors.name }"
-          v-model="form.name"
         />
       </div>
       <div class="mb-6">
         <label for="email" class="sr-only">Deine E-Mail</label>
         <Field
           id="email"
+          v-model="form.email"
           name="email"
           type="email"
           as="input"
@@ -28,7 +29,6 @@
           rules="required|email"
           class="form-input"
           :class="{ invalid: errors.email }"
-          v-model="form.email"
         />
       </div>
       <div class="mb-6">

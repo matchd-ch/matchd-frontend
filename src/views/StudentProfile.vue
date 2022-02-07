@@ -21,7 +21,8 @@
           v-if="user.firstName"
           class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full"
         >
-          {{ user.firstName }} {{ user.lastName }}<br />
+          {{ user.firstName }} {{ user.lastName }}
+          <br />
           geboren im {{ formatDate(user.student.dateOfBirth, "LLLL yyyy") }}
           <template v-if="user.student.street">
             <br />
@@ -31,13 +32,13 @@
       </div>
     </div>
     <div class="flex flex-col min-h-full">
-      <profile-section title="Ich suche" :editStep="getStepName(2)">
+      <profile-section title="Ich suche" :edit-step="getStepName(2)">
         <p>{{ lookingFor }}</p>
       </profile-section>
       <profile-section
         v-if="user.student.skills?.length"
         title="Diese technischen Skills bringe ich mit"
-        :editStep="getStepName(4)"
+        :edit-step="getStepName(4)"
       >
         <ul class="text-lg">
           <li v-for="skill in user.student.skills" :key="skill.id">{{ skill.name }}</li>
@@ -46,7 +47,7 @@
       <profile-section
         v-if="user.student.languages?.length"
         title="Ich habe Kenntnisse in folgenden Sprachen"
-        :editStep="getStepName(4)"
+        :edit-step="getStepName(4)"
       >
         <ul class="text-lg">
           <li v-for="language in user.student.languages" :key="language.id">
@@ -57,7 +58,7 @@
       <profile-section
         v-if="user.student.onlineProjects?.length"
         title="Das sind meine eigenen Projekte"
-        :editStep="getStepName(4)"
+        :edit-step="getStepName(4)"
       >
         <ul class="text-lg">
           <li v-for="project in user.student.onlineProjects" :key="project.id">
@@ -73,22 +74,20 @@
       <profile-section
         v-if="user.student.distinction"
         title="Was mich sonst noch auszeichnet"
-        :editStep="getStepName(4)"
+        :edit-step="getStepName(4)"
       >
         <p class="text-lg">{{ user.student.distinction }}</p>
       </profile-section>
       <profile-section
         v-if="user.student.hobbies?.length"
         title="Das mache ich gerne in meiner Freizeit"
-        :editStep="getStepName(4)"
+        :edit-step="getStepName(4)"
       >
         <ul class="text-lg">
-          <li v-for="hobby in user.student.hobbies" :key="hobby.id">
-            {{ hobby.name }}
-          </li>
+          <li v-for="hobby in user.student.hobbies" :key="hobby.id">{{ hobby.name }}</li>
         </ul>
       </profile-section>
-      <profile-section v-if="certificates?.length" title="Zertifikate" :editStep="getStepName(4)">
+      <profile-section v-if="certificates?.length" title="Zertifikate" :edit-step="getStepName(4)">
         <ul>
           <li v-for="certificate in certificates" :key="certificate.id">
             <a
@@ -96,11 +95,10 @@
               class="font-medium underline inline-block text-lg hover:text-primary-1 transition-colors"
               target="_blank"
               download
-              ><span>
-                {{ certificate.fileName }}
-              </span>
-              <ArrowDown class="w-5 mb-1 ml-2 inline-block"
-            /></a>
+            >
+              <span>{{ certificate.fileName }}</span>
+              <ArrowDown class="w-5 mb-1 ml-2 inline-block" />
+            </a>
           </li>
         </ul>
       </profile-section>
@@ -110,15 +108,15 @@
 
 <script lang="ts">
 import { AttachmentKey, DateMode } from "@/api/models/types";
-import ProfileSection from "@/components/ProfileSection.vue";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
+import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, User } from "api";
 import { Options, Vue } from "vue-class-component";
-import { replaceStack } from "@/helpers/replaceStack";
 
 @Options({
   components: {

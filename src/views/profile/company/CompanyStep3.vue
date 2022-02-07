@@ -2,34 +2,34 @@
   <form v-if="branches.length && companyDocumentsUploadConfigurations" @submit="veeForm.onSubmit">
     <FormSaveError v-if="showError" />
     <!-- Branch Field -->
-    <SelectPillMultiple :options="branches" @change="onChangeBranch" name="branches" class="mb-10">
-      <template v-slot:label
+    <SelectPillMultiple :options="branches" name="branches" class="mb-10" @change="onChangeBranch">
+      <template #label
         >In diesen Bereichen und Projekten können Talente bei Ihnen tätig werden</template
       >
     </SelectPillMultiple>
     <!-- Benefits Field -->
     <SelectIconGroup class="mb-10" :icons="benefits" name="benefits" @change="onChangeBenefits">
-      <template v-slot:label>Das erwartet dich bei uns</template>
+      <template #label>Das erwartet dich bei uns</template>
     </SelectIconGroup>
     <!-- Media -->
     <MatchdFileBlock>
-      <template v-slot:label>Bilder und Videos Ihres Unternehmens und Ihres Teams</template>
+      <template #label>Bilder und Videos Ihres Unternehmens und Ihres Teams</template>
       <MatchdFileView
         v-if="companyDocuments.length > 0 || companyDocumentsQueue.length > 0"
         :files="companyDocuments"
-        :queuedFiles="companyDocumentsQueue"
-        @deleteFile="onDeleteCompanyDocuments"
+        :queued-files="companyDocumentsQueue"
         class="mb-3"
         :class="{
           'mb-10': companyDocumentsUploadConfigurations.maxFiles < companyDocuments.length,
         }"
+        @delete-file="onDeleteCompanyDocuments"
       />
       <MatchdFileUpload
         v-if="companyDocumentsUploadConfigurations.maxFiles > companyDocuments.length"
         :formal="true"
-        :uploadConfiguration="companyDocumentsUploadConfigurations"
-        @selectFiles="onSelectCompanyDocuments"
+        :upload-configuration="companyDocumentsUploadConfigurations"
         class="mb-10"
+        @select-files="onSelectCompanyDocuments"
         >Fotos oder Videos auswählen</MatchdFileUpload
       >
     </MatchdFileBlock>
@@ -39,8 +39,8 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -57,7 +57,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton
@@ -83,17 +83,16 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
-import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
-import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 import { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
+import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment, Branch, Benefit, UploadConfiguration } from "api";
+import type { Attachment, Benefit, Branch, UploadConfiguration } from "api";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

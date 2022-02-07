@@ -6,38 +6,38 @@
           <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
             ein(e)
             <label for="jobType" class="sr-only">Art der Stelle</label>
-            <select id="jobType" name="jobType" @change="onChangeJobType" v-model="jobTypeId">
+            <select id="jobType" v-model="jobTypeId" name="jobType" @change="onChangeJobType">
               <option v-for="jobType in jobTypes" :key="jobType.id" :value="jobType.id">
                 {{ jobType.name }}
-                <template v-if="jobType.id === this.user?.student?.jobType?.id"
+                <template v-if="jobType.id === user?.student?.jobType?.id"
                   >(Profileinstellung)</template
                 >
               </option>
             </select>
           </div>
-          <div class="flex flex-col xl:flex-row xl:items-center xl:items-center xl:justify-between">
+          <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
             mit Pensum
             <label for="workload" class="sr-only">Stellenprozent</label>
-            <select id="workload" name="workload" @change="onChangeWorkload" v-model="workload">
-              <option v-for="(n, index) in 10" :value="n * 10" :key="index">{{ n * 10 }}%</option>
+            <select id="workload" v-model="workload" name="workload" @change="onChangeWorkload">
+              <option v-for="(n, index) in 10" :key="index" :value="n * 10">{{ n * 10 }}%</option>
             </select>
           </div>
-          <div class="flex flex-col xl:flex-row xl:items-center xl:items-center xl:justify-between">
+          <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
             im Bereich
             <label for="branch" class="sr-only">Bereich der Stelle</label>
-            <select id="branch" name="branch" @change="onChangeBranch" v-model="branchId">
+            <select id="branch" v-model="branchId" name="branch" @change="onChangeBranch">
               <option v-for="branch in branches" :key="branch.id" :value="branch.id">
                 {{ branch.name }}
-                <template v-if="branch.id === this.user?.student?.branch?.id"
+                <template v-if="branch.id === user?.student?.branch?.id"
                   >(Profileinstellung)</template
                 >
               </option>
             </select>
           </div>
-          <div class="flex flex-col xl:flex-row xl:items-center xl:items-center xl:justify-between">
+          <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
             in
             <label for="zipCity" class="sr-only">Ort der Stelle</label>
-            <select id="zipCity" name="zipCity" @change="onChangeZipCity" v-model="zip">
+            <select id="zipCity" v-model="zip" name="zipCity" @change="onChangeZipCity">
               <option value="">egal wo</option>
               <option v-for="city in zipCity" :key="city.zip" :value="city.zip">
                 {{ city.zip }} {{ city.city }}
@@ -47,18 +47,18 @@
         </div>
         <SearchBoost
           class="search-boost flex xl:hidden mt-4"
-          @changeSoftBoost="onChangeSoftBoost"
-          @changeTechBoost="onChangeTechBoost"
-          :techBoost="techBoost"
-          :softBoost="softBoost"
+          :tech-boost="techBoost"
+          :soft-boost="softBoost"
+          @change-soft-boost="onChangeSoftBoost"
+          @change-tech-boost="onChangeTechBoost"
         />
 
-        <template v-slot:display-toggles>
+        <template #display-toggles>
           <div class="hidden xl:flex justify-center mt-4 xl:mt-0">
-            <button type="button" @click="onChangeLayout('bubbles')" class="p-1">
+            <button type="button" class="p-1" @click="onChangeLayout('bubbles')">
               <span class="material-icons text-icon-lg">bubble_chart</span>
             </button>
-            <button type="button" @click="onChangeLayout('grid')" class="p-1">
+            <button type="button" class="p-1" @click="onChangeLayout('grid')">
               <span class="material-icons text-icon-lg">view_comfy</span>
             </button>
           </div>
@@ -75,19 +75,19 @@
         "
         :matches="matchesForBubbles"
         :avatar="avatar"
-        rootType="student"
-        resultType="jobposting"
-        @clickResult="onClickResult"
+        root-type="student"
+        result-type="jobposting"
+        @click-result="onClickResult"
       />
       <SearchResultGrid
         v-else-if="layout === 'grid' && matchesForGrid.length > 0"
         :matches="matchesForGrid"
-        resultType="jobposting"
+        result-type="jobposting"
         color="green"
       ></SearchResultGrid>
       <div
-        class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
         v-else
+        class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
       >
         <div>
           👀 ganz schön leer hier. Derzeit gibt es leider keine Suchresultate zum Matchen.<br />Welche
@@ -101,10 +101,10 @@
     <teleport to="footer">
       <SearchBoost
         class="search-boost hidden xl:flex"
-        @changeSoftBoost="onChangeSoftBoost"
-        @changeTechBoost="onChangeTechBoost"
-        :techBoost="techBoost"
-        :softBoost="softBoost"
+        :tech-boost="techBoost"
+        :soft-boost="softBoost"
+        @change-soft-boost="onChangeSoftBoost"
+        @change-tech-boost="onChangeTechBoost"
       />
     </teleport>
   </div>

@@ -2,12 +2,8 @@
   <form @submit="veeForm.onSubmit">
     <FormSaveError v-if="showError" />
     <div class="lg:flex">
-      <MatchdField
-        id="firstName"
-        class="lg:mr-3 mb-10 flex-grow"
-        :errors="veeForm.errors.firstName"
-      >
-        <template v-slot:label>Vorname*</template>
+      <MatchdField id="firstName" class="lg:mr-3 mb-10 grow" :errors="veeForm.errors.firstName">
+        <template #label>Vorname*</template>
         <Field
           id="firstName"
           name="firstName"
@@ -18,8 +14,8 @@
           readonly
         />
       </MatchdField>
-      <MatchdField id="lastName" class="mb-10 flex-grow" :errors="veeForm.errors.lastName">
-        <template v-slot:label>Nachname*</template>
+      <MatchdField id="lastName" class="mb-10 grow" :errors="veeForm.errors.lastName">
+        <template #label>Nachname*</template>
         <Field
           id="lastName"
           name="lastName"
@@ -32,33 +28,33 @@
       </MatchdField>
     </div>
     <MatchdSelect id="birthdate" class="mb-10" :errors="veeForm.errors.year">
-      <template v-slot:label>Geburtstag*</template>
+      <template #label>Geburtstag*</template>
       <fieldset id="birthdate" class="flex">
         <Field id="day" name="day" as="select" label="Tag" class="mr-3" rules="required">
-          <option value="" disabled selected hidden>Tag</option>
-          <option v-for="(n, index) in 31" :value="n" :key="index">
+          <option value disabled selected hidden>Tag</option>
+          <option v-for="(n, index) in 31" :key="index" :value="n">
             {{ String(n).padStart(2, "0") }}
           </option>
         </Field>
         <Field id="month" name="month" as="select" label="Monat" class="mr-3" rules="required">
-          <option value="" disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :value="n" :key="index">
+          <option value disabled selected hidden>Monat</option>
+          <option v-for="(n, index) in 12" :key="index" :value="n">
             {{ String(n).padStart(2, "0") }}
           </option>
         </Field>
         <Field id="year" name="year" as="select" label="Jahr" rules="birthday:day,month,year">
-          <option value="" disabled selected hidden>Jahr</option>
+          <option value disabled selected hidden>Jahr</option>
           <option v-for="(n, index) in validAges" :key="index">{{ n }}</option>
         </Field>
       </fieldset>
     </MatchdSelect>
     <MatchdField id="street" class="mb-10" :errors="veeForm.errors.street">
-      <template v-slot:label>Adresse</template>
+      <template #label>Adresse</template>
       <Field id="street" name="street" as="input" label="Adresse" />
     </MatchdField>
     <div class="lg:flex">
       <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.zip">
-        <template v-slot:label>PLZ</template>
+        <template #label>PLZ</template>
         <Field
           id="zip"
           name="zip"
@@ -68,13 +64,13 @@
           @blur="onBlurZip(veeForm.values?.zip)"
         />
       </MatchdField>
-      <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="veeForm.errors.city">
-        <template v-slot:label>Ort</template>
+      <MatchdField id="city" class="mb-10 lg:grow" :errors="veeForm.errors.city">
+        <template #label>Ort</template>
         <Field id="city" name="city" as="input" label="Ort" />
       </MatchdField>
     </div>
     <MatchdField id="mobile" class="mb-10" :errors="veeForm.errors.mobile">
-      <template v-slot:label>Mobile-Nummer</template>
+      <template #label>Mobile-Nummer</template>
       <Field
         id="mobile"
         name="mobile"
@@ -83,10 +79,10 @@
         rules="phone"
         placeholder="+41792223344"
       />
-      <template v-slot:info
-        >Matchd gibt deine Mobile-Nummer nicht weiter. Du entscheidest, wann wir sie mit einem
-        Unternehmen teilen dürfen.</template
-      >
+      <template #info>
+        Matchd gibt deine Mobile-Nummer nicht weiter. Du entscheidest, wann wir sie mit einem
+        Unternehmen teilen dürfen.
+      </template>
     </MatchdField>
     <template v-if="edit">
       <teleport to="footer">
@@ -94,20 +90,18 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
+            >Abbrechen</MatchdButton
           >
-            Abbrechen
-          </MatchdButton>
           <MatchdButton
             type="button"
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
+            >Speichern</MatchdButton
           >
-            Speichern
-          </MatchdButton>
         </div>
       </teleport>
     </template>
@@ -118,9 +112,8 @@
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"
+        >Speichern und weiter</MatchdButton
       >
-        Speichern und weiter
-      </MatchdButton>
     </template>
   </form>
 </template>

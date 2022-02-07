@@ -12,11 +12,11 @@
   >
     <input
       type="file"
-      @change="onChange"
       style="transform: translateX(-100000px)"
       class="absolute opacity-0"
       :multiple="uploadConfiguration.maxFiles > 1"
       :accept="allowedMimeTypes.join(',')"
+      @change="onChange"
     />
     <span class="block">
       <template v-if="uploadConfiguration.maxFiles > 1">

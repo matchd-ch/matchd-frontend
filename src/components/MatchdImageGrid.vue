@@ -1,10 +1,10 @@
 <template>
   <div class="matchd-image-grid grid grid-cols-2">
     <a
-      href="#"
       v-for="media in attachments"
-      class="matchd-image-grid__item"
       :key="media.id"
+      href="#"
+      class="matchd-image-grid__item"
       @click.prevent="$emit('clickMedia', media)"
     >
       <img

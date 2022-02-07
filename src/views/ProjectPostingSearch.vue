@@ -11,10 +11,10 @@
             <label for="projectPosting" class="sr-only">Projekt auswählen</label>
             <select
               id="projectPosting"
-              name="projectPosting"
-              class="bg-transparent border-b border-white py-2 px-1 appearance-none flex-grow xl:ml-4"
-              @change="onChangeFilter"
               v-model="projectPostingId"
+              name="projectPosting"
+              class="bg-transparent border-b border-white py-2 px-1 appearance-none grow xl:ml-4"
+              @change="onChangeFilter"
             >
               <option
                 v-for="projectPosting in projectPostings"
@@ -29,11 +29,11 @@
         </div>
         <SearchBoost
           class="search-boost flex xl:hidden mt-4"
-          @changeSoftBoost="onChangeSoftBoost"
-          @changeTechBoost="onChangeTechBoost"
-          techBoostLabel="Stichworte"
-          :techBoost="techBoost"
-          :softBoost="softBoost"
+          tech-boost-label="Stichworte"
+          :tech-boost="techBoost"
+          :soft-boost="softBoost"
+          @change-soft-boost="onChangeSoftBoost"
+          @change-tech-boost="onChangeTechBoost"
         />
       </SearchFilters>
     </teleport>
@@ -41,12 +41,12 @@
       <SearchResultProjectPostingGrid
         v-if="matchesForGrid.length > 0"
         :matches="matchesForGrid"
-        resultType="student"
+        result-type="student"
         :color="isStudent ? 'green' : 'pink'"
       ></SearchResultProjectPostingGrid>
       <div
-        class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
         v-else
+        class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
       >
         <div v-if="isStudent">
           Leider haben wir kein passendes Projekt gefunden, hab' etwas Geduld.
@@ -57,11 +57,11 @@
     <teleport to="footer">
       <SearchBoost
         class="search-boost hidden xl:flex"
-        @changeSoftBoost="onChangeSoftBoost"
-        @changeTechBoost="onChangeTechBoost"
-        techBoostLabel="Stichworte"
-        :techBoost="techBoost"
-        :softBoost="softBoost"
+        tech-boost-label="Stichworte"
+        :tech-boost="techBoost"
+        :soft-boost="softBoost"
+        @change-soft-boost="onChangeSoftBoost"
+        @change-tech-boost="onChangeTechBoost"
       />
     </teleport>
   </div>

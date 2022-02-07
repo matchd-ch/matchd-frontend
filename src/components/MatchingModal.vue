@@ -14,7 +14,7 @@
         <span class="hidden sm:inline-block align-middle h-screen" aria-hidden="true">&#8203;</span>
 
         <div
-          class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 max-w-xl w-full"
+          class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transition-all my-8 max-w-xl w-full"
         >
           <div class="bg-white px-4 pt-5 pb-4 sm:p-8 sm:pb-4">
             <slot />

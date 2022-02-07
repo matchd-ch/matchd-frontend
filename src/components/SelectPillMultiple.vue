@@ -1,11 +1,13 @@
 <template>
   <div class="select-pill-multiple" :class="{ 'select-pill-multiple--invalid': errors }">
-    <label v-if="$slots.label" class="select-pill-multiple__label"><slot name="label" /></label>
+    <label v-if="$slots.label" class="select-pill-multiple__label">
+      <slot name="label" />
+    </label>
     <ul class="flex flex-wrap -m-2">
       <li
         v-for="option in options"
         :key="option.id"
-        class="select-pill-multiple__item flex-shrink-0 m-2"
+        class="select-pill-multiple__item shrink-0 m-2"
       >
         <label
           class="select-pill-multiple__box flex items-center rounded-full bg-white border border-current font-medium text-sm py-3 px-8 cursor-pointer transition-colors"
@@ -25,19 +27,17 @@
         </label>
       </li>
     </ul>
-    <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">
-      {{ errors }}
-    </div>
+    <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">{{ errors }}</div>
     <p v-if="$slots.info" class="select-pill-multiple__info">
-      <IconInfo class="flex-shrink-0 w-5 mr-2" />
+      <IconInfo class="shrink-0 w-5 mr-2" />
       <slot name="info" />
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
 import IconInfo from "@/assets/icons/info.svg";
+import { Options, prop, Vue } from "vue-class-component";
 
 export interface SelectPillMultipleItem {
   id: string;

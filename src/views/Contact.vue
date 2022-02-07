@@ -8,19 +8,19 @@
   >
     <RegisterContactForm
       v-if="!contactFormSent"
-      @submit="onSubmit"
       :loading="contactFormLoading"
-      class="flex-grow"
-      :buttonVariantOutline="true"
+      class="grow"
+      :button-variant-outline="true"
       :name="fullName"
       :email="user?.email"
+      @submit="onSubmit"
     >
       <h2 class="text-black text-display-xs mb-6">Get in touch</h2>
       <p class="text-black mb-9">
         Du fragst dich, welche Troll-Fabriken hinter unserem hochkomplexen Matchmaking-Algorithmus
         stecken? Tja, das bleibt wohl unser Geheimnis. Für alle anderen Fragen, schreib uns!
       </p>
-      <template v-slot:button-label>Senden</template>
+      <template #button-label>Senden</template>
     </RegisterContactForm>
 
     <RegisterContactFormSent v-else>
@@ -37,17 +37,16 @@
 </template>
 
 <script lang="ts">
-import BackLink from "@/components/BackLink.vue";
-import { ActionTypes } from "@/store/modules/registration/action-types";
-import type { UserRequestInput } from "api";
-import { Options, setup, Vue } from "vue-class-component";
 import Logo from "@/assets/logo.svg";
-import RegisterTile from "@/components/RegisterTile.vue";
+import BackLink from "@/components/BackLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import RegisterContactForm from "@/components/RegisterContactForm.vue";
 import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
+import RegisterTile from "@/components/RegisterTile.vue";
+import { ActionTypes } from "@/store/modules/registration/action-types";
+import type { User, UserRequestInput } from "api";
+import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import type { User } from "api";
 
 @Options({
   components: {

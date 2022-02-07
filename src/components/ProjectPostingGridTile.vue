@@ -1,7 +1,7 @@
 <template>
   <li class="project-posting-grid-tile text-primary-1 shadow-primary-1">
     <router-link :to="linkTo" class="project-posting-grid-tile__link hover:bg-primary-1">
-      <div class="project-posting-grid-tile__image-wrap flex-shrink-0 w-1/3">
+      <div class="project-posting-grid-tile__image-wrap shrink-0 w-1/3">
         <div class="project-posting-grid-tile__image-box border-primary-1 rounded-full border-2">
           <img :src="imgSrc" class="w-full" :alt="imgAlt" />
         </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, prop } from "vue-class-component";
+import { prop, Vue } from "vue-class-component";
 
 class Props {
   linkTo = prop<string>({});

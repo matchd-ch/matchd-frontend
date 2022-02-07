@@ -2,9 +2,9 @@
   <div class="matchd-file-view bg-white border rounded-30 overflow-hidden">
     <ul class="matchd-file-view__list">
       <li v-for="file in files" :key="file.id" class="matchd-file-view__item flex items-center">
-        <template v-if="file.mimeType.indexOf('image/') > -1"
-          ><img :src="getImageUrlWithStack(file.url)" class="w-40 h-40 border-r" alt="Bild"
-        /></template>
+        <template v-if="file.mimeType.indexOf('image/') > -1">
+          <img :src="getImageUrlWithStack(file.url)" class="w-40 h-40 border-r" alt="Bild" />
+        </template>
         <template v-else-if="file.mimeType.indexOf('video/') > -1">
           <div class="px-8">
             <a :href="file.url" target="_blank">Video</a>
@@ -15,7 +15,7 @@
             <a :href="file.url" target="_blank">{{ file.fileName }}</a>
           </div>
         </template>
-        <div class="flex-grow flex justify-end py-4 px-4">
+        <div class="grow flex justify-end py-4 px-4">
           <button
             type="button"
             class="inline-block font-medium border rounded-30 text-lg py-2 px-5 text-center border-black hover:bg-black hover:text-white transition-colors"
@@ -34,9 +34,7 @@
         <div class="py-4 px-8 overflow-ellipsis overflow-hidden whitespace-nowrap">
           {{ queuedFile.file.name }}
         </div>
-        <div
-          class="matchd-file-view__upload-status flex-grow flex-shrink-0 py-4 px-4 flex justify-end"
-        >
+        <div class="matchd-file-view__upload-status grow shrink-0 py-4 px-4 flex justify-end">
           <Loading v-if="queuedFile.uploading" class="animate-spin w-8 h-8" />
           <div v-else-if="queuedFile.errors" class="flex items-center">
             <ErrorIcon class="block w-8 h-8 mr-2" />
@@ -57,12 +55,12 @@
 </template>
 
 <script lang="ts">
+import ErrorIcon from "@/assets/icons/error.svg";
+import Loading from "@/assets/icons/loading.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
 import { QueuedFile } from "@/store/modules/upload/state";
 import type { Attachment } from "api";
 import { Options, prop, Vue } from "vue-class-component";
-import Loading from "@/assets/icons/loading.svg";
-import ErrorIcon from "@/assets/icons/error.svg";
 
 class Props {
   files = prop<Attachment[]>({});

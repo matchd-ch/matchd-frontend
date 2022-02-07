@@ -3,7 +3,7 @@
     <h1 class="text-display-xl-fluid">Ich suche</h1>
 
     <form
-      class="mt-10 xl:mt-0 xl:flex-grow xl:max-w-3xl xl:block"
+      class="mt-10 xl:mt-0 xl:grow xl:max-w-3xl xl:block"
       :class="{ block: open, hidden: !open }"
     >
       <slot />
@@ -13,15 +13,15 @@
     </div>
     <div class="flex justify-center mt-4 xl:hidden">
       <button @click="open = !open">
-        <ArrowDown class="w-8 transform transition" :class="{ 'rotate-180': open }" />
+        <ArrowDown class="w-8 transition" :class="{ 'rotate-180': open }" />
       </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
+import { Options, Vue } from "vue-class-component";
 
 @Options({
   components: {

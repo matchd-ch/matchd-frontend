@@ -1,6 +1,8 @@
 <template>
   <div class="matchd-field" :class="{ 'matchd-field--invalid': errors }">
-    <label :for="id" class="matchd-field__label"><slot name="label" /></label>
+    <label :for="id" class="matchd-field__label">
+      <slot name="label" />
+    </label>
     <div
       class="matchd-field__form-element"
       :class="{ 'matchd-field__form-element relative': $slots.iconRight }"
@@ -10,19 +12,17 @@
         <slot name="iconRight" />
       </div>
     </div>
-    <div v-if="errors" class="matchd-field__errors">
-      {{ errors }}
-    </div>
+    <div v-if="errors" class="matchd-field__errors">{{ errors }}</div>
     <p v-if="$slots.info" class="matchd-field__info">
-      <IconInfo class="flex-shrink-0 w-5 mr-2" />
+      <IconInfo class="shrink-0 w-5 mr-2" />
       <slot name="info" />
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
 import IconInfo from "@/assets/icons/info.svg";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   id = prop<string>({});

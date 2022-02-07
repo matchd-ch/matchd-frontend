@@ -5,16 +5,16 @@
   >
     <BackLink :to="{ name: 'Login' }" />
     <h1 class="text-display-xl-fluid text-black">Neues Passwort festlegen</h1>
-    <div class="flex-grow flex justify-center items-center">
+    <div class="grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
         <GenericError v-if="passwordResetState.errors?.nonFieldErrors?.includes('not_verified')">
           Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
           <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
         </GenericError>
 
-        <Form @submit="onSubmit" v-slot="{ errors }">
+        <Form v-slot="{ errors }" @submit="onSubmit">
           <MatchdField id="password" class="mb-10" :errors="errors.password" icon-right="true">
-            <template v-slot:label>Neues Passwort</template>
+            <template #label>Neues Passwort</template>
             <Field
               id="password"
               name="password"
@@ -24,11 +24,11 @@
               rules="required|password-strengh"
               autocomplete
             />
-            <template v-slot:iconRight>
+            <template #iconRight>
               <button
                 type="button"
-                @click="onTogglePasswordVisibility"
                 class="h-full flex justify-center items-center p-2"
+                @click="onTogglePasswordVisibility"
               >
                 <component
                   :is="passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
@@ -36,10 +36,9 @@
                 />
               </button>
             </template>
-            <template v-slot:info
-              >Nutze mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern,
-              Sonderzeichen.</template
-            >
+            <template #info>
+              Nutze mindestens 8 Zeichen bestehend aus Buchstaben, Ziffern, Sonderzeichen.
+            </template>
           </MatchdField>
           <MatchdButton
             :disabled="passwordResetLoading"

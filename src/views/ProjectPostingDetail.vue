@@ -4,28 +4,26 @@
     class="projectPosting-detail flex flex-col min-h-content-with-fixed-bars"
   >
     <div class="border-b border-orange-1 p-9">
-      <button @click="$router.back()" class="text-black hover:text-orange-1 transition-colors">
-        <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /> Zurück zur Übersicht
+      <button class="text-black hover:text-orange-1 transition-colors" @click="$router.back()">
+        <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Zurück zur Übersicht
       </button>
     </div>
-    <PostingSection v-if="projectPosting.data.datePublished" title="Veröffentlicht am">
-      {{ formatDateWithDay(projectPosting.data.datePublished) }}
-    </PostingSection>
+    <PostingSection v-if="projectPosting.data.datePublished" title="Veröffentlicht am">{{
+      formatDateWithDay(projectPosting.data.datePublished)
+    }}</PostingSection>
 
     <PostingSection
-      :editStep="getStepName(1)"
+      :edit-step="getStepName(1)"
       title="Projektbeschreibung"
       :slug="projectPosting.data.slug"
     >
-      <h1 class="text-heading-sm">
-        {{ projectPosting.data.displayTitle }}
-      </h1>
+      <h1 class="text-heading-sm">{{ projectPosting.data.displayTitle }}</h1>
       <p class="mt-4">{{ projectPosting.data.projectType.name }}</p>
     </PostingSection>
     <!-- Details zur Projektidee -->
     <PostingSection
       title="Details zur Projektidee"
-      :editStep="getStepName(1)"
+      :edit-step="getStepName(1)"
       :slug="projectPosting.data.slug"
     >
       <p>{{ projectPosting.data.topic.name }}</p>
@@ -34,12 +32,15 @@
           {{ keyword.name }}
         </li>
       </ul>
-      <p v-html="nl2br(projectPosting.data.description)" class="mt-4"></p>
+      <!-- TODO: Check if this is necessary. -->
+      <!-- eslint-disable vue/no-v-html -->
+      <p class="mt-4" v-html="nl2br(projectPosting.data.description)"></p>
       <p
         v-if="projectPosting.data.additionalInformation"
-        v-html="nl2br(projectPosting.data.additionalInformation)"
         class="mt-4"
+        v-html="nl2br(projectPosting.data.additionalInformation)"
       ></p>
+      <!-- eslint-enable vue/no-v-html -->
       <template v-if="projectPosting.documents.length">
         <h2 class="text-heading-sm mt-10">Dokumente</h2>
         <ul
@@ -74,7 +75,7 @@
     <!-- Weitere Informationen -->
     <PostingSection
       title="Weitere Informationen"
-      :editStep="getStepName(2)"
+      :edit-step="getStepName(2)"
       :slug="projectPosting.data.slug"
     >
       <p>ab {{ formatDate(projectPosting.data.projectFromDate) }}</p>
@@ -96,10 +97,10 @@
         >
           <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
             <div>
-              <h3 class="text-heading-sm mb-3">
-                {{ projectPosting.data.company?.name }}
-              </h3>
-              {{ projectPosting.data.company?.street }}<br />{{ projectPosting.data.company?.zip }}
+              <h3 class="text-heading-sm mb-3">{{ projectPosting.data.company?.name }}</h3>
+              {{ projectPosting.data.company?.street }}
+              <br />
+              {{ projectPosting.data.company?.zip }}
               {{ projectPosting.data.company?.city }}
             </div>
             <IconArrow class="w-8 ml-8" />
@@ -131,9 +132,7 @@
               {{ projectPosting.data.student?.firstName }}
               {{ projectPosting.data.student?.lastName }}
             </template>
-            <template v-else>
-              {{ projectPosting.data.student?.nickname }}
-            </template>
+            <template v-else>{{ projectPosting.data.student?.nickname }}</template>
             <IconArrow class="w-8 ml-8" />
           </h3>
         </router-link>
@@ -155,45 +154,45 @@
     <ProjectPostingCompanyMatchModal
       v-if="showConfirmationModal && isStudent"
       :user="user"
-      :projectPosting="projectPosting.data"
+      :project-posting="projectPosting.data"
       :loading="matchLoading"
-      :matchType="matchType"
-      @clickConfirm="onClickMatchConfirm"
-      @clickCancel="onClickCancel"
+      :match-type="matchType"
+      @click-confirm="onClickMatchConfirm"
+      @click-cancel="onClickCancel"
     />
     <ProjectPostingStudentMatchModal
       v-if="showConfirmationModal && !isStudent"
       :user="user"
-      :projectPosting="projectPosting.data"
+      :project-posting="projectPosting.data"
       :loading="matchLoading"
-      :matchType="matchType"
-      @clickConfirm="onClickMatchConfirm"
-      @clickCancel="onClickCancel"
+      :match-type="matchType"
+      @click-confirm="onClickMatchConfirm"
+      @click-cancel="onClickCancel"
     />
   </div>
 </template>
 
 <script lang="ts">
+import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
-import { ProfileType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import ProjectPostingCompanyMatchModal from "@/components/modals/ProjectPostingCompanyMatchModal.vue";
 import ProjectPostingStudentMatchModal from "@/components/modals/ProjectPostingStudentMatchModal.vue";
+import PostingSection from "@/components/PostingSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
+import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import type { Attachment, ProjectPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import { ParamStrings } from "@/router/paramStrings";
-import PostingSection from "@/components/PostingSection.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 

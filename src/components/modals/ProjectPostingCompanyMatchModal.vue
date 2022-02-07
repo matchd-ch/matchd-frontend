@@ -13,27 +13,27 @@
 
     <div class="flex items-center">
       <MatchdToggle id="permissionGranted">
-        <template v-slot:label>Deine Kontaktdaten und Zertifikate freigeben</template>
-        <input id="permissionGranted" type="checkbox" v-model="permissionGranted" />
-        <template v-slot:value>
+        <template #label>Deine Kontaktdaten und Zertifikate freigeben</template>
+        <input id="permissionGranted" v-model="permissionGranted" type="checkbox" />
+        <template #value>
           <span :class="{ 'text-primary-1': permissionGranted }">Einverstanden</span>
         </template>
       </MatchdToggle>
     </div>
 
-    <template v-slot:footer>
+    <template #footer>
       <MatchdButton
-        @click="$emit('clickCancel')"
         variant="outline"
         class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
+        @click="$emit('clickCancel')"
       >
         Abbrechen
       </MatchdButton>
       <MatchdButton
-        @click="$emit('clickConfirm')"
         :disabled="!permissionGranted"
         :loading="loading"
         class="block w-full md:w-auto"
+        @click="$emit('clickConfirm')"
       >
         <template v-if="matchType === matchTypeEnum.HalfMatch"> Bestätigen </template>
         <template v-else> Freigeben </template>

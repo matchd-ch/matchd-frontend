@@ -44,8 +44,8 @@
             class="block w-full mt-8 text-center"
             :to="{ name: 'JobPostingSearch' }"
             tag="router-link"
-            >Weitere Stellen finden
-          </matchd-button>
+            >Weitere Stellen finden</matchd-button
+          >
         </template>
         <h2 class="text-base font-medium text-primary-1 mb-4 mt-12">Projekte</h2>
         <p v-if="dashboard?.latestProjectPostings?.length === 0">
@@ -64,9 +64,8 @@
           class="block w-full mt-8 text-center"
           :to="{ name: 'ProjectPostingCreate' }"
           tag="router-link"
+          >Neues Projekt ausschreiben</matchd-button
         >
-          Neues Projekt ausschreiben
-        </matchd-button>
       </profile-section>
       <profile-section v-if="dashboard?.projectPostings?.length" title="Deine Projekt-Ideen">
         <p v-if="dashboard?.projectPostings?.length === 0">
@@ -157,17 +156,17 @@
 </template>
 
 <script lang="ts">
+import { AttachmentKey } from "@/api/models/types";
+import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 import PostingDetailLink from "@/components/dashboard/PostingDetailLink.vue";
 import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import { replaceStack } from "@/helpers/replaceStack";
 import type { Attachment, Dashboard, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
-import { AttachmentKey } from "@/api/models/types";
-import { replaceStack } from "@/helpers/replaceStack";
-import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 
 class Props {
   dashboard = prop<{ data: Dashboard }>({ required: true });

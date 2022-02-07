@@ -1,6 +1,6 @@
 <template>
   <section
-    class="profile-section relative xl:flex-grow p-9 xl:flex"
+    class="profile-section relative xl:grow p-9 xl:flex"
     :class="{
       'border-green-1': !pink,
       'border-pink-1': pink,
@@ -19,13 +19,13 @@
     <div class="xl:mb-0 xl:w-1/2">
       <slot />
     </div>
-    <EditLink v-if="editStep" :editStep="editStep" route="ProfileEdit"> </EditLink>
+    <EditLink v-if="editStep" :edit-step="editStep" route="ProfileEdit"></EditLink>
   </section>
 </template>
 
 <script lang="ts">
-import { Vue, prop, Options } from "vue-class-component";
 import EditLink from "@/components/EditLink.vue";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   pink = prop<boolean>({ default: false });
