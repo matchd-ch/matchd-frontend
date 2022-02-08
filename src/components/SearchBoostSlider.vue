@@ -1,6 +1,8 @@
 <template>
   <div class="search-boost-slider flex flex-col xl:flex-row xl:items-center xl:justify-between">
-    <div class="text-center xl:text-left xl:mr-4"><slot /></div>
+    <div class="text-center xl:text-left xl:mr-4">
+      <slot />
+    </div>
     <div class="flex items-center xl:justify-between">
       <slot name="label-left" />
       <Slider v-model="sliderValue" :tooltips="false" :min="1" :max="5" />
@@ -10,8 +12,8 @@
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
 import Slider from "@vueform/slider";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   color = prop<string>({ default: "green" });
@@ -42,10 +44,10 @@ export default class SearchBoostSlider extends Vue.with(Props) {
 <style lang="postcss" scoped>
 @block search-boost-slider {
   & :deep(.slider-target) {
-    @apply flex-grow mx-4;
+    @apply grow mx-4;
     height: 2px;
 
-    @screen xl {
+    @media screen(lg) {
       width: 200px;
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <li class="select-pill flex-shrink-0 m-2">
+  <li class="select-pill shrink-0 m-2">
     <label
       class="flex items-center rounded-full bg-white border font-medium text-sm py-3 cursor-pointer transition-colors"
       :class="{
@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
 import IconClose from "@/assets/icons/close.svg";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   value = prop<string>({ default: "" });
@@ -49,7 +49,7 @@ export default class SelectPill extends Vue.with(Props) {}
 
   & button {
     @apply ml-4;
-    @apply transition-all transform;
+    @apply transition-all;
   }
 
   &:hover {

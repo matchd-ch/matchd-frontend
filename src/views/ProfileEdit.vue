@@ -54,10 +54,10 @@
       <component
         :is="currentProfileComponent"
         edit="true"
-        class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:px-8 px-4 lg:px-5 py-12"
-        @changeDirty="onChangeDirty"
-        @submitComplete="onSubmitComplete"
-        @clickCancel="onClickCancel"
+        class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 px-4 lg:px-5 py-12"
+        @change-dirty="onChangeDirty"
+        @submit-complete="onSubmitComplete"
+        @click-cancel="onClickCancel"
       />
     </div>
   </div>
@@ -69,28 +69,28 @@ import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
 import { MutationTypes } from "@/store/modules/profile/mutation-types";
 import {
+  CompanyFinish as CompanyStep5,
   CompanyStep1,
   CompanyStep2,
   CompanyStep3,
   CompanyStep4,
-  CompanyFinish as CompanyStep5,
 } from "@/views/profile/company";
 import {
-  UniversityStep1,
-  UniversityStep2,
-  UniversityStep3,
-  UniversityStep4,
-  UniversityFinish as UniversityStep5,
-} from "@/views/profile/university";
-import {
+  StudentFinish as StudentStep7,
   StudentStep1,
   StudentStep2,
   StudentStep3,
   StudentStep4,
   StudentStep5,
   StudentStep6,
-  StudentFinish as StudentStep7,
 } from "@/views/profile/student";
+import {
+  UniversityFinish as UniversityStep5,
+  UniversityStep1,
+  UniversityStep2,
+  UniversityStep3,
+  UniversityStep4,
+} from "@/views/profile/university";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";

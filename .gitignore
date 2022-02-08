@@ -3,7 +3,6 @@ node_modules
 /dist
 /dist.tar.gz
 
-
 # local env files
 /.env
 .env.local
@@ -17,7 +16,6 @@ pnpm-debug.log*
 
 # Editor directories and files
 .idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj

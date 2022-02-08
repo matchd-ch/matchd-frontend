@@ -1,0 +1,47 @@
+{
+  // ----------------------------------------
+  // FILES
+  // ----------------------------------------
+  "files.associations": {
+    "*.vue": "vue"
+  },
+  // ----------------------------------------
+  // EDITOR FORMATTER MAPPING
+  // ----------------------------------------
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // ----------------------------------------
+  // ESLINT
+  // ----------------------------------------
+  "eslint.enable": true,
+  "eslint.packageManager": "npm",
+  "eslint.alwaysShowStatus": true,
+  "eslint.lintTask.enable": true,
+  "eslint.useESLintClass": true,
+  "eslint.options": {
+    "extensions": [".html", ".js", ".ts", ".vue", ".json"]
+  },
+  "eslint.validate": ["javascript", "vue", "typescript"],
+  // ----------------------------------------
+  // PRETTIER
+  // ----------------------------------------
+  "prettier.requireConfig": true,
+  // ----------------------------------------
+  // CSS SUPPORT
+  // ----------------------------------------
+  "css.validate": true,
+  // ----------------------------------------
+  // TYPESCRIPT
+  // ----------------------------------------
+  "typescript.tsdk": "node_modules/typescript/lib",
+  // ----------------------------------------
+  // FORMATTING
+  // ----------------------------------------
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  }
+}

@@ -1,9 +1,6 @@
 /* eslint-disable */
 module.exports = {
-  purge: {
-    content: ["./public/**/*.html", "./src/**/*.vue"],
-  },
-  darkMode: false, // or 'media' or 'class'
+  content: ["./public/**/*.html", "./src/**/*.vue"],
   theme: {
     fontFamily: {
       sans: ["Poppins", "sans-serif"],
@@ -129,11 +126,6 @@ module.exports = {
       borderRadius: {
         30: "30px",
       },
-    },
-  },
-  variants: {
-    extend: {
-      opacity: ["disabled"],
     },
   },
   plugins: [require("tailwind-css-variables")()],

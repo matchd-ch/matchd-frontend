@@ -39,7 +39,7 @@
       <SelectPill
         v-for="selectedLanguage in selectedLanguages"
         :key="selectedLanguage.name"
-        :hasDelete="true"
+        :has-delete="true"
         @remove="$emit('clickRemoveLanguage', selectedLanguage)"
         >{{ selectedLanguage.language.name }} {{ selectedLanguage.level.level }}</SelectPill
       >

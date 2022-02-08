@@ -1,6 +1,6 @@
 <template>
   <metainfo>
-    <template v-slot:title="{ content }">{{ content ? `${content} - MATCHD` : `MATCHD` }}</template>
+    <template #title="{ content }">{{ content ? `${content} - MATCHD` : `MATCHD` }}</template>
   </metainfo>
 
   <div
@@ -12,10 +12,10 @@
   >
     <header class="header bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20">
       <component
-        v-if="showNavbar && user"
         :is="navigation"
+        v-if="showNavbar && user"
         :user="user"
-        @clickLogout="onClickLogout"
+        @click-logout="onClickLogout"
       />
     </header>
     <div class="mt-fixed-header mb-fixed-footer">
@@ -26,13 +26,13 @@
 </template>
 
 <script lang="ts">
+import NavBarCompany from "@/components/NavBarCompany.vue";
+import NavBarStudent from "@/components/NavBarStudent.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
 import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import NavBarStudent from "@/components/NavBarStudent.vue";
-import NavBarCompany from "@/components/NavBarCompany.vue";
 
 @Options({
   components: { NavBarStudent, NavBarCompany },

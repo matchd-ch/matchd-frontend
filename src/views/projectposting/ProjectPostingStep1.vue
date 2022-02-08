@@ -16,8 +16,8 @@
     </p>
     <!-- Art der Projektarbeit Field -->
     <SelectPillGroup :errors="veeForm.errors.projectTypeId" class="mb-10">
-      <template v-slot:label>Art der Projektarbeit*</template>
-      <template v-slot:field>
+      <template #label>Art der Projektarbeit*</template>
+      <template #field>
         <Field
           id="projectTypeId"
           name="projectTypeId"
@@ -28,9 +28,9 @@
         />
       </template>
       <SelectPill
-        name="projectTypePill"
         v-for="option in projectTypes"
         :key="option.id"
+        name="projectTypePill"
         :value="option.id"
         :checked="option.id === veeForm.values?.projectTypeId"
         @change="onChangeProjectType"
@@ -39,7 +39,7 @@
     </SelectPillGroup>
     <!-- Bezeichnung Field -->
     <MatchdField id="title" class="mb-10" :errors="veeForm.errors.title">
-      <template v-slot:label>Beschriftung*</template>
+      <template #label>Beschriftung*</template>
       <Field
         id="title"
         name="title"
@@ -51,8 +51,8 @@
     </MatchdField>
     <!-- Themengebiet Field -->
     <SelectPillGroup :errors="veeForm.errors.topicId" class="mb-10">
-      <template v-slot:label>Themengebiet*</template>
-      <template v-slot:field>
+      <template #label>Themengebiet*</template>
+      <template #field>
         <Field
           id="topicId"
           name="topicId"
@@ -63,9 +63,9 @@
         />
       </template>
       <SelectPill
-        name="topicPill"
         v-for="option in topics"
         :key="option.id"
+        name="topicPill"
         :value="option.id"
         :checked="option.id === veeForm.values?.topicId"
         @change="onChangeTopic"
@@ -81,29 +81,29 @@
       :errors="veeForm.errors.keywords"
       @select="onSelectKeyword"
     >
-      <template v-slot:label>Stichworte*</template>
+      <template #label>Stichworte*</template>
       <input
         id="keywords"
+        v-model="keywordInput"
         type="text"
         autocomplete="off"
-        v-model="keywordInput"
+        placeholder="Tippen für Vorschläge"
         @input="onInputKeyword"
         @keydown.enter.prevent="onPressEnterKeyword"
-        placeholder="Tippen für Vorschläge"
       />
     </MatchdAutocomplete>
     <SelectPillGroup v-if="selectedKeywords.length" class="mb-10">
       <SelectPill
         v-for="selectedKeyword in selectedKeywords"
         :key="selectedKeyword.id"
-        hasDelete="true"
+        has-delete="true"
         @remove="onRemoveKeyword(selectedKeyword)"
         >{{ selectedKeyword.name }}</SelectPill
       >
     </SelectPillGroup>
     <!-- Beschreibung Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
-      <template v-slot:label>Beschreibung des Themenschwerpunktes*</template>
+      <template #label>Beschreibung des Themenschwerpunktes*</template>
       <Field
         id="description"
         name="description"
@@ -120,7 +120,7 @@
       class="mb-10"
       :errors="veeForm.errors.additionalInformation"
     >
-      <template v-slot:label>Problemstellung und zu behandelnde Fragen</template>
+      <template #label>Problemstellung und zu behandelnde Fragen</template>
       <Field
         id="additionalInformation"
         name="additionalInformation"

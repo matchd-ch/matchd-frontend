@@ -12,11 +12,11 @@
     <!-- Bezeichnung Field -->
     <SelectPillMultiple
       :options="jobRequirements"
-      @change="onChangeJobRequirement"
       name="jobRequirements"
       class="mb-10"
+      @change="onChangeJobRequirement"
     >
-      <template v-slot:label>Allgemeine Anforderungen</template>
+      <template #label>Allgemeine Anforderungen</template>
     </SelectPillMultiple>
     <!-- Skills Field -->
     <MatchdAutocomplete
@@ -27,14 +27,14 @@
       :items="filteredSkills"
       @select="onSelectSkill"
     >
-      <template v-slot:label>Technische Skills*</template>
+      <template #label>Technische Skills*</template>
       <Field
         id="skillInput"
+        v-model="skillInput"
         name="skillInput"
         as="input"
         autocomplete="off"
         label="Technische Skills"
-        v-model="skillInput"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
       />
@@ -43,7 +43,7 @@
       <SelectPill
         v-for="selectedSkill in selectedSkills"
         :key="selectedSkill.id"
-        hasDelete="true"
+        has-delete="true"
         @remove="onRemoveSkill(selectedSkill)"
         >{{ selectedSkill.name }}</SelectPill
       >
@@ -52,12 +52,12 @@
     <LanguagePicker
       class="mb-10"
       :languages="languages"
-      :languageLevels="languageLevels"
-      :selectedLanguages="veeForm.languages"
+      :language-levels="languageLevels"
+      :selected-languages="veeForm.languages"
       :errors="veeForm.errors.languages"
-      @clickAppendLanguage="onClickAppendLanguage"
-      @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
+      @click-append-language="onClickAppendLanguage"
+      @click-remove-language="onClickRemoveLanguage"
+      ><template #label>Sprachkenntnisse*</template></LanguagePicker
     >
     <teleport to="footer">
       <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
@@ -103,8 +103,8 @@ import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
 import { useStore } from "@/store";
-import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
+import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import type {
   JobPosting as JobPostingType,
   JobRequirement,

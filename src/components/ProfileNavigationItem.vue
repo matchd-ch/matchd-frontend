@@ -1,5 +1,5 @@
 <template>
-  <li class="profile-navigation-item flex-shrink-0">
+  <li class="profile-navigation-item shrink-0">
     <router-link
       :to="to"
       class="block px-4 py-6"

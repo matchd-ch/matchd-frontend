@@ -2,26 +2,24 @@
   <div class="login min-h-screen flex flex-col px-4 lg:px-5">
     <BackLink :to="{ name: 'Triage' }" />
     <h1 class="text-display-xl-fluid text-black">Login</h1>
-    <div class="flex-grow flex justify-center items-center">
+    <div class="grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
         <GenericError v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
           Aktiviere zuerst deinen Account. Hast du den Aktivierungslink nicht erhalten? Melde dich
           <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
         </GenericError>
 
-        <GenericError
-          v-else-if="loginState.errors?.nonFieldErrors?.includes('invalid_credentials')"
+        <GenericError v-else-if="loginState.errors?.nonFieldErrors?.includes('invalid_credentials')"
+          >E-Mail oder Passwort ungültig.</GenericError
         >
-          E-Mail oder Passwort ungültig.
-        </GenericError>
 
-        <GenericSuccess v-else-if="passwordResetState.success">
-          Dein neues Passwort wurde gespeichert. Du kannst dich nun einloggen.
-        </GenericSuccess>
+        <GenericSuccess v-else-if="passwordResetState.success"
+          >Dein neues Passwort wurde gespeichert. Du kannst dich nun einloggen.</GenericSuccess
+        >
 
-        <Form @submit="onSubmit" v-slot="{ errors }">
+        <Form v-slot="{ errors }" @submit="onSubmit">
           <MatchdField id="username" class="mb-3" :errors="errors.username">
-            <template v-slot:label>E-Mail</template>
+            <template #label>E-Mail</template>
             <Field
               id="username"
               name="username"
@@ -32,7 +30,7 @@
             />
           </MatchdField>
           <MatchdField id="password" class="mb-5" :errors="errors.password">
-            <template v-slot:label>Passwort</template>
+            <template #label>Passwort</template>
             <Field
               id="password"
               name="password"
@@ -44,13 +42,13 @@
             />
           </MatchdField>
           <p class="mb-5 px-8 text-paragraph-md mb-10">
-            <router-link :to="{ name: 'PasswordForgotten' }" class="underline">
-              Passwort vergessen
-            </router-link>
+            <router-link :to="{ name: 'PasswordForgotten' }" class="underline"
+              >Passwort vergessen</router-link
+            >
           </p>
-          <MatchdButton :disabled="loginLoading" :loading="loginLoading" class="block w-full">
-            Login
-          </MatchdButton>
+          <MatchdButton :disabled="loginLoading" :loading="loginLoading" class="block w-full"
+            >Login</MatchdButton
+          >
         </Form>
       </div>
     </div>
@@ -71,7 +69,6 @@ import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import ArrowBack from "@/assets/icons/arrow-back.svg";
 
 @Options({
   components: {
@@ -83,7 +80,7 @@ import ArrowBack from "@/assets/icons/arrow-back.svg";
     MatchdButton,
     GenericError,
     GenericSuccess,
-    ArrowBack,
+    // ArrowBack,
   },
 })
 export default class Login extends Vue {

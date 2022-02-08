@@ -7,9 +7,8 @@
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
       <div class="back-button">
-        <button @click="$router.back()" class="text-paragraph-lg xl:test-paragraph-md">
-          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
-          Alle Talente
+        <button class="text-paragraph-lg xl:test-paragraph-md" @click="$router.back()">
+          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Alle Talente
         </button>
       </div>
       <div class="flex justify-center mt-9">
@@ -25,7 +24,8 @@
           v-if="student.data.firstName"
           class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full"
         >
-          {{ student.data.firstName }} {{ student.data.lastName }}<br />
+          {{ student.data.firstName }} {{ student.data.lastName }}
+          <br />
           geboren im {{ student.data.dateOfBirth }}
           <template v-if="student.data.street">
             <br />
@@ -79,9 +79,7 @@
         title="Das mache ich gerne in meiner Freizeit"
       >
         <ul class="list list-inside list-disc marker-green-1 text-lg">
-          <li v-for="hobby in student.data.hobbies" :key="hobby.id">
-            {{ hobby.name }}
-          </li>
+          <li v-for="hobby in student.data.hobbies" :key="hobby.id">{{ hobby.name }}</li>
         </ul>
       </profile-section>
       <profile-section v-if="student.certificates?.length" title="Zertifikate">
@@ -92,15 +90,14 @@
               target="_blank"
               class="font-medium underline inline-block text-green-1 text-lg"
               download
-              ><span>
-                {{ certificate.fileName }}
-              </span>
-              <ArrowDown class="w-5 mb-1 ml-2 inline-block"
-            /></a>
+            >
+              <span>{{ certificate.fileName }}</span>
+              <ArrowDown class="w-5 mb-1 ml-2 inline-block" />
+            </a>
           </li>
         </ul>
       </profile-section>
-      <section v-if="student.data.projectPostings.length" class="flex-grow p-9">
+      <section v-if="student.data.projectPostings.length" class="grow p-9">
         <h2 class="text-heading-lg mb-8 text-green-1">Projektideen</h2>
         <ul class="list">
           <li v-for="projectPosting in student.data.projectPostings" :key="projectPosting.id">
@@ -118,15 +115,15 @@
     </div>
     <teleport to="footer">
       <MatchingBar v-if="hasMatchingBar">
-        <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-          Sie haben bereits Interesse an diesem Talent gezeigt
-        </template>
-        <template v-else-if="matchType === matchTypeEnum.FullMatch">
-          Gratulation, it’s a Match!
-        </template>
-        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
-          Match bestätigen
-        </MatchdButton>
+        <template v-if="matchType === matchTypeEnum.HalfOwnMatch"
+          >Sie haben bereits Interesse an diesem Talent gezeigt</template
+        >
+        <template v-else-if="matchType === matchTypeEnum.FullMatch"
+          >Gratulation, it’s a Match!</template
+        >
+        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch"
+          >Match bestätigen</MatchdButton
+        >
         <MatchdButton v-else @click="onClickMatch"
           >Mit {{ student.data.firstName || student.data.nickname }} matchen</MatchdButton
         >
@@ -137,20 +134,20 @@
       :user="user"
       :student="student.data"
       :loading="matchLoading"
-      :matchType="matchType"
-      @clickConfirm="onClickMatchConfirm"
-      @clickCancel="onClickCancel"
+      :match-type="matchType"
+      @click-confirm="onClickMatchConfirm"
+      @click-cancel="onClickCancel"
     />
     <StudentFullMatchModal
       v-if="showMatchModal"
       :student="student.data"
-      @clickClose="onClickClose"
+      @click-close="onClickClose"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { ProfileType, DateMode } from "@/api/models/types";
+import { DateMode, ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";

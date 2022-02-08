@@ -1,6 +1,6 @@
 <template>
-  <NavBar :open="open" @toggleNavigation="onToggleNavigation">
-    <div class="flex-grow md:flex-row justify-center pb-4 md:pb-0 md:flex md:justify-center">
+  <NavBar :open="open" @toggle-navigation="onToggleNavigation">
+    <div class="grow md:flex-row justify-center pb-4 md:pb-0 md:flex md:justify-center">
       <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
       <nav-link :to="{ name: 'StudentSearch' }">Talent finden</nav-link>
       <nav-link :to="{ name: 'ProjectPostingSearch' }">Projektidee finden</nav-link>
@@ -10,8 +10,8 @@
         >Profileinstellungen</nav-link
       >
       <button
-        @click="$emit('clickLogout')"
         class="block focus:bg-gray-200 focus:outline-none focus:shadow-outline focus:text-gray-900 hover:text-primary-1 bg-transparent md:mt-0 md:text-lg mt-2 px-4 py-2 text-sm"
+        @click="$emit('clickLogout')"
       >
         Logout
       </button>
@@ -23,8 +23,8 @@
 import type { User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import NavBar from "./NavBar.vue";
-import NavLink from "./NavLink.vue";
 import NavDropdown from "./NavDropdown.vue";
+import NavLink from "./NavLink.vue";
 
 class Props {
   user = prop<User>({ required: true });

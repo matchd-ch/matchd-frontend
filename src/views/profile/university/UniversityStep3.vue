@@ -3,7 +3,7 @@
     <FormSaveError v-if="showError" />
     <!-- Link Education Field -->
     <MatchdField id="linkEducation" class="mb-10" :errors="veeForm.errors.linkEducation">
-      <template v-slot:label>Wissenswertes zur Aus- und Weiterbildung</template>
+      <template #label>Wissenswertes zur Aus- und Weiterbildung</template>
       <Field
         id="linkEducation"
         name="linkEducation"
@@ -14,7 +14,7 @@
     </MatchdField>
     <!-- Link Projects Field -->
     <MatchdField id="linkProjects" class="mb-10" :errors="veeForm.errors.linkProjects">
-      <template v-slot:label>Wissenswertes zum Thema Praxisprojekte</template>
+      <template #label>Wissenswertes zum Thema Praxisprojekte</template>
       <Field
         id="linkProjects"
         name="linkProjects"
@@ -25,7 +25,7 @@
     </MatchdField>
     <!-- Link Thesis Field -->
     <MatchdField id="linkThesis" class="mb-10" :errors="veeForm.errors.linkThesis">
-      <template v-slot:label>Wissenswertes zur Thema Abschlussarbeiten</template>
+      <template #label>Wissenswertes zur Thema Abschlussarbeiten</template>
       <Field
         id="linkThesis"
         name="linkThesis"
@@ -36,7 +36,7 @@
     </MatchdField>
     <!-- Description Field -->
     <MatchdField id="services" class="mb-10" :errors="veeForm.errors.services">
-      <template v-slot:label>Unser Angebot</template>
+      <template #label>Unser Angebot</template>
       <Field
         id="services"
         name="services"
@@ -45,23 +45,23 @@
         label="Services"
         class="h-72"
       />
-      <template v-slot:info>Maximal 300 Zeichen</template>
+      <template #info>Maximal 300 Zeichen</template>
     </MatchdField>
     <!-- Branch Field -->
     <SelectPillMultiple
       :options="branches"
-      @change="onChangeBranch"
       name="branches"
       class="mb-10"
       :errors="veeForm.errors.branches"
+      @change="onChangeBranch"
     >
-      <template v-slot:label
+      <template #label
         >In diesen Bereichen und Projekten können Talente bei Ihnen tätig werden</template
       >
     </SelectPillMultiple>
     <!-- Benefits Field -->
     <SelectIconGroup class="mb-10" :icons="benefits" name="benefits" @change="onChangeBenefits">
-      <template v-slot:label>Das erwartet dich bei uns</template>
+      <template #label>Das erwartet dich bei uns</template>
     </SelectIconGroup>
 
     <template v-if="edit">
@@ -70,8 +70,8 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -88,7 +88,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton

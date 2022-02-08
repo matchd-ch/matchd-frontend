@@ -8,19 +8,22 @@
     >
       <div class="xl:flex">
         <div class="xl:w-1/2 flex items-center">
-          <CompanyLogo :url="logoSrc" :name="user.company.name" class="w-32 mr-8 flex-shrink-0" />
+          <CompanyLogo :url="logoSrc" :name="user.company.name" class="w-32 mr-8 shrink-0" />
           <h1 class="text-heading-sm">{{ user.company.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
-          {{ user.company.street }}<br />
-          {{ user.company.zip }} {{ user.company.city }}<br />
-          <a :href="user.company.website" target="_blank" class="underline">{{
-            user.company.website
-          }}</a
-          ><br /><a :href="`mailto:${user.employee.email}`" class="underline">{{
-            user.employee.email
-          }}</a
-          ><br />
+          {{ user.company.street }}
+          <br />
+          {{ user.company.zip }} {{ user.company.city }}
+          <br />
+          <a :href="user.company.website" target="_blank" class="underline">
+            {{ user.company.website }}
+          </a>
+          <br />
+          <a :href="`mailto:${user.employee.email}`" class="underline">
+            {{ user.employee.email }}
+          </a>
+          <br />
           <a :href="`tel:${user.company.phone}`">{{ user.company.phone }}</a>
         </address>
       </div>
@@ -36,14 +39,16 @@
       <MatchdImageGrid :attachments="additionalMedia" class="mt-4" />
     </div>
     <div class="flex flex-col min-h-full">
-      <ProfileSection :pink="true" title="Über uns" :editStep="getStepName(2)">
+      <ProfileSection :pink="true" title="Über uns" :edit-step="getStepName(2)">
+        <!-- TODO: Check if this is necessary. -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="nl2br(user.company.description)"></p>
       </ProfileSection>
       <ProfileSection
         v-if="user.company.services"
         :pink="true"
         title="Unser Angebot"
-        :editStep="getStepName(3)"
+        :edit-step="getStepName(3)"
       >
         <p>{{ user.company.services }}</p>
       </ProfileSection>
@@ -51,19 +56,17 @@
         v-if="user.company.branches && user.company.branches.length > 0"
         :pink="true"
         title="In diesen Bereichen kannst du bei uns tätig sein"
-        :editStep="getStepName(3)"
+        :edit-step="getStepName(3)"
       >
         <ul class="list list-inside list-disc marker-pink-1 text-lg">
-          <li v-for="branch in user.company.branches" :key="branch.id">
-            {{ branch.name }}
-          </li>
+          <li v-for="branch in user.company.branches" :key="branch.id">{{ branch.name }}</li>
         </ul>
       </ProfileSection>
       <ProfileSection
         v-if="user.company.benefits.length"
         :pink="true"
         title="Das erwartet dich bei uns"
-        :editStep="getStepName(3)"
+        :edit-step="getStepName(3)"
       >
         <ul class="flex flex-wrap content-start items-start -mb-1">
           <li
@@ -80,16 +83,17 @@
         v-if="user.company.linkEducation || user.company.linkProjects || user.company.linkThesis"
         :pink="true"
         title="Wissenswertes zu..."
-        :editStep="getStepName(3)"
+        :edit-step="getStepName(3)"
       >
         <ul v-if="user.company.linkEducation">
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Aus- und Weiterbildung</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline">
-            <a target="_blank" :href="user.company.linkEducation"
-              >{{ user.company.linkEducation }} <ArrowFront class="w-5 mb-1 ml-2 inline-block"
-            /></a>
+            <a target="_blank" :href="user.company.linkEducation">
+              {{ user.company.linkEducation }}
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+            </a>
           </li>
         </ul>
         <ul v-if="user.company.linkProjects" :class="{ 'mt-5': user.company.linkEducation }">
@@ -97,30 +101,30 @@
             <h3 class="font-medium text-lg">Praxisprojekte</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline">
-            <a target="_blank" :href="user.company.linkProjects" class="inline-block"
-              >{{ user.company.linkProjects }}
+            <a target="_blank" :href="user.company.linkProjects" class="inline-block">
+              {{ user.company.linkProjects }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </a>
           </li>
         </ul>
         <ul
           v-if="user.company.linkThesis"
-          v-bind:class="{ 'mt-5': user.company.linkProjects || user.company.linkEducation }"
+          :class="{ 'mt-5': user.company.linkProjects || user.company.linkEducation }"
         >
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Abschlussarbeiten</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline block">
-            <a class="" target="_blank" :href="user.company.linkThesis"
-              >{{ user.company.linkThesis }}
+            <a class target="_blank" :href="user.company.linkThesis">
+              {{ user.company.linkThesis }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </a>
           </li>
         </ul>
       </ProfileSection>
       <section
-        class="flex-grow p-9 border-b border-pink-1"
         v-if="user.company.projectPostings.length > 0"
+        class="grow p-9 border-b border-pink-1"
       >
         <h2 class="text-heading-lg mb-8 text-pink-1">
           Themen für wissenschaftliche Projektarbeiten
@@ -137,7 +141,7 @@
           </li>
         </ul>
       </section>
-      <section v-if="user.company.jobPostings.length" class="flex-grow p-9 border-b border-pink-1">
+      <section v-if="user.company.jobPostings.length" class="grow p-9 border-b border-pink-1">
         <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
         <ul class="list">
           <li v-for="position in user.company.jobPostings" :key="position.id">
@@ -157,11 +161,9 @@
         "
         :pink="true"
         title="Dachorganisation"
-        :editStep="getStepName(1)"
+        :edit-step="getStepName(1)"
       >
-        <p>
-          {{ user.company.topLevelOrganisationDescription }}
-        </p>
+        <p>{{ user.company.topLevelOrganisationDescription }}</p>
         <p class="mt-2">
           <a class="underline" target="_blank" :href="user.company.topLevelOrganisationWebsite">
             {{ user.company.topLevelOrganisationWebsite }}
@@ -171,9 +173,12 @@
       </ProfileSection>
       <ProfileSection v-if="user.company.employees[0]" :pink="true" title="Ansprechspartner">
         <p>
-          {{ user.company.employees[0].firstName }} {{ user.company.employees[0].lastName }} <br />
-          {{ user.company.employees[0].role }} <br />
-          {{ user.company.employees[0].email }} <br />
+          {{ user.company.employees[0].firstName }} {{ user.company.employees[0].lastName }}
+          <br />
+          {{ user.company.employees[0].role }}
+          <br />
+          {{ user.company.employees[0].email }}
+          <br />
           {{ user.company.phone }}
         </p>
       </ProfileSection>
@@ -183,20 +188,20 @@
 
 <script lang="ts">
 import { AttachmentKey } from "@/api/models/types";
+import ArrowDown from "@/assets/icons/arrow-down.svg";
+import ArrowFront from "@/assets/icons/arrow-front.svg";
 import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
-import ArrowDown from "@/assets/icons/arrow-down.svg";
-import ArrowFront from "@/assets/icons/arrow-front.svg";
 import { calculateMargins } from "@/helpers/calculateMargins";
+import { nl2br } from "@/helpers/nl2br";
+import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, User } from "api";
 import { Options, Vue } from "vue-class-component";
-import { replaceStack } from "@/helpers/replaceStack";
-import { nl2br } from "@/helpers/nl2br";
 
 @Options({
   components: {

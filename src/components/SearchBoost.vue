@@ -1,18 +1,18 @@
 <template>
   <div class="search-boost flex flex-col xl:flex-row xl:justify-center">
-    <SearchBoostSlider @changeValue="$emit('changeSoftBoost', $event)" :value="softBoost">
+    <SearchBoostSlider :value="softBoost" @change-value="$emit('changeSoftBoost', $event)">
       {{ softBoostLabel }}
-      <template v-slot:label-left>Keine</template>
-      <template v-slot:label-right>100% Match</template>
+      <template #label-left>Keine</template>
+      <template #label-right>100% Match</template>
     </SearchBoostSlider>
     <SearchBoostSlider
-      @changeValue="$emit('changeTechBoost', $event)"
       :value="techBoost"
       class="mt-4 xl:mt-0 xl:ml-8"
+      @change-value="$emit('changeTechBoost', $event)"
     >
       {{ techBoostLabel }}
-      <template v-slot:label-left>Keine</template>
-      <template v-slot:label-right>100% Match</template>
+      <template #label-left>Keine</template>
+      <template #label-right>100% Match</template>
     </SearchBoostSlider>
   </div>
 </template>

@@ -19,22 +19,22 @@
       :errors="veeForm.errors.skills"
       @select="onSelectSkill"
     >
-      <template v-slot:label>Technische Skills*</template>
+      <template #label>Technische Skills*</template>
       <input
         id="skills"
+        v-model="skillInput"
         type="text"
         autocomplete="off"
-        v-model="skillInput"
+        placeholder="Tippe für Vorschläge"
         @input="onInputSkill"
         @keydown.enter.prevent="onPressEnterSkill"
-        placeholder="Tippe für Vorschläge"
       />
     </MatchdAutocomplete>
     <SelectPillGroup v-if="selectedSkills.length" class="mb-10">
       <SelectPill
         v-for="selectedSkill in selectedSkills"
         :key="selectedSkill.id"
-        hasDelete="true"
+        has-delete="true"
         @remove="onRemoveSkill(selectedSkill)"
         >{{ selectedSkill.name }}</SelectPill
       >
@@ -43,24 +43,24 @@
     <LanguagePicker
       class="mb-10"
       :languages="languages"
-      :languageLevels="languageLevels"
-      :selectedLanguages="veeForm.languages"
+      :language-levels="languageLevels"
+      :selected-languages="veeForm.languages"
       :errors="veeForm.errors.languages"
-      @clickAppendLanguage="onClickAppendLanguage"
-      @clickRemoveLanguage="onClickRemoveLanguage"
-      ><template v-slot:label>Sprachkenntnisse*</template></LanguagePicker
+      @click-append-language="onClickAppendLanguage"
+      @click-remove-language="onClickRemoveLanguage"
+      ><template #label>Sprachkenntnisse*</template></LanguagePicker
     >
     <!-- Online Projects Field -->
     <MatchdField id="onlineProjects" class="mb-10">
-      <template v-slot:label>Deine Onlineprojekte</template>
+      <template #label>Deine Onlineprojekte</template>
       <input
         id="onlineProjects"
-        type="text"
         v-model="onlineProjectInput"
-        @keypress.enter.prevent="onAppendOnlineProject"
+        type="text"
         placeholder="Github-URL, Unity-URL, etc."
+        @keypress.enter.prevent="onAppendOnlineProject"
       />
-      <template v-slot:iconRight>
+      <template #iconRight>
         <button
           type="button"
           class="h-full bg-primary-1 text-white rounded-full flex justify-center items-center py-2 px-8 disabled:opacity-60"
@@ -70,7 +70,7 @@
           Hinzufügen
         </button>
       </template>
-      <template v-slot:info v-if="!isValidOnlineProjectUrl"
+      <template v-if="!isValidOnlineProjectUrl" #info
         >Bitte gib die URL in folgendem Format ein: http://matchd.ch oder
         https://matchd.ch</template
       >
@@ -80,45 +80,45 @@
       <SelectPill
         v-for="onlineProject in veeForm.onlineProjects"
         :key="onlineProject.url"
+        has-delete="true"
         @remove="onRemoveOnlineProject(onlineProject)"
-        hasDelete="true"
         >{{ onlineProject.url }}</SelectPill
       >
     </SelectPillGroup>
     <!-- Certificates Field -->
     <MatchdFileBlock>
-      <template v-slot:label>Deine Zeugnisse, Diplome und Zertifikate</template>
+      <template #label>Deine Zeugnisse, Diplome und Zertifikate</template>
       <MatchdFileView
         v-if="studentDocuments.length > 0 || studentDocumentsQueue.length > 0"
         :files="studentDocuments"
-        :queuedFiles="studentDocumentsQueue"
+        :queued-files="studentDocumentsQueue"
         class="mb-3"
         :class="{
           'mb-10': studentDocumentsUploadConfigurations.maxFiles <= studentDocuments.length,
         }"
-        @deleteFile="onDeleteStudentDocument"
+        @delete-file="onDeleteStudentDocument"
       />
       <MatchdFileUpload
         v-if="studentDocumentsUploadConfigurations.maxFiles > studentDocuments.length"
-        :uploadConfiguration="studentDocumentsUploadConfigurations"
-        @selectFiles="onSelectStudentDocuments"
+        :upload-configuration="studentDocumentsUploadConfigurations"
         class="mb-10"
+        @select-files="onSelectStudentDocuments"
         >Hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
     <!-- Hobbies Field -->
     <MatchdField id="hobbies" class="mb-3" :class="{ 'mb-10': veeForm.hobbies?.length === 0 }">
-      <template v-slot:label>Deine Interessen und Hobbies</template>
+      <template #label>Deine Interessen und Hobbies</template>
       <input
         id="hobbies"
+        v-model="hobbyInput"
         type="text"
         name="hobbies"
         maxlength="100"
-        v-model="hobbyInput"
-        @keypress.enter.prevent="onAppendHobby"
         placeholder="Biken, Video Games, Kochen, etc."
+        @keypress.enter.prevent="onAppendHobby"
       />
-      <template v-slot:iconRight>
+      <template #iconRight>
         <button
           type="button"
           class="h-full bg-primary-1 text-white rounded-full flex justify-center items-center py-2 px-8 disabled:opacity-60"
@@ -133,21 +133,21 @@
       <SelectPill
         v-for="hobby in veeForm.hobbies"
         :key="hobby.name"
+        has-delete="true"
         @remove="onRemoveHobby(hobby)"
-        hasDelete="true"
         >{{ hobby.name }}</SelectPill
       >
     </SelectPillGroup>
     <!-- Distinction Field -->
     <MatchdField id="distinction" class="mb-10">
-      <template v-slot:label>Dein Talent</template>
+      <template #label>Dein Talent</template>
       <Field
         id="distinction"
+        v-model="veeForm.distinction"
         name="distinction"
         as="textarea"
         maxlength="1000"
         label="Das zeichnet mich sonst noch aus"
-        v-model="veeForm.distinction"
         class="h-72"
         placeholder="4-5 Sätze zu deiner Spezialität"
       />
@@ -158,8 +158,8 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -176,7 +176,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton

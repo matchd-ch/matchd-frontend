@@ -2,8 +2,8 @@
   <div>
     <AddEmployeeForm
       v-if="showEmployeeForm"
-      @submitComplete="onAddEmployeeComplete"
-      @clickClose="onClickClose"
+      @submit-complete="onAddEmployeeComplete"
+      @click-close="onClickClose"
     >
     </AddEmployeeForm>
     <form @submit="veeForm.onSubmit">
@@ -12,7 +12,7 @@
       <template v-if="employees?.length > 0 && !showEmployeeForm && !isStudent">
         <!-- Kontaktperson -->
         <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.employeeId">
-          <template v-slot:label>Ansprechperson*</template>
+          <template #label>Ansprechperson*</template>
           <Field
             id="employeeId"
             name="employeeId"
@@ -21,7 +21,7 @@
             class="mr-3"
             rules="required"
           >
-            <option v-for="employee in employees" :value="employee.id" :key="employee.id">
+            <option v-for="employee in employees" :key="employee.id" :value="employee.id">
               {{ employee.firstName }} {{ employee.lastName }} - {{ employee.role }}
             </option>
           </Field>
@@ -30,27 +30,27 @@
         <MatchdButton
           type="button"
           variant="outline"
-          @click="showEmployeeForm = true"
           class="block w-full mb-10"
+          @click="showEmployeeForm = true"
           >Zusätzliche Ansprechperson erfassen</MatchdButton
         >
       </template>
       <template v-if="!showEmployeeForm || isStudent">
         <!-- State Field -->
         <MatchdToggle id="state" class="mb-10" :errors="veeForm.errors.state">
-          <template v-slot:label>Sichtbarkeit der Projektausschreibung</template>
+          <template #label>Sichtbarkeit der Projektausschreibung</template>
           <input
             id="state"
             name="state"
             type="checkbox"
             value="true"
-            @change="onChangeState($event.target.checked)"
             :checked="veeForm.state === projectPostingStateEnum.Public"
+            @change="onChangeState($event.target.checked)"
           />
-          <template v-if="veeForm.state === projectPostingStateEnum.Public" v-slot:value>
+          <template v-if="veeForm.state === projectPostingStateEnum.Public" #value>
             <span class="text-primary-1">Öffentlich</span>
           </template>
-          <template v-else v-slot:value>Entwurf</template>
+          <template v-else #value>Entwurf</template>
         </MatchdToggle>
       </template>
       <teleport to="footer">
@@ -81,6 +81,7 @@
 <script lang="ts">
 import { projectPostingStep3FormMapper } from "@/api/mappers/projectPostingStep3FormMapper";
 import { projectPostingStep3InputMapper } from "@/api/mappers/projectPostingStep3InputMapper";
+import { ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -89,11 +90,10 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 import AddEmployeeForm from "@/containers/AddEmployeeForm.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ProjectPostingState } from "@/models/ProjectPostingState";
-import { ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import { ProjectPostingStep3Form } from "@/models/ProjectPostingStep3Form";
 import { useStore } from "@/store";
-import { ActionTypes } from "@/store/modules/projectposting/action-types";
 import { ActionTypes as JobPostingActionTypes } from "@/store/modules/jobposting/action-types";
+import { ActionTypes } from "@/store/modules/projectposting/action-types";
 import type { Employee, ProjectPosting as ProjectPostingType, User } from "api";
 import { Field, Form, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";

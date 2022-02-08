@@ -2,11 +2,11 @@
   <form v-if="jobTypes.length && branches.length" @submit="veeForm.onSubmit">
     <FormSaveError v-if="showError" />
     <SelectPillGroup :errors="veeForm.errors.jobTypeId" class="mb-10">
-      <template v-slot:label>Ich suche nach*</template>
+      <template #label>Ich suche nach*</template>
       <SelectPill
-        name="jobTypePill"
         v-for="option in jobTypes"
         :key="option.id"
+        name="jobTypePill"
         :value="option.id"
         :checked="option.id === veeForm.jobTypeId"
         @change="onChangeJobType"
@@ -16,10 +16,10 @@
     <div class="lg:flex">
       <MatchdSelect
         id="searchDateFrom"
-        class="mb-10 flex-grow"
+        class="mb-10 grow"
         :errors="veeForm.errors.jobFromDateMonth || veeForm.errors.jobFromDateYear"
       >
-        <template v-slot:label>Ab*</template>
+        <template #label>Ab*</template>
         <fieldset id="searchDateFrom" class="flex">
           <Field
             id="jobFromDateMonth"
@@ -29,8 +29,8 @@
             class="mr-3"
             rules="required"
           >
-            <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">
+            <option value disabled selected hidden>Monat</option>
+            <option v-for="(n, index) in 12" :key="index" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -41,7 +41,7 @@
             label="Jahr"
             rules="required"
           >
-            <option value="" disabled selected hidden>Jahr</option>
+            <option value disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
@@ -49,10 +49,10 @@
       <MatchdSelect
         v-if="modeIsDateRange"
         id="searchDateTo"
-        class="mb-10 lg:ml-3 flex-grow"
+        class="mb-10 lg:ml-3 grow"
         :errors="veeForm.errors.jobToDateMonth || veeForm.errors.jobToDateYear"
       >
-        <template v-slot:label>Bis</template>
+        <template #label>Bis</template>
         <fieldset id="searchDateTo" class="flex">
           <Field
             id="jobToDateMonth"
@@ -62,8 +62,8 @@
             class="mr-3"
             rules="requiredIfNotEmpty:jobToDateYear"
           >
-            <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">
+            <option value disabled selected hidden>Monat</option>
+            <option v-for="(n, index) in 12" :key="index" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -74,18 +74,18 @@
             label="Jahr"
             rules="requiredIfNotEmpty:jobToDateMonth"
           >
-            <option value="" disabled selected hidden>Jahr</option>
+            <option value disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
       </MatchdSelect>
     </div>
     <SelectPillGroup :errors="veeForm.errors.branchId" class="mb-10">
-      <template v-slot:label>Fachrichtung*</template>
+      <template #label>Fachrichtung*</template>
       <SelectPill
-        name="branchPill"
         v-for="option in branches"
         :key="option.id"
+        name="branchPill"
         :value="option.id"
         :checked="option.id === veeForm.values?.branchId"
         @change="onChangeBranch"
@@ -98,36 +98,33 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
+            >Abbrechen</MatchdButton
           >
-            Abbrechen
-          </MatchdButton>
           <MatchdButton
             type="button"
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
+            >Speichern</MatchdButton
           >
-            Speichern
-          </MatchdButton>
         </div>
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
-        Zurück
-      </MatchdButton>
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')"
+        >Zurück</MatchdButton
+      >
       <MatchdButton
         type="button"
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"
+        >Speichern und weiter</MatchdButton
       >
-        Speichern und weiter
-      </MatchdButton>
     </template>
   </form>
 </template>

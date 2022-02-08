@@ -11,17 +11,17 @@
 
       <!-- Website Field -->
       <MatchdField v-if="!isStudent" id="website" class="mb-10" :errors="veeForm.errors.website">
-        <template v-slot:label>Website</template>
+        <template #label>Website</template>
         <Field id="website" name="website" as="input" label="Website" rules="url" />
-        <template v-slot:info>Link zu mehr Informationen auf Ihrer Webseite.</template>
+        <template #info>Link zu mehr Informationen auf Ihrer Webseite.</template>
       </MatchdField>
       <!-- Starttermin -->
       <MatchdSelect
         id="projectDateFrom"
-        class="mb-10 flex-grow"
+        class="mb-10 grow"
         :errors="veeForm.errors.projectFromDateMonth || veeForm.errors.projectFromDateYear"
       >
-        <template v-slot:label>Starttermin*</template>
+        <template #label>Starttermin*</template>
         <fieldset id="projectDateFrom" class="flex">
           <Field
             id="projectFromDateMonth"
@@ -31,8 +31,8 @@
             class="mr-3"
             rules="required"
           >
-            <option value="" disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :value="n" :key="index">
+            <option value disabled selected hidden>Monat</option>
+            <option v-for="(n, index) in 12" :key="index" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -46,55 +46,55 @@
             <option v-if="veeForm.values.projectFromDateYear" selected>
               {{ veeForm.values.projectFromDateYear }}
             </option>
-            <option v-else value="" disabled selected hidden>Jahr</option>
+            <option v-else value disabled selected hidden>Jahr</option>
             <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
       </MatchdSelect>
       <!-- Logo -->
       <MatchdFileBlock class="mb-10">
-        <template v-slot:label>Bilder zur Projektausschreibung</template>
+        <template #label>Bilder zur Projektausschreibung</template>
         <MatchdFileView
           v-if="projectPostingImages.length > 0 || projectPostingImagesQueue.length > 0"
           :files="projectPostingImages"
-          :queuedFiles="projectPostingImagesQueue"
-          @deleteFile="onDeleteProjectPostingImages"
+          :queued-files="projectPostingImagesQueue"
           class="mb-3"
           :class="{
             'mb-10':
               projectPostingImagesUploadConfigurations.maxFiles < projectPostingImagesQueue.length,
           }"
+          @delete-file="onDeleteProjectPostingImages"
         />
         <MatchdFileUpload
           v-if="projectPostingImagesUploadConfigurations.maxFiles > projectPostingImages.length"
-          :uploadConfiguration="projectPostingImagesUploadConfigurations"
+          :upload-configuration="projectPostingImagesUploadConfigurations"
           :formal="!isStudent"
-          @selectFiles="onSelectProjectPostingImages"
+          @select-files="onSelectProjectPostingImages"
           >Bilder auswählen</MatchdFileUpload
         >
       </MatchdFileBlock>
       <!-- Media -->
       <MatchdFileBlock>
-        <template v-slot:label>Dokumente zur Projektausschreibung</template>
+        <template #label>Dokumente zur Projektausschreibung</template>
         <MatchdFileView
           v-if="projectPostingDocuments.length > 0 || projectPostingDocumentsQueue.length > 0"
           :files="projectPostingDocuments"
-          :queuedFiles="projectPostingDocumentsQueue"
-          @deleteFile="onDeleteProjectPostingDocuments"
+          :queued-files="projectPostingDocumentsQueue"
           class="mb-3"
           :class="{
             'mb-10':
               projectPostingDocumentsUploadConfigurations.maxFiles < projectPostingDocuments.length,
           }"
+          @delete-file="onDeleteProjectPostingDocuments"
         />
         <MatchdFileUpload
           v-if="
             projectPostingDocumentsUploadConfigurations.maxFiles > projectPostingDocuments.length
           "
           :formal="!isStudent"
-          :uploadConfiguration="projectPostingDocumentsUploadConfigurations"
-          @selectFiles="onSelectProjectPostingDocuments"
+          :upload-configuration="projectPostingDocumentsUploadConfigurations"
           class="mb-10"
+          @select-files="onSelectProjectPostingDocuments"
           >Dokumente auswählen</MatchdFileUpload
         >
       </MatchdFileBlock>
@@ -126,6 +126,7 @@
 <script lang="ts">
 import { projectPostingStep2FormMapper } from "@/api/mappers/projectPostingStep2FormMapper";
 import { projectPostingStep2InputMapper } from "@/api/mappers/projectPostingStep2InputMapper";
+import { AttachmentKey, ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -135,7 +136,6 @@ import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ProjectPostingState } from "@/models/ProjectPostingState";
-import { AttachmentKey, ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import { ProjectPostingStep2Form } from "@/models/ProjectPostingStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
@@ -144,8 +144,8 @@ import { MutationTypes as UploadMutationTypes } from "@/store/modules/upload/mut
 import { QueuedFile } from "@/store/modules/upload/state";
 import type {
   Attachment,
-  UploadConfiguration,
   ProjectPosting as ProjectPostingType,
+  UploadConfiguration,
   User,
 } from "api";
 import { Field, Form, useField, useForm } from "vee-validate";

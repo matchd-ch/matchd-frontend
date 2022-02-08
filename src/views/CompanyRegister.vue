@@ -11,18 +11,18 @@
     </div>
     <div class="px-4 xl:px-5">
       <MatchdStep step="1">
-        <template v-if="form.type === 'company'" v-slot:title
-          >Möchte Ihr Unternehmen Talente der Matchd-Community kennenlernen?
-        </template>
-        <template v-else v-slot:title
+        <template v-if="form.type === 'company'" #title
+          >Möchte Ihr Unternehmen Talente der Matchd-Community kennenlernen?</template
+        >
+        <template v-else #title
           >Möchte ihre Organisation Talente der Matchd-Community kennenlernen?</template
         >
         <MatchdButton
           type="button"
           variant="outline"
           :active="isValidCompany"
-          @click="onClickConfirmCompany(true)"
           class="mb-3 xl:mb-0 mr-3"
+          @click="onClickConfirmCompany(true)"
           >Ja</MatchdButton
         >
         <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
@@ -35,13 +35,13 @@
         step="2"
         class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
-        <template v-slot:title
-          >Bitte geben Sie uns die Unternehmens-Identifikationsnummer (UID-Nr.) Ihres Unternehmens
-          an.</template
-        >
-        <Form @submit="onSubmitUid" v-slot="{ errors }">
+        <template #title>
+          Bitte geben Sie uns die Unternehmens-Identifikationsnummer (UID-Nr.) Ihres Unternehmens
+          an.
+        </template>
+        <Form v-slot="{ errors }" @submit="onSubmitUid">
           <MatchdField id="uid" class="mb-10" :errors="errors.uid">
-            <template v-slot:label>UID-Nr.</template>
+            <template #label>UID-Nr.</template>
             <Field
               id="uid"
               name="uid"
@@ -50,15 +50,15 @@
               label="UID-Nr."
               rules="required|uid"
             />
-            <template v-slot:info
-              >Ihre UID-Nr. finden Sie online&nbsp;
+            <template #info>
+              Ihre UID-Nr. finden Sie online&nbsp;
               <a
                 href="https://www.uid.admin.ch/Search.aspx?lang=de"
                 target="_blank"
                 class="underline"
                 >im UID-Register</a
-              >.</template
-            >
+              >.
+            </template>
           </MatchdField>
           <MatchdButton variant="outline">Speichern und weiter</MatchdButton>
         </Form>
@@ -68,15 +68,15 @@
         step="3"
         class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
-        <template v-slot:title>
-          Erzählen sie, wer sie sind. Diese Angaben erscheinen später auf ihrem Profil.
-        </template>
-        <Form @submit="onSubmitCompanyData" v-slot="{ errors }">
+        <template #title
+          >Erzählen sie, wer sie sind. Diese Angaben erscheinen später auf ihrem Profil.</template
+        >
+        <Form v-slot="{ errors }" @submit="onSubmitCompanyData">
           <MatchdField id="name" class="mb-3" :errors="errors.name">
-            <template v-if="form.type === 'company'" v-slot:label
-              >Name des Unternehmens inkl. Rechtsform
-            </template>
-            <template v-else v-slot:label>Vollständiger Name der Bildungsinstitution</template>
+            <template v-if="form.type === 'company'" #label
+              >Name des Unternehmens inkl. Rechtsform</template
+            >
+            <template v-else #label>Vollständiger Name der Bildungsinstitution</template>
             <Field
               id="name"
               name="name"
@@ -90,30 +90,26 @@
           </MatchdField>
           <div class="xl:flex">
             <MatchdField id="zip" class="xl:mr-3 mb-3 xl:w-40" :errors="errors.zip">
-              <template v-slot:label>PLZ</template>
+              <template #label>PLZ</template>
               <Field id="zip" name="zip" as="input" label="PLZ" rules="required" maxlength="4" />
             </MatchdField>
-            <MatchdField id="city" class="mb-3 xl:flex-grow" :errors="errors.city">
-              <template v-slot:label>Ort</template>
+            <MatchdField id="city" class="mb-3 xl:grow" :errors="errors.city">
+              <template #label>Ort</template>
               <Field id="city" name="city" as="input" label="Ort" rules="required" />
             </MatchdField>
           </div>
           <div class="xl:flex">
-            <MatchdField
-              id="firstName"
-              class="xl:mr-3 mb-3 xl:flex-grow"
-              :errors="errors.firstName"
-            >
-              <template v-slot:label>Vorname Ansprechperson</template>
+            <MatchdField id="firstName" class="xl:mr-3 mb-3 xl:grow" :errors="errors.firstName">
+              <template #label>Vorname Ansprechperson</template>
               <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
             </MatchdField>
-            <MatchdField id="lastName" class="mb-3 xl:flex-grow" :errors="errors.lastName">
-              <template v-slot:label>Nachname Ansprechperson</template>
+            <MatchdField id="lastName" class="mb-3 xl:grow" :errors="errors.lastName">
+              <template #label>Nachname Ansprechperson</template>
               <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
             </MatchdField>
           </div>
           <MatchdField id="role" class="mb-3" :errors="errors.role">
-            <template v-slot:label>Funktion</template>
+            <template #label>Funktion</template>
             <Field
               id="role"
               name="role"
@@ -124,7 +120,7 @@
             />
           </MatchdField>
           <MatchdField id="email" class="mb-3" :errors="errors.email">
-            <template v-slot:label>E-Mail Ansprechperson</template>
+            <template #label>E-Mail Ansprechperson</template>
             <Field
               id="email"
               name="email"
@@ -135,7 +131,7 @@
             />
           </MatchdField>
           <MatchdField id="password" class="mb-10" :errors="errors.password" icon-right="true">
-            <template v-slot:label>Passwort</template>
+            <template #label>Passwort</template>
             <Field
               id="password"
               name="password"
@@ -145,11 +141,11 @@
               rules="required|password-strengh"
               autocomplete
             />
-            <template v-slot:iconRight>
+            <template #iconRight>
               <button
                 type="button"
-                @click="registration.onTogglePasswordVisibility"
                 class="h-full flex justify-center items-center p-2 mr-4"
+                @click="registration.onTogglePasswordVisibility"
               >
                 <component
                   :is="registration.passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
@@ -157,19 +153,19 @@
                 />
               </button>
             </template>
-            <template v-slot:info
-              >Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben,
-              eine Zahl und ein Sonderzeichen enthalten.
+            <template #info>
+              Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben, eine
+              Zahl und ein Sonderzeichen enthalten.
             </template>
           </MatchdField>
 
           <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
-            <template v-slot:label
-              ><a class="underline" :href="dataProtectionLink" target="_blank"
+            <template #label>
+              <a class="underline" :href="dataProtectionLink" target="_blank"
                 >Datenschutzerklärung</a
               >
-              von Matchd</template
-            >
+              von Matchd
+            </template>
             <Field
               id="dataProtection"
               name="dataProtection"
@@ -178,9 +174,9 @@
               value="true"
               :rules="{ required: true }"
             />
-            <template v-slot:value
-              >Ja, ich habe die Datenschutzerklärung gelesen und akzeptiere sie
-            </template>
+            <template #value
+              >Ja, ich habe die Datenschutzerklärung gelesen und akzeptiere sie</template
+            >
           </MatchdToggle>
 
           <MatchdButton
@@ -196,7 +192,7 @@
         step="4"
         class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
-        <template v-slot:title>
+        <template #title>
           Fast geschafft. Aktivieren Sie Ihren Matchd-Account über den Link, den Sie per E-Mail
           erhalten haben.
         </template>
@@ -206,8 +202,15 @@
 </template>
 
 <script lang="ts">
+import IconHide from "@/assets/icons/hide.svg";
+import IconShow from "@/assets/icons/show.svg";
 import BackLink from "@/components/BackLink.vue";
+import MatchdButton from "@/components/MatchdButton.vue";
+import MatchdField from "@/components/MatchdField.vue";
+import MatchdStep from "@/components/MatchdStep.vue";
+import MatchdToggle from "@/components/MatchdToggle.vue";
 import { useRegistration } from "@/composables/Registration";
+import { config } from "@/config";
 import { CompanyRegistrationState } from "@/models/CompanyRegistrationState";
 import { NewCompanyAccount } from "@/models/NewAccount";
 import {
@@ -215,16 +218,9 @@ import {
   RegistrationCompanyFormUid,
 } from "@/models/RegistrationCompanyForm";
 import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
-import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdField from "@/components/MatchdField.vue";
-import MatchdStep from "@/components/MatchdStep.vue";
-import IconShow from "@/assets/icons/show.svg";
-import IconHide from "@/assets/icons/hide.svg";
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import MatchdToggle from "@/components/MatchdToggle.vue";
-import { config } from "@/config";
 
 @Options({
   components: {
@@ -337,6 +333,19 @@ export default class CompanyRegister extends Vue {
 </script>
 
 <style lang="postcss" scoped>
+.attach-heading {
+  top: 50%;
+  transform: translateY(-50%);
+
+  & .backlink {
+    display: none;
+  }
+
+  & h1 {
+    @apply text-display-sm;
+  }
+}
+
 .attach-heading {
   top: 50%;
   transform: translateY(-50%);

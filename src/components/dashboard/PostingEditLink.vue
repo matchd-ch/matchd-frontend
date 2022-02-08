@@ -8,20 +8,21 @@
   >
     <h3 class="font-medium text-lg">
       {{ posting.displayTitle }} {{ isPublic ? "" : " (Entwurf)" }}
-      <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+      <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
     </h3>
     <p v-if="!isJob" class="text-sm">
-      {{ posting.projectType.name }} <br />
+      {{ posting.projectType.name }}
+      <br />
       {{ posting.topic.name }}
     </p>
   </router-link>
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
-import type { JobPosting, ProjectPosting } from "api";
-import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
 import { JobPostingState, ProjectPostingState } from "@/api/models/types";
+import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
+import type { JobPosting, ProjectPosting } from "api";
+import { Options, prop, Vue } from "vue-class-component";
 import { RouteParams } from "vue-router";
 
 class Props {

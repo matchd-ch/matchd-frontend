@@ -3,12 +3,12 @@
     <FormSaveError v-if="showError" />
     <!-- Website Field -->
     <MatchdField id="website" class="mb-10" :errors="veeForm.errors.website">
-      <template v-slot:label>Website*</template>
+      <template #label>Website*</template>
       <Field id="website" name="website" as="input" label="Website" rules="required|url" />
     </MatchdField>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
-      <template v-slot:label>Kurzsteckbrief Ihres Unternehmens</template>
+      <template #label>Kurzsteckbrief Ihres Unternehmens</template>
       <Field
         id="description"
         name="description"
@@ -17,32 +17,32 @@
         label="Kurzsteckbrief Ihres Unternehmens"
         rows="10"
       />
-      <template v-slot:info>Maximal 1000 Zeichen</template>
+      <template #info>Maximal 1000 Zeichen</template>
     </MatchdField>
     <!-- Logo -->
     <MatchdFileBlock class="mb-10">
-      <template v-slot:label>Logo</template>
+      <template #label>Logo</template>
       <MatchdFileView
         v-if="companyAvatar.length > 0 || companyAvatarQueue.length > 0"
         :files="companyAvatar"
-        :queuedFiles="companyAvatarQueue"
-        @deleteFile="onDeleteCompanyAvatar"
+        :queued-files="companyAvatarQueue"
+        @delete-file="onDeleteCompanyAvatar"
       />
       <MatchdFileUpload
         v-if="companyAvatar.length === 0"
-        :uploadConfiguration="companyAvatarUploadConfigurations"
+        :upload-configuration="companyAvatarUploadConfigurations"
         :formal="true"
-        @selectFiles="onSelectCompanyAvatar"
+        @select-files="onSelectCompanyAvatar"
         >Logo auswählen</MatchdFileUpload
       >
-      <template v-slot:info
+      <template #info
         >Nur folgende Logos werden auf Matchd richtig dargestellt: quadratisches Format, Bild und
         Wortmarke dürfen nicht weiss sein, transparenter oder weisser Hintergrund.</template
       >
     </MatchdFileBlock>
     <!-- Products & Services Field -->
     <MatchdField id="services" class="mb-10" :errors="veeForm.errors.services">
-      <template v-slot:label>Produkte, Services oder Dienstleistungen Ihres Unternehmens</template>
+      <template #label>Produkte, Services oder Dienstleistungen Ihres Unternehmens</template>
       <Field
         id="services"
         name="services"
@@ -51,25 +51,23 @@
         maxlength="1000"
         rows="10"
       />
-      <template v-slot:info>Maximal 1000 Zeichen</template>
+      <template #info>Maximal 1000 Zeichen</template>
     </MatchdField>
     <!-- ITrockt Field -->
     <MatchdToggle id="memberItStGallen" class="mb-10" :errors="veeForm.errors.memberItStGallen">
-      <template v-slot:label
-        >Ihr Unternehmen ist Mitglied im Verein IT St.Gallen «IT rockt!»</template
-      >
+      <template #label>Ihr Unternehmen ist Mitglied im Verein IT St.Gallen «IT rockt!»</template>
       <input
         id="memberItStGallen"
         name="memberItStGallen"
         type="checkbox"
         value="true"
-        @change="onToggleMemberItStGallen($event.target.checked)"
         :checked="veeForm.memberItStGallen"
+        @change="onToggleMemberItStGallen($event.target.checked)"
       />
-      <template v-if="veeForm.memberItStGallen" v-slot:value>
+      <template v-if="veeForm.memberItStGallen" #value>
         <span class="text-pink-1">Ja</span>
       </template>
-      <template v-else v-slot:value>Nein</template>
+      <template v-else #value>Nein</template>
     </MatchdToggle>
 
     <template v-if="edit">
@@ -78,8 +76,8 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -96,7 +94,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton

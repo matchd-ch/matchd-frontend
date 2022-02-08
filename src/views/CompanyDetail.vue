@@ -8,20 +8,22 @@
     >
       <div class="xl:flex">
         <div class="xl:w-1/2 flex items-center">
-          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32 mr-8 flex-shrink-0" />
+          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32 mr-8 shrink-0" />
           <h1 class="text-heading-sm">{{ company.data.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
-          {{ company.data.street }}<br />
-          {{ company.data.zip }} {{ company.data.city }}<br />
-          <a :href="company.data.website" target="_blank" class="underline">{{
-            company.data.website
-          }}</a>
+          {{ company.data.street }}
+          <br />
+          {{ company.data.zip }} {{ company.data.city }}
+          <br />
+          <a :href="company.data.website" target="_blank" class="underline">
+            {{ company.data.website }}
+          </a>
           <template v-if="company.data.employees.length">
             <br />
-            <a :href="`mailto:${company.data.employees[0].email}`" class="underline"
-              >{{ company.data.employees[0].email }}
-            </a>
+            <a :href="`mailto:${company.data.employees[0].email}`" class="underline">{{
+              company.data.employees[0].email
+            }}</a>
           </template>
           <br />
           <a :href="`tel:${company.data.phone}`">{{ company.data.phone }}</a>
@@ -36,11 +38,13 @@
         />
         <MatchdVideo v-else-if="mainMedia.mimeType.includes('video/')" :attachment="mainMedia" />
       </div>
-      <MatchdImageGrid :attachments="additionalMedia" class="mt-4" @clickMedia="onClickMedia" />
+      <MatchdImageGrid :attachments="additionalMedia" class="mt-4" @click-media="onClickMedia" />
     </div>
     <div class="flex flex-col min-h-full">
-      <section class="flex-grow p-9 border-b border-pink-1">
+      <section class="grow p-9 border-b border-pink-1">
         <h2 class="text-heading-lg mb-8 text-pink-1">Über uns</h2>
+        <!-- TODO: Check if this is necessary. -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="nl2br(company.data.description)"></p>
       </section>
       <ProfileSection
@@ -56,9 +60,7 @@
         title="In diesen Bereichen kannst du bei uns tätig sein"
       >
         <ul class="list list-inside list-disc marker-pink-1 text-lg">
-          <li v-for="branch in company.data.branches" :key="branch.id">
-            {{ branch.name }}
-          </li>
+          <li v-for="branch in company.data.branches" :key="branch.id">{{ branch.name }}</li>
         </ul>
       </ProfileSection>
       <ProfileSection
@@ -79,7 +81,7 @@
       </ProfileSection>
       <section
         v-if="company.data.jobPostings.length"
-        class="flex-grow p-9"
+        class="grow p-9"
         :class="{ 'border-b border-pink-1': company.data.projectPostings.length }"
       >
         <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
@@ -95,7 +97,7 @@
           </li>
         </ul>
       </section>
-      <section v-if="company.data.projectPostings.length" class="flex-grow p-9">
+      <section v-if="company.data.projectPostings.length" class="grow p-9">
         <h2 class="text-heading-lg mb-8 text-pink-1">Projekte</h2>
         <ul class="list">
           <li v-for="projectPosting in company.data.projectPostings" :key="projectPosting.id">
@@ -115,6 +117,7 @@
 </template>
 
 <script lang="ts">
+import ArrowFront from "@/assets/icons/arrow-front.svg";
 import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
@@ -128,7 +131,6 @@ import type { Attachment, Company } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import ArrowFront from "@/assets/icons/arrow-front.svg";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 

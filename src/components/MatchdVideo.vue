@@ -1,6 +1,6 @@
 <template>
   <div class="matchd-video">
-    <video ref="videoPlayer" :id="elementId" class="video-js vjs-big-play-centered"></video>
+    <video :id="elementId" ref="videoPlayer" class="video-js vjs-big-play-centered"></video>
   </div>
 </template>
 

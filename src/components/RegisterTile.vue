@@ -1,15 +1,15 @@
 <template>
   <router-link :to="to" class="register-tile">
-    <div class="flex-grow flex justify-between">
+    <div class="grow flex justify-between">
       <slot />
-      <IconArrow class="inline-block w-8 ml-2 text-black flex-shrink-0" />
+      <IconArrow class="inline-block w-8 ml-2 text-black shrink-0" />
     </div>
   </router-link>
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
 import IconArrow from "@/assets/icons/arrow.svg";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   to = prop<string>({ default: undefined });

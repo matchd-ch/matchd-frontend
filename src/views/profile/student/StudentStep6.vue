@@ -12,15 +12,12 @@
     <h3 class="mb-2 font-medium mt-14">Profil</h3>
     <div class="flex justify-center">
       <div class="flex justify-between items-center mt-4">
-        <div
-          class="flex-grow mr-8"
-          :class="{ 'text-black': isAnonymous, 'text-grey-2': !isAnonymous }"
-        >
+        <div class="grow mr-8" :class="{ 'text-black': isAnonymous, 'text-grey-2': !isAnonymous }">
           anonym
         </div>
         <button
           type="button"
-          class="relative inline-flex flex-shrink-0 h-8 w-14 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
+          class="relative inline-flex shrink-0 h-8 w-14 rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:border-black"
           :class="{ 'bg-black': isAnonymous, 'bg-primary-1': !isAnonymous }"
           aria-pressed="false"
           @click="onToggleUserState"
@@ -28,12 +25,12 @@
           <span class="sr-only">Status ändern</span>
           <span
             aria-hidden="true"
-            class="pointer-events-none inline-block h-6 w-6 m-1 rounded-full bg-white transform ring-0 transition ease-in-out duration-200 translate-x-0"
+            class="pointer-events-none inline-block h-6 w-6 m-1 rounded-full bg-white ring-0 transition ease-in-out duration-200 translate-x-0"
             :class="isAnonymous ? 'translate-x-0' : 'translate-x-6'"
           ></span>
         </button>
         <div
-          class="flex-grow text-right ml-8"
+          class="grow text-right ml-8"
           :class="{ 'text-primary-1': !isAnonymous, 'text-grey-2': isAnonymous }"
         >
           öffentlich
@@ -81,36 +78,33 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
+            >Abbrechen</MatchdButton
           >
-            Abbrechen
-          </MatchdButton>
           <MatchdButton
             type="button"
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
+            >Speichern</MatchdButton
           >
-            Speichern
-          </MatchdButton>
         </div>
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
-        Zurück
-      </MatchdButton>
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')"
+        >Zurück</MatchdButton
+      >
       <MatchdButton
         type="button"
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"
+        >Speichern und weiter</MatchdButton
       >
-        Speichern und weiter
-      </MatchdButton>
     </template>
   </form>
 </template>

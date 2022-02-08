@@ -2,7 +2,7 @@
   <div class="activate min-h-screen flex flex-col px-4 lg:px-5">
     <BackLink :to="{ name: 'Login' }" />
     <h1 class="text-display-xl-fluid text-black">Matchd starten</h1>
-    <div class="flex-grow flex justify-center items-center">
+    <div class="grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
         <template v-if="activationLoading">
           <p class="text-heading-md">Bitte warte während dein Account aktiviert wird.</p>

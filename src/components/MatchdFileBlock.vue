@@ -1,17 +1,19 @@
 <template>
   <div class="matchd-file-block">
-    <div class="matchd-file-block__label"><slot name="label" /></div>
+    <div class="matchd-file-block__label">
+      <slot name="label" />
+    </div>
     <slot />
     <p v-if="$slots.info" class="matchd-file-block__info">
-      <IconInfo class="flex-shrink-0 w-5 mr-2" />
+      <IconInfo class="shrink-0 w-5 mr-2" />
       <slot name="info" />
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
 import IconInfo from "@/assets/icons/info.svg";
+import { Options, Vue } from "vue-class-component";
 
 @Options({
   components: {

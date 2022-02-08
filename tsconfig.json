@@ -19,6 +19,11 @@
       "@/*": ["src/*"],
       "*": ["types/*"]
     },
+    "plugins": [
+      {
+        "name": "@vuedx/typescript-plugin-vue"
+      }
+    ],
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [

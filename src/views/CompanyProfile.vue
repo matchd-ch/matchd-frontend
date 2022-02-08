@@ -8,19 +8,22 @@
     >
       <div class="xl:flex">
         <div class="xl:w-1/2 flex items-center">
-          <CompanyLogo :url="logoSrc" :name="user.company.name" class="w-32 mr-8 flex-shrink-0" />
+          <CompanyLogo :url="logoSrc" :name="user.company.name" class="w-32 mr-8 shrink-0" />
           <h1 class="text-heading-sm">{{ user.company.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
-          {{ user.company.street }}<br />
-          {{ user.company.zip }} {{ user.company.city }}<br />
-          <a :href="user.company.website" target="_blank" class="underline">{{
-            user.company.website
-          }}</a
-          ><br /><a :href="`mailto:${user.employee.email}`" class="underline">{{
-            user.employee.email
-          }}</a
-          ><br />
+          {{ user.company.street }}
+          <br />
+          {{ user.company.zip }} {{ user.company.city }}
+          <br />
+          <a :href="user.company.website" target="_blank" class="underline">
+            {{ user.company.website }}
+          </a>
+          <br />
+          <a :href="`mailto:${user.employee.email}`" class="underline">
+            {{ user.employee.email }}
+          </a>
+          <br />
           <a :href="`tel:${user.company.phone}`">{{ user.company.phone }}</a>
         </address>
       </div>
@@ -36,14 +39,16 @@
       <MatchdImageGrid :attachments="additionalMedia" class="mt-4" />
     </div>
     <div class="flex flex-col min-h-full">
-      <ProfileSection :pink="true" title="Über uns" :editStep="getStepName(2)">
+      <ProfileSection :pink="true" title="Über uns" :edit-step="getStepName(2)">
+        <!-- TODO: Check if this is necessary. -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="nl2br(user.company.description)"></p>
       </ProfileSection>
       <ProfileSection
         v-if="user.company.services"
         :pink="true"
         title="Unsere Produkte und Services"
-        :editStep="getStepName(2)"
+        :edit-step="getStepName(2)"
       >
         <p>{{ user.company.services }}</p>
       </ProfileSection>
@@ -51,7 +56,7 @@
         v-if="user.company.branches.length"
         :pink="true"
         title="In diesen Bereichen kannst du bei uns tätig sein"
-        :editStep="getStepName(3)"
+        :edit-step="getStepName(3)"
       >
         <ul class="list list-inside list-disc marker-pink-1">
           <li v-for="branch in user.company.branches" :key="branch.id" class="text-lg">
@@ -63,7 +68,7 @@
         v-if="user.company.benefits.length"
         :pink="true"
         title="Das erwartet dich bei uns"
-        :editStep="getStepName(3)"
+        :edit-step="getStepName(3)"
       >
         <ul class="flex flex-wrap content-start items-start -mb-1">
           <li
@@ -76,7 +81,7 @@
           </li>
         </ul>
       </ProfileSection>
-      <section v-if="user.company.jobPostings.length" class="flex-grow p-9">
+      <section v-if="user.company.jobPostings.length" class="grow p-9">
         <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
         <ul class="list">
           <li v-for="position in user.company.jobPostings" :key="position.id">
@@ -96,20 +101,20 @@
 
 <script lang="ts">
 import { AttachmentKey } from "@/api/models/types";
+import ArrowDown from "@/assets/icons/arrow-down.svg";
+import ArrowFront from "@/assets/icons/arrow-front.svg";
 import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
-import ArrowDown from "@/assets/icons/arrow-down.svg";
-import ArrowFront from "@/assets/icons/arrow-front.svg";
 import { calculateMargins } from "@/helpers/calculateMargins";
+import { nl2br } from "@/helpers/nl2br";
+import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { Attachment, User } from "api";
 import { Options, Vue } from "vue-class-component";
-import { replaceStack } from "@/helpers/replaceStack";
-import { nl2br } from "@/helpers/nl2br";
 
 @Options({
   components: {

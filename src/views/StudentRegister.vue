@@ -11,13 +11,13 @@
     </div>
     <div class="px-4 xl:px-5">
       <MatchdStep step="1">
-        <template v-slot:title>Besuchst du im Kanton St.Gallen eine Bildungsinstitution?</template>
+        <template #title>Besuchst du im Kanton St.Gallen eine Bildungsinstitution?</template>
         <MatchdButton
           type="button"
           variant="outline"
           :active="isValidStudent === true"
-          @click="onClickConfirmStudent(true)"
           class="mb-3 xl:mb-0 mr-3"
+          @click="onClickConfirmStudent(true)"
           >Ja</MatchdButton
         >
         <MatchdButton
@@ -34,15 +34,15 @@
         step="2"
         class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
-        <template v-slot:title
+        <template #title
           >Suchst du in der Ostschweiz ein Praktikum, eine Lehrstelle oder Festanstellung?</template
         >
         <MatchdButton
           type="button"
           variant="outline"
           :active="isValidPosition"
-          @click="onClickConfirmPosition(true)"
           class="mb-3 xl:mb-0 mr-3"
+          @click="onClickConfirmPosition(true)"
           >Ja</MatchdButton
         >
         <MatchdButton type="button" variant="outline" @click="registration.onClickNo()"
@@ -54,27 +54,23 @@
         step="3"
         class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
-        <template v-slot:title>
-          Bei Matchd bist du genau richtig!<br />Schreib dich ein und deine Job- oder Projektsuche
-          kann starten.
+        <template #title>
+          Bei Matchd bist du genau richtig!
+          <br />Schreib dich ein und deine Job- oder Projektsuche kann starten.
         </template>
-        <Form @submit="onSubmitStudentData" v-slot="{ errors }">
+        <Form v-slot="{ errors }" @submit="onSubmitStudentData">
           <div class="xl:flex">
-            <MatchdField
-              id="firstName"
-              class="xl:mr-3 mb-3 xl:flex-grow"
-              :errors="errors.firstName"
-            >
-              <template v-slot:label>Vorname</template>
+            <MatchdField id="firstName" class="xl:mr-3 mb-3 xl:grow" :errors="errors.firstName">
+              <template #label>Vorname</template>
               <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
             </MatchdField>
-            <MatchdField id="lastName" class="mb-3 xl:flex-grow" :errors="errors.lastName">
-              <template v-slot:label>Nachname</template>
+            <MatchdField id="lastName" class="mb-3 xl:grow" :errors="errors.lastName">
+              <template #label>Nachname</template>
               <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
             </MatchdField>
           </div>
           <MatchdField id="email" class="mb-3" :errors="errors.email">
-            <template v-slot:label>E-Mail</template>
+            <template #label>E-Mail</template>
             <Field
               id="email"
               name="email"
@@ -85,7 +81,7 @@
             />
           </MatchdField>
           <MatchdField id="password" class="mb-10" :errors="errors.password" icon-right="true">
-            <template v-slot:label>Passwort</template>
+            <template #label>Passwort</template>
             <Field
               id="password"
               name="password"
@@ -95,11 +91,11 @@
               rules="required|password-strengh"
               autocomplete
             />
-            <template v-slot:iconRight>
+            <template #iconRight>
               <button
                 type="button"
-                @click="registration.onTogglePasswordVisibility"
                 class="h-full flex justify-center items-center p-2 mr-4"
+                @click="registration.onTogglePasswordVisibility"
               >
                 <component
                   :is="registration.passwordFieldType === 'password' ? 'IconShow' : 'IconHide'"
@@ -107,19 +103,19 @@
                 />
               </button>
             </template>
-            <template v-slot:info
-              >Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben,
-              eine Zahl und ein Sonderzeichen enthalten.
+            <template #info>
+              Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben, eine
+              Zahl und ein Sonderzeichen enthalten.
             </template>
           </MatchdField>
 
           <MatchdToggle id="dataProtection" class="mb-10" :errors="errors.dataProtection">
-            <template v-slot:label
-              ><a class="underline" :href="dataProtectionLink" target="_blank"
+            <template #label>
+              <a class="underline" :href="dataProtectionLink" target="_blank"
                 >Datenschutzerklärung</a
               >
-              von Matchd</template
-            >
+              von Matchd
+            </template>
             <Field
               id="dataProtection"
               name="dataProtection"
@@ -128,9 +124,9 @@
               value="true"
               :rules="{ required: true }"
             />
-            <template v-slot:value
-              >Ja, ich habe die Datenschutzerklärung gelesen und akzeptiere sie
-            </template>
+            <template #value
+              >Ja, ich habe die Datenschutzerklärung gelesen und akzeptiere sie</template
+            >
           </MatchdToggle>
           <MatchdButton
             variant="outline"
@@ -145,8 +141,8 @@
         step="4"
         class="col-start-1 col-span-8 xl:col-start-5 xl:col-span-8 row-start-2"
       >
-        <template v-slot:title>
-          Fast geschafft, {{ form.firstName }}! 🥳<br />Aktiviere deinen Matchd-Account über den
+        <template #title>
+          Fast geschafft, {{ form.firstName }}! 🥳 <br />Aktiviere deinen Matchd-Account über den
           Link, den wir dir per E-Mail geschickt haben.
         </template>
       </MatchdStep>
@@ -161,7 +157,9 @@ import BackLink from "@/components/BackLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdStep from "@/components/MatchdStep.vue";
+import MatchdToggle from "@/components/MatchdToggle.vue";
 import { useRegistration } from "@/composables/Registration";
+import { config } from "@/config";
 import { NewStudentAccount } from "@/models/NewAccount";
 import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
 import { StudentRegistrationState } from "@/models/StudentRegistrationState";
@@ -169,8 +167,6 @@ import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registra
 import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import MatchdToggle from "@/components/MatchdToggle.vue";
-import { config } from "@/config";
 
 @Options({
   components: {

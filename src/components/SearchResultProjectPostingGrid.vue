@@ -5,11 +5,11 @@
     <project-posting-grid-tile
       v-for="match in matches"
       :key="match.id"
-      :linkTo="{ name: 'ProjectPostingDetail', params: { slug: match.id } }"
-      :imgSrc="replaceStack(match.img, 'avatar')"
-      :imgAlt="match.name"
+      :link-to="{ name: 'ProjectPostingDetail', params: { slug: match.id } }"
+      :img-src="replaceStack(match.img, 'avatar')"
+      :img-alt="match.name"
     >
-      <template v-slot:match-status>
+      <template #match-status>
         <div
           v-if="match.matchStatus?.initiator"
           class="search-result-project-posting-grid__match-status-helper"
@@ -23,8 +23,8 @@
 
       <h2 class="text-paragraph-lg font-medium mb-4">{{ match.title }}</h2>
       <p v-if="match.description" class="mb-2 text-paragraph-md">
-        {{ match.description.slice(0, 100)
-        }}<template v-if="match.description.length > 100">&hellip;</template>
+        {{ match.description.slice(0, 100) }}
+        <template v-if="match.description.length > 100">&hellip;</template>
       </p>
       <p v-if="match.keywords.length" class="text-paragraph-md">{{ match.keywords.join(", ") }}</p>
     </project-posting-grid-tile>
@@ -33,9 +33,9 @@
 
 <script lang="ts">
 import ProjectPostingGridTile from "@/components/ProjectPostingGridTile.vue";
+import { replaceStack } from "@/helpers/replaceStack";
 import { SearchResult } from "@/models/SearchResult";
 import { Options, prop, Vue } from "vue-class-component";
-import { replaceStack } from "@/helpers/replaceStack";
 
 class Props {
   matches = prop<SearchResult[]>({ default: [] });
@@ -61,7 +61,7 @@ export default class SearchResultProjectPostingGrid extends Vue.with(Props) {
   @element match-status-helper {
     @apply absolute top-0 right-0 bottom-0 left-0;
     @apply rounded-full;
-    @apply origin-center transform rotate-45;
+    @apply origin-center rotate-45;
   }
 
   @element match-status {
@@ -69,7 +69,7 @@ export default class SearchResultProjectPostingGrid extends Vue.with(Props) {
     @apply flex items-center justify-center;
     @apply rounded-full p-2;
     @apply text-white;
-    @apply transform translate-x-1/2 -translate-y-1/2 -rotate-45;
+    @apply translate-x-1/2 -translate-y-1/2 -rotate-45;
     @apply bg-primary-1;
   }
 

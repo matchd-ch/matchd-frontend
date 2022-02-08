@@ -1,12 +1,12 @@
 <template>
   <form
-    @submit="veeForm.onSubmit"
     v-if="universityAvatarUploadConfigurations && universityDocumentsUploadConfigurations"
+    @submit="veeForm.onSubmit"
   >
     <FormSaveError v-if="showError" />
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
-      <template v-slot:label>Kurzbeschreibung der Bildungsinstitution</template>
+      <template #label>Kurzbeschreibung der Bildungsinstitution</template>
       <Field
         id="description"
         name="description"
@@ -15,48 +15,48 @@
         label="Das zeichnet mich sonst noch aus"
         class="h-72"
       />
-      <template v-slot:info>Maximal 1000 Zeichen</template>
+      <template #info>Maximal 1000 Zeichen</template>
     </MatchdField>
     <MatchdFileBlock class="mb-10">
-      <template v-slot:label>Logo</template>
+      <template #label>Logo</template>
       <MatchdFileView
         v-if="universityAvatar.length > 0 || universityAvatarQueue.length > 0"
         :files="universityAvatar"
-        :queuedFiles="universityAvatarQueue"
-        @deleteFile="onDeleteUniversityAvatar"
+        :queued-files="universityAvatarQueue"
         class="mb-3"
+        @delete-file="onDeleteUniversityAvatar"
       />
       <MatchdFileUpload
         v-if="universityAvatar.length === 0"
-        :uploadConfiguration="universityAvatarUploadConfigurations"
-        @selectFiles="onSelectUniversityAvatar"
+        :upload-configuration="universityAvatarUploadConfigurations"
         :formal="true"
+        @select-files="onSelectUniversityAvatar"
         >Logo auswählen</MatchdFileUpload
       >
-      <template v-slot:info
+      <template #info
         >Nur folgende Logos werden auf Matchd richtig dargestellt: quadratisches Format, Bild und
         Wortmarke dürfen nicht weiss sein, transparenter oder weisser Hintergrund.</template
       >
     </MatchdFileBlock>
     <!-- Media -->
     <MatchdFileBlock class="mb-10">
-      <template v-slot:label>So sieht es bei uns aus</template>
+      <template #label>So sieht es bei uns aus</template>
       <MatchdFileView
         v-if="universityDocuments.length > 0 || universityDocumentsQueue.length > 0"
         :files="universityDocuments"
-        :queuedFiles="universityDocumentsQueue"
-        @deleteFile="onDeleteUniversityDocuments"
+        :queued-files="universityDocumentsQueue"
         class="mb-3"
         :class="{
           'mb-10': universityDocumentsUploadConfigurations.maxFiles < universityDocuments.length,
         }"
+        @delete-file="onDeleteUniversityDocuments"
       />
       <MatchdFileUpload
         v-if="universityDocumentsUploadConfigurations.maxFiles > universityDocuments.length"
-        :uploadConfiguration="universityDocumentsUploadConfigurations"
-        @selectFiles="onSelectUniversityDocuments"
+        :upload-configuration="universityDocumentsUploadConfigurations"
         class="mb-10"
         :formal="true"
+        @select-files="onSelectUniversityDocuments"
         >Fotos oder Videos auswählen</MatchdFileUpload
       >
     </MatchdFileBlock>
@@ -66,8 +66,8 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>

@@ -24,10 +24,10 @@
       class="inline-block text-lg underline"
       >{{ jobPosting.employee?.phone }}</a
     >
-    <template v-slot:footer>
+    <template #footer>
       <MatchdButton
-        @click="$emit('clickClose')"
         class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
+        @click="$emit('clickClose')"
       >
         Schliessen
       </MatchdButton>

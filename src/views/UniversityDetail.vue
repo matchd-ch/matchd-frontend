@@ -8,20 +8,22 @@
     >
       <div class="xl:flex">
         <div class="xl:w-1/2 flex items-center">
-          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32 mr-8 flex-shrink-0" />
+          <CompanyLogo :url="avatarSrc" :name="company.data.name" class="w-32 mr-8 shrink-0" />
           <h1 class="text-heading-sm">{{ company.data.name }}</h1>
         </div>
         <address class="mt-5 xl:mt-0 not-italic xl:border-l border-white xl:pl-6">
-          {{ company.data.street }}<br />
-          {{ company.data.zip }} {{ company.data.city }}<br />
-          <a :href="company.data.website" target="_blank" class="underline">{{
-            company.data.website
-          }}</a>
+          {{ company.data.street }}
+          <br />
+          {{ company.data.zip }} {{ company.data.city }}
+          <br />
+          <a :href="company.data.website" target="_blank" class="underline">
+            {{ company.data.website }}
+          </a>
           <template v-if="company.data.employees.length">
             <br />
-            <a :href="`mailto:${company.data.employees[0].email}`" class="underline"
-              >{{ company.data.employees[0].email }}
-            </a>
+            <a :href="`mailto:${company.data.employees[0].email}`" class="underline">{{
+              company.data.employees[0].email
+            }}</a>
           </template>
           <br />
           <a :href="`tel:${company.data.phone}`">{{ company.data.phone }}</a>
@@ -36,11 +38,13 @@
         />
         <MatchdVideo v-else-if="mainMedia.mimeType.includes('video/')" :attachment="mainMedia" />
       </div>
-      <MatchdImageGrid :attachments="additionalMedia" class="mt-4" @clickMedia="onClickMedia" />
+      <MatchdImageGrid :attachments="additionalMedia" class="mt-4" @click-media="onClickMedia" />
     </div>
     <div class="flex flex-col min-h-full">
-      <section class="flex-grow p-9 border-b border-pink-1">
+      <section class="grow p-9 border-b border-pink-1">
         <h2 class="text-heading-lg mb-8 text-pink-1">Über uns</h2>
+        <!-- TODO: Check if this is necessary. -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="nl2br(company.data.description)"></p>
       </section>
       <ProfileSection v-if="company.data.services" :pink="true" title="Unser Angebot">
@@ -52,9 +56,7 @@
         title="In diesen Bereichen kannst du bei uns tätig sein"
       >
         <ul class="list list-inside list-disc marker-pink-1 text-lg">
-          <li v-for="branch in company.data.branches" :key="branch.id">
-            {{ branch.name }}
-          </li>
+          <li v-for="branch in company.data.branches" :key="branch.id">{{ branch.name }}</li>
         </ul>
       </ProfileSection>
       <ProfileSection
@@ -83,9 +85,10 @@
             <h3 class="font-medium text-lg">Aus- und Weiterbildung</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline">
-            <a target="_blank" :href="company.data.linkEducation"
-              >{{ company.data.linkEducation }} <ArrowFront class="w-5 mb-1 ml-2 inline-block"
-            /></a>
+            <a target="_blank" :href="company.data.linkEducation">
+              {{ company.data.linkEducation }}
+              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+            </a>
           </li>
         </ul>
         <ul v-if="company.data.linkProjects" :class="{ 'mt-5': company.data.linkEducation }">
@@ -93,30 +96,30 @@
             <h3 class="font-medium text-lg">Praxisprojekte</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline">
-            <a target="_blank" :href="company.data.linkProjects" class="inline-block"
-              >{{ company.data.linkProjects }}
+            <a target="_blank" :href="company.data.linkProjects" class="inline-block">
+              {{ company.data.linkProjects }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </a>
           </li>
         </ul>
         <ul
           v-if="company.data.linkThesis"
-          v-bind:class="{ 'mt-5': company.data.linkProjects || company.data.linkEducation }"
+          :class="{ 'mt-5': company.data.linkProjects || company.data.linkEducation }"
         >
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Abschlussarbeiten</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline block">
-            <a class="" target="_blank" :href="company.data.linkThesis"
-              >{{ company.data.linkThesis }}
+            <a class target="_blank" :href="company.data.linkThesis">
+              {{ company.data.linkThesis }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </a>
           </li>
         </ul>
       </ProfileSection>
       <section
-        class="flex-grow p-9 border-b border-pink-1"
         v-if="company.data.projectPostings.length > 0"
+        class="grow p-9 border-b border-pink-1"
       >
         <h2 class="text-heading-lg mb-8 text-pink-1">
           Themen für wissenschaftliche Projektarbeiten
@@ -133,7 +136,7 @@
           </li>
         </ul>
       </section>
-      <section v-if="company.data.jobPostings.length" class="flex-grow p-9 border-b border-pink-1">
+      <section v-if="company.data.jobPostings.length" class="grow p-9 border-b border-pink-1">
         <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
         <ul class="list">
           <li v-for="position in company.data.jobPostings" :key="position.id">
@@ -154,9 +157,7 @@
         :pink="true"
         title="Dachorganisation"
       >
-        <p>
-          {{ company.data.topLevelOrganisationDescription }}
-        </p>
+        <p>{{ company.data.topLevelOrganisationDescription }}</p>
         <p class="mt-2">
           <a class="underline" target="_blank" :href="company.data.topLevelOrganisationWebsite">
             {{ company.data.topLevelOrganisationWebsite }}
@@ -166,9 +167,12 @@
       </ProfileSection>
       <ProfileSection v-if="company.data.employees[0]" :pink="true" title="Ansprechspartner">
         <p>
-          {{ company.data.employees[0].firstName }} {{ company.data.employees[0].lastName }} <br />
-          {{ company.data.employees[0].role }} <br />
-          {{ company.data.employees[0].email }} <br />
+          {{ company.data.employees[0].firstName }} {{ company.data.employees[0].lastName }}
+          <br />
+          {{ company.data.employees[0].role }}
+          <br />
+          {{ company.data.employees[0].email }}
+          <br />
           {{ company.data.phone }}
         </p>
       </ProfileSection>
@@ -177,6 +181,7 @@
 </template>
 
 <script lang="ts">
+import ArrowFront from "@/assets/icons/arrow-front.svg";
 import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
@@ -190,7 +195,6 @@ import type { Attachment, Company } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import ArrowFront from "@/assets/icons/arrow-front.svg";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 

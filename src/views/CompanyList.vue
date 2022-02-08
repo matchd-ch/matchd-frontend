@@ -1,15 +1,15 @@
 <template>
   <div>
     <ul
-      class="search-result-grid--company search-result-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-px"
       v-if="companyMatching.data.length"
+      class="search-result-grid--company search-result-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-px"
     >
       <grid-tile
         v-for="match in companyMatching.data"
         :key="match.id"
-        :linkTo="{ name: detailSiteRoute(match.type), params: { slug: match.slug } }"
-        :imgSrc="replaceStack(match.avatar, 'logo')"
-        :imgAlt="`${match.name} Logo`"
+        :link-to="{ name: detailSiteRoute(match.type), params: { slug: match.slug } }"
+        :img-src="match.avatar ? replaceStack(match.avatar, 'logo') : null"
+        :img-alt="`${match.name} Logo`"
         color="green"
       >
         <div class="mt-2">
@@ -21,14 +21,14 @@
 </template>
 
 <script lang="ts">
-import { calculateMargins } from "@/helpers/calculateMargins";
-import { ActionTypes } from "@/store/modules/content/action-types";
-import GridTile from "@/components/GridTile.vue";
-import type { Match } from "api";
-import { Vue, Options, setup } from "vue-class-component";
-import { replaceStack } from "@/helpers/replaceStack";
-import { useMeta } from "vue-meta";
 import { ProfileType } from "@/api/models/types";
+import GridTile from "@/components/GridTile.vue";
+import { calculateMargins } from "@/helpers/calculateMargins";
+import { replaceStack } from "@/helpers/replaceStack";
+import { ActionTypes } from "@/store/modules/content/action-types";
+import type { Match } from "api";
+import { Options, setup, Vue } from "vue-class-component";
+import { useMeta } from "vue-meta";
 
 @Options({
   components: {
@@ -157,7 +157,7 @@ export default class CompanyList extends Vue {
   @element match-status-helper {
     @apply absolute top-0 right-0 bottom-0 left-0;
     @apply rounded-full;
-    @apply origin-center transform rotate-45;
+    @apply origin-center rotate-45;
   }
 
   @element match-status {
@@ -165,7 +165,7 @@ export default class CompanyList extends Vue {
     @apply flex items-center justify-center;
     @apply rounded-full p-2;
     @apply text-white;
-    @apply transform translate-x-1/2 -translate-y-1/2 -rotate-45;
+    @apply translate-x-1/2 -translate-y-1/2 -rotate-45;
   }
 
   @element link {

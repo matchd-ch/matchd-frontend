@@ -3,24 +3,24 @@
     class="select-pill-group transition-colors"
     :class="{ 'select-pill-group--invalid': errors }"
   >
-    <label v-if="$slots.label" class="select-pill-group__label"><slot name="label" /></label>
+    <label v-if="$slots.label" class="select-pill-group__label">
+      <slot name="label" />
+    </label>
     <slot name="field" />
     <ul class="flex flex-wrap -m-2">
       <slot />
     </ul>
-    <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">
-      {{ errors }}
-    </div>
+    <div v-if="errors" class="text-negative text-paragraph-sm px-8 mt-2">{{ errors }}</div>
     <p v-if="$slots.info" class="text-paragraph-sm text-black mt-4 flex items-center px-8">
-      <IconInfo class="flex-shrink-0 w-5 mr-2" />
+      <IconInfo class="shrink-0 w-5 mr-2" />
       <slot name="info" />
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
 import IconInfo from "@/assets/icons/info.svg";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   id = prop<string>({});

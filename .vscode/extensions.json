@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "johnsoncodehk.vscode-typescript-vue-plugin",
+    "mikestead.dotenv",
+    "dbaeumer.vscode-eslint",
+    "eg2.vscode-npm-script",
+    "leizongmin.node-module-intellisense",
+    "esbenp.prettier-vscode",
+    "christian-kohler.path-intellisense",
+    "gruntfuggly.todo-tree",
+    "johnsoncodehk.volar",
+    "syler.sass-indented",
+    "steoates.autoimport"
+  ]
+}

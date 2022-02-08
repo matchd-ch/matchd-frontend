@@ -9,13 +9,12 @@
   >
     <h3 class="font-medium text-lg">
       {{ posting.displayTitle }}
-      <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+      <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
     </h3>
-    <p v-if="!isJob" class="text-sm">
-      {{ posting.projectType.name }}
-    </p>
+    <p v-if="!isJob" class="text-sm">{{ posting.projectType.name }}</p>
     <p v-if="isJob && posting.company">
-      {{ posting.company.name }}<br />
+      {{ posting.company.name }}
+      <br />
       {{ posting.company.zip }} {{ posting.company.city }}
     </p>
   </router-link>
@@ -29,21 +28,17 @@
   >
     <h3 class="font-medium text-lg">
       {{ posting.displayTitle }}
-      <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" />
+      <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
     </h3>
-    <p class="text-sm">
-      {{ posting.projectType.name }}
-    </p>
-    <p class="text-sm">
-      {{ company.name }}
-    </p>
+    <p class="text-sm">{{ posting.projectType.name }}</p>
+    <p class="text-sm">{{ company.name }}</p>
   </router-link>
 </template>
 
 <script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
-import type { Company, JobPosting, ProjectPosting } from "api";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
+import type { Company, JobPosting, ProjectPosting } from "api";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   type = prop<"job" | "project">({ default: "job" });

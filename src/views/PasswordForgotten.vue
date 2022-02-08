@@ -2,7 +2,7 @@
   <div class="password-forgotten min-h-screen flex flex-col px-4 lg:px-5">
     <BackLink :to="{ name: 'Login' }" />
     <h1 class="text-display-xl-fluid text-black">Passwort vergessen</h1>
-    <div class="flex-grow flex justify-center items-center">
+    <div class="grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
         <GenericSuccess v-if="passwordForgottenState.success">
           Du hast eine E-Mail erhalten, mit welcher du dein Passwort resetten kannst. Falls du in
@@ -20,9 +20,9 @@
           <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
         </GenericError>
 
-        <Form @submit="onSubmit" v-slot="{ errors }">
+        <Form v-slot="{ errors }" @submit="onSubmit">
           <MatchdField id="email" class="mb-10" :errors="errors.email">
-            <template v-slot:label>E-Mail</template>
+            <template #label>E-Mail</template>
             <Field
               id="email"
               name="email"
@@ -31,7 +31,7 @@
               label="E-Mail"
               rules="required|email"
             />
-            <template v-slot:info
+            <template #info
               >Gib die E-Mail ein, mit welcher du dich bei Matchd registriert hast.</template
             >
           </MatchdField>
@@ -49,8 +49,8 @@
 
 <script lang="ts">
 import BackLink from "@/components/BackLink.vue";
-import GenericSuccess from "@/components/GenericSuccess.vue";
 import GenericError from "@/components/GenericError.vue";
+import GenericSuccess from "@/components/GenericSuccess.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import { PasswordResetState } from "@/models/PasswordResetState";

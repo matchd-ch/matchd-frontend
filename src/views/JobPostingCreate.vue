@@ -27,10 +27,10 @@
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
         :is="jobPostingCreateComponent"
-        class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 lg:px-8 px-4 lg:px-5 py-12"
-        @submitComplete="onSubmitComplete"
-        @navigateBack="onNavigateBack"
-        @changeDirty="onChangeDirty"
+        class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 px-4 lg:px-5 py-12"
+        @submit-complete="onSubmitComplete"
+        @navigate-back="onNavigateBack"
+        @change-dirty="onChangeDirty"
       ></component>
     </div>
   </div>
@@ -46,8 +46,8 @@ import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
 import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
 import JobPostingStep3 from "@/views/jobposting/JobPostingStep3.vue";
-import { Options, setup, Vue } from "vue-class-component";
 import type { JobPosting as JobPostingType } from "api";
+import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 

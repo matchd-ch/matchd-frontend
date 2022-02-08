@@ -2,7 +2,7 @@
   <form v-if="profileData && studentAvatarUploadConfigurations" @submit="veeForm.onSubmit">
     <FormSaveError v-if="showError" />
     <MatchdField id="nickname" class="mb-10" :errors="veeForm.errors.nickname">
-      <template v-slot:label>Dein Nickname*</template>
+      <template #label>Dein Nickname*</template>
       <Field
         id="nickname"
         name="nickname"
@@ -12,34 +12,34 @@
         rules="required"
         autocomplete="off"
       />
-      <template v-if="onboardingState.errors?.nickname?.[0] === 'unique'" v-slot:info>
+      <template v-if="onboardingState.errors?.nickname?.[0] === 'unique'" #info>
         <div>
           Weitere freie Nicknamen für dich wären:
           <NicknameSuggestions
             :suggestions="nicknameSuggestions"
-            @clickNickname="onClickNickname"
+            @click-nickname="onClickNickname"
           /></div
       ></template>
 
-      <template v-else v-slot:info
+      <template v-else #info
         >Du kannst dein Profil anonym oder öffentlich nutzen. Willst du anonym bleiben, zeigen wir
         diesen Nickname an.</template
       >
     </MatchdField>
     <MatchdFileBlock>
-      <template v-slot:label>Dein Profilbild</template>
+      <template #label>Dein Profilbild</template>
       <MatchdFileView
         v-if="studentAvatar.length > 0 || studentAvatarQueue.length > 0"
         :files="studentAvatar"
-        :queuedFiles="studentAvatarQueue"
-        @deleteFile="onDeleteStudentAvatar"
+        :queued-files="studentAvatarQueue"
         class="mb-10"
+        @delete-file="onDeleteStudentAvatar"
       />
       <MatchdFileUpload
         v-if="studentAvatar.length === 0"
-        :uploadConfiguration="studentAvatarUploadConfigurations"
-        @selectFiles="onSelectStudentAvatar"
+        :upload-configuration="studentAvatarUploadConfigurations"
         class="mb-10"
+        @select-files="onSelectStudentAvatar"
         >Bild hochladen</MatchdFileUpload
       >
     </MatchdFileBlock>
@@ -49,8 +49,8 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -67,7 +67,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton

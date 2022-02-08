@@ -8,34 +8,33 @@
     <FormSaveError v-if="showError" />
     <SelectPillMultiple
       :options="softSkills"
-      @change="onChangeSoftSkill"
       name="softSkills"
       class="mb-10"
+      @change="onChangeSoftSkill"
     >
-      <template v-slot:label>Ich mag es ...</template>
-      <template v-if="remainingSoftSkillCount > 0" v-slot:info>
+      <template #label>Ich mag es ...</template>
+      <template v-if="remainingSoftSkillCount > 0" #info>
         <template v-if="remainingSoftSkillCount === 1">
           Wähle noch 1 für dich passende Aussage aus
         </template>
         <template v-else>
-          Wähle {{ this.minSoftSkills - veeForm.softSkills.length }} für dich passende Aussagen aus
+          Wähle {{ minSoftSkills - veeForm.softSkills.length }} für dich passende Aussagen aus
         </template></template
       >
     </SelectPillMultiple>
     <SelectPillMultiple
       :options="culturalFits"
-      @change="onChangeCulturalFit"
       name="culturalFits"
       class="mb-10"
+      @change="onChangeCulturalFit"
     >
-      <template v-slot:label>Es ist mir wichtig, dass ...</template>
-      <template v-if="remainingCulturalFits > 0" v-slot:info>
+      <template #label>Es ist mir wichtig, dass ...</template>
+      <template v-if="remainingCulturalFits > 0" #info>
         <template v-if="remainingCulturalFits === 1">
           Wähle noch 1 für dich passende Aussage aus
         </template>
         <template v-else>
-          Wähle {{ this.minCulturalFits - veeForm.culturalFits.length }} für dich passende Aussagen
-          aus
+          Wähle {{ minCulturalFits - veeForm.culturalFits.length }} für dich passende Aussagen aus
         </template></template
       >
     </SelectPillMultiple>
@@ -45,8 +44,8 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -63,7 +62,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" @click="$emit('clickBack')" class="mr-4">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton

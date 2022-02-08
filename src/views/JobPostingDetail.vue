@@ -1,19 +1,21 @@
 <template>
   <div v-if="jobPosting" class="jobPosting-detail flex flex-col min-h-content-with-fixed-bars">
     <div class="border-b border-orange-1 p-9">
-      <button @click="$router.back()" class="text-black hover:text-orange-1 transition-colors">
-        <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 flex-shrink-0 inline-block" /> Zurück zur Übersicht
+      <button class="text-black hover:text-orange-1 transition-colors" @click="$router.back()">
+        <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Zurück zur Übersicht
       </button>
     </div>
     <div class="border-b border-orange-1 p-9">
       <h1 class="text-display-lg-fluid break-words text-orange-1">{{ jobPosting.displayTitle }}</h1>
     </div>
 
-    <PostingSection v-if="jobPosting.datePublished" title="Veröffentlicht am">
-      {{ formatDateWithDay(jobPosting.datePublished) }}
-    </PostingSection>
+    <PostingSection v-if="jobPosting.datePublished" title="Veröffentlicht am">{{
+      formatDateWithDay(jobPosting.datePublished)
+    }}</PostingSection>
 
     <PostingSection title="Beschreibung">
+      <!-- TODO: Check if this is necessary. -->
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <p v-html="nl2br(jobPosting.description)"></p>
     </PostingSection>
     <PostingSection title="Stelle">
@@ -21,10 +23,11 @@
       <p>Arbeitspensum {{ jobPosting.workload }}%</p>
       <p>{{ jobPosting.jobType.name }}</p>
       <p>
-        <template v-if="jobPosting.jobToDate">
-          {{ formatDate(jobPosting.jobFromDate) }} bis {{ formatDate(jobPosting.jobToDate) }}
-        </template>
-        <template v-else> ab {{ jobPosting.jobFromDate }} </template>
+        <template v-if="jobPosting.jobToDate"
+          >{{ formatDate(jobPosting.jobFromDate) }} bis
+          {{ formatDate(jobPosting.jobToDate) }}</template
+        >
+        <template v-else>ab {{ jobPosting.jobFromDate }}</template>
       </p>
       <p
         v-if="jobPosting.url"
@@ -70,10 +73,10 @@
       >
         <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
           <div>
-            <h3 class="text-heading-sm mb-3">
-              {{ jobPosting.company.name }}
-            </h3>
-            {{ jobPosting.company.street }}<br />{{ jobPosting.company.zip }}
+            <h3 class="text-heading-sm mb-3">{{ jobPosting.company.name }}</h3>
+            {{ jobPosting.company.street }}
+            <br />
+            {{ jobPosting.company.zip }}
             {{ jobPosting.company.city }}
           </div>
           <IconArrow class="w-8 ml-8" />
@@ -95,44 +98,45 @@
     </PostingSection>
     <teleport to="footer">
       <MatchingBar v-if="isStudent">
-        <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
-          Du hast bereits Interesse gezeigt, fingers crossed! 🤞
-        </template>
+        <template v-if="matchType === matchTypeEnum.HalfOwnMatch"
+          >Du hast bereits Interesse gezeigt, fingers crossed! 🤞</template
+        >
         <template v-else-if="matchType === matchTypeEnum.FullMatch"
           >Gratulation, it’s a Match!</template
         >
-        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
-          Match bestätigen
-        </MatchdButton>
+        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch"
+          >Match bestätigen</MatchdButton
+        >
         <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
       </MatchingBar>
     </teleport>
     <JobPostingMatchModal
       v-if="showConfirmationModal"
       :user="user"
-      :jobPosting="jobPosting"
+      :job-posting="jobPosting"
       :loading="matchLoading"
-      :matchType="matchType"
-      @clickConfirm="onClickMatchConfirm"
-      @clickCancel="onClickCancel"
+      :match-type="matchType"
+      @click-confirm="onClickMatchConfirm"
+      @click-cancel="onClickCancel"
     />
     <JobPostingFullMatchModal
       v-if="showFullMatchModal"
-      :jobPosting="jobPosting"
-      @clickClose="onClickClose"
+      :job-posting="jobPosting"
+      @click-close="onClickClose"
     />
   </div>
 </template>
 
 <script lang="ts">
+import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
-import { ProfileType } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import JobPostingFullMatchModal from "@/components/modals/JobPostingFullMatchModal.vue";
 import JobPostingMatchModal from "@/components/modals/JobPostingMatchModal.vue";
+import PostingSection from "@/components/PostingSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
@@ -143,7 +147,6 @@ import type { JobPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import PostingSection from "@/components/PostingSection.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 

@@ -2,7 +2,7 @@
   <form @submit="veeForm.onSubmit">
     <FormSaveError v-if="showError" />
     <MatchdField id="name" class="mb-10" :errors="veeForm.errors.name">
-      <template v-slot:label>Vollständiger Name der Bildungsinstitution*</template>
+      <template #label>Vollständiger Name der Bildungsinstitution*</template>
       <Field
         id="name"
         name="name"
@@ -12,12 +12,12 @@
       />
     </MatchdField>
     <MatchdField id="street" class="mb-10" :errors="veeForm.errors.street">
-      <template v-slot:label>Adresse*</template>
+      <template #label>Adresse*</template>
       <Field id="street" name="street" as="input" label="Adresse" rules="required" />
     </MatchdField>
     <div class="lg:flex">
       <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.zip">
-        <template v-slot:label>PLZ</template>
+        <template #label>PLZ</template>
         <Field
           id="zip"
           name="zip"
@@ -27,30 +27,30 @@
           @blur="onBlurZip(veeForm.values?.zip)"
         />
       </MatchdField>
-      <MatchdField id="city" class="mb-10 lg:flex-grow" :errors="veeForm.errors.city">
-        <template v-slot:label>Ort</template>
+      <MatchdField id="city" class="mb-10 lg:grow" :errors="veeForm.errors.city">
+        <template #label>Ort</template>
         <Field id="city" name="city" as="input" label="Ort" />
       </MatchdField>
     </div>
     <MatchdField id="firstName" class="mb-10" :errors="veeForm.errors.firstName">
-      <template v-slot:label>Vorname*</template>
+      <template #label>Vorname*</template>
       <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
     </MatchdField>
     <MatchdField id="lastName" class="mb-10" :errors="veeForm.errors.lastName">
-      <template v-slot:label>Nachname*</template>
+      <template #label>Nachname*</template>
       <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
     </MatchdField>
     <MatchdField id="role" class="mb-10" :errors="veeForm.errors.role">
-      <template v-slot:label>Funktion*</template>
+      <template #label>Funktion*</template>
       <Field id="role" name="role" as="input" label="Funktion" rules="required" />
     </MatchdField>
     <MatchdField id="mobile" class="mb-10" :errors="veeForm.errors.phone">
-      <template v-slot:label>Telefonnummer*</template>
+      <template #label>Telefonnummer*</template>
       <Field id="mobile" name="phone" as="input" label="Telefonnummer" rules="required|phone" />
     </MatchdField>
     <!-- Website Field -->
     <MatchdField id="website" class="mb-10" :errors="veeForm.errors.website">
-      <template v-slot:label>Website*</template>
+      <template #label>Website*</template>
       <Field id="website" name="website" as="input" label="Website" rules="required|url" />
     </MatchdField>
     <!-- TopLevel Organisation Field -->
@@ -59,20 +59,20 @@
       class="mb-10"
       :errors="veeForm.errors.topLevelOrganisationDescription"
     >
-      <template v-slot:label>Unsere Dachorganisation</template>
+      <template #label>Unsere Dachorganisation</template>
       <Field
         id="topLevelOrganisationDescription"
         name="topLevelOrganisationDescription"
         as="input"
         label="Unsere Dachorganisation"
       />
-      <template v-slot:info
+      <template #info
         >Hier können sie angeben, zu welcher Bildungseinrichtung ihre Organisation gehört.</template
       >
     </MatchdField>
     <!-- TopLevel Organisation Website Field -->
     <MatchdField id="topLevelOrganisationWebsite" class="mb-10">
-      <template v-slot:label>Webseite der Dachorganisation</template>
+      <template #label>Webseite der Dachorganisation</template>
       <Field
         id="topLevelOrganisationWebsite"
         name="topLevelOrganisationWebsite"
@@ -87,20 +87,18 @@
           <MatchdButton
             type="button"
             variant="outline"
-            @click="$emit('clickCancel')"
             class="mb-2 xl:mr-4 xl:mb-0"
+            @click="$emit('clickCancel')"
+            >Abbrechen</MatchdButton
           >
-            Abbrechen
-          </MatchdButton>
           <MatchdButton
             type="button"
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
+            >Speichern</MatchdButton
           >
-            Speichern
-          </MatchdButton>
         </div>
       </teleport>
     </template>
@@ -111,9 +109,8 @@
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"
+        >Speichern und weiter</MatchdButton
       >
-        Speichern und weiter
-      </MatchdButton>
     </template>
   </form>
 </template>
