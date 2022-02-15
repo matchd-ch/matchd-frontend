@@ -31,6 +31,12 @@ on:
       autoscalingEnabled:
         type: boolean
         default: false
+      gtmEnabled:
+        type: boolean
+        default: false
+      gtmDebug:
+        type: boolean
+        default: false
       task:
         type: string
         default: install
@@ -41,6 +47,10 @@ on:
       DOCKER_PULL_USERNAME:
         required: true
       DOCKER_PULL_SECRET:
+        required: true
+      GTM_CONTAINER_ID:
+        required: true
+      SENTRY_DSN:
         required: true
 
 jobs:
@@ -132,3 +142,9 @@ jobs:
               BASE_URL: "/"
               API_URL: "${{ inputs.apiUrl }}"
               DATA_PROTECTION_URL: "https://matchd.ch/impressum-datenschutz/"
+              GTM_ENABLED: "${{ inputs.gtmEnabled }}"
+              GTM_DEBUG: "${{ inputs.gtmDebug }}"
+              GTM_CONTAINER_ID: "${{ secrets.GTM_CONTAINER_ID }}"
+              SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"
+              SENTRY_ENVIRONMENT: "${{ inputs.environment }}"
+              SENTRY_RELEASE: "${{ inputs.version }}"
