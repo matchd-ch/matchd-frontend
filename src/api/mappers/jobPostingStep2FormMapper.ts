@@ -11,6 +11,9 @@ export function jobPostingStep2FormMapper(jobPosting: JobPosting): JobPostingSte
         };
       }) || [],
     skills: jobPosting.skills?.map((skill) => skill.id) || [],
-    jobRequirements: jobPosting.jobRequirements.map((jobRequirement) => jobRequirement.id) || [],
+    jobRequirements:
+      jobPosting.jobRequirements?.edges
+        .filter((edge) => edge?.node?.id !== undefined)
+        .map((edge) => edge!.node!.id) || [],
   };
 }
