@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://api.matchd.lo:8080/introspection/"
+schema: "${VUE_APP_API_URL}/graphql/"
 generates:
   ./src/api/remote-schema.json:
     plugins:
@@ -23,3 +23,4 @@ generates:
 hooks:
   afterOneFileWrite:
     - prettier --write
+documents: "src/**/*.gql"

@@ -1,4 +1,3 @@
-import { fetchCsrfToken } from "@/api/csrf-token";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import {
@@ -10,7 +9,6 @@ import {
   split,
 } from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
-import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
 import * as omitDeep from "omit-deep";
@@ -24,8 +22,6 @@ export function createApolloClient(baseUrl: string): ApolloClient<any> {
     return client;
   }
 
-  let csrfTokenPromise: Promise<string | undefined>;
-
   const httpLink = createUploadLink({
     uri: `${baseUrl}/graphql/`,
     credentials: "include",
@@ -37,22 +33,6 @@ export function createApolloClient(baseUrl: string): ApolloClient<any> {
   });
 
   const directionalLink = split((operation) => operation.getContext().batch, batchLink, httpLink);
-
-  const csrfLink = setContext(async (_, { headers }) => {
-    if (!csrfTokenPromise) {
-      csrfTokenPromise = fetchCsrfToken(baseUrl);
-    }
-    const csrfToken = await csrfTokenPromise;
-    return {
-      headers: {
-        ...headers,
-        ...(csrfToken && { "X-CSRFToken": csrfToken }),
-        ...(csrfToken && {
-          Cookie: `csrftoken=${csrfToken}`,
-        }),
-      },
-    };
-  });
 
   const cleanTypeNameLink = new ApolloLink((operation, forward) => {
     if (operation.variables) {
@@ -80,7 +60,7 @@ export function createApolloClient(baseUrl: string): ApolloClient<any> {
     }
   });
 
-  const link = from([cleanTypeNameLink, csrfLink, errorLink]);
+  const link = from([cleanTypeNameLink, errorLink]);
   return (client = new ApolloClient({
     link: link.concat(directionalLink),
     cache: new InMemoryCache(),

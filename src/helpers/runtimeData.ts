@@ -4,8 +4,13 @@ export function getData(dataSelect: string): Partial<Config> {
     const inlineJsonElement = document.querySelector(
       `script[type="application/json"][data-selector="${dataSelect}"]`
     );
-    const data = inlineJsonElement?.textContent ? JSON.parse(inlineJsonElement.textContent) : {};
-    return data;
+    if (!inlineJsonElement?.textContent) {
+      return {};
+    }
+    if (inlineJsonElement.textContent.trim() === "// RUNTIME_CONFIGURATION") {
+      return {};
+    }
+    return JSON.parse(inlineJsonElement.textContent);
   } catch (err) {
     console.error(`Couldn't read JSON data from ${dataSelect}`, err);
     return {};

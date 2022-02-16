@@ -23,7 +23,6 @@ if (process.env.VUE_APP_SENTRY_DSN && process.env.VUE_APP_SENTRY_ENVIRONMENT) {
     integrations: [
       new BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracingOrigins: ["localhost", "my-site-url.com", /^\//],
       }),
     ],
     tracesSampleRate: 1.0,

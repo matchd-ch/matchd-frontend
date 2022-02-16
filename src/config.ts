@@ -8,8 +8,8 @@ export interface Config {
 }
 
 const defaultConfig: Config = {
-  API_URL: "http://api.matchd.lo:8080",
-  DATA_PROTECTION_URL: "https://app.matchd.lo/datenschutz",
+  API_URL: "http://api.matchd.localhost:8080",
+  DATA_PROTECTION_URL: "https://app.matchd.localhost/datenschutz",
   BASE_URL: "/",
   NODE_ENV: "development",
 };

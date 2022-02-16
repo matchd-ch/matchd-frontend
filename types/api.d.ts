@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 type Maybe<T> = T | null;
+type InputMaybe<T> = Maybe<T>;
 type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -16,6 +17,12 @@ type Scalars = {
    * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
    */
   Date: any;
+  /**
+   * The `DateTime` scalar type represents a DateTime
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  DateTime: any;
   /**
    *
    *     Errors messages and codes mapped to
@@ -57,175 +64,315 @@ type Scalars = {
   Upload: any;
 };
 
-/** Adds a new emplyoee to a comany */
+/** Adds a new emplyoee to a company */
 type AddEmployee = {
   __typename?: "AddEmployee";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
   employee?: Maybe<Employee>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type AddEmployeeInput = {
+  email: Scalars["String"];
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   role: Scalars["String"];
-  email: Scalars["String"];
 };
 
-type Attachment = {
+type Attachment = Node & {
   __typename?: "Attachment";
-  id: Scalars["ID"];
-  url: Scalars["String"];
-  mimeType: Scalars["String"];
-  fileSize: Scalars["Int"];
   fileName: Scalars["String"];
+  fileSize: Scalars["Int"];
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  mimeType: Scalars["String"];
+  url: Scalars["String"];
+};
+
+type AttachmentConnection = {
+  __typename?: "AttachmentConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<AttachmentEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `Attachment` and its cursor. */
+type AttachmentEdge = {
+  __typename?: "AttachmentEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Attachment>;
 };
 
 /** An enumeration. */
 enum AttachmentKey {
-  StudentAvatar = "STUDENT_AVATAR",
-  StudentDocuments = "STUDENT_DOCUMENTS",
   CompanyAvatar = "COMPANY_AVATAR",
-  CompanyDocuments = "COMPANY_DOCUMENTS",
-  StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
   CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
-  ProjectPostingImages = "PROJECT_POSTING_IMAGES",
+  CompanyDocuments = "COMPANY_DOCUMENTS",
   ProjectPostingDocuments = "PROJECT_POSTING_DOCUMENTS",
   ProjectPostingFallback = "PROJECT_POSTING_FALLBACK",
+  ProjectPostingImages = "PROJECT_POSTING_IMAGES",
+  StudentAvatar = "STUDENT_AVATAR",
+  StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
+  StudentDocuments = "STUDENT_DOCUMENTS",
 }
 
-type Benefit = {
+type Benefit = Node & {
   __typename?: "Benefit";
-  id: Scalars["ID"];
   icon: Scalars["String"];
+  /** The ID of the object. */
+  id: Scalars["ID"];
   name: Scalars["String"];
+};
+
+type BenefitConnection = {
+  __typename?: "BenefitConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<BenefitEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+type BenefitConnectionsConnection = {
+  __typename?: "BenefitConnectionsConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<BenefitConnectionsEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `BenefitConnections` and its cursor. */
+type BenefitConnectionsEdge = {
+  __typename?: "BenefitConnectionsEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Benefit>;
+};
+
+/** A Relay edge containing a `Benefit` and its cursor. */
+type BenefitEdge = {
+  __typename?: "BenefitEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Benefit>;
 };
 
 type BenefitInput = {
+  icon?: InputMaybe<Scalars["String"]>;
   id: Scalars["ID"];
-  icon?: Maybe<Scalars["String"]>;
 };
 
-type Branch = {
+type Branch = Node & {
   __typename?: "Branch";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
+};
+
+type BranchConnection = {
+  __typename?: "BranchConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<BranchEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+type BranchConnectionsConnection = {
+  __typename?: "BranchConnectionsConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<BranchConnectionsEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `BranchConnections` and its cursor. */
+type BranchConnectionsEdge = {
+  __typename?: "BranchConnectionsEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Branch>;
+};
+
+/** A Relay edge containing a `Branch` and its cursor. */
+type BranchEdge = {
+  __typename?: "BranchEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Branch>;
 };
 
 type BranchInput = {
   id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
-type Company = {
+type Company = Node & {
   __typename?: "Company";
-  id: Scalars["ID"];
-  type: ProfileType;
-  state: ProfileState;
-  profileStep: Scalars["Int"];
-  slug: Scalars["String"];
-  name: Scalars["String"];
-  zip: Scalars["String"];
+  benefits: BenefitConnection;
+  branches: BranchConnection;
   city: Scalars["String"];
-  street: Scalars["String"];
-  phone: Scalars["String"];
-  website: Scalars["String"];
-  branches: Array<Branch>;
-  description: Scalars["String"];
-  softSkills?: Maybe<Array<SoftSkill>>;
-  uid: Scalars["String"];
-  services: Scalars["String"];
-  memberItStGallen: Scalars["Boolean"];
-  benefits: Array<Benefit>;
   culturalFits?: Maybe<Array<CulturalFit>>;
-  topLevelOrganisationDescription: Scalars["String"];
-  topLevelOrganisationWebsite: Scalars["String"];
+  description: Scalars["String"];
+  displayName: Scalars["String"];
+  employees: Array<Employee>;
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  jobPostings: Array<JobPosting>;
   linkEducation?: Maybe<Scalars["String"]>;
   linkProjects?: Maybe<Scalars["String"]>;
   linkThesis?: Maybe<Scalars["String"]>;
-  jobPostings: Array<JobPosting>;
-  employees: Array<Employee>;
+  memberItStGallen: Scalars["Boolean"];
+  name: Scalars["String"];
+  phone: Scalars["String"];
+  profileStep: Scalars["Int"];
   projectPostings: Array<ProjectPosting>;
-  displayName: Scalars["String"];
+  services: Scalars["String"];
+  slug: Scalars["String"];
+  softSkills?: Maybe<Array<SoftSkill>>;
+  state: ProfileState;
+  street: Scalars["String"];
+  topLevelOrganisationDescription: Scalars["String"];
+  topLevelOrganisationWebsite: Scalars["String"];
+  type: ProfileType;
+  uid: Scalars["String"];
+  website: Scalars["String"];
+  zip: Scalars["String"];
+};
+
+type CompanyBenefitsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
+};
+
+type CompanyBranchesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
 };
 
 type CompanyProfileInputStep1 = {
+  /** City */
+  city: Scalars["String"];
   /** First name */
   firstName: Scalars["String"];
   /** Last name */
   lastName: Scalars["String"];
   /** Name */
-  name?: Maybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  /** Phone Number */
+  phone?: InputMaybe<Scalars["String"]>;
+  /** role */
+  role: Scalars["String"];
   /** Street */
   street: Scalars["String"];
   /** Zip */
   zip: Scalars["String"];
-  /** City */
-  city: Scalars["String"];
-  /** Phone Number */
-  phone?: Maybe<Scalars["String"]>;
-  /** role */
-  role: Scalars["String"];
 };
 
 type CompanyProfileInputStep2 = {
-  /** website */
-  website: Scalars["String"];
   /** description */
-  description?: Maybe<Scalars["String"]>;
-  /** services */
-  services?: Maybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]>;
   /** memeber IT St. Gallen */
   memberItStGallen: Scalars["Boolean"];
+  /** services */
+  services?: InputMaybe<Scalars["String"]>;
+  /** website */
+  website: Scalars["String"];
 };
 
 type CompanyProfileInputStep3 = {
-  /** Branches */
-  branches?: Maybe<Array<Maybe<BranchInput>>>;
   /** Benefits */
-  benefits?: Maybe<Array<Maybe<BenefitInput>>>;
+  benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
+  /** Branches */
+  branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
 };
 
 type CompanyProfileInputStep4 = {
-  /** Soft Skills */
-  softSkills?: Maybe<Array<Maybe<SoftSkillInput>>>;
   /** Cultural Fit */
-  culturalFits?: Maybe<Array<Maybe<CulturalFitInput>>>;
+  culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
+  /** Soft Skills */
+  softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
 
 /** Updates the profile of a Company */
 type CompanyProfileStep1 = {
   __typename?: "CompanyProfileStep1";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates website url, description, services, member IT St.Gallen */
 type CompanyProfileStep2 = {
   __typename?: "CompanyProfileStep2";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates the Company Profile with benefits and branches */
 type CompanyProfileStep3 = {
   __typename?: "CompanyProfileStep3";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates a company profile with soft skills and cultural fit */
 type CompanyProfileStep4 = {
   __typename?: "CompanyProfileStep4";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
-type CulturalFit = {
+type CulturalFit = Node & {
   __typename?: "CulturalFit";
+  company: Scalars["String"];
+  /** The ID of the object. */
   id: Scalars["ID"];
   student: Scalars["String"];
-  company: Scalars["String"];
+};
+
+type CulturalFitConnection = {
+  __typename?: "CulturalFitConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<CulturalFitEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+type CulturalFitConnectionsConnection = {
+  __typename?: "CulturalFitConnectionsConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<CulturalFitConnectionsEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `CulturalFitConnections` and its cursor. */
+type CulturalFitConnectionsEdge = {
+  __typename?: "CulturalFitConnectionsEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<CulturalFit>;
+};
+
+/** A Relay edge containing a `CulturalFit` and its cursor. */
+type CulturalFitEdge = {
+  __typename?: "CulturalFitEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<CulturalFit>;
 };
 
 type CulturalFitInput = {
@@ -234,14 +381,14 @@ type CulturalFitInput = {
 
 type Dashboard = {
   __typename?: "Dashboard";
+  confirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
   jobPostings?: Maybe<Array<JobPosting>>;
-  projectPostings?: Maybe<Array<ProjectPosting>>;
   latestJobPostings?: Maybe<Array<JobPosting>>;
   latestProjectPostings?: Maybe<Array<ProjectPosting>>;
+  projectMatches?: Maybe<Array<ProjectPostingMatchInfo>>;
+  projectPostings?: Maybe<Array<ProjectPosting>>;
   requestedMatches?: Maybe<Array<JobPostingMatchInfo>>;
   unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
-  confirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
-  projectMatches?: Maybe<Array<ProjectPostingMatchInfo>>;
 };
 
 /** An enumeration. */
@@ -252,67 +399,113 @@ enum DateMode {
 
 type DeleteAttachment = {
   __typename?: "DeleteAttachment";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
-type Employee = {
+type Employee = Node & {
   __typename?: "Employee";
-  id: Scalars["ID"];
-  role: Scalars["String"];
   email?: Maybe<Scalars["String"]>;
   firstName?: Maybe<Scalars["String"]>;
+  /** The ID of the object. */
+  id: Scalars["ID"];
   lastName?: Maybe<Scalars["String"]>;
   phone?: Maybe<Scalars["String"]>;
+  role: Scalars["String"];
 };
 
 type EmployeeInput = {
-  id?: Maybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["ID"]>;
   /** Role */
-  role?: Maybe<Scalars["String"]>;
+  role?: InputMaybe<Scalars["String"]>;
 };
 
-type FaqCategory = {
+type FaqCategory = Node & {
   __typename?: "FAQCategory";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
 
-type Hobby = {
+type FaqCategoryConnection = {
+  __typename?: "FAQCategoryConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<FaqCategoryEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `FAQCategory` and its cursor. */
+type FaqCategoryEdge = {
+  __typename?: "FAQCategoryEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<FaqCategory>;
+};
+
+type Hobby = Node & {
   __typename?: "Hobby";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
 
 type HobbyInput = {
-  id?: Maybe<Scalars["ID"]>;
-  name?: Maybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
-type JobPosting = {
+type JobPosting = Node & {
   __typename?: "JobPosting";
-  id: Scalars["ID"];
-  title: Scalars["String"];
-  slug: Scalars["String"];
-  description: Scalars["String"];
-  jobType: JobType;
   branches: Array<Branch>;
-  workload: Scalars["Int"];
   company: Company;
-  jobFromDate: Scalars["Date"];
-  jobToDate?: Maybe<Scalars["Date"]>;
-  url?: Maybe<Scalars["String"]>;
-  jobRequirements: Array<JobRequirement>;
-  skills?: Maybe<Array<Skill>>;
-  formStep: Scalars["Int"];
-  state: JobPostingState;
-  employee?: Maybe<Employee>;
   dateCreated?: Maybe<Scalars["Date"]>;
   datePublished?: Maybe<Scalars["Date"]>;
-  languages?: Maybe<Array<JobPostingLanguageRelation>>;
+  description: Scalars["String"];
   displayTitle: Scalars["String"];
-  matchStatus?: Maybe<MatchStatus>;
+  employee?: Maybe<Employee>;
+  formStep: Scalars["Int"];
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  jobFromDate: Scalars["Date"];
+  jobRequirements: JobRequirementConnection;
+  jobToDate?: Maybe<Scalars["Date"]>;
+  jobType: JobType;
+  languages?: Maybe<Array<JobPostingLanguageRelation>>;
   matchHints?: Maybe<MatchHints>;
+  matchStatus?: Maybe<MatchStatus>;
+  skills?: Maybe<Array<Skill>>;
+  slug: Scalars["String"];
+  state: JobPostingState;
+  title: Scalars["String"];
+  url?: Maybe<Scalars["String"]>;
+  workload: Scalars["Int"];
+};
+
+type JobPostingJobRequirementsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
+};
+
+type JobPostingConnection = {
+  __typename?: "JobPostingConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<JobPostingEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `JobPosting` and its cursor. */
+type JobPostingEdge = {
+  __typename?: "JobPostingEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<JobPosting>;
 };
 
 type JobPostingInput = {
@@ -320,59 +513,61 @@ type JobPostingInput = {
 };
 
 type JobPostingInputStep1 = {
-  id?: Maybe<Scalars["ID"]>;
+  branches: Array<InputMaybe<BranchInput>>;
+  /** Description */
+  description?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  jobFromDate: Scalars["String"];
+  jobToDate?: InputMaybe<Scalars["String"]>;
+  jobType: JobTypeInput;
   /** Title */
   title: Scalars["String"];
-  /** Description */
-  description?: Maybe<Scalars["String"]>;
-  jobType: JobTypeInput;
-  branches: Array<Maybe<BranchInput>>;
+  url?: InputMaybe<Scalars["String"]>;
   /** Workload */
   workload: Scalars["Int"];
-  jobFromDate: Scalars["String"];
-  jobToDate?: Maybe<Scalars["String"]>;
-  url?: Maybe<Scalars["String"]>;
 };
 
 type JobPostingInputStep2 = {
-  id?: Maybe<Scalars["ID"]>;
-  jobRequirements?: Maybe<Array<Maybe<JobRequirementInput>>>;
-  skills?: Maybe<Array<Maybe<SkillInput>>>;
-  languages?: Maybe<Array<Maybe<JobPostingLanguageRelationInput>>>;
+  id?: InputMaybe<Scalars["ID"]>;
+  jobRequirements?: InputMaybe<Array<InputMaybe<JobRequirementInput>>>;
+  languages?: InputMaybe<Array<InputMaybe<JobPostingLanguageRelationInput>>>;
+  skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
 };
 
 type JobPostingInputStep3 = {
-  id?: Maybe<Scalars["ID"]>;
+  employee: EmployeeInput;
+  id?: InputMaybe<Scalars["ID"]>;
   /** State */
   state: Scalars["String"];
-  employee: EmployeeInput;
 };
 
-type JobPostingLanguageRelation = {
+type JobPostingLanguageRelation = Node & {
   __typename?: "JobPostingLanguageRelation";
+  /** The ID of the object. */
   id: Scalars["ID"];
   language: Language;
   languageLevel: LanguageLevel;
 };
 
 type JobPostingLanguageRelationInput = {
-  id?: Maybe<Scalars["ID"]>;
-  language?: Maybe<Scalars["ID"]>;
-  languageLevel?: Maybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  language?: InputMaybe<Scalars["ID"]>;
+  languageLevel?: InputMaybe<Scalars["ID"]>;
 };
 
-type JobPostingMatchInfo = {
+type JobPostingMatchInfo = Node & {
   __typename?: "JobPostingMatchInfo";
+  /** The ID of the object. */
   id: Scalars["ID"];
-  student: Student;
   jobPosting: JobPosting;
+  student: Student;
 };
 
 type JobPostingMatchingInput = {
-  branch?: Maybe<BranchInput>;
-  jobType?: Maybe<JobTypeInput>;
-  workload?: Maybe<Scalars["Int"]>;
-  zip?: Maybe<ZipCityInput>;
+  branch?: InputMaybe<BranchInput>;
+  jobType?: InputMaybe<JobTypeInput>;
+  workload?: InputMaybe<Scalars["Int"]>;
+  zip?: InputMaybe<ZipCityInput>;
 };
 
 /** An enumeration. */
@@ -384,105 +579,212 @@ enum JobPostingState {
 /** Creates a job posting */
 type JobPostingStep1 = {
   __typename?: "JobPostingStep1";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
   jobPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates a job posting */
 type JobPostingStep2 = {
   __typename?: "JobPostingStep2";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
   jobPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates a job posting */
 type JobPostingStep3 = {
   __typename?: "JobPostingStep3";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
   jobPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
-type JobRequirement = {
+type JobRequirement = Node & {
   __typename?: "JobRequirement";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
+};
+
+type JobRequirementConnection = {
+  __typename?: "JobRequirementConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<JobRequirementEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+type JobRequirementConnectionsConnection = {
+  __typename?: "JobRequirementConnectionsConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<JobRequirementConnectionsEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `JobRequirementConnections` and its cursor. */
+type JobRequirementConnectionsEdge = {
+  __typename?: "JobRequirementConnectionsEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<JobRequirement>;
+};
+
+/** A Relay edge containing a `JobRequirement` and its cursor. */
+type JobRequirementEdge = {
+  __typename?: "JobRequirementEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<JobRequirement>;
 };
 
 type JobRequirementInput = {
   id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
-type JobType = {
+type JobType = Node & {
   __typename?: "JobType";
+  /** The ID of the object. */
   id: Scalars["ID"];
-  name: Scalars["String"];
   mode: DateMode;
+  name: Scalars["String"];
+};
+
+type JobTypeConnection = {
+  __typename?: "JobTypeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<JobTypeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `JobType` and its cursor. */
+type JobTypeEdge = {
+  __typename?: "JobTypeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<JobType>;
 };
 
 type JobTypeInput = {
   id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
-  mode?: Maybe<Scalars["String"]>;
+  mode?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
-type Keyword = {
+type Keyword = Node & {
   __typename?: "Keyword";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
+};
+
+type KeywordConnection = {
+  __typename?: "KeywordConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<KeywordEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `Keyword` and its cursor. */
+type KeywordEdge = {
+  __typename?: "KeywordEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Keyword>;
 };
 
 type KeywordInput = {
   id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
-type Language = {
+type Language = Node & {
   __typename?: "Language";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
 
-type LanguageLevel = {
+type LanguageConnection = {
+  __typename?: "LanguageConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<LanguageEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `Language` and its cursor. */
+type LanguageEdge = {
+  __typename?: "LanguageEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Language>;
+};
+
+type LanguageLevel = Node & {
   __typename?: "LanguageLevel";
+  description?: Maybe<Scalars["String"]>;
+  /** The ID of the object. */
   id: Scalars["ID"];
   level: Scalars["String"];
-  description?: Maybe<Scalars["String"]>;
+};
+
+type LanguageLevelConnection = {
+  __typename?: "LanguageLevelConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<LanguageLevelEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `LanguageLevel` and its cursor. */
+type LanguageLevelEdge = {
+  __typename?: "LanguageLevelEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<LanguageLevel>;
 };
 
 type Match = {
   __typename?: "Match";
-  id?: Maybe<Scalars["ID"]>;
-  slug: Scalars["String"];
-  name: Scalars["String"];
-  type: MatchType;
   avatar?: Maybe<Scalars["String"]>;
-  score: Scalars["Float"];
-  rawScore: Scalars["Float"];
-  title?: Maybe<Scalars["String"]>;
-  matchStatus?: Maybe<MatchStatus>;
   description?: Maybe<Scalars["String"]>;
+  id?: Maybe<Scalars["ID"]>;
   keywords?: Maybe<Array<Keyword>>;
+  matchStatus?: Maybe<MatchStatus>;
+  name: Scalars["String"];
+  rawScore: Scalars["Float"];
+  score: Scalars["Float"];
+  slug: Scalars["String"];
+  title?: Maybe<Scalars["String"]>;
+  type: MatchType;
 };
 
 type MatchHints = {
   __typename?: "MatchHints";
-  hasRequestedMatch: Scalars["Boolean"];
   hasConfirmedMatch: Scalars["Boolean"];
+  hasRequestedMatch: Scalars["Boolean"];
 };
 
 /** Initiate or confirm Matching */
 type MatchJobPosting = {
   __typename?: "MatchJobPosting";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
   confirmed: Scalars["Boolean"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type MatchJobPostingInput = {
@@ -492,9 +794,9 @@ type MatchJobPostingInput = {
 /** Initiate or confirm Matching */
 type MatchProjectPosting = {
   __typename?: "MatchProjectPosting";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
   confirmed: Scalars["Boolean"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type MatchProjectPostingInput = {
@@ -510,57 +812,29 @@ type MatchStatus = {
 /** Initiate or confirm Matching */
 type MatchStudent = {
   __typename?: "MatchStudent";
-  success?: Maybe<Scalars["Boolean"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
   confirmed: Scalars["Boolean"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type MatchStudentInput = {
-  student: StudentInput;
   jobPosting: JobPostingInput;
+  student: StudentInput;
 };
 
 /** An enumeration. */
 enum MatchType {
-  Student = "STUDENT",
+  Company = "COMPANY",
   JobPosting = "JOB_POSTING",
   ProjectPosting = "PROJECT_POSTING",
-  Company = "COMPANY",
+  Student = "STUDENT",
   University = "UNIVERSITY",
 }
 
 type Mutation = {
   __typename?: "Mutation";
-  /** Creates a project posting */
-  projectPostingStep1?: Maybe<ProjectPostingStep1>;
-  /** Creates a project posting */
-  projectPostingStep2?: Maybe<ProjectPostingStep2>;
-  /** Updates a project posting */
-  projectPostingStep3?: Maybe<ProjectPostingStep3>;
-  /** Initiate or confirm Matching */
-  matchStudent?: Maybe<MatchStudent>;
-  /** Initiate or confirm Matching */
-  matchJobPosting?: Maybe<MatchJobPosting>;
-  /** Initiate or confirm Matching */
-  matchProjectPosting?: Maybe<MatchProjectPosting>;
-  /** Adds a new emplyoee to a comany */
+  /** Adds a new emplyoee to a company */
   addEmployee?: Maybe<AddEmployee>;
-  /** Creates a job posting */
-  jobPostingStep1?: Maybe<JobPostingStep1>;
-  /** Updates a job posting */
-  jobPostingStep2?: Maybe<JobPostingStep2>;
-  /** Updates a job posting */
-  jobPostingStep3?: Maybe<JobPostingStep3>;
-  deleteAttachment?: Maybe<DeleteAttachment>;
-  upload?: Maybe<UserUpload>;
-  /** Updates the profile of a university */
-  universityProfileStep1?: Maybe<UniversityProfileStep1>;
-  /** Updates branches and description */
-  universityProfileStep2?: Maybe<UniversityProfileStep2>;
-  /** Updates website services */
-  universityProfileStep3?: Maybe<UniversityProfileStep3>;
-  /** Updates a company profile with soft skills and cultural fit */
-  universityProfileStep4?: Maybe<UniversityProfileStep4>;
   /** Updates the profile of a Company */
   companyProfileStep1?: Maybe<CompanyProfileStep1>;
   /** Updates website url, description, services, member IT St.Gallen */
@@ -569,6 +843,57 @@ type Mutation = {
   companyProfileStep3?: Maybe<CompanyProfileStep3>;
   /** Updates a company profile with soft skills and cultural fit */
   companyProfileStep4?: Maybe<CompanyProfileStep4>;
+  deleteAttachment?: Maybe<DeleteAttachment>;
+  /** Creates a job posting */
+  jobPostingStep1?: Maybe<JobPostingStep1>;
+  /** Updates a job posting */
+  jobPostingStep2?: Maybe<JobPostingStep2>;
+  /** Updates a job posting */
+  jobPostingStep3?: Maybe<JobPostingStep3>;
+  logout?: Maybe<Scalars["Boolean"]>;
+  /** Initiate or confirm Matching */
+  matchJobPosting?: Maybe<MatchJobPosting>;
+  /** Initiate or confirm Matching */
+  matchProjectPosting?: Maybe<MatchProjectPosting>;
+  /** Initiate or confirm Matching */
+  matchStudent?: Maybe<MatchStudent>;
+  /**
+   * Change user password without old password.
+   *
+   * Receive the token that was sent by email.
+   *
+   * If token and new passwords are valid, update
+   * user password and in case of using refresh
+   * tokens, revoke all of them.
+   *
+   * Also, if user has not been verified yet, verify it.
+   */
+  passwordReset?: Maybe<PasswordReset>;
+  /** Creates a project posting */
+  projectPostingStep1?: Maybe<ProjectPostingStep1>;
+  /** Creates a project posting */
+  projectPostingStep2?: Maybe<ProjectPostingStep2>;
+  /** Updates a project posting */
+  projectPostingStep3?: Maybe<ProjectPostingStep3>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
+  refreshToken?: Maybe<RefreshToken>;
+  /** Creates a new user with company */
+  registerCompany?: Maybe<RegisterCompany>;
+  /** Creates a new user as student */
+  registerStudent?: Maybe<RegisterStudent>;
+  revokeToken?: Maybe<Revoke>;
+  /**
+   * Send password reset email.
+   *
+   * For non verified users, send an activation
+   * email instead.
+   *
+   * Accepts both primary and secondary email.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
+  sendPasswordResetEmail?: Maybe<SendPasswordResetEmail>;
   /** Updates the profile of a student */
   studentProfileStep1?: Maybe<StudentProfileStep1>;
   /** Updates job option, date (start or range) and branch of a student */
@@ -581,7 +906,6 @@ type Mutation = {
   studentProfileStep5?: Maybe<StudentProfileStep5>;
   /** Updates the state of a student */
   studentProfileStep6?: Maybe<StudentProfileStep6>;
-  logout?: Maybe<Scalars["Boolean"]>;
   /**
    * Obtain JSON web token for given user.
    *
@@ -596,39 +920,17 @@ type Mutation = {
    * return `unarchiving=True` on output.
    */
   tokenAuth?: Maybe<ObtainJsonWebToken>;
-  /** Same as `grapgql_jwt` implementation, with standard output. */
-  refreshToken?: Maybe<RefreshToken>;
-  revokeToken?: Maybe<Revoke>;
-  /**
-   * Send password reset email.
-   *
-   * For non verified users, send an activation
-   * email instead.
-   *
-   * Accepts both primary and secondary email.
-   *
-   * If there is no user with the requested email,
-   * a successful response is returned.
-   */
-  sendPasswordResetEmail?: Maybe<SendPasswordResetEmail>;
-  /**
-   * Change user password without old password.
-   *
-   * Receive the token that was sent by email.
-   *
-   * If token and new passwords are valid, update
-   * user password and in case of using refresh
-   * tokens, revoke all of them.
-   *
-   * Also, if user has not been verified yet, verify it.
-   */
-  passwordReset?: Maybe<PasswordReset>;
+  /** Updates the profile of a university */
+  universityProfileStep1?: Maybe<UniversityProfileStep1>;
+  /** Updates branches and description */
+  universityProfileStep2?: Maybe<UniversityProfileStep2>;
+  /** Updates website services */
+  universityProfileStep3?: Maybe<UniversityProfileStep3>;
+  /** Updates a company profile with soft skills and cultural fit */
+  universityProfileStep4?: Maybe<UniversityProfileStep4>;
+  upload?: Maybe<UserUpload>;
   /** Creates a new user user request */
   userRequest?: Maybe<UserRequest>;
-  /** Creates a new user with company */
-  registerCompany?: Maybe<RegisterCompany>;
-  /** Creates a new user as student */
-  registerStudent?: Maybe<RegisterStudent>;
   /**
    * Verify user account.
    *
@@ -639,70 +941,8 @@ type Mutation = {
   verifyAccount?: Maybe<VerifyAccount>;
 };
 
-type MutationProjectPostingStep1Args = {
-  step1: ProjectPostingInputStep1;
-};
-
-type MutationProjectPostingStep2Args = {
-  step2: ProjectPostingInputStep2;
-};
-
-type MutationProjectPostingStep3Args = {
-  step3: ProjectPostingInputStep3;
-};
-
-type MutationMatchStudentArgs = {
-  match: MatchStudentInput;
-};
-
-type MutationMatchJobPostingArgs = {
-  match: MatchJobPostingInput;
-};
-
-type MutationMatchProjectPostingArgs = {
-  match: MatchProjectPostingInput;
-};
-
 type MutationAddEmployeeArgs = {
   addEmployee: AddEmployeeInput;
-};
-
-type MutationJobPostingStep1Args = {
-  step1: JobPostingInputStep1;
-};
-
-type MutationJobPostingStep2Args = {
-  step2: JobPostingInputStep2;
-};
-
-type MutationJobPostingStep3Args = {
-  step3: JobPostingInputStep3;
-};
-
-type MutationDeleteAttachmentArgs = {
-  id?: Maybe<Scalars["ID"]>;
-};
-
-type MutationUploadArgs = {
-  file: Scalars["Upload"];
-  key: AttachmentKey;
-  projectPosting?: Maybe<ProjectPostingInput>;
-};
-
-type MutationUniversityProfileStep1Args = {
-  step1: UniversityProfileInputStep1;
-};
-
-type MutationUniversityProfileStep2Args = {
-  step2: UniversityProfileInputStep2;
-};
-
-type MutationUniversityProfileStep3Args = {
-  step3: UniversityProfileInputStep3;
-};
-
-type MutationUniversityProfileStep4Args = {
-  step4: UniversityProfileInputStep4;
 };
 
 type MutationCompanyProfileStep1Args = {
@@ -721,6 +961,87 @@ type MutationCompanyProfileStep4Args = {
   step4: CompanyProfileInputStep4;
 };
 
+type MutationDeleteAttachmentArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+};
+
+type MutationJobPostingStep1Args = {
+  step1: JobPostingInputStep1;
+};
+
+type MutationJobPostingStep2Args = {
+  step2: JobPostingInputStep2;
+};
+
+type MutationJobPostingStep3Args = {
+  step3: JobPostingInputStep3;
+};
+
+type MutationMatchJobPostingArgs = {
+  match: MatchJobPostingInput;
+};
+
+type MutationMatchProjectPostingArgs = {
+  match: MatchProjectPostingInput;
+};
+
+type MutationMatchStudentArgs = {
+  match: MatchStudentInput;
+};
+
+type MutationPasswordResetArgs = {
+  newPassword1: Scalars["String"];
+  newPassword2: Scalars["String"];
+  token: Scalars["String"];
+};
+
+type MutationProjectPostingStep1Args = {
+  step1: ProjectPostingInputStep1;
+};
+
+type MutationProjectPostingStep2Args = {
+  step2: ProjectPostingInputStep2;
+};
+
+type MutationProjectPostingStep3Args = {
+  step3: ProjectPostingInputStep3;
+};
+
+type MutationRefreshTokenArgs = {
+  refreshToken: Scalars["String"];
+};
+
+type MutationRegisterCompanyArgs = {
+  company: RegisterCompanyInput;
+  email: Scalars["String"];
+  employee: EmployeeInput;
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  password1: Scalars["String"];
+  password2: Scalars["String"];
+  type: Scalars["String"];
+  username: Scalars["String"];
+};
+
+type MutationRegisterStudentArgs = {
+  email: Scalars["String"];
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  password1: Scalars["String"];
+  password2: Scalars["String"];
+  student?: InputMaybe<RegisterStudentInput>;
+  type: Scalars["String"];
+  username: Scalars["String"];
+};
+
+type MutationRevokeTokenArgs = {
+  refreshToken: Scalars["String"];
+};
+
+type MutationSendPasswordResetEmailArgs = {
+  email: Scalars["String"];
+};
+
 type MutationStudentProfileStep1Args = {
   step1: StudentProfileInputStep1;
 };
@@ -734,7 +1055,7 @@ type MutationStudentProfileStep3Args = {
 };
 
 type MutationStudentProfileStep4Args = {
-  step4?: Maybe<StudentProfileInputStep4>;
+  step4?: InputMaybe<StudentProfileInputStep4>;
 };
 
 type MutationStudentProfileStep5Args = {
@@ -746,54 +1067,35 @@ type MutationStudentProfileStep6Args = {
 };
 
 type MutationTokenAuthArgs = {
+  email?: InputMaybe<Scalars["String"]>;
   password: Scalars["String"];
-  email?: Maybe<Scalars["String"]>;
-  username?: Maybe<Scalars["String"]>;
+  username?: InputMaybe<Scalars["String"]>;
 };
 
-type MutationRefreshTokenArgs = {
-  refreshToken: Scalars["String"];
+type MutationUniversityProfileStep1Args = {
+  step1: UniversityProfileInputStep1;
 };
 
-type MutationRevokeTokenArgs = {
-  refreshToken: Scalars["String"];
+type MutationUniversityProfileStep2Args = {
+  step2: UniversityProfileInputStep2;
 };
 
-type MutationSendPasswordResetEmailArgs = {
-  email: Scalars["String"];
+type MutationUniversityProfileStep3Args = {
+  step3: UniversityProfileInputStep3;
 };
 
-type MutationPasswordResetArgs = {
-  token: Scalars["String"];
-  newPassword1: Scalars["String"];
-  newPassword2: Scalars["String"];
+type MutationUniversityProfileStep4Args = {
+  step4: UniversityProfileInputStep4;
+};
+
+type MutationUploadArgs = {
+  file: Scalars["Upload"];
+  key: AttachmentKey;
+  projectPosting?: InputMaybe<ProjectPostingInput>;
 };
 
 type MutationUserRequestArgs = {
   input: UserRequestInput;
-};
-
-type MutationRegisterCompanyArgs = {
-  company: RegisterCompanyInput;
-  employee: EmployeeInput;
-  email: Scalars["String"];
-  username: Scalars["String"];
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  type: Scalars["String"];
-  password1: Scalars["String"];
-  password2: Scalars["String"];
-};
-
-type MutationRegisterStudentArgs = {
-  student?: Maybe<RegisterStudentInput>;
-  email: Scalars["String"];
-  username: Scalars["String"];
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  type: Scalars["String"];
-  password1: Scalars["String"];
-  password2: Scalars["String"];
 };
 
 type MutationVerifyAccountArgs = {
@@ -821,23 +1123,37 @@ type Node = {
  */
 type ObtainJsonWebToken = {
   __typename?: "ObtainJSONWebToken";
-  token?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  user?: Maybe<UserNode>;
-  unarchiving?: Maybe<Scalars["Boolean"]>;
   refreshToken?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+  token?: Maybe<Scalars["String"]>;
+  unarchiving?: Maybe<Scalars["Boolean"]>;
+  user?: Maybe<UserNode>;
 };
 
-type OnlineProject = {
+type OnlineProject = Node & {
   __typename?: "OnlineProject";
+  /** The ID of the object. */
   id: Scalars["ID"];
   url: Scalars["String"];
 };
 
 type OnlineProjectInput = {
-  id?: Maybe<Scalars["ID"]>;
-  url?: Maybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  url?: InputMaybe<Scalars["String"]>;
+};
+
+/** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
+type PageInfo = {
+  __typename?: "PageInfo";
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars["String"]>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars["Boolean"];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars["Boolean"];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars["String"]>;
 };
 
 /**
@@ -853,50 +1169,68 @@ type OnlineProjectInput = {
  */
 type PasswordReset = {
   __typename?: "PasswordReset";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** An enumeration. */
 enum ProfileState {
-  Incomplete = "INCOMPLETE",
   Anonymous = "ANONYMOUS",
+  Incomplete = "INCOMPLETE",
   Public = "PUBLIC",
 }
 
 /** An enumeration. */
 enum ProfileType {
-  Internal = "INTERNAL",
-  Student = "STUDENT",
   CollegeStudent = "COLLEGE_STUDENT",
-  Junior = "JUNIOR",
   Company = "COMPANY",
-  University = "UNIVERSITY",
+  Internal = "INTERNAL",
+  Junior = "JUNIOR",
   Other = "OTHER",
+  Student = "STUDENT",
+  University = "UNIVERSITY",
 }
 
-type ProjectPosting = {
+type ProjectPosting = Node & {
   __typename?: "ProjectPosting";
-  id: Scalars["ID"];
-  title: Scalars["String"];
-  slug: Scalars["String"];
-  projectType: ProjectType;
-  topic: Topic;
-  keywords?: Maybe<Array<Keyword>>;
-  description: Scalars["String"];
   additionalInformation: Scalars["String"];
-  website: Scalars["String"];
-  projectFromDate?: Maybe<Scalars["Date"]>;
-  employee?: Maybe<Employee>;
-  student?: Maybe<Student>;
   company?: Maybe<Company>;
-  formStep: Scalars["Int"];
-  state: ProjectPostingState;
   dateCreated?: Maybe<Scalars["Date"]>;
   datePublished?: Maybe<Scalars["Date"]>;
+  description: Scalars["String"];
   displayTitle: Scalars["String"];
-  matchStatus?: Maybe<MatchStatus>;
+  employee?: Maybe<Employee>;
+  formStep: Scalars["Int"];
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  keywords?: Maybe<Array<Keyword>>;
   matchHints?: Maybe<MatchHints>;
+  matchStatus?: Maybe<MatchStatus>;
+  projectFromDate?: Maybe<Scalars["Date"]>;
+  projectType: ProjectType;
+  slug: Scalars["String"];
+  state: ProjectPostingState;
+  student?: Maybe<Student>;
+  title: Scalars["String"];
+  topic: Topic;
+  website: Scalars["String"];
+};
+
+type ProjectPostingConnection = {
+  __typename?: "ProjectPostingConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ProjectPostingEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `ProjectPosting` and its cursor. */
+type ProjectPostingEdge = {
+  __typename?: "ProjectPostingEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<ProjectPosting>;
 };
 
 type ProjectPostingInput = {
@@ -904,37 +1238,38 @@ type ProjectPostingInput = {
 };
 
 type ProjectPostingInputStep1 = {
-  id?: Maybe<Scalars["ID"]>;
-  /** Title */
-  title: Scalars["String"];
-  projectType: ProjectTypeInput;
-  topic: TopicInput;
-  keywords?: Maybe<Array<Maybe<KeywordInput>>>;
+  /** Additional Information */
+  additionalInformation?: InputMaybe<Scalars["String"]>;
   /** Description */
   description: Scalars["String"];
-  /** Additional Information */
-  additionalInformation?: Maybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  keywords?: InputMaybe<Array<InputMaybe<KeywordInput>>>;
+  projectType: ProjectTypeInput;
+  /** Title */
+  title: Scalars["String"];
+  topic: TopicInput;
 };
 
 type ProjectPostingInputStep2 = {
-  id?: Maybe<Scalars["ID"]>;
-  projectFromDate?: Maybe<Scalars["String"]>;
-  website?: Maybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  projectFromDate?: InputMaybe<Scalars["String"]>;
+  website?: InputMaybe<Scalars["String"]>;
 };
 
 type ProjectPostingInputStep3 = {
-  id?: Maybe<Scalars["ID"]>;
+  employee?: InputMaybe<EmployeeInput>;
+  id?: InputMaybe<Scalars["ID"]>;
   /** State */
   state: Scalars["String"];
-  employee?: Maybe<EmployeeInput>;
 };
 
-type ProjectPostingMatchInfo = {
+type ProjectPostingMatchInfo = Node & {
   __typename?: "ProjectPostingMatchInfo";
-  id: Scalars["ID"];
-  student?: Maybe<Student>;
-  projectPosting: ProjectPosting;
   company?: Maybe<Company>;
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  projectPosting: ProjectPosting;
+  student?: Maybe<Student>;
 };
 
 type ProjectPostingMatchingInput = {
@@ -950,161 +1285,287 @@ enum ProjectPostingState {
 /** Creates a project posting */
 type ProjectPostingStep1 = {
   __typename?: "ProjectPostingStep1";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
   projectPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Creates a project posting */
 type ProjectPostingStep2 = {
   __typename?: "ProjectPostingStep2";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
   projectPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates a project posting */
 type ProjectPostingStep3 = {
   __typename?: "ProjectPostingStep3";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
   projectPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
-type ProjectType = {
+type ProjectType = Node & {
   __typename?: "ProjectType";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
 
+type ProjectTypeConnection = {
+  __typename?: "ProjectTypeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ProjectTypeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `ProjectType` and its cursor. */
+type ProjectTypeEdge = {
+  __typename?: "ProjectTypeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<ProjectType>;
+};
+
 type ProjectTypeInput = {
   id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 type Query = {
   __typename?: "Query";
-  projectPosting?: Maybe<ProjectPosting>;
-  projectPostings?: Maybe<Array<Maybe<ProjectPosting>>>;
-  projectTypes?: Maybe<Array<Maybe<ProjectType>>>;
-  topics?: Maybe<Array<Maybe<Topic>>>;
-  keywords?: Maybe<Array<Maybe<Keyword>>>;
-  dashboard?: Maybe<Dashboard>;
-  student?: Maybe<Student>;
-  matches?: Maybe<Array<Maybe<Match>>>;
-  culturalFits?: Maybe<Array<Maybe<CulturalFit>>>;
-  softSkills?: Maybe<Array<Maybe<SoftSkill>>>;
-  faqCategories?: Maybe<Array<Maybe<FaqCategory>>>;
-  jobRequirements?: Maybe<Array<Maybe<JobRequirement>>>;
-  jobPostings?: Maybe<Array<Maybe<JobPosting>>>;
-  jobPosting?: Maybe<JobPosting>;
+  attachments?: Maybe<AttachmentConnection>;
+  benefits?: Maybe<BenefitConnectionsConnection>;
+  branches?: Maybe<BranchConnectionsConnection>;
   company?: Maybe<Company>;
+  culturalFits?: Maybe<CulturalFitConnectionsConnection>;
+  dashboard?: Maybe<Dashboard>;
+  faqCategories?: Maybe<FaqCategoryConnection>;
+  jobPosting?: Maybe<JobPosting>;
+  jobPostings?: Maybe<JobPostingConnection>;
+  jobRequirements?: Maybe<JobRequirementConnectionsConnection>;
+  jobTypes?: Maybe<JobTypeConnection>;
+  keywords?: Maybe<KeywordConnection>;
+  languageLevels?: Maybe<LanguageLevelConnection>;
+  languages?: Maybe<LanguageConnection>;
+  matches?: Maybe<Array<Maybe<Match>>>;
+  me?: Maybe<User>;
+  node?: Maybe<Node>;
+  projectPosting?: Maybe<ProjectPosting>;
+  projectPostings?: Maybe<ProjectPostingConnection>;
+  projectTypes?: Maybe<ProjectTypeConnection>;
+  skills?: Maybe<SkillConnectionsConnection>;
+  softSkills?: Maybe<SoftSkillConnectionsConnection>;
+  student?: Maybe<Student>;
+  topics?: Maybe<TopicConnection>;
   uploadConfigurations?: Maybe<Array<Maybe<UploadConfiguration>>>;
-  attachments?: Maybe<Array<Maybe<Attachment>>>;
-  branches?: Maybe<Array<Maybe<Branch>>>;
-  benefits?: Maybe<Array<Maybe<Benefit>>>;
-  skills?: Maybe<Array<Maybe<Skill>>>;
-  jobTypes?: Maybe<Array<Maybe<JobType>>>;
+  verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
   zipCity: Array<ZipCity>;
   zipCityJobs: Array<ZipCity>;
-  languageLevels?: Maybe<Array<Maybe<LanguageLevel>>>;
-  languages?: Maybe<Array<Maybe<Language>>>;
-  me?: Maybe<User>;
-  verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
-};
-
-type QueryProjectPostingArgs = {
-  id?: Maybe<Scalars["ID"]>;
-  slug?: Maybe<Scalars["String"]>;
-};
-
-type QueryStudentArgs = {
-  slug?: Maybe<Scalars["String"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
-};
-
-type QueryMatchesArgs = {
-  first?: Maybe<Scalars["Int"]>;
-  skip?: Maybe<Scalars["Int"]>;
-  techBoost?: Maybe<Scalars["Int"]>;
-  softBoost?: Maybe<Scalars["Int"]>;
-  jobPostingMatching?: Maybe<JobPostingMatchingInput>;
-  studentMatching?: Maybe<StudentMatchingInput>;
-  projectPostingMatching?: Maybe<ProjectPostingMatchingInput>;
-};
-
-type QueryJobPostingsArgs = {
-  slug?: Maybe<Scalars["String"]>;
-};
-
-type QueryJobPostingArgs = {
-  id?: Maybe<Scalars["ID"]>;
-  slug?: Maybe<Scalars["String"]>;
-};
-
-type QueryCompanyArgs = {
-  slug?: Maybe<Scalars["String"]>;
 };
 
 type QueryAttachmentsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  id?: InputMaybe<Scalars["ID"]>;
   key: AttachmentKey;
-  slug?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["ID"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  slug?: InputMaybe<Scalars["String"]>;
 };
 
-type QueryZipCityJobsArgs = {
-  branchId?: Maybe<Scalars["ID"]>;
-  jobTypeId?: Maybe<Scalars["ID"]>;
+type QueryBenefitsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryBranchesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryCompanyArgs = {
+  slug?: InputMaybe<Scalars["String"]>;
+};
+
+type QueryCulturalFitsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryFaqCategoriesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryJobPostingArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+  slug?: InputMaybe<Scalars["String"]>;
+};
+
+type QueryJobPostingsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  slug?: InputMaybe<Scalars["String"]>;
+};
+
+type QueryJobRequirementsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryJobTypesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryKeywordsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryLanguageLevelsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
 };
 
 type QueryLanguagesArgs = {
-  shortList?: Maybe<Scalars["Boolean"]>;
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  shortList?: InputMaybe<Scalars["Boolean"]>;
+};
+
+type QueryMatchesArgs = {
+  first?: InputMaybe<Scalars["Int"]>;
+  jobPostingMatching?: InputMaybe<JobPostingMatchingInput>;
+  projectPostingMatching?: InputMaybe<ProjectPostingMatchingInput>;
+  skip?: InputMaybe<Scalars["Int"]>;
+  softBoost?: InputMaybe<Scalars["Int"]>;
+  studentMatching?: InputMaybe<StudentMatchingInput>;
+  techBoost?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryNodeArgs = {
+  id: Scalars["ID"];
+};
+
+type QueryProjectPostingArgs = {
+  id?: InputMaybe<Scalars["ID"]>;
+  slug?: InputMaybe<Scalars["String"]>;
+};
+
+type QueryProjectPostingsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryProjectTypesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QuerySkillsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QuerySoftSkillsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryStudentArgs = {
+  jobPostingId?: InputMaybe<Scalars["ID"]>;
+  slug?: InputMaybe<Scalars["String"]>;
+};
+
+type QueryTopicsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
 };
 
 type QueryVerifyPasswordResetTokenArgs = {
   token: Scalars["String"];
 };
 
+type QueryZipCityJobsArgs = {
+  branchId?: InputMaybe<Scalars["ID"]>;
+  jobTypeId?: InputMaybe<Scalars["ID"]>;
+};
+
 /** Same as `grapgql_jwt` implementation, with standard output. */
 type RefreshToken = {
   __typename?: "RefreshToken";
-  token?: Maybe<Scalars["String"]>;
-  payload?: Maybe<Scalars["GenericScalar"]>;
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  payload?: Maybe<Scalars["GenericScalar"]>;
   refreshToken?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+  token?: Maybe<Scalars["String"]>;
 };
 
 /** Creates a new user with company */
 type RegisterCompany = {
   __typename?: "RegisterCompany";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type RegisterCompanyInput = {
+  /** City */
+  city: Scalars["String"];
   /** Name */
   name: Scalars["String"];
   /** UID */
-  uid?: Maybe<Scalars["String"]>;
+  uid?: InputMaybe<Scalars["String"]>;
   /** ZIP */
   zip: Scalars["String"];
-  /** City */
-  city: Scalars["String"];
 };
 
 /** Creates a new user as student */
 type RegisterStudent = {
   __typename?: "RegisterStudent";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type RegisterStudentInput = {
-  id?: Maybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["ID"]>;
   /** Mobile */
   mobile: Scalars["String"];
 };
@@ -1127,63 +1588,166 @@ type Revoke = {
  */
 type SendPasswordResetEmail = {
   __typename?: "SendPasswordResetEmail";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
-type Skill = {
+type Skill = Node & {
   __typename?: "Skill";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
 
-type SkillInput = {
-  id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
+type SkillConnection = {
+  __typename?: "SkillConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<SkillEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
 };
 
-type SoftSkill = {
+type SkillConnectionsConnection = {
+  __typename?: "SkillConnectionsConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<SkillConnectionsEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `SkillConnections` and its cursor. */
+type SkillConnectionsEdge = {
+  __typename?: "SkillConnectionsEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Skill>;
+};
+
+/** A Relay edge containing a `Skill` and its cursor. */
+type SkillEdge = {
+  __typename?: "SkillEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Skill>;
+};
+
+type SkillInput = {
+  id: Scalars["ID"];
+  name?: InputMaybe<Scalars["String"]>;
+};
+
+type SoftSkill = Node & {
   __typename?: "SoftSkill";
+  company: Scalars["String"];
+  /** The ID of the object. */
   id: Scalars["ID"];
   student: Scalars["String"];
-  company: Scalars["String"];
+};
+
+type SoftSkillConnection = {
+  __typename?: "SoftSkillConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<SoftSkillEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+type SoftSkillConnectionsConnection = {
+  __typename?: "SoftSkillConnectionsConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<SoftSkillConnectionsEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `SoftSkillConnections` and its cursor. */
+type SoftSkillConnectionsEdge = {
+  __typename?: "SoftSkillConnectionsEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<SoftSkill>;
+};
+
+/** A Relay edge containing a `SoftSkill` and its cursor. */
+type SoftSkillEdge = {
+  __typename?: "SoftSkillEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<SoftSkill>;
 };
 
 type SoftSkillInput = {
   id: Scalars["ID"];
 };
 
-type Student = {
+type Student = Node & {
   __typename?: "Student";
-  id: Scalars["ID"];
-  mobile?: Maybe<Scalars["String"]>;
-  street?: Maybe<Scalars["String"]>;
-  zip?: Maybe<Scalars["String"]>;
-  city?: Maybe<Scalars["String"]>;
-  dateOfBirth?: Maybe<Scalars["String"]>;
-  nickname?: Maybe<Scalars["String"]>;
-  schoolName?: Maybe<Scalars["String"]>;
-  fieldOfStudy?: Maybe<Scalars["String"]>;
-  graduation?: Maybe<Scalars["String"]>;
   branch?: Maybe<Branch>;
-  jobType?: Maybe<JobType>;
+  city?: Maybe<Scalars["String"]>;
+  culturalFits: CulturalFitConnection;
+  dateOfBirth?: Maybe<Scalars["String"]>;
+  distinction?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  fieldOfStudy?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  graduation?: Maybe<Scalars["String"]>;
+  hobbies?: Maybe<Array<Hobby>>;
+  /** The ID of the object. */
+  id: Scalars["ID"];
   jobFromDate?: Maybe<Scalars["Date"]>;
   jobToDate?: Maybe<Scalars["Date"]>;
-  skills: Array<Skill>;
-  distinction?: Maybe<Scalars["String"]>;
-  state: ProfileState;
-  profileStep: Scalars["Int"];
-  softSkills: Array<SoftSkill>;
-  culturalFits: Array<CulturalFit>;
-  slug: Scalars["String"];
-  hobbies?: Maybe<Array<Hobby>>;
-  onlineProjects?: Maybe<Array<OnlineProject>>;
-  languages: Array<UserLanguageRelation>;
-  email?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
+  jobType?: Maybe<JobType>;
+  languages: UserLanguageRelationConnection;
   lastName?: Maybe<Scalars["String"]>;
   matchStatus?: Maybe<MatchStatus>;
+  mobile?: Maybe<Scalars["String"]>;
+  nickname?: Maybe<Scalars["String"]>;
+  onlineProjects?: Maybe<Array<OnlineProject>>;
+  profileStep: Scalars["Int"];
   projectPostings: Array<ProjectPosting>;
+  schoolName?: Maybe<Scalars["String"]>;
+  skills: SkillConnection;
+  slug: Scalars["String"];
+  softSkills: SoftSkillConnection;
+  state: ProfileState;
+  street?: Maybe<Scalars["String"]>;
+  zip?: Maybe<Scalars["String"]>;
+};
+
+type StudentCulturalFitsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
+};
+
+type StudentLanguagesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
+};
+
+type StudentSkillsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
+};
+
+type StudentSoftSkillsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
 };
 
 type StudentInput = {
@@ -1195,45 +1759,45 @@ type StudentMatchingInput = {
 };
 
 type StudentProfileInputStep1 = {
+  /** City */
+  city?: InputMaybe<Scalars["String"]>;
+  /** Date of birth */
+  dateOfBirth: Scalars["String"];
   /** First name */
   firstName: Scalars["String"];
   /** Last name */
   lastName: Scalars["String"];
+  /** Date of birth */
+  mobile?: InputMaybe<Scalars["String"]>;
   /** street */
-  street?: Maybe<Scalars["String"]>;
+  street?: InputMaybe<Scalars["String"]>;
   /** Zip */
-  zip?: Maybe<Scalars["String"]>;
-  /** City */
-  city?: Maybe<Scalars["String"]>;
-  /** Date of birth */
-  dateOfBirth: Scalars["String"];
-  /** Date of birth */
-  mobile?: Maybe<Scalars["String"]>;
+  zip?: InputMaybe<Scalars["String"]>;
 };
 
 type StudentProfileInputStep2 = {
+  branch?: InputMaybe<BranchInput>;
+  jobFromDate?: InputMaybe<Scalars["String"]>;
+  jobToDate?: InputMaybe<Scalars["String"]>;
   jobType: JobTypeInput;
-  jobFromDate?: Maybe<Scalars["String"]>;
-  jobToDate?: Maybe<Scalars["String"]>;
-  branch?: Maybe<BranchInput>;
 };
 
 type StudentProfileInputStep3 = {
-  softSkills?: Maybe<Array<Maybe<SoftSkillInput>>>;
-  culturalFits?: Maybe<Array<Maybe<CulturalFitInput>>>;
+  culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
+  softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
 
 type StudentProfileInputStep4 = {
-  /** Skills */
-  skills?: Maybe<Array<Maybe<SkillInput>>>;
-  /** Hobbies */
-  hobbies?: Maybe<Array<Maybe<HobbyInput>>>;
-  /** Online_Projects */
-  onlineProjects?: Maybe<Array<Maybe<OnlineProjectInput>>>;
-  /** Languages */
-  languages: Array<Maybe<UserLanguageRelationInput>>;
   /** Distinction */
-  distinction?: Maybe<Scalars["String"]>;
+  distinction?: InputMaybe<Scalars["String"]>;
+  /** Hobbies */
+  hobbies?: InputMaybe<Array<InputMaybe<HobbyInput>>>;
+  /** Languages */
+  languages: Array<InputMaybe<UserLanguageRelationInput>>;
+  /** Online_Projects */
+  onlineProjects?: InputMaybe<Array<InputMaybe<OnlineProjectInput>>>;
+  /** Skills */
+  skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
 };
 
 type StudentProfileInputStep5 = {
@@ -1249,142 +1813,160 @@ type StudentProfileInputStep6 = {
 /** Updates the profile of a student */
 type StudentProfileStep1 = {
   __typename?: "StudentProfileStep1";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates job option, date (start or range) and branch of a student */
 type StudentProfileStep2 = {
   __typename?: "StudentProfileStep2";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates soft skills and cultural fits of a student */
 type StudentProfileStep3 = {
   __typename?: "StudentProfileStep3";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates the profile of a student */
 type StudentProfileStep4 = {
   __typename?: "StudentProfileStep4";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates the nickname of a student */
 type StudentProfileStep5 = {
   __typename?: "StudentProfileStep5";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   nicknameSuggestions?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates the state of a student */
 type StudentProfileStep6 = {
   __typename?: "StudentProfileStep6";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
-type Topic = {
+type Topic = Node & {
   __typename?: "Topic";
+  /** The ID of the object. */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
 
+type TopicConnection = {
+  __typename?: "TopicConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<TopicEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `Topic` and its cursor. */
+type TopicEdge = {
+  __typename?: "TopicEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Topic>;
+};
+
 type TopicInput = {
   id: Scalars["ID"];
-  name?: Maybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 type UniversityProfileInputStep1 = {
+  /** City */
+  city: Scalars["String"];
   /** First name */
   firstName: Scalars["String"];
   /** Last name */
   lastName: Scalars["String"];
   /** Name */
-  name?: Maybe<Scalars["String"]>;
-  /** Street */
-  street: Scalars["String"];
-  /** Zip */
-  zip: Scalars["String"];
-  /** City */
-  city: Scalars["String"];
+  name?: InputMaybe<Scalars["String"]>;
   /** Phone Number */
-  phone?: Maybe<Scalars["String"]>;
+  phone?: InputMaybe<Scalars["String"]>;
   /** role */
   role: Scalars["String"];
+  /** Street */
+  street: Scalars["String"];
+  /** description */
+  topLevelOrganisationDescription?: InputMaybe<Scalars["String"]>;
+  /** website dachorganisation */
+  topLevelOrganisationWebsite?: InputMaybe<Scalars["String"]>;
   /** website */
   website: Scalars["String"];
-  /** description */
-  topLevelOrganisationDescription?: Maybe<Scalars["String"]>;
-  /** website dachorganisation */
-  topLevelOrganisationWebsite?: Maybe<Scalars["String"]>;
+  /** Zip */
+  zip: Scalars["String"];
 };
 
 type UniversityProfileInputStep2 = {
   /** description */
-  description?: Maybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]>;
 };
 
 type UniversityProfileInputStep3 = {
-  /** services */
-  services?: Maybe<Scalars["String"]>;
-  /** website education */
-  linkEducation?: Maybe<Scalars["String"]>;
-  /** website projects */
-  linkProjects?: Maybe<Scalars["String"]>;
-  /** website thesis */
-  linkThesis?: Maybe<Scalars["String"]>;
-  /** Branches */
-  branches?: Maybe<Array<Maybe<BranchInput>>>;
   /** Benefits */
-  benefits?: Maybe<Array<Maybe<BenefitInput>>>;
+  benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
+  /** Branches */
+  branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
+  /** website education */
+  linkEducation?: InputMaybe<Scalars["String"]>;
+  /** website projects */
+  linkProjects?: InputMaybe<Scalars["String"]>;
+  /** website thesis */
+  linkThesis?: InputMaybe<Scalars["String"]>;
+  /** services */
+  services?: InputMaybe<Scalars["String"]>;
 };
 
 type UniversityProfileInputStep4 = {
-  /** Soft Skills */
-  softSkills?: Maybe<Array<Maybe<SoftSkillInput>>>;
   /** Cultural Fit */
-  culturalFits?: Maybe<Array<Maybe<CulturalFitInput>>>;
+  culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
+  /** Soft Skills */
+  softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
 
 /** Updates the profile of a university */
 type UniversityProfileStep1 = {
   __typename?: "UniversityProfileStep1";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates branches and description */
 type UniversityProfileStep2 = {
   __typename?: "UniversityProfileStep2";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates website services */
 type UniversityProfileStep3 = {
   __typename?: "UniversityProfileStep3";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates a company profile with soft skills and cultural fit */
 type UniversityProfileStep4 = {
   __typename?: "UniversityProfileStep4";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type UploadConfiguration = {
   __typename?: "UploadConfiguration";
   contentTypesConfiguration: Array<UploadTypeConfiguration>;
-  maxFiles: Scalars["Int"];
   key: AttachmentKey;
+  maxFiles: Scalars["Int"];
 };
 
 type UploadTypeConfiguration = {
@@ -1393,90 +1975,118 @@ type UploadTypeConfiguration = {
   maxSize: Scalars["Int"];
 };
 
-type User = {
+type User = Node & {
   __typename?: "User";
+  company?: Maybe<Company>;
+  dateJoined: Scalars["DateTime"];
+  email: Scalars["String"];
+  employee?: Maybe<Employee>;
+  firstName: Scalars["String"];
+  /** The ID of the object. */
   id: Scalars["ID"];
+  /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
+  isActive: Scalars["Boolean"];
+  /** Designates whether the user can log into this admin site. */
+  isStaff: Scalars["Boolean"];
+  /** Designates that this user has all permissions without explicitly assigning them. */
+  isSuperuser: Scalars["Boolean"];
+  lastLogin?: Maybe<Scalars["DateTime"]>;
+  lastName: Scalars["String"];
+  password: Scalars["String"];
+  student?: Maybe<Student>;
+  type: ProfileType;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
-  email: Scalars["String"];
-  type: ProfileType;
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  company?: Maybe<Company>;
-  student?: Maybe<Student>;
-  employee?: Maybe<Employee>;
 };
 
-type UserLanguageRelation = {
+type UserLanguageRelation = Node & {
   __typename?: "UserLanguageRelation";
+  /** The ID of the object. */
   id: Scalars["ID"];
   language: Language;
   languageLevel: LanguageLevel;
 };
 
+type UserLanguageRelationConnection = {
+  __typename?: "UserLanguageRelationConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<UserLanguageRelationEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `UserLanguageRelation` and its cursor. */
+type UserLanguageRelationEdge = {
+  __typename?: "UserLanguageRelationEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<UserLanguageRelation>;
+};
+
 type UserLanguageRelationInput = {
-  id?: Maybe<Scalars["ID"]>;
-  language?: Maybe<Scalars["ID"]>;
-  languageLevel?: Maybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["ID"]>;
+  language?: InputMaybe<Scalars["ID"]>;
+  languageLevel?: InputMaybe<Scalars["ID"]>;
 };
 
 type UserNode = Node & {
   __typename?: "UserNode";
+  archived?: Maybe<Scalars["Boolean"]>;
+  company?: Maybe<Company>;
+  email: Scalars["String"];
+  employee?: Maybe<Employee>;
+  firstName: Scalars["String"];
   /** The ID of the object. */
   id: Scalars["ID"];
+  lastName: Scalars["String"];
+  pk?: Maybe<Scalars["Int"]>;
+  secondaryEmail?: Maybe<Scalars["String"]>;
+  student?: Maybe<Student>;
+  type: UserType;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
-  email: Scalars["String"];
-  type: UserType;
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  company?: Maybe<Company>;
-  student?: Maybe<Student>;
-  employee?: Maybe<Employee>;
-  pk?: Maybe<Scalars["Int"]>;
-  archived?: Maybe<Scalars["Boolean"]>;
   verified?: Maybe<Scalars["Boolean"]>;
-  secondaryEmail?: Maybe<Scalars["String"]>;
 };
 
 /** Creates a new user user request */
 type UserRequest = {
   __typename?: "UserRequest";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type UserRequestInput = {
-  /** Name */
-  name: Scalars["String"];
   /** E-Mail */
   email: Scalars["String"];
   /** Message */
   message: Scalars["String"];
+  /** Name */
+  name: Scalars["String"];
 };
 
 /** An enumeration. */
 enum UserType {
-  /** Internal */
-  Internal = "INTERNAL",
-  /** Student */
-  Student = "STUDENT",
   /** College Student */
   CollegeStudent = "COLLEGE_STUDENT",
-  /** Junior */
-  Junior = "JUNIOR",
   /** Company */
   Company = "COMPANY",
-  /** University */
-  University = "UNIVERSITY",
+  /** Internal */
+  Internal = "INTERNAL",
+  /** Junior */
+  Junior = "JUNIOR",
   /** Other */
   Other = "OTHER",
+  /** Student */
+  Student = "STUDENT",
+  /** University */
+  University = "UNIVERSITY",
 }
 
 type UserUpload = {
   __typename?: "UserUpload";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /**
@@ -1488,15 +2098,15 @@ type UserUpload = {
  */
 type VerifyAccount = {
   __typename?: "VerifyAccount";
-  success?: Maybe<Scalars["Boolean"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type ZipCity = {
   __typename?: "ZipCity";
-  zip: Scalars["String"];
-  city: Scalars["String"];
   canton: Scalars["String"];
+  city: Scalars["String"];
+  zip: Scalars["String"];
 };
 
 type ZipCityInput = {

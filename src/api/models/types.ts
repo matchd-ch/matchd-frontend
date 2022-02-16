@@ -18,6 +18,12 @@ export type Scalars = {
    */
   Date: any;
   /**
+   * The `DateTime` scalar type represents a DateTime
+   * value as specified by
+   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+   */
+  DateTime: any;
+  /**
    *
    *     Errors messages and codes mapped to
    *     fields or non fields errors.
