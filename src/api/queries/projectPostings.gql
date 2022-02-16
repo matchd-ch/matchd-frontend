@@ -1,8 +1,12 @@
 query {
-  projectPostings {
-    id
-    slug
-    title
-    displayTitle
+  projectPostings(first: 200) {
+    edges {
+      node {
+        id
+        slug
+        title
+        displayTitle
+      }
+    }
   }
 }

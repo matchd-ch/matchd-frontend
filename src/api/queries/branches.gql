@@ -1,6 +1,10 @@
 query {
-  branches {
-    id
-    name
+  branches(first: 200) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
   }
 }

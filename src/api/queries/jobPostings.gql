@@ -1,8 +1,12 @@
 query {
-  jobPostings {
-    id
-    slug
-    title
-    displayTitle
+  jobPostings(first: 200) {
+    edges {
+      node {
+        id
+        slug
+        title
+        displayTitle
+      }
+    }
   }
 }

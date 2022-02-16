@@ -1,9 +1,13 @@
 query ($key: AttachmentKey!, $id: ID!) {
-  attachments(key: $key, id: $id) {
-    id
-    fileSize
-    fileName
-    mimeType
-    url
+  attachments(key: $key, id: $id, first: 200) {
+    edges {
+      node {
+        id
+        fileSize
+        fileName
+        mimeType
+        url    
+      }
+    }
   }
 }

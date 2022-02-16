@@ -26,17 +26,25 @@ query {
         id
         name
       }
-      culturalFits {
-        id
-      }
-      languages {
-        language {
-          id
-          name
+      culturalFits(first: 200) {
+        edges {
+          node {
+            id
+          }
         }
-        languageLevel {
-          id
-          level
+      }
+      languages(first: 200) {
+        edges {
+          node {
+            language {
+              id
+              name
+            }
+            languageLevel {
+              id
+              level
+            }
+          }
         }
       }
       onlineProjects {
@@ -52,12 +60,20 @@ query {
         name
         mode
       }
-      skills {
-        id
-        name
+      skills(first: 200) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
       }
-      softSkills {
-        id
+      softSkills(first: 200) {
+        edges {
+          node {
+            id
+          }
+        }
       }
     }
     employee {
@@ -113,14 +129,22 @@ query {
           name
         }
       }
-      branches {
-        id
-        name
+      branches(first: 200) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
       }
-      benefits {
-        id
-        icon
-        name
+      benefits(first: 200) {
+        edges {
+          node {
+            id
+            icon
+            name
+          }
+        }
       }
       culturalFits {
         id

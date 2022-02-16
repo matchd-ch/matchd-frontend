@@ -1,7 +1,11 @@
 query {
-  jobTypes {
-    id
-    name
-    mode
+  jobTypes(first: 200) {
+    edges {
+      node {
+        id
+        name
+        mode
+      }
+    }
   }
 }

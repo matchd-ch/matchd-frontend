@@ -1,6 +1,10 @@
 query ($shortList: Boolean) {
-  languages(shortList: $shortList) {
-    id
-    name
+  languages(shortList: $shortList, first: 200) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
   }
 }

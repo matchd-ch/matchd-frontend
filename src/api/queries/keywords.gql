@@ -1,6 +1,10 @@
 query {
-  keywords {
-    id
-    name
+  keywords(first: 200) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
   }
 }

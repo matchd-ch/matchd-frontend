@@ -1,7 +1,11 @@
 query {
-  languageLevels {
-    id
-    level
-    description
+  languageLevels(first: 200) {
+    edges {
+      node {
+        id
+        level
+        description
+      }
+    }
   }
 }

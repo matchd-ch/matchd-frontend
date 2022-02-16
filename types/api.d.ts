@@ -2112,3 +2112,479 @@ type ZipCity = {
 type ZipCityInput = {
   zip: Scalars["String"];
 };
+
+declare module "*/addEmployee.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/companyProfileStep1.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/companyProfileStep2.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/companyProfileStep3.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/companyProfileStep4.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/deleteAttachment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/jobPostingStep1.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/jobPostingStep2.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/jobPostingStep3.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/logout.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/matchJobPosting.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/matchProjectPosting.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/matchStudent.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/passwordReset.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/projectPostingStep1.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/projectPostingStep2.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/projectPostingStep3.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/refreshToken.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/registerCompany.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/registerStudent.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/sendPasswordResetEmail.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/studentProfileStep1.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/studentProfileStep2.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/studentProfileStep3.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/studentProfileStep4.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/studentProfileStep5.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/studentProfileStep6.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/tokenAuth.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/universityProfileStep1.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/universityProfileStep2.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/universityProfileStep3.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/universityProfileStep4.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/upload.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/uploadProjectPosting.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/userRequest.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/verifyAccount.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/attachments.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/attachmentsProjectPosting.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/benefits.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/branches.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/company.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/companyMatching.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const CompanyMatching: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/culturalFits.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/dashboard.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/employees.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/jobPosting.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/jobPostings.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/jobRequirements.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/jobTypes.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/keywords.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/languageLevels.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/languages.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/matching.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/me.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/projectPosting.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/projectPostings.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/projectTypes.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/skills.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/softSkills.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/student.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/topics.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/uploadConfigurations.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/verifyPasswordResetToken.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/zipCity.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/zipCityJobs.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+const CompanyMatching = gql`
+  query CompanyMatching {
+    matches(techBoost: 3, softBoost: 3) {
+      id
+      name
+      avatar
+      type
+      slug
+      score
+      rawScore
+      title
+      type
+      matchStatus {
+        confirmed
+        initiator
+      }
+    }
+  }
+`;

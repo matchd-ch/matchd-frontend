@@ -36,9 +36,13 @@ query ($id: ID, $slug: String) {
       id
       name
     }
-    jobRequirements {
-      id
-      name
+    jobRequirements(first: 200) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
     }
     languages {
       id

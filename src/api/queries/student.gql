@@ -32,19 +32,31 @@ query ($slug: String!, $jobPostingId: ID) {
       id
       mode
     }
-    skills {
-      id
-      name
+    skills(first: 200) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
     }
-    softSkills {
-      id
-      student
-      company
+    softSkills(first: 200) {
+      edges {
+        node {
+          id
+          student
+          company
+        }
+      }
     }
-    culturalFits {
-      company
-      student
-      id
+    culturalFits(first: 200) {
+      edges {
+        node {
+          id
+          company
+          student
+        }
+      }
     }
     hobbies {
       id
@@ -54,14 +66,18 @@ query ($slug: String!, $jobPostingId: ID) {
       id
       url
     }
-    languages {
-      language {
-        name
-        id
-      }
-      languageLevel {
-        level
-        id
+    languages(first: 200) {
+      edges {
+        node {
+          language {
+            name
+            id
+          }
+          languageLevel {
+            level
+            id
+          }
+        }
       }
     }
     projectPostings {
@@ -78,20 +94,32 @@ query ($slug: String!, $jobPostingId: ID) {
       }
     }
   }
-  avatar: attachments(key: STUDENT_AVATAR, slug: $slug) {
-    id
-    url
-    mimeType
+  avatar: attachments(key: STUDENT_AVATAR, slug: $slug, first: 200) {
+    edges {
+      node {
+        id
+        url
+        mimeType
+      }
+    }
   }
-  avatarFallback: attachments(key: STUDENT_AVATAR_FALLBACK, slug: $slug) {
-    id
-    url
-    mimeType
+  avatarFallback: attachments(key: STUDENT_AVATAR_FALLBACK, slug: $slug, first: 200) {
+    edges {
+      node {
+        id
+        url
+        mimeType
+      }
+    }
   }
-  certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug) {
-    id
-    url
-    mimeType
-    fileName
+  certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug, first: 200) {
+    edges {
+      node {
+        id
+        url
+        mimeType
+        fileName
+      }
+    }
   }
 }
