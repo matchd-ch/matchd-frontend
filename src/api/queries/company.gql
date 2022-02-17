@@ -22,7 +22,7 @@ query ($slug: String) {
       email
       role
     }
-    benefits(first: 200) {
+    benefits(first: 100) {
       edges {
         node {
           id
@@ -31,7 +31,7 @@ query ($slug: String) {
         }
       }
     }
-    branches(first: 200) {
+    branches(first: 100) {
       edges {
         node {
           id
@@ -64,7 +64,7 @@ query ($slug: String) {
       }
     }
   }
-  logo: attachments(key: COMPANY_AVATAR, slug: $slug, first: 200) {
+  logo: attachments(key: COMPANY_AVATAR, slug: $slug, first: 100) {
     edges {
       node {
         id
@@ -73,7 +73,7 @@ query ($slug: String) {
       }
     }
   }
-  logoFallback: attachments(key: COMPANY_AVATAR_FALLBACK, slug: $slug, first: 200) {
+  logoFallback: attachments(key: COMPANY_AVATAR_FALLBACK, slug: $slug, first: 100) {
     edges {
       node {
         id
@@ -82,7 +82,7 @@ query ($slug: String) {
       }
     }
   }
-  media: attachments(key: COMPANY_DOCUMENTS, slug: $slug, first: 200) {
+  media: attachments(key: COMPANY_DOCUMENTS, slug: $slug, first: 100) {
     edges {
       node {
         id

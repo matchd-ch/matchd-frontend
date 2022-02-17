@@ -1,5 +1,5 @@
 query {
-  softSkills(first: 200) {
+  softSkills(first: 100) {
     edges {
       node {
         id

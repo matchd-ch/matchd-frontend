@@ -1,5 +1,5 @@
 query {
-  jobTypes(first: 200) {
+  jobTypes(first: 100) {
     edges {
       node {
         id

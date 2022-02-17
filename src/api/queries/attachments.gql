@@ -1,5 +1,5 @@
 query ($key: AttachmentKey!) {
-  attachments(key: $key, first: 200) {
+  attachments(key: $key, first: 100) {
     edges {
       node {
         id

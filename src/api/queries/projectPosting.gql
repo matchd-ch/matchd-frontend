@@ -51,7 +51,7 @@ query ($id: ID, $slug: String) {
       phone
     }
   }
-  images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug, first: 200) {
+  images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug, first: 100) {
     edges {
       node {
         id
@@ -61,7 +61,7 @@ query ($id: ID, $slug: String) {
       }
     }
   }
-  imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug, first: 200) {
+  imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug, first: 100) {
     edges {
       node {
         id
@@ -71,7 +71,7 @@ query ($id: ID, $slug: String) {
       }
     }
   }
-  documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug, first: 200) {
+  documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug, first: 100) {
     edges {
       node {
         id

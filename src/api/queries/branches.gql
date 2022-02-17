@@ -1,5 +1,5 @@
 query {
-  branches(first: 200) {
+  branches(first: 100) {
     edges {
       node {
         id

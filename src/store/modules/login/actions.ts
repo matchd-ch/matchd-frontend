@@ -67,7 +67,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.mutate({
       mutation: refreshTokenMutation,
       variables: {
-        refreshToken: getters["refreshToken"] || "",
+        refreshToken: getters["refreshToken"] || null,
       },
     });
     commit(MutationTypes.REFRESH_LOGIN_LOADED, response.data.refreshToken);

@@ -26,14 +26,14 @@ query {
         id
         name
       }
-      culturalFits(first: 200) {
+      culturalFits(first: 100) {
         edges {
           node {
             id
           }
         }
       }
-      languages(first: 200) {
+      languages(first: 100) {
         edges {
           node {
             language {
@@ -60,7 +60,7 @@ query {
         name
         mode
       }
-      skills(first: 200) {
+      skills(first: 100) {
         edges {
           node {
             id
@@ -68,7 +68,7 @@ query {
           }
         }
       }
-      softSkills(first: 200) {
+      softSkills(first: 100) {
         edges {
           node {
             id
@@ -129,7 +129,7 @@ query {
           name
         }
       }
-      branches(first: 200) {
+      branches(first: 100) {
         edges {
           node {
             id
@@ -137,7 +137,7 @@ query {
           }
         }
       }
-      benefits(first: 200) {
+      benefits(first: 100) {
         edges {
           node {
             id

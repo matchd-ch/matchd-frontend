@@ -1,5 +1,5 @@
 query ($shortList: Boolean) {
-  languages(shortList: $shortList, first: 200) {
+  languages(shortList: $shortList, first: 100) {
     edges {
       node {
         id

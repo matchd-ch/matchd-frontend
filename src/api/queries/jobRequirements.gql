@@ -1,5 +1,5 @@
 query {
-  jobRequirements(first: 200) {
+  jobRequirements(first: 100) {
     edges {
       node {
         id

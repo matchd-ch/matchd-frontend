@@ -29,7 +29,8 @@ export type State = {
     loading: boolean;
   };
   isLoggedIn: boolean;
-  refreshToken: string;
+  refreshToken: string | null;
+  accessToken: string | null;
   user: User | null;
 };
 
@@ -61,6 +62,7 @@ export const state: State = {
     loading: false,
   },
   isLoggedIn: false,
-  refreshToken: "",
+  refreshToken: null,
+  accessToken: null,
   user: null,
 };

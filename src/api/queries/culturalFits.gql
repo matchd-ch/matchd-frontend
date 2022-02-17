@@ -1,5 +1,5 @@
 query {
-  culturalFits(first: 200) {
+  culturalFits(first: 100) {
     edges {
       node {
         id

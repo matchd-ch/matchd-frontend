@@ -36,7 +36,7 @@ query ($id: ID, $slug: String) {
       id
       name
     }
-    jobRequirements(first: 200) {
+    jobRequirements(first: 100) {
       edges {
         node {
           id

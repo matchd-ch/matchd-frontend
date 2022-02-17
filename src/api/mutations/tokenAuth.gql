@@ -2,6 +2,7 @@ mutation ($username: String!, $password: String!) {
   tokenAuth(username: $username, password: $password) {
     success
     errors
+    token
     refreshToken
     user {
       firstName

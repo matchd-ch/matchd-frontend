@@ -10,16 +10,16 @@
 </template>
 
 <script lang="ts">
+import { AttachmentKey } from "@/api/models/types";
 import CompanyDashboard from "@/components/dashboard/CompanyDashboard.vue";
 import StudentDashboard from "@/components/dashboard/StudentDashboard.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { ActionTypes as ContentActions } from "@/store/modules/content/action-types";
-import type { User, Dashboard as IDashboard } from "api";
 import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
+import { ActionTypes as ContentActions } from "@/store/modules/content/action-types";
+import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
+import type { Dashboard as IDashboard, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { AttachmentKey } from "@/api/models/types";
 
 @Options({
   components: {
@@ -71,6 +71,7 @@ export default class Dashboard extends Vue {
   }
 
   get user(): User | null {
+    console.log(this.$store.getters);
     return this.$store.getters["user"];
   }
 }

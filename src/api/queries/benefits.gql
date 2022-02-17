@@ -1,5 +1,5 @@
 query {
-  benefits(first: 200) {
+  benefits(first: 100) {
     edges {
       node {
         id

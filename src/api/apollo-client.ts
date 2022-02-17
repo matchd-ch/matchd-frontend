@@ -32,24 +32,54 @@ export function createApolloClient(baseUrl: string): ApolloClient<any> {
     credentials: "include",
   });
 
-  const directionalLink = split((operation) => operation.getContext().batch, batchLink, httpLink);
+  const directionalLink = split(
+    (operation) => {
+      const store = useStore();
+      operation.setContext(({ headers = {} }) => ({
+        headers: {
+          ...headers,
+          ...(store.getters["accessToken"] && {
+            authorization: `JWT ${store.getters["accessToken"]}`,
+          }),
+        },
+      }));
+      return operation.getContext().batch;
+    },
+    batchLink,
+    httpLink
+  );
 
   const cleanTypeNameLink = new ApolloLink((operation, forward) => {
     if (operation.variables) {
       omitDeep(operation.variables, "__typename");
     }
-    return forward(operation).map((data) => {
-      return data;
-    });
+    operation.setContext(({ headers = {} }) => ({
+      headers: {
+        ...headers,
+        ...(localStorage.getItem("token") && {
+          authorization: `JWT ${localStorage.getItem("token")}`,
+        }),
+      },
+    }));
+    return forward(operation);
   });
 
   const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       const store = useStore();
       for (const err of graphQLErrors) {
+        console.log("ERROR:", err);
         switch (err.message) {
           case "You do not have permission to perform this action":
-            return fromPromise(store.dispatch(ActionTypes.REFRESH_LOGIN)).flatMap(() => {
+            return fromPromise(store.dispatch(ActionTypes.REFRESH_LOGIN)).flatMap((token) => {
+              const headers = operation.getContext().headers;
+              // modify the operation context with a new token
+              operation.setContext({
+                headers: {
+                  ...headers,
+                  authorization: `JWT ${token}`,
+                },
+              });
               return forward(operation);
             });
         }

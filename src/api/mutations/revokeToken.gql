@@ -1,0 +1,5 @@
+mutation {
+    revokeToken(refreshToken: "refresh token") {
+      revoked
+    }
+}

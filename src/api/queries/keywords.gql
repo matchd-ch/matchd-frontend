@@ -1,5 +1,5 @@
 query {
-  keywords(first: 200) {
+  keywords(first: 100) {
     edges {
       node {
         id

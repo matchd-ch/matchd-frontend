@@ -1,5 +1,5 @@
 query {
-  projectTypes(first: 200) {
+  projectTypes(first: 100) {
     edges {
       node {
         id

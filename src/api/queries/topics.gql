@@ -1,5 +1,5 @@
 query {
-  topics(first: 200) {
+  topics(first: 100) {
     edges {
       node {
         id

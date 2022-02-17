@@ -19,7 +19,8 @@ export type Getters = {
   isCompany(state: State): boolean;
   isUniversity(state: State): boolean;
   isLoggedIn(state: State): boolean;
-  refreshToken(state: State): string;
+  refreshToken(state: State): string | null;
+  accessToken(state: State): string | null;
   sendPasswordResetEmailLoading(state: State): boolean;
   sendPasswordResetEmailState(state: State): SendPasswordResetEmailState;
   passwordResetLoading(state: State): boolean;
@@ -80,8 +81,11 @@ export const getters: GetterTree<State, RootState> & Getters = {
   isLoggedIn(state: State): boolean {
     return state.isLoggedIn;
   },
-  refreshToken(state: State): string {
+  refreshToken(state: State): string | null {
     return state.refreshToken;
+  },
+  accessToken(state: State): string | null {
+    return state.accessToken;
   },
   sendPasswordResetEmailLoading(state: State): boolean {
     return state.sendPasswordResetEmail.loading;

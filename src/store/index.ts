@@ -22,7 +22,7 @@ import createPersistedState from "vuex-persistedstate";
 import { config } from "./../config";
 
 const persistedLoginState = createPersistedState({
-  paths: ["login.isLoggedIn", "login.refreshToken"],
+  paths: ["login.isLoggedIn", "login.refreshToken", "login.accessToken"],
 });
 
 export type RootState = {

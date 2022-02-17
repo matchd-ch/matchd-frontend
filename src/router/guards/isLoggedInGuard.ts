@@ -10,7 +10,7 @@ export async function isLoggedInGuard(
   const store = useStore();
   if (to.meta?.public) {
     next();
-  } else if (!store.getters["isLoggedIn"] || store.getters["refreshToken"] === "") {
+  } else if (!store.getters["isLoggedIn"] || store.getters["refreshToken"] === null) {
     next({ name: "Login", query: { redirectUri: to.fullPath } });
   } else {
     try {

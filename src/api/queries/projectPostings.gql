@@ -1,5 +1,5 @@
 query {
-  projectPostings(first: 200) {
+  projectPostings(first: 100) {
     edges {
       node {
         id

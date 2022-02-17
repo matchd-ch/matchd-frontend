@@ -2253,6 +2253,13 @@ declare module "*/registerStudent.gql" {
   export default defaultDocument;
 }
 
+declare module "*/revokeToken.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/sendPasswordResetEmail.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;

@@ -1,4 +1,5 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
+import { State } from "@/store/modules/login/state";
 import type {
   ObtainJsonWebToken,
   PasswordReset,
@@ -8,7 +9,6 @@ import type {
 } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
-import { State } from "@/store/modules/login/state";
 
 export type Mutations<S = State> = {
   [MutationTypes.LOGIN_LOADING](state: S): void;
@@ -37,7 +37,8 @@ export const mutations: MutationTree<State> & Mutations = {
     state.login.success = payload.success || false;
     state.login.errors = errorCodeMapper(payload.errors);
     state.isLoggedIn = payload.success || false;
-    state.refreshToken = payload.refreshToken || "";
+    state.refreshToken = payload.refreshToken || null;
+    state.accessToken = payload.token || null;
   },
   [MutationTypes.LOGOUT_LOADING](state: State) {
     state.logout.loading = true;
@@ -47,7 +48,8 @@ export const mutations: MutationTree<State> & Mutations = {
     state.logout.success = payload.success || false;
     state.logout.errors = errorCodeMapper(payload.errors);
     state.isLoggedIn = false;
-    state.refreshToken = "";
+    state.refreshToken = null;
+    state.accessToken = null;
     state.user = null;
   },
   [MutationTypes.REFRESH_LOGIN_LOADING](state: State) {
@@ -58,7 +60,8 @@ export const mutations: MutationTree<State> & Mutations = {
     state.login.success = payload.success || false;
     state.login.errors = errorCodeMapper(payload.errors);
     state.isLoggedIn = payload.success || false;
-    state.refreshToken = payload.refreshToken || "";
+    state.refreshToken = payload.refreshToken || null;
+    state.accessToken = payload.token || null;
   },
   [MutationTypes.ME_LOADING](state: State) {
     state.me.loading = true;
