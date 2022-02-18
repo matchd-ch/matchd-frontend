@@ -2,14 +2,14 @@
   <form v-if="topics.length && projectTypes.length" @submit="veeForm.onSubmit">
     <FormSaveError v-if="projectPostingState.errors" />
     <p v-if="!hasProjectPostings" class="mb-14">
-      <template v-if="isStudent"
-        >Erfasse hier deine Ideen für eine Bachelor-, Master- oder Projektarbeit und Matchd zeigt
-        dir Projekte von Unternehmen, die dazu passen.<br /><br />
+      <template v-if="isStudent">
+        Erfasse hier deine Ideen für eine Bachelor-, Master- oder Projektarbeit und Matchd zeigt dir
+        Projekte von Unternehmen, die dazu passen.<br /><br />
         Keine konkrete Idee? Dann fülle vorerst nur die Pflichtfelder aus und lass Matchd passende
         Projekte für dich finden.
       </template>
-      <template v-else
-        >Erfassen Sie hier Ihre Ideen und Herausforderungen für fachwissenschaftliche und
+      <template v-else>
+        Erfassen Sie hier Ihre Ideen und Herausforderungen für fachwissenschaftliche und
         anwendungsorientierte Projektarbeiten.<br /><br />Matchd zeigt Ihnen Projektideen von
         Studierenden, die dazu passen.
       </template>
@@ -148,7 +148,9 @@
           :loading="projectPostingLoading"
           @click="veeForm.onSubmit"
         >
-          <template v-if="currentProjectPosting?.formStep > 2">Speichern</template>
+          <template v-if="currentProjectPosting?.formStep && currentProjectPosting.formStep > 2">
+            Speichern
+          </template>
           <template v-else>Speichern und weiter</template>
         </MatchdButton>
       </div>
@@ -171,9 +173,9 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { ProjectPostingState } from "@/models/ProjectPostingState";
 import { ProjectPostingStep1Form } from "@/models/ProjectPostingStep1Form";
 import { useStore } from "@/store";
-import { ActionTypes } from "@/store/modules/projectposting/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
-import type { ProjectPosting as ProjectPostingType, ProjectType, User, Keyword, Topic } from "api";
+import { ActionTypes } from "@/store/modules/projectposting/action-types";
+import type { Keyword, ProjectPosting as ProjectPostingType, User } from "api";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -234,17 +236,17 @@ export default class ProjectPostingStep1 extends Vue {
     return projectPostingStep1FormMapper(this.currentProjectPosting);
   }
 
-  get keywords(): Keyword[] {
+  get keywords() {
     return this.$store.getters["keywords"];
   }
 
-  get selectedKeywords(): Keyword[] {
+  get selectedKeywords() {
     return this.keywords.filter((keyword) =>
       this.veeForm.keywords?.some((id) => id === keyword.id)
     );
   }
 
-  get availableKeywords(): Keyword[] {
+  get availableKeywords() {
     return this.keywords.filter((keyword) => {
       return !this.veeForm.keywords.some((id) => id === keyword.id);
     });
@@ -254,11 +256,11 @@ export default class ProjectPostingStep1 extends Vue {
     return !!this.$store.getters["projectPostings"].length;
   }
 
-  get projectTypes(): ProjectType[] {
+  get projectTypes() {
     return this.$store.getters["projectTypes"];
   }
 
-  get topics(): Topic[] {
+  get topics() {
     return this.$store.getters["topics"];
   }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="project-posting-search-view">
-    <teleport to="header">
+    <teleport to="#teleporter-app-header">
       <SearchFilters
         class="search-filters z-50"
         :class="{ 'bg-company-gradient-t-b': !isStudent, 'bg-student-gradient-t-b': isStudent }"
@@ -76,11 +76,9 @@ import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
 import SearchResultProjectPostingGrid from "@/components/SearchResultProjectPostingGrid.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { SearchResult } from "@/models/SearchResult";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment, ProjectPosting } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
@@ -103,33 +101,33 @@ export default class ProjectPostingSearch extends Vue {
   softBoost = 3;
   projectPostingId = "";
 
-  get projectPostings(): ProjectPosting[] {
+  get projectPostings() {
     return this.$store.getters["projectPostings"];
   }
 
-  get matchesForGrid(): SearchResult[] {
+  get matchesForGrid() {
     return this.$store.getters["matchesForGrid"];
   }
 
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get avatar(): Attachment | undefined {
+  get avatar() {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: this.isStudent ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
-      })[0] ||
+      })?.[0] ||
       this.$store.getters["attachmentsByKey"]({
         key: this.isStudent
           ? AttachmentKey.StudentAvatarFallback
           : AttachmentKey.CompanyAvatarFallback,
-      })[0] ||
+      })?.[0] ||
       undefined
     );
   }
 
-  beforeMount(): void {
+  beforeMount() {
     this.softBoost = this.$route.query?.softBoost
       ? parseInt(this.$route.query?.softBoost as string)
       : 3;
@@ -140,7 +138,7 @@ export default class ProjectPostingSearch extends Vue {
     this.persistFiltersToUrl();
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await this.$store.dispatch(ActionTypes.PROJECT_POSTINGS);
     if (this.projectPostings.length > 0 && this.projectPostingId === "") {
       this.projectPostingId = this.projectPostings[0].id;
@@ -160,7 +158,7 @@ export default class ProjectPostingSearch extends Vue {
     calculateMargins();
   }
 
-  async searchProjects(): Promise<void> {
+  async searchProjects() {
     this.persistFiltersToUrl();
     await this.$store.dispatch(
       ActionTypes.MATCHING,
@@ -174,25 +172,25 @@ export default class ProjectPostingSearch extends Vue {
     );
   }
 
-  unmounted(): void {
+  unmounted() {
     this.$store.commit(MutationTypes.RESET_MATCHES);
   }
 
-  onChangeFilter(): void {
+  onChangeFilter() {
     this.searchProjects();
   }
 
-  onChangeSoftBoost(value: number): void {
+  onChangeSoftBoost(value: number) {
     this.softBoost = value;
     this.searchProjects();
   }
 
-  onChangeTechBoost(value: number): void {
+  onChangeTechBoost(value: number) {
     this.techBoost = value;
     this.searchProjects();
   }
 
-  persistFiltersToUrl(): void {
+  persistFiltersToUrl() {
     this.$router.replace({
       query: {
         softBoost: this.softBoost,

@@ -10,7 +10,10 @@
       'theme-university': isUniversity,
     }"
   >
-    <header class="header bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20">
+    <header
+      id="teleporter-app-header"
+      class="header bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20"
+    >
       <component
         :is="navigation"
         v-if="showNavbar && user"

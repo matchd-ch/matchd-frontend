@@ -1,5 +1,5 @@
 <template>
-  <teleport to="header">
+  <teleport to="#teleporter-app-header">
     <ProfileNavigation>
       <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="currentStep === 1">
         Ausschreibung
@@ -132,10 +132,18 @@ export default class ProjectPostingCreate extends Vue {
     this.urlStepNumber = parseStepName(String(this.$route.params.step));
     if (this.$route.params?.slug && this.$route.params?.slug !== ParamStrings.NEW) {
       this.meta.meta.title = `Projekt bearbeiten - ${this.currentProjectPosting?.title}`;
+      this.loadProjectPostingWithSlug(String(this.$route.params.slug));
     } else {
       this.meta.meta.title = "Projekt ausschreiben";
       this.clearCurrentProjectPosting();
     }
+
+    // this.urlStepNumber = parseStepName(String(to.params.step));
+    // if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
+    //   await this.loadProjectPostingWithSlug(String(to.params.slug));
+    // } else {
+    //   this.clearCurrentProjectPosting();
+    // }
   }
 
   async onSubmitComplete(): Promise<void> {

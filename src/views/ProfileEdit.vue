@@ -1,5 +1,5 @@
 <template>
-  <teleport to="header">
+  <teleport to="#teleporter-app-header">
     <ProfileNavigation v-if="isStudent">
       <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="urlStepNumber === 1">
         Persönliche Daten

@@ -1,9 +1,10 @@
 import { AttachmentKey } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import type { Attachment, DeleteAttachment, UploadConfiguration, UserUpload } from "api";
+import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
+import { State } from "@/store/modules/upload/state";
+import type { AttachmentConnection, DeleteAttachment, UploadConfiguration, UserUpload } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
-import { State } from "@/store/modules/upload/state";
 
 export type Mutations<S = State> = {
   [MutationTypes.CONFIGURATIONS_LOADING](state: S): void;
@@ -21,7 +22,7 @@ export type Mutations<S = State> = {
   [MutationTypes.UPLOADED_FILES_LOADING](state: S, payload: { key: AttachmentKey }): void;
   [MutationTypes.UPLOADED_FILES_LOADED](
     state: S,
-    payload: { key: AttachmentKey; data: Attachment[] }
+    payload: { key: AttachmentKey; data: AttachmentConnection }
   ): void;
   [MutationTypes.DELETE_FILE_LOADING](state: S, payload: { key: AttachmentKey }): void;
   [MutationTypes.DELETE_FILE_LOADED](
@@ -39,7 +40,11 @@ export const mutations: MutationTree<State> & Mutations = {
     state.uploadConfigurations.data = payload;
   },
   [MutationTypes.CLEAR_FILES_FOR_KEY](state: State, payload: { key: AttachmentKey }) {
-    state.attachments[payload.key] = { loading: true, deleting: false, data: [] };
+    state.attachments[payload.key] = {
+      loading: true,
+      deleting: false,
+      data: [],
+    };
   },
   [MutationTypes.ADD_FILE_TO_QUEUE](
     state: State,
@@ -83,17 +88,23 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.UPLOADED_FILES_LOADING](state: State, payload: { key: AttachmentKey }) {
     if (!state.attachments[payload.key]) {
-      state.attachments[payload.key] = { loading: true, deleting: false, data: [] };
+      state.attachments[payload.key] = {
+        loading: true,
+        deleting: false,
+        data: [],
+      };
     } else {
       state.attachments[payload.key].loading = true;
     }
   },
   [MutationTypes.UPLOADED_FILES_LOADED](
     state: State,
-    payload: { key: AttachmentKey; data: Attachment[] }
+    payload: { key: AttachmentKey; data: AttachmentConnection }
   ) {
     state.attachments[payload.key].loading = false;
-    state.attachments[payload.key].data = payload.data;
+    state.attachments[payload.key].data = ensureNoNullsAndUndefineds(
+      payload.data.edges.filter((edge) => edge?.node).map((edge) => edge?.node)
+    );
   },
   [MutationTypes.DELETE_FILE_LOADING](state: State, payload: { key: AttachmentKey }) {
     state.attachments[payload.key] = {

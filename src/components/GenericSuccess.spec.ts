@@ -8,5 +8,5 @@ it("GenericSuccess", () => {
     },
   });
 
-  cy.get("[data-cy=GenericSuccess]").contains("Test Generic Success");
+  cy.get("[data-cy=generic-success__default-slot-wrapper]").contains("Test Generic Success");
 });

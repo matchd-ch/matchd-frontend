@@ -95,12 +95,10 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { QueuedFile } from "@/store/modules/upload/state";
 import type { Attachment, UploadConfiguration } from "api";
 import { Field, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
@@ -153,31 +151,31 @@ export default class StudentStep5 extends Vue.with(Props) {
     };
   });
 
-  get showError(): boolean {
+  get showError() {
     return !!this.onboardingState.errors;
   }
 
-  get onboardingLoading(): boolean {
+  get onboardingLoading() {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState(): OnboardingState {
+  get onboardingState() {
     return this.$store.getters["onboardingState"];
   }
 
-  get currentStep(): number | undefined {
+  get currentStep() {
     return this.$store.getters["profileStep"];
   }
 
-  get nicknameSuggestions(): string[] {
+  get nicknameSuggestions() {
     return this.$store.getters["nicknameSuggestions"];
   }
 
-  get studentAvatarQueue(): QueuedFile[] {
+  get studentAvatarQueue() {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentAvatar });
   }
 
-  get studentAvatar(): Attachment[] {
+  get studentAvatar() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar });
   }
 
@@ -185,7 +183,7 @@ export default class StudentStep5 extends Vue.with(Props) {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar });
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
@@ -201,25 +199,25 @@ export default class StudentStep5 extends Vue.with(Props) {
     calculateMargins();
   }
 
-  onClickNickname(nickname: string): void {
+  onClickNickname(nickname: string) {
     this.veeForm.setFieldValue("nickname", nickname);
   }
 
-  async onSelectStudentAvatar(files: FileList): Promise<void> {
+  async onSelectStudentAvatar(files: FileList) {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.StudentAvatar,
       files,
     });
   }
 
-  async onDeleteStudentAvatar(file: Attachment): Promise<void> {
+  async onDeleteStudentAvatar(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.StudentAvatar,
       id: file.id,
     });
   }
 
-  get profileData(): StudentProfileStep5Form {
+  get profileData() {
     const user = this.$store.getters["user"];
     if (!user) {
       return {} as StudentProfileStep5Form;
@@ -228,7 +226,7 @@ export default class StudentStep5 extends Vue.with(Props) {
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }

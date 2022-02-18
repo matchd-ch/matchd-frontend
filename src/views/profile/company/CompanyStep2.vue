@@ -126,12 +126,10 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
-import { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment, UploadConfiguration, User } from "api";
+import type { Attachment } from "api";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -184,39 +182,39 @@ export default class CompanyStep2Form extends Vue.with(Props) {
     };
   });
 
-  get showError(): boolean {
+  get showError() {
     return !!this.onboardingState.errors;
   }
 
-  get onboardingLoading(): boolean {
+  get onboardingLoading() {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState(): OnboardingState {
+  get onboardingState() {
     return this.$store.getters["onboardingState"];
   }
 
-  get currentStep(): number | undefined {
+  get currentStep() {
     return this.$store.getters["profileStep"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 
-  get companyAvatarQueue(): QueuedFile[] {
+  get companyAvatarQueue() {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get companyAvatar(): Attachment[] {
+  get companyAvatar() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get companyAvatarUploadConfigurations(): UploadConfiguration | undefined {
+  get companyAvatarUploadConfigurations() {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar });
   }
 
-  get profileData(): CompanyProfileStep2Form {
+  get profileData() {
     const user = this.$store.getters["user"];
     if (!user) {
       return {} as CompanyProfileStep2Form;
@@ -224,7 +222,7 @@ export default class CompanyStep2Form extends Vue.with(Props) {
     return companyProfileStep2FormMapper(user);
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
@@ -235,21 +233,21 @@ export default class CompanyStep2Form extends Vue.with(Props) {
     calculateMargins();
   }
 
-  async onSelectCompanyAvatar(files: FileList): Promise<void> {
+  async onSelectCompanyAvatar(files: FileList) {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.CompanyAvatar,
       files,
     });
   }
 
-  async onDeleteCompanyAvatar(file: Attachment): Promise<void> {
+  async onDeleteCompanyAvatar(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyAvatar,
       id: file.id,
     });
   }
 
-  onToggleMemberItStGallen(value: boolean): void {
+  onToggleMemberItStGallen(value: boolean) {
     this.veeForm.memberItStGallen = value;
   }
 

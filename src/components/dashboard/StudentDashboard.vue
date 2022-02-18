@@ -165,7 +165,7 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { replaceStack } from "@/helpers/replaceStack";
-import type { Attachment, Dashboard, User } from "api";
+import type { Dashboard } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
@@ -184,31 +184,31 @@ class Props {
   },
 })
 export default class StudentDashboard extends Vue.with(Props) {
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get isCompany(): boolean {
+  get isCompany() {
     return this.$store.getters["isCompany"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 
-  get avatar(): Attachment | undefined {
+  get avatar() {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatar,
-      })[0] ||
+      })?.[0] ||
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatarFallback,
-      })[0] ||
-      ""
+      })?.[0] ||
+      undefined
     );
   }
 
-  replaceStack(url: string, stack: string): string {
+  replaceStack(url: string, stack: string) {
     return replaceStack(url, stack);
   }
 }

@@ -20,6 +20,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return state.uploadConfigurations.data.find((Attachment) => Attachment.key === payload.key);
   },
   attachmentsByKey: (state: State) => (payload: { key: AttachmentKey }) => {
-    return state.attachments[payload.key]?.data || [];
+    console.log("attachments:", payload.key);
+    return state.attachments[payload.key].data;
   },
 };

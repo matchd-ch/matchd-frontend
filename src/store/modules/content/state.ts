@@ -9,15 +9,18 @@ import type {
   JobRequirement,
   JobType,
   Keyword,
+  KeywordEdge,
   Language,
   LanguageLevel,
   Match,
   ProjectPosting,
   ProjectType,
+  ProjectTypeEdge,
   Skill,
   SoftSkill,
   Student,
   Topic,
+  TopicEdge,
   ZipCity,
 } from "api";
 

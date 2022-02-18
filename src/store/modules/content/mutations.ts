@@ -1,4 +1,5 @@
 import { ProfileType } from "@/api/models/types";
+import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { State } from "@/store/modules/content/state";
 import type {
   Attachment,
@@ -10,7 +11,7 @@ import type {
   JobPosting,
   JobRequirement,
   JobType,
-  Keyword,
+  KeywordConnection,
   Language,
   LanguageLevel,
   Match,
@@ -18,11 +19,11 @@ import type {
   MatchProjectPosting,
   MatchStudent,
   ProjectPosting,
-  ProjectType,
+  ProjectTypeConnection,
   Skill,
   SoftSkill,
   Student,
-  Topic,
+  TopicConnection,
   ZipCity,
 } from "api";
 import { MutationTree } from "vuex";
@@ -61,7 +62,7 @@ export type Mutations<S = State> = {
   [MutationTypes.JOB_TYPES_LOADING](state: S): void;
   [MutationTypes.JOB_TYPES_LOADED](state: S, payload: { jobTypes: JobType[] }): void;
   [MutationTypes.KEYWORDS_LOADING](state: S): void;
-  [MutationTypes.KEYWORDS_LOADED](state: S, payload: { keywords: Keyword[] }): void;
+  [MutationTypes.KEYWORDS_LOADED](state: S, payload: { keywords: KeywordConnection }): void;
   [MutationTypes.LANGUAGES_LOADING](state: S): void;
   [MutationTypes.LANGUAGES_LOADED](state: S, payload: { languages: Language[] }): void;
   [MutationTypes.LANGUAGE_LEVELS_LOADING](state: S): void;
@@ -95,7 +96,10 @@ export type Mutations<S = State> = {
     payload: { projectPostings: ProjectPosting[] }
   ): void;
   [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
-  [MutationTypes.PROJECT_TYPES_LOADED](state: S, payload: { projectTypes: ProjectType[] }): void;
+  [MutationTypes.PROJECT_TYPES_LOADED](
+    state: S,
+    payload: { projectTypes: ProjectTypeConnection }
+  ): void;
   [MutationTypes.RESET_MATCHES](state: S): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: { skills: Skill[] }): void;
@@ -112,7 +116,7 @@ export type Mutations<S = State> = {
     }
   ): void;
   [MutationTypes.TOPICS_LOADING](state: S): void;
-  [MutationTypes.TOPICS_LOADED](state: S, payload: { topics: Topic[] }): void;
+  [MutationTypes.TOPICS_LOADED](state: S, payload: { topics: TopicConnection }): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
 };
@@ -234,9 +238,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.KEYWORDS_LOADING](state: State) {
     state.keywords.loading = true;
   },
-  [MutationTypes.KEYWORDS_LOADED](state: State, payload: { keywords: Keyword[] }) {
+  [MutationTypes.KEYWORDS_LOADED](state: State, payload: { keywords: KeywordConnection }) {
     state.keywords.loading = false;
-    state.keywords.data = payload.keywords;
+    state.keywords.data = ensureNoNullsAndUndefineds(
+      payload.keywords.edges.filter((edge) => edge?.node).map((edge) => edge?.node)
+    );
   },
   [MutationTypes.MATCH_LOADING](state: State) {
     state.match.loading = true;
@@ -329,9 +335,14 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.PROJECT_TYPES_LOADING](state: State) {
     state.projectTypes.loading = true;
   },
-  [MutationTypes.PROJECT_TYPES_LOADED](state: State, payload: { projectTypes: ProjectType[] }) {
+  [MutationTypes.PROJECT_TYPES_LOADED](
+    state: State,
+    payload: { projectTypes: ProjectTypeConnection }
+  ) {
     state.projectTypes.loading = false;
-    state.projectTypes.data = payload.projectTypes;
+    state.projectTypes.data = ensureNoNullsAndUndefineds(
+      payload.projectTypes.edges.filter((edge) => edge?.node).map((edge) => edge?.node)
+    );
   },
   [MutationTypes.RESET_MATCHES](state: State) {
     state.matches.data = [];
@@ -377,9 +388,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.TOPICS_LOADING](state: State) {
     state.topics.loading = true;
   },
-  [MutationTypes.TOPICS_LOADED](state: State, payload: { topics: Topic[] }) {
+  [MutationTypes.TOPICS_LOADED](state: State, payload: { topics: TopicConnection }) {
     state.topics.loading = false;
-    state.topics.data = payload.topics;
+    state.topics.data = ensureNoNullsAndUndefineds(
+      payload.topics.edges.filter((edge) => edge?.node).map((edge) => edge?.node)
+    );
   },
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: State) {
     state.matches.zipCityJobsLoading = true;

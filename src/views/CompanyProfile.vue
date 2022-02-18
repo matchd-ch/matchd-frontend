@@ -113,7 +113,7 @@ import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment, User } from "api";
+import type { User } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -132,46 +132,59 @@ export default class CompanyProfile extends Vue {
     return this.$store.getters["user"];
   }
 
-  get logoSrc(): string {
+  get logoFallback() {
+    return (
+      this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.CompanyAvatarFallback,
+      })?.[0] ?? undefined
+    );
+  }
+
+  get logoSrc() {
     return this.logo?.url || this.logoFallback?.url || "";
   }
 
-  get logo(): Attachment {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0];
+  get logo() {
+    return (
+      this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0] ??
+      undefined
+    );
   }
 
-  get logoFallback(): Attachment {
-    return this.$store.getters["attachmentsByKey"]({
-      key: AttachmentKey.CompanyAvatarFallback,
-    })?.[0];
+  get() {
+    return (
+      this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.CompanyAvatarFallback,
+      })?.[0] ?? undefined
+    );
   }
 
-  get mainMedia(): Attachment {
-    return this.media[0];
+  get mainMedia() {
+    return this.media?.[0] ?? undefined;
   }
 
-  get additionalMedia(): Attachment[] {
+  get additionalMedia() {
     const [, ...additionalMedia] = this.media;
     return additionalMedia;
   }
 
-  get media(): Attachment[] {
+  get media() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  replaceStack(url: string, stack: string): string {
+  replaceStack(url: string, stack: string) {
     return replaceStack(url, stack);
   }
 
-  nl2br(text: string): string {
+  nl2br(text: string) {
     return nl2br(text);
   }
 
-  getStepName(step: number): string {
+  getStepName(step: number) {
     return `${ParamStrings.STEP}${step}`;
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {

@@ -1,6 +1,6 @@
 <template>
   <div class="student-search-view">
-    <teleport to="header">
+    <teleport to="#teleporter-app-header">
       <SearchFilters class="search-filters bg-company-gradient-t-b z-50">
         <div class="grid grid-rows-1 grid-cols-1 gap-3">
           <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
@@ -94,12 +94,9 @@ import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { SearchResult } from "@/models/SearchResult";
-import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment, JobPosting } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
@@ -122,35 +119,35 @@ export default class StudentSearch extends Vue {
   jobPostingId = "";
   layout = "bubbles";
 
-  get jobPostings(): JobPosting[] {
+  get jobPostings() {
     return this.$store.getters["jobPostings"];
   }
 
-  get matchesForBubbles(): SearchResultBubbleData {
+  get matchesForBubbles() {
     return this.$store.getters["matchesForBubbles"];
   }
 
-  get matchesForGrid(): SearchResult[] {
+  get matchesForGrid() {
     return this.$store.getters["matchesForGrid"];
   }
 
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get avatar(): Attachment | undefined {
+  get avatar() {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatar,
-      })[0] ||
+      })?.[0] ??
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatarFallback,
-      })[0] ||
+      })?.[0] ??
       undefined
     );
   }
 
-  beforeMount(): void {
+  beforeMount() {
     this.layout = (this.$route.query?.layout as string) || "bubbles";
     this.softBoost = this.$route.query?.softBoost
       ? parseInt(this.$route.query?.softBoost as string)
@@ -162,7 +159,7 @@ export default class StudentSearch extends Vue {
     this.persistFiltersToUrl();
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await this.$store.dispatch(ActionTypes.JOB_POSTINGS);
     if (this.jobPostings.length > 0 && this.jobPostingId === "") {
       this.jobPostingId = this.jobPostings[0].id;
@@ -180,11 +177,11 @@ export default class StudentSearch extends Vue {
     calculateMargins();
   }
 
-  unmounted(): void {
+  unmounted() {
     this.$store.commit(MutationTypes.RESET_MATCHES);
   }
 
-  async searchStudents(): Promise<void> {
+  async searchStudents() {
     this.persistFiltersToUrl();
     await this.$store.dispatch(
       ActionTypes.MATCHING,
@@ -198,7 +195,7 @@ export default class StudentSearch extends Vue {
     );
   }
 
-  onClickResult(slug: string): void {
+  onClickResult(slug: string) {
     this.$router.push({
       name: "StudentDetail",
       params: { slug },
@@ -206,26 +203,26 @@ export default class StudentSearch extends Vue {
     });
   }
 
-  onChangeLayout(layout: string): void {
+  onChangeLayout(layout: string) {
     this.layout = layout;
     this.persistFiltersToUrl();
   }
 
-  onChangeJobPosting(): void {
+  onChangeJobPosting() {
     this.searchStudents();
   }
 
-  onChangeSoftBoost(value: number): void {
+  onChangeSoftBoost(value: number) {
     this.softBoost = value;
     this.searchStudents();
   }
 
-  onChangeTechBoost(value: number): void {
+  onChangeTechBoost(value: number) {
     this.techBoost = value;
     this.searchStudents();
   }
 
-  persistFiltersToUrl(): void {
+  persistFiltersToUrl() {
     this.$router.replace({
       query: {
         layout: this.layout,

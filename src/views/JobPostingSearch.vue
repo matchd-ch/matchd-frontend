@@ -1,6 +1,6 @@
 <template>
   <div class="jobposting-search-view">
-    <teleport to="header">
+    <teleport to="#teleporter-app-header">
       <SearchFilters class="search-filters bg-student-gradient-t-b">
         <div class="grid grid-rows-4 grid-cols-1 xl:grid-rows-2-auto xl:grid-cols-2-auto gap-3">
           <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
@@ -118,12 +118,9 @@ import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { SearchResult } from "@/models/SearchResult";
-import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment, Branch, JobType, User, ZipCity } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
@@ -149,47 +146,47 @@ export default class JobPostingSearch extends Vue {
   workload = 100;
   layout = "bubbles";
 
-  get matchesForBubbles(): SearchResultBubbleData {
+  get matchesForBubbles() {
     return this.$store.getters["matchesForBubbles"];
   }
 
-  get matchesForGrid(): SearchResult[] {
+  get matchesForGrid() {
     return this.$store.getters["matchesForGrid"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 
-  get branches(): Branch[] {
+  get branches() {
     return this.$store.getters["branches"];
   }
 
-  get jobTypes(): JobType[] {
+  get jobTypes() {
     return this.$store.getters["jobTypes"];
   }
 
-  get zipCity(): ZipCity[] {
+  get zipCity() {
     return this.$store.getters["zipCityJobs"];
   }
 
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get avatar(): Attachment | undefined {
+  get avatar() {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatar,
-      })[0] ||
+      })?.[0] ||
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.StudentAvatarFallback,
-      })[0] ||
+      })?.[0] ||
       undefined
     );
   }
 
-  beforeMount(): void {
+  beforeMount() {
     this.layout = (this.$route.query?.layout as string) || "bubbles";
     this.jobTypeId =
       (this.$route.query?.jobTypeId as string) || this.user?.student?.jobType?.id || "";
@@ -206,7 +203,7 @@ export default class JobPostingSearch extends Vue {
     this.persistFiltersToUrl();
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.searchJobPostings(),
       this.loadZipCity(),
@@ -222,11 +219,11 @@ export default class JobPostingSearch extends Vue {
     calculateMargins();
   }
 
-  unmounted(): void {
+  unmounted() {
     this.$store.commit(MutationTypes.RESET_MATCHES);
   }
 
-  async searchJobPostings(): Promise<void> {
+  async searchJobPostings() {
     this.persistFiltersToUrl();
     await this.$store.dispatch(
       ActionTypes.MATCHING,
@@ -243,50 +240,50 @@ export default class JobPostingSearch extends Vue {
     );
   }
 
-  async loadZipCity(): Promise<void> {
+  async loadZipCity() {
     await this.$store.dispatch(ActionTypes.ZIP_CITY_JOBS, {
       ...(this.branchId && { branchId: this.branchId }),
     });
   }
 
-  onClickResult(slug: string): void {
+  onClickResult(slug: string) {
     this.$router.push({ name: "JobPostingDetail", params: { slug } });
   }
 
-  onChangeLayout(layout: string): void {
+  onChangeLayout(layout: string) {
     this.layout = layout;
     this.persistFiltersToUrl();
   }
 
-  onChangeJobType(): void {
+  onChangeJobType() {
     this.zip = "";
     Promise.all([this.loadZipCity(), this.searchJobPostings()]);
   }
 
-  onChangeBranch(): void {
+  onChangeBranch() {
     this.zip = "";
     Promise.all([this.loadZipCity(), this.searchJobPostings()]);
   }
 
-  onChangeZipCity(): void {
+  onChangeZipCity() {
     this.searchJobPostings();
   }
 
-  onChangeWorkload(): void {
+  onChangeWorkload() {
     this.searchJobPostings();
   }
 
-  onChangeSoftBoost(value: number): void {
+  onChangeSoftBoost(value: number) {
     this.softBoost = value;
     this.searchJobPostings();
   }
 
-  onChangeTechBoost(value: number): void {
+  onChangeTechBoost(value: number) {
     this.techBoost = value;
     this.searchJobPostings();
   }
 
-  persistFiltersToUrl(): void {
+  persistFiltersToUrl() {
     this.$router.replace({
       query: {
         layout: this.layout,

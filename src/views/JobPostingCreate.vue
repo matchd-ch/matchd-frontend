@@ -1,5 +1,5 @@
 <template>
-  <teleport to="header">
+  <teleport to="#teleporter-app-header">
     <ProfileNavigation>
       <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="currentStep === 1">
         Ausschreibung
