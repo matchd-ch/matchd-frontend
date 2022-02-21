@@ -1,0 +1,11 @@
+# Step 3
+mutation (
+  $relations: UniversityProfileInputRelations!
+) {
+  universityProfileRelations(
+    relations: $relations
+  ) {
+    success
+    errors
+  }
+}

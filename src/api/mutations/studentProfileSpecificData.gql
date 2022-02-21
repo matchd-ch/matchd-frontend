@@ -1,0 +1,10 @@
+# Step 5
+mutation ($specificData: StudentProfileInputSpecificData!) {
+  studentProfileSpecificData(
+    specificData: $specificData
+  ) {
+    success
+    errors
+    nicknameSuggestions
+  }
+}

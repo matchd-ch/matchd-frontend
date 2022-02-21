@@ -1,0 +1,9 @@
+# Step 4
+mutation ($values: UniversityProfileInputValues!) {
+  universityProfileValues(
+    values: $values
+  ) {
+    success
+    errors
+  }
+}

@@ -261,7 +261,28 @@ type CompanyBranchesArgs = {
   offset?: InputMaybe<Scalars["Int"]>;
 };
 
-type CompanyProfileInputStep1 = {
+/** Updates the Company Profile with benefits and branches */
+type CompanyProfileAdvantages = {
+  __typename?: "CompanyProfileAdvantages";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** Updates the profile of a Company */
+type CompanyProfileBaseData = {
+  __typename?: "CompanyProfileBaseData";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type CompanyProfileInputAdvantages = {
+  /** Benefits */
+  benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
+  /** Branches */
+  branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
+};
+
+type CompanyProfileInputBaseData = {
   /** City */
   city: Scalars["String"];
   /** First name */
@@ -280,7 +301,7 @@ type CompanyProfileInputStep1 = {
   zip: Scalars["String"];
 };
 
-type CompanyProfileInputStep2 = {
+type CompanyProfileInputRelations = {
   /** description */
   description?: InputMaybe<Scalars["String"]>;
   /** memeber IT St. Gallen */
@@ -291,44 +312,23 @@ type CompanyProfileInputStep2 = {
   website: Scalars["String"];
 };
 
-type CompanyProfileInputStep3 = {
-  /** Benefits */
-  benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
-  /** Branches */
-  branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
-};
-
-type CompanyProfileInputStep4 = {
+type CompanyProfileInputValues = {
   /** Cultural Fit */
   culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
   /** Soft Skills */
   softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
 
-/** Updates the profile of a Company */
-type CompanyProfileStep1 = {
-  __typename?: "CompanyProfileStep1";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
 /** Updates website url, description, services, member IT St.Gallen */
-type CompanyProfileStep2 = {
-  __typename?: "CompanyProfileStep2";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates the Company Profile with benefits and branches */
-type CompanyProfileStep3 = {
-  __typename?: "CompanyProfileStep3";
+type CompanyProfileRelations = {
+  __typename?: "CompanyProfileRelations";
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates a company profile with soft skills and cultural fit */
-type CompanyProfileStep4 = {
-  __typename?: "CompanyProfileStep4";
+type CompanyProfileValues = {
+  __typename?: "CompanyProfileValues";
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -491,6 +491,24 @@ type JobPostingJobRequirementsArgs = {
   offset?: InputMaybe<Scalars["Int"]>;
 };
 
+/** Updates a job posting */
+type JobPostingAllocationForm = {
+  __typename?: "JobPostingAllocationForm";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  jobPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** Creates a job posting */
+type JobPostingBaseDataForm = {
+  __typename?: "JobPostingBaseDataForm";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  jobPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 type JobPostingConnection = {
   __typename?: "JobPostingConnection";
   /** Contains the nodes in this connection. */
@@ -512,7 +530,14 @@ type JobPostingInput = {
   id: Scalars["ID"];
 };
 
-type JobPostingInputStep1 = {
+type JobPostingInputAllocation = {
+  employee: EmployeeInput;
+  id?: InputMaybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
+type JobPostingInputBaseData = {
   branches: Array<InputMaybe<BranchInput>>;
   /** Description */
   description?: InputMaybe<Scalars["String"]>;
@@ -527,18 +552,11 @@ type JobPostingInputStep1 = {
   workload: Scalars["Int"];
 };
 
-type JobPostingInputStep2 = {
+type JobPostingInputRequirements = {
   id?: InputMaybe<Scalars["ID"]>;
   jobRequirements?: InputMaybe<Array<InputMaybe<JobRequirementInput>>>;
   languages?: InputMaybe<Array<InputMaybe<JobPostingLanguageRelationInput>>>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
-};
-
-type JobPostingInputStep3 = {
-  employee: EmployeeInput;
-  id?: InputMaybe<Scalars["ID"]>;
-  /** State */
-  state: Scalars["String"];
 };
 
 type JobPostingLanguageRelation = Node & {
@@ -570,38 +588,20 @@ type JobPostingMatchingInput = {
   zip?: InputMaybe<ZipCityInput>;
 };
 
+/** Updates a job posting */
+type JobPostingRequirements = {
+  __typename?: "JobPostingRequirements";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  jobPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 /** An enumeration. */
 enum JobPostingState {
   Draft = "DRAFT",
   Public = "PUBLIC",
 }
-
-/** Creates a job posting */
-type JobPostingStep1 = {
-  __typename?: "JobPostingStep1";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates a job posting */
-type JobPostingStep2 = {
-  __typename?: "JobPostingStep2";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates a job posting */
-type JobPostingStep3 = {
-  __typename?: "JobPostingStep3";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
 
 type JobRequirement = Node & {
   __typename?: "JobRequirement";
@@ -835,21 +835,21 @@ type Mutation = {
   __typename?: "Mutation";
   /** Adds a new emplyoee to a company */
   addEmployee?: Maybe<AddEmployee>;
-  /** Updates the profile of a Company */
-  companyProfileStep1?: Maybe<CompanyProfileStep1>;
-  /** Updates website url, description, services, member IT St.Gallen */
-  companyProfileStep2?: Maybe<CompanyProfileStep2>;
   /** Updates the Company Profile with benefits and branches */
-  companyProfileStep3?: Maybe<CompanyProfileStep3>;
+  companyProfileAdvantages?: Maybe<CompanyProfileAdvantages>;
+  /** Updates the profile of a Company */
+  companyProfileBaseData?: Maybe<CompanyProfileBaseData>;
+  /** Updates website url, description, services, member IT St.Gallen */
+  companyProfileRelations?: Maybe<CompanyProfileRelations>;
   /** Updates a company profile with soft skills and cultural fit */
-  companyProfileStep4?: Maybe<CompanyProfileStep4>;
+  companyProfileValues?: Maybe<CompanyProfileValues>;
   deleteAttachment?: Maybe<DeleteAttachment>;
+  /** Updates a job posting */
+  jobPostingAllocation?: Maybe<JobPostingAllocationForm>;
   /** Creates a job posting */
-  jobPostingStep1?: Maybe<JobPostingStep1>;
+  jobPostingBaseData?: Maybe<JobPostingBaseDataForm>;
   /** Updates a job posting */
-  jobPostingStep2?: Maybe<JobPostingStep2>;
-  /** Updates a job posting */
-  jobPostingStep3?: Maybe<JobPostingStep3>;
+  jobPostingRequirements?: Maybe<JobPostingRequirements>;
   logout?: Maybe<Scalars["Boolean"]>;
   /** Initiate or confirm Matching */
   matchJobPosting?: Maybe<MatchJobPosting>;
@@ -869,12 +869,12 @@ type Mutation = {
    * Also, if user has not been verified yet, verify it.
    */
   passwordReset?: Maybe<PasswordReset>;
-  /** Creates a project posting */
-  projectPostingStep1?: Maybe<ProjectPostingStep1>;
-  /** Creates a project posting */
-  projectPostingStep2?: Maybe<ProjectPostingStep2>;
   /** Updates a project posting */
-  projectPostingStep3?: Maybe<ProjectPostingStep3>;
+  projectPostingAllocation?: Maybe<ProjectPostingAllocation>;
+  /** Creates a project posting */
+  projectPostingBaseData?: Maybe<ProjectPostingBaseData>;
+  /** Creates a project posting */
+  projectPostingSpecificData?: Maybe<ProjectPostingSpecificData>;
   /** Same as `grapgql_jwt` implementation, with standard output. */
   refreshToken?: Maybe<RefreshToken>;
   /** Creates a new user with company */
@@ -895,17 +895,17 @@ type Mutation = {
    */
   sendPasswordResetEmail?: Maybe<SendPasswordResetEmail>;
   /** Updates the profile of a student */
-  studentProfileStep1?: Maybe<StudentProfileStep1>;
-  /** Updates job option, date (start or range) and branch of a student */
-  studentProfileStep2?: Maybe<StudentProfileStep2>;
-  /** Updates soft skills and cultural fits of a student */
-  studentProfileStep3?: Maybe<StudentProfileStep3>;
+  studentProfileAbilities?: Maybe<StudentProfileAbilities>;
   /** Updates the profile of a student */
-  studentProfileStep4?: Maybe<StudentProfileStep4>;
-  /** Updates the nickname of a student */
-  studentProfileStep5?: Maybe<StudentProfileStep5>;
+  studentProfileBaseData?: Maybe<StudentProfileBaseData>;
+  /** Updates soft skills and cultural fits of a student */
+  studentProfileCharacter?: Maybe<StudentProfileCharacter>;
   /** Updates the state of a student */
-  studentProfileStep6?: Maybe<StudentProfileStep6>;
+  studentProfileCondition?: Maybe<StudentProfileCondition>;
+  /** Updates job option, date (start or range) and branch of a student */
+  studentProfileEmployment?: Maybe<StudentProfileEmployment>;
+  /** Updates the nickname of a student */
+  studentProfileSpecificData?: Maybe<StudentProfileSpecificData>;
   /**
    * Obtain JSON web token for given user.
    *
@@ -921,13 +921,13 @@ type Mutation = {
    */
   tokenAuth?: Maybe<ObtainJsonWebToken>;
   /** Updates the profile of a university */
-  universityProfileStep1?: Maybe<UniversityProfileStep1>;
-  /** Updates branches and description */
-  universityProfileStep2?: Maybe<UniversityProfileStep2>;
+  universityProfileBaseData?: Maybe<UniversityProfileBaseData>;
   /** Updates website services */
-  universityProfileStep3?: Maybe<UniversityProfileStep3>;
+  universityProfileRelations?: Maybe<UniversityProfileRelations>;
+  /** Updates branches and description */
+  universityProfileSpecificData?: Maybe<UniversityProfileSpecificData>;
   /** Updates a company profile with soft skills and cultural fit */
-  universityProfileStep4?: Maybe<UniversityProfileStep4>;
+  universityProfileValues?: Maybe<UniversityProfileValues>;
   upload?: Maybe<UserUpload>;
   /** Creates a new user user request */
   userRequest?: Maybe<UserRequest>;
@@ -945,36 +945,36 @@ type MutationAddEmployeeArgs = {
   addEmployee: AddEmployeeInput;
 };
 
-type MutationCompanyProfileStep1Args = {
-  step1: CompanyProfileInputStep1;
+type MutationCompanyProfileAdvantagesArgs = {
+  advantages: CompanyProfileInputAdvantages;
 };
 
-type MutationCompanyProfileStep2Args = {
-  step2: CompanyProfileInputStep2;
+type MutationCompanyProfileBaseDataArgs = {
+  baseData: CompanyProfileInputBaseData;
 };
 
-type MutationCompanyProfileStep3Args = {
-  step3: CompanyProfileInputStep3;
+type MutationCompanyProfileRelationsArgs = {
+  relations: CompanyProfileInputRelations;
 };
 
-type MutationCompanyProfileStep4Args = {
-  step4: CompanyProfileInputStep4;
+type MutationCompanyProfileValuesArgs = {
+  values: CompanyProfileInputValues;
 };
 
 type MutationDeleteAttachmentArgs = {
   id?: InputMaybe<Scalars["ID"]>;
 };
 
-type MutationJobPostingStep1Args = {
-  step1: JobPostingInputStep1;
+type MutationJobPostingAllocationArgs = {
+  allocation: JobPostingInputAllocation;
 };
 
-type MutationJobPostingStep2Args = {
-  step2: JobPostingInputStep2;
+type MutationJobPostingBaseDataArgs = {
+  baseData: JobPostingInputBaseData;
 };
 
-type MutationJobPostingStep3Args = {
-  step3: JobPostingInputStep3;
+type MutationJobPostingRequirementsArgs = {
+  requirements: JobPostingInputRequirements;
 };
 
 type MutationMatchJobPostingArgs = {
@@ -995,16 +995,16 @@ type MutationPasswordResetArgs = {
   token: Scalars["String"];
 };
 
-type MutationProjectPostingStep1Args = {
-  step1: ProjectPostingInputStep1;
+type MutationProjectPostingAllocationArgs = {
+  allocation: ProjectPostingInputAllocation;
 };
 
-type MutationProjectPostingStep2Args = {
-  step2: ProjectPostingInputStep2;
+type MutationProjectPostingBaseDataArgs = {
+  baseData: ProjectPostingInputBaseData;
 };
 
-type MutationProjectPostingStep3Args = {
-  step3: ProjectPostingInputStep3;
+type MutationProjectPostingSpecificDataArgs = {
+  specificData: ProjectPostingInputSpecificData;
 };
 
 type MutationRefreshTokenArgs = {
@@ -1042,28 +1042,28 @@ type MutationSendPasswordResetEmailArgs = {
   email: Scalars["String"];
 };
 
-type MutationStudentProfileStep1Args = {
-  step1: StudentProfileInputStep1;
+type MutationStudentProfileAbilitiesArgs = {
+  abilities?: InputMaybe<StudentProfileInputAbilities>;
 };
 
-type MutationStudentProfileStep2Args = {
-  step2: StudentProfileInputStep2;
+type MutationStudentProfileBaseDataArgs = {
+  baseData: StudentProfileInputBaseData;
 };
 
-type MutationStudentProfileStep3Args = {
-  step3: StudentProfileInputStep3;
+type MutationStudentProfileCharacterArgs = {
+  character: StudentProfileInputCharacter;
 };
 
-type MutationStudentProfileStep4Args = {
-  step4?: InputMaybe<StudentProfileInputStep4>;
+type MutationStudentProfileConditionArgs = {
+  condition: StudentProfileInputCondition;
 };
 
-type MutationStudentProfileStep5Args = {
-  step5: StudentProfileInputStep5;
+type MutationStudentProfileEmploymentArgs = {
+  employment: StudentProfileInputEmployment;
 };
 
-type MutationStudentProfileStep6Args = {
-  step6: StudentProfileInputStep6;
+type MutationStudentProfileSpecificDataArgs = {
+  specificData: StudentProfileInputSpecificData;
 };
 
 type MutationTokenAuthArgs = {
@@ -1072,20 +1072,20 @@ type MutationTokenAuthArgs = {
   username?: InputMaybe<Scalars["String"]>;
 };
 
-type MutationUniversityProfileStep1Args = {
-  step1: UniversityProfileInputStep1;
+type MutationUniversityProfileBaseDataArgs = {
+  baseData: UniversityProfileInputBaseData;
 };
 
-type MutationUniversityProfileStep2Args = {
-  step2: UniversityProfileInputStep2;
+type MutationUniversityProfileRelationsArgs = {
+  relations: UniversityProfileInputRelations;
 };
 
-type MutationUniversityProfileStep3Args = {
-  step3: UniversityProfileInputStep3;
+type MutationUniversityProfileSpecificDataArgs = {
+  specificData: UniversityProfileInputSpecificData;
 };
 
-type MutationUniversityProfileStep4Args = {
-  step4: UniversityProfileInputStep4;
+type MutationUniversityProfileValuesArgs = {
+  values: UniversityProfileInputValues;
 };
 
 type MutationUploadArgs = {
@@ -1216,6 +1216,24 @@ type ProjectPosting = Node & {
   website: Scalars["String"];
 };
 
+/** Updates a project posting */
+type ProjectPostingAllocation = {
+  __typename?: "ProjectPostingAllocation";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  projectPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** Creates a project posting */
+type ProjectPostingBaseData = {
+  __typename?: "ProjectPostingBaseData";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  projectPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 type ProjectPostingConnection = {
   __typename?: "ProjectPostingConnection";
   /** Contains the nodes in this connection. */
@@ -1237,7 +1255,14 @@ type ProjectPostingInput = {
   id: Scalars["ID"];
 };
 
-type ProjectPostingInputStep1 = {
+type ProjectPostingInputAllocation = {
+  employee?: InputMaybe<EmployeeInput>;
+  id?: InputMaybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
+type ProjectPostingInputBaseData = {
   /** Additional Information */
   additionalInformation?: InputMaybe<Scalars["String"]>;
   /** Description */
@@ -1250,17 +1275,10 @@ type ProjectPostingInputStep1 = {
   topic: TopicInput;
 };
 
-type ProjectPostingInputStep2 = {
+type ProjectPostingInputSpecificData = {
   id?: InputMaybe<Scalars["ID"]>;
   projectFromDate?: InputMaybe<Scalars["String"]>;
   website?: InputMaybe<Scalars["String"]>;
-};
-
-type ProjectPostingInputStep3 = {
-  employee?: InputMaybe<EmployeeInput>;
-  id?: InputMaybe<Scalars["ID"]>;
-  /** State */
-  state: Scalars["String"];
 };
 
 type ProjectPostingMatchInfo = Node & {
@@ -1276,38 +1294,20 @@ type ProjectPostingMatchingInput = {
   projectPosting: ProjectPostingInput;
 };
 
+/** Creates a project posting */
+type ProjectPostingSpecificData = {
+  __typename?: "ProjectPostingSpecificData";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  projectPostingId?: Maybe<Scalars["ID"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 /** An enumeration. */
 enum ProjectPostingState {
   Draft = "DRAFT",
   Public = "PUBLIC",
 }
-
-/** Creates a project posting */
-type ProjectPostingStep1 = {
-  __typename?: "ProjectPostingStep1";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["ID"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Creates a project posting */
-type ProjectPostingStep2 = {
-  __typename?: "ProjectPostingStep2";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["ID"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates a project posting */
-type ProjectPostingStep3 = {
-  __typename?: "ProjectPostingStep3";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["ID"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
 
 type ProjectType = Node & {
   __typename?: "ProjectType";
@@ -1758,7 +1758,55 @@ type StudentMatchingInput = {
   jobPosting: JobPostingInput;
 };
 
-type StudentProfileInputStep1 = {
+/** Updates the profile of a student */
+type StudentProfileAbilities = {
+  __typename?: "StudentProfileAbilities";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** Updates the profile of a student */
+type StudentProfileBaseData = {
+  __typename?: "StudentProfileBaseData";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** Updates soft skills and cultural fits of a student */
+type StudentProfileCharacter = {
+  __typename?: "StudentProfileCharacter";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** Updates the state of a student */
+type StudentProfileCondition = {
+  __typename?: "StudentProfileCondition";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** Updates job option, date (start or range) and branch of a student */
+type StudentProfileEmployment = {
+  __typename?: "StudentProfileEmployment";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type StudentProfileInputAbilities = {
+  /** Distinction */
+  distinction?: InputMaybe<Scalars["String"]>;
+  /** Hobbies */
+  hobbies?: InputMaybe<Array<InputMaybe<HobbyInput>>>;
+  /** Languages */
+  languages: Array<InputMaybe<UserLanguageRelationInput>>;
+  /** Online_Projects */
+  onlineProjects?: InputMaybe<Array<InputMaybe<OnlineProjectInput>>>;
+  /** Skills */
+  skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
+};
+
+type StudentProfileInputBaseData = {
   /** City */
   city?: InputMaybe<Scalars["String"]>;
   /** Date of birth */
@@ -1775,81 +1823,33 @@ type StudentProfileInputStep1 = {
   zip?: InputMaybe<Scalars["String"]>;
 };
 
-type StudentProfileInputStep2 = {
+type StudentProfileInputCharacter = {
+  culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
+  softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
+};
+
+type StudentProfileInputCondition = {
+  /** State */
+  state: Scalars["String"];
+};
+
+type StudentProfileInputEmployment = {
   branch?: InputMaybe<BranchInput>;
   jobFromDate?: InputMaybe<Scalars["String"]>;
   jobToDate?: InputMaybe<Scalars["String"]>;
   jobType: JobTypeInput;
 };
 
-type StudentProfileInputStep3 = {
-  culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
-  softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
-};
-
-type StudentProfileInputStep4 = {
-  /** Distinction */
-  distinction?: InputMaybe<Scalars["String"]>;
-  /** Hobbies */
-  hobbies?: InputMaybe<Array<InputMaybe<HobbyInput>>>;
-  /** Languages */
-  languages: Array<InputMaybe<UserLanguageRelationInput>>;
-  /** Online_Projects */
-  onlineProjects?: InputMaybe<Array<InputMaybe<OnlineProjectInput>>>;
-  /** Skills */
-  skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
-};
-
-type StudentProfileInputStep5 = {
+type StudentProfileInputSpecificData = {
   /** Nickname */
   nickname: Scalars["String"];
 };
 
-type StudentProfileInputStep6 = {
-  /** State */
-  state: Scalars["String"];
-};
-
-/** Updates the profile of a student */
-type StudentProfileStep1 = {
-  __typename?: "StudentProfileStep1";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates job option, date (start or range) and branch of a student */
-type StudentProfileStep2 = {
-  __typename?: "StudentProfileStep2";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates soft skills and cultural fits of a student */
-type StudentProfileStep3 = {
-  __typename?: "StudentProfileStep3";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates the profile of a student */
-type StudentProfileStep4 = {
-  __typename?: "StudentProfileStep4";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
 /** Updates the nickname of a student */
-type StudentProfileStep5 = {
-  __typename?: "StudentProfileStep5";
+type StudentProfileSpecificData = {
+  __typename?: "StudentProfileSpecificData";
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   nicknameSuggestions?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates the state of a student */
-type StudentProfileStep6 = {
-  __typename?: "StudentProfileStep6";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
 
@@ -1882,7 +1882,14 @@ type TopicInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
-type UniversityProfileInputStep1 = {
+/** Updates the profile of a university */
+type UniversityProfileBaseData = {
+  __typename?: "UniversityProfileBaseData";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type UniversityProfileInputBaseData = {
   /** City */
   city: Scalars["String"];
   /** First name */
@@ -1907,12 +1914,7 @@ type UniversityProfileInputStep1 = {
   zip: Scalars["String"];
 };
 
-type UniversityProfileInputStep2 = {
-  /** description */
-  description?: InputMaybe<Scalars["String"]>;
-};
-
-type UniversityProfileInputStep3 = {
+type UniversityProfileInputRelations = {
   /** Benefits */
   benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
   /** Branches */
@@ -1927,37 +1929,35 @@ type UniversityProfileInputStep3 = {
   services?: InputMaybe<Scalars["String"]>;
 };
 
-type UniversityProfileInputStep4 = {
+type UniversityProfileInputSpecificData = {
+  /** description */
+  description?: InputMaybe<Scalars["String"]>;
+};
+
+type UniversityProfileInputValues = {
   /** Cultural Fit */
   culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
   /** Soft Skills */
   softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
 
-/** Updates the profile of a university */
-type UniversityProfileStep1 = {
-  __typename?: "UniversityProfileStep1";
+/** Updates website services */
+type UniversityProfileRelations = {
+  __typename?: "UniversityProfileRelations";
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates branches and description */
-type UniversityProfileStep2 = {
-  __typename?: "UniversityProfileStep2";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates website services */
-type UniversityProfileStep3 = {
-  __typename?: "UniversityProfileStep3";
+type UniversityProfileSpecificData = {
+  __typename?: "UniversityProfileSpecificData";
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** Updates a company profile with soft skills and cultural fit */
-type UniversityProfileStep4 = {
-  __typename?: "UniversityProfileStep4";
+type UniversityProfileValues = {
+  __typename?: "UniversityProfileValues";
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -2120,28 +2120,28 @@ declare module "*/addEmployee.gql" {
   export default defaultDocument;
 }
 
-declare module "*/companyProfileStep1.gql" {
+declare module "*/companyProfileAdvantages.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/companyProfileStep2.gql" {
+declare module "*/companyProfileBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/companyProfileStep3.gql" {
+declare module "*/companyProfileRelations.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/companyProfileStep4.gql" {
+declare module "*/companyProfileValues.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
@@ -2155,21 +2155,21 @@ declare module "*/deleteAttachment.gql" {
   export default defaultDocument;
 }
 
-declare module "*/jobPostingStep1.gql" {
+declare module "*/jobPostingAllocation.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/jobPostingStep2.gql" {
+declare module "*/jobPostingBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/jobPostingStep3.gql" {
+declare module "*/jobPostingRequirements.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
@@ -2211,21 +2211,21 @@ declare module "*/passwordReset.gql" {
   export default defaultDocument;
 }
 
-declare module "*/projectPostingStep1.gql" {
+declare module "*/projectPostingAllocation.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/projectPostingStep2.gql" {
+declare module "*/projectPostingBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/projectPostingStep3.gql" {
+declare module "*/projectPostingSpecificData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
@@ -2267,42 +2267,42 @@ declare module "*/sendPasswordResetEmail.gql" {
   export default defaultDocument;
 }
 
-declare module "*/studentProfileStep1.gql" {
+declare module "*/studentProfileAbilities.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/studentProfileStep2.gql" {
+declare module "*/studentProfileBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/studentProfileStep3.gql" {
+declare module "*/studentProfileCharacter.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/studentProfileStep4.gql" {
+declare module "*/studentProfileCondition.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/studentProfileStep5.gql" {
+declare module "*/studentProfileEmployment.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/studentProfileStep6.gql" {
+declare module "*/studentProfileSpecificData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
@@ -2316,28 +2316,28 @@ declare module "*/tokenAuth.gql" {
   export default defaultDocument;
 }
 
-declare module "*/universityProfileStep1.gql" {
+declare module "*/universityProfileBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/universityProfileStep2.gql" {
+declare module "*/universityProfileRelations.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/universityProfileStep3.gql" {
+declare module "*/universityProfileSpecificData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/universityProfileStep4.gql" {
+declare module "*/universityProfileValues.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
 

@@ -1,0 +1,11 @@
+# Step 2
+mutation (
+  $relations: CompanyProfileInputRelations!
+) {
+  companyProfileRelations(
+    relations: $relations
+  ) {
+    success
+    errors
+  }
+}

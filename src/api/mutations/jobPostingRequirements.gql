@@ -1,0 +1,13 @@
+# Step 2
+mutation (
+  $requirements: JobPostingInputRequirements!
+) {
+  jobPostingRequirements(
+    requirements: $requirements
+  ) {
+    success
+    errors
+    jobPostingId
+    slug
+  }
+}

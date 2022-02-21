@@ -1,0 +1,11 @@
+# Step 2
+mutation (
+  $employment: StudentProfileInputEmployment!
+) {
+  studentProfileEmployment(
+    employment: $employment
+  ) {
+    success
+    errors
+  }
+}

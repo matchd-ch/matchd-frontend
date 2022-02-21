@@ -1,0 +1,9 @@
+# Step 3
+mutation ($character: StudentProfileInputCharacter!) {
+  studentProfileCharacter(
+    character: $character
+  ) {
+    success
+    errors
+  }
+}

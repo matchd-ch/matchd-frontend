@@ -1,0 +1,11 @@
+# Step 3
+mutation ($allocation: ProjectPostingInputAllocation!) {
+  projectPostingAllocation(
+    allocation: $allocation
+  ) {
+    success
+    errors
+    projectPostingId
+    slug
+  }
+}

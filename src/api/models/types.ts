@@ -94,7 +94,14 @@ export type IBranchInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
-export type ICompanyProfileInputStep1 = {
+export type ICompanyProfileInputAdvantages = {
+  /** Benefits */
+  benefits?: InputMaybe<Array<InputMaybe<IBenefitInput>>>;
+  /** Branches */
+  branches?: InputMaybe<Array<InputMaybe<IBranchInput>>>;
+};
+
+export type ICompanyProfileInputBaseData = {
   /** City */
   city: Scalars["String"];
   /** First name */
@@ -113,7 +120,7 @@ export type ICompanyProfileInputStep1 = {
   zip: Scalars["String"];
 };
 
-export type ICompanyProfileInputStep2 = {
+export type ICompanyProfileInputRelations = {
   /** description */
   description?: InputMaybe<Scalars["String"]>;
   /** memeber IT St. Gallen */
@@ -124,14 +131,7 @@ export type ICompanyProfileInputStep2 = {
   website: Scalars["String"];
 };
 
-export type ICompanyProfileInputStep3 = {
-  /** Benefits */
-  benefits?: InputMaybe<Array<InputMaybe<IBenefitInput>>>;
-  /** Branches */
-  branches?: InputMaybe<Array<InputMaybe<IBranchInput>>>;
-};
-
-export type ICompanyProfileInputStep4 = {
+export type ICompanyProfileInputValues = {
   /** Cultural Fit */
   culturalFits?: InputMaybe<Array<InputMaybe<ICulturalFitInput>>>;
   /** Soft Skills */
@@ -163,7 +163,14 @@ export type IJobPostingInput = {
   id: Scalars["ID"];
 };
 
-export type IJobPostingInputStep1 = {
+export type IJobPostingInputAllocation = {
+  employee: IEmployeeInput;
+  id?: InputMaybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
+export type IJobPostingInputBaseData = {
   branches: Array<InputMaybe<IBranchInput>>;
   /** Description */
   description?: InputMaybe<Scalars["String"]>;
@@ -178,18 +185,11 @@ export type IJobPostingInputStep1 = {
   workload: Scalars["Int"];
 };
 
-export type IJobPostingInputStep2 = {
+export type IJobPostingInputRequirements = {
   id?: InputMaybe<Scalars["ID"]>;
   jobRequirements?: InputMaybe<Array<InputMaybe<IJobRequirementInput>>>;
   languages?: InputMaybe<Array<InputMaybe<IJobPostingLanguageRelationInput>>>;
   skills?: InputMaybe<Array<InputMaybe<ISkillInput>>>;
-};
-
-export type IJobPostingInputStep3 = {
-  employee: IEmployeeInput;
-  id?: InputMaybe<Scalars["ID"]>;
-  /** State */
-  state: Scalars["String"];
 };
 
 export type IJobPostingLanguageRelationInput = {
@@ -276,7 +276,14 @@ export type IProjectPostingInput = {
   id: Scalars["ID"];
 };
 
-export type IProjectPostingInputStep1 = {
+export type IProjectPostingInputAllocation = {
+  employee?: InputMaybe<IEmployeeInput>;
+  id?: InputMaybe<Scalars["ID"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
+export type IProjectPostingInputBaseData = {
   /** Additional Information */
   additionalInformation?: InputMaybe<Scalars["String"]>;
   /** Description */
@@ -289,17 +296,10 @@ export type IProjectPostingInputStep1 = {
   topic: ITopicInput;
 };
 
-export type IProjectPostingInputStep2 = {
+export type IProjectPostingInputSpecificData = {
   id?: InputMaybe<Scalars["ID"]>;
   projectFromDate?: InputMaybe<Scalars["String"]>;
   website?: InputMaybe<Scalars["String"]>;
-};
-
-export type IProjectPostingInputStep3 = {
-  employee?: InputMaybe<IEmployeeInput>;
-  id?: InputMaybe<Scalars["ID"]>;
-  /** State */
-  state: Scalars["String"];
 };
 
 export type IProjectPostingMatchingInput = {
@@ -351,7 +351,20 @@ export type IStudentMatchingInput = {
   jobPosting: IJobPostingInput;
 };
 
-export type IStudentProfileInputStep1 = {
+export type IStudentProfileInputAbilities = {
+  /** Distinction */
+  distinction?: InputMaybe<Scalars["String"]>;
+  /** Hobbies */
+  hobbies?: InputMaybe<Array<InputMaybe<IHobbyInput>>>;
+  /** Languages */
+  languages: Array<InputMaybe<IUserLanguageRelationInput>>;
+  /** Online_Projects */
+  onlineProjects?: InputMaybe<Array<InputMaybe<IOnlineProjectInput>>>;
+  /** Skills */
+  skills?: InputMaybe<Array<InputMaybe<ISkillInput>>>;
+};
+
+export type IStudentProfileInputBaseData = {
   /** City */
   city?: InputMaybe<Scalars["String"]>;
   /** Date of birth */
@@ -368,39 +381,26 @@ export type IStudentProfileInputStep1 = {
   zip?: InputMaybe<Scalars["String"]>;
 };
 
-export type IStudentProfileInputStep2 = {
+export type IStudentProfileInputCharacter = {
+  culturalFits?: InputMaybe<Array<InputMaybe<ICulturalFitInput>>>;
+  softSkills?: InputMaybe<Array<InputMaybe<ISoftSkillInput>>>;
+};
+
+export type IStudentProfileInputCondition = {
+  /** State */
+  state: Scalars["String"];
+};
+
+export type IStudentProfileInputEmployment = {
   branch?: InputMaybe<IBranchInput>;
   jobFromDate?: InputMaybe<Scalars["String"]>;
   jobToDate?: InputMaybe<Scalars["String"]>;
   jobType: IJobTypeInput;
 };
 
-export type IStudentProfileInputStep3 = {
-  culturalFits?: InputMaybe<Array<InputMaybe<ICulturalFitInput>>>;
-  softSkills?: InputMaybe<Array<InputMaybe<ISoftSkillInput>>>;
-};
-
-export type IStudentProfileInputStep4 = {
-  /** Distinction */
-  distinction?: InputMaybe<Scalars["String"]>;
-  /** Hobbies */
-  hobbies?: InputMaybe<Array<InputMaybe<IHobbyInput>>>;
-  /** Languages */
-  languages: Array<InputMaybe<IUserLanguageRelationInput>>;
-  /** Online_Projects */
-  onlineProjects?: InputMaybe<Array<InputMaybe<IOnlineProjectInput>>>;
-  /** Skills */
-  skills?: InputMaybe<Array<InputMaybe<ISkillInput>>>;
-};
-
-export type IStudentProfileInputStep5 = {
+export type IStudentProfileInputSpecificData = {
   /** Nickname */
   nickname: Scalars["String"];
-};
-
-export type IStudentProfileInputStep6 = {
-  /** State */
-  state: Scalars["String"];
 };
 
 export type ITopicInput = {
@@ -408,7 +408,7 @@ export type ITopicInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
-export type IUniversityProfileInputStep1 = {
+export type IUniversityProfileInputBaseData = {
   /** City */
   city: Scalars["String"];
   /** First name */
@@ -433,12 +433,7 @@ export type IUniversityProfileInputStep1 = {
   zip: Scalars["String"];
 };
 
-export type IUniversityProfileInputStep2 = {
-  /** description */
-  description?: InputMaybe<Scalars["String"]>;
-};
-
-export type IUniversityProfileInputStep3 = {
+export type IUniversityProfileInputRelations = {
   /** Benefits */
   benefits?: InputMaybe<Array<InputMaybe<IBenefitInput>>>;
   /** Branches */
@@ -453,7 +448,12 @@ export type IUniversityProfileInputStep3 = {
   services?: InputMaybe<Scalars["String"]>;
 };
 
-export type IUniversityProfileInputStep4 = {
+export type IUniversityProfileInputSpecificData = {
+  /** description */
+  description?: InputMaybe<Scalars["String"]>;
+};
+
+export type IUniversityProfileInputValues = {
   /** Cultural Fit */
   culturalFits?: InputMaybe<Array<InputMaybe<ICulturalFitInput>>>;
   /** Soft Skills */

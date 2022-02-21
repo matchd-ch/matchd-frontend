@@ -1,0 +1,9 @@
+# Step 1
+mutation ($baseData: ProjectPostingInputBaseData!) {
+  projectPostingBaseData(baseData: $baseData) {
+    success
+    errors
+    projectPostingId
+    slug
+  }
+}

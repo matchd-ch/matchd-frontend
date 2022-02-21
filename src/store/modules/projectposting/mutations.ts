@@ -1,13 +1,24 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import type { AddEmployee, Employee, ProjectPostingStep1, ProjectPosting } from "api";
-
+import { State } from "@/store/modules/projectposting/state";
+import type {
+  AddEmployee,
+  Employee,
+  ProjectPosting,
+  ProjectPostingAllocation,
+  ProjectPostingBaseData,
+  ProjectPostingSpecificData,
+} from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
-import { State } from "@/store/modules/projectposting/state";
+
+type ProjectPostingSteps =
+  | ProjectPostingBaseData
+  | ProjectPostingAllocation
+  | ProjectPostingSpecificData;
 
 export type Mutations<S = State> = {
   [MutationTypes.PROJECTPOSTING_STEP_LOADING](state: S): void;
-  [MutationTypes.PROJECTPOSTING_STEP_LOADED](state: S, payload: ProjectPostingStep1): void;
+  [MutationTypes.PROJECTPOSTING_STEP_LOADED](state: S, payload: ProjectPostingSteps): void;
   [MutationTypes.PROJECTPOSTING_LOADING](state: S): void;
   [MutationTypes.PROJECTPOSTING_LOADED](state: S, payload: ProjectPosting): void;
   [MutationTypes.CLEAR_CURRENT_PROJECTPOSTING](state: S): void;
@@ -21,7 +32,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.PROJECTPOSTING_STEP_LOADING](state: State) {
     state.projectPosting.loading = true;
   },
-  [MutationTypes.PROJECTPOSTING_STEP_LOADED](state: State, payload: ProjectPostingStep1) {
+  [MutationTypes.PROJECTPOSTING_STEP_LOADED](state: State, payload: ProjectPostingSteps) {
     state.projectPosting.loading = false;
     state.projectPosting.success = payload.success || false;
     state.projectPosting.errors = errorCodeMapper(payload.errors);

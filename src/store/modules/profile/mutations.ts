@@ -1,42 +1,42 @@
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
+import { State } from "@/store/modules/profile/state";
 import type {
-  CompanyProfileStep1,
-  CompanyProfileStep2,
-  CompanyProfileStep3,
-  StudentProfileStep1,
-  StudentProfileStep2,
-  StudentProfileStep4,
-  StudentProfileStep5,
-  StudentProfileStep6,
-  UniversityProfileStep1,
-  UniversityProfileStep2,
-  UniversityProfileStep3,
+  CompanyProfileAdvantages,
+  CompanyProfileBaseData,
+  CompanyProfileRelations,
+  StudentProfileAbilities,
+  StudentProfileBaseData,
+  StudentProfileCondition,
+  StudentProfileEmployment,
+  StudentProfileSpecificData,
+  UniversityProfileBaseData,
+  UniversityProfileRelations,
+  UniversityProfileSpecificData,
   ZipCity,
 } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
-import { State } from "@/store/modules/profile/state";
 
 export type Mutations<S = State> = {
   [MutationTypes.STUDENT_ONBOARDING_STEP_LOADING](state: S): void;
   [MutationTypes.STUDENT_ONBOARDING_STEP_LOADED](
     state: S,
     payload:
-      | StudentProfileStep1
-      | StudentProfileStep2
-      | StudentProfileStep4
-      | StudentProfileStep5
-      | StudentProfileStep6
+      | StudentProfileBaseData
+      | StudentProfileEmployment
+      | StudentProfileAbilities
+      | StudentProfileSpecificData
+      | StudentProfileCondition
   ): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP_LOADING](state: S): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP_LOADED](
     state: S,
-    payload: CompanyProfileStep1 | CompanyProfileStep2 | CompanyProfileStep3
+    payload: CompanyProfileBaseData | CompanyProfileRelations | CompanyProfileAdvantages
   ): void;
   [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING](state: S): void;
   [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED](
     state: S,
-    payload: UniversityProfileStep1 | UniversityProfileStep2 | UniversityProfileStep3
+    payload: UniversityProfileBaseData | UniversityProfileSpecificData | UniversityProfileRelations
   ): void;
   [MutationTypes.ZIP_CITY_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_LOADED](state: S, payload: ZipCity[]): void;
@@ -54,11 +54,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.STUDENT_ONBOARDING_STEP_LOADED](
     state: State,
     payload:
-      | StudentProfileStep1
-      | StudentProfileStep2
-      | StudentProfileStep4
-      | StudentProfileStep5
-      | StudentProfileStep6
+      | StudentProfileBaseData
+      | StudentProfileEmployment
+      | StudentProfileAbilities
+      | StudentProfileSpecificData
+      | StudentProfileCondition
   ) {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
@@ -69,7 +69,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.COMPANY_ONBOARDING_STEP_LOADED](
     state: State,
-    payload: CompanyProfileStep1 | CompanyProfileStep2 | CompanyProfileStep3
+    payload: CompanyProfileBaseData | CompanyProfileRelations | CompanyProfileAdvantages
   ) {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
@@ -80,7 +80,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED](
     state: State,
-    payload: UniversityProfileStep1 | UniversityProfileStep2 | UniversityProfileStep3
+    payload: UniversityProfileBaseData | UniversityProfileSpecificData | UniversityProfileRelations
   ) {
     state.profile.loading = false;
     state.profile.success = payload.success || false;

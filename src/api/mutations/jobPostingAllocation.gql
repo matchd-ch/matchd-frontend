@@ -1,0 +1,11 @@
+# Step 3
+mutation ($allocation: JobPostingInputAllocation!) {
+  jobPostingAllocation(
+    allocation: $allocation
+  ) {
+    success
+    errors
+    jobPostingId
+    slug
+  }
+}

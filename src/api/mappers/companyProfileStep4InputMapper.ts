@@ -1,9 +1,9 @@
-import { ICompanyProfileInputStep4 } from "@/api/models/types";
+import { ICompanyProfileInputValues } from "@/api/models/types";
 import { CompanyProfileStep4Form } from "@/models/CompanyProfileStep4Form";
 
 export function companyProfileStep4InputMapper(
   companyProfileForm: CompanyProfileStep4Form
-): ICompanyProfileInputStep4 {
+): ICompanyProfileInputValues {
   return {
     softSkills: companyProfileForm.softSkills.map((softSkillId) => {
       return {

@@ -1,0 +1,9 @@
+# Step 4
+mutation ($values: CompanyProfileInputValues!) {
+  companyProfileValues(
+    values: $values 
+  ) {
+    success
+    errors
+  }
+}

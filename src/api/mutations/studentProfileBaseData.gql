@@ -1,0 +1,11 @@
+# Step 1
+mutation (
+  $baseData: StudentProfileInputBaseData!
+) {
+  studentProfileBaseData(
+    baseData: $baseData
+  ) {
+    success
+    errors
+  }
+}

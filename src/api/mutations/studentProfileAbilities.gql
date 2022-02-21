@@ -1,0 +1,11 @@
+# Step 4
+mutation (
+  $abilities: StudentProfileInputAbilities!
+) {
+  studentProfileAbilities(
+    abilities: $abilities
+  ) {
+    success
+    errors
+  }
+}

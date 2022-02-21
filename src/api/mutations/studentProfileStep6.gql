@@ -1,6 +1,0 @@
-mutation ($state: String!) {
-  studentProfileStep6(step6: { state: $state }) {
-    success
-    errors
-  }
-}

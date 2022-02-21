@@ -1,0 +1,9 @@
+# Step 3
+mutation ($advantages: CompanyProfileInputAdvantages!) {
+  companyProfileAdvantages(
+    advantages: $advantages
+  ) {
+    success
+    errors
+  }
+}

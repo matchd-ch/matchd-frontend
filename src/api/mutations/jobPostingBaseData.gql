@@ -1,0 +1,13 @@
+# Step 1
+mutation (
+  $baseData: JobPostingInputBaseData!
+) {
+  jobPostingBaseData(
+    baseData: $baseData
+  ) {
+    success
+    errors
+    jobPostingId
+    slug
+  }
+}
