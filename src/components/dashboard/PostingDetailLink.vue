@@ -36,8 +36,8 @@
 </template>
 
 <script lang="ts">
+import type { Company, JobPosting, ProjectPosting } from "@/api/models/types";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
-import type { Company, JobPosting, ProjectPosting } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

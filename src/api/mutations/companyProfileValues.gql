@@ -1,5 +1,5 @@
 # Step 4
-mutation ($values: CompanyProfileInputValues!) {
+mutation companyProfileValues ($values: CompanyProfileInputValues!) {
   companyProfileValues(
     values: $values 
   ) {

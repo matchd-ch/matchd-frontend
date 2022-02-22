@@ -1,4 +1,4 @@
-query CompanyMatching {
+query companyMatching {
   matches(techBoost: 3, softBoost: 3) {
     id
     name

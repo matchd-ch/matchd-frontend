@@ -1,5 +1,5 @@
+import type { User } from "@/api/models/types";
 import { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
-import type { User } from "api";
 import { DateTime } from "luxon";
 
 export function studentProfileStep1FormMapper(user: User): StudentProfileStep1Form {

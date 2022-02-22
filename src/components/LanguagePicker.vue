@@ -48,10 +48,10 @@
 </template>
 
 <script lang="ts">
+import type { Language, LanguageLevel } from "@/api/models/types";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
-import type { Language, LanguageLevel } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

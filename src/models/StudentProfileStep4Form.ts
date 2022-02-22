@@ -1,4 +1,4 @@
-import type { HobbyInput, Language, LanguageLevel, OnlineProjectInput } from "api";
+import type { HobbyInput, Language, LanguageLevel, OnlineProjectInput } from "@/api/models/types";
 
 export interface SelectedLanguage {
   language: Language;

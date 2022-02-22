@@ -11,6 +11,7 @@
     "test:lint": "vue-cli-service lint",
     "build:server": "tsc --project server/tsconfig.json",
     "codegen": "graphql-codegen --config codegen.yml",
+    "codegen2": "graphql-codegen --config codegen2.yml",
     "format": "prettier -w .",
     "format:check": "prettier -c ."
   },
@@ -54,7 +55,10 @@
     "@graphql-codegen/introspection": "^2.1.1",
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-document-nodes": "^2.2.8",
+    "@graphql-codegen/near-operation-file-preset": "^2.2.6",
+    "@graphql-codegen/typed-document-node": "^2.2.5",
     "@graphql-codegen/typescript-graphql-files-modules": "^2.1.1",
+    "@graphql-codegen/typescript-operations": "^2.3.2",
     "@types/apollo-upload-client": "^17.0.0",
     "@types/d3": "^7.1.0",
     "@types/ejs": "^3.1.0",

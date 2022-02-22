@@ -1,5 +1,5 @@
 # Step 4
-mutation ($values: UniversityProfileInputValues!) {
+mutation universityProfileValues ($values: UniversityProfileInputValues!) {
   universityProfileValues(
     values: $values
   ) {

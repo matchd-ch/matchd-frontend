@@ -1,10 +1,10 @@
-import { IJobPostingInputAllocation } from "@/api/models/types";
+import { JobPostingInputAllocation } from "@/api/models/types";
 import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 
 export function jobPostingStep3InputMapper(
   id: string,
   jobPostingForm: JobPostingStep3Form
-): IJobPostingInputAllocation {
+): JobPostingInputAllocation {
   return {
     id,
     state: jobPostingForm.state,

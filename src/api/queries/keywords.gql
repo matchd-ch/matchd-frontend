@@ -1,4 +1,4 @@
-query {
+query keywords {
   keywords(first: 100) {
     edges {
       node {

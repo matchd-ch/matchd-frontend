@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts">
+import type { User } from "@/api/models/types";
 import NavBarCompany from "@/components/NavBarCompany.vue";
 import NavBarStudent from "@/components/NavBarStudent.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
-import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 

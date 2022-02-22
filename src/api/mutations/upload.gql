@@ -1,4 +1,4 @@
-mutation ($file: Upload!, $key: AttachmentKey!) {
+mutation upload ($file: Upload!, $key: AttachmentKey!) {
   upload(file: $file, key: $key) {
     success
     errors

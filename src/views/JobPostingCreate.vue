@@ -37,6 +37,7 @@
 </template>
 
 <script lang="ts">
+import type { JobPosting as JobPostingType } from "@/api/models/types";
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
@@ -46,7 +47,6 @@ import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
 import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
 import JobPostingStep3 from "@/views/jobposting/JobPostingStep3.vue";
-import type { JobPosting as JobPostingType } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";

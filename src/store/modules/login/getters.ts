@@ -1,10 +1,10 @@
+import type { User } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import type { LoginState } from "@/models/LoginState";
 import type { LogoutState } from "@/models/LogoutState";
 import { PasswordResetState } from "@/models/PasswordResetState";
 import type { SendPasswordResetEmailState } from "@/models/SendPasswordResetEmailState";
 import { RootState } from "@/store";
-import type { User } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 

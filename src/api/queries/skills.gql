@@ -1,4 +1,4 @@
-query {
+query skills {
   skills(first: 100) {
     edges {
       node {

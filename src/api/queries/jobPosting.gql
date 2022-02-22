@@ -1,4 +1,4 @@
-query ($id: ID, $slug: String) {
+query jobPosting ($id: ID, $slug: String) {
   jobPosting(id: $id, slug: $slug) {
     id
     title

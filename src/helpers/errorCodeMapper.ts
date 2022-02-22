@@ -1,5 +1,5 @@
+import type { Maybe, Scalars } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
-import type { Maybe, Scalars } from "api";
 
 type GraphQLErrorObject = { message: string; code: string };
 type GraphQLError = GraphQLErrorObject | string;

@@ -1,5 +1,11 @@
 import { createApolloClient } from "@/api/apollo-client";
-import addEmployeeMutation from "@/api/mutations/addEmployee.gql";
+import type {
+  AddEmployeeInput,
+  JobPostingInputAllocation,
+  JobPostingInputBaseData,
+  JobPostingInputRequirements,
+} from "@/api/models/types";
+import { AddEmployeeDocument } from "@/api/mutations/addEmployee.generated";
 import jobPostingAllocationMutation from "@/api/mutations/jobPostingAllocation.gql";
 import jobPostingBaseDataMutation from "@/api/mutations/jobPostingBaseData.gql";
 import jobPostingRequirementsMutation from "@/api/mutations/jobPostingRequirements.gql";
@@ -9,12 +15,6 @@ import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import { Mutations } from "@/store/modules/jobposting/mutations";
 import { State } from "@/store/modules/jobposting/state";
-import type {
-  AddEmployeeInput,
-  JobPostingInputAllocation,
-  JobPostingInputBaseData,
-  JobPostingInputRequirements,
-} from "api";
 import { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
@@ -89,10 +89,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.ADD_EMPLOYEE]({ commit }, payload: AddEmployeeInput) {
     commit(MutationTypes.ADD_EMPLOYEE_LOADING);
     const response = await apiClient.mutate({
-      mutation: addEmployeeMutation,
+      mutation: AddEmployeeDocument,
       variables: payload,
     });
-    commit(MutationTypes.ADD_EMPLOYEE_LOADED, response.data.addEmployee);
+    commit(MutationTypes.ADD_EMPLOYEE_LOADED, response.data?.addEmployee ?? undefined);
   },
   async [ActionTypes.EMPLOYEES]({ commit }) {
     commit(MutationTypes.EMPLOYEES_LOADING);

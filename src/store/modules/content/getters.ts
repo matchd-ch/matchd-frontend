@@ -1,11 +1,3 @@
-import {
-  CompanyDashboard,
-  GroupedJobPostingMatching,
-  GroupedProjectPostingMatching,
-} from "@/models/CompanyDashboard";
-import { SearchResult } from "@/models/SearchResult";
-import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
-import { RootState } from "@/store";
 import type {
   Attachment,
   Benefit,
@@ -24,15 +16,22 @@ import type {
   ProjectPosting,
   ProjectPostingMatchInfo,
   ProjectType,
-  ProjectTypeEdge,
   Skill,
   SoftSkill,
   Student,
   Topic,
   ZipCity,
-} from "api";
+} from "@/api/models/types";
+import {
+  CompanyDashboard,
+  GroupedJobPostingMatching,
+  GroupedProjectPostingMatching,
+} from "@/models/CompanyDashboard";
+import { SearchResult } from "@/models/SearchResult";
+import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
+import { RootState } from "@/store";
 import { GetterTree } from "vuex";
-import { State } from "./state";
+import { CompanyAttachment, State } from "./state";
 
 export type Getters = {
   benefits(state: State): Benefit[];
@@ -40,9 +39,9 @@ export type Getters = {
   companyMatching(state: State): { data: Match[] };
   company(state: State): {
     data: Company | null;
-    logo: Attachment | null;
-    logoFallback: Attachment | null;
-    media: Attachment[];
+    logo: CompanyAttachment | null;
+    logoFallback: CompanyAttachment | null;
+    media: CompanyAttachment[];
   };
   culturalFits(state: State): CulturalFit[];
   companyDashboard(state: State): CompanyDashboard | null;
@@ -86,9 +85,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   company(state: State): {
     data: Company | null;
-    logo: Attachment | null;
-    logoFallback: Attachment | null;
-    media: Attachment[];
+    logo: CompanyAttachment | null;
+    logoFallback: CompanyAttachment | null;
+    media: CompanyAttachment[];
   } {
     return state.company;
   },

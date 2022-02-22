@@ -2085,6 +2085,7 @@ enum UserType {
 
 type UserUpload = {
   __typename?: "UserUpload";
+  attachment?: Maybe<Attachment>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -2116,6 +2117,7 @@ type ZipCityInput = {
 declare module "*/addEmployee.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const addEmployee: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2123,6 +2125,7 @@ declare module "*/addEmployee.gql" {
 declare module "*/companyProfileAdvantages.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const companyProfileAdvantages: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2130,6 +2133,7 @@ declare module "*/companyProfileAdvantages.gql" {
 declare module "*/companyProfileBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const companyProfileBaseData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2137,6 +2141,7 @@ declare module "*/companyProfileBaseData.gql" {
 declare module "*/companyProfileRelations.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const companyProfileRelations: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2144,6 +2149,7 @@ declare module "*/companyProfileRelations.gql" {
 declare module "*/companyProfileValues.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const companyProfileValues: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2151,6 +2157,7 @@ declare module "*/companyProfileValues.gql" {
 declare module "*/deleteAttachment.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const deleteAttachment: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2158,6 +2165,7 @@ declare module "*/deleteAttachment.gql" {
 declare module "*/jobPostingAllocation.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const jobPostingAllocation: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2165,6 +2173,7 @@ declare module "*/jobPostingAllocation.gql" {
 declare module "*/jobPostingBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const jobPostingBaseData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2172,6 +2181,7 @@ declare module "*/jobPostingBaseData.gql" {
 declare module "*/jobPostingRequirements.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const jobPostingRequirements: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2179,6 +2189,7 @@ declare module "*/jobPostingRequirements.gql" {
 declare module "*/logout.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const logout: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2186,6 +2197,7 @@ declare module "*/logout.gql" {
 declare module "*/matchJobPosting.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const matchJobPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2193,6 +2205,7 @@ declare module "*/matchJobPosting.gql" {
 declare module "*/matchProjectPosting.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const matchProjectPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2200,6 +2213,7 @@ declare module "*/matchProjectPosting.gql" {
 declare module "*/matchStudent.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const matchStudent: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2207,6 +2221,7 @@ declare module "*/matchStudent.gql" {
 declare module "*/passwordReset.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const passwordReset: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2214,6 +2229,7 @@ declare module "*/passwordReset.gql" {
 declare module "*/projectPostingAllocation.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const projectPostingAllocation: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2221,6 +2237,7 @@ declare module "*/projectPostingAllocation.gql" {
 declare module "*/projectPostingBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const projectPostingBaseData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2228,6 +2245,7 @@ declare module "*/projectPostingBaseData.gql" {
 declare module "*/projectPostingSpecificData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const projectPostingSpecificData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2235,6 +2253,7 @@ declare module "*/projectPostingSpecificData.gql" {
 declare module "*/refreshToken.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const refreshToken: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2242,6 +2261,7 @@ declare module "*/refreshToken.gql" {
 declare module "*/registerCompany.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const registerCompany: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2249,6 +2269,7 @@ declare module "*/registerCompany.gql" {
 declare module "*/registerStudent.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const registerStudent: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2256,6 +2277,7 @@ declare module "*/registerStudent.gql" {
 declare module "*/revokeToken.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const revokeToken: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2263,6 +2285,7 @@ declare module "*/revokeToken.gql" {
 declare module "*/sendPasswordResetEmail.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const sendPasswordResetEmail: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2270,6 +2293,7 @@ declare module "*/sendPasswordResetEmail.gql" {
 declare module "*/studentProfileAbilities.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const studentProfileAbilities: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2277,6 +2301,7 @@ declare module "*/studentProfileAbilities.gql" {
 declare module "*/studentProfileBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const studentProfileBaseData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2284,6 +2309,7 @@ declare module "*/studentProfileBaseData.gql" {
 declare module "*/studentProfileCharacter.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const studentProfileCharacter: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2291,6 +2317,7 @@ declare module "*/studentProfileCharacter.gql" {
 declare module "*/studentProfileCondition.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const studentProfileCondition: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2298,6 +2325,7 @@ declare module "*/studentProfileCondition.gql" {
 declare module "*/studentProfileEmployment.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const studentProfileEmployment: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2305,6 +2333,7 @@ declare module "*/studentProfileEmployment.gql" {
 declare module "*/studentProfileSpecificData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const studentProfileSpecificData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2312,6 +2341,7 @@ declare module "*/studentProfileSpecificData.gql" {
 declare module "*/tokenAuth.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const tokenAuth: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2319,6 +2349,7 @@ declare module "*/tokenAuth.gql" {
 declare module "*/universityProfileBaseData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const universityProfileBaseData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2326,6 +2357,7 @@ declare module "*/universityProfileBaseData.gql" {
 declare module "*/universityProfileRelations.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const universityProfileRelations: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2333,6 +2365,7 @@ declare module "*/universityProfileRelations.gql" {
 declare module "*/universityProfileSpecificData.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const universityProfileSpecificData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2340,6 +2373,7 @@ declare module "*/universityProfileSpecificData.gql" {
 declare module "*/universityProfileValues.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const universityProfileValues: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2347,6 +2381,7 @@ declare module "*/universityProfileValues.gql" {
 declare module "*/upload.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const upload: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2354,6 +2389,7 @@ declare module "*/upload.gql" {
 declare module "*/uploadProjectPosting.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const uploadProjectPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2361,6 +2397,7 @@ declare module "*/uploadProjectPosting.gql" {
 declare module "*/userRequest.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const userRequest: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2368,6 +2405,7 @@ declare module "*/userRequest.gql" {
 declare module "*/verifyAccount.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const verifyAccount: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2375,6 +2413,7 @@ declare module "*/verifyAccount.gql" {
 declare module "*/attachments.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const attachments: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2382,6 +2421,7 @@ declare module "*/attachments.gql" {
 declare module "*/attachmentsProjectPosting.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const attachmentsProjectPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2389,6 +2429,7 @@ declare module "*/attachmentsProjectPosting.gql" {
 declare module "*/benefits.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const benefits: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2396,6 +2437,7 @@ declare module "*/benefits.gql" {
 declare module "*/branches.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const branches: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2403,6 +2445,7 @@ declare module "*/branches.gql" {
 declare module "*/company.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const company: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2410,7 +2453,7 @@ declare module "*/company.gql" {
 declare module "*/companyMatching.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
-  export const CompanyMatching: DocumentNode;
+  export const companyMatching: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2418,6 +2461,7 @@ declare module "*/companyMatching.gql" {
 declare module "*/culturalFits.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const culturalFits: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2425,6 +2469,7 @@ declare module "*/culturalFits.gql" {
 declare module "*/dashboard.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const dashboard: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2432,6 +2477,7 @@ declare module "*/dashboard.gql" {
 declare module "*/employees.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const employees: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2439,6 +2485,7 @@ declare module "*/employees.gql" {
 declare module "*/jobPosting.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const jobPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2446,6 +2493,7 @@ declare module "*/jobPosting.gql" {
 declare module "*/jobPostings.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const jobPostings: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2453,6 +2501,7 @@ declare module "*/jobPostings.gql" {
 declare module "*/jobRequirements.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const jobRequirements: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2460,6 +2509,7 @@ declare module "*/jobRequirements.gql" {
 declare module "*/jobTypes.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const jobTypes: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2467,6 +2517,7 @@ declare module "*/jobTypes.gql" {
 declare module "*/keywords.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const keywords: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2474,6 +2525,7 @@ declare module "*/keywords.gql" {
 declare module "*/languageLevels.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const languageLevels: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2481,6 +2533,7 @@ declare module "*/languageLevels.gql" {
 declare module "*/languages.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const languages: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2488,6 +2541,7 @@ declare module "*/languages.gql" {
 declare module "*/matching.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const matching: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2495,6 +2549,7 @@ declare module "*/matching.gql" {
 declare module "*/me.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const me: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2502,6 +2557,7 @@ declare module "*/me.gql" {
 declare module "*/projectPosting.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const projectPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2509,6 +2565,7 @@ declare module "*/projectPosting.gql" {
 declare module "*/projectPostings.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const projectPostings: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2516,6 +2573,7 @@ declare module "*/projectPostings.gql" {
 declare module "*/projectTypes.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const projectTypes: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2523,6 +2581,7 @@ declare module "*/projectTypes.gql" {
 declare module "*/skills.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const skills: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2530,6 +2589,7 @@ declare module "*/skills.gql" {
 declare module "*/softSkills.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const softSkills: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2537,6 +2597,7 @@ declare module "*/softSkills.gql" {
 declare module "*/student.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const student: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2544,6 +2605,7 @@ declare module "*/student.gql" {
 declare module "*/topics.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const topics: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2551,6 +2613,7 @@ declare module "*/topics.gql" {
 declare module "*/uploadConfigurations.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const uploadConfigurations: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2558,6 +2621,7 @@ declare module "*/uploadConfigurations.gql" {
 declare module "*/verifyPasswordResetToken.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const verifyPasswordResetToken: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2565,6 +2629,7 @@ declare module "*/verifyPasswordResetToken.gql" {
 declare module "*/zipCity.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const zipCity: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2572,12 +2637,526 @@ declare module "*/zipCity.gql" {
 declare module "*/zipCityJobs.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const zipCityJobs: DocumentNode;
 
   export default defaultDocument;
 }
 
+const AddEmployee = gql`
+  mutation addEmployee($firstName: String!, $lastName: String!, $email: String!, $role: String!) {
+    addEmployee(
+      addEmployee: { firstName: $firstName, lastName: $lastName, email: $email, role: $role }
+    ) {
+      success
+      errors
+      employee {
+        id
+        role
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`;
+const CompanyProfileAdvantages = gql`
+  mutation companyProfileAdvantages($advantages: CompanyProfileInputAdvantages!) {
+    companyProfileAdvantages(advantages: $advantages) {
+      success
+      errors
+    }
+  }
+`;
+const CompanyProfileBaseData = gql`
+  mutation companyProfileBaseData($baseData: CompanyProfileInputBaseData!) {
+    companyProfileBaseData(baseData: $baseData) {
+      success
+      errors
+    }
+  }
+`;
+const CompanyProfileRelations = gql`
+  mutation companyProfileRelations($relations: CompanyProfileInputRelations!) {
+    companyProfileRelations(relations: $relations) {
+      success
+      errors
+    }
+  }
+`;
+const CompanyProfileValues = gql`
+  mutation companyProfileValues($values: CompanyProfileInputValues!) {
+    companyProfileValues(values: $values) {
+      success
+      errors
+    }
+  }
+`;
+const DeleteAttachment = gql`
+  mutation deleteAttachment($id: ID) {
+    deleteAttachment(id: $id) {
+      success
+      errors
+    }
+  }
+`;
+const JobPostingAllocation = gql`
+  mutation jobPostingAllocation($allocation: JobPostingInputAllocation!) {
+    jobPostingAllocation(allocation: $allocation) {
+      success
+      errors
+      jobPostingId
+      slug
+    }
+  }
+`;
+const JobPostingBaseData = gql`
+  mutation jobPostingBaseData($baseData: JobPostingInputBaseData!) {
+    jobPostingBaseData(baseData: $baseData) {
+      success
+      errors
+      jobPostingId
+      slug
+    }
+  }
+`;
+const JobPostingRequirements = gql`
+  mutation jobPostingRequirements($requirements: JobPostingInputRequirements!) {
+    jobPostingRequirements(requirements: $requirements) {
+      success
+      errors
+      jobPostingId
+      slug
+    }
+  }
+`;
+const Logout = gql`
+  mutation logout {
+    logout
+  }
+`;
+const MatchJobPosting = gql`
+  mutation matchJobPosting($jobPosting: JobPostingInput!) {
+    matchJobPosting(match: { jobPosting: $jobPosting }) {
+      success
+      errors
+      confirmed
+    }
+  }
+`;
+const MatchProjectPosting = gql`
+  mutation matchProjectPosting($projectPosting: ProjectPostingInput!) {
+    matchProjectPosting(match: { projectPosting: $projectPosting }) {
+      success
+      errors
+      confirmed
+    }
+  }
+`;
+const MatchStudent = gql`
+  mutation matchStudent($jobPosting: JobPostingInput!, $student: StudentInput!) {
+    matchStudent(match: { jobPosting: $jobPosting, student: $student }) {
+      success
+      errors
+      confirmed
+    }
+  }
+`;
+const PasswordReset = gql`
+  mutation passwordReset($token: String!, $password: String!) {
+    passwordReset(token: $token, newPassword1: $password, newPassword2: $password) {
+      success
+      errors
+    }
+  }
+`;
+const ProjectPostingAllocation = gql`
+  mutation projectPostingAllocation($allocation: ProjectPostingInputAllocation!) {
+    projectPostingAllocation(allocation: $allocation) {
+      success
+      errors
+      projectPostingId
+      slug
+    }
+  }
+`;
+const ProjectPostingBaseData = gql`
+  mutation projectPostingBaseData($baseData: ProjectPostingInputBaseData!) {
+    projectPostingBaseData(baseData: $baseData) {
+      success
+      errors
+      projectPostingId
+      slug
+    }
+  }
+`;
+const ProjectPostingSpecificData = gql`
+  mutation projectPostingSpecificData($specificData: ProjectPostingInputSpecificData!) {
+    projectPostingSpecificData(specificData: $specificData) {
+      success
+      errors
+      projectPostingId
+      slug
+    }
+  }
+`;
+const RefreshToken = gql`
+  mutation refreshToken($refreshToken: String!) {
+    refreshToken(refreshToken: $refreshToken) {
+      success
+      errors
+      token
+      refreshToken
+    }
+  }
+`;
+const RegisterCompany = gql`
+  mutation registerCompany(
+    $name: String!
+    $email: String!
+    $password: String!
+    $firstName: String!
+    $lastName: String!
+    $zip: String!
+    $city: String!
+    $uid: String
+    $role: String!
+    $type: String!
+  ) {
+    registerCompany(
+      username: $email
+      email: $email
+      password1: $password
+      password2: $password
+      firstName: $firstName
+      lastName: $lastName
+      type: $type
+      company: { name: $name, zip: $zip, city: $city, uid: $uid }
+      employee: { role: $role }
+    ) {
+      success
+      errors
+    }
+  }
+`;
+const RegisterStudent = gql`
+  mutation registerStudent(
+    $email: String!
+    $password: String!
+    $firstName: String!
+    $lastName: String!
+    $type: String!
+  ) {
+    registerStudent(
+      username: $email
+      email: $email
+      password1: $password
+      password2: $password
+      firstName: $firstName
+      lastName: $lastName
+      type: $type
+    ) {
+      success
+      errors
+    }
+  }
+`;
+const RevokeToken = gql`
+  mutation revokeToken {
+    revokeToken(refreshToken: "refresh token") {
+      revoked
+    }
+  }
+`;
+const SendPasswordResetEmail = gql`
+  mutation sendPasswordResetEmail($email: String!) {
+    sendPasswordResetEmail(email: $email) {
+      success
+      errors
+    }
+  }
+`;
+const StudentProfileAbilities = gql`
+  mutation studentProfileAbilities($abilities: StudentProfileInputAbilities!) {
+    studentProfileAbilities(abilities: $abilities) {
+      success
+      errors
+    }
+  }
+`;
+const StudentProfileBaseData = gql`
+  mutation studentProfileBaseData($baseData: StudentProfileInputBaseData!) {
+    studentProfileBaseData(baseData: $baseData) {
+      success
+      errors
+    }
+  }
+`;
+const StudentProfileCharacter = gql`
+  mutation studentProfileCharacter($character: StudentProfileInputCharacter!) {
+    studentProfileCharacter(character: $character) {
+      success
+      errors
+    }
+  }
+`;
+const StudentProfileCondition = gql`
+  mutation studentProfileCondition($condition: StudentProfileInputCondition!) {
+    studentProfileCondition(condition: $condition) {
+      success
+      errors
+    }
+  }
+`;
+const StudentProfileEmployment = gql`
+  mutation studentProfileEmployment($employment: StudentProfileInputEmployment!) {
+    studentProfileEmployment(employment: $employment) {
+      success
+      errors
+    }
+  }
+`;
+const StudentProfileSpecificData = gql`
+  mutation studentProfileSpecificData($specificData: StudentProfileInputSpecificData!) {
+    studentProfileSpecificData(specificData: $specificData) {
+      success
+      errors
+      nicknameSuggestions
+    }
+  }
+`;
+const TokenAuth = gql`
+  mutation tokenAuth($username: String!, $password: String!) {
+    tokenAuth(username: $username, password: $password) {
+      success
+      errors
+      token
+      refreshToken
+      user {
+        firstName
+        lastName
+        type
+        email
+      }
+    }
+  }
+`;
+const UniversityProfileBaseData = gql`
+  mutation universityProfileBaseData($baseData: UniversityProfileInputBaseData!) {
+    universityProfileBaseData(baseData: $baseData) {
+      success
+      errors
+    }
+  }
+`;
+const UniversityProfileRelations = gql`
+  mutation universityProfileRelations($relations: UniversityProfileInputRelations!) {
+    universityProfileRelations(relations: $relations) {
+      success
+      errors
+    }
+  }
+`;
+const UniversityProfileSpecificData = gql`
+  mutation universityProfileSpecificData($specificData: UniversityProfileInputSpecificData!) {
+    universityProfileSpecificData(specificData: $specificData) {
+      success
+      errors
+    }
+  }
+`;
+const UniversityProfileValues = gql`
+  mutation universityProfileValues($values: UniversityProfileInputValues!) {
+    universityProfileValues(values: $values) {
+      success
+      errors
+    }
+  }
+`;
+const Upload = gql`
+  mutation upload($file: Upload!, $key: AttachmentKey!) {
+    upload(file: $file, key: $key) {
+      success
+      errors
+    }
+  }
+`;
+const UploadProjectPosting = gql`
+  mutation uploadProjectPosting($file: Upload!, $key: AttachmentKey!, $projectPostingId: ID!) {
+    upload(file: $file, key: $key, projectPosting: { id: $projectPostingId }) {
+      success
+      errors
+    }
+  }
+`;
+const UserRequest = gql`
+  mutation userRequest($name: String!, $email: String!, $message: String!) {
+    userRequest(input: { name: $name, email: $email, message: $message }) {
+      success
+      errors
+    }
+  }
+`;
+const VerifyAccount = gql`
+  mutation verifyAccount($token: String!) {
+    verifyAccount(token: $token) {
+      success
+      errors
+    }
+  }
+`;
+const Attachments = gql`
+  query attachments($key: AttachmentKey!) {
+    attachments(key: $key, first: 100) {
+      edges {
+        node {
+          id
+          fileSize
+          fileName
+          mimeType
+          url
+        }
+      }
+    }
+  }
+`;
+const AttachmentsProjectPosting = gql`
+  query attachmentsProjectPosting($key: AttachmentKey!, $id: ID!) {
+    attachments(key: $key, id: $id, first: 100) {
+      edges {
+        node {
+          id
+          fileSize
+          fileName
+          mimeType
+          url
+        }
+      }
+    }
+  }
+`;
+const Benefits = gql`
+  query benefits {
+    benefits(first: 100) {
+      edges {
+        node {
+          id
+          icon
+          name
+        }
+      }
+    }
+  }
+`;
+const Branches = gql`
+  query branches {
+    branches(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const Company = gql`
+  query company($slug: String) {
+    company(slug: $slug) {
+      id
+      uid
+      name
+      description
+      services
+      street
+      zip
+      city
+      phone
+      website
+      linkEducation
+      linkProjects
+      linkThesis
+      topLevelOrganisationDescription
+      topLevelOrganisationWebsite
+      employees {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
+      benefits(first: 100) {
+        edges {
+          node {
+            id
+            icon
+            name
+          }
+        }
+      }
+      branches(first: 100) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      jobPostings {
+        id
+        title
+        displayTitle
+        jobType {
+          id
+          name
+        }
+        slug
+      }
+      projectPostings {
+        id
+        title
+        displayTitle
+        slug
+        topic {
+          id
+          name
+        }
+        projectType {
+          id
+          name
+        }
+      }
+    }
+    logo: attachments(key: COMPANY_AVATAR, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          url
+          mimeType
+        }
+      }
+    }
+    logoFallback: attachments(key: COMPANY_AVATAR_FALLBACK, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          url
+          mimeType
+        }
+      }
+    }
+    media: attachments(key: COMPANY_DOCUMENTS, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          url
+          mimeType
+        }
+      }
+    }
+  }
+`;
 const CompanyMatching = gql`
-  query CompanyMatching {
+  query companyMatching {
     matches(techBoost: 3, softBoost: 3) {
       id
       name
@@ -2592,6 +3171,885 @@ const CompanyMatching = gql`
         confirmed
         initiator
       }
+    }
+  }
+`;
+const CulturalFits = gql`
+  query culturalFits {
+    culturalFits(first: 100) {
+      edges {
+        node {
+          id
+          company
+          student
+        }
+      }
+    }
+  }
+`;
+const Dashboard = gql`
+  query dashboard {
+    dashboard {
+      projectPostings {
+        id
+        title
+        displayTitle
+        datePublished
+        dateCreated
+        slug
+        state
+        topic {
+          id
+          name
+        }
+        projectType {
+          id
+          name
+        }
+        topic {
+          id
+          name
+        }
+        company {
+          name
+          city
+          zip
+        }
+        student {
+          firstName
+          lastName
+          nickname
+          zip
+        }
+      }
+      latestJobPostings {
+        id
+        title
+        displayTitle
+        datePublished
+        dateCreated
+        slug
+        state
+        company {
+          name
+          city
+          zip
+        }
+      }
+      latestProjectPostings {
+        id
+        title
+        displayTitle
+        datePublished
+        dateCreated
+        slug
+        state
+        projectType {
+          id
+          name
+        }
+        topic {
+          id
+          name
+        }
+        company {
+          name
+          city
+          zip
+        }
+        student {
+          firstName
+          lastName
+          nickname
+          zip
+        }
+      }
+      jobPostings {
+        id
+        title
+        displayTitle
+        datePublished
+        dateCreated
+        slug
+        state
+        company {
+          name
+          city
+          zip
+        }
+      }
+      requestedMatches {
+        jobPosting {
+          id
+          title
+          displayTitle
+          slug
+          state
+          company {
+            name
+            city
+            zip
+          }
+        }
+        student {
+          nickname
+          firstName
+          lastName
+          slug
+        }
+      }
+      unconfirmedMatches {
+        jobPosting {
+          id
+          title
+          displayTitle
+          slug
+          state
+          company {
+            name
+            city
+            zip
+          }
+        }
+        student {
+          nickname
+          firstName
+          lastName
+          slug
+        }
+      }
+      confirmedMatches {
+        jobPosting {
+          id
+          title
+          displayTitle
+          slug
+          state
+          company {
+            name
+            city
+            zip
+          }
+        }
+        student {
+          nickname
+          firstName
+          lastName
+          slug
+        }
+      }
+      projectMatches {
+        projectPosting {
+          id
+          title
+          displayTitle
+          slug
+          state
+          topic {
+            id
+            name
+          }
+          projectType {
+            id
+            name
+          }
+          company {
+            name
+            city
+            zip
+            slug
+          }
+          student {
+            id
+            slug
+            firstName
+            lastName
+            nickname
+          }
+        }
+        student {
+          nickname
+          firstName
+          lastName
+          slug
+        }
+        company {
+          id
+          name
+          slug
+        }
+      }
+    }
+  }
+`;
+const Employees = gql`
+  query employees {
+    me {
+      company {
+        employees {
+          id
+          role
+          firstName
+          lastName
+          email
+        }
+      }
+    }
+  }
+`;
+const JobPosting = gql`
+  query jobPosting($id: ID, $slug: String) {
+    jobPosting(id: $id, slug: $slug) {
+      id
+      title
+      displayTitle
+      description
+      jobFromDate
+      jobToDate
+      datePublished
+      url
+      workload
+      formStep
+      state
+      matchStatus {
+        initiator
+        confirmed
+      }
+      company {
+        id
+        slug
+        name
+        street
+        zip
+        city
+        type
+      }
+      jobType {
+        id
+        name
+      }
+      branches {
+        id
+        name
+      }
+      skills {
+        id
+        name
+      }
+      jobRequirements(first: 100) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      languages {
+        id
+        language {
+          id
+          name
+        }
+        languageLevel {
+          id
+          level
+          description
+        }
+      }
+      employee {
+        id
+        firstName
+        lastName
+        email
+        phone
+      }
+    }
+  }
+`;
+const JobPostings = gql`
+  query jobPostings {
+    jobPostings(first: 100) {
+      edges {
+        node {
+          id
+          slug
+          title
+          displayTitle
+        }
+      }
+    }
+  }
+`;
+const JobRequirements = gql`
+  query jobRequirements {
+    jobRequirements(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const JobTypes = gql`
+  query jobTypes {
+    jobTypes(first: 100) {
+      edges {
+        node {
+          id
+          name
+          mode
+        }
+      }
+    }
+  }
+`;
+const Keywords = gql`
+  query keywords {
+    keywords(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const LanguageLevels = gql`
+  query languageLevels {
+    languageLevels(first: 100) {
+      edges {
+        node {
+          id
+          level
+          description
+        }
+      }
+    }
+  }
+`;
+const Languages = gql`
+  query languages($shortList: Boolean) {
+    languages(shortList: $shortList, first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const Matching = gql`
+  query matching(
+    $studentMatchingInput: StudentMatchingInput
+    $jobPostingMatchingInput: JobPostingMatchingInput
+    $projectPostingMatchingInput: ProjectPostingMatchingInput
+    $softBoost: Int!
+    $techBoost: Int!
+    $first: Int
+    $skip: Int
+  ) {
+    matches(
+      studentMatching: $studentMatchingInput
+      jobPostingMatching: $jobPostingMatchingInput
+      projectPostingMatching: $projectPostingMatchingInput
+      first: $first
+      skip: $skip
+      softBoost: $softBoost
+      techBoost: $techBoost
+    ) {
+      name
+      title
+      description
+      keywords {
+        id
+        name
+      }
+      avatar
+      type
+      slug
+      score
+      rawScore
+      matchStatus {
+        confirmed
+        initiator
+      }
+    }
+  }
+`;
+const Me = gql`
+  query me {
+    me {
+      id
+      firstName
+      lastName
+      username
+      email
+      type
+      student {
+        id
+        city
+        zip
+        street
+        email
+        mobile
+        dateOfBirth
+        jobFromDate
+        jobToDate
+        distinction
+        fieldOfStudy
+        graduation
+        profileStep
+        nickname
+        state
+        branch {
+          id
+          name
+        }
+        culturalFits(first: 100) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+        languages(first: 100) {
+          edges {
+            node {
+              language {
+                id
+                name
+              }
+              languageLevel {
+                id
+                level
+              }
+            }
+          }
+        }
+        onlineProjects {
+          id
+          url
+        }
+        hobbies {
+          id
+          name
+        }
+        jobType {
+          id
+          name
+          mode
+        }
+        skills(first: 100) {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
+        softSkills(first: 100) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+      employee {
+        id
+        role
+        firstName
+        lastName
+        phone
+        email
+      }
+      company {
+        id
+        name
+        displayName
+        city
+        zip
+        street
+        profileStep
+        state
+        description
+        website
+        memberItStGallen
+        topLevelOrganisationWebsite
+        topLevelOrganisationDescription
+        services
+        phone
+        employees {
+          firstName
+          lastName
+          email
+          role
+        }
+        jobPostings {
+          id
+          slug
+          title
+          state
+          jobType {
+            id
+            name
+          }
+        }
+        projectPostings {
+          id
+          title
+          state
+          projectType {
+            id
+            name
+          }
+          topic {
+            id
+            name
+          }
+        }
+        branches(first: 100) {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
+        benefits(first: 100) {
+          edges {
+            node {
+              id
+              icon
+              name
+            }
+          }
+        }
+        culturalFits {
+          id
+        }
+        softSkills {
+          id
+        }
+        linkEducation
+        linkProjects
+        linkThesis
+      }
+    }
+  }
+`;
+const ProjectPosting = gql`
+  query projectPosting($id: ID, $slug: String) {
+    projectPosting(id: $id, slug: $slug) {
+      id
+      slug
+      title
+      displayTitle
+      description
+      additionalInformation
+      formStep
+      state
+      projectFromDate
+      datePublished
+      website
+      matchStatus {
+        initiator
+        confirmed
+      }
+      topic {
+        id
+        name
+      }
+      projectType {
+        id
+        name
+      }
+      keywords {
+        id
+        name
+      }
+      company {
+        id
+        slug
+        name
+        street
+        zip
+        city
+      }
+      student {
+        id
+        slug
+        firstName
+        lastName
+        nickname
+        city
+      }
+      employee {
+        id
+        firstName
+        lastName
+        email
+        phone
+      }
+    }
+    images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          fileName
+          url
+          mimeType
+        }
+      }
+    }
+    imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          fileName
+          url
+          mimeType
+        }
+      }
+    }
+    documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          fileName
+          url
+          mimeType
+        }
+      }
+    }
+  }
+`;
+const ProjectPostings = gql`
+  query projectPostings {
+    projectPostings(first: 100) {
+      edges {
+        node {
+          id
+          slug
+          title
+          displayTitle
+        }
+      }
+    }
+  }
+`;
+const ProjectTypes = gql`
+  query projectTypes {
+    projectTypes(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const Skills = gql`
+  query skills {
+    skills(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const SoftSkills = gql`
+  query softSkills {
+    softSkills(first: 100) {
+      edges {
+        node {
+          id
+          company
+          student
+        }
+      }
+    }
+  }
+`;
+const Student = gql`
+  query student($slug: String!, $jobPostingId: ID) {
+    student(slug: $slug, jobPostingId: $jobPostingId) {
+      id
+      email
+      mobile
+      slug
+      state
+      firstName
+      lastName
+      street
+      zip
+      city
+      dateOfBirth
+      nickname
+      schoolName
+      fieldOfStudy
+      graduation
+      distinction
+      profileStep
+      jobFromDate
+      jobToDate
+      matchStatus {
+        initiator
+        confirmed
+      }
+      branch {
+        name
+        id
+      }
+      jobType {
+        name
+        id
+        mode
+      }
+      skills(first: 100) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      softSkills(first: 100) {
+        edges {
+          node {
+            id
+            student
+            company
+          }
+        }
+      }
+      culturalFits(first: 100) {
+        edges {
+          node {
+            id
+            company
+            student
+          }
+        }
+      }
+      hobbies {
+        id
+        name
+      }
+      onlineProjects {
+        id
+        url
+      }
+      languages(first: 100) {
+        edges {
+          node {
+            language {
+              name
+              id
+            }
+            languageLevel {
+              level
+              id
+            }
+          }
+        }
+      }
+      projectPostings {
+        title
+        displayTitle
+        slug
+        topic {
+          id
+          name
+        }
+        projectType {
+          id
+          name
+        }
+      }
+    }
+    avatar: attachments(key: STUDENT_AVATAR, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          url
+          mimeType
+        }
+      }
+    }
+    avatarFallback: attachments(key: STUDENT_AVATAR_FALLBACK, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          url
+          mimeType
+        }
+      }
+    }
+    certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug, first: 100) {
+      edges {
+        node {
+          id
+          url
+          mimeType
+          fileName
+        }
+      }
+    }
+  }
+`;
+const Topics = gql`
+  query topics {
+    topics(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+const UploadConfigurations = gql`
+  query uploadConfigurations {
+    uploadConfigurations {
+      key
+      contentTypesConfiguration {
+        contentTypes
+        maxSize
+      }
+      maxFiles
+    }
+  }
+`;
+const VerifyPasswordResetToken = gql`
+  query verifyPasswordResetToken($token: String!) {
+    verifyPasswordResetToken(token: $token)
+  }
+`;
+const ZipCity = gql`
+  query zipCity {
+    zipCity {
+      zip
+      city
+      canton
+    }
+  }
+`;
+const ZipCityJobs = gql`
+  query zipCityJobs($branchId: ID, $jobTypeId: ID) {
+    zipCityJobs(branchId: $branchId, jobTypeId: $jobTypeId) {
+      zip
+      city
+      canton
     }
   }
 `;

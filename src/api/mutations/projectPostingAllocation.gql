@@ -1,5 +1,5 @@
 # Step 3
-mutation ($allocation: ProjectPostingInputAllocation!) {
+mutation projectPostingAllocation ($allocation: ProjectPostingInputAllocation!) {
   projectPostingAllocation(
     allocation: $allocation
   ) {

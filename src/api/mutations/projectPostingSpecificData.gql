@@ -1,5 +1,5 @@
 # Step 2
-mutation ($specificData: ProjectPostingInputSpecificData!) {
+mutation projectPostingSpecificData ($specificData: ProjectPostingInputSpecificData!) {
   projectPostingSpecificData(
     specificData: $specificData
   ) {

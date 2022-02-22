@@ -1,4 +1,4 @@
-query {
+query softSkills {
   softSkills(first: 100) {
     edges {
       node {

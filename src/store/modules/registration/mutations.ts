@@ -1,8 +1,13 @@
+import type {
+  RegisterCompany,
+  RegisterStudent,
+  UserRequest,
+  VerifyAccount,
+} from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import type { RegisterCompany, RegisterStudent, UserRequest, VerifyAccount } from "api";
+import { State } from "@/store/modules/registration/state";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
-import { State } from "@/store/modules/registration/state";
 
 export type Mutations<S = State> = {
   [MutationTypes.REGISTRATION_CONTACT_FORM_SENDING](state: S): void;

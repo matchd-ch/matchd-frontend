@@ -93,6 +93,7 @@
 <script lang="ts">
 import { companyProfileStep1FormMapper } from "@/api/mappers/companyProfileStep1FormMapper";
 import { companyProfileStep1InputMapper } from "@/api/mappers/companyProfileStep1InputMapper";
+import type { User } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -101,7 +102,6 @@ import type { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
 import type { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { User } from "api";
 import { ErrorMessage, Field, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

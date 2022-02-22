@@ -126,6 +126,7 @@
 <script lang="ts">
 import { projectPostingStep2FormMapper } from "@/api/mappers/projectPostingStep2FormMapper";
 import { projectPostingStep2InputMapper } from "@/api/mappers/projectPostingStep2InputMapper";
+import type { Attachment } from "@/api/models/types";
 import { AttachmentKey, ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -140,7 +141,6 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { MutationTypes as UploadMutationTypes } from "@/store/modules/upload/mutation-types";
-import type { Attachment } from "api";
 import { Field, Form, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

@@ -40,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import type { ProjectPosting as ProjectPostingType } from "@/api/models/types";
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
@@ -49,7 +50,6 @@ import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
 import ProjectPostingStep1 from "@/views/projectposting/ProjectPostingStep1.vue";
 import ProjectPostingStep2 from "@/views/projectposting/ProjectPostingStep2.vue";
 import ProjectPostingStep3 from "@/views/projectposting/ProjectPostingStep3.vue";
-import type { ProjectPosting as ProjectPostingType } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";

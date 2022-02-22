@@ -1,4 +1,5 @@
 import { createApolloClient } from "@/api/apollo-client";
+import type { UserRequestInput } from "@/api/models/types";
 import registerCompanyMutation from "@/api/mutations/registerCompany.gql";
 import registerStudentMutation from "@/api/mutations/registerStudent.gql";
 import userRequestMutation from "@/api/mutations/userRequest.gql";
@@ -8,7 +9,6 @@ import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/registration/mutation-types";
 import { Mutations } from "@/store/modules/registration/mutations";
 import { State } from "@/store/modules/registration/state";
-import type { UserRequestInput } from "api";
 import { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";

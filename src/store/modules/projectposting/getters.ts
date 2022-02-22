@@ -1,6 +1,6 @@
+import type { ProjectPosting } from "@/api/models/types";
 import { ProjectPostingState } from "@/models/ProjectPostingState";
 import { RootState } from "@/store";
-import type { ProjectPosting } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 

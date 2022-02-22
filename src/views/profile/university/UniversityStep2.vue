@@ -100,6 +100,7 @@
 <script lang="ts">
 import { universityProfileStep2FormMapper } from "@/api/mappers/universityProfileStep2FormMapper";
 import { universityProfileStep2InputMapper } from "@/api/mappers/universityProfileStep2InputMapper";
+import type { Attachment, UploadConfiguration } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import GenericError from "@/components/GenericError.vue";
@@ -114,7 +115,6 @@ import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form"
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment, UploadConfiguration } from "api";
 import { ErrorMessage, Field, Form, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

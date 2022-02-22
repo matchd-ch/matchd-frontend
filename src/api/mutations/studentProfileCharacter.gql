@@ -1,5 +1,5 @@
 # Step 3
-mutation ($character: StudentProfileInputCharacter!) {
+mutation studentProfileCharacter ($character: StudentProfileInputCharacter!) {
   studentProfileCharacter(
     character: $character
   ) {

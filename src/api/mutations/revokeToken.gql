@@ -1,4 +1,4 @@
-mutation {
+mutation revokeToken {
     revokeToken(refreshToken: "refresh token") {
       revoked
     }

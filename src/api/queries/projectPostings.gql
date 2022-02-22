@@ -1,4 +1,4 @@
-query {
+query projectPostings {
   projectPostings(first: 100) {
     edges {
       node {

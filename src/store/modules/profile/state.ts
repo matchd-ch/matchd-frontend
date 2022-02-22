@@ -1,5 +1,5 @@
+import type { ZipCity } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
-import type { ZipCity } from "api";
 
 export type State = {
   profile: {

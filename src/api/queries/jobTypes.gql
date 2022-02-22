@@ -1,4 +1,4 @@
-query {
+query jobTypes {
   jobTypes(first: 100) {
     edges {
       node {

@@ -1,5 +1,5 @@
+import type { ProjectPostingInputAllocation } from "@/api/models/types";
 import { ProjectPostingStep3Form } from "@/models/ProjectPostingStep3Form";
-import type { ProjectPostingInputAllocation } from "api";
 
 export function projectPostingStep3InputMapper(
   id: string,

@@ -161,6 +161,7 @@
 <script lang="ts">
 import { projectPostingStep1FormMapper } from "@/api/mappers/projectPostingStep1FormMapper";
 import { projectPostingStep1InputMapper } from "@/api/mappers/projectPostingStep1InputMapper";
+import type { Keyword, ProjectPosting as ProjectPostingType, User } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -175,7 +176,6 @@ import { ProjectPostingStep1Form } from "@/models/ProjectPostingStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
-import type { Keyword, ProjectPosting as ProjectPostingType, User } from "api";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

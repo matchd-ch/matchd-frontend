@@ -1,9 +1,9 @@
-import { ICompanyProfileInputRelations } from "@/api/models/types";
+import { CompanyProfileInputRelations } from "@/api/models/types";
 import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 
 export function companyProfileStep2InputMapper(
   companyProfileForm: CompanyProfileStep2Form
-): ICompanyProfileInputRelations {
+): CompanyProfileInputRelations {
   return {
     ...companyProfileForm,
     memberItStGallen: companyProfileForm.memberItStGallen || false,

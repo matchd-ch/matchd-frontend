@@ -1,4 +1,4 @@
-query {
+query branches {
   branches(first: 100) {
     edges {
       node {

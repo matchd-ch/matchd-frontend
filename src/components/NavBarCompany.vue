@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import type { User } from "api";
+import type { User } from "@/api/models/types";
 import { Options, prop, Vue } from "vue-class-component";
 import NavBar from "./NavBar.vue";
 import NavDropdown from "./NavDropdown.vue";

@@ -173,6 +173,7 @@
 </template>
 
 <script lang="ts">
+import type { Attachment, ProjectPosting, User } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
@@ -189,7 +190,6 @@ import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { Attachment, ProjectPosting, User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";

@@ -156,6 +156,7 @@
 </template>
 
 <script lang="ts">
+import type { Dashboard } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 import PostingDetailLink from "@/components/dashboard/PostingDetailLink.vue";
@@ -165,7 +166,6 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { replaceStack } from "@/helpers/replaceStack";
-import type { Dashboard } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

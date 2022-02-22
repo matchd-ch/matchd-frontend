@@ -105,27 +105,26 @@
 </template>
 
 <script lang="ts">
+import { universityProfileStep3FormMapper } from "@/api/mappers/universityProfileStep3FormMapper";
+import { universityProfileStep3InputMapper } from "@/api/mappers/universityProfileStep3InputMapper";
+import type { Benefit, Branch } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
+import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
-import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
-import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { OnboardingState } from "@/models/OnboardingState";
+import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
 import { useStore } from "@/store";
-import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import type { Branch, Benefit } from "api";
+import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
-import MatchdField from "@/components/MatchdField.vue";
-import { universityProfileStep3InputMapper } from "@/api/mappers/universityProfileStep3InputMapper";
-import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
-import { universityProfileStep3FormMapper } from "@/api/mappers/universityProfileStep3FormMapper";
 
 class Props {
   edit = prop<boolean>({ default: false });

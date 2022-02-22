@@ -1,6 +1,6 @@
+import type { AddEmployee, Employee, JobPosting, JobPostingBaseDataForm } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { State } from "@/store/modules/jobposting/state";
-import type { AddEmployee, Employee, JobPosting, JobPostingBaseDataForm } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 

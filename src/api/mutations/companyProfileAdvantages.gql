@@ -1,5 +1,5 @@
 # Step 3
-mutation ($advantages: CompanyProfileInputAdvantages!) {
+mutation companyProfileAdvantages ($advantages: CompanyProfileInputAdvantages!) {
   companyProfileAdvantages(
     advantages: $advantages
   ) {

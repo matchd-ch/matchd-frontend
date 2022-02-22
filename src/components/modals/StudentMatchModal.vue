@@ -39,10 +39,10 @@
 </template>
 
 <script lang="ts">
+import type { Student, User } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
-import type { Student, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

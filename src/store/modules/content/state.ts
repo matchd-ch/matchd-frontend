@@ -9,20 +9,19 @@ import type {
   JobRequirement,
   JobType,
   Keyword,
-  KeywordEdge,
   Language,
   LanguageLevel,
   Match,
   ProjectPosting,
   ProjectType,
-  ProjectTypeEdge,
   Skill,
   SoftSkill,
   Student,
   Topic,
-  TopicEdge,
   ZipCity,
-} from "api";
+} from "@/api/models/types";
+
+export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
 
 export type State = {
   dashboard: {
@@ -48,9 +47,9 @@ export type State = {
   company: {
     loading: boolean;
     data: Company | null;
-    logo: Attachment | null;
-    logoFallback: Attachment | null;
-    media: Attachment[];
+    logo: CompanyAttachment | null;
+    logoFallback: CompanyAttachment | null;
+    media: CompanyAttachment[];
   };
   companyMatching: {
     data: Match[];

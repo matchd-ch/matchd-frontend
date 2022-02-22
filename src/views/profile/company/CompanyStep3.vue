@@ -76,6 +76,7 @@
 <script lang="ts">
 import { companyProfileStep3FormMapper } from "@/api/mappers/companyProfileStep3FormMapper";
 import { companyProfileStep3InputMapper } from "@/api/mappers/companyProfileStep3InputMapper";
+import type { Attachment, Benefit, Branch } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -90,7 +91,6 @@ import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment, Benefit, Branch } from "api";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

@@ -118,6 +118,7 @@
 <script lang="ts">
 import { universityProfileStep1FormMapper } from "@/api/mappers/universityProfileStep1FormMapper";
 import { universityProfileStep1InputMapper } from "@/api/mappers/universityProfileStep1InputMapper";
+import type { User } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -127,7 +128,6 @@ import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { User } from "api";
 import { ErrorMessage, Field, Form, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

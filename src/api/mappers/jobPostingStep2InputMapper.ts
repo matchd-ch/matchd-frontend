@@ -1,10 +1,10 @@
-import { IJobPostingInputRequirements } from "@/api/models/types";
+import { JobPostingInputRequirements } from "@/api/models/types";
 import { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 
 export function jobPostingStep2InputMapper(
   id: string,
   jobPostingForm: JobPostingStep2Form
-): IJobPostingInputRequirements {
+): JobPostingInputRequirements {
   return {
     id,
     skills: jobPostingForm.skills.map((skillId) => {

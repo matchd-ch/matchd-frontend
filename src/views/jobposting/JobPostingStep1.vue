@@ -175,6 +175,7 @@
 <script lang="ts">
 import { jobPostingStep1FormMapper } from "@/api/mappers/jobPostingStep1FormMapper";
 import { jobPostingStep1InputMapper } from "@/api/mappers/jobPostingStep1InputMapper";
+import type { Branch, JobPosting as JobPostingType, JobType, User } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -189,7 +190,6 @@ import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import type { Branch, JobPosting as JobPostingType, JobType, User } from "api";
 import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";

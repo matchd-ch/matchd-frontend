@@ -1,5 +1,3 @@
-import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { State } from "@/store/modules/projectposting/state";
 import type {
   AddEmployee,
   Employee,
@@ -7,7 +5,9 @@ import type {
   ProjectPostingAllocation,
   ProjectPostingBaseData,
   ProjectPostingSpecificData,
-} from "api";
+} from "@/api/models/types";
+import { errorCodeMapper } from "@/helpers/errorCodeMapper";
+import { State } from "@/store/modules/projectposting/state";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 

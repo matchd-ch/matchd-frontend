@@ -1,4 +1,4 @@
-query ($slug: String) {
+query company ($slug: String) {
   company(slug: $slug) {
     id
     uid

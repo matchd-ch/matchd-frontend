@@ -1,9 +1,9 @@
-import { IStudentProfileInputAbilities } from "@/api/models/types";
+import { StudentProfileInputAbilities } from "@/api/models/types";
 import { StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 
 export function studentProfileStep4InputMapper(
   studentProfileForm: StudentProfileStep4Form
-): IStudentProfileInputAbilities {
+): StudentProfileInputAbilities {
   return {
     skills: studentProfileForm.skills.map((softSkillId) => {
       return {

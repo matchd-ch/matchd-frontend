@@ -132,6 +132,7 @@
 <script lang="ts">
 import { studentProfileStep2FormMapper } from "@/api/mappers/studentProfileStep2FormMapper";
 import { studentProfileStep2InputMapper } from "@/api/mappers/studentProfileStep2InputMapper";
+import type { Branch, JobType } from "@/api/models/types";
 import { DateMode } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -145,7 +146,6 @@ import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { Branch, JobType } from "api";
 import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";

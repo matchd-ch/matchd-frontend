@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts">
+import type { Attachment } from "@/api/models/types";
 import MatchdVideo from "@/components/MatchdVideo.vue";
-import type { Attachment } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

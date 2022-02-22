@@ -89,6 +89,13 @@
 <script lang="ts">
 import { jobPostingStep2FormMapper } from "@/api/mappers/jobPostingStep2FormMapper";
 import { jobPostingStep2InputMapper } from "@/api/mappers/jobPostingStep2InputMapper";
+import type {
+  JobPosting as JobPostingType,
+  JobRequirement,
+  Language,
+  LanguageLevel,
+  Skill,
+} from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import LanguagePicker from "@/components/LanguagePicker.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
@@ -105,13 +112,6 @@ import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import type {
-  JobPosting as JobPostingType,
-  JobRequirement,
-  Language,
-  LanguageLevel,
-  Skill,
-} from "api";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

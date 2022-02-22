@@ -1,4 +1,4 @@
-query {
+query culturalFits {
   culturalFits(first: 100) {
     edges {
       node {

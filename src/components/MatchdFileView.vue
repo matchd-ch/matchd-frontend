@@ -55,11 +55,11 @@
 </template>
 
 <script lang="ts">
+import type { Attachment } from "@/api/models/types";
 import ErrorIcon from "@/assets/icons/error.svg";
 import Loading from "@/assets/icons/loading.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
 import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

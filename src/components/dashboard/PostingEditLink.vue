@@ -19,9 +19,9 @@
 </template>
 
 <script lang="ts">
+import type { JobPosting, ProjectPosting } from "@/api/models/types";
 import { JobPostingState, ProjectPostingState } from "@/api/models/types";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
-import type { JobPosting, ProjectPosting } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 import { RouteParams } from "vue-router";
 

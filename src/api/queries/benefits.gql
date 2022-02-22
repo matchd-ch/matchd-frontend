@@ -1,4 +1,4 @@
-query {
+query benefits {
   benefits(first: 100) {
     edges {
       node {

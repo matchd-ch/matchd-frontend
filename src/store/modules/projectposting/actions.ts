@@ -1,23 +1,17 @@
 import { createApolloClient } from "@/api/apollo-client";
-import projectPostingAllocationMutation from "@/api/mutations/projectPostingAllocation.gql";
-import projectPostingBaseDataMutation from "@/api/mutations/projectPostingBaseData.gql";
-import projectPostingSpecificDataMutation from "@/api/mutations/projectPostingSpecificData.gql";
+import type {
+  ProjectPostingInputAllocation,
+  ProjectPostingInputBaseData,
+  ProjectPostingInputSpecificData,
+} from "@/api/models/types";
+import { ProjectPostingAllocationDocument } from "@/api/mutations/projectPostingAllocation.generated";
+import { ProjectPostingBaseDataDocument } from "@/api/mutations/projectPostingBaseData.generated";
+import { ProjectPostingSpecificDataDocument } from "@/api/mutations/projectPostingSpecificData.generated";
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
 import { Mutations } from "@/store/modules/projectposting/mutations";
 import { State } from "@/store/modules/projectposting/state";
-import type {
-  MutationProjectPostingAllocationArgs,
-  MutationProjectPostingBaseDataArgs,
-  MutationProjectPostingSpecificDataArgs,
-  ProjectPostingAllocation,
-  ProjectPostingBaseData,
-  ProjectPostingInputAllocation,
-  ProjectPostingInputBaseData,
-  ProjectPostingInputSpecificData,
-  ProjectPostingSpecificData,
-} from "api";
 import { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
@@ -53,42 +47,42 @@ export interface Actions {
 export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.SAVE_PROJECTPOSTING_STEP1]({ commit }, payload: ProjectPostingInputBaseData) {
     commit(MutationTypes.PROJECTPOSTING_STEP_LOADING);
-    const response = await apiClient.mutate<
-      ProjectPostingBaseData,
-      MutationProjectPostingBaseDataArgs
-    >({
-      mutation: projectPostingBaseDataMutation,
+    const response = await apiClient.mutate({
+      mutation: ProjectPostingBaseDataDocument,
       variables: { baseData: payload },
     });
-    commit(MutationTypes.PROJECTPOSTING_STEP_LOADED, response.data ?? undefined);
+    commit(
+      MutationTypes.PROJECTPOSTING_STEP_LOADED,
+      response.data?.projectPostingBaseData ?? undefined
+    );
   },
   async [ActionTypes.SAVE_PROJECTPOSTING_STEP2](
     { commit },
     payload: ProjectPostingInputSpecificData
   ) {
     commit(MutationTypes.PROJECTPOSTING_STEP_LOADING);
-    const response = await apiClient.mutate<
-      ProjectPostingSpecificData,
-      MutationProjectPostingSpecificDataArgs
-    >({
-      mutation: projectPostingSpecificDataMutation,
+    const response = await apiClient.mutate({
+      mutation: ProjectPostingSpecificDataDocument,
       variables: { specificData: payload },
     });
-    commit(MutationTypes.PROJECTPOSTING_STEP_LOADED, response.data ?? undefined);
+    commit(
+      MutationTypes.PROJECTPOSTING_STEP_LOADED,
+      response.data?.projectPostingSpecificData ?? undefined
+    );
   },
   async [ActionTypes.SAVE_PROJECTPOSTING_STEP3](
     { commit },
     payload: ProjectPostingInputAllocation
   ) {
     commit(MutationTypes.PROJECTPOSTING_STEP_LOADING);
-    const response = await apiClient.mutate<
-      ProjectPostingAllocation,
-      MutationProjectPostingAllocationArgs
-    >({
-      mutation: projectPostingAllocationMutation,
+    const response = await apiClient.mutate({
+      mutation: ProjectPostingAllocationDocument,
       variables: { allocation: payload },
     });
-    commit(MutationTypes.PROJECTPOSTING_STEP_LOADED, response.data ?? undefined);
+    commit(
+      MutationTypes.PROJECTPOSTING_STEP_LOADED,
+      response.data?.projectPostingAllocation ?? undefined
+    );
   },
   async [ActionTypes.PROJECTPOSTING]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.PROJECTPOSTING_LOADING);

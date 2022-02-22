@@ -1,5 +1,5 @@
 # Step 3
-mutation (
+mutation universityProfileRelations (
   $relations: UniversityProfileInputRelations!
 ) {
   universityProfileRelations(

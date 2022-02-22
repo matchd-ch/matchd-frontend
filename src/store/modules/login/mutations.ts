@@ -1,12 +1,12 @@
-import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { State } from "@/store/modules/login/state";
 import type {
   ObtainJsonWebToken,
   PasswordReset,
   RefreshToken,
   SendPasswordResetEmail,
   User,
-} from "api";
+} from "@/api/models/types";
+import { errorCodeMapper } from "@/helpers/errorCodeMapper";
+import { State } from "@/store/modules/login/state";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 

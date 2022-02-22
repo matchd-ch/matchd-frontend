@@ -1,6 +1,6 @@
+import type { Employee, JobPosting } from "@/api/models/types";
 import { JobPostingState } from "@/api/models/types";
 import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
-import type { Employee, JobPosting } from "api";
 
 export function jobPostingStep3FormMapper(
   jobPosting: JobPosting,

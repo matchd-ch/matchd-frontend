@@ -1,5 +1,5 @@
 # Step 1
-mutation (
+mutation universityProfileBaseData (
   $baseData: UniversityProfileInputBaseData!
 ) {
   universityProfileBaseData(

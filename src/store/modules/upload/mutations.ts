@@ -1,8 +1,13 @@
+import type {
+  AttachmentConnection,
+  DeleteAttachment,
+  UploadConfiguration,
+  UserUpload,
+} from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { State } from "@/store/modules/upload/state";
-import type { AttachmentConnection, DeleteAttachment, UploadConfiguration, UserUpload } from "api";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 

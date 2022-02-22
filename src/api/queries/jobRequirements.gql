@@ -1,4 +1,4 @@
-query {
+query jobRequirements {
   jobRequirements(first: 100) {
     edges {
       node {

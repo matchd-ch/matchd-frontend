@@ -113,6 +113,7 @@
 <script lang="ts">
 import { companyProfileStep2FormMapper } from "@/api/mappers/companyProfileStep2FormMapper";
 import { companyProfileStep2InputMapper } from "@/api/mappers/companyProfileStep2InputMapper";
+import type { Attachment } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -129,7 +130,6 @@ import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment } from "api";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

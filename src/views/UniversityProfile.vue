@@ -189,6 +189,7 @@
 </template>
 
 <script lang="ts">
+import type { User } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
@@ -202,7 +203,6 @@ import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { User } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({

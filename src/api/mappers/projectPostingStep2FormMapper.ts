@@ -1,5 +1,5 @@
+import type { ProjectPosting } from "@/api/models/types";
 import { ProjectPostingStep2Form } from "@/models/ProjectPostingStep2Form";
-import type { ProjectPosting } from "api";
 import { DateTime } from "luxon";
 
 export function projectPostingStep2FormMapper(

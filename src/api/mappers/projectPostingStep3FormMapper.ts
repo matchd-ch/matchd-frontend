@@ -1,6 +1,6 @@
+import type { Employee, ProjectPosting } from "@/api/models/types";
 import { ProjectPostingState } from "@/api/models/types";
 import { ProjectPostingStep3Form } from "@/models/ProjectPostingStep3Form";
-import type { Employee, ProjectPosting } from "api";
 
 export function projectPostingStep3FormMapper(
   projectPosting: ProjectPosting,

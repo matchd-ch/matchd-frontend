@@ -1,6 +1,3 @@
-import { ProfileType } from "@/api/models/types";
-import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
-import { State } from "@/store/modules/content/state";
 import type {
   Attachment,
   Benefit,
@@ -25,7 +22,11 @@ import type {
   Student,
   TopicConnection,
   ZipCity,
-} from "api";
+} from "@/api/models/types";
+import { ProfileType } from "@/api/models/types";
+import { CompanyQuery } from "@/api/queries/company.generated";
+import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
+import { State } from "@/store/modules/content/state";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 
@@ -35,15 +36,7 @@ export type Mutations<S = State> = {
   [MutationTypes.BRANCHES_LOADING](state: S): void;
   [MutationTypes.BRANCHES_LOADED](state: S, payload: { branches: Branch[] }): void;
   [MutationTypes.COMPANY_LOADING](state: S): void;
-  [MutationTypes.COMPANY_LOADED](
-    state: S,
-    payload: {
-      company: Company;
-      logo: Attachment[];
-      media: Attachment[];
-      logoFallback: Attachment[] | null;
-    }
-  ): void;
+  [MutationTypes.COMPANY_LOADED](state: S, payload: CompanyQuery): void;
   [MutationTypes.COMPANY_MATCHING_LOADING](state: S): void;
   [MutationTypes.COMPANY_MATCHING_LOADED](state: S, payload: { matches: Match[] }): void;
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
@@ -142,24 +135,18 @@ export const mutations: MutationTree<State> & Mutations = {
     state.company.logo = null;
     state.company.media = [];
   },
-  [MutationTypes.COMPANY_LOADED](
-    state: State,
-    payload: {
-      company: Company;
-      logo: Attachment[];
-      media: Attachment[];
-      logoFallback: Attachment[];
-    }
-  ) {
+  [MutationTypes.COMPANY_LOADED](state: State, payload: CompanyQuery) {
     state.company.loading = false;
-    state.company.data = payload.company;
-    if (payload.logo.length > 0) {
-      state.company.logo = payload.logo[0];
+    state.company.data = payload.company as Company;
+    if (payload.logo?.edges.length ?? false) {
+      state.company.logo = payload.logo?.edges[0]?.node ?? null;
     }
-    if (payload.logoFallback.length > 0) {
-      state.company.logoFallback = payload.logoFallback[0];
+    if (payload.logoFallback?.edges.length ?? false) {
+      state.company.logoFallback = payload.logoFallback?.edges[0]?.node ?? null;
     }
-    state.company.media = payload.media;
+    state.company.media = ensureNoNullsAndUndefineds(
+      payload.media?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.COMPANY_MATCHING_LOADING](state: State) {
     state.companyMatching.loading = true;

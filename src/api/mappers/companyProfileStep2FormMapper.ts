@@ -1,5 +1,5 @@
+import type { User } from "@/api/models/types";
 import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
-import type { User } from "api";
 
 export function companyProfileStep2FormMapper(user: User): CompanyProfileStep2Form {
   return {

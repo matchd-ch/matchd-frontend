@@ -1,5 +1,5 @@
 # Step 2
-mutation (
+mutation companyProfileRelations (
   $relations: CompanyProfileInputRelations!
 ) {
   companyProfileRelations(

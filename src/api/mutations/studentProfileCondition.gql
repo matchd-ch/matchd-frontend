@@ -1,5 +1,5 @@
 # Step 6
-mutation ($condition: StudentProfileInputCondition!) {
+mutation studentProfileCondition ($condition: StudentProfileInputCondition!) {
   studentProfileCondition(
     condition: $condition
   ) {

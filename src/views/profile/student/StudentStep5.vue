@@ -86,6 +86,7 @@
 <script lang="ts">
 import { studentProfileStep5FormMapper } from "@/api/mappers/studentProfileStep5FormMapper";
 import { studentProfileStep5InputMapper } from "@/api/mappers/studentProfileStep5InputMapper";
+import type { Attachment, UploadConfiguration } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -99,7 +100,6 @@ import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment, UploadConfiguration } from "api";
 import { Field, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

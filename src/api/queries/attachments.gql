@@ -1,4 +1,4 @@
-query ($key: AttachmentKey!) {
+query attachments ($key: AttachmentKey!) {
   attachments(key: $key, first: 100) {
     edges {
       node {

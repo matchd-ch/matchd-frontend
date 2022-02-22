@@ -1,6 +1,6 @@
+import type { Attachment, UploadConfiguration } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import { RootState } from "@/store";
-import type { Attachment, UploadConfiguration } from "api";
 import { GetterTree } from "vuex";
 import { QueuedFile, State } from "./state";
 

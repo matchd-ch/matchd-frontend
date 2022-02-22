@@ -1,9 +1,9 @@
-import { IUniversityProfileInputRelations } from "@/api/models/types";
+import { UniversityProfileInputRelations } from "@/api/models/types";
 import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
 
 export function universityProfileStep3InputMapper(
   universityProfileForm: UniversityProfileStep3Form
-): IUniversityProfileInputRelations {
+): UniversityProfileInputRelations {
   return {
     linkEducation: universityProfileForm.linkEducation,
     linkProjects: universityProfileForm.linkProjects,

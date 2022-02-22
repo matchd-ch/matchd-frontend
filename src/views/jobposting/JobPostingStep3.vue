@@ -79,6 +79,7 @@
 <script lang="ts">
 import { jobPostingStep3FormMapper } from "@/api/mappers/jobPostingStep3FormMapper";
 import { jobPostingStep3InputMapper } from "@/api/mappers/jobPostingStep3InputMapper";
+import type { Employee, JobPosting as JobPostingType, User } from "@/api/models/types";
 import { JobPostingState as JobPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -91,7 +92,6 @@ import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import type { Employee, JobPosting as JobPostingType, User } from "api";
 import { Field, Form, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
