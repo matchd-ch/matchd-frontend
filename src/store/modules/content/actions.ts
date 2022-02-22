@@ -1,7 +1,6 @@
 import { createApolloClient } from "@/api/apollo-client";
 import type {
   Benefit,
-  Branch,
   MatchJobPostingInput,
   MatchProjectPostingInput,
   MatchStudentInput,
@@ -18,6 +17,7 @@ import dashboardQuery from "@/api/queries/dashboard.gql";
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
+import { JobTypesDocument } from "@/api/queries/jobTypes.generated";
 import jobTypesQuery from "@/api/queries/jobTypes.gql";
 import keywordsQuery from "@/api/queries/keywords.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
@@ -129,7 +129,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.BRANCHES_LOADED, {
-      branches: (response.data.branches?.edges.filter((edge) => edge?.node) as Branch[]) ?? [],
+      branches: response.data.branches,
     });
   },
   async [ActionTypes.COMPANY]({ commit }, payload: { slug: string }) {
@@ -224,7 +224,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.JOB_TYPE]({ commit }) {
     commit(MutationTypes.JOB_TYPES_LOADING);
     const response = await apiClient.query({
-      query: jobTypesQuery,
+      query: JobTypesDocument,
       context: {
         batch: true,
       },

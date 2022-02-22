@@ -7,7 +7,7 @@ import type {
 } from "@/api/models/types";
 import { AddEmployeeDocument } from "@/api/mutations/addEmployee.generated";
 import jobPostingAllocationMutation from "@/api/mutations/jobPostingAllocation.gql";
-import jobPostingBaseDataMutation from "@/api/mutations/jobPostingBaseData.gql";
+import { JobPostingBaseDataDocument } from "@/api/mutations/jobPostingBaseData.generated";
 import jobPostingRequirementsMutation from "@/api/mutations/jobPostingRequirements.gql";
 import employeesQuery from "@/api/queries/employees.gql";
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
@@ -56,10 +56,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.SAVE_JOBPOSTING_STEP1]({ commit }, payload: JobPostingInputBaseData) {
     commit(MutationTypes.JOBPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: jobPostingBaseDataMutation,
-      variables: payload,
+      mutation: JobPostingBaseDataDocument,
+      variables: { baseData: payload },
     });
-    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data.jobPostingBaseData);
+    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data?.jobPostingBaseData ?? undefined);
   },
   async [ActionTypes.SAVE_JOBPOSTING_STEP2]({ commit }, payload: JobPostingInputRequirements) {
     commit(MutationTypes.JOBPOSTING_STEP_LOADING);

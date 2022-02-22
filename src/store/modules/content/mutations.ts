@@ -1,13 +1,11 @@
 import type {
   Attachment,
   Benefit,
-  Branch,
   Company,
   CulturalFit,
   Dashboard,
   JobPosting,
   JobRequirement,
-  JobType,
   KeywordConnection,
   Language,
   LanguageLevel,
@@ -24,7 +22,9 @@ import type {
   ZipCity,
 } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
+import { BranchesQuery } from "@/api/queries/branches.generated";
 import { CompanyQuery } from "@/api/queries/company.generated";
+import { JobTypesQuery } from "@/api/queries/jobTypes.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { State } from "@/store/modules/content/state";
 import { MutationTree } from "vuex";
@@ -34,7 +34,7 @@ export type Mutations<S = State> = {
   [MutationTypes.BENEFITS_LOADING](state: S): void;
   [MutationTypes.BENEFITS_LOADED](state: S, payload: { benefits: Benefit[] }): void;
   [MutationTypes.BRANCHES_LOADING](state: S): void;
-  [MutationTypes.BRANCHES_LOADED](state: S, payload: { branches: Branch[] }): void;
+  [MutationTypes.BRANCHES_LOADED](state: S, payload: BranchesQuery): void;
   [MutationTypes.COMPANY_LOADING](state: S): void;
   [MutationTypes.COMPANY_LOADED](state: S, payload: CompanyQuery): void;
   [MutationTypes.COMPANY_MATCHING_LOADING](state: S): void;
@@ -53,7 +53,7 @@ export type Mutations<S = State> = {
     payload: { jobRequirements: JobRequirement[] }
   ): void;
   [MutationTypes.JOB_TYPES_LOADING](state: S): void;
-  [MutationTypes.JOB_TYPES_LOADED](state: S, payload: { jobTypes: JobType[] }): void;
+  [MutationTypes.JOB_TYPES_LOADED](state: S, payload: JobTypesQuery): void;
   [MutationTypes.KEYWORDS_LOADING](state: S): void;
   [MutationTypes.KEYWORDS_LOADED](state: S, payload: { keywords: KeywordConnection }): void;
   [MutationTypes.LANGUAGES_LOADING](state: S): void;
@@ -125,9 +125,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.BRANCHES_LOADING](state: State) {
     state.branches.loading = true;
   },
-  [MutationTypes.BRANCHES_LOADED](state: State, payload: { branches: Branch[] }) {
+  [MutationTypes.BRANCHES_LOADED](state: State, payload: BranchesQuery) {
     state.branches.loading = false;
-    state.branches.data = payload.branches;
+    state.branches.data = ensureNoNullsAndUndefineds(
+      payload.branches?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.COMPANY_LOADING](state: State) {
     state.company.loading = true;
@@ -201,9 +203,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.JOB_TYPES_LOADING](state: State) {
     state.jobTypes.loading = true;
   },
-  [MutationTypes.JOB_TYPES_LOADED](state: State, payload: { jobTypes: JobType[] }) {
+  [MutationTypes.JOB_TYPES_LOADED](state: State, payload: JobTypesQuery) {
     state.jobTypes.loading = false;
-    state.jobTypes.data = payload.jobTypes;
+    state.jobTypes.data = ensureNoNullsAndUndefineds(
+      payload.jobTypes?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.LANGUAGES_LOADING](state: State) {
     state.languages.loading = true;

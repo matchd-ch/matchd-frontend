@@ -74,7 +74,7 @@
           rules="required"
         >
           <option value disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :key="index" :value="n">
+          <option v-for="n in 12" :key="`jobFromDateMonth_${n}`" :value="n">
             {{ String(n).padStart(2, "0") }}
           </option>
         </Field>
@@ -85,11 +85,10 @@
           label="Stellenantritt Jahr"
           rules="required"
         >
-          <option v-if="veeForm.values.jobFromDateYear" selected>
-            {{ veeForm.values.jobFromDateYear }}
+          <option value disabled selected hidden>Jahr</option>
+          <option v-for="n in validYears" :key="`jobFromDateYear_${n}`" :value="n">
+            {{ String(n).padStart(2, "0") }}
           </option>
-          <option v-else value disabled selected hidden>Jahr</option>
-          <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
         </Field>
       </fieldset>
     </MatchdSelect>
@@ -116,7 +115,7 @@
             rules="requiredIfNotEmpty:jobToDateYear"
           >
             <option value disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :key="index" :value="n">
+            <option v-for="n in 12" :key="`jobToDateMonth_${n}`" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -127,11 +126,10 @@
             label="Endtermin Jahr"
             rules="requiredIfNotEmpty:jobToDateMonth"
           >
-            <option v-if="veeForm.values.jobToDateYear" selected>
-              {{ veeForm.values.jobToDateYear }}
+            <option value disabled selected hidden>Jahr</option>
+            <option v-for="n in validYears" :key="`jobToDateYear_${n}`" :value="n">
+              {{ String(n).padStart(2, "0") }}
             </option>
-            <option v-else value disabled selected hidden>Jahr</option>
-            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
       </template>
@@ -164,7 +162,9 @@
           :loading="jobPostingLoading"
           @click="veeForm.onSubmit"
         >
-          <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
+          <template v-if="currentJobPosting?.formStep && currentJobPosting.formStep > 3">
+            Speichern
+          </template>
           <template v-else>Speichern und weiter</template>
         </MatchdButton>
       </div>
@@ -295,6 +295,7 @@ export default class JobPostingStep1 extends Vue {
   }
 
   get jobTypes(): JobType[] {
+    console.log(this.$store.getters["jobTypes"]);
     return this.$store.getters["jobTypes"];
   }
 
