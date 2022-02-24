@@ -11,7 +11,6 @@
     "test:lint": "vue-cli-service lint",
     "build:server": "tsc --project server/tsconfig.json",
     "codegen": "graphql-codegen --config codegen.yml",
-    "codegen2": "graphql-codegen --config codegen2.yml",
     "format": "prettier -w .",
     "format:check": "prettier -c ."
   },
