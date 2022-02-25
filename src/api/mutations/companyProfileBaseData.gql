@@ -1,10 +1,6 @@
 # Step 1
-mutation companyProfileBaseData (
-  $baseData: CompanyProfileInputBaseData!
-) {
-  companyProfileBaseData(
-    baseData: $baseData
-  ) {
+mutation companyProfileBaseData ($input: CompanyProfileBaseDataInput!) {
+  companyProfileBaseData(input: $input) {
     success
     errors
   }

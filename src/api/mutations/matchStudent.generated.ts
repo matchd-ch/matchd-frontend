@@ -9,7 +9,7 @@ export type MatchStudentMutationVariables = Types.Exact<{
 export type MatchStudentMutation = {
   __typename?: "Mutation";
   matchStudent?: {
-    __typename?: "MatchStudent";
+    __typename?: "MatchStudentPayload";
     success?: boolean | null;
     errors?: any | null;
     confirmed: boolean;
@@ -50,7 +50,7 @@ export const MatchStudentDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "match" },
+                name: { kind: "Name", value: "input" },
                 value: {
                   kind: "ObjectValue",
                   fields: [

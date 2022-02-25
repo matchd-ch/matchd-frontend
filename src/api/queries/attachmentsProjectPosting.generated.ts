@@ -3,7 +3,7 @@ import * as Types from "../models/types";
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type AttachmentsProjectPostingQueryVariables = Types.Exact<{
   key: Types.AttachmentKey;
-  id: Types.Scalars["ID"];
+  id: Types.Scalars["String"];
 }>;
 
 export type AttachmentsProjectPostingQuery = {
@@ -45,7 +45,7 @@ export const AttachmentsProjectPostingDocument = {
           variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
           type: {
             kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+            type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
           },
         },
       ],

@@ -10,7 +10,7 @@ export type UserRequestMutationVariables = Types.Exact<{
 export type UserRequestMutation = {
   __typename?: "Mutation";
   userRequest?: {
-    __typename?: "UserRequest";
+    __typename?: "UserRequestPayload";
     success?: boolean | null;
     errors?: any | null;
   } | null;

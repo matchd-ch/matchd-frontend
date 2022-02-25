@@ -10,7 +10,9 @@
     "test:ct:open": "cypress open-ct --browser chrome",
     "test:lint": "vue-cli-service lint",
     "build:server": "tsc --project server/tsconfig.json",
-    "codegen": "graphql-codegen --config codegen.yml",
+    "graphql": "npm run graphql:introspection && npm run graphql:codegen",
+    "graphql:introspection": "graphql-codegen --config codegen-schema.yml",
+    "graphql:codegen": "graphql-codegen --config codegen.yml",
     "format": "prettier -w .",
     "format:check": "prettier -c ."
   },

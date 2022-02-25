@@ -1,8 +1,6 @@
 # Step 5
-mutation studentProfileSpecificData ($specificData: StudentProfileInputSpecificData!) {
-  studentProfileSpecificData(
-    specificData: $specificData
-  ) {
+mutation studentProfileSpecificData ($input: StudentProfileSpecificDataInput!) {
+  studentProfileSpecificData(input: $input) {
     success
     errors
     nicknameSuggestions

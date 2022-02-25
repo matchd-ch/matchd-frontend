@@ -1,4 +1,4 @@
-query attachmentsProjectPosting ($key: AttachmentKey!, $id: ID!) {
+query attachmentsProjectPosting ($key: AttachmentKey!, $id: String!) {
   attachments(key: $key, id: $id, first: 100) {
     edges {
       node {

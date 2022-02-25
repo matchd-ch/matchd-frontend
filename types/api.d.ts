@@ -64,19 +64,21 @@ type Scalars = {
   Upload: any;
 };
 
-/** Adds a new emplyoee to a company */
-type AddEmployee = {
-  __typename?: "AddEmployee";
-  employee?: Maybe<Employee>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
 type AddEmployeeInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   email: Scalars["String"];
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   role: Scalars["String"];
+};
+
+/** Adds a new emplyoee to a company */
+type AddEmployeePayload = {
+  __typename?: "AddEmployeePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  employee?: Maybe<Employee>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type Attachment = Node & {
@@ -163,7 +165,7 @@ type BenefitEdge = {
 
 type BenefitInput = {
   icon?: InputMaybe<Scalars["String"]>;
-  id: Scalars["ID"];
+  id: Scalars["String"];
 };
 
 type Branch = Node & {
@@ -208,7 +210,7 @@ type BranchEdge = {
 };
 
 type BranchInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
   name?: InputMaybe<Scalars["String"]>;
 };
 
@@ -261,30 +263,26 @@ type CompanyBranchesArgs = {
   offset?: InputMaybe<Scalars["Int"]>;
 };
 
-/** Updates the Company Profile with benefits and branches */
-type CompanyProfileAdvantages = {
-  __typename?: "CompanyProfileAdvantages";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates the profile of a Company */
-type CompanyProfileBaseData = {
-  __typename?: "CompanyProfileBaseData";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-type CompanyProfileInputAdvantages = {
+type CompanyProfileAdvantagesInput = {
   /** Benefits */
   benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
   /** Branches */
   branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
 };
 
-type CompanyProfileInputBaseData = {
+/** Updates the Company Profile with benefits and branches */
+type CompanyProfileAdvantagesPayload = {
+  __typename?: "CompanyProfileAdvantagesPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type CompanyProfileBaseDataInput = {
   /** City */
   city: Scalars["String"];
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** First name */
   firstName: Scalars["String"];
   /** Last name */
@@ -301,7 +299,16 @@ type CompanyProfileInputBaseData = {
   zip: Scalars["String"];
 };
 
-type CompanyProfileInputRelations = {
+/** Updates the profile of a Company */
+type CompanyProfileBaseDataPayload = {
+  __typename?: "CompanyProfileBaseDataPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type CompanyProfileRelationsInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** description */
   description?: InputMaybe<Scalars["String"]>;
   /** memeber IT St. Gallen */
@@ -312,23 +319,26 @@ type CompanyProfileInputRelations = {
   website: Scalars["String"];
 };
 
-type CompanyProfileInputValues = {
+/** Updates website url, description, services, member IT St.Gallen */
+type CompanyProfileRelationsPayload = {
+  __typename?: "CompanyProfileRelationsPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type CompanyProfileValuesInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** Cultural Fit */
   culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
   /** Soft Skills */
   softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
 
-/** Updates website url, description, services, member IT St.Gallen */
-type CompanyProfileRelations = {
-  __typename?: "CompanyProfileRelations";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
 /** Updates a company profile with soft skills and cultural fit */
-type CompanyProfileValues = {
-  __typename?: "CompanyProfileValues";
+type CompanyProfileValuesPayload = {
+  __typename?: "CompanyProfileValuesPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -376,7 +386,7 @@ type CulturalFitEdge = {
 };
 
 type CulturalFitInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
 };
 
 type Dashboard = {
@@ -397,8 +407,14 @@ enum DateMode {
   DateRange = "DATE_RANGE",
 }
 
-type DeleteAttachment = {
-  __typename?: "DeleteAttachment";
+type DeleteAttachmentInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
+};
+
+type DeleteAttachmentPayload = {
+  __typename?: "DeleteAttachmentPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -415,7 +431,7 @@ type Employee = Node & {
 };
 
 type EmployeeInput = {
-  id?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
   /** Role */
   role?: InputMaybe<Scalars["String"]>;
 };
@@ -452,7 +468,7 @@ type Hobby = Node & {
 };
 
 type HobbyInput = {
-  id?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
 };
 
@@ -491,20 +507,46 @@ type JobPostingJobRequirementsArgs = {
   offset?: InputMaybe<Scalars["Int"]>;
 };
 
+type JobPostingAllocationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  employee: EmployeeInput;
+  id?: InputMaybe<Scalars["String"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
 /** Updates a job posting */
-type JobPostingAllocationForm = {
-  __typename?: "JobPostingAllocationForm";
+type JobPostingAllocationPayload = {
+  __typename?: "JobPostingAllocationPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
+  jobPostingId?: Maybe<Scalars["String"]>;
   slug?: Maybe<Scalars["String"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+type JobPostingBaseDataInput = {
+  branches: Array<InputMaybe<BranchInput>>;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** Description */
+  description?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  jobFromDate: Scalars["String"];
+  jobToDate?: InputMaybe<Scalars["String"]>;
+  jobType: JobTypeInput;
+  /** Title */
+  title: Scalars["String"];
+  url?: InputMaybe<Scalars["String"]>;
+  /** Workload */
+  workload: Scalars["Int"];
+};
+
 /** Creates a job posting */
-type JobPostingBaseDataForm = {
-  __typename?: "JobPostingBaseDataForm";
+type JobPostingBaseDataPayload = {
+  __typename?: "JobPostingBaseDataPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
+  jobPostingId?: Maybe<Scalars["String"]>;
   slug?: Maybe<Scalars["String"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -527,36 +569,7 @@ type JobPostingEdge = {
 };
 
 type JobPostingInput = {
-  id: Scalars["ID"];
-};
-
-type JobPostingInputAllocation = {
-  employee: EmployeeInput;
-  id?: InputMaybe<Scalars["ID"]>;
-  /** State */
-  state: Scalars["String"];
-};
-
-type JobPostingInputBaseData = {
-  branches: Array<InputMaybe<BranchInput>>;
-  /** Description */
-  description?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["ID"]>;
-  jobFromDate: Scalars["String"];
-  jobToDate?: InputMaybe<Scalars["String"]>;
-  jobType: JobTypeInput;
-  /** Title */
-  title: Scalars["String"];
-  url?: InputMaybe<Scalars["String"]>;
-  /** Workload */
-  workload: Scalars["Int"];
-};
-
-type JobPostingInputRequirements = {
-  id?: InputMaybe<Scalars["ID"]>;
-  jobRequirements?: InputMaybe<Array<InputMaybe<JobRequirementInput>>>;
-  languages?: InputMaybe<Array<InputMaybe<JobPostingLanguageRelationInput>>>;
-  skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
+  id: Scalars["String"];
 };
 
 type JobPostingLanguageRelation = Node & {
@@ -568,9 +581,9 @@ type JobPostingLanguageRelation = Node & {
 };
 
 type JobPostingLanguageRelationInput = {
-  id?: InputMaybe<Scalars["ID"]>;
-  language?: InputMaybe<Scalars["ID"]>;
-  languageLevel?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  language?: InputMaybe<Scalars["String"]>;
+  languageLevel?: InputMaybe<Scalars["String"]>;
 };
 
 type JobPostingMatchInfo = Node & {
@@ -588,11 +601,20 @@ type JobPostingMatchingInput = {
   zip?: InputMaybe<ZipCityInput>;
 };
 
+type JobPostingRequirementsInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  jobRequirements?: InputMaybe<Array<InputMaybe<JobRequirementInput>>>;
+  languages?: InputMaybe<Array<InputMaybe<JobPostingLanguageRelationInput>>>;
+  skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
+};
+
 /** Updates a job posting */
-type JobPostingRequirements = {
-  __typename?: "JobPostingRequirements";
+type JobPostingRequirementsPayload = {
+  __typename?: "JobPostingRequirementsPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["ID"]>;
+  jobPostingId?: Maybe<Scalars["String"]>;
   slug?: Maybe<Scalars["String"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -645,7 +667,7 @@ type JobRequirementEdge = {
 };
 
 type JobRequirementInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
   name?: InputMaybe<Scalars["String"]>;
 };
 
@@ -675,7 +697,7 @@ type JobTypeEdge = {
 };
 
 type JobTypeInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
   mode?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
 };
@@ -705,7 +727,7 @@ type KeywordEdge = {
 };
 
 type KeywordInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
   name?: InputMaybe<Scalars["String"]>;
 };
 
@@ -779,28 +801,32 @@ type MatchHints = {
   hasRequestedMatch: Scalars["Boolean"];
 };
 
-/** Initiate or confirm Matching */
-type MatchJobPosting = {
-  __typename?: "MatchJobPosting";
-  confirmed: Scalars["Boolean"];
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
 type MatchJobPostingInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   jobPosting: JobPostingInput;
 };
 
 /** Initiate or confirm Matching */
-type MatchProjectPosting = {
-  __typename?: "MatchProjectPosting";
+type MatchJobPostingPayload = {
+  __typename?: "MatchJobPostingPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   confirmed: Scalars["Boolean"];
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
 
 type MatchProjectPostingInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   projectPosting: ProjectPostingInput;
+};
+
+/** Initiate or confirm Matching */
+type MatchProjectPostingPayload = {
+  __typename?: "MatchProjectPostingPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  confirmed: Scalars["Boolean"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 type MatchStatus = {
@@ -809,17 +835,19 @@ type MatchStatus = {
   initiator: ProfileType;
 };
 
+type MatchStudentInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  jobPosting: JobPostingInput;
+  student: StudentInput;
+};
+
 /** Initiate or confirm Matching */
-type MatchStudent = {
-  __typename?: "MatchStudent";
+type MatchStudentPayload = {
+  __typename?: "MatchStudentPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   confirmed: Scalars["Boolean"];
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
-};
-
-type MatchStudentInput = {
-  jobPosting: JobPostingInput;
-  student: StudentInput;
 };
 
 /** An enumeration. */
@@ -834,29 +862,29 @@ enum MatchType {
 type Mutation = {
   __typename?: "Mutation";
   /** Adds a new emplyoee to a company */
-  addEmployee?: Maybe<AddEmployee>;
+  addEmployee?: Maybe<AddEmployeePayload>;
   /** Updates the Company Profile with benefits and branches */
-  companyProfileAdvantages?: Maybe<CompanyProfileAdvantages>;
+  companyProfileAdvantages?: Maybe<CompanyProfileAdvantagesPayload>;
   /** Updates the profile of a Company */
-  companyProfileBaseData?: Maybe<CompanyProfileBaseData>;
+  companyProfileBaseData?: Maybe<CompanyProfileBaseDataPayload>;
   /** Updates website url, description, services, member IT St.Gallen */
-  companyProfileRelations?: Maybe<CompanyProfileRelations>;
+  companyProfileRelations?: Maybe<CompanyProfileRelationsPayload>;
   /** Updates a company profile with soft skills and cultural fit */
-  companyProfileValues?: Maybe<CompanyProfileValues>;
-  deleteAttachment?: Maybe<DeleteAttachment>;
+  companyProfileValues?: Maybe<CompanyProfileValuesPayload>;
+  deleteAttachment?: Maybe<DeleteAttachmentPayload>;
   /** Updates a job posting */
-  jobPostingAllocation?: Maybe<JobPostingAllocationForm>;
+  jobPostingAllocation?: Maybe<JobPostingAllocationPayload>;
   /** Creates a job posting */
-  jobPostingBaseData?: Maybe<JobPostingBaseDataForm>;
+  jobPostingBaseData?: Maybe<JobPostingBaseDataPayload>;
   /** Updates a job posting */
-  jobPostingRequirements?: Maybe<JobPostingRequirements>;
+  jobPostingRequirements?: Maybe<JobPostingRequirementsPayload>;
   logout?: Maybe<Scalars["Boolean"]>;
   /** Initiate or confirm Matching */
-  matchJobPosting?: Maybe<MatchJobPosting>;
+  matchJobPosting?: Maybe<MatchJobPostingPayload>;
   /** Initiate or confirm Matching */
-  matchProjectPosting?: Maybe<MatchProjectPosting>;
+  matchProjectPosting?: Maybe<MatchProjectPostingPayload>;
   /** Initiate or confirm Matching */
-  matchStudent?: Maybe<MatchStudent>;
+  matchStudent?: Maybe<MatchStudentPayload>;
   /**
    * Change user password without old password.
    *
@@ -870,11 +898,11 @@ type Mutation = {
    */
   passwordReset?: Maybe<PasswordReset>;
   /** Updates a project posting */
-  projectPostingAllocation?: Maybe<ProjectPostingAllocation>;
+  projectPostingAllocation?: Maybe<ProjectPostingAllocationPayload>;
   /** Creates a project posting */
-  projectPostingBaseData?: Maybe<ProjectPostingBaseData>;
+  projectPostingBaseData?: Maybe<ProjectPostingBaseDataPayload>;
   /** Creates a project posting */
-  projectPostingSpecificData?: Maybe<ProjectPostingSpecificData>;
+  projectPostingSpecificData?: Maybe<ProjectPostingSpecificDataPayload>;
   /** Same as `grapgql_jwt` implementation, with standard output. */
   refreshToken?: Maybe<RefreshToken>;
   /** Creates a new user with company */
@@ -895,17 +923,17 @@ type Mutation = {
    */
   sendPasswordResetEmail?: Maybe<SendPasswordResetEmail>;
   /** Updates the profile of a student */
-  studentProfileAbilities?: Maybe<StudentProfileAbilities>;
+  studentProfileAbilities?: Maybe<StudentProfileAbilitiesPayload>;
   /** Updates the profile of a student */
-  studentProfileBaseData?: Maybe<StudentProfileBaseData>;
+  studentProfileBaseData?: Maybe<StudentProfileBaseDataPayload>;
   /** Updates soft skills and cultural fits of a student */
-  studentProfileCharacter?: Maybe<StudentProfileCharacter>;
+  studentProfileCharacter?: Maybe<StudentProfileCharacterPayload>;
   /** Updates the state of a student */
-  studentProfileCondition?: Maybe<StudentProfileCondition>;
+  studentProfileCondition?: Maybe<StudentProfileConditionPayload>;
   /** Updates job option, date (start or range) and branch of a student */
-  studentProfileEmployment?: Maybe<StudentProfileEmployment>;
+  studentProfileEmployment?: Maybe<StudentProfileEmploymentPayload>;
   /** Updates the nickname of a student */
-  studentProfileSpecificData?: Maybe<StudentProfileSpecificData>;
+  studentProfileSpecificData?: Maybe<StudentProfileSpecificDataPayload>;
   /**
    * Obtain JSON web token for given user.
    *
@@ -921,16 +949,16 @@ type Mutation = {
    */
   tokenAuth?: Maybe<ObtainJsonWebToken>;
   /** Updates the profile of a university */
-  universityProfileBaseData?: Maybe<UniversityProfileBaseData>;
+  universityProfileBaseData?: Maybe<UniversityProfileBaseDataPayload>;
   /** Updates website services */
-  universityProfileRelations?: Maybe<UniversityProfileRelations>;
+  universityProfileRelations?: Maybe<UniversityProfileRelationsPayload>;
   /** Updates branches and description */
-  universityProfileSpecificData?: Maybe<UniversityProfileSpecificData>;
+  universityProfileSpecificData?: Maybe<UniversityProfileSpecificDataPayload>;
   /** Updates a company profile with soft skills and cultural fit */
-  universityProfileValues?: Maybe<UniversityProfileValues>;
-  upload?: Maybe<UserUpload>;
+  universityProfileValues?: Maybe<UniversityProfileValuesPayload>;
+  upload?: Maybe<UserUploadPayload>;
   /** Creates a new user user request */
-  userRequest?: Maybe<UserRequest>;
+  userRequest?: Maybe<UserRequestPayload>;
   /**
    * Verify user account.
    *
@@ -942,51 +970,51 @@ type Mutation = {
 };
 
 type MutationAddEmployeeArgs = {
-  addEmployee: AddEmployeeInput;
+  input: AddEmployeeInput;
 };
 
 type MutationCompanyProfileAdvantagesArgs = {
-  advantages: CompanyProfileInputAdvantages;
+  input: CompanyProfileAdvantagesInput;
 };
 
 type MutationCompanyProfileBaseDataArgs = {
-  baseData: CompanyProfileInputBaseData;
+  input: CompanyProfileBaseDataInput;
 };
 
 type MutationCompanyProfileRelationsArgs = {
-  relations: CompanyProfileInputRelations;
+  input: CompanyProfileRelationsInput;
 };
 
 type MutationCompanyProfileValuesArgs = {
-  values: CompanyProfileInputValues;
+  input: CompanyProfileValuesInput;
 };
 
 type MutationDeleteAttachmentArgs = {
-  id?: InputMaybe<Scalars["ID"]>;
+  input: DeleteAttachmentInput;
 };
 
 type MutationJobPostingAllocationArgs = {
-  allocation: JobPostingInputAllocation;
+  input: JobPostingAllocationInput;
 };
 
 type MutationJobPostingBaseDataArgs = {
-  baseData: JobPostingInputBaseData;
+  input: JobPostingBaseDataInput;
 };
 
 type MutationJobPostingRequirementsArgs = {
-  requirements: JobPostingInputRequirements;
+  input: JobPostingRequirementsInput;
 };
 
 type MutationMatchJobPostingArgs = {
-  match: MatchJobPostingInput;
+  input: MatchJobPostingInput;
 };
 
 type MutationMatchProjectPostingArgs = {
-  match: MatchProjectPostingInput;
+  input: MatchProjectPostingInput;
 };
 
 type MutationMatchStudentArgs = {
-  match: MatchStudentInput;
+  input: MatchStudentInput;
 };
 
 type MutationPasswordResetArgs = {
@@ -996,15 +1024,15 @@ type MutationPasswordResetArgs = {
 };
 
 type MutationProjectPostingAllocationArgs = {
-  allocation: ProjectPostingInputAllocation;
+  input: ProjectPostingAllocationInput;
 };
 
 type MutationProjectPostingBaseDataArgs = {
-  baseData: ProjectPostingInputBaseData;
+  input: ProjectPostingBaseDataInput;
 };
 
 type MutationProjectPostingSpecificDataArgs = {
-  specificData: ProjectPostingInputSpecificData;
+  input: ProjectPostingSpecificDataInput;
 };
 
 type MutationRefreshTokenArgs = {
@@ -1043,27 +1071,27 @@ type MutationSendPasswordResetEmailArgs = {
 };
 
 type MutationStudentProfileAbilitiesArgs = {
-  abilities?: InputMaybe<StudentProfileInputAbilities>;
+  input: StudentProfileAbilitiesInput;
 };
 
 type MutationStudentProfileBaseDataArgs = {
-  baseData: StudentProfileInputBaseData;
+  input: StudentProfileBaseDataInput;
 };
 
 type MutationStudentProfileCharacterArgs = {
-  character: StudentProfileInputCharacter;
+  input: StudentProfileCharacterInput;
 };
 
 type MutationStudentProfileConditionArgs = {
-  condition: StudentProfileInputCondition;
+  input: StudentProfileConditionInput;
 };
 
 type MutationStudentProfileEmploymentArgs = {
-  employment: StudentProfileInputEmployment;
+  input: StudentProfileEmploymentInput;
 };
 
 type MutationStudentProfileSpecificDataArgs = {
-  specificData: StudentProfileInputSpecificData;
+  input: StudentProfileSpecificDataInput;
 };
 
 type MutationTokenAuthArgs = {
@@ -1073,25 +1101,23 @@ type MutationTokenAuthArgs = {
 };
 
 type MutationUniversityProfileBaseDataArgs = {
-  baseData: UniversityProfileInputBaseData;
+  input: UniversityProfileBaseDataInput;
 };
 
 type MutationUniversityProfileRelationsArgs = {
-  relations: UniversityProfileInputRelations;
+  input: UniversityProfileRelationsInput;
 };
 
 type MutationUniversityProfileSpecificDataArgs = {
-  specificData: UniversityProfileInputSpecificData;
+  input: UniversityProfileSpecificDataInput;
 };
 
 type MutationUniversityProfileValuesArgs = {
-  values: UniversityProfileInputValues;
+  input: UniversityProfileValuesInput;
 };
 
 type MutationUploadArgs = {
-  file: Scalars["Upload"];
-  key: AttachmentKey;
-  projectPosting?: InputMaybe<ProjectPostingInput>;
+  input: UserUploadInput;
 };
 
 type MutationUserRequestArgs = {
@@ -1139,7 +1165,7 @@ type OnlineProject = Node & {
 };
 
 type OnlineProjectInput = {
-  id?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
   url?: InputMaybe<Scalars["String"]>;
 };
 
@@ -1216,20 +1242,44 @@ type ProjectPosting = Node & {
   website: Scalars["String"];
 };
 
+type ProjectPostingAllocationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  employee?: InputMaybe<EmployeeInput>;
+  id?: InputMaybe<Scalars["String"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
 /** Updates a project posting */
-type ProjectPostingAllocation = {
-  __typename?: "ProjectPostingAllocation";
+type ProjectPostingAllocationPayload = {
+  __typename?: "ProjectPostingAllocationPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["ID"]>;
+  projectPostingId?: Maybe<Scalars["String"]>;
   slug?: Maybe<Scalars["String"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+type ProjectPostingBaseDataInput = {
+  /** Additional Information */
+  additionalInformation?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** Description */
+  description: Scalars["String"];
+  id?: InputMaybe<Scalars["String"]>;
+  keywords?: InputMaybe<Array<InputMaybe<KeywordInput>>>;
+  projectType: ProjectTypeInput;
+  /** Title */
+  title: Scalars["String"];
+  topic: TopicInput;
+};
+
 /** Creates a project posting */
-type ProjectPostingBaseData = {
-  __typename?: "ProjectPostingBaseData";
+type ProjectPostingBaseDataPayload = {
+  __typename?: "ProjectPostingBaseDataPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["ID"]>;
+  projectPostingId?: Maybe<Scalars["String"]>;
   slug?: Maybe<Scalars["String"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -1252,33 +1302,7 @@ type ProjectPostingEdge = {
 };
 
 type ProjectPostingInput = {
-  id: Scalars["ID"];
-};
-
-type ProjectPostingInputAllocation = {
-  employee?: InputMaybe<EmployeeInput>;
-  id?: InputMaybe<Scalars["ID"]>;
-  /** State */
-  state: Scalars["String"];
-};
-
-type ProjectPostingInputBaseData = {
-  /** Additional Information */
-  additionalInformation?: InputMaybe<Scalars["String"]>;
-  /** Description */
-  description: Scalars["String"];
-  id?: InputMaybe<Scalars["ID"]>;
-  keywords?: InputMaybe<Array<InputMaybe<KeywordInput>>>;
-  projectType: ProjectTypeInput;
-  /** Title */
-  title: Scalars["String"];
-  topic: TopicInput;
-};
-
-type ProjectPostingInputSpecificData = {
-  id?: InputMaybe<Scalars["ID"]>;
-  projectFromDate?: InputMaybe<Scalars["String"]>;
-  website?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
 };
 
 type ProjectPostingMatchInfo = Node & {
@@ -1294,11 +1318,19 @@ type ProjectPostingMatchingInput = {
   projectPosting: ProjectPostingInput;
 };
 
+type ProjectPostingSpecificDataInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  projectFromDate?: InputMaybe<Scalars["String"]>;
+  website?: InputMaybe<Scalars["String"]>;
+};
+
 /** Creates a project posting */
-type ProjectPostingSpecificData = {
-  __typename?: "ProjectPostingSpecificData";
+type ProjectPostingSpecificDataPayload = {
+  __typename?: "ProjectPostingSpecificDataPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["ID"]>;
+  projectPostingId?: Maybe<Scalars["String"]>;
   slug?: Maybe<Scalars["String"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -1334,7 +1366,7 @@ type ProjectTypeEdge = {
 };
 
 type ProjectTypeInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
   name?: InputMaybe<Scalars["String"]>;
 };
 
@@ -1374,7 +1406,7 @@ type QueryAttachmentsArgs = {
   after?: InputMaybe<Scalars["String"]>;
   before?: InputMaybe<Scalars["String"]>;
   first?: InputMaybe<Scalars["Int"]>;
-  id?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
   key: AttachmentKey;
   last?: InputMaybe<Scalars["Int"]>;
   slug?: InputMaybe<Scalars["String"]>;
@@ -1413,7 +1445,7 @@ type QueryFaqCategoriesArgs = {
 };
 
 type QueryJobPostingArgs = {
-  id?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
   slug?: InputMaybe<Scalars["String"]>;
 };
 
@@ -1476,7 +1508,7 @@ type QueryNodeArgs = {
 };
 
 type QueryProjectPostingArgs = {
-  id?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
   slug?: InputMaybe<Scalars["String"]>;
 };
 
@@ -1525,8 +1557,8 @@ type QueryVerifyPasswordResetTokenArgs = {
 };
 
 type QueryZipCityJobsArgs = {
-  branchId?: InputMaybe<Scalars["ID"]>;
-  jobTypeId?: InputMaybe<Scalars["ID"]>;
+  branchId?: InputMaybe<Scalars["String"]>;
+  jobTypeId?: InputMaybe<Scalars["String"]>;
 };
 
 /** Same as `grapgql_jwt` implementation, with standard output. */
@@ -1565,7 +1597,7 @@ type RegisterStudent = {
 };
 
 type RegisterStudentInput = {
-  id?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
   /** Mobile */
   mobile: Scalars["String"];
 };
@@ -1634,7 +1666,7 @@ type SkillEdge = {
 };
 
 type SkillInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
   name?: InputMaybe<Scalars["String"]>;
 };
 
@@ -1681,7 +1713,7 @@ type SoftSkillEdge = {
 };
 
 type SoftSkillInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
 };
 
 type Student = Node & {
@@ -1751,49 +1783,15 @@ type StudentSoftSkillsArgs = {
 };
 
 type StudentInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
 };
 
 type StudentMatchingInput = {
   jobPosting: JobPostingInput;
 };
 
-/** Updates the profile of a student */
-type StudentProfileAbilities = {
-  __typename?: "StudentProfileAbilities";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates the profile of a student */
-type StudentProfileBaseData = {
-  __typename?: "StudentProfileBaseData";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates soft skills and cultural fits of a student */
-type StudentProfileCharacter = {
-  __typename?: "StudentProfileCharacter";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates the state of a student */
-type StudentProfileCondition = {
-  __typename?: "StudentProfileCondition";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates job option, date (start or range) and branch of a student */
-type StudentProfileEmployment = {
-  __typename?: "StudentProfileEmployment";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-type StudentProfileInputAbilities = {
+type StudentProfileAbilitiesInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** Distinction */
   distinction?: InputMaybe<Scalars["String"]>;
   /** Hobbies */
@@ -1806,9 +1804,18 @@ type StudentProfileInputAbilities = {
   skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
 };
 
-type StudentProfileInputBaseData = {
+/** Updates the profile of a student */
+type StudentProfileAbilitiesPayload = {
+  __typename?: "StudentProfileAbilitiesPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type StudentProfileBaseDataInput = {
   /** City */
   city?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** Date of birth */
   dateOfBirth: Scalars["String"];
   /** First name */
@@ -1823,31 +1830,68 @@ type StudentProfileInputBaseData = {
   zip?: InputMaybe<Scalars["String"]>;
 };
 
-type StudentProfileInputCharacter = {
+/** Updates the profile of a student */
+type StudentProfileBaseDataPayload = {
+  __typename?: "StudentProfileBaseDataPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type StudentProfileCharacterInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
   softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
 
-type StudentProfileInputCondition = {
+/** Updates soft skills and cultural fits of a student */
+type StudentProfileCharacterPayload = {
+  __typename?: "StudentProfileCharacterPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type StudentProfileConditionInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** State */
   state: Scalars["String"];
 };
 
-type StudentProfileInputEmployment = {
+/** Updates the state of a student */
+type StudentProfileConditionPayload = {
+  __typename?: "StudentProfileConditionPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type StudentProfileEmploymentInput = {
   branch?: InputMaybe<BranchInput>;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   jobFromDate?: InputMaybe<Scalars["String"]>;
   jobToDate?: InputMaybe<Scalars["String"]>;
   jobType: JobTypeInput;
 };
 
-type StudentProfileInputSpecificData = {
+/** Updates job option, date (start or range) and branch of a student */
+type StudentProfileEmploymentPayload = {
+  __typename?: "StudentProfileEmploymentPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type StudentProfileSpecificDataInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** Nickname */
   nickname: Scalars["String"];
 };
 
 /** Updates the nickname of a student */
-type StudentProfileSpecificData = {
-  __typename?: "StudentProfileSpecificData";
+type StudentProfileSpecificDataPayload = {
+  __typename?: "StudentProfileSpecificDataPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   nicknameSuggestions?: Maybe<Array<Maybe<Scalars["String"]>>>;
   success?: Maybe<Scalars["Boolean"]>;
@@ -1878,20 +1922,14 @@ type TopicEdge = {
 };
 
 type TopicInput = {
-  id: Scalars["ID"];
+  id: Scalars["String"];
   name?: InputMaybe<Scalars["String"]>;
 };
 
-/** Updates the profile of a university */
-type UniversityProfileBaseData = {
-  __typename?: "UniversityProfileBaseData";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-type UniversityProfileInputBaseData = {
+type UniversityProfileBaseDataInput = {
   /** City */
   city: Scalars["String"];
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** First name */
   firstName: Scalars["String"];
   /** Last name */
@@ -1914,11 +1952,20 @@ type UniversityProfileInputBaseData = {
   zip: Scalars["String"];
 };
 
-type UniversityProfileInputRelations = {
+/** Updates the profile of a university */
+type UniversityProfileBaseDataPayload = {
+  __typename?: "UniversityProfileBaseDataPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type UniversityProfileRelationsInput = {
   /** Benefits */
   benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
   /** Branches */
   branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** website education */
   linkEducation?: InputMaybe<Scalars["String"]>;
   /** website projects */
@@ -1929,35 +1976,40 @@ type UniversityProfileInputRelations = {
   services?: InputMaybe<Scalars["String"]>;
 };
 
-type UniversityProfileInputSpecificData = {
+/** Updates website services */
+type UniversityProfileRelationsPayload = {
+  __typename?: "UniversityProfileRelationsPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type UniversityProfileSpecificDataInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** description */
   description?: InputMaybe<Scalars["String"]>;
 };
 
-type UniversityProfileInputValues = {
+/** Updates branches and description */
+type UniversityProfileSpecificDataPayload = {
+  __typename?: "UniversityProfileSpecificDataPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type UniversityProfileValuesInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** Cultural Fit */
   culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
   /** Soft Skills */
   softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
 
-/** Updates website services */
-type UniversityProfileRelations = {
-  __typename?: "UniversityProfileRelations";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** Updates branches and description */
-type UniversityProfileSpecificData = {
-  __typename?: "UniversityProfileSpecificData";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
 /** Updates a company profile with soft skills and cultural fit */
-type UniversityProfileValues = {
-  __typename?: "UniversityProfileValues";
+type UniversityProfileValuesPayload = {
+  __typename?: "UniversityProfileValuesPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -2025,9 +2077,9 @@ type UserLanguageRelationEdge = {
 };
 
 type UserLanguageRelationInput = {
-  id?: InputMaybe<Scalars["ID"]>;
-  language?: InputMaybe<Scalars["ID"]>;
-  languageLevel?: InputMaybe<Scalars["ID"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  language?: InputMaybe<Scalars["String"]>;
+  languageLevel?: InputMaybe<Scalars["String"]>;
 };
 
 type UserNode = Node & {
@@ -2049,20 +2101,22 @@ type UserNode = Node & {
   verified?: Maybe<Scalars["Boolean"]>;
 };
 
-/** Creates a new user user request */
-type UserRequest = {
-  __typename?: "UserRequest";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
 type UserRequestInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
   /** E-Mail */
   email: Scalars["String"];
   /** Message */
   message: Scalars["String"];
   /** Name */
   name: Scalars["String"];
+};
+
+/** Creates a new user user request */
+type UserRequestPayload = {
+  __typename?: "UserRequestPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 /** An enumeration. */
@@ -2083,9 +2137,17 @@ enum UserType {
   University = "UNIVERSITY",
 }
 
-type UserUpload = {
-  __typename?: "UserUpload";
+type UserUploadInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  file: Scalars["Upload"];
+  key: AttachmentKey;
+  projectPosting?: InputMaybe<ProjectPostingInput>;
+};
+
+type UserUploadPayload = {
+  __typename?: "UserUploadPayload";
   attachment?: Maybe<Attachment>;
+  clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
@@ -2644,9 +2706,7 @@ declare module "*/zipCityJobs.gql" {
 
 const AddEmployee = gql`
   mutation addEmployee($firstName: String!, $lastName: String!, $email: String!, $role: String!) {
-    addEmployee(
-      addEmployee: { firstName: $firstName, lastName: $lastName, email: $email, role: $role }
-    ) {
+    addEmployee(input: { firstName: $firstName, lastName: $lastName, email: $email, role: $role }) {
       success
       errors
       employee {
@@ -2660,48 +2720,48 @@ const AddEmployee = gql`
   }
 `;
 const CompanyProfileAdvantages = gql`
-  mutation companyProfileAdvantages($advantages: CompanyProfileInputAdvantages!) {
-    companyProfileAdvantages(advantages: $advantages) {
+  mutation companyProfileAdvantages($input: CompanyProfileAdvantagesInput!) {
+    companyProfileAdvantages(input: $input) {
       success
       errors
     }
   }
 `;
 const CompanyProfileBaseData = gql`
-  mutation companyProfileBaseData($baseData: CompanyProfileInputBaseData!) {
-    companyProfileBaseData(baseData: $baseData) {
+  mutation companyProfileBaseData($input: CompanyProfileBaseDataInput!) {
+    companyProfileBaseData(input: $input) {
       success
       errors
     }
   }
 `;
 const CompanyProfileRelations = gql`
-  mutation companyProfileRelations($relations: CompanyProfileInputRelations!) {
-    companyProfileRelations(relations: $relations) {
+  mutation companyProfileRelations($input: CompanyProfileRelationsInput!) {
+    companyProfileRelations(input: $input) {
       success
       errors
     }
   }
 `;
 const CompanyProfileValues = gql`
-  mutation companyProfileValues($values: CompanyProfileInputValues!) {
-    companyProfileValues(values: $values) {
+  mutation companyProfileValues($input: CompanyProfileValuesInput!) {
+    companyProfileValues(input: $input) {
       success
       errors
     }
   }
 `;
 const DeleteAttachment = gql`
-  mutation deleteAttachment($id: ID) {
-    deleteAttachment(id: $id) {
+  mutation deleteAttachment($id: String) {
+    deleteAttachment(input: { id: $id }) {
       success
       errors
     }
   }
 `;
 const JobPostingAllocation = gql`
-  mutation jobPostingAllocation($allocation: JobPostingInputAllocation!) {
-    jobPostingAllocation(allocation: $allocation) {
+  mutation jobPostingAllocation($input: JobPostingAllocationInput!) {
+    jobPostingAllocation(input: $input) {
       success
       errors
       jobPostingId
@@ -2710,8 +2770,8 @@ const JobPostingAllocation = gql`
   }
 `;
 const JobPostingBaseData = gql`
-  mutation jobPostingBaseData($baseData: JobPostingInputBaseData!) {
-    jobPostingBaseData(baseData: $baseData) {
+  mutation jobPostingBaseData($input: JobPostingBaseDataInput!) {
+    jobPostingBaseData(input: $input) {
       success
       errors
       jobPostingId
@@ -2720,8 +2780,8 @@ const JobPostingBaseData = gql`
   }
 `;
 const JobPostingRequirements = gql`
-  mutation jobPostingRequirements($requirements: JobPostingInputRequirements!) {
-    jobPostingRequirements(requirements: $requirements) {
+  mutation jobPostingRequirements($input: JobPostingRequirementsInput!) {
+    jobPostingRequirements(input: $input) {
       success
       errors
       jobPostingId
@@ -2736,7 +2796,7 @@ const Logout = gql`
 `;
 const MatchJobPosting = gql`
   mutation matchJobPosting($jobPosting: JobPostingInput!) {
-    matchJobPosting(match: { jobPosting: $jobPosting }) {
+    matchJobPosting(input: { jobPosting: $jobPosting }) {
       success
       errors
       confirmed
@@ -2745,7 +2805,7 @@ const MatchJobPosting = gql`
 `;
 const MatchProjectPosting = gql`
   mutation matchProjectPosting($projectPosting: ProjectPostingInput!) {
-    matchProjectPosting(match: { projectPosting: $projectPosting }) {
+    matchProjectPosting(input: { projectPosting: $projectPosting }) {
       success
       errors
       confirmed
@@ -2754,7 +2814,7 @@ const MatchProjectPosting = gql`
 `;
 const MatchStudent = gql`
   mutation matchStudent($jobPosting: JobPostingInput!, $student: StudentInput!) {
-    matchStudent(match: { jobPosting: $jobPosting, student: $student }) {
+    matchStudent(input: { jobPosting: $jobPosting, student: $student }) {
       success
       errors
       confirmed
@@ -2770,8 +2830,8 @@ const PasswordReset = gql`
   }
 `;
 const ProjectPostingAllocation = gql`
-  mutation projectPostingAllocation($allocation: ProjectPostingInputAllocation!) {
-    projectPostingAllocation(allocation: $allocation) {
+  mutation projectPostingAllocation($input: ProjectPostingAllocationInput!) {
+    projectPostingAllocation(input: $input) {
       success
       errors
       projectPostingId
@@ -2780,8 +2840,8 @@ const ProjectPostingAllocation = gql`
   }
 `;
 const ProjectPostingBaseData = gql`
-  mutation projectPostingBaseData($baseData: ProjectPostingInputBaseData!) {
-    projectPostingBaseData(baseData: $baseData) {
+  mutation projectPostingBaseData($input: ProjectPostingBaseDataInput!) {
+    projectPostingBaseData(input: $input) {
       success
       errors
       projectPostingId
@@ -2790,8 +2850,8 @@ const ProjectPostingBaseData = gql`
   }
 `;
 const ProjectPostingSpecificData = gql`
-  mutation projectPostingSpecificData($specificData: ProjectPostingInputSpecificData!) {
-    projectPostingSpecificData(specificData: $specificData) {
+  mutation projectPostingSpecificData($input: ProjectPostingSpecificDataInput!) {
+    projectPostingSpecificData(input: $input) {
       success
       errors
       projectPostingId
@@ -2876,48 +2936,48 @@ const SendPasswordResetEmail = gql`
   }
 `;
 const StudentProfileAbilities = gql`
-  mutation studentProfileAbilities($abilities: StudentProfileInputAbilities!) {
-    studentProfileAbilities(abilities: $abilities) {
+  mutation studentProfileAbilities($input: StudentProfileAbilitiesInput!) {
+    studentProfileAbilities(input: $input) {
       success
       errors
     }
   }
 `;
 const StudentProfileBaseData = gql`
-  mutation studentProfileBaseData($baseData: StudentProfileInputBaseData!) {
-    studentProfileBaseData(baseData: $baseData) {
+  mutation studentProfileBaseData($input: StudentProfileBaseDataInput!) {
+    studentProfileBaseData(input: $input) {
       success
       errors
     }
   }
 `;
 const StudentProfileCharacter = gql`
-  mutation studentProfileCharacter($character: StudentProfileInputCharacter!) {
-    studentProfileCharacter(character: $character) {
+  mutation studentProfileCharacter($input: StudentProfileCharacterInput!) {
+    studentProfileCharacter(input: $input) {
       success
       errors
     }
   }
 `;
 const StudentProfileCondition = gql`
-  mutation studentProfileCondition($condition: StudentProfileInputCondition!) {
-    studentProfileCondition(condition: $condition) {
+  mutation studentProfileCondition($input: StudentProfileConditionInput!) {
+    studentProfileCondition(input: $input) {
       success
       errors
     }
   }
 `;
 const StudentProfileEmployment = gql`
-  mutation studentProfileEmployment($employment: StudentProfileInputEmployment!) {
-    studentProfileEmployment(employment: $employment) {
+  mutation studentProfileEmployment($input: StudentProfileEmploymentInput!) {
+    studentProfileEmployment(input: $input) {
       success
       errors
     }
   }
 `;
 const StudentProfileSpecificData = gql`
-  mutation studentProfileSpecificData($specificData: StudentProfileInputSpecificData!) {
-    studentProfileSpecificData(specificData: $specificData) {
+  mutation studentProfileSpecificData($input: StudentProfileSpecificDataInput!) {
+    studentProfileSpecificData(input: $input) {
       success
       errors
       nicknameSuggestions
@@ -2941,32 +3001,32 @@ const TokenAuth = gql`
   }
 `;
 const UniversityProfileBaseData = gql`
-  mutation universityProfileBaseData($baseData: UniversityProfileInputBaseData!) {
-    universityProfileBaseData(baseData: $baseData) {
+  mutation universityProfileBaseData($input: UniversityProfileBaseDataInput!) {
+    universityProfileBaseData(input: $input) {
       success
       errors
     }
   }
 `;
 const UniversityProfileRelations = gql`
-  mutation universityProfileRelations($relations: UniversityProfileInputRelations!) {
-    universityProfileRelations(relations: $relations) {
+  mutation universityProfileRelations($input: UniversityProfileRelationsInput!) {
+    universityProfileRelations(input: $input) {
       success
       errors
     }
   }
 `;
 const UniversityProfileSpecificData = gql`
-  mutation universityProfileSpecificData($specificData: UniversityProfileInputSpecificData!) {
-    universityProfileSpecificData(specificData: $specificData) {
+  mutation universityProfileSpecificData($input: UniversityProfileSpecificDataInput!) {
+    universityProfileSpecificData(input: $input) {
       success
       errors
     }
   }
 `;
 const UniversityProfileValues = gql`
-  mutation universityProfileValues($values: UniversityProfileInputValues!) {
-    universityProfileValues(values: $values) {
+  mutation universityProfileValues($input: UniversityProfileValuesInput!) {
+    universityProfileValues(input: $input) {
       success
       errors
     }
@@ -2974,15 +3034,15 @@ const UniversityProfileValues = gql`
 `;
 const Upload = gql`
   mutation upload($file: Upload!, $key: AttachmentKey!) {
-    upload(file: $file, key: $key) {
+    upload(input: { file: $file, key: $key }) {
       success
       errors
     }
   }
 `;
 const UploadProjectPosting = gql`
-  mutation uploadProjectPosting($file: Upload!, $key: AttachmentKey!, $projectPostingId: ID!) {
-    upload(file: $file, key: $key, projectPosting: { id: $projectPostingId }) {
+  mutation uploadProjectPosting($file: Upload!, $key: AttachmentKey!, $projectPostingId: String!) {
+    upload(input: { file: $file, key: $key, projectPosting: { id: $projectPostingId } }) {
       success
       errors
     }
@@ -3020,7 +3080,7 @@ const Attachments = gql`
   }
 `;
 const AttachmentsProjectPosting = gql`
-  query attachmentsProjectPosting($key: AttachmentKey!, $id: ID!) {
+  query attachmentsProjectPosting($key: AttachmentKey!, $id: String!) {
     attachments(key: $key, id: $id, first: 100) {
       edges {
         node {
@@ -3398,7 +3458,7 @@ const Employees = gql`
   }
 `;
 const JobPosting = gql`
-  query jobPosting($id: ID, $slug: String) {
+  query jobPosting($id: String, $slug: String) {
     jobPosting(id: $id, slug: $slug) {
       id
       title
@@ -3743,7 +3803,7 @@ const Me = gql`
   }
 `;
 const ProjectPosting = gql`
-  query projectPosting($id: ID, $slug: String) {
+  query projectPosting($id: String, $slug: String) {
     projectPosting(id: $id, slug: $slug) {
       id
       slug
@@ -4045,7 +4105,7 @@ const ZipCity = gql`
   }
 `;
 const ZipCityJobs = gql`
-  query zipCityJobs($branchId: ID, $jobTypeId: ID) {
+  query zipCityJobs($branchId: String, $jobTypeId: String) {
     zipCityJobs(branchId: $branchId, jobTypeId: $jobTypeId) {
       zip
       city

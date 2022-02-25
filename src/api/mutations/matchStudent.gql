@@ -1,5 +1,5 @@
 mutation matchStudent ($jobPosting: JobPostingInput!, $student: StudentInput!) {
-  matchStudent(match: { jobPosting: $jobPosting, student: $student }) {
+  matchStudent(input: { jobPosting: $jobPosting, student: $student }) {
     success
     errors
     confirmed

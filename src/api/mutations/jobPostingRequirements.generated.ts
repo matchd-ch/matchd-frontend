@@ -2,13 +2,13 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type JobPostingRequirementsMutationVariables = Types.Exact<{
-  requirements: Types.JobPostingInputRequirements;
+  input: Types.JobPostingRequirementsInput;
 }>;
 
 export type JobPostingRequirementsMutation = {
   __typename?: "Mutation";
   jobPostingRequirements?: {
-    __typename?: "JobPostingRequirements";
+    __typename?: "JobPostingRequirementsPayload";
     success?: boolean | null;
     errors?: any | null;
     jobPostingId?: string | null;
@@ -26,12 +26,12 @@ export const JobPostingRequirementsDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "requirements" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
           type: {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "JobPostingInputRequirements" },
+              name: { kind: "Name", value: "JobPostingRequirementsInput" },
             },
           },
         },
@@ -45,8 +45,8 @@ export const JobPostingRequirementsDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "requirements" },
-                value: { kind: "Variable", name: { kind: "Name", value: "requirements" } },
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
               },
             ],
             selectionSet: {

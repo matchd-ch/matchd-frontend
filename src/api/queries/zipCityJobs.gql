@@ -1,4 +1,4 @@
-query zipCityJobs ($branchId: ID, $jobTypeId: ID) {
+query zipCityJobs ($branchId: String, $jobTypeId: String) {
   zipCityJobs(branchId: $branchId, jobTypeId: $jobTypeId) {
     zip
     city

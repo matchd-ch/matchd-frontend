@@ -2,13 +2,13 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type DeleteAttachmentMutationVariables = Types.Exact<{
-  id?: Types.InputMaybe<Types.Scalars["ID"]>;
+  id?: Types.InputMaybe<Types.Scalars["String"]>;
 }>;
 
 export type DeleteAttachmentMutation = {
   __typename?: "Mutation";
   deleteAttachment?: {
-    __typename?: "DeleteAttachment";
+    __typename?: "DeleteAttachmentPayload";
     success?: boolean | null;
     errors?: any | null;
   } | null;
@@ -25,7 +25,7 @@ export const DeleteAttachmentDocument = {
         {
           kind: "VariableDefinition",
           variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
-          type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
         },
       ],
       selectionSet: {
@@ -37,8 +37,17 @@ export const DeleteAttachmentDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "id" },
-                value: { kind: "Variable", name: { kind: "Name", value: "id" } },
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "id" },
+                      value: { kind: "Variable", name: { kind: "Name", value: "id" } },
+                    },
+                  ],
+                },
               },
             ],
             selectionSet: {

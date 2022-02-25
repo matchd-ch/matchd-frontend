@@ -1,9 +1,6 @@
 overwrite: true
 schema: "${VUE_APP_API_URL}/graphql/"
 generates:
-  ./src/api/remote-schema.json:
-    plugins:
-      - introspection
   ./types/api.d.ts:
     plugins:
       # remove
@@ -20,7 +17,6 @@ generates:
           content: "/* eslint-disable */"
     config:
       onlyOperationTypes: false
-      # typesPrefix: I
       enumPrefix: false
   ./src/:
     preset: near-operation-file

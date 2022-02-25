@@ -1,8 +1,6 @@
 # Step 4
-mutation companyProfileValues ($values: CompanyProfileInputValues!) {
-  companyProfileValues(
-    values: $values 
-  ) {
+mutation companyProfileValues ($input: CompanyProfileValuesInput!) {
+  companyProfileValues(input: $input) {
     success
     errors
   }

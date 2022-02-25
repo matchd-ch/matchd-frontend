@@ -2,13 +2,13 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type JobPostingAllocationMutationVariables = Types.Exact<{
-  allocation: Types.JobPostingInputAllocation;
+  input: Types.JobPostingAllocationInput;
 }>;
 
 export type JobPostingAllocationMutation = {
   __typename?: "Mutation";
   jobPostingAllocation?: {
-    __typename?: "JobPostingAllocationForm";
+    __typename?: "JobPostingAllocationPayload";
     success?: boolean | null;
     errors?: any | null;
     jobPostingId?: string | null;
@@ -26,10 +26,10 @@ export const JobPostingAllocationDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "allocation" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
           type: {
             kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "JobPostingInputAllocation" } },
+            type: { kind: "NamedType", name: { kind: "Name", value: "JobPostingAllocationInput" } },
           },
         },
       ],
@@ -42,8 +42,8 @@ export const JobPostingAllocationDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "allocation" },
-                value: { kind: "Variable", name: { kind: "Name", value: "allocation" } },
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
               },
             ],
             selectionSet: {

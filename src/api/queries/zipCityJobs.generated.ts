@@ -2,8 +2,8 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type ZipCityJobsQueryVariables = Types.Exact<{
-  branchId?: Types.InputMaybe<Types.Scalars["ID"]>;
-  jobTypeId?: Types.InputMaybe<Types.Scalars["ID"]>;
+  branchId?: Types.InputMaybe<Types.Scalars["String"]>;
+  jobTypeId?: Types.InputMaybe<Types.Scalars["String"]>;
 }>;
 
 export type ZipCityJobsQuery = {
@@ -22,12 +22,12 @@ export const ZipCityJobsDocument = {
         {
           kind: "VariableDefinition",
           variable: { kind: "Variable", name: { kind: "Name", value: "branchId" } },
-          type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
         },
         {
           kind: "VariableDefinition",
           variable: { kind: "Variable", name: { kind: "Name", value: "jobTypeId" } },
-          type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
         },
       ],
       selectionSet: {

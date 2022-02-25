@@ -11,7 +11,7 @@ export type AddEmployeeMutationVariables = Types.Exact<{
 export type AddEmployeeMutation = {
   __typename?: "Mutation";
   addEmployee?: {
-    __typename?: "AddEmployee";
+    __typename?: "AddEmployeePayload";
     success?: boolean | null;
     errors?: any | null;
     employee?: {
@@ -75,7 +75,7 @@ export const AddEmployeeDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "addEmployee" },
+                name: { kind: "Name", value: "input" },
                 value: {
                   kind: "ObjectValue",
                   fields: [

@@ -2,13 +2,13 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type ProjectPostingAllocationMutationVariables = Types.Exact<{
-  allocation: Types.ProjectPostingInputAllocation;
+  input: Types.ProjectPostingAllocationInput;
 }>;
 
 export type ProjectPostingAllocationMutation = {
   __typename?: "Mutation";
   projectPostingAllocation?: {
-    __typename?: "ProjectPostingAllocation";
+    __typename?: "ProjectPostingAllocationPayload";
     success?: boolean | null;
     errors?: any | null;
     projectPostingId?: string | null;
@@ -26,12 +26,12 @@ export const ProjectPostingAllocationDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "allocation" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
           type: {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "ProjectPostingInputAllocation" },
+              name: { kind: "Name", value: "ProjectPostingAllocationInput" },
             },
           },
         },
@@ -45,8 +45,8 @@ export const ProjectPostingAllocationDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "allocation" },
-                value: { kind: "Variable", name: { kind: "Name", value: "allocation" } },
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
               },
             ],
             selectionSet: {

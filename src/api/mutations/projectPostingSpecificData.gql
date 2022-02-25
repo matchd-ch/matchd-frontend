@@ -1,8 +1,6 @@
 # Step 2
-mutation projectPostingSpecificData ($specificData: ProjectPostingInputSpecificData!) {
-  projectPostingSpecificData(
-    specificData: $specificData
-  ) {
+mutation projectPostingSpecificData ($input: ProjectPostingSpecificDataInput!) {
+  projectPostingSpecificData(input: $input) {
     success
     errors
     projectPostingId

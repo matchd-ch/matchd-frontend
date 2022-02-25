@@ -8,7 +8,11 @@ export type UploadMutationVariables = Types.Exact<{
 
 export type UploadMutation = {
   __typename?: "Mutation";
-  upload?: { __typename?: "UserUpload"; success?: boolean | null; errors?: any | null } | null;
+  upload?: {
+    __typename?: "UserUploadPayload";
+    success?: boolean | null;
+    errors?: any | null;
+  } | null;
 };
 
 export const UploadDocument = {
@@ -45,13 +49,22 @@ export const UploadDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "file" },
-                value: { kind: "Variable", name: { kind: "Name", value: "file" } },
-              },
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "key" },
-                value: { kind: "Variable", name: { kind: "Name", value: "key" } },
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "file" },
+                      value: { kind: "Variable", name: { kind: "Name", value: "file" } },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "key" },
+                      value: { kind: "Variable", name: { kind: "Name", value: "key" } },
+                    },
+                  ],
+                },
               },
             ],
             selectionSet: {

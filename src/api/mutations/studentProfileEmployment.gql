@@ -1,10 +1,6 @@
 # Step 2
-mutation studentProfileEmployment (
-  $employment: StudentProfileInputEmployment!
-) {
-  studentProfileEmployment(
-    employment: $employment
-  ) {
+mutation studentProfileEmployment ($input: StudentProfileEmploymentInput!) {
+  studentProfileEmployment(input: $input) {
     success
     errors
   }

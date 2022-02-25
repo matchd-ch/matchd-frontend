@@ -1,10 +1,6 @@
 # Step 3
-mutation universityProfileRelations (
-  $relations: UniversityProfileInputRelations!
-) {
-  universityProfileRelations(
-    relations: $relations
-  ) {
+mutation universityProfileRelations ($input: UniversityProfileRelationsInput!) {
+  universityProfileRelations(input: $input) {
     success
     errors
   }

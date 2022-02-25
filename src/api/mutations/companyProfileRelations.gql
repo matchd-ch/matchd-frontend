@@ -1,10 +1,6 @@
 # Step 2
-mutation companyProfileRelations (
-  $relations: CompanyProfileInputRelations!
-) {
-  companyProfileRelations(
-    relations: $relations
-  ) {
+mutation companyProfileRelations ($input: CompanyProfileRelationsInput!) {
+  companyProfileRelations(input: $input) {
     success
     errors
   }

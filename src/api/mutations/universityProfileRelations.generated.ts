@@ -2,13 +2,13 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type UniversityProfileRelationsMutationVariables = Types.Exact<{
-  relations: Types.UniversityProfileInputRelations;
+  input: Types.UniversityProfileRelationsInput;
 }>;
 
 export type UniversityProfileRelationsMutation = {
   __typename?: "Mutation";
   universityProfileRelations?: {
-    __typename?: "UniversityProfileRelations";
+    __typename?: "UniversityProfileRelationsPayload";
     success?: boolean | null;
     errors?: any | null;
   } | null;
@@ -24,12 +24,12 @@ export const UniversityProfileRelationsDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "relations" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
           type: {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "UniversityProfileInputRelations" },
+              name: { kind: "Name", value: "UniversityProfileRelationsInput" },
             },
           },
         },
@@ -43,8 +43,8 @@ export const UniversityProfileRelationsDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "relations" },
-                value: { kind: "Variable", name: { kind: "Name", value: "relations" } },
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
               },
             ],
             selectionSet: {

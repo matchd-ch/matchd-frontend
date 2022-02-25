@@ -8,7 +8,7 @@ export type MatchProjectPostingMutationVariables = Types.Exact<{
 export type MatchProjectPostingMutation = {
   __typename?: "Mutation";
   matchProjectPosting?: {
-    __typename?: "MatchProjectPosting";
+    __typename?: "MatchProjectPostingPayload";
     success?: boolean | null;
     errors?: any | null;
     confirmed: boolean;
@@ -41,7 +41,7 @@ export const MatchProjectPostingDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "match" },
+                name: { kind: "Name", value: "input" },
                 value: {
                   kind: "ObjectValue",
                   fields: [

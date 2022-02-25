@@ -2,13 +2,13 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type StudentProfileCharacterMutationVariables = Types.Exact<{
-  character: Types.StudentProfileInputCharacter;
+  input: Types.StudentProfileCharacterInput;
 }>;
 
 export type StudentProfileCharacterMutation = {
   __typename?: "Mutation";
   studentProfileCharacter?: {
-    __typename?: "StudentProfileCharacter";
+    __typename?: "StudentProfileCharacterPayload";
     success?: boolean | null;
     errors?: any | null;
   } | null;
@@ -24,12 +24,12 @@ export const StudentProfileCharacterDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "character" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
           type: {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "StudentProfileInputCharacter" },
+              name: { kind: "Name", value: "StudentProfileCharacterInput" },
             },
           },
         },
@@ -43,8 +43,8 @@ export const StudentProfileCharacterDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "character" },
-                value: { kind: "Variable", name: { kind: "Name", value: "character" } },
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
               },
             ],
             selectionSet: {

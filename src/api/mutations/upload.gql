@@ -1,5 +1,10 @@
 mutation upload ($file: Upload!, $key: AttachmentKey!) {
-  upload(file: $file, key: $key) {
+  upload(
+    input: {
+      file: $file,
+      key: $key
+    }
+  ) {
     success
     errors
   }

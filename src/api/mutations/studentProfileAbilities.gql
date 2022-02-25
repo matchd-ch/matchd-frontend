@@ -1,10 +1,6 @@
 # Step 4
-mutation studentProfileAbilities (
-  $abilities: StudentProfileInputAbilities!
-) {
-  studentProfileAbilities(
-    abilities: $abilities
-  ) {
+mutation studentProfileAbilities ($input: StudentProfileAbilitiesInput!) {
+  studentProfileAbilities(input: $input) {
     success
     errors
   }

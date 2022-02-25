@@ -5,7 +5,7 @@ mutation addEmployee (
   $role: String!
 ) {
   addEmployee(
-    addEmployee: {
+    input: {
       firstName: $firstName
       lastName: $lastName
       email: $email

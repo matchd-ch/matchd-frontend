@@ -2,13 +2,13 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type CompanyProfileBaseDataMutationVariables = Types.Exact<{
-  baseData: Types.CompanyProfileInputBaseData;
+  input: Types.CompanyProfileBaseDataInput;
 }>;
 
 export type CompanyProfileBaseDataMutation = {
   __typename?: "Mutation";
   companyProfileBaseData?: {
-    __typename?: "CompanyProfileBaseData";
+    __typename?: "CompanyProfileBaseDataPayload";
     success?: boolean | null;
     errors?: any | null;
   } | null;
@@ -24,12 +24,12 @@ export const CompanyProfileBaseDataDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "baseData" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
           type: {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "CompanyProfileInputBaseData" },
+              name: { kind: "Name", value: "CompanyProfileBaseDataInput" },
             },
           },
         },
@@ -43,8 +43,8 @@ export const CompanyProfileBaseDataDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "baseData" },
-                value: { kind: "Variable", name: { kind: "Name", value: "baseData" } },
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
               },
             ],
             selectionSet: {

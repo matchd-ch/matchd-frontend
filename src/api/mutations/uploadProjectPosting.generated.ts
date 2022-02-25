@@ -4,12 +4,16 @@ import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/
 export type UploadProjectPostingMutationVariables = Types.Exact<{
   file: Types.Scalars["Upload"];
   key: Types.AttachmentKey;
-  projectPostingId: Types.Scalars["ID"];
+  projectPostingId: Types.Scalars["String"];
 }>;
 
 export type UploadProjectPostingMutation = {
   __typename?: "Mutation";
-  upload?: { __typename?: "UserUpload"; success?: boolean | null; errors?: any | null } | null;
+  upload?: {
+    __typename?: "UserUploadPayload";
+    success?: boolean | null;
+    errors?: any | null;
+  } | null;
 };
 
 export const UploadProjectPostingDocument = {
@@ -41,7 +45,7 @@ export const UploadProjectPostingDocument = {
           variable: { kind: "Variable", name: { kind: "Name", value: "projectPostingId" } },
           type: {
             kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+            type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
           },
         },
       ],
@@ -54,26 +58,35 @@ export const UploadProjectPostingDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "file" },
-                value: { kind: "Variable", name: { kind: "Name", value: "file" } },
-              },
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "key" },
-                value: { kind: "Variable", name: { kind: "Name", value: "key" } },
-              },
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "projectPosting" },
+                name: { kind: "Name", value: "input" },
                 value: {
                   kind: "ObjectValue",
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "id" },
+                      name: { kind: "Name", value: "file" },
+                      value: { kind: "Variable", name: { kind: "Name", value: "file" } },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "key" },
+                      value: { kind: "Variable", name: { kind: "Name", value: "key" } },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "projectPosting" },
                       value: {
-                        kind: "Variable",
-                        name: { kind: "Name", value: "projectPostingId" },
+                        kind: "ObjectValue",
+                        fields: [
+                          {
+                            kind: "ObjectField",
+                            name: { kind: "Name", value: "id" },
+                            value: {
+                              kind: "Variable",
+                              name: { kind: "Name", value: "projectPostingId" },
+                            },
+                          },
+                        ],
                       },
                     },
                   ],

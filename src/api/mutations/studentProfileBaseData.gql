@@ -1,10 +1,6 @@
 # Step 1
-mutation studentProfileBaseData (
-  $baseData: StudentProfileInputBaseData!
-) {
-  studentProfileBaseData(
-    baseData: $baseData
-  ) {
+mutation studentProfileBaseData ($input: StudentProfileBaseDataInput!) {
+  studentProfileBaseData(input: $input) {
     success
     errors
   }

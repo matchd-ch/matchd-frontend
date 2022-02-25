@@ -1,10 +1,8 @@
 # Step 1
 mutation jobPostingBaseData (
-  $baseData: JobPostingInputBaseData!
+  $input: JobPostingBaseDataInput!
 ) {
-  jobPostingBaseData(
-    baseData: $baseData
-  ) {
+  jobPostingBaseData(input: $input) {
     success
     errors
     jobPostingId

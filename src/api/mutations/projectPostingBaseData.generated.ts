@@ -2,13 +2,13 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type ProjectPostingBaseDataMutationVariables = Types.Exact<{
-  baseData: Types.ProjectPostingInputBaseData;
+  input: Types.ProjectPostingBaseDataInput;
 }>;
 
 export type ProjectPostingBaseDataMutation = {
   __typename?: "Mutation";
   projectPostingBaseData?: {
-    __typename?: "ProjectPostingBaseData";
+    __typename?: "ProjectPostingBaseDataPayload";
     success?: boolean | null;
     errors?: any | null;
     projectPostingId?: string | null;
@@ -26,12 +26,12 @@ export const ProjectPostingBaseDataDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "baseData" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
           type: {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "ProjectPostingInputBaseData" },
+              name: { kind: "Name", value: "ProjectPostingBaseDataInput" },
             },
           },
         },
@@ -45,8 +45,8 @@ export const ProjectPostingBaseDataDocument = {
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "baseData" },
-                value: { kind: "Variable", name: { kind: "Name", value: "baseData" } },
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
               },
             ],
             selectionSet: {
