@@ -1,10 +1,10 @@
-import { JobPostingInputBaseData } from "@/api/models/types";
+import { JobPostingBaseDataInput } from "@/api/models/types";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 
 export function jobPostingStep1InputMapper(
   id: string | undefined,
   jobPostingForm: JobPostingStep1Form
-): JobPostingInputBaseData {
+): JobPostingBaseDataInput {
   return {
     id: id || null,
     title: jobPostingForm.title,

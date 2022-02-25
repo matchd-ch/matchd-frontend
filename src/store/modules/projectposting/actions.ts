@@ -1,8 +1,8 @@
 import { createApolloClient } from "@/api/apollo-client";
 import type {
-  ProjectPostingInputAllocation,
-  ProjectPostingInputBaseData,
-  ProjectPostingInputSpecificData,
+  ProjectPostingAllocationInput,
+  ProjectPostingBaseDataInput,
+  ProjectPostingSpecificDataInput,
 } from "@/api/models/types";
 import { ProjectPostingAllocationDocument } from "@/api/mutations/projectPostingAllocation.generated";
 import { ProjectPostingBaseDataDocument } from "@/api/mutations/projectPostingBaseData.generated";
@@ -28,15 +28,15 @@ const apiClient = createApolloClient(config.API_URL);
 export interface Actions {
   [ActionTypes.SAVE_PROJECTPOSTING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: ProjectPostingInputBaseData
+    payload: ProjectPostingBaseDataInput
   ): Promise<void>;
   [ActionTypes.SAVE_PROJECTPOSTING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: ProjectPostingInputSpecificData
+    payload: ProjectPostingSpecificDataInput
   ): Promise<void>;
   [ActionTypes.SAVE_PROJECTPOSTING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: ProjectPostingInputAllocation
+    payload: ProjectPostingAllocationInput
   ): Promise<void>;
   [ActionTypes.PROJECTPOSTING](
     { commit }: AugmentedActionContext,
@@ -45,11 +45,11 @@ export interface Actions {
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionTypes.SAVE_PROJECTPOSTING_STEP1]({ commit }, payload: ProjectPostingInputBaseData) {
+  async [ActionTypes.SAVE_PROJECTPOSTING_STEP1]({ commit }, payload: ProjectPostingBaseDataInput) {
     commit(MutationTypes.PROJECTPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
       mutation: ProjectPostingBaseDataDocument,
-      variables: { baseData: payload },
+      variables: { input: payload },
     });
     commit(
       MutationTypes.PROJECTPOSTING_STEP_LOADED,
@@ -58,12 +58,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.SAVE_PROJECTPOSTING_STEP2](
     { commit },
-    payload: ProjectPostingInputSpecificData
+    payload: ProjectPostingSpecificDataInput
   ) {
     commit(MutationTypes.PROJECTPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
       mutation: ProjectPostingSpecificDataDocument,
-      variables: { specificData: payload },
+      variables: { input: payload },
     });
     commit(
       MutationTypes.PROJECTPOSTING_STEP_LOADED,
@@ -72,12 +72,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.SAVE_PROJECTPOSTING_STEP3](
     { commit },
-    payload: ProjectPostingInputAllocation
+    payload: ProjectPostingAllocationInput
   ) {
     commit(MutationTypes.PROJECTPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
       mutation: ProjectPostingAllocationDocument,
-      variables: { allocation: payload },
+      variables: { input: payload },
     });
     commit(
       MutationTypes.PROJECTPOSTING_STEP_LOADED,

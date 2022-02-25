@@ -1,4 +1,9 @@
-import type { AddEmployee, Employee, JobPosting, JobPostingBaseDataForm } from "@/api/models/types";
+import type {
+  AddEmployeePayload,
+  Employee,
+  JobPosting,
+  JobPostingBaseDataPayload,
+} from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { State } from "@/store/modules/jobposting/state";
 import { MutationTree } from "vuex";
@@ -6,12 +11,12 @@ import { MutationTypes } from "./mutation-types";
 
 export type Mutations<S = State> = {
   [MutationTypes.JOBPOSTING_STEP_LOADING](state: S): void;
-  [MutationTypes.JOBPOSTING_STEP_LOADED](state: S, payload: JobPostingBaseDataForm): void;
+  [MutationTypes.JOBPOSTING_STEP_LOADED](state: S, payload: JobPostingBaseDataPayload): void;
   [MutationTypes.JOBPOSTING_LOADING](state: S): void;
   [MutationTypes.JOBPOSTING_LOADED](state: S, payload: JobPosting): void;
   [MutationTypes.CLEAR_CURRENT_JOBPOSTING](state: S): void;
   [MutationTypes.ADD_EMPLOYEE_LOADING](state: S): void;
-  [MutationTypes.ADD_EMPLOYEE_LOADED](state: S, payload: AddEmployee): void;
+  [MutationTypes.ADD_EMPLOYEE_LOADED](state: S, payload: AddEmployeePayload): void;
   [MutationTypes.EMPLOYEES_LOADING](state: S): void;
   [MutationTypes.EMPLOYEES_LOADED](state: S, payload: Employee[]): void;
 };
@@ -20,7 +25,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.JOBPOSTING_STEP_LOADING](state: State) {
     state.jobPosting.loading = true;
   },
-  [MutationTypes.JOBPOSTING_STEP_LOADED](state: State, payload: JobPostingBaseDataForm) {
+  [MutationTypes.JOBPOSTING_STEP_LOADED](state: State, payload: JobPostingBaseDataPayload) {
     state.jobPosting.loading = false;
     state.jobPosting.success = payload.success || false;
     state.jobPosting.errors = errorCodeMapper(payload.errors);
@@ -42,7 +47,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ADD_EMPLOYEE_LOADING](state: State) {
     state.currentJobPosting.loading = true;
   },
-  [MutationTypes.ADD_EMPLOYEE_LOADED](state: State, payload: AddEmployee) {
+  [MutationTypes.ADD_EMPLOYEE_LOADED](state: State, payload: AddEmployeePayload) {
     state.addEmployee.loading = false;
     state.addEmployee.success = payload.success || false;
     state.addEmployee.errors = errorCodeMapper(payload.errors);

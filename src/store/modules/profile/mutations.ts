@@ -1,18 +1,18 @@
 import type {
-  CompanyProfileAdvantages,
-  CompanyProfileBaseData,
-  CompanyProfileRelations,
-  CompanyProfileValues,
-  StudentProfileAbilities,
-  StudentProfileBaseData,
-  StudentProfileCharacter,
-  StudentProfileCondition,
-  StudentProfileEmployment,
-  StudentProfileSpecificData,
-  UniversityProfileBaseData,
-  UniversityProfileRelations,
-  UniversityProfileSpecificData,
-  UniversityProfileValues,
+  CompanyProfileAdvantagesPayload,
+  CompanyProfileBaseDataPayload,
+  CompanyProfileRelationsPayload,
+  CompanyProfileValuesPayload,
+  StudentProfileAbilitiesPayload,
+  StudentProfileBaseDataPayload,
+  StudentProfileCharacterPayload,
+  StudentProfileConditionPayload,
+  StudentProfileEmploymentPayload,
+  StudentProfileSpecificDataPayload,
+  UniversityProfileBaseDataPayload,
+  UniversityProfileRelationsPayload,
+  UniversityProfileSpecificDataPayload,
+  UniversityProfileValuesPayload,
   ZipCity,
 } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
@@ -21,24 +21,24 @@ import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 
 export type StudentProfileStep =
-  | StudentProfileBaseData
-  | StudentProfileEmployment
-  | StudentProfileAbilities
-  | StudentProfileSpecificData
-  | StudentProfileCondition
-  | StudentProfileCharacter;
+  | StudentProfileBaseDataPayload
+  | StudentProfileEmploymentPayload
+  | StudentProfileAbilitiesPayload
+  | StudentProfileSpecificDataPayload
+  | StudentProfileConditionPayload
+  | StudentProfileCharacterPayload;
 
 export type CompanyProfileStep =
-  | CompanyProfileBaseData
-  | CompanyProfileRelations
-  | CompanyProfileAdvantages
-  | CompanyProfileValues;
+  | CompanyProfileBaseDataPayload
+  | CompanyProfileRelationsPayload
+  | CompanyProfileAdvantagesPayload
+  | CompanyProfileValuesPayload;
 
 export type UniversityProfileStep =
-  | UniversityProfileBaseData
-  | UniversityProfileSpecificData
-  | UniversityProfileRelations
-  | UniversityProfileValues;
+  | UniversityProfileBaseDataPayload
+  | UniversityProfileSpecificDataPayload
+  | UniversityProfileRelationsPayload
+  | UniversityProfileValuesPayload;
 
 export type Mutations<S = State> = {
   [MutationTypes.STUDENT_ONBOARDING_STEP_LOADING](state: S): void;

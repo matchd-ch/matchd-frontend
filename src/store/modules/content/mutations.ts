@@ -10,9 +10,9 @@ import type {
   Language,
   LanguageLevel,
   Match,
-  MatchJobPosting,
-  MatchProjectPosting,
-  MatchStudent,
+  MatchJobPostingPayload,
+  MatchProjectPostingPayload,
+  MatchStudentPayload,
   ProjectPosting,
   ProjectTypeConnection,
   Skill,
@@ -66,15 +66,15 @@ export type Mutations<S = State> = {
   [MutationTypes.MATCH_LOADING](state: S): void;
   [MutationTypes.MATCH_JOB_POSTING_LOADED](
     state: S,
-    payload: { id: string; match: MatchJobPosting }
+    payload: { id: string; match: MatchJobPostingPayload }
   ): void;
   [MutationTypes.MATCH_PROJECT_POSTING_LOADED](
     state: S,
-    payload: { id: string; match: MatchProjectPosting }
+    payload: { id: string; match: MatchProjectPostingPayload }
   ): void;
   [MutationTypes.MATCH_STUDENT_LOADED](
     state: S,
-    payload: { id: string; match: MatchStudent }
+    payload: { id: string; match: MatchStudentPayload }
   ): void;
   [MutationTypes.MATCHES_LOADING](state: S): void;
   [MutationTypes.MATCHES_LOADED](state: S, payload: { matches: Match[] }): void;
@@ -240,7 +240,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.MATCH_JOB_POSTING_LOADED](
     state: State,
-    payload: { id: string; match: MatchJobPosting }
+    payload: { id: string; match: MatchJobPostingPayload }
   ) {
     state.match.loading = false;
     if (state.jobPosting.data?.id === payload.id) {
@@ -256,7 +256,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.MATCH_PROJECT_POSTING_LOADED](
     state: State,
-    payload: { id: string; match: MatchProjectPosting }
+    payload: { id: string; match: MatchProjectPostingPayload }
   ) {
     state.match.loading = false;
     if (state.projectPosting.data?.id === payload.id) {
@@ -270,7 +270,10 @@ export const mutations: MutationTree<State> & Mutations = {
       };
     }
   },
-  [MutationTypes.MATCH_STUDENT_LOADED](state: State, payload: { id: string; match: MatchStudent }) {
+  [MutationTypes.MATCH_STUDENT_LOADED](
+    state: State,
+    payload: { id: string; match: MatchStudentPayload }
+  ) {
     state.match.loading = false;
     if (state.student.data?.id === payload.id) {
       state.student.data = {

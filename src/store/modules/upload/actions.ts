@@ -1,8 +1,8 @@
 import { createApolloClient } from "@/api/apollo-client";
 import { AttachmentKey } from "@/api/models/types";
 import deleteAttachmentMutation from "@/api/mutations/deleteAttachment.gql";
-import uploadMutation from "@/api/mutations/upload.gql";
-import uploadProjectPostingMutation from "@/api/mutations/uploadProjectPosting.gql";
+import { UploadDocument } from "@/api/mutations/upload.generated";
+import { UploadProjectPostingDocument } from "@/api/mutations/uploadProjectPosting.generated";
 import attachmentsQuery from "@/api/queries/attachments.gql";
 import attachmentsProjectPostingQuery from "@/api/queries/attachmentsProjectPosting.gql";
 import uploadTypesQuery from "@/api/queries/uploadConfigurations.gql";
@@ -67,17 +67,21 @@ export const actions: ActionTree<State, RootState> & Actions = {
     for (const file of payload.files) {
       commit(MutationTypes.UPLOAD_FILE_START, { key: payload.key, file });
       const response = await apiClient.mutate({
-        mutation: uploadMutation,
+        mutation: UploadDocument,
         variables: {
           key: payload.key,
           file: file,
         },
       });
-      commit(MutationTypes.UPLOAD_FILE_COMPLETE, {
-        key: payload.key,
-        file,
-        response: response.data.upload,
-      });
+      if (response.data?.upload) {
+        commit(MutationTypes.UPLOAD_FILE_COMPLETE, {
+          key: payload.key,
+          file,
+          response: response.data?.upload,
+        });
+      } else {
+        throw new Error("UPLOAD_FILE_COMPLETE: upload is undefined");
+      }
       await dispatch(ActionTypes.UPLOADED_FILES, { key: payload.key });
     }
   },
@@ -89,18 +93,22 @@ export const actions: ActionTree<State, RootState> & Actions = {
     for (const file of payload.files) {
       commit(MutationTypes.UPLOAD_FILE_START, { key: payload.key, file });
       const response = await apiClient.mutate({
-        mutation: uploadProjectPostingMutation,
+        mutation: UploadProjectPostingDocument,
         variables: {
           key: payload.key,
           projectPostingId: payload.id,
           file: file,
         },
       });
-      commit(MutationTypes.UPLOAD_FILE_COMPLETE, {
-        key: payload.key,
-        file,
-        response: response.data.upload,
-      });
+      if (response.data?.upload) {
+        commit(MutationTypes.UPLOAD_FILE_COMPLETE, {
+          key: payload.key,
+          file,
+          response: response.data.upload,
+        });
+      } else {
+        throw new Error("UPLOAD_FILE_COMPLETE: upload is undefined");
+      }
       await dispatch(ActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
         key: payload.key,
         id: payload.id,
