@@ -30,7 +30,7 @@
             rules="required"
           >
             <option value disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :key="index" :value="n">
+            <option v-for="n in 12" :key="`jobFromDateMonth_${n}`" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -42,7 +42,9 @@
             rules="required"
           >
             <option value disabled selected hidden>Jahr</option>
-            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
+            <option v-for="n in validYears" :key="`jobFromDateYear_${n}`" :value="n">
+              {{ n }}
+            </option>
           </Field>
         </fieldset>
       </MatchdSelect>
@@ -63,7 +65,7 @@
             rules="requiredIfNotEmpty:jobToDateYear"
           >
             <option value disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :key="index" :value="n">
+            <option v-for="n in 12" :key="`jobToDateMonth_${n}`" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -75,7 +77,7 @@
             rules="requiredIfNotEmpty:jobToDateMonth"
           >
             <option value disabled selected hidden>Jahr</option>
-            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
+            <option v-for="n in validYears" :key="`jobToDateYear_${n}`">{{ n }}</option>
           </Field>
         </fieldset>
       </MatchdSelect>
@@ -219,7 +221,6 @@ export default class StudentStep2 extends Vue.with(Props) {
         console.log(e);
       }
     });
-
     return {
       ...form,
       onSubmit,
