@@ -4,7 +4,7 @@ import passwordResetMutation from "@/api/mutations/passwordReset.gql";
 import refreshTokenMutation from "@/api/mutations/refreshToken.gql";
 import sendPasswordResetEmailMutation from "@/api/mutations/sendPasswordResetEmail.gql";
 import tokenAuthMutation from "@/api/mutations/tokenAuth.gql";
-import meQuery from "@/api/queries/me.gql";
+import { MeDocument } from "@/api/queries/me.generated";
 import verifyPasswordResetTokenQuery from "@/api/queries/verifyPasswordResetToken.gql";
 import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
@@ -75,10 +75,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.ME]({ commit }) {
     commit(MutationTypes.ME_LOADING);
     const response = await apiClient.query({
-      query: meQuery,
+      query: MeDocument,
       fetchPolicy: "no-cache",
     });
-    commit(MutationTypes.ME_LOADED, response.data.me);
+    if (response.data?.me) {
+      commit(MutationTypes.ME_LOADED, response.data);
+    }
   },
   async [ActionTypes.VERIFY_PASSWORD_RESET_TOKEN]({ commit }, payload: { token: string }) {
     commit(MutationTypes.VERIFY_PASSWORD_RESET_TOKEN_LOADING);

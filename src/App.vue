@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts">
-import type { User } from "@/api/models/types";
 import NavBarCompany from "@/components/NavBarCompany.vue";
 import NavBarStudent from "@/components/NavBarStudent.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
@@ -59,7 +58,7 @@ export default class App extends Vue {
     return this.$store.getters["isUniversity"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

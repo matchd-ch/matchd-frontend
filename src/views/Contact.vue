@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import type { User, UserRequestInput } from "@/api/models/types";
+import type { UserRequestInput } from "@/api/models/types";
 import Logo from "@/assets/logo.svg";
 import BackLink from "@/components/BackLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -86,7 +86,7 @@ export default class Contact extends Vue {
     return "Login";
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

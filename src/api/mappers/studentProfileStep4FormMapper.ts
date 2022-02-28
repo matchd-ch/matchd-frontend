@@ -1,7 +1,9 @@
-import type { User } from "@/api/models/types";
 import { StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
+import { MeQuery } from "../queries/me.generated";
 
-export function studentProfileStep4FormMapper(user: User): StudentProfileStep4Form {
+export function studentProfileStep4FormMapper(
+  user: NonNullable<MeQuery["me"]>
+): StudentProfileStep4Form {
   return {
     skills:
       user.student?.skills?.edges

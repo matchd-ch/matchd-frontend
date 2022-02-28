@@ -1,7 +1,9 @@
-import type { User } from "@/api/models/types";
 import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
+import { MeQuery } from "../queries/me.generated";
 
-export function companyProfileStep3FormMapper(user: User): CompanyProfileStep3Form {
+export function companyProfileStep3FormMapper(
+  user: NonNullable<MeQuery["me"]>
+): CompanyProfileStep3Form {
   return {
     branches:
       user.company?.branches?.edges

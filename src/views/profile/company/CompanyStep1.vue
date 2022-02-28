@@ -93,7 +93,6 @@
 <script lang="ts">
 import { companyProfileStep1FormMapper } from "@/api/mappers/companyProfileStep1FormMapper";
 import { companyProfileStep1InputMapper } from "@/api/mappers/companyProfileStep1InputMapper";
-import type { User } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -156,7 +155,7 @@ export default class CompanyStep1 extends Vue.with(Props) {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

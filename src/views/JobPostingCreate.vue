@@ -182,7 +182,6 @@ export default class JobPostingCreate extends Vue {
   }
 
   clearCurrentJobPosting(): void {
-    console.log("CLEAR");
     this.$store.commit(MutationTypes.CLEAR_CURRENT_JOBPOSTING);
   }
 

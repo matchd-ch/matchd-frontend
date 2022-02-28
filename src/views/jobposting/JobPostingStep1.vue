@@ -175,7 +175,7 @@
 <script lang="ts">
 import { jobPostingStep1FormMapper } from "@/api/mappers/jobPostingStep1FormMapper";
 import { jobPostingStep1InputMapper } from "@/api/mappers/jobPostingStep1InputMapper";
-import type { Branch, JobPosting as JobPostingType, JobType, User } from "@/api/models/types";
+import type { Branch, JobPosting as JobPostingType, JobType } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -295,7 +295,6 @@ export default class JobPostingStep1 extends Vue {
   }
 
   get jobTypes(): JobType[] {
-    console.log(this.$store.getters["jobTypes"]);
     return this.$store.getters["jobTypes"];
   }
 
@@ -319,7 +318,7 @@ export default class JobPostingStep1 extends Vue {
     return this.$store.getters["jobPostingState"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

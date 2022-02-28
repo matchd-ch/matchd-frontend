@@ -127,7 +127,7 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class StudentProfile extends Vue {
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

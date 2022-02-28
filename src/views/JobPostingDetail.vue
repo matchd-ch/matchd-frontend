@@ -128,7 +128,7 @@
 </template>
 
 <script lang="ts">
-import type { JobPosting, User } from "@/api/models/types";
+import type { JobPosting } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
@@ -179,7 +179,7 @@ export default class JobPostingDetail extends Vue {
     return this.jobPosting ? this.jobPosting?.branches.length > 0 : false;
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

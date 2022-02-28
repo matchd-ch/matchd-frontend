@@ -173,7 +173,7 @@
 </template>
 
 <script lang="ts">
-import type { Attachment, ProjectPosting, User } from "@/api/models/types";
+import type { Attachment, ProjectPosting } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
@@ -213,7 +213,7 @@ export default class ProjectPostingDetail extends Vue {
   showConfirmationModal = false;
   showFullMatchModal = false;
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

@@ -77,7 +77,7 @@ export type Getters = {
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
-  benefits(state: State): Benefit[] {
+  benefits(state: State) {
     return state.benefits.data;
   },
   branches(state: State): Branch[] {
@@ -91,13 +91,13 @@ export const getters: GetterTree<State, RootState> & Getters = {
   } {
     return state.company;
   },
-  companyMatching(state: State): { data: Match[] } {
+  companyMatching(state: State) {
     return state.companyMatching;
   },
-  culturalFits(state: State): CulturalFit[] {
+  culturalFits(state: State) {
     return state.culturalFits.data;
   },
-  companyDashboard(state: State): CompanyDashboard | null {
+  companyDashboard(state: State) {
     if (!state.dashboard.data) {
       return null;
     }
@@ -145,7 +145,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       ),
     };
   },
-  dashboard(state: State): Dashboard | null {
+  dashboard(state: State) {
     return state.dashboard.data;
   },
   jobPostingDetail(state: State): JobPosting | null {

@@ -189,7 +189,6 @@
 </template>
 
 <script lang="ts">
-import type { User } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
@@ -217,7 +216,7 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class CompanyProfile extends Vue {
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

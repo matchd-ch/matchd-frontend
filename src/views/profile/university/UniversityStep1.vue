@@ -118,7 +118,6 @@
 <script lang="ts">
 import { universityProfileStep1FormMapper } from "@/api/mappers/universityProfileStep1FormMapper";
 import { universityProfileStep1InputMapper } from "@/api/mappers/universityProfileStep1InputMapper";
-import type { User } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -179,7 +178,7 @@ export default class UniversityStep1 extends Vue.with(Props) {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

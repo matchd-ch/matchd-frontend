@@ -1,11 +1,15 @@
 <template>
   <template v-if="user">
     <StudentDashboard
-      v-if="isStudent"
+      v-if="isStudent && studentDashboard"
       :dashboard="studentDashboard"
       class="min-h-content-with-fixed-bars"
     />
-    <CompanyDashboard v-else :dashboard="companyDashboard" class="min-h-content-with-fixed-bars" />
+    <CompanyDashboard
+      v-else-if="companyDashboard"
+      :dashboard="companyDashboard"
+      class="min-h-content-with-fixed-bars"
+    />
   </template>
 </template>
 

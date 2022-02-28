@@ -1,5 +1,5 @@
-import type { User } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
+import { MeQuery } from "@/api/queries/me.generated";
 import type { LoginState } from "@/models/LoginState";
 import type { LogoutState } from "@/models/LogoutState";
 import { PasswordResetState } from "@/models/PasswordResetState";
@@ -13,7 +13,7 @@ export type Getters = {
   loginState(state: State): LoginState;
   logoutLoading(state: State): boolean;
   logoutState(state: State): LogoutState;
-  user(state: State): User | null;
+  user(state: State): MeQuery["me"] | null;
   profileStep(state: State, getters: Getters): number | undefined;
   isStudent(state: State): boolean;
   isCompany(state: State): boolean;
@@ -46,7 +46,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       errors: state.logout.errors || null,
     };
   },
-  user(state: State): User | null {
+  user(state: State): MeQuery["me"] | null {
     return state.user;
   },
   profileStep(state: State, getters: Getters): number | undefined {

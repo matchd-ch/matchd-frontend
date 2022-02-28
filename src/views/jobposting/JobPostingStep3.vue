@@ -79,7 +79,7 @@
 <script lang="ts">
 import { jobPostingStep3FormMapper } from "@/api/mappers/jobPostingStep3FormMapper";
 import { jobPostingStep3InputMapper } from "@/api/mappers/jobPostingStep3InputMapper";
-import type { Employee, JobPosting as JobPostingType, User } from "@/api/models/types";
+import type { Employee, JobPosting as JobPostingType } from "@/api/models/types";
 import { JobPostingState as JobPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -168,7 +168,7 @@ export default class JobPostingStep3 extends Vue {
     return this.$store.getters["employees"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

@@ -81,7 +81,7 @@
 <script lang="ts">
 import { projectPostingStep3FormMapper } from "@/api/mappers/projectPostingStep3FormMapper";
 import { projectPostingStep3InputMapper } from "@/api/mappers/projectPostingStep3InputMapper";
-import type { Employee, ProjectPosting as ProjectPostingType, User } from "@/api/models/types";
+import type { Employee, ProjectPosting as ProjectPostingType } from "@/api/models/types";
 import { ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -179,7 +179,7 @@ export default class ProjectPostingStep3 extends Vue {
     return this.$store.getters["employees"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

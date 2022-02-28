@@ -20,8 +20,8 @@
             {{ user.company.website }}
           </a>
           <br />
-          <a :href="`mailto:${user.employee.email}`" class="underline">
-            {{ user.employee.email }}
+          <a :href="`mailto:${user.employee?.email}`" class="underline">
+            {{ user.employee?.email }}
           </a>
           <br />
           <a :href="`tel:${user.company.phone}`">{{ user.company.phone }}</a>
@@ -53,31 +53,31 @@
         <p>{{ user.company.services }}</p>
       </ProfileSection>
       <ProfileSection
-        v-if="user.company.branches.length"
+        v-if="user.company.branches.edges.length"
         :pink="true"
         title="In diesen Bereichen kannst du bei uns tätig sein"
         :edit-step="getStepName(3)"
       >
         <ul class="list list-inside list-disc marker-pink-1">
-          <li v-for="branch in user.company.branches" :key="branch.id" class="text-lg">
-            {{ branch.name }}
+          <li v-for="branch in user.company.branches.edges" :key="branch?.node?.id" class="text-lg">
+            {{ branch?.node?.name }}
           </li>
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="user.company.benefits.length"
+        v-if="user.company.benefits.edges.length"
         :pink="true"
         title="Das erwartet dich bei uns"
         :edit-step="getStepName(3)"
       >
         <ul class="flex flex-wrap content-start items-start -mb-1">
           <li
-            v-for="benefit in user.company.benefits"
-            :key="benefit.id"
+            v-for="benefit in user.company.benefits.edges"
+            :key="benefit?.node?.id"
             class="flex items-center border border-pink-5 rounded-30 font-medium text-md py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
           >
-            <span class="material-icons mr-2">{{ benefit.icon }}</span>
-            {{ benefit.name }}
+            <span class="material-icons mr-2">{{ benefit?.node?.icon }}</span>
+            {{ benefit?.node?.name }}
           </li>
         </ul>
       </ProfileSection>
@@ -100,7 +100,6 @@
 </template>
 
 <script lang="ts">
-import type { User } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
@@ -128,7 +127,7 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class CompanyProfile extends Vue {
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

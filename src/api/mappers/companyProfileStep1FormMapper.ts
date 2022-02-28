@@ -1,7 +1,9 @@
-import type { User } from "@/api/models/types";
 import { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
+import { MeQuery } from "../queries/me.generated";
 
-export function companyProfileStep1FormMapper(user: User): CompanyProfileStep1Form {
+export function companyProfileStep1FormMapper(
+  user: NonNullable<MeQuery["me"]>
+): CompanyProfileStep1Form {
   return {
     firstName: user.firstName,
     lastName: user.lastName,

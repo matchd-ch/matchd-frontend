@@ -147,7 +147,7 @@
 </template>
 
 <script lang="ts">
-import type { Attachment, Student, User } from "@/api/models/types";
+import type { Attachment, Student } from "@/api/models/types";
 import { DateMode, ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
@@ -185,7 +185,7 @@ export default class StudentDetail extends Vue {
   showConfirmationModal = false;
   showMatchModal = false;
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

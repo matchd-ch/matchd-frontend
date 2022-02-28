@@ -1,7 +1,9 @@
-import type { User } from "@/api/models/types";
 import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
+import { MeQuery } from "../queries/me.generated";
 
-export function studentProfileStep3FormMapper(user: User): StudentProfileStep3Form {
+export function studentProfileStep3FormMapper(
+  user: NonNullable<MeQuery["me"]>
+): StudentProfileStep3Form {
   return {
     culturalFits:
       user.student?.culturalFits?.edges

@@ -7,12 +7,12 @@
         <img
           class="avatar rounded-full object-cover"
           :src="replaceStack(avatar.url, 'avatar')"
-          :alt="`${user.firstName} Profilbild`"
+          :alt="`${user?.firstName} Profilbild`"
         />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
         <h2 class="flex-1 mb-8 xl:mb-0 text-display-xs">
-          Hey {{ user.firstName }}, ready to match?
+          Hey {{ user?.firstName }}, ready to match?
         </h2>
         <p class="mt-4">
           Auf dieser Seite findest du die neuesten Stellenausschreibungen, neue Projekte sowie den
@@ -23,17 +23,17 @@
     </div>
     <div class="flex flex-col min-h-full">
       <profile-section
-        v-if="dashboard?.latestJobPostings?.length || dashboard?.latestProjectPostings?.length"
+        v-if="dashboard.latestJobPostings?.length || dashboard.latestProjectPostings?.length"
         title="Neue Stellen und Projekte"
       >
         <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
-        <p v-if="dashboard?.latestJobPostings?.length === 0">
+        <p v-if="dashboard.latestJobPostings?.length === 0">
           Momentan sind keine zu dir passenden Stellen ausgeschrieben.
         </p>
-        <template v-if="dashboard?.latestJobPostings?.length">
+        <template v-if="dashboard.latestJobPostings?.length">
           <ul>
             <li
-              v-for="jobPosting in dashboard?.latestJobPostings"
+              v-for="jobPosting in dashboard.latestJobPostings"
               :key="jobPosting.id"
               class="link-list__item"
             >
@@ -48,12 +48,12 @@
           >
         </template>
         <h2 class="text-base font-medium text-primary-1 mb-4 mt-12">Projekte</h2>
-        <p v-if="dashboard?.latestProjectPostings?.length === 0">
+        <p v-if="dashboard.latestProjectPostings?.length === 0">
           Momentan sind keine zu dir passenden Projekte ausgeschrieben.
         </p>
-        <ul v-if="dashboard?.latestProjectPostings?.length">
+        <ul v-if="dashboard.latestProjectPostings?.length">
           <li
-            v-for="projectPosting in dashboard?.latestProjectPostings"
+            v-for="projectPosting in dashboard.latestProjectPostings"
             :key="projectPosting.id"
             class="link-list__item"
           >
@@ -67,13 +67,13 @@
           >Neues Projekt ausschreiben</matchd-button
         >
       </profile-section>
-      <profile-section v-if="dashboard?.projectPostings?.length" title="Deine Projekt-Ideen">
-        <p v-if="dashboard?.projectPostings?.length === 0">
+      <profile-section v-if="dashboard.projectPostings?.length" title="Deine Projekt-Ideen">
+        <p v-if="dashboard.projectPostings?.length === 0">
           Momentan sind keine zu dir passenden Projekte ausgeschrieben.
         </p>
-        <ul v-if="dashboard?.projectPostings?.length">
+        <ul v-if="dashboard.projectPostings?.length">
           <li
-            v-for="projectPosting in dashboard?.projectPostings"
+            v-for="projectPosting in dashboard.projectPostings"
             :key="projectPosting.id"
             class="link-list__item"
           >
@@ -82,17 +82,17 @@
         </ul>
       </profile-section>
       <profile-section title="Deine offenen Matches">
-        <p v-if="dashboard?.requestedMatches?.length > 0">
+        <p v-if="dashboard.requestedMatches && dashboard.requestedMatches?.length > 0">
           Sobald deine Matching-Anfrage vom Unternehmen bestätigt wurde, kanns mit dem Kennenlernen
           weitergehen.
         </p>
-        <p v-if="dashboard?.requestedMatches?.length === 0">
+        <p v-if="dashboard.requestedMatches?.length === 0">
           Momentan hast du keine offenen Matches. Sobald du ein Match auslöst, wirst du das hier
           sehen.
         </p>
         <ul>
           <li
-            v-for="match in dashboard?.requestedMatches"
+            v-for="match in dashboard.requestedMatches"
             :key="match.id"
             class="link-list__item mt-4"
           >
@@ -101,16 +101,16 @@
         </ul>
       </profile-section>
       <profile-section title="Anfragen zum Matching">
-        <p v-if="dashboard?.unconfirmedMatches?.length > 0">
+        <p v-if="dashboard.unconfirmedMatches?.length > 0">
           Dein Talent ist gesucht! Folgende Unternehmen möchten dich gerne kennenlernen.
         </p>
-        <p v-if="dashboard?.unconfirmedMatches?.length === 0">
+        <p v-if="dashboard.unconfirmedMatches?.length === 0">
           Momentan hast du keine offenen An2fragen. Sobald ein Unternehmen dich matchen möchte,
           siehst du das hier.
         </p>
         <ul>
           <li
-            v-for="match in dashboard?.unconfirmedMatches"
+            v-for="match in dashboard.unconfirmedMatches"
             :key="match.jobPosting.id"
             class="link-list__item mt-4"
           >
@@ -119,14 +119,14 @@
         </ul>
       </profile-section>
       <profile-section
-        v-if="dashboard?.confirmedMatches?.length || dashboard?.projectMatches?.length"
+        v-if="dashboard.confirmedMatches?.length || dashboard.projectMatches?.length"
         title="Hier hats gematchd!"
       >
-        <template v-if="dashboard?.projectMatches.length">
+        <template v-if="dashboard.projectMatches.length">
           <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
           <ul>
             <li
-              v-for="match in dashboard?.projectMatches"
+              v-for="match in dashboard.projectMatches"
               :key="match.projectPosting.id"
               class="link-list__item"
             >
@@ -138,11 +138,11 @@
             </li>
           </ul>
         </template>
-        <template v-if="dashboard?.confirmedMatches.length">
+        <template v-if="dashboard.confirmedMatches.length">
           <ul>
             <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
             <li
-              v-for="match in dashboard?.confirmedMatches"
+              v-for="match in dashboard.confirmedMatches"
               :key="match.jobPosting.id"
               class="link-list__item"
             >
@@ -169,7 +169,7 @@ import { replaceStack } from "@/helpers/replaceStack";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
-  dashboard = prop<{ data: Dashboard }>({ required: true });
+  dashboard = prop<Dashboard>({ required: true });
 }
 
 @Options({
