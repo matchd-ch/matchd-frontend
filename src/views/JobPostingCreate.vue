@@ -51,7 +51,6 @@
 </template>
 
 <script lang="ts">
-import type { JobPosting as JobPostingType } from "@/api/models/types";
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
@@ -86,15 +85,15 @@ export default class JobPostingCreate extends Vue {
     return ParamStrings;
   }
 
-  get currentStep(): number | null {
+  get currentStep() {
     return this.urlStepNumber;
   }
 
-  get currentJobPosting(): JobPostingType | null {
+  get currentJobPosting() {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get jobPostingId(): string {
+  get jobPostingId() {
     return this.$store.getters["jobPostingId"];
   }
 
@@ -183,6 +182,7 @@ export default class JobPostingCreate extends Vue {
   }
 
   clearCurrentJobPosting(): void {
+    console.log("CLEAR");
     this.$store.commit(MutationTypes.CLEAR_CURRENT_JOBPOSTING);
   }
 

@@ -6,9 +6,9 @@ import type {
   JobPostingRequirementsInput,
 } from "@/api/models/types";
 import { AddEmployeeDocument } from "@/api/mutations/addEmployee.generated";
-import jobPostingAllocationMutation from "@/api/mutations/jobPostingAllocation.gql";
+import { JobPostingAllocationDocument } from "@/api/mutations/jobPostingAllocation.generated";
 import { JobPostingBaseDataDocument } from "@/api/mutations/jobPostingBaseData.generated";
-import jobPostingRequirementsMutation from "@/api/mutations/jobPostingRequirements.gql";
+import { JobPostingRequirementsDocument } from "@/api/mutations/jobPostingRequirements.generated";
 import employeesQuery from "@/api/queries/employees.gql";
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import { RootState } from "@/store";
@@ -64,18 +64,21 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.SAVE_JOBPOSTING_STEP2]({ commit }, payload: JobPostingRequirementsInput) {
     commit(MutationTypes.JOBPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: jobPostingRequirementsMutation,
-      variables: payload,
+      mutation: JobPostingRequirementsDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data.jobPostingRequirements);
+    commit(
+      MutationTypes.JOBPOSTING_STEP_LOADED,
+      response.data?.jobPostingRequirements ?? undefined
+    );
   },
   async [ActionTypes.SAVE_JOBPOSTING_STEP3]({ commit }, payload: JobPostingAllocationInput) {
     commit(MutationTypes.JOBPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: jobPostingAllocationMutation,
-      variables: payload,
+      mutation: JobPostingAllocationDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data.jobPostingAllocation);
+    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data?.jobPostingAllocation ?? undefined);
   },
   async [ActionTypes.JOBPOSTING]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.JOBPOSTING_LOADING);

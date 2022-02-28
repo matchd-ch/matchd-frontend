@@ -1,101 +1,101 @@
 <template>
-  <form
-    v-if="
-      skills.length > 0 &&
-      languages.length > 0 &&
-      languageLevels.length > 0 &&
-      jobRequirements.length > 0
-    "
-    @submit="veeForm.onSubmit"
-  >
-    <FormSaveError v-if="jobPostingState.errors" />
-    <!-- Bezeichnung Field -->
-    <SelectPillMultiple
-      :options="jobRequirements"
-      name="jobRequirements"
-      class="mb-10"
-      @change="onChangeJobRequirement"
+  <div>
+    <form
+      v-if="
+        skills.length > 0 &&
+        languages.length > 0 &&
+        languageLevels.length > 0 &&
+        jobRequirements.length > 0
+      "
+      @submit="veeForm.onSubmit"
     >
-      <template #label>Allgemeine Anforderungen</template>
-    </SelectPillMultiple>
-    <!-- Skills Field -->
-    <MatchdAutocomplete
-      id="skills"
-      class="mb-3"
-      :class="{ 'mb-10': veeForm.skills?.length === 0 }"
-      :errors="veeForm.errors.skills"
-      :items="filteredSkills"
-      @select="onSelectSkill"
-    >
-      <template #label>Technische Skills*</template>
-      <Field
-        id="skillInput"
-        v-model="skillInput"
-        name="skillInput"
-        as="input"
-        autocomplete="off"
-        label="Technische Skills"
-        @input="onInputSkill"
-        @keydown.enter.prevent="onPressEnterSkill"
-      />
-    </MatchdAutocomplete>
-    <SelectPillGroup v-if="veeForm.skills?.length" class="mb-10">
-      <SelectPill
-        v-for="selectedSkill in selectedSkills"
-        :key="selectedSkill.id"
-        has-delete="true"
-        @remove="onRemoveSkill(selectedSkill)"
-        >{{ selectedSkill.name }}</SelectPill
+      <FormSaveError v-if="jobPostingState.errors" />
+      <!-- Bezeichnung Field -->
+      <SelectPillMultiple
+        :options="jobRequirements"
+        name="jobRequirements"
+        class="mb-10"
+        @change="onChangeJobRequirement"
       >
-    </SelectPillGroup>
-    <!-- Language Field -->
-    <LanguagePicker
-      class="mb-10"
-      :languages="languages"
-      :language-levels="languageLevels"
-      :selected-languages="veeForm.languages"
-      :errors="veeForm.errors.languages"
-      @click-append-language="onClickAppendLanguage"
-      @click-remove-language="onClickRemoveLanguage"
-      ><template #label>Sprachkenntnisse*</template></LanguagePicker
-    >
-    <teleport to="footer">
-      <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
-        <MatchdButton
-          type="button"
-          variant="outline"
-          :disabled="jobPostingLoading"
-          class="mb-2 xl:mr-4 xl:mb-0"
-          @click="onClickBack"
+        <template #label>Allgemeine Anforderungen</template>
+      </SelectPillMultiple>
+      <!-- Skills Field -->
+      <MatchdAutocomplete
+        id="skills"
+        class="mb-3"
+        :class="{ 'mb-10': veeForm.skills?.length === 0 }"
+        :errors="veeForm.errors.skills"
+        :items="filteredSkills"
+        @select="onSelectSkill"
+      >
+        <template #label>Technische Skills*</template>
+        <Field
+          id="skillInput"
+          v-model="skillInput"
+          name="skillInput"
+          as="input"
+          autocomplete="off"
+          label="Technische Skills"
+          @input="onInputSkill"
+          @keydown.enter.prevent="onPressEnterSkill"
+        />
+      </MatchdAutocomplete>
+      <SelectPillGroup v-if="veeForm.skills?.length" class="mb-10">
+        <SelectPill
+          v-for="selectedSkill in selectedSkills"
+          :key="selectedSkill.id"
+          has-delete="true"
+          @remove="onRemoveSkill(selectedSkill)"
+          >{{ selectedSkill.name }}</SelectPill
         >
-          <template v-if="currentJobPosting?.formStep > 3">Abbrechen</template>
-          <template v-else>Zurück zu Schritt 1</template>
-        </MatchdButton>
-        <MatchdButton
-          type="button"
-          variant="fill"
-          :disabled="jobPostingLoading"
-          :loading="jobPostingLoading"
-          @click="veeForm.onSubmit"
-        >
-          <template v-if="currentJobPosting?.formStep > 3">Speichern</template>
-          <template v-else>Speichern und weiter</template>
-        </MatchdButton>
-      </div>
-    </teleport>
-  </form>
+      </SelectPillGroup>
+      <!-- Language Field -->
+      <LanguagePicker
+        class="mb-10"
+        :languages="languages"
+        :language-levels="languageLevels"
+        :selected-languages="veeForm.languages"
+        :errors="veeForm.errors.languages"
+        @click-append-language="onClickAppendLanguage"
+        @click-remove-language="onClickRemoveLanguage"
+        ><template #label>Sprachkenntnisse*</template></LanguagePicker
+      >
+      <teleport to="footer">
+        <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
+          <MatchdButton
+            type="button"
+            variant="outline"
+            :disabled="jobPostingLoading"
+            class="mb-2 xl:mr-4 xl:mb-0"
+            @click="onClickBack"
+          >
+            <template v-if="currentJobPosting && currentJobPosting?.formStep > 3">
+              Abbrechen
+            </template>
+            <template v-else>Zurück zu Schritt 1</template>
+          </MatchdButton>
+          <MatchdButton
+            type="button"
+            variant="fill"
+            :disabled="jobPostingLoading"
+            :loading="jobPostingLoading"
+            @click="veeForm.onSubmit"
+          >
+            <template v-if="currentJobPosting && currentJobPosting.formStep > 3">
+              Speichern
+            </template>
+            <template v-else>Speichern und weiter</template>
+          </MatchdButton>
+        </div>
+      </teleport>
+    </form>
+  </div>
 </template>
 
 <script lang="ts">
 import { jobPostingStep2FormMapper } from "@/api/mappers/jobPostingStep2FormMapper";
 import { jobPostingStep2InputMapper } from "@/api/mappers/jobPostingStep2InputMapper";
-import type {
-  JobPosting as JobPostingType,
-  JobRequirement,
-  Language,
-  LanguageLevel,
-  Skill,
-} from "@/api/models/types";
+import type { JobRequirement, Skill } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import LanguagePicker from "@/components/LanguagePicker.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
@@ -104,9 +104,8 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
-import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
 import { useStore } from "@/store";
@@ -180,18 +179,18 @@ export default class JobPostingStep2 extends Vue {
   filteredSkills: Skill[] = [];
   skillInput = "";
 
-  get jobPostingData(): JobPostingStep2Form {
+  get jobPostingData() {
     if (!this.currentJobPosting) {
       return {} as JobPostingStep2Form;
     }
     return jobPostingStep2FormMapper(this.currentJobPosting);
   }
 
-  get currentJobPosting(): JobPostingType | null {
+  get currentJobPosting() {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get jobRequirements(): SelectPillMultipleItem[] {
+  get jobRequirements() {
     return this.$store.getters["jobRequirements"].map((jobRequirement) => {
       return {
         ...jobRequirement,
@@ -202,37 +201,37 @@ export default class JobPostingStep2 extends Vue {
     });
   }
 
-  get skills(): Skill[] {
+  get skills() {
     return this.$store.getters["skills"];
   }
 
-  get selectedSkills(): Skill[] {
+  get selectedSkills() {
     return this.skills.filter((skill) => this.veeForm.skills?.some((id) => id === skill.id));
   }
 
-  get availableSkills(): Skill[] {
+  get availableSkills() {
     return this.skills.filter((skill) => {
       return !this.veeForm.skills?.some((selectedSkillId) => selectedSkillId === skill.id);
     });
   }
 
-  get languages(): Language[] {
+  get languages() {
     return this.$store.getters["languages"];
   }
 
-  get languageLevels(): LanguageLevel[] {
+  get languageLevels() {
     return this.$store.getters["languageLevels"];
   }
 
-  get jobPostingLoading(): boolean {
+  get jobPostingLoading() {
     return this.$store.getters["jobPostingLoading"];
   }
 
-  get jobPostingState(): JobPostingState {
+  get jobPostingState() {
     return this.$store.getters["jobPostingState"];
   }
 
-  onChangeJobRequirement(jobRequirement: JobRequirement): void {
+  onChangeJobRequirement(jobRequirement: JobRequirement) {
     const jobRequirementExists = !!this.veeForm.jobRequirements?.find(
       (selectedJobRequirementsId) => selectedJobRequirementsId === jobRequirement.id
     );
@@ -245,7 +244,7 @@ export default class JobPostingStep2 extends Vue {
     }
   }
 
-  onInputSkill(): void {
+  onInputSkill() {
     if (this.skillInput.length < 1) {
       this.filteredSkills = [];
       return;
@@ -255,35 +254,35 @@ export default class JobPostingStep2 extends Vue {
     );
   }
 
-  onSelectSkill(skill: Skill): void {
+  onSelectSkill(skill: Skill) {
     this.skillInput = "";
     this.veeForm.skills = [...this.veeForm.skills, skill.id];
     this.onInputSkill();
   }
 
-  onPressEnterSkill(): void {
+  onPressEnterSkill() {
     if (this.filteredSkills.length === 1) {
       this.onSelectSkill(this.filteredSkills[0]);
     }
   }
 
-  onRemoveSkill(skill: Skill): void {
+  onRemoveSkill(skill: Skill) {
     this.veeForm.skills = this.veeForm.skills.filter((id) => id !== skill.id);
   }
 
-  onClickAppendLanguage(language: SelectedLanguage): void {
+  onClickAppendLanguage(language: SelectedLanguage) {
     if (language && language.level) {
       this.veeForm.languages.push(language);
     }
   }
 
-  onClickRemoveLanguage(language: SelectedLanguage): void {
+  onClickRemoveLanguage(language: SelectedLanguage) {
     this.veeForm.languages = this.veeForm.languages.filter(
       (selectedLanguage) => selectedLanguage.language !== language.language
     );
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(ContentActionsTypes.JOB_REQUIREMENTS),
       this.$store.dispatch(ContentActionsTypes.LANGUAGES, { shortList: true }),
@@ -297,12 +296,12 @@ export default class JobPostingStep2 extends Vue {
     calculateMargins();
   }
 
-  onClickBack(): void {
+  onClickBack() {
     this.$emit("navigateBack");
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }

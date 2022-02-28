@@ -18,15 +18,14 @@ import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import { JobTypesDocument } from "@/api/queries/jobTypes.generated";
-import jobTypesQuery from "@/api/queries/jobTypes.gql";
 import keywordsQuery from "@/api/queries/keywords.gql";
 import languageLevelsQuery from "@/api/queries/languageLevels.gql";
-import languagesQuery from "@/api/queries/languages.gql";
+import { LanguagesDocument } from "@/api/queries/languages.generated";
 import matchingQuery from "@/api/queries/matching.gql";
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import projectPostingsQuery from "@/api/queries/projectPostings.gql";
 import projectTypesQuery from "@/api/queries/projectTypes.gql";
-import skillsQuery from "@/api/queries/skills.gql";
+import { SkillsDocument } from "@/api/queries/skills.generated";
 import softSkillsQuery from "@/api/queries/softSkills.gql";
 import studentQuery from "@/api/queries/student.gql";
 import topicsQuery from "@/api/queries/topics.gql";
@@ -244,9 +243,9 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.LANGUAGES]({ commit }, payload: { shortList: boolean }) {
     commit(MutationTypes.LANGUAGES_LOADING);
     const response = await apiClient.query({
-      query: languagesQuery,
+      query: LanguagesDocument,
       variables: {
-        shortList: payload?.shortList || null,
+        shortList: payload.shortList,
       },
       context: {
         batch: true,
@@ -324,7 +323,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.SKILLS]({ commit }) {
     commit(MutationTypes.SKILLS_LOADING);
     const response = await apiClient.query({
-      query: skillsQuery,
+      query: SkillsDocument,
       context: {
         batch: true,
       },

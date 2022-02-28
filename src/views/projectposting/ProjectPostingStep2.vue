@@ -32,7 +32,7 @@
             rules="required"
           >
             <option value disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :key="index" :value="n">
+            <option v-for="n in 12" :key="`projectFromDateMonth_${n}`" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -43,11 +43,10 @@
             label="Starttermin Jahr"
             rules="required"
           >
-            <option v-if="veeForm.values.projectFromDateYear" selected>
-              {{ veeForm.values.projectFromDateYear }}
+            <option value disabled selected hidden>Jahr</option>
+            <option v-for="n in validYears" :key="`projectFromDateYear_${n}`" :value="n">
+              {{ String(n).padStart(2, "0") }}
             </option>
-            <option v-else value disabled selected hidden>Jahr</option>
-            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
       </MatchdSelect>

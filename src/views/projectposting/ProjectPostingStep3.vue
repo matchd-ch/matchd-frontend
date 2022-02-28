@@ -45,7 +45,7 @@
             type="checkbox"
             value="true"
             :checked="veeForm.state === projectPostingStateEnum.Public"
-            @change="onChangeState($event.target.checked)"
+            @change="onChangeState($event)"
           />
           <template v-if="veeForm.state === projectPostingStateEnum.Public" #value>
             <span class="text-primary-1">Öffentlich</span>
@@ -198,8 +198,11 @@ export default class ProjectPostingStep3 extends Vue {
     this.$emit("navigateBack");
   }
 
-  onChangeState(value: boolean): void {
-    this.veeForm.state = value ? ProjectPostingStateEnum.Public : ProjectPostingStateEnum.Draft;
+  onChangeState(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.veeForm.state = target.checked
+      ? ProjectPostingStateEnum.Public
+      : ProjectPostingStateEnum.Draft;
   }
 
   onClickClose(): void {
