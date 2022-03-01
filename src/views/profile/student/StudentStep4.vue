@@ -36,8 +36,9 @@
         :key="selectedSkill.id"
         has-delete="true"
         @remove="onRemoveSkill(selectedSkill)"
-        >{{ selectedSkill.name }}</SelectPill
       >
+        {{ selectedSkill.name }}
+      </SelectPill>
     </SelectPillGroup>
     <!-- Language Field -->
     <LanguagePicker
@@ -135,8 +136,9 @@
         :key="hobby.name"
         has-delete="true"
         @remove="onRemoveHobby(hobby)"
-        >{{ hobby.name }}</SelectPill
       >
+        {{ hobby.name }}
+      </SelectPill>
     </SelectPillGroup>
     <!-- Distinction Field -->
     <MatchdField id="distinction" class="mb-10">
@@ -195,7 +197,13 @@
 <script lang="ts">
 import { studentProfileStep4FormMapper } from "@/api/mappers/studentProfileStep4FormMapper";
 import { studentProfileStep4InputMapper } from "@/api/mappers/studentProfileStep4InputMapper";
-import type { Attachment, HobbyInput, OnlineProjectInput, Skill } from "@/api/models/types";
+import type {
+  Attachment,
+  HobbyInput,
+  OnlineProjectInput,
+  Skill,
+  StudentProfileAbilitiesInput,
+} from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import LanguagePicker from "@/components/LanguagePicker.vue";
@@ -259,6 +267,8 @@ export default class StudentStep4 extends Vue.with(Props) {
     );
     const { value: onlineProjects } = useField<OnlineProjectInput[]>("onlineProjects");
     const { value: hobbies } = useField<HobbyInput[]>("hobbies");
+    const { value: distinction } =
+      useField<StudentProfileAbilitiesInput["distinction"]>("distinction");
 
     const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
       try {

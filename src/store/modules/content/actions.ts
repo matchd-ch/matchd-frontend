@@ -1,6 +1,5 @@
 import { createApolloClient } from "@/api/apollo-client";
 import type {
-  Benefit,
   MatchJobPostingInput,
   MatchProjectPostingInput,
   MatchStudentInput,
@@ -12,21 +11,21 @@ import { BenefitsDocument } from "@/api/queries/benefits.generated";
 import { BranchesDocument } from "@/api/queries/branches.generated";
 import { CompanyDocument } from "@/api/queries/company.generated";
 import companyMatchingQuery from "@/api/queries/companyMatching.gql";
-import culturalFitsQuery from "@/api/queries/culturalFits.gql";
+import { CulturalFitsDocument } from "@/api/queries/culturalFits.generated";
 import dashboardQuery from "@/api/queries/dashboard.gql";
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import { JobTypesDocument } from "@/api/queries/jobTypes.generated";
 import keywordsQuery from "@/api/queries/keywords.gql";
-import languageLevelsQuery from "@/api/queries/languageLevels.gql";
+import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
 import { LanguagesDocument } from "@/api/queries/languages.generated";
 import matchingQuery from "@/api/queries/matching.gql";
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import projectPostingsQuery from "@/api/queries/projectPostings.gql";
 import projectTypesQuery from "@/api/queries/projectTypes.gql";
 import { SkillsDocument } from "@/api/queries/skills.generated";
-import softSkillsQuery from "@/api/queries/softSkills.gql";
+import { SoftSkillsDocument } from "@/api/queries/softSkills.generated";
 import studentQuery from "@/api/queries/student.gql";
 import topicsQuery from "@/api/queries/topics.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
@@ -114,9 +113,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.BENEFITS_LOADED, {
-      benefits: response.data.benefits?.edges
-        ? (response.data.benefits.edges.filter((edge) => edge?.node) as Benefit[])
-        : [],
+      benefits: response.data.benefits,
     });
   },
   async [ActionTypes.BRANCHES]({ commit }) {
@@ -158,7 +155,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.CULTURAL_FITS]({ commit }) {
     commit(MutationTypes.CULTURAL_FITS_LOADING);
     const response = await apiClient.query({
-      query: culturalFitsQuery,
+      query: CulturalFitsDocument,
       context: {
         batch: true,
       },
@@ -245,18 +242,18 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.query({
       query: LanguagesDocument,
       variables: {
-        shortList: payload.shortList,
+        shortList: !!payload?.shortList,
       },
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.LANGUAGES_LOADED, { languages: response.data.languages });
+    commit(MutationTypes.LANGUAGES_LOADED, response.data);
   },
   async [ActionTypes.LANGUAGE_LEVELS]({ commit }) {
     commit(MutationTypes.LANGUAGE_LEVELS_LOADING);
     const response = await apiClient.query({
-      query: languageLevelsQuery,
+      query: LanguageLevelsDocument,
       context: {
         batch: true,
       },
@@ -368,7 +365,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.SOFT_SKILLS]({ commit }) {
     commit(MutationTypes.SOFT_SKILLS_LOADING);
     const response = await apiClient.query({
-      query: softSkillsQuery,
+      query: SoftSkillsDocument,
       context: {
         batch: true,
       },

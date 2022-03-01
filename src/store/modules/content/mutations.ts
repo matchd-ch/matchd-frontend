@@ -1,8 +1,6 @@
 import type {
   Attachment,
-  Benefit,
   Company,
-  CulturalFit,
   Dashboard,
   JobPosting,
   KeywordConnection,
@@ -12,19 +10,21 @@ import type {
   MatchStudentPayload,
   ProjectPosting,
   ProjectTypeConnection,
-  SoftSkill,
   Student,
   TopicConnection,
   ZipCity,
 } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
+import { BenefitsQuery } from "@/api/queries/benefits.generated";
 import { BranchesQuery } from "@/api/queries/branches.generated";
 import { CompanyQuery } from "@/api/queries/company.generated";
+import { CulturalFitsQuery } from "@/api/queries/culturalFits.generated";
 import { JobRequirementsQuery } from "@/api/queries/jobRequirements.generated";
 import { JobTypesQuery } from "@/api/queries/jobTypes.generated";
 import { LanguageLevelsQuery } from "@/api/queries/languageLevels.generated";
 import { LanguagesQuery } from "@/api/queries/languages.generated";
 import { SkillsQuery } from "@/api/queries/skills.generated";
+import { SoftSkillsQuery } from "@/api/queries/softSkills.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { State } from "@/store/modules/content/state";
 import { MutationTree } from "vuex";
@@ -32,7 +32,7 @@ import { MutationTypes } from "./mutation-types";
 
 export type Mutations<S = State> = {
   [MutationTypes.BENEFITS_LOADING](state: S): void;
-  [MutationTypes.BENEFITS_LOADED](state: S, payload: { benefits: Benefit[] }): void;
+  [MutationTypes.BENEFITS_LOADED](state: S, payload: BenefitsQuery): void;
   [MutationTypes.BRANCHES_LOADING](state: S): void;
   [MutationTypes.BRANCHES_LOADED](state: S, payload: BranchesQuery): void;
   [MutationTypes.COMPANY_LOADING](state: S): void;
@@ -40,7 +40,7 @@ export type Mutations<S = State> = {
   [MutationTypes.COMPANY_MATCHING_LOADING](state: S): void;
   [MutationTypes.COMPANY_MATCHING_LOADED](state: S, payload: { matches: Match[] }): void;
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
-  [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: { culturalFits: CulturalFit[] }): void;
+  [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: CulturalFitsQuery): void;
   [MutationTypes.DASHBOARD_LOADING](state: S): void;
   [MutationTypes.DASHBOARD_LOADED](state: S, payload: { dashboard: Dashboard | null }): void;
   [MutationTypes.JOB_POSTING_LOADING](state: S): void;
@@ -91,7 +91,7 @@ export type Mutations<S = State> = {
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: SkillsQuery): void;
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
-  [MutationTypes.SOFT_SKILLS_LOADED](state: S, payload: { softSkills: SoftSkill[] }): void;
+  [MutationTypes.SOFT_SKILLS_LOADED](state: S, payload: SoftSkillsQuery): void;
   [MutationTypes.STUDENT_LOADING](state: S): void;
   [MutationTypes.STUDENT_LOADED](
     state: S,
@@ -112,9 +112,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.BENEFITS_LOADING](state: State) {
     state.benefits.loading = true;
   },
-  [MutationTypes.BENEFITS_LOADED](state: State, payload: { benefits: Benefit[] }) {
+  [MutationTypes.BENEFITS_LOADED](state: State, payload: BenefitsQuery) {
     state.benefits.loading = false;
-    state.benefits.data = payload.benefits;
+    state.benefits.data = ensureNoNullsAndUndefineds(
+      payload.benefits?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.BRANCHES_LOADING](state: State) {
     state.branches.loading = true;
@@ -155,9 +157,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.CULTURAL_FITS_LOADING](state: State) {
     state.culturalFits.loading = true;
   },
-  [MutationTypes.CULTURAL_FITS_LOADED](state: State, payload: { culturalFits: CulturalFit[] }) {
+  [MutationTypes.CULTURAL_FITS_LOADED](state: State, payload: CulturalFitsQuery) {
     state.culturalFits.loading = false;
-    state.culturalFits.data = payload.culturalFits;
+    state.culturalFits.data = ensureNoNullsAndUndefineds(
+      payload.culturalFits?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.DASHBOARD_LOADING](state: State) {
     state.culturalFits.loading = true;
@@ -347,9 +351,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.SOFT_SKILLS_LOADING](state: State) {
     state.softSkills.loading = true;
   },
-  [MutationTypes.SOFT_SKILLS_LOADED](state: State, payload: { softSkills: SoftSkill[] }) {
+  [MutationTypes.SOFT_SKILLS_LOADED](state: State, payload: SoftSkillsQuery) {
     state.softSkills.loading = false;
-    state.softSkills.data = payload.softSkills;
+    state.softSkills.data = ensureNoNullsAndUndefineds(
+      payload.softSkills?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.STUDENT_LOADING](state: State) {
     state.student.loading = true;
