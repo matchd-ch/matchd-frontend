@@ -27,8 +27,8 @@ jobs:
       release: matchd-frontend
       environment: development
       letsencryptEnabled: true
-      domain: develompent.matchd.ch
-      apiUrl: "https://develompent.matchd.ch"
+      domain: development.matchd.ch
+      apiUrl: "https://development.matchd.ch"
     secrets:
       DOCKER_PULL_USERNAME: ${{ secrets.DOCKER_PULL_USERNAME }}
       DOCKER_PULL_SECRET: ${{ secrets.DOCKER_PULL_SECRET }}
