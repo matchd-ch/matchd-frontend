@@ -16,7 +16,7 @@ jobs:
       release: review-matchd-frontend-${{ github.event.pull_request.number }}
       environment: review-${{ github.event.pull_request.number }}
       domain: review-matchd-frontend-${{ github.event.pull_request.number }}.joshmartin.ch
-      apiUrl: "https://development-matchd-backend.joshmartin.ch"
+      apiUrl: "https://development.matchd.ch"
       task: remove
     secrets:
       DOCKER_PULL_USERNAME: ${{ secrets.DOCKER_PULL_USERNAME }}
