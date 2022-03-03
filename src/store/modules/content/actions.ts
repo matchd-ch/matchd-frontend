@@ -20,7 +20,7 @@ import { JobTypesDocument } from "@/api/queries/jobTypes.generated";
 import keywordsQuery from "@/api/queries/keywords.gql";
 import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
 import { LanguagesDocument } from "@/api/queries/languages.generated";
-import matchingQuery from "@/api/queries/matching.gql";
+import { MatchingDocument } from "@/api/queries/matching.generated";
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import projectPostingsQuery from "@/api/queries/projectPostings.gql";
 import projectTypesQuery from "@/api/queries/projectTypes.gql";
@@ -308,14 +308,14 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.MATCHING]({ commit }, payload: MatchingInput) {
     commit(MutationTypes.MATCHES_LOADING);
     const response = await apiClient.query({
-      query: matchingQuery,
+      query: MatchingDocument,
       variables: payload,
       fetchPolicy: "no-cache",
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.MATCHES_LOADED, { matches: response.data.matches });
+    commit(MutationTypes.MATCHES_LOADED, response.data.matches);
   },
   async [ActionTypes.SKILLS]({ commit }) {
     commit(MutationTypes.SKILLS_LOADING);

@@ -784,7 +784,7 @@ type Match = {
   __typename?: "Match";
   avatar?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["ID"]>;
+  id?: Maybe<Scalars["String"]>;
   keywords?: Maybe<Array<Keyword>>;
   matchStatus?: Maybe<MatchStatus>;
   name: Scalars["String"];
@@ -1541,7 +1541,7 @@ type QuerySoftSkillsArgs = {
 };
 
 type QueryStudentArgs = {
-  jobPostingId?: InputMaybe<Scalars["ID"]>;
+  jobPostingId?: InputMaybe<Scalars["String"]>;
   slug?: InputMaybe<Scalars["String"]>;
 };
 
@@ -3940,7 +3940,7 @@ const SoftSkills = gql`
   }
 `;
 const Student = gql`
-  query student($slug: String!, $jobPostingId: ID) {
+  query student($slug: String!, $jobPostingId: String) {
     student(slug: $slug, jobPostingId: $jobPostingId) {
       id
       email

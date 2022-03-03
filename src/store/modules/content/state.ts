@@ -20,6 +20,7 @@ import type {
   Topic,
   ZipCity,
 } from "@/api/models/types";
+import { MatchingQuery } from "@/api/queries/matching.generated";
 
 export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
 
@@ -64,7 +65,7 @@ export type State = {
   };
   matches: {
     loading: boolean;
-    data: Match[];
+    data: NonNullable<NonNullable<MatchingQuery["matches"]>[0]>[];
     zipCityJobsLoading: boolean;
     zipCityJobs: ZipCity[];
   };

@@ -23,6 +23,7 @@ import { JobRequirementsQuery } from "@/api/queries/jobRequirements.generated";
 import { JobTypesQuery } from "@/api/queries/jobTypes.generated";
 import { LanguageLevelsQuery } from "@/api/queries/languageLevels.generated";
 import { LanguagesQuery } from "@/api/queries/languages.generated";
+import { MatchingQuery } from "@/api/queries/matching.generated";
 import { SkillsQuery } from "@/api/queries/skills.generated";
 import { SoftSkillsQuery } from "@/api/queries/softSkills.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
@@ -71,7 +72,7 @@ export type Mutations<S = State> = {
     payload: { id: string; match: MatchStudentPayload }
   ): void;
   [MutationTypes.MATCHES_LOADING](state: S): void;
-  [MutationTypes.MATCHES_LOADED](state: S, payload: { matches: Match[] }): void;
+  [MutationTypes.MATCHES_LOADED](state: S, payload: MatchingQuery["matches"]): void;
   [MutationTypes.PROJECT_POSTING_LOADING](state: S): void;
   [MutationTypes.PROJECT_POSTING_LOADED](
     state: S,
@@ -286,9 +287,9 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.MATCHES_LOADING](state: State) {
     state.matches.loading = true;
   },
-  [MutationTypes.MATCHES_LOADED](state: State, payload: { matches: Match[] }) {
+  [MutationTypes.MATCHES_LOADED](state: State, payload: MatchingQuery["matches"]) {
     state.matches.loading = false;
-    state.matches.data = payload.matches;
+    state.matches.data = ensureNoNullsAndUndefineds(payload?.filter((match) => match) ?? []);
   },
   [MutationTypes.PROJECT_POSTING_LOADING](state: State) {
     state.projectPosting.loading = true;

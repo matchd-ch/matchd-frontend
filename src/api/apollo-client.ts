@@ -68,7 +68,6 @@ export function createApolloClient(baseUrl: string): ApolloClient<any> {
     if (graphQLErrors) {
       const store = useStore();
       for (const err of graphQLErrors) {
-        console.log("ERROR:", err);
         switch (err.message) {
           case "You do not have permission to perform this action":
             return fromPromise(store.dispatch(ActionTypes.REFRESH_LOGIN)).flatMap((token) => {

@@ -784,7 +784,7 @@ export type Match = {
   __typename?: "Match";
   avatar?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["ID"]>;
+  id?: Maybe<Scalars["String"]>;
   keywords?: Maybe<Array<Keyword>>;
   matchStatus?: Maybe<MatchStatus>;
   name: Scalars["String"];
@@ -1541,7 +1541,7 @@ export type QuerySoftSkillsArgs = {
 };
 
 export type QueryStudentArgs = {
-  jobPostingId?: InputMaybe<Scalars["ID"]>;
+  jobPostingId?: InputMaybe<Scalars["String"]>;
   slug?: InputMaybe<Scalars["String"]>;
 };
 

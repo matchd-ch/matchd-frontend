@@ -3,7 +3,7 @@ import * as Types from "../models/types";
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type StudentQueryVariables = Types.Exact<{
   slug: Types.Scalars["String"];
-  jobPostingId?: Types.InputMaybe<Types.Scalars["ID"]>;
+  jobPostingId?: Types.InputMaybe<Types.Scalars["String"]>;
 }>;
 
 export type StudentQuery = {
@@ -127,7 +127,7 @@ export const StudentDocument = {
         {
           kind: "VariableDefinition",
           variable: { kind: "Variable", name: { kind: "Name", value: "jobPostingId" } },
-          type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
         },
       ],
       selectionSet: {

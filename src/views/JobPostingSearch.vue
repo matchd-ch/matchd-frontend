@@ -9,9 +9,9 @@
             <select id="jobType" v-model="jobTypeId" name="jobType" @change="onChangeJobType">
               <option v-for="jobType in jobTypes" :key="jobType.id" :value="jobType.id">
                 {{ jobType.name }}
-                <template v-if="jobType.id === user?.student?.jobType?.id"
-                  >(Profileinstellung)</template
-                >
+                <template v-if="jobType.id === user?.student?.jobType?.id">
+                  (Profileinstellung)
+                </template>
               </option>
             </select>
           </div>
