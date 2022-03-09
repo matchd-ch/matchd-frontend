@@ -45,7 +45,7 @@
     "@graphql-codegen/fragment-matcher": "^3.2.1",
     "@graphql-codegen/introspection": "^2.1.1",
     "@graphql-codegen/typescript": "^2.4.7",
-    "@graphql-codegen/typescript-document-nodes": "^2.2.5",
+    "@graphql-codegen/typescript-document-nodes": "^2.2.7",
     "@graphql-codegen/typescript-graphql-files-modules": "^2.1.1",
     "@types/apollo-upload-client": "^17.0.0",
     "@types/d3": "^7.1.0",
