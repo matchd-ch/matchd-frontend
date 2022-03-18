@@ -20,8 +20,8 @@
             {{ user.company.website }}
           </a>
           <br />
-          <a :href="`mailto:${user.employee.email}`" class="underline">
-            {{ user.employee.email }}
+          <a :href="`mailto:${user.employee?.email}`" class="underline">
+            {{ user.employee?.email }}
           </a>
           <br />
           <a :href="`tel:${user.company.phone}`">{{ user.company.phone }}</a>
@@ -53,31 +53,31 @@
         <p>{{ user.company.services }}</p>
       </ProfileSection>
       <ProfileSection
-        v-if="user.company.branches.length"
+        v-if="user.company.branches.edges.length"
         :pink="true"
         title="In diesen Bereichen kannst du bei uns tätig sein"
         :edit-step="getStepName(3)"
       >
         <ul class="list list-inside list-disc marker-pink-1">
-          <li v-for="branch in user.company.branches" :key="branch.id" class="text-lg">
-            {{ branch.name }}
+          <li v-for="branch in user.company.branches.edges" :key="branch?.node?.id" class="text-lg">
+            {{ branch?.node?.name }}
           </li>
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="user.company.benefits.length"
+        v-if="user.company.benefits.edges.length"
         :pink="true"
         title="Das erwartet dich bei uns"
         :edit-step="getStepName(3)"
       >
         <ul class="flex flex-wrap content-start items-start -mb-1">
           <li
-            v-for="benefit in user.company.benefits"
-            :key="benefit.id"
+            v-for="benefit in user.company.benefits.edges"
+            :key="benefit?.node?.id"
             class="flex items-center border border-pink-5 rounded-30 font-medium text-md py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
           >
-            <span class="material-icons mr-2">{{ benefit.icon }}</span>
-            {{ benefit.name }}
+            <span class="material-icons mr-2">{{ benefit?.node?.icon }}</span>
+            {{ benefit?.node?.name }}
           </li>
         </ul>
       </ProfileSection>
@@ -113,7 +113,6 @@ import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import type { Attachment, User } from "api";
 import { Options, Vue } from "vue-class-component";
 
 @Options({
@@ -128,50 +127,63 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 export default class CompanyProfile extends Vue {
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 
-  get logoSrc(): string {
+  get logoFallback() {
+    return (
+      this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.CompanyAvatarFallback,
+      })?.[0] ?? undefined
+    );
+  }
+
+  get logoSrc() {
     return this.logo?.url || this.logoFallback?.url || "";
   }
 
-  get logo(): Attachment {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0];
+  get logo() {
+    return (
+      this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0] ??
+      undefined
+    );
   }
 
-  get logoFallback(): Attachment {
-    return this.$store.getters["attachmentsByKey"]({
-      key: AttachmentKey.CompanyAvatarFallback,
-    })?.[0];
+  get() {
+    return (
+      this.$store.getters["attachmentsByKey"]({
+        key: AttachmentKey.CompanyAvatarFallback,
+      })?.[0] ?? undefined
+    );
   }
 
-  get mainMedia(): Attachment {
-    return this.media[0];
+  get mainMedia() {
+    return this.media?.[0] ?? undefined;
   }
 
-  get additionalMedia(): Attachment[] {
+  get additionalMedia() {
     const [, ...additionalMedia] = this.media;
     return additionalMedia;
   }
 
-  get media(): Attachment[] {
+  get media() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  replaceStack(url: string, stack: string): string {
+  replaceStack(url: string, stack: string) {
     return replaceStack(url, stack);
   }
 
-  nl2br(text: string): string {
+  nl2br(text: string) {
     return nl2br(text);
   }
 
-  getStepName(step: number): string {
+  getStepName(step: number) {
     return `${ParamStrings.STEP}${step}`;
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
       this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {

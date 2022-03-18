@@ -1,0 +1,7 @@
+# Step 1
+mutation companyProfileBaseData ($input: CompanyProfileBaseDataInput!) {
+  companyProfileBaseData(input: $input) {
+    success
+    errors
+  }
+}

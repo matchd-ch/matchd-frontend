@@ -127,7 +127,6 @@ import { OnboardingState } from "@/models/OnboardingState";
 import { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { User } from "api";
 import { ErrorMessage, Field, Form, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -179,7 +178,7 @@ export default class UniversityStep1 extends Vue.with(Props) {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

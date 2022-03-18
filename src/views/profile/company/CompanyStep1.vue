@@ -101,7 +101,6 @@ import type { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
 import type { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { User } from "api";
 import { ErrorMessage, Field, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -156,7 +155,7 @@ export default class CompanyStep1 extends Vue.with(Props) {
     return this.$store.getters["onboardingState"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

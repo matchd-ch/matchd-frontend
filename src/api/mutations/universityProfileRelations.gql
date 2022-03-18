@@ -1,0 +1,7 @@
+# Step 3
+mutation universityProfileRelations ($input: UniversityProfileRelationsInput!) {
+  universityProfileRelations(input: $input) {
+    success
+    errors
+  }
+}

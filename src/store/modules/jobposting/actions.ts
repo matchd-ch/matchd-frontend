@@ -1,20 +1,20 @@
 import { createApolloClient } from "@/api/apollo-client";
-import addEmployeeMutation from "@/api/mutations/addEmployee.gql";
-import jobPostingStep1Mutation from "@/api/mutations/jobPostingStep1.gql";
-import jobPostingStep2Mutation from "@/api/mutations/jobPostingStep2.gql";
-import jobPostingStep3Mutation from "@/api/mutations/jobPostingStep3.gql";
+import type {
+  AddEmployeeInput,
+  JobPostingAllocationInput,
+  JobPostingBaseDataInput,
+  JobPostingRequirementsInput,
+} from "@/api/models/types";
+import { AddEmployeeDocument } from "@/api/mutations/addEmployee.generated";
+import { JobPostingAllocationDocument } from "@/api/mutations/jobPostingAllocation.generated";
+import { JobPostingBaseDataDocument } from "@/api/mutations/jobPostingBaseData.generated";
+import { JobPostingRequirementsDocument } from "@/api/mutations/jobPostingRequirements.generated";
 import employeesQuery from "@/api/queries/employees.gql";
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import { Mutations } from "@/store/modules/jobposting/mutations";
 import { State } from "@/store/modules/jobposting/state";
-import type {
-  AddEmployeeInput,
-  JobPostingInputStep1,
-  JobPostingInputStep2,
-  JobPostingInputStep3,
-} from "api";
 import { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
@@ -31,15 +31,15 @@ const apiClient = createApolloClient(config.API_URL);
 export interface Actions {
   [ActionTypes.SAVE_JOBPOSTING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: JobPostingInputStep1
+    payload: JobPostingBaseDataInput
   ): Promise<void>;
   [ActionTypes.SAVE_JOBPOSTING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: JobPostingInputStep2
+    payload: JobPostingRequirementsInput
   ): Promise<void>;
   [ActionTypes.SAVE_JOBPOSTING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: JobPostingInputStep3
+    payload: JobPostingAllocationInput
   ): Promise<void>;
   [ActionTypes.JOBPOSTING](
     { commit }: AugmentedActionContext,
@@ -53,29 +53,32 @@ export interface Actions {
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionTypes.SAVE_JOBPOSTING_STEP1]({ commit }, payload: JobPostingInputStep1) {
+  async [ActionTypes.SAVE_JOBPOSTING_STEP1]({ commit }, payload: JobPostingBaseDataInput) {
     commit(MutationTypes.JOBPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: jobPostingStep1Mutation,
-      variables: payload,
+      mutation: JobPostingBaseDataDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data.jobPostingStep1);
+    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data?.jobPostingBaseData ?? undefined);
   },
-  async [ActionTypes.SAVE_JOBPOSTING_STEP2]({ commit }, payload: JobPostingInputStep2) {
+  async [ActionTypes.SAVE_JOBPOSTING_STEP2]({ commit }, payload: JobPostingRequirementsInput) {
     commit(MutationTypes.JOBPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: jobPostingStep2Mutation,
-      variables: payload,
+      mutation: JobPostingRequirementsDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data.jobPostingStep2);
+    commit(
+      MutationTypes.JOBPOSTING_STEP_LOADED,
+      response.data?.jobPostingRequirements ?? undefined
+    );
   },
-  async [ActionTypes.SAVE_JOBPOSTING_STEP3]({ commit }, payload: JobPostingInputStep3) {
+  async [ActionTypes.SAVE_JOBPOSTING_STEP3]({ commit }, payload: JobPostingAllocationInput) {
     commit(MutationTypes.JOBPOSTING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: jobPostingStep3Mutation,
-      variables: payload,
+      mutation: JobPostingAllocationDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data.jobPostingStep3);
+    commit(MutationTypes.JOBPOSTING_STEP_LOADED, response.data?.jobPostingAllocation ?? undefined);
   },
   async [ActionTypes.JOBPOSTING]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.JOBPOSTING_LOADING);
@@ -89,10 +92,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.ADD_EMPLOYEE]({ commit }, payload: AddEmployeeInput) {
     commit(MutationTypes.ADD_EMPLOYEE_LOADING);
     const response = await apiClient.mutate({
-      mutation: addEmployeeMutation,
+      mutation: AddEmployeeDocument,
       variables: payload,
     });
-    commit(MutationTypes.ADD_EMPLOYEE_LOADED, response.data.addEmployee);
+    commit(MutationTypes.ADD_EMPLOYEE_LOADED, response.data?.addEmployee ?? undefined);
   },
   async [ActionTypes.EMPLOYEES]({ commit }) {
     commit(MutationTypes.EMPLOYEES_LOADING);

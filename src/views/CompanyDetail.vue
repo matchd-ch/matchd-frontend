@@ -117,6 +117,7 @@
 </template>
 
 <script lang="ts">
+import type { Attachment, Company } from "@/api/models/types";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
 import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -127,7 +128,7 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { Attachment, Company } from "api";
+import { CompanyAttachment } from "@/store/modules/content/state";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
@@ -148,20 +149,20 @@ export default class CompanyDetail extends Vue {
   meta = setup(() => useMeta({}));
   currentMedia: Attachment | null = null;
 
-  get mainMedia(): Attachment {
+  get mainMedia(): CompanyAttachment {
     return this.currentMedia || this.company.media[0];
   }
 
-  get additionalMedia(): Attachment[] {
+  get additionalMedia(): CompanyAttachment[] {
     const [, ...additionalMedia] = this.company.media;
     return additionalMedia;
   }
 
   get company(): {
     data: Company | null;
-    logo: Attachment | null;
-    media: Attachment[];
-    logoFallback: Attachment | null;
+    logo: CompanyAttachment | null;
+    media: CompanyAttachment[];
+    logoFallback: CompanyAttachment | null;
   } {
     return this.$store.getters["company"];
   }

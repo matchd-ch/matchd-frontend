@@ -35,10 +35,10 @@
 </template>
 
 <script lang="ts">
+import type { Student } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import TadaIcon from "@/components/TadaIcon.vue";
-import type { Student } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

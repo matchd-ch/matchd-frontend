@@ -1,5 +1,5 @@
+import { MeQuery } from "@/api/queries/me.generated";
 import { MatchdApiError } from "@/models/MatchdApiError";
-import type { User } from "api";
 
 export type State = {
   login: {
@@ -29,8 +29,9 @@ export type State = {
     loading: boolean;
   };
   isLoggedIn: boolean;
-  refreshToken: string;
-  user: User | null;
+  refreshToken: string | null;
+  accessToken: string | null;
+  user: MeQuery["me"] | null;
 };
 
 export const state: State = {
@@ -61,6 +62,7 @@ export const state: State = {
     loading: false,
   },
   isLoggedIn: false,
-  refreshToken: "",
+  refreshToken: null,
+  accessToken: null,
   user: null,
 };

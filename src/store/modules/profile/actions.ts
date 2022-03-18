@@ -1,35 +1,36 @@
 import { createApolloClient } from "@/api/apollo-client";
-import {
-  ICompanyProfileInputStep1,
-  ICompanyProfileInputStep2,
-  ICompanyProfileInputStep3,
-  ICompanyProfileInputStep4,
-  IStudentProfileInputStep1,
-  IStudentProfileInputStep2,
-  IStudentProfileInputStep3,
-  IStudentProfileInputStep4,
-  IStudentProfileInputStep5,
-  IStudentProfileInputStep6,
-  IUniversityProfileInputStep1,
-  IUniversityProfileInputStep2,
-  IUniversityProfileInputStep3,
-  IUniversityProfileInputStep4,
+import type {
+  CompanyProfileAdvantagesInput,
+  CompanyProfileBaseDataInput,
+  CompanyProfileRelationsInput,
+  CompanyProfileValuesInput,
+  StudentProfileAbilitiesInput,
+  StudentProfileBaseDataInput,
+  StudentProfileCharacterInput,
+  StudentProfileConditionInput,
+  StudentProfileEmploymentInput,
+  StudentProfileSpecificDataInput,
+  UniversityProfileBaseDataInput,
+  UniversityProfileRelationsInput,
+  UniversityProfileSpecificDataInput,
+  UniversityProfileValuesInput,
 } from "@/api/models/types";
-import companyProfileStep1Mutation from "@/api/mutations/companyProfileStep1.gql";
-import companyProfileStep2Mutation from "@/api/mutations/companyProfileStep2.gql";
-import companyProfileStep3Mutation from "@/api/mutations/companyProfileStep3.gql";
-import companyProfileStep4Mutation from "@/api/mutations/companyProfileStep4.gql";
-import studentProfileStep1Mutation from "@/api/mutations/studentProfileStep1.gql";
-import studentProfileStep2Mutation from "@/api/mutations/studentProfileStep2.gql";
-import studentProfileStep3Mutation from "@/api/mutations/studentProfileStep3.gql";
-import studentProfileStep4Mutation from "@/api/mutations/studentProfileStep4.gql";
-import studentProfileStep5Mutation from "@/api/mutations/studentProfileStep5.gql";
-import studentProfileStep6Mutation from "@/api/mutations/studentProfileStep6.gql";
-import universityProfileStep1Mutation from "@/api/mutations/universityProfileStep1.gql";
-import universityProfileStep2Mutation from "@/api/mutations/universityProfileStep2.gql";
-import universityProfileStep3Mutation from "@/api/mutations/universityProfileStep3.gql";
-import universityProfileStep4Mutation from "@/api/mutations/universityProfileStep4.gql";
-import zipCityQuery from "@/api/queries/zipCity.gql";
+import { CompanyProfileAdvantagesDocument } from "@/api/mutations/companyProfileAdvantages.generated";
+import { CompanyProfileBaseDataDocument } from "@/api/mutations/companyProfileBaseData.generated";
+import { CompanyProfileRelationsDocument } from "@/api/mutations/companyProfileRelations.generated";
+import { CompanyProfileValuesDocument } from "@/api/mutations/companyProfileValues.generated";
+import { StudentProfileAbilitiesDocument } from "@/api/mutations/studentProfileAbilities.generated";
+import { StudentProfileBaseDataDocument } from "@/api/mutations/studentProfileBaseData.generated";
+import { StudentProfileCharacterDocument } from "@/api/mutations/studentProfileCharacter.generated";
+import { StudentProfileConditionDocument } from "@/api/mutations/studentProfileCondition.generated";
+import { StudentProfileEmploymentDocument } from "@/api/mutations/studentProfileEmployment.generated";
+import { StudentProfileSpecificDataDocument } from "@/api/mutations/studentProfileSpecificData.generated";
+import { UniversityProfileBaseDataDocument } from "@/api/mutations/universityProfileBaseData.generated";
+import { UniversityProfileRelationsDocument } from "@/api/mutations/universityProfileRelations.generated";
+import { UniversityProfileSpecificDataDocument } from "@/api/mutations/universityProfileSpecificData.generated";
+import { UniversityProfileValuesDocument } from "@/api/mutations/universityProfileValues.generated";
+import { ZipCityDocument } from "@/api/queries/zipCity.generated";
+import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/profile/mutation-types";
 import { Mutations } from "@/store/modules/profile/mutations";
@@ -50,195 +51,246 @@ const apiClient = createApolloClient(config.API_URL);
 export interface Actions {
   [ActionTypes.STUDENT_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: IStudentProfileInputStep1
+    payload: StudentProfileBaseDataInput
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: IStudentProfileInputStep2
+    payload: StudentProfileEmploymentInput
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: IStudentProfileInputStep3
+    payload: StudentProfileCharacterInput
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP4](
     { commit }: AugmentedActionContext,
-    payload: IStudentProfileInputStep4
+    payload: StudentProfileAbilitiesInput
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP5](
     { commit }: AugmentedActionContext,
-    payload: IStudentProfileInputStep5
+    payload: StudentProfileSpecificDataInput
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP6](
     { commit }: AugmentedActionContext,
-    payload: IStudentProfileInputStep6
+    payload: StudentProfileConditionInput
   ): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: ICompanyProfileInputStep1
+    payload: CompanyProfileBaseDataInput
   ): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: ICompanyProfileInputStep2
+    payload: CompanyProfileRelationsInput
   ): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: ICompanyProfileInputStep3
+    payload: CompanyProfileAdvantagesInput
   ): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP4](
     { commit }: AugmentedActionContext,
-    payload: ICompanyProfileInputStep4
+    payload: CompanyProfileValuesInput
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: IUniversityProfileInputStep1
+    payload: UniversityProfileBaseDataInput
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: IUniversityProfileInputStep2
+    payload: UniversityProfileSpecificDataInput
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: IUniversityProfileInputStep3
+    payload: UniversityProfileRelationsInput
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP4](
     { commit }: AugmentedActionContext,
-    payload: ICompanyProfileInputStep4
+    payload: CompanyProfileValuesInput
   ): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
-  async [ActionTypes.STUDENT_ONBOARDING_STEP1]({ commit }, payload: IStudentProfileInputStep1) {
+  async [ActionTypes.STUDENT_ONBOARDING_STEP1]({ commit }, payload: StudentProfileBaseDataInput) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: studentProfileStep1Mutation,
-      variables: payload,
+      mutation: StudentProfileBaseDataDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep1);
+    commit(
+      MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
+      response.data?.studentProfileBaseData ?? undefined
+    );
   },
-  async [ActionTypes.STUDENT_ONBOARDING_STEP2]({ commit }, payload: IStudentProfileInputStep2) {
+  async [ActionTypes.STUDENT_ONBOARDING_STEP2]({ commit }, payload: StudentProfileEmploymentInput) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: studentProfileStep2Mutation,
-      variables: payload,
+      mutation: StudentProfileEmploymentDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep2);
+    commit(
+      MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
+      response.data?.studentProfileEmployment ?? undefined
+    );
   },
-  async [ActionTypes.STUDENT_ONBOARDING_STEP3]({ commit }, payload: IStudentProfileInputStep3) {
+  async [ActionTypes.STUDENT_ONBOARDING_STEP3]({ commit }, payload: StudentProfileCharacterInput) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: studentProfileStep3Mutation,
-      variables: payload,
+      mutation: StudentProfileCharacterDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep3);
+    commit(
+      MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
+      response.data?.studentProfileCharacter ?? undefined
+    );
   },
-  async [ActionTypes.STUDENT_ONBOARDING_STEP4]({ commit }, payload: IStudentProfileInputStep4) {
+  async [ActionTypes.STUDENT_ONBOARDING_STEP4]({ commit }, payload: StudentProfileAbilitiesInput) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: studentProfileStep4Mutation,
-      variables: payload,
+      mutation: StudentProfileAbilitiesDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep4);
+    commit(
+      MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
+      response.data?.studentProfileAbilities ?? undefined
+    );
   },
-  async [ActionTypes.STUDENT_ONBOARDING_STEP5]({ commit }, payload: IStudentProfileInputStep5) {
+  async [ActionTypes.STUDENT_ONBOARDING_STEP5](
+    { commit },
+    payload: StudentProfileSpecificDataInput
+  ) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: studentProfileStep5Mutation,
-      variables: payload,
+      mutation: StudentProfileSpecificDataDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep5);
+    commit(
+      MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
+      response.data?.studentProfileSpecificData ?? undefined
+    );
     commit(MutationTypes.STUDENT_ONBOARDING_NICKNAME_SUGGESTIONS, {
-      nicknameSuggestions: response.data.studentProfileStep5?.nicknameSuggestions,
+      nicknameSuggestions: !response.data?.studentProfileSpecificData?.nicknameSuggestions
+        ? []
+        : ensureNoNullsAndUndefineds(
+            response.data.studentProfileSpecificData.nicknameSuggestions.filter(
+              (elem) => elem !== null
+            )
+          ),
     });
   },
-  async [ActionTypes.STUDENT_ONBOARDING_STEP6]({ commit }, payload: IStudentProfileInputStep6) {
+  async [ActionTypes.STUDENT_ONBOARDING_STEP6]({ commit }, payload: StudentProfileConditionInput) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: studentProfileStep6Mutation,
-      variables: payload,
+      mutation: StudentProfileConditionDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADED, response.data.studentProfileStep6);
+    commit(
+      MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
+      response.data?.studentProfileCondition ?? undefined
+    );
   },
-  async [ActionTypes.COMPANY_ONBOARDING_STEP1]({ commit }, payload: ICompanyProfileInputStep1) {
+  async [ActionTypes.COMPANY_ONBOARDING_STEP1]({ commit }, payload: CompanyProfileBaseDataInput) {
     commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: companyProfileStep1Mutation,
-      variables: payload,
+      mutation: CompanyProfileBaseDataDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep1);
+    commit(
+      MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
+      response.data?.companyProfileBaseData ?? undefined
+    );
   },
-  async [ActionTypes.COMPANY_ONBOARDING_STEP2]({ commit }, payload: ICompanyProfileInputStep2) {
+  async [ActionTypes.COMPANY_ONBOARDING_STEP2]({ commit }, payload: CompanyProfileRelationsInput) {
     commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: companyProfileStep2Mutation,
-      variables: payload,
+      mutation: CompanyProfileRelationsDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep2);
+    commit(
+      MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
+      response.data?.companyProfileRelations ?? undefined
+    );
   },
-  async [ActionTypes.COMPANY_ONBOARDING_STEP3]({ commit }, payload: ICompanyProfileInputStep3) {
+  async [ActionTypes.COMPANY_ONBOARDING_STEP3]({ commit }, payload: CompanyProfileAdvantagesInput) {
     commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: companyProfileStep3Mutation,
-      variables: payload,
+      mutation: CompanyProfileAdvantagesDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep3);
+    commit(
+      MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
+      response.data?.companyProfileAdvantages ?? undefined
+    );
   },
-  async [ActionTypes.COMPANY_ONBOARDING_STEP4]({ commit }, payload: ICompanyProfileInputStep4) {
+  async [ActionTypes.COMPANY_ONBOARDING_STEP4]({ commit }, payload: CompanyProfileValuesInput) {
     commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: companyProfileStep4Mutation,
-      variables: payload,
+      mutation: CompanyProfileValuesDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data.companyProfileStep4);
+    commit(
+      MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
+      response.data?.companyProfileValues ?? undefined
+    );
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit },
-    payload: IUniversityProfileInputStep1
+    payload: UniversityProfileBaseDataInput
   ) {
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: universityProfileStep1Mutation,
-      variables: payload,
+      mutation: UniversityProfileBaseDataDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED, response.data.universityProfileStep1);
+    commit(
+      MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED,
+      response.data?.universityProfileBaseData ?? undefined
+    );
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP2](
     { commit },
-    payload: IUniversityProfileInputStep2
+    payload: UniversityProfileSpecificDataInput
   ) {
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: universityProfileStep2Mutation,
-      variables: payload,
+      mutation: UniversityProfileSpecificDataDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED, response.data.universityProfileStep2);
+    commit(
+      MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED,
+      response.data?.universityProfileSpecificData ?? undefined
+    );
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP3](
     { commit },
-    payload: IUniversityProfileInputStep3
+    payload: UniversityProfileRelationsInput
   ) {
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: universityProfileStep3Mutation,
-      variables: payload,
+      mutation: UniversityProfileRelationsDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED, response.data.universityProfileStep3);
+    commit(
+      MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED,
+      response.data?.universityProfileRelations ?? undefined
+    );
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP4](
     { commit },
-    payload: IUniversityProfileInputStep4
+    payload: UniversityProfileValuesInput
   ) {
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
-      mutation: universityProfileStep4Mutation,
-      variables: payload,
+      mutation: UniversityProfileValuesDocument,
+      variables: { input: payload },
     });
-    commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED, response.data.universityProfileStep4);
+    commit(
+      MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED,
+      response.data?.universityProfileValues ?? undefined
+    );
   },
   async [ActionTypes.CITY_BY_ZIP]({ commit }) {
     commit(MutationTypes.ZIP_CITY_LOADING);
     const response = await apiClient.query({
-      query: zipCityQuery,
+      query: ZipCityDocument,
     });
     commit(MutationTypes.ZIP_CITY_LOADED, response.data.zipCity);
   },

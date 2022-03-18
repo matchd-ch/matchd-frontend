@@ -1,5 +1,5 @@
 <template>
-  <teleport to="header">
+  <teleport to="#teleporter-app-header">
     <ProfileNavigation>
       <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="currentStep === 1">
         Ausschreibung
@@ -25,13 +25,27 @@
     class="jobposting min-h-content-with-fixed-bars"
   >
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
-      <component
-        :is="jobPostingCreateComponent"
+      <JobPostingStep2
+        v-if="urlStepNumber === 2"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 px-4 lg:px-5 py-12"
         @submit-complete="onSubmitComplete"
         @navigate-back="onNavigateBack"
         @change-dirty="onChangeDirty"
-      ></component>
+      />
+      <JobPostingStep3
+        v-else-if="urlStepNumber === 3"
+        class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 px-4 lg:px-5 py-12"
+        @submit-complete="onSubmitComplete"
+        @navigate-back="onNavigateBack"
+        @change-dirty="onChangeDirty"
+      />
+      <JobPostingStep1
+        v-else
+        class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 px-4 lg:px-5 py-12"
+        @submit-complete="onSubmitComplete"
+        @navigate-back="onNavigateBack"
+        @change-dirty="onChangeDirty"
+      />
     </div>
   </div>
 </template>
@@ -46,7 +60,6 @@ import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
 import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
 import JobPostingStep3 from "@/views/jobposting/JobPostingStep3.vue";
-import type { JobPosting as JobPostingType } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
@@ -72,22 +85,15 @@ export default class JobPostingCreate extends Vue {
     return ParamStrings;
   }
 
-  get currentStep(): number | null {
+  get currentStep() {
     return this.urlStepNumber;
   }
 
-  get jobPostingCreateComponent(): string {
-    if (this.urlStepNumber) {
-      return `JobPostingStep${this.currentStep}`;
-    }
-    return "";
-  }
-
-  get currentJobPosting(): JobPostingType | null {
+  get currentJobPosting() {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get jobPostingId(): string {
+  get jobPostingId() {
     return this.$store.getters["jobPostingId"];
   }
 

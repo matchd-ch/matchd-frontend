@@ -1,6 +1,6 @@
+import type { Attachment, UploadConfiguration } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import { RootState } from "@/store";
-import type { Attachment, UploadConfiguration } from "api";
 import { GetterTree } from "vuex";
 import { QueuedFile, State } from "./state";
 
@@ -20,6 +20,6 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return state.uploadConfigurations.data.find((Attachment) => Attachment.key === payload.key);
   },
   attachmentsByKey: (state: State) => (payload: { key: AttachmentKey }) => {
-    return state.attachments[payload.key]?.data || [];
+    return state.attachments[payload.key]?.data ?? [];
   },
 };

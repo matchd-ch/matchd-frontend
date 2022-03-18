@@ -1,4 +1,4 @@
-mutation (
+mutation registerStudent (
   $email: String!
   $password: String!
   $firstName: String!

@@ -43,11 +43,11 @@
 </template>
 
 <script lang="ts">
+import type { ProjectPosting, User } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
-import type { ProjectPosting, User } from "api";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {

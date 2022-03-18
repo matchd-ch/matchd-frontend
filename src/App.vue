@@ -10,7 +10,10 @@
       'theme-university': isUniversity,
     }"
   >
-    <header class="header bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20">
+    <header
+      id="teleporter-app-header"
+      class="header bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20"
+    >
       <component
         :is="navigation"
         v-if="showNavbar && user"
@@ -30,7 +33,6 @@ import NavBarCompany from "@/components/NavBarCompany.vue";
 import NavBarStudent from "@/components/NavBarStudent.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
-import type { User } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
@@ -56,7 +58,7 @@ export default class App extends Vue {
     return this.$store.getters["isUniversity"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

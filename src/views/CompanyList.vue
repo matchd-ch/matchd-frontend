@@ -21,12 +21,12 @@
 </template>
 
 <script lang="ts">
+import type { Match } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import GridTile from "@/components/GridTile.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import type { Match } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 

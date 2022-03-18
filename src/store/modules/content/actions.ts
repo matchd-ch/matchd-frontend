@@ -1,26 +1,31 @@
 import { createApolloClient } from "@/api/apollo-client";
-import matchJobPostingMutation from "@/api/mutations/matchJobPosting.gql";
-import matchProjectPostingMutation from "@/api/mutations/matchProjectPosting.gql";
-import matchStudentMutation from "@/api/mutations/matchStudent.gql";
-import benefitsQuery from "@/api/queries/benefits.gql";
-import branchesQuery from "@/api/queries/branches.gql";
-import companyQuery from "@/api/queries/company.gql";
+import type {
+  MatchJobPostingInput,
+  MatchProjectPostingInput,
+  MatchStudentInput,
+} from "@/api/models/types";
+import { MatchJobPostingDocument } from "@/api/mutations/matchJobPosting.generated";
+import { MatchProjectPostingDocument } from "@/api/mutations/matchProjectPosting.generated";
+import { MatchStudentDocument } from "@/api/mutations/matchStudent.generated";
+import { BenefitsDocument } from "@/api/queries/benefits.generated";
+import { BranchesDocument } from "@/api/queries/branches.generated";
+import { CompanyDocument } from "@/api/queries/company.generated";
 import companyMatchingQuery from "@/api/queries/companyMatching.gql";
-import culturalFitsQuery from "@/api/queries/culturalFits.gql";
+import { CulturalFitsDocument } from "@/api/queries/culturalFits.generated";
 import dashboardQuery from "@/api/queries/dashboard.gql";
 import jobPostingQuery from "@/api/queries/jobPosting.gql";
 import jobPostingsQuery from "@/api/queries/jobPostings.gql";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
-import jobTypesQuery from "@/api/queries/jobTypes.gql";
+import { JobTypesDocument } from "@/api/queries/jobTypes.generated";
 import keywordsQuery from "@/api/queries/keywords.gql";
-import languageLevelsQuery from "@/api/queries/languageLevels.gql";
-import languagesQuery from "@/api/queries/languages.gql";
-import matchingQuery from "@/api/queries/matching.gql";
+import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
+import { LanguagesDocument } from "@/api/queries/languages.generated";
+import { MatchingDocument } from "@/api/queries/matching.generated";
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import projectPostingsQuery from "@/api/queries/projectPostings.gql";
 import projectTypesQuery from "@/api/queries/projectTypes.gql";
-import skillsQuery from "@/api/queries/skills.gql";
-import softSkillsQuery from "@/api/queries/softSkills.gql";
+import { SkillsDocument } from "@/api/queries/skills.generated";
+import { SoftSkillsDocument } from "@/api/queries/softSkills.generated";
 import studentQuery from "@/api/queries/student.gql";
 import topicsQuery from "@/api/queries/topics.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
@@ -30,7 +35,6 @@ import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { Mutations } from "@/store/modules/content/mutations";
 import { State } from "@/store/modules/content/state";
-import type { MatchJobPostingInput, MatchProjectPostingInput, MatchStudentInput } from "api";
 import { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
@@ -103,39 +107,37 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.BENEFITS]({ commit }) {
     commit(MutationTypes.BENEFITS_LOADING);
     const response = await apiClient.query({
-      query: benefitsQuery,
+      query: BenefitsDocument,
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.BENEFITS_LOADED, { benefits: response.data.benefits });
+    commit(MutationTypes.BENEFITS_LOADED, {
+      benefits: response.data.benefits,
+    });
   },
   async [ActionTypes.BRANCHES]({ commit }) {
     commit(MutationTypes.BRANCHES_LOADING);
     const response = await apiClient.query({
-      query: branchesQuery,
+      query: BranchesDocument,
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.BRANCHES_LOADED, { branches: response.data.branches });
+    commit(MutationTypes.BRANCHES_LOADED, {
+      branches: response.data.branches,
+    });
   },
   async [ActionTypes.COMPANY]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.COMPANY_LOADING);
     const response = await apiClient.query({
-      query: companyQuery,
+      query: CompanyDocument,
       variables: payload,
       context: {
         batch: true,
       },
     });
-
-    commit(MutationTypes.COMPANY_LOADED, {
-      company: response.data.company,
-      logo: response.data.logo,
-      logoFallback: response.data.logoFallback,
-      media: response.data.media,
-    });
+    commit(MutationTypes.COMPANY_LOADED, response.data);
   },
   async [ActionTypes.COMPANY_MATCHING]({ commit }) {
     commit(MutationTypes.COMPANY_MATCHING_LOADING);
@@ -153,7 +155,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.CULTURAL_FITS]({ commit }) {
     commit(MutationTypes.CULTURAL_FITS_LOADING);
     const response = await apiClient.query({
-      query: culturalFitsQuery,
+      query: CulturalFitsDocument,
       context: {
         batch: true,
       },
@@ -218,7 +220,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.JOB_TYPE]({ commit }) {
     commit(MutationTypes.JOB_TYPES_LOADING);
     const response = await apiClient.query({
-      query: jobTypesQuery,
+      query: JobTypesDocument,
       context: {
         batch: true,
       },
@@ -238,20 +240,20 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.LANGUAGES]({ commit }, payload: { shortList: boolean }) {
     commit(MutationTypes.LANGUAGES_LOADING);
     const response = await apiClient.query({
-      query: languagesQuery,
+      query: LanguagesDocument,
       variables: {
-        shortList: payload?.shortList || null,
+        shortList: !!payload?.shortList,
       },
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.LANGUAGES_LOADED, { languages: response.data.languages });
+    commit(MutationTypes.LANGUAGES_LOADED, response.data);
   },
   async [ActionTypes.LANGUAGE_LEVELS]({ commit }) {
     commit(MutationTypes.LANGUAGE_LEVELS_LOADING);
     const response = await apiClient.query({
-      query: languageLevelsQuery,
+      query: LanguageLevelsDocument,
       context: {
         batch: true,
       },
@@ -261,52 +263,64 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.MATCH_JOB_POSTING]({ commit }, payload: MatchJobPostingInput) {
     commit(MutationTypes.MATCH_LOADING);
     const response = await apiClient.mutate({
-      mutation: matchJobPostingMutation,
+      mutation: MatchJobPostingDocument,
       variables: payload,
     });
-    commit(MutationTypes.MATCH_JOB_POSTING_LOADED, {
-      id: payload.jobPosting?.id,
-      match: response.data.matchJobPosting,
-    });
+    if (response.data?.matchJobPosting) {
+      commit(MutationTypes.MATCH_JOB_POSTING_LOADED, {
+        id: payload.jobPosting?.id,
+        match: response.data.matchJobPosting,
+      });
+    } else {
+      throw new Error("MATCH_JOB_POSTING_LOADED: data or matchJobPosting is undefined");
+    }
   },
   async [ActionTypes.MATCH_PROJECT_POSTING]({ commit }, payload: MatchProjectPostingInput) {
     commit(MutationTypes.MATCH_LOADING);
     const response = await apiClient.mutate({
-      mutation: matchProjectPostingMutation,
+      mutation: MatchProjectPostingDocument,
       variables: payload,
     });
-    commit(MutationTypes.MATCH_JOB_POSTING_LOADED, {
-      id: payload.projectPosting?.id,
-      match: response.data.matchProjectPosting,
-    });
+    if (response.data?.matchProjectPosting) {
+      commit(MutationTypes.MATCH_PROJECT_POSTING_LOADED, {
+        id: payload.projectPosting?.id,
+        match: response.data.matchProjectPosting,
+      });
+    } else {
+      throw new Error("MATCH_PROJECT_POSTING_LOADED: data or matchProjectPosting is undefined");
+    }
   },
   async [ActionTypes.MATCH_STUDENT]({ commit }, payload: MatchStudentInput) {
     commit(MutationTypes.MATCH_LOADING);
     const response = await apiClient.mutate({
-      mutation: matchStudentMutation,
+      mutation: MatchStudentDocument,
       variables: payload,
     });
-    commit(MutationTypes.MATCH_STUDENT_LOADED, {
-      id: payload.student?.id,
-      match: response.data.matchStudent,
-    });
+    if (response.data?.matchStudent) {
+      commit(MutationTypes.MATCH_STUDENT_LOADED, {
+        id: payload.student?.id,
+        match: response.data.matchStudent,
+      });
+    } else {
+      throw new Error("MATCH_STUDENT_LOADED: data or matchStudent is undefined");
+    }
   },
   async [ActionTypes.MATCHING]({ commit }, payload: MatchingInput) {
     commit(MutationTypes.MATCHES_LOADING);
     const response = await apiClient.query({
-      query: matchingQuery,
+      query: MatchingDocument,
       variables: payload,
       fetchPolicy: "no-cache",
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.MATCHES_LOADED, { matches: response.data.matches });
+    commit(MutationTypes.MATCHES_LOADED, response.data.matches);
   },
   async [ActionTypes.SKILLS]({ commit }) {
     commit(MutationTypes.SKILLS_LOADING);
     const response = await apiClient.query({
-      query: skillsQuery,
+      query: SkillsDocument,
       context: {
         batch: true,
       },
@@ -351,7 +365,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.SOFT_SKILLS]({ commit }) {
     commit(MutationTypes.SOFT_SKILLS_LOADING);
     const response = await apiClient.query({
-      query: softSkillsQuery,
+      query: SoftSkillsDocument,
       context: {
         batch: true,
       },

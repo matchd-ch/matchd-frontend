@@ -1,7 +1,11 @@
-query {
-  softSkills {
-    id
-    company
-    student
+query softSkills {
+  softSkills(first: 100) {
+    edges {
+      node {
+        id
+        company
+        student
+      }
+    }
   }
 }

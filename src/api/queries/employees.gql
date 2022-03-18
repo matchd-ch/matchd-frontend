@@ -1,4 +1,4 @@
-query {
+query employees {
   me {
     company {
       employees {

@@ -1,0 +1,9 @@
+# Step 2
+mutation projectPostingSpecificData ($input: ProjectPostingSpecificDataInput!) {
+  projectPostingSpecificData(input: $input) {
+    success
+    errors
+    projectPostingId
+    slug
+  }
+}

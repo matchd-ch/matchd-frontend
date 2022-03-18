@@ -1,8 +1,10 @@
 import { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
-import type { User } from "api";
 import { DateTime } from "luxon";
+import { MeQuery } from "../queries/me.generated";
 
-export function studentProfileStep1FormMapper(user: User): StudentProfileStep1Form {
+export function studentProfileStep1FormMapper(
+  user: NonNullable<MeQuery["me"]>
+): StudentProfileStep1Form {
   return {
     city: user.student?.city || "",
     day: user.student?.dateOfBirth ? String(DateTime.fromSQL(user.student?.dateOfBirth).day) : "",

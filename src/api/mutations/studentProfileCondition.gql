@@ -1,0 +1,7 @@
+# Step 6
+mutation studentProfileCondition ($input: StudentProfileConditionInput!) {
+  studentProfileCondition(input: $input) {
+    success
+    errors
+  }
+}

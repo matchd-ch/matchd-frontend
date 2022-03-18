@@ -1,5 +1,5 @@
-mutation ($jobPosting: JobPostingInput!) {
-  matchJobPosting(match: { jobPosting: $jobPosting }) {
+mutation matchJobPosting ($jobPosting: JobPostingInput!) {
+  matchJobPosting(input: { jobPosting: $jobPosting }) {
     success
     errors
     confirmed

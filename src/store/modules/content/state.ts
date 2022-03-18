@@ -19,7 +19,10 @@ import type {
   Student,
   Topic,
   ZipCity,
-} from "api";
+} from "@/api/models/types";
+import { MatchingQuery } from "@/api/queries/matching.generated";
+
+export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
 
 export type State = {
   dashboard: {
@@ -45,9 +48,9 @@ export type State = {
   company: {
     loading: boolean;
     data: Company | null;
-    logo: Attachment | null;
-    logoFallback: Attachment | null;
-    media: Attachment[];
+    logo: CompanyAttachment | null;
+    logoFallback: CompanyAttachment | null;
+    media: CompanyAttachment[];
   };
   companyMatching: {
     data: Match[];
@@ -62,7 +65,7 @@ export type State = {
   };
   matches: {
     loading: boolean;
-    data: Match[];
+    data: NonNullable<NonNullable<MatchingQuery["matches"]>[0]>[];
     zipCityJobsLoading: boolean;
     zipCityJobs: ZipCity[];
   };

@@ -1,7 +1,8 @@
-mutation ($username: String!, $password: String!) {
+mutation tokenAuth ($username: String!, $password: String!) {
   tokenAuth(username: $username, password: $password) {
     success
     errors
+    token
     refreshToken
     user {
       firstName

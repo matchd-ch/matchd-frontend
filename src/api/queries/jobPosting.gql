@@ -1,4 +1,4 @@
-query ($id: ID, $slug: String) {
+query jobPosting ($id: String, $slug: String) {
   jobPosting(id: $id, slug: $slug) {
     id
     title
@@ -36,9 +36,13 @@ query ($id: ID, $slug: String) {
       id
       name
     }
-    jobRequirements {
-      id
-      name
+    jobRequirements(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
     }
     languages {
       id

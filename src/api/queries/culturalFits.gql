@@ -1,7 +1,11 @@
-query {
-  culturalFits {
-    id
-    company
-    student
+query culturalFits {
+  culturalFits(first: 100) {
+    edges {
+      node {
+        id
+        company
+        student
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-import type { Benefit } from "api";
+import type { Benefit } from "@/api/models/types";
 
 export interface BenefitWithStatus extends Benefit {
   checked: boolean;

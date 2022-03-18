@@ -1,4 +1,4 @@
-query ($id: ID, $slug: String) {
+query projectPosting ($id: String, $slug: String) {
   projectPosting(id: $id, slug: $slug) {
     id
     slug
@@ -51,22 +51,34 @@ query ($id: ID, $slug: String) {
       phone
     }
   }
-  images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug) {
-    id
-    fileName
-    url
-    mimeType
+  images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug, first: 100) {
+    edges {
+      node {
+        id
+        fileName
+        url
+        mimeType
+      }
+    }
   }
-  imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug) {
-    id
-    fileName
-    url
-    mimeType
+  imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug, first: 100) {
+    edges {
+      node {
+        id
+        fileName
+        url
+        mimeType
+      }
+    }
   }
-  documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug) {
-    id
-    fileName
-    url
-    mimeType
+  documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug, first: 100) {
+    edges {
+      node {
+        id
+        fileName
+        url
+        mimeType
+      }
+    }
   }
 }

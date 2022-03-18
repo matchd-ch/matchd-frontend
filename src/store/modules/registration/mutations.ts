@@ -1,12 +1,17 @@
+import type {
+  RegisterCompany,
+  RegisterStudent,
+  UserRequestPayload,
+  VerifyAccount,
+} from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import type { RegisterCompany, RegisterStudent, UserRequest, VerifyAccount } from "api";
+import { State } from "@/store/modules/registration/state";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
-import { State } from "@/store/modules/registration/state";
 
 export type Mutations<S = State> = {
   [MutationTypes.REGISTRATION_CONTACT_FORM_SENDING](state: S): void;
-  [MutationTypes.REGISTRATION_CONTACT_FORM_SENT](state: S, payload: UserRequest): void;
+  [MutationTypes.REGISTRATION_CONTACT_FORM_SENT](state: S, payload: UserRequestPayload): void;
   [MutationTypes.REGISTRATION_COMPANY_LOADING](state: S): void;
   [MutationTypes.REGISTRATION_COMPANY_LOADED](state: S, payload: RegisterCompany): void;
   [MutationTypes.REGISTRATION_STUDENT_LOADING](state: S): void;
@@ -19,7 +24,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.REGISTRATION_CONTACT_FORM_SENDING](state: State) {
     state.contactForm.loading = true;
   },
-  [MutationTypes.REGISTRATION_CONTACT_FORM_SENT](state: State, payload: UserRequest) {
+  [MutationTypes.REGISTRATION_CONTACT_FORM_SENT](state: State, payload: UserRequestPayload) {
     state.contactForm.loading = false;
     state.contactForm.success = payload.success || false;
   },

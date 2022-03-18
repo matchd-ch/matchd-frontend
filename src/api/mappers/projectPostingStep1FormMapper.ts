@@ -1,5 +1,5 @@
+import type { ProjectPosting } from "@/api/models/types";
 import { ProjectPostingStep1Form } from "@/models/ProjectPostingStep1Form";
-import type { ProjectPosting } from "api";
 
 export function projectPostingStep1FormMapper(
   projectPosting: ProjectPosting | null

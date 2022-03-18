@@ -36,8 +36,9 @@
         :key="selectedSkill.id"
         has-delete="true"
         @remove="onRemoveSkill(selectedSkill)"
-        >{{ selectedSkill.name }}</SelectPill
       >
+        {{ selectedSkill.name }}
+      </SelectPill>
     </SelectPillGroup>
     <!-- Language Field -->
     <LanguagePicker
@@ -135,8 +136,9 @@
         :key="hobby.name"
         has-delete="true"
         @remove="onRemoveHobby(hobby)"
-        >{{ hobby.name }}</SelectPill
       >
+        {{ hobby.name }}
+      </SelectPill>
     </SelectPillGroup>
     <!-- Distinction Field -->
     <MatchdField id="distinction" class="mb-10">
@@ -195,6 +197,13 @@
 <script lang="ts">
 import { studentProfileStep4FormMapper } from "@/api/mappers/studentProfileStep4FormMapper";
 import { studentProfileStep4InputMapper } from "@/api/mappers/studentProfileStep4InputMapper";
+import type {
+  Attachment,
+  HobbyInput,
+  OnlineProjectInput,
+  Skill,
+  StudentProfileAbilitiesInput,
+} from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import LanguagePicker from "@/components/LanguagePicker.vue";
@@ -208,22 +217,11 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { isValidUrl } from "@/helpers/isValidUrl";
-import { OnboardingState } from "@/models/OnboardingState";
 import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { QueuedFile } from "@/store/modules/upload/state";
-import type {
-  Attachment,
-  HobbyInput,
-  Language,
-  LanguageLevel,
-  OnlineProjectInput,
-  Skill,
-  UploadConfiguration,
-} from "api";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -269,6 +267,8 @@ export default class StudentStep4 extends Vue.with(Props) {
     );
     const { value: onlineProjects } = useField<OnlineProjectInput[]>("onlineProjects");
     const { value: hobbies } = useField<HobbyInput[]>("hobbies");
+    const { value: distinction } =
+      useField<StudentProfileAbilitiesInput["distinction"]>("distinction");
 
     const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
       try {
@@ -298,61 +298,61 @@ export default class StudentStep4 extends Vue.with(Props) {
   onlineProjectInput = "";
   hobbyInput = "";
 
-  get showError(): boolean {
+  get showError() {
     return !!this.onboardingState.errors;
   }
 
-  get onboardingLoading(): boolean {
+  get onboardingLoading() {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState(): OnboardingState {
+  get onboardingState() {
     return this.$store.getters["onboardingState"];
   }
 
-  get currentStep(): number | undefined {
+  get currentStep() {
     return this.$store.getters["profileStep"];
   }
 
-  get skills(): Skill[] {
+  get skills() {
     return this.$store.getters["skills"];
   }
 
-  get selectedSkills(): Skill[] {
+  get selectedSkills() {
     return this.skills.filter((skill) => this.veeForm.skills?.some((id) => id === skill.id));
   }
 
-  get availableSkills(): Skill[] {
+  get availableSkills() {
     return this.skills.filter((skill) => {
       return !this.veeForm.skills.some((id) => id === skill.id);
     });
   }
 
-  get languages(): Language[] {
+  get languages() {
     return this.$store.getters["languages"];
   }
 
-  get languageLevels(): LanguageLevel[] {
+  get languageLevels() {
     return this.$store.getters["languageLevels"];
   }
 
-  get isValidOnlineProjectUrl(): boolean {
+  get isValidOnlineProjectUrl() {
     return this.onlineProjectInput.length > 0 && isValidUrl(this.onlineProjectInput);
   }
 
-  get studentDocumentsQueue(): QueuedFile[] {
+  get studentDocumentsQueue() {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentDocuments });
   }
 
-  get studentDocuments(): Attachment[] {
+  get studentDocuments() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments });
   }
 
-  get studentDocumentsUploadConfigurations(): UploadConfiguration | undefined {
+  get studentDocumentsUploadConfigurations() {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentDocuments });
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(ContentActionTypes.SKILLS),
       this.$store.dispatch(ContentActionTypes.LANGUAGES),
@@ -369,7 +369,7 @@ export default class StudentStep4 extends Vue.with(Props) {
     calculateMargins();
   }
 
-  onInputSkill(): void {
+  onInputSkill() {
     if (this.skillInput.length < 1) {
       this.filteredSkills = [];
       return;
@@ -379,35 +379,35 @@ export default class StudentStep4 extends Vue.with(Props) {
     );
   }
 
-  onSelectSkill(skill: Skill): void {
+  onSelectSkill(skill: Skill) {
     this.skillInput = "";
     this.veeForm.skills = [...this.veeForm.skills, skill.id];
     this.onInputSkill();
   }
 
-  onPressEnterSkill(): void {
+  onPressEnterSkill() {
     if (this.filteredSkills.length === 1) {
       this.onSelectSkill(this.filteredSkills[0]);
     }
   }
 
-  onRemoveSkill(skill: Skill): void {
+  onRemoveSkill(skill: Skill) {
     this.veeForm.skills = this.veeForm.skills.filter((id) => id !== skill.id);
   }
 
-  onClickAppendLanguage(language: SelectedLanguage): void {
+  onClickAppendLanguage(language: SelectedLanguage) {
     if (language && language.level) {
       this.veeForm.languages = [...this.veeForm.languages, language];
     }
   }
 
-  onClickRemoveLanguage(language: SelectedLanguage): void {
+  onClickRemoveLanguage(language: SelectedLanguage) {
     this.veeForm.languages = this.veeForm.languages.filter(
       (selectedLanguage) => selectedLanguage.language !== language.language
     );
   }
 
-  onAppendOnlineProject(): void {
+  onAppendOnlineProject() {
     if (this.isValidOnlineProjectUrl) {
       this.veeForm.onlineProjects = [
         ...this.veeForm.onlineProjects,
@@ -417,13 +417,13 @@ export default class StudentStep4 extends Vue.with(Props) {
     }
   }
 
-  onRemoveOnlineProject(onlineProject: OnlineProjectInput): void {
+  onRemoveOnlineProject(onlineProject: OnlineProjectInput) {
     this.veeForm.onlineProjects = this.veeForm.onlineProjects.filter(
       (selectedOnlineProject) => selectedOnlineProject.url !== onlineProject.url
     );
   }
 
-  onAppendHobby(): void {
+  onAppendHobby() {
     if (
       this.hobbyInput.length > 0 &&
       !this.veeForm.hobbies.find((hobby) => hobby.name === this.hobbyInput)
@@ -433,27 +433,27 @@ export default class StudentStep4 extends Vue.with(Props) {
     }
   }
 
-  onRemoveHobby(hobby: HobbyInput): void {
+  onRemoveHobby(hobby: HobbyInput) {
     this.veeForm.hobbies = this.veeForm.hobbies.filter(
       (selectedHobby) => selectedHobby.name !== hobby.name
     );
   }
 
-  async onSelectStudentDocuments(files: FileList): Promise<void> {
+  async onSelectStudentDocuments(files: FileList) {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.StudentDocuments,
       files,
     });
   }
 
-  async onDeleteStudentDocument(file: Attachment): Promise<void> {
+  async onDeleteStudentDocument(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.StudentDocuments,
       id: file.id,
     });
   }
 
-  get profileData(): StudentProfileStep4Form {
+  get profileData() {
     const user = this.$store.getters["user"];
     if (!user) {
       return {} as StudentProfileStep4Form;
@@ -462,7 +462,7 @@ export default class StudentStep4 extends Vue.with(Props) {
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }

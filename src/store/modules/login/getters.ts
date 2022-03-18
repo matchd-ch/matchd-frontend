@@ -1,10 +1,10 @@
 import { ProfileType } from "@/api/models/types";
+import { MeQuery } from "@/api/queries/me.generated";
 import type { LoginState } from "@/models/LoginState";
 import type { LogoutState } from "@/models/LogoutState";
 import { PasswordResetState } from "@/models/PasswordResetState";
 import type { SendPasswordResetEmailState } from "@/models/SendPasswordResetEmailState";
 import { RootState } from "@/store";
-import type { User } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
@@ -13,13 +13,14 @@ export type Getters = {
   loginState(state: State): LoginState;
   logoutLoading(state: State): boolean;
   logoutState(state: State): LogoutState;
-  user(state: State): User | null;
+  user(state: State): MeQuery["me"] | null;
   profileStep(state: State, getters: Getters): number | undefined;
   isStudent(state: State): boolean;
   isCompany(state: State): boolean;
   isUniversity(state: State): boolean;
   isLoggedIn(state: State): boolean;
-  refreshToken(state: State): string;
+  refreshToken(state: State): string | null;
+  accessToken(state: State): string | null;
   sendPasswordResetEmailLoading(state: State): boolean;
   sendPasswordResetEmailState(state: State): SendPasswordResetEmailState;
   passwordResetLoading(state: State): boolean;
@@ -45,7 +46,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       errors: state.logout.errors || null,
     };
   },
-  user(state: State): User | null {
+  user(state: State): MeQuery["me"] | null {
     return state.user;
   },
   profileStep(state: State, getters: Getters): number | undefined {
@@ -80,8 +81,11 @@ export const getters: GetterTree<State, RootState> & Getters = {
   isLoggedIn(state: State): boolean {
     return state.isLoggedIn;
   },
-  refreshToken(state: State): string {
+  refreshToken(state: State): string | null {
     return state.refreshToken;
+  },
+  accessToken(state: State): string | null {
+    return state.accessToken;
   },
   sendPasswordResetEmailLoading(state: State): boolean {
     return state.sendPasswordResetEmail.loading;

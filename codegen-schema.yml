@@ -1,0 +1,12 @@
+overwrite: true
+schema: "${VUE_APP_API_URL}/graphql/"
+generates:
+  ./src/api/remote-schema.json:
+    plugins:
+      - introspection
+    config:
+      minify: false
+      schemaDescription: true
+hooks:
+  afterOneFileWrite:
+    - prettier --write

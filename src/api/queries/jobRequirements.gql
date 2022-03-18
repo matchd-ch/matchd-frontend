@@ -1,6 +1,10 @@
-query {
-  jobRequirements {
-    id
-    name
+query jobRequirements {
+  jobRequirements(first: 100) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
   }
 }

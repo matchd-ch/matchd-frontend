@@ -37,6 +37,7 @@
 </template>
 
 <script lang="ts">
+import type { UserRequestInput } from "@/api/models/types";
 import Logo from "@/assets/logo.svg";
 import BackLink from "@/components/BackLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -44,7 +45,6 @@ import RegisterContactForm from "@/components/RegisterContactForm.vue";
 import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
 import RegisterTile from "@/components/RegisterTile.vue";
 import { ActionTypes } from "@/store/modules/registration/action-types";
-import type { User, UserRequestInput } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
@@ -86,7 +86,7 @@ export default class Contact extends Vue {
     return "Login";
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 

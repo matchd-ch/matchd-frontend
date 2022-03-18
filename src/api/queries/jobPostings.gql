@@ -1,8 +1,12 @@
-query {
-  jobPostings {
-    id
-    slug
-    title
-    displayTitle
+query jobPostings {
+  jobPostings(first: 100) {
+    edges {
+      node {
+        id
+        slug
+        title
+        displayTitle
+      }
+    }
   }
 }

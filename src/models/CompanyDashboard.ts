@@ -1,4 +1,4 @@
-import type { Dashboard, JobPosting, ProjectPosting, Student } from "api";
+import type { Dashboard, JobPosting, ProjectPosting, Student } from "@/api/models/types";
 
 export interface GroupedJobPostingMatching {
   jobPosting: JobPosting;

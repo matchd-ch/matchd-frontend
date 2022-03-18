@@ -78,12 +78,10 @@ export default class MatchdToggle extends Vue.with(Props) {}
     display: none;
   }
 
-  & :deep(input:checked) {
-    & + .matchd-toggle__slider {
-      @apply bg-primary-1;
-      & .matchd-toggle__slider-knob {
-        @apply translate-x-6;
-      }
+  & :deep(input:checked) + .matchd-toggle__slider {
+    @apply bg-primary-1;
+    & .matchd-toggle__slider-knob {
+      @apply translate-x-6;
     }
   }
 }

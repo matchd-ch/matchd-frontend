@@ -1,5 +1,5 @@
+import type { Attachment, UploadConfiguration } from "@/api/models/types";
 import { MatchdApiError } from "@/models/MatchdApiError";
-import type { Attachment, UploadConfiguration } from "api";
 
 export interface QueuedFile {
   file: File;

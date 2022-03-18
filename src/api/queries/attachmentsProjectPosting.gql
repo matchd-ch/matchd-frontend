@@ -1,9 +1,13 @@
-query ($key: AttachmentKey!, $id: ID!) {
-  attachments(key: $key, id: $id) {
-    id
-    fileSize
-    fileName
-    mimeType
-    url
+query attachmentsProjectPosting ($key: AttachmentKey!, $id: String!) {
+  attachments(key: $key, id: $id, first: 100) {
+    edges {
+      node {
+        id
+        fileSize
+        fileName
+        mimeType
+        url    
+      }
+    }
   }
 }

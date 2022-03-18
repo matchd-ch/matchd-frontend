@@ -1,25 +1,31 @@
 overwrite: true
-schema: "http://api.matchd.lo:8080/introspection/"
+schema: "${VUE_APP_API_URL}/graphql/"
 generates:
-  ./src/api/remote-schema.json:
+  ./types/api.d.ts:
     plugins:
-      - introspection
-  types/api.d.ts:
-    plugins:
+      # remove
       - "typescript"
       - "typescript-graphql-files-modules"
+      # remove
       - "typescript-document-nodes"
     config:
       noExport: true
-  src/api/models/types.ts:
+  ./src/api/models/types.ts:
     plugins:
       - "typescript"
       - add:
           content: "/* eslint-disable */"
     config:
-      onlyOperationTypes: true
-      typesPrefix: I
+      onlyOperationTypes: false
       enumPrefix: false
+  ./src/:
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: ./api/models/types.ts
+    plugins:
+      - typescript-operations
+      - typed-document-node
 hooks:
   afterOneFileWrite:
     - prettier --write
+documents: "src/**/*.gql"

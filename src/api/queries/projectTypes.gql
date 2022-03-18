@@ -1,6 +1,10 @@
-query {
-  projectTypes {
-    id
-    name
+query projectTypes {
+  projectTypes(first: 100) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
   }
 }

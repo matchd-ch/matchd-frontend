@@ -1,7 +1,11 @@
-query {
-  benefits {
-    id
-    icon
-    name
+query benefits {
+  benefits(first: 100) {
+    edges {
+      node {
+        id
+        icon
+        name
+      }
+    }
   }
 }

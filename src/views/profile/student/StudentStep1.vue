@@ -32,19 +32,19 @@
       <fieldset id="birthdate" class="flex">
         <Field id="day" name="day" as="select" label="Tag" class="mr-3" rules="required">
           <option value disabled selected hidden>Tag</option>
-          <option v-for="(n, index) in 31" :key="index" :value="n">
+          <option v-for="n in 31" :key="`day_${n}`" :value="n">
             {{ String(n).padStart(2, "0") }}
           </option>
         </Field>
         <Field id="month" name="month" as="select" label="Monat" class="mr-3" rules="required">
           <option value disabled selected hidden>Monat</option>
-          <option v-for="(n, index) in 12" :key="index" :value="n">
+          <option v-for="n in 12" :key="`month_${n}`" :value="n">
             {{ String(n).padStart(2, "0") }}
           </option>
         </Field>
         <Field id="year" name="year" as="select" label="Jahr" rules="birthday:day,month,year">
           <option value disabled selected hidden>Jahr</option>
-          <option v-for="(n, index) in validAges" :key="index">{{ n }}</option>
+          <option v-for="n in validAges" :key="`year_${n}`" :value="n">{{ n }}</option>
         </Field>
       </fieldset>
     </MatchdSelect>

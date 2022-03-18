@@ -1,7 +1,11 @@
-query {
-  languageLevels {
-    id
-    level
-    description
+query languageLevels {
+  languageLevels(first: 100) {
+    edges {
+      node {
+        id
+        level
+        description
+      }
+    }
   }
 }

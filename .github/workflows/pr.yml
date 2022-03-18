@@ -38,3 +38,5 @@ jobs:
     secrets:
       DOCKER_PULL_USERNAME: ${{ secrets.DOCKER_PULL_USERNAME }}
       DOCKER_PULL_SECRET: ${{ secrets.DOCKER_PULL_SECRET }}
+      GTM_CONTAINER_ID: "${{ secrets.GTM_CONTAINER_ID }}"
+      SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"

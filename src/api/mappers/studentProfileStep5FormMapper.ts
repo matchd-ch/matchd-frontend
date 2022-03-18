@@ -1,7 +1,9 @@
 import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
-import type { User } from "api";
+import { MeQuery } from "../queries/me.generated";
 
-export function studentProfileStep5FormMapper(user: User): StudentProfileStep5Form {
+export function studentProfileStep5FormMapper(
+  user: NonNullable<MeQuery["me"]>
+): StudentProfileStep5Form {
   return {
     nickname: user.student?.nickname || "",
   };

@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import type { Attachment } from "api";
-import { Options, prop, Vue } from "vue-class-component";
+import type { Attachment } from "@/api/models/types";
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   attachment = prop<Attachment>({});

@@ -1,5 +1,5 @@
-mutation ($projectPosting: ProjectPostingInput!) {
-  matchProjectPosting(match: { projectPosting: $projectPosting }) {
+mutation matchProjectPosting ($projectPosting: ProjectPostingInput!) {
+  matchProjectPosting(input: { projectPosting: $projectPosting }) {
     success
     errors
     confirmed

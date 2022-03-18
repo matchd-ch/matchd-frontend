@@ -1,10 +1,10 @@
-import { IProjectPostingInputStep3 } from "@/api/models/types";
+import type { ProjectPostingAllocationInput } from "@/api/models/types";
 import { ProjectPostingStep3Form } from "@/models/ProjectPostingStep3Form";
 
 export function projectPostingStep3InputMapper(
   id: string,
   projectPostingForm: ProjectPostingStep3Form
-): IProjectPostingInputStep3 {
+): ProjectPostingAllocationInput {
   return {
     id,
     state: projectPostingForm.state,

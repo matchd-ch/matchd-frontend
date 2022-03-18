@@ -81,6 +81,7 @@
 <script lang="ts">
 import { studentProfileStep3FormMapper } from "@/api/mappers/studentProfileStep3FormMapper";
 import { studentProfileStep3InputMapper } from "@/api/mappers/studentProfileStep3InputMapper";
+import type { CulturalFit, SoftSkill } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
@@ -90,7 +91,6 @@ import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { CulturalFit, SoftSkill } from "api";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

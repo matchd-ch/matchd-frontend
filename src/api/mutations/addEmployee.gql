@@ -1,11 +1,11 @@
-mutation (
+mutation addEmployee (
   $firstName: String!
   $lastName: String!
   $email: String!
   $role: String!
 ) {
   addEmployee(
-    addEmployee: {
+    input: {
       firstName: $firstName
       lastName: $lastName
       email: $email

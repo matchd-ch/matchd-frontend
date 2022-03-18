@@ -56,10 +56,10 @@
 </template>
 
 <script lang="ts">
+import type { UploadConfiguration } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
-import type { UploadConfiguration } from "api";
-import { Options, prop, Vue } from "vue-class-component";
 import prettyBytes from "pretty-bytes";
+import { Options, prop, Vue } from "vue-class-component";
 
 interface AllowedFiles {
   size: number;

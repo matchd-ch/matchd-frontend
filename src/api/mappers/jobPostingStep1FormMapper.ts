@@ -1,5 +1,5 @@
+import type { JobPosting } from "@/api/models/types";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
-import type { JobPosting } from "api";
 import { DateTime } from "luxon";
 
 export function jobPostingStep1FormMapper(jobPosting: JobPosting | null): JobPostingStep1Form {

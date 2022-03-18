@@ -2,7 +2,7 @@ import type {
   JobPostingMatchingInput,
   ProjectPostingMatchingInput,
   StudentMatchingInput,
-} from "api";
+} from "@/api/models/types";
 
 export interface MatchingInput {
   first: number;

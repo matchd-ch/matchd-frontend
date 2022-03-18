@@ -1,6 +1,6 @@
+import type { ZipCity } from "@/api/models/types";
 import type { OnboardingState } from "@/models/OnboardingState";
 import { RootState } from "@/store";
-import type { ZipCity } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 

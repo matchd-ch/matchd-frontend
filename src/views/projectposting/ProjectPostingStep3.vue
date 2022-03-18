@@ -45,7 +45,7 @@
             type="checkbox"
             value="true"
             :checked="veeForm.state === projectPostingStateEnum.Public"
-            @change="onChangeState($event.target.checked)"
+            @change="onChangeState($event)"
           />
           <template v-if="veeForm.state === projectPostingStateEnum.Public" #value>
             <span class="text-primary-1">Öffentlich</span>
@@ -81,6 +81,7 @@
 <script lang="ts">
 import { projectPostingStep3FormMapper } from "@/api/mappers/projectPostingStep3FormMapper";
 import { projectPostingStep3InputMapper } from "@/api/mappers/projectPostingStep3InputMapper";
+import type { Employee, ProjectPosting as ProjectPostingType } from "@/api/models/types";
 import { ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -94,7 +95,6 @@ import { ProjectPostingStep3Form } from "@/models/ProjectPostingStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes as JobPostingActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
-import type { Employee, ProjectPosting as ProjectPostingType, User } from "api";
 import { Field, Form, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -179,7 +179,7 @@ export default class ProjectPostingStep3 extends Vue {
     return this.$store.getters["employees"];
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 
@@ -198,8 +198,11 @@ export default class ProjectPostingStep3 extends Vue {
     this.$emit("navigateBack");
   }
 
-  onChangeState(value: boolean): void {
-    this.veeForm.state = value ? ProjectPostingStateEnum.Public : ProjectPostingStateEnum.Draft;
+  onChangeState(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.veeForm.state = target.checked
+      ? ProjectPostingStateEnum.Public
+      : ProjectPostingStateEnum.Draft;
   }
 
   onClickClose(): void {

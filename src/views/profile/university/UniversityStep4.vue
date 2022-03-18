@@ -80,22 +80,22 @@
 </template>
 
 <script lang="ts">
+import { universityProfileStep4FormMapper } from "@/api/mappers/universityProfileStep4FormMapper";
+import { universityProfileStep4InputMapper } from "@/api/mappers/universityProfileStep4InputMapper";
+import type { CulturalFit, SoftSkill } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { OnboardingState } from "@/models/OnboardingState";
 import { CompanyProfileStep4Form } from "@/models/CompanyProfileStep4Form";
+import { OnboardingState } from "@/models/OnboardingState";
+import { UniversityProfileStep4Form } from "@/models/UniversityProfileStep4Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import type { CulturalFit, SoftSkill } from "api";
 import { Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
-import { UniversityProfileStep4Form } from "@/models/UniversityProfileStep4Form";
-import { universityProfileStep4FormMapper } from "@/api/mappers/universityProfileStep4FormMapper";
-import { universityProfileStep4InputMapper } from "@/api/mappers/universityProfileStep4InputMapper";
 
 class Props {
   edit = prop<boolean>({ default: false });

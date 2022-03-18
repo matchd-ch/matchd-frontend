@@ -1,5 +1,5 @@
 <template>
-  <teleport to="header">
+  <teleport to="#teleporter-app-header">
     <ProfileNavigation>
       <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="currentStep === 1">
         Ausschreibung
@@ -40,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import type { ProjectPosting as ProjectPostingType } from "@/api/models/types";
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
@@ -49,7 +50,6 @@ import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
 import ProjectPostingStep1 from "@/views/projectposting/ProjectPostingStep1.vue";
 import ProjectPostingStep2 from "@/views/projectposting/ProjectPostingStep2.vue";
 import ProjectPostingStep3 from "@/views/projectposting/ProjectPostingStep3.vue";
-import type { ProjectPosting as ProjectPostingType } from "api";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
@@ -132,10 +132,18 @@ export default class ProjectPostingCreate extends Vue {
     this.urlStepNumber = parseStepName(String(this.$route.params.step));
     if (this.$route.params?.slug && this.$route.params?.slug !== ParamStrings.NEW) {
       this.meta.meta.title = `Projekt bearbeiten - ${this.currentProjectPosting?.title}`;
+      this.loadProjectPostingWithSlug(String(this.$route.params.slug));
     } else {
       this.meta.meta.title = "Projekt ausschreiben";
       this.clearCurrentProjectPosting();
     }
+
+    // this.urlStepNumber = parseStepName(String(to.params.step));
+    // if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
+    //   await this.loadProjectPostingWithSlug(String(to.params.slug));
+    // } else {
+    //   this.clearCurrentProjectPosting();
+    // }
   }
 
   async onSubmitComplete(): Promise<void> {

@@ -32,7 +32,7 @@
             rules="required"
           >
             <option value disabled selected hidden>Monat</option>
-            <option v-for="(n, index) in 12" :key="index" :value="n">
+            <option v-for="n in 12" :key="`projectFromDateMonth_${n}`" :value="n">
               {{ String(n).padStart(2, "0") }}
             </option>
           </Field>
@@ -43,11 +43,10 @@
             label="Starttermin Jahr"
             rules="required"
           >
-            <option v-if="veeForm.values.projectFromDateYear" selected>
-              {{ veeForm.values.projectFromDateYear }}
+            <option value disabled selected hidden>Jahr</option>
+            <option v-for="n in validYears" :key="`projectFromDateYear_${n}`" :value="n">
+              {{ String(n).padStart(2, "0") }}
             </option>
-            <option v-else value disabled selected hidden>Jahr</option>
-            <option v-for="(n, index) in validYears" :key="index">{{ n }}</option>
           </Field>
         </fieldset>
       </MatchdSelect>
@@ -126,6 +125,7 @@
 <script lang="ts">
 import { projectPostingStep2FormMapper } from "@/api/mappers/projectPostingStep2FormMapper";
 import { projectPostingStep2InputMapper } from "@/api/mappers/projectPostingStep2InputMapper";
+import type { Attachment } from "@/api/models/types";
 import { AttachmentKey, ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -135,19 +135,11 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { ProjectPostingState } from "@/models/ProjectPostingState";
 import { ProjectPostingStep2Form } from "@/models/ProjectPostingStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { MutationTypes as UploadMutationTypes } from "@/store/modules/upload/mutation-types";
-import { QueuedFile } from "@/store/modules/upload/state";
-import type {
-  Attachment,
-  ProjectPosting as ProjectPostingType,
-  UploadConfiguration,
-  User,
-} from "api";
 import { Field, Form, useField, useForm } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -202,30 +194,30 @@ export default class ProjectPostingStep2 extends Vue {
   });
   formData = {} as ProjectPostingStep2Form;
 
-  get projectPostingData(): ProjectPostingStep2Form {
+  get projectPostingData() {
     if (!this.currentProjectPosting) {
       return {} as ProjectPostingStep2Form;
     }
     return projectPostingStep2FormMapper(this.currentProjectPosting);
   }
 
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get projectPostingLoading(): boolean {
+  get projectPostingLoading() {
     return this.$store.getters["projectPostingLoading"];
   }
 
-  get projectPostingState(): ProjectPostingState {
+  get projectPostingState() {
     return this.$store.getters["projectPostingState"];
   }
 
-  get currentProjectPosting(): ProjectPostingType | null {
+  get currentProjectPosting() {
     return this.$store.getters["currentProjectPosting"];
   }
 
-  get validYears(): number[] {
+  get validYears() {
     const currentYear = new Date().getFullYear();
     const maxYear = currentYear + 10;
     const validYears = [];
@@ -235,39 +227,39 @@ export default class ProjectPostingStep2 extends Vue {
     return validYears;
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 
-  get projectPostingImagesQueue(): QueuedFile[] {
+  get projectPostingImagesQueue() {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingImages });
   }
 
-  get projectPostingImages(): Attachment[] {
+  get projectPostingImages() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingImages });
   }
 
-  get projectPostingImagesUploadConfigurations(): UploadConfiguration | undefined {
+  get projectPostingImagesUploadConfigurations() {
     return this.$store.getters["uploadConfigurationByKey"]({
       key: AttachmentKey.ProjectPostingImages,
     });
   }
 
-  get projectPostingDocumentsQueue(): QueuedFile[] {
+  get projectPostingDocumentsQueue() {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingDocuments });
   }
 
-  get projectPostingDocuments(): Attachment[] {
+  get projectPostingDocuments() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingDocuments });
   }
 
-  get projectPostingDocumentsUploadConfigurations(): UploadConfiguration | undefined {
+  get projectPostingDocumentsUploadConfigurations() {
     return this.$store.getters["uploadConfigurationByKey"]({
       key: AttachmentKey.ProjectPostingDocuments,
     });
   }
 
-  beforeMount(): void {
+  beforeMount() {
     this.$store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
       key: AttachmentKey.ProjectPostingImages,
     });
@@ -276,7 +268,7 @@ export default class ProjectPostingStep2 extends Vue {
     });
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS);
     if (this.currentProjectPosting) {
       await Promise.all([
@@ -300,7 +292,7 @@ export default class ProjectPostingStep2 extends Vue {
     calculateMargins();
   }
 
-  async onSelectProjectPostingImages(files: FileList): Promise<void> {
+  async onSelectProjectPostingImages(files: FileList) {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
       key: AttachmentKey.ProjectPostingImages,
       files,
@@ -308,7 +300,7 @@ export default class ProjectPostingStep2 extends Vue {
     });
   }
 
-  async onDeleteProjectPostingImages(file: Attachment): Promise<void> {
+  async onDeleteProjectPostingImages(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
       key: AttachmentKey.ProjectPostingImages,
       id: file.id,
@@ -316,7 +308,7 @@ export default class ProjectPostingStep2 extends Vue {
     });
   }
 
-  async onSelectProjectPostingDocuments(files: FileList): Promise<void> {
+  async onSelectProjectPostingDocuments(files: FileList) {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
       key: AttachmentKey.ProjectPostingDocuments,
       files,
@@ -324,7 +316,7 @@ export default class ProjectPostingStep2 extends Vue {
     });
   }
 
-  async onDeleteProjectPostingDocuments(file: Attachment): Promise<void> {
+  async onDeleteProjectPostingDocuments(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
       key: AttachmentKey.ProjectPostingDocuments,
       id: file.id,

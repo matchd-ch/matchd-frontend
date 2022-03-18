@@ -6,8 +6,8 @@
 /* eslint-disable */
 /* todo: add proper typings and refactor */
 
+import type { Attachment } from "@/api/models/types";
 import { SearchLink, SearchNode, SearchResultBubbleData } from "@/models/SearchResultBubbleData";
-import type { Attachment } from "api";
 import * as d3 from "d3";
 import { Options, prop, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";

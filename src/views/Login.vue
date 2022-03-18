@@ -9,13 +9,15 @@
           <router-link :to="{ name: 'Triage' }">beim Support</router-link>.
         </GenericError>
 
-        <GenericError v-else-if="loginState.errors?.nonFieldErrors?.includes('invalid_credentials')"
-          >E-Mail oder Passwort ungültig.</GenericError
+        <GenericError
+          v-else-if="loginState.errors?.nonFieldErrors?.includes('invalid_credentials')"
         >
+          E-Mail oder Passwort ungültig.
+        </GenericError>
 
-        <GenericSuccess v-else-if="passwordResetState.success"
-          >Dein neues Passwort wurde gespeichert. Du kannst dich nun einloggen.</GenericSuccess
-        >
+        <GenericSuccess v-else-if="passwordResetState.success">
+          Dein neues Passwort wurde gespeichert. Du kannst dich nun einloggen.
+        </GenericSuccess>
 
         <Form v-slot="{ errors }" @submit="onSubmit">
           <MatchdField id="username" class="mb-3" :errors="errors.username">
@@ -42,13 +44,13 @@
             />
           </MatchdField>
           <p class="mb-5 px-8 text-paragraph-md mb-10">
-            <router-link :to="{ name: 'PasswordForgotten' }" class="underline"
-              >Passwort vergessen</router-link
-            >
+            <router-link :to="{ name: 'PasswordForgotten' }" class="underline">
+              Passwort vergessen
+            </router-link>
           </p>
-          <MatchdButton :disabled="loginLoading" :loading="loginLoading" class="block w-full"
-            >Login</MatchdButton
-          >
+          <MatchdButton :disabled="loginLoading" :loading="loginLoading" class="block w-full">
+            Login
+          </MatchdButton>
         </Form>
       </div>
     </div>

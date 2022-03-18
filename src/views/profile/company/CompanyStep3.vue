@@ -76,6 +76,7 @@
 <script lang="ts">
 import { companyProfileStep3FormMapper } from "@/api/mappers/companyProfileStep3FormMapper";
 import { companyProfileStep3InputMapper } from "@/api/mappers/companyProfileStep3InputMapper";
+import type { Attachment, Benefit, Branch } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -83,16 +84,13 @@ import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
-import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
-import { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { QueuedFile } from "@/store/modules/upload/state";
-import type { Attachment, Benefit, Branch, UploadConfiguration } from "api";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
@@ -145,7 +143,7 @@ export default class CompanyStep3Form extends Vue.with(Props) {
 
   formData = {} as CompanyProfileStep3Form;
 
-  get branches(): SelectPillMultipleItem[] {
+  get branches() {
     return this.$store.getters["branches"].map((branch) => {
       return {
         id: branch.id,
@@ -157,7 +155,7 @@ export default class CompanyStep3Form extends Vue.with(Props) {
     });
   }
 
-  get benefits(): SelectPillMultipleItem[] {
+  get benefits() {
     return this.$store.getters["benefits"].map((benefit) => {
       return {
         ...benefit,
@@ -168,35 +166,35 @@ export default class CompanyStep3Form extends Vue.with(Props) {
     });
   }
 
-  get showError(): boolean {
+  get showError() {
     return !!this.onboardingState.errors;
   }
 
-  get onboardingLoading(): boolean {
+  get onboardingLoading() {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState(): OnboardingState {
+  get onboardingState() {
     return this.$store.getters["onboardingState"];
   }
 
-  get currentStep(): number | undefined {
+  get currentStep() {
     return this.$store.getters["profileStep"];
   }
 
-  get companyDocumentsQueue(): QueuedFile[] {
+  get companyDocumentsQueue() {
     return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get companyDocuments(): Attachment[] {
+  get companyDocuments() {
     return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get companyDocumentsUploadConfigurations(): UploadConfiguration | undefined {
+  get companyDocumentsUploadConfigurations() {
     return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
   }
 
-  get profileData(): CompanyProfileStep3Form {
+  get profileData() {
     const user = this.$store.getters["user"];
     if (!user) {
       return {} as CompanyProfileStep3Form;
@@ -204,7 +202,7 @@ export default class CompanyStep3Form extends Vue.with(Props) {
     return companyProfileStep3FormMapper(user);
   }
 
-  onChangeBranch(branch: Branch): void {
+  onChangeBranch(branch: Branch) {
     const branchExists = !!this.veeForm.branches.find(
       (selectedBranchId) => selectedBranchId === branch.id
     );
@@ -217,7 +215,7 @@ export default class CompanyStep3Form extends Vue.with(Props) {
     }
   }
 
-  onChangeBenefits(benefit: Benefit): void {
+  onChangeBenefits(benefit: Benefit) {
     const benefitExists = !!this.veeForm.benefits.find(
       (selectedBenefitId) => selectedBenefitId === benefit.id
     );
@@ -230,21 +228,21 @@ export default class CompanyStep3Form extends Vue.with(Props) {
     }
   }
 
-  async onSelectCompanyDocuments(files: FileList): Promise<void> {
+  async onSelectCompanyDocuments(files: FileList) {
     await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
       key: AttachmentKey.CompanyDocuments,
       files,
     });
   }
 
-  async onDeleteCompanyDocuments(file: Attachment): Promise<void> {
+  async onDeleteCompanyDocuments(file: Attachment) {
     await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
       key: AttachmentKey.CompanyDocuments,
       id: file.id,
     });
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(ContentActionTypes.BRANCHES),
       this.$store.dispatch(ContentActionTypes.BENEFITS),
@@ -262,7 +260,7 @@ export default class CompanyStep3Form extends Vue.with(Props) {
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }

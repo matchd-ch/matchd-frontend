@@ -5,6 +5,7 @@
     >
       <div class="flex justify-center">
         <CompanyLogo
+          v-if="avatar"
           :url="avatar.url"
           :name="user?.company?.name"
           class="m-5 lg:m-20 w-40 h-40 xl:w-60 xl:h-60"
@@ -67,11 +68,11 @@
         </matchd-button>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
-        <p v-if="dashboard?.requestedMatches?.length > 0">
+        <p v-if="dashboard?.requestedMatches?.length">
           Sobald Ihre Matching-Anfrage vom Talent bestätigt wurde, kanns mit dem Kennenlernen
           weitergehen.
         </p>
-        <p v-if="dashboard?.requestedMatches?.length === 0">
+        <p v-if="!dashboard?.requestedMatches?.length">
           Momentan haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
           hier sehen.
         </p>
@@ -81,10 +82,10 @@
         ></company-match-group>
       </profile-section>
       <profile-section title="Anfragen zum Matching" :pink="true">
-        <p v-if="dashboard?.unconfirmedMatches.length > 0">
+        <p v-if="dashboard?.unconfirmedMatches?.length">
           Ihre Ausschreibung ist beliebt. Folgende Talente möchten Sie gerne kennenlernen.
         </p>
-        <p v-if="dashboard?.unconfirmedMatches?.length === 0">
+        <p v-else>
           Momentan haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie
           das hier sehen.
         </p>
@@ -98,18 +99,18 @@
         title="Hier hats gematchd!"
         :pink="true"
       >
-        <template v-if="dashboard?.projectMatches.length">
+        <template v-if="dashboard?.projectMatches">
           <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
           <company-match-group
             type="ProjectPosting"
-            :matches="dashboard?.uniqueProjectPostingMatchings"
+            :matches="dashboard.uniqueProjectPostingMatchings"
           ></company-match-group>
         </template>
 
-        <template v-if="dashboard?.confirmedMatches.length">
+        <template v-if="dashboard?.confirmedMatches?.length">
           <h2
             class="text-base font-medium text-primary-1 mb-4"
-            :class="{ 'mt-8': dashboard?.projectMatches.length }"
+            :class="{ 'mt-8': dashboard?.projectMatches?.length }"
           >
             Stellen
           </h2>
@@ -123,21 +124,20 @@
 </template>
 
 <script lang="ts">
+import { AttachmentKey } from "@/api/models/types";
 import CompanyLogo from "@/components/CompanyLogo.vue";
+import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
+import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import type { User, Attachment } from "api";
-import { Options, prop, Vue } from "vue-class-component";
-import { AttachmentKey } from "@/api/models/types";
-import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
-import { replaceStack } from "@/helpers/replaceStack";
 import ProfileSection from "@/components/ProfileSection.vue";
-import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
-import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
+import { replaceStack } from "@/helpers/replaceStack";
+import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
+import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
-  dashboard = prop<{ data: ICompanyDashboard }>({ required: true });
+  dashboard = prop<ICompanyDashboard>({ required: true });
 }
 
 @Options({
@@ -152,27 +152,27 @@ class Props {
   },
 })
 export default class CompanyDashboard extends Vue.with(Props) {
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get avatar(): Attachment | undefined {
+  get avatar() {
     return (
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatar,
-      })[0] ||
+      })?.[0] ||
       this.$store.getters["attachmentsByKey"]({
         key: AttachmentKey.CompanyAvatarFallback,
-      })[0] ||
-      ""
+      })?.[0] ||
+      undefined
     );
   }
 
-  replaceStack(url: string, stack: string): string {
+  replaceStack(url: string, stack: string) {
     return replaceStack(url, stack);
   }
 
-  get user(): User | null {
+  get user() {
     return this.$store.getters["user"];
   }
 }

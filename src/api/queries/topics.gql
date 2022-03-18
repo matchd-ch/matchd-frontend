@@ -1,6 +1,10 @@
-query {
-  topics {
-    id
-    name
+query topics {
+  topics(first: 100) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
   }
 }

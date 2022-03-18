@@ -105,27 +105,25 @@
 </template>
 
 <script lang="ts">
+import { universityProfileStep3FormMapper } from "@/api/mappers/universityProfileStep3FormMapper";
+import { universityProfileStep3InputMapper } from "@/api/mappers/universityProfileStep3InputMapper";
+import type { Benefit, Branch } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
+import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
-import { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { OnboardingState } from "@/models/OnboardingState";
+import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
 import { useStore } from "@/store";
-import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
-import type { Branch, Benefit } from "api";
+import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
 import { Options, prop, setup, Vue } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
-import MatchdField from "@/components/MatchdField.vue";
-import { universityProfileStep3InputMapper } from "@/api/mappers/universityProfileStep3InputMapper";
-import { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3Form";
-import { universityProfileStep3FormMapper } from "@/api/mappers/universityProfileStep3FormMapper";
 
 class Props {
   edit = prop<boolean>({ default: false });
@@ -176,7 +174,7 @@ export default class UniversityStep3Form extends Vue.with(Props) {
 
   formData = {} as UniversityProfileStep3Form;
 
-  get branches(): SelectPillMultipleItem[] {
+  get branches() {
     return this.$store.getters["branches"].map((branch) => {
       return {
         id: branch.id,
@@ -188,7 +186,7 @@ export default class UniversityStep3Form extends Vue.with(Props) {
     });
   }
 
-  get benefits(): SelectPillMultipleItem[] {
+  get benefits() {
     return this.$store.getters["benefits"].map((benefit) => {
       return {
         ...benefit,
@@ -199,23 +197,23 @@ export default class UniversityStep3Form extends Vue.with(Props) {
     });
   }
 
-  get showError(): boolean {
+  get showError() {
     return !!this.onboardingState.errors;
   }
 
-  get onboardingLoading(): boolean {
+  get onboardingLoading() {
     return this.$store.getters["onboardingLoading"];
   }
 
-  get onboardingState(): OnboardingState {
+  get onboardingState() {
     return this.$store.getters["onboardingState"];
   }
 
-  get currentStep(): number | undefined {
+  get currentStep() {
     return this.$store.getters["profileStep"];
   }
 
-  get profileData(): UniversityProfileStep3Form {
+  get profileData() {
     const user = this.$store.getters["user"];
     if (!user) {
       return {} as UniversityProfileStep3Form;
@@ -223,7 +221,7 @@ export default class UniversityStep3Form extends Vue.with(Props) {
     return universityProfileStep3FormMapper(user);
   }
 
-  onChangeBranch(branch: Branch): void {
+  onChangeBranch(branch: Branch) {
     const branchExists = !!this.veeForm.branches.find(
       (selectedBranchId) => selectedBranchId === branch.id
     );
@@ -236,7 +234,7 @@ export default class UniversityStep3Form extends Vue.with(Props) {
     }
   }
 
-  onChangeBenefits(benefit: Benefit): void {
+  onChangeBenefits(benefit: Benefit) {
     const benefitExists = !!this.veeForm.benefits.find(
       (selectedBenefitId) => selectedBenefitId === benefit.id
     );
@@ -249,7 +247,7 @@ export default class UniversityStep3Form extends Vue.with(Props) {
     }
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(ContentActionTypes.BRANCHES),
       this.$store.dispatch(ContentActionTypes.BENEFITS),
@@ -263,10 +261,9 @@ export default class UniversityStep3Form extends Vue.with(Props) {
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }
 </script>
-
 <style></style>

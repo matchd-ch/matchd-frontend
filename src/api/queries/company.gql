@@ -1,4 +1,4 @@
-query ($slug: String) {
+query company ($slug: String) {
   company(slug: $slug) {
     id
     uid
@@ -22,14 +22,22 @@ query ($slug: String) {
       email
       role
     }
-    benefits {
-      id
-      icon
-      name
+    benefits(first: 100) {
+      edges {
+        node {
+          id
+          icon
+          name
+        }
+      }
     }
-    branches {
-      id
-      name
+    branches(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
     }
     jobPostings {
       id
@@ -56,19 +64,31 @@ query ($slug: String) {
       }
     }
   }
-  logo: attachments(key: COMPANY_AVATAR, slug: $slug) {
-    id
-    url
-    mimeType
+  logo: attachments(key: COMPANY_AVATAR, slug: $slug, first: 100) {
+    edges {
+      node {
+        id
+        url
+        mimeType
+      }
+    }
   }
-  logoFallback: attachments(key: COMPANY_AVATAR_FALLBACK, slug: $slug) {
-    id
-    url
-    mimeType
+  logoFallback: attachments(key: COMPANY_AVATAR_FALLBACK, slug: $slug, first: 100) {
+    edges {
+      node {
+        id
+        url
+        mimeType
+      }
+    }
   }
-  media: attachments(key: COMPANY_DOCUMENTS, slug: $slug) {
-    id
-    url
-    mimeType
+  media: attachments(key: COMPANY_DOCUMENTS, slug: $slug, first: 100) {
+    edges {
+      node {
+        id
+        url
+        mimeType
+      }
+    }
   }
 }

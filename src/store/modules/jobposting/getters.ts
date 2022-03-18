@@ -1,7 +1,7 @@
+import type { Employee, JobPosting } from "@/api/models/types";
 import { AddEmployeeState } from "@/models/AddEmployeeState";
 import { JobPostingState } from "@/models/JobPostingState";
 import { RootState } from "@/store";
-import type { Employee, JobPosting } from "api";
 import { GetterTree } from "vuex";
 import { State } from "./state";
 
