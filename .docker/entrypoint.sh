@@ -17,6 +17,11 @@ JSON_STRING='{ \
 
 JSON_STRING_CLEANED="$(echo "${JSON_STRING}" | tr -d '[:space:]')"
 
-sed -i "s@// RUNTIME_CONFIGURATION@${JSON_STRING_CLEANED}@" /usr/share/nginx/html/index.html
+if [ "${JSON_STRING_CLEANED#*^}" != "$JSON_STRING_CLEANED" ]; then
+  echo '"^" character detected in config, this is not supported right now'
+  exit 1
+fi
+
+sed -i "s^// RUNTIME_CONFIGURATION^${JSON_STRING_CLEANED}^" /usr/share/nginx/html/index.html
 
 exec "$@"
