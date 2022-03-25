@@ -3,7 +3,12 @@
     <ul class="matchd-file-view__list">
       <li v-for="file in files" :key="file.id" class="matchd-file-view__item flex items-center">
         <template v-if="file.mimeType.indexOf('image/') > -1">
-          <img :src="getImageUrlWithStack(file.url)" class="w-40 h-40 border-r" alt="Bild" />
+          <StackImage
+            :url="file.url"
+            stack="desktop-square"
+            class="w-40 h-40 border-r"
+            alt="Bild"
+          />
         </template>
         <template v-else-if="file.mimeType.indexOf('video/') > -1">
           <div class="px-8">
@@ -61,6 +66,7 @@ import Loading from "@/assets/icons/loading.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
 import { QueuedFile } from "@/store/modules/upload/state";
 import { Options, prop, Vue } from "vue-class-component";
+import StackImage from "./StackImage.vue";
 
 class Props {
   files = prop<Attachment[]>({});
@@ -72,6 +78,7 @@ class Props {
     MatchdButton,
     Loading,
     ErrorIcon,
+    StackImage,
   },
   emits: ["deleteFile"],
 })

@@ -20,11 +20,10 @@
             @click-nickname="onClickNickname"
           /></div
       ></template>
-
-      <template v-else #info
-        >Du kannst dein Profil anonym oder öffentlich nutzen. Willst du anonym bleiben, zeigen wir
-        diesen Nickname an.</template
-      >
+      <template v-else #info>
+        Du kannst dein Profil anonym oder öffentlich nutzen. Willst du anonym bleiben, zeigen wir
+        diesen Nickname an.
+      </template>
     </MatchdField>
     <MatchdFileBlock>
       <template #label>Dein Profilbild</template>
@@ -38,10 +37,12 @@
       <MatchdFileUpload
         v-if="studentAvatar.length === 0"
         :upload-configuration="studentAvatarUploadConfigurations"
+        :formal="true"
         class="mb-10"
         @select-files="onSelectStudentAvatar"
-        >Bild hochladen</MatchdFileUpload
       >
+        Bild hochladen
+      </MatchdFileUpload>
     </MatchdFileBlock>
     <template v-if="edit">
       <teleport to="footer">

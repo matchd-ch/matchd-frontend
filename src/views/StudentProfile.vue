@@ -7,11 +7,12 @@
       class="bg-student-gradient-t-b text-white p-9 flex flex-col border-b xl:border-b-0 xl:border-r border-green-1"
     >
       <div v-if="avatarSrc" class="flex justify-center mt-9">
-        <img
+        <StackImage
           class="avatar rounded-full object-cover"
           width="300"
           height="300"
-          :src="replaceStack(avatarSrc, 'avatar')"
+          :url="avatarSrc"
+          stack="avatar"
           :alt="`Profilbild von ${user.firstName} ${user.lastName}`"
         />
       </div>
@@ -109,21 +110,21 @@
 </template>
 
 <script lang="ts">
-import type { User } from "@/api/models/types";
 import { AttachmentKey, DateMode } from "@/api/models/types";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
-import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { Options, Vue } from "vue-class-component";
+import StackImage from "../components/StackImage.vue";
 
 @Options({
   components: {
     ProfileSection,
     ArrowDown,
+    StackImage,
   },
 })
 export default class StudentProfile extends Vue {
@@ -169,10 +170,6 @@ export default class StudentProfile extends Vue {
     } else {
       return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
     }
-  }
-
-  replaceStack(url: string, stack: string) {
-    return replaceStack(url, stack);
   }
 
   getStepName(step: number) {
