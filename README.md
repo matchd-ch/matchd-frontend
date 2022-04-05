@@ -12,7 +12,7 @@ Matchd is a VUE 2 based project and uses a GraphQL as its main (and only) API. A
 ## Project setup
 
 ```shell
-$ npm install
+$ npm ci
 ```
 
 ### Compiles and hot-reloads for development
@@ -54,9 +54,9 @@ To generate JSON Schemas and its respective Typescript types you can do the foll
 ```shell
 $ npm i -g apollo graphql
 
-$ graphql:introspection
+$ npm run graphql:introspection
 
-$ graphql:codegen
+$ npm run graphql:codegen
 
 ## Or use the following command to run both commands in a row succession.
 
