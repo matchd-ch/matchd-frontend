@@ -52,8 +52,6 @@ https://api.development.matchd.ch/graphql/
 To generate JSON Schemas and its respective Typescript types you can do the following:
 
 ```shell
-$ npm i -g apollo graphql
-
 $ npm run graphql:introspection
 
 $ npm run graphql:codegen
