@@ -37,7 +37,7 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: Run test suite
-        run: npm run test:unit
+        run: npm run test:ct
 
   lint:
     name: "Lint"
@@ -66,4 +66,4 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: Run Linter
-        run: npm run lint -- --no-fix
+        run: npm run test:lint
