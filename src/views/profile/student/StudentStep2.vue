@@ -77,7 +77,7 @@
             rules="requiredIfNotEmpty:jobToDateMonth"
           >
             <option value disabled selected hidden>Jahr</option>
-            <option v-for="n in validYears" :key="`jobToDateYear_${n}`">{{ n }}</option>
+            <option v-for="n in validYears" :key="`jobToDateYear_${n}`" :value="n">{{ n }}</option>
           </Field>
         </fieldset>
       </MatchdSelect>

@@ -49,8 +49,9 @@
       :errors="veeForm.errors.languages"
       @click-append-language="onClickAppendLanguage"
       @click-remove-language="onClickRemoveLanguage"
-      ><template #label>Sprachkenntnisse*</template></LanguagePicker
     >
+      <template #label>Sprachkenntnisse*</template>
+    </LanguagePicker>
     <!-- Online Projects Field -->
     <MatchdField id="onlineProjects" class="mb-10">
       <template #label>Deine Onlineprojekte</template>
