@@ -1,0 +1,6 @@
+fragment projectPostingsProjectPosting on ProjectPosting {
+  id
+  slug
+  title
+  displayTitle
+}

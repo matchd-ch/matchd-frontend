@@ -5,7 +5,6 @@ import type {
   Company,
   CulturalFit,
   Dashboard,
-  JobPosting,
   JobRequirement,
   JobType,
   Keyword,
@@ -20,7 +19,10 @@ import type {
   Topic,
   ZipCity,
 } from "@/api/models/types";
+import { JobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsJobPostingFragment.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
+import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsProjectPostingFragment.generated";
 
 export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
 
@@ -78,7 +80,7 @@ export type State = {
   };
   projectPostings: {
     loading: boolean;
-    data: ProjectPosting[];
+    data: ProjectPostingsProjectPostingFragment[];
   };
   projectTypes: {
     loading: boolean;
@@ -110,11 +112,11 @@ export type State = {
   };
   jobPostings: {
     loading: boolean;
-    data: JobPosting[];
+    data: JobPostingsJobPostingFragment[];
   };
   jobPosting: {
     loading: boolean;
-    data: JobPosting | null;
+    data: JobPostingFragment | null;
   };
   topics: {
     loading: boolean;

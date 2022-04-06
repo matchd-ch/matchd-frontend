@@ -5,7 +5,6 @@ import type {
   Company,
   CulturalFit,
   Dashboard,
-  JobPosting,
   JobPostingMatchInfo,
   JobRequirement,
   JobType,
@@ -22,6 +21,9 @@ import type {
   Topic,
   ZipCity,
 } from "@/api/models/types";
+import { JobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsJobPostingFragment.generated";
+import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsProjectPostingFragment.generated";
 import {
   CompanyDashboard,
   GroupedJobPostingMatching,
@@ -46,8 +48,8 @@ export type Getters = {
   culturalFits(state: State): CulturalFit[];
   companyDashboard(state: State): CompanyDashboard | null;
   dashboard(state: State): Dashboard | null;
-  jobPostingDetail(state: State): JobPosting | null;
-  jobPostings(state: State): JobPosting[];
+  jobPostingDetail(state: State): JobPostingFragment | null;
+  jobPostings(state: State): JobPostingsJobPostingFragment[];
   jobRequirements(state: State): JobRequirement[];
   jobTypes(state: State): JobType[];
   languages(state: State): Language[];
@@ -62,7 +64,7 @@ export type Getters = {
     imageFallback: Attachment | null;
     documents: Attachment[];
   };
-  projectPostings(state: State): ProjectPosting[];
+  projectPostings(state: State): ProjectPostingsProjectPostingFragment[];
   projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];

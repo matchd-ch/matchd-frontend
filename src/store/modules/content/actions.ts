@@ -13,8 +13,8 @@ import { CompanyDocument } from "@/api/queries/company.generated";
 import companyMatchingQuery from "@/api/queries/companyMatching.gql";
 import { CulturalFitsDocument } from "@/api/queries/culturalFits.generated";
 import dashboardQuery from "@/api/queries/dashboard.gql";
-import jobPostingQuery from "@/api/queries/jobPosting.gql";
-import jobPostingsQuery from "@/api/queries/jobPostings.gql";
+import { JobPostingDocument } from "@/api/queries/jobPosting.generated";
+import { JobPostingsDocument } from "@/api/queries/jobPostings.generated";
 import jobRequirementsQuery from "@/api/queries/jobRequirements.gql";
 import { JobTypesDocument } from "@/api/queries/jobTypes.generated";
 import keywordsQuery from "@/api/queries/keywords.gql";
@@ -22,6 +22,7 @@ import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
 import { LanguagesDocument } from "@/api/queries/languages.generated";
 import { MatchingDocument } from "@/api/queries/matching.generated";
 import projectPostingQuery from "@/api/queries/projectPosting.gql";
+import { ProjectPostingsDocument } from "@/api/queries/projectPostings.generated";
 import projectPostingsQuery from "@/api/queries/projectPostings.gql";
 import projectTypesQuery from "@/api/queries/projectTypes.gql";
 import { SkillsDocument } from "@/api/queries/skills.generated";
@@ -193,7 +194,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.JOB_POSTING]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.JOB_POSTING_LOADING);
     const response = await apiClient.query({
-      query: jobPostingQuery,
+      query: JobPostingDocument,
       fetchPolicy: "no-cache",
       variables: payload,
       context: {
@@ -207,7 +208,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.JOB_POSTINGS]({ commit }) {
     commit(MutationTypes.JOB_POSTINGS_LOADING);
     const response = await apiClient.query({
-      query: jobPostingsQuery,
+      query: JobPostingsDocument,
       fetchPolicy: "no-cache",
       context: {
         batch: true,
@@ -342,7 +343,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.PROJECT_POSTINGS]({ commit }) {
     commit(MutationTypes.PROJECT_POSTINGS_LOADING);
     const response = await apiClient.query({
-      query: projectPostingsQuery,
+      query: ProjectPostingsDocument,
       fetchPolicy: "no-cache",
       context: {
         batch: true,

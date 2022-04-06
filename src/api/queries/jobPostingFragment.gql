@@ -1,0 +1,65 @@
+fragment jobPosting on JobPosting {
+  id
+  title
+  displayTitle
+  description
+  jobFromDate
+  jobToDate
+  datePublished
+  url
+  workload
+  formStep
+  state
+  matchStatus {
+    initiator
+    confirmed
+  }
+  company {
+    id
+    slug
+    name
+    street
+    zip
+    city
+    type
+  }
+  jobType {
+    id
+    name
+  }
+  branches {
+    id
+    name
+  }
+  skills {
+    id
+    name
+  }
+  jobRequirements(first: 100) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+  languages {
+    id
+    language {
+      id
+      name
+    }
+    languageLevel {
+      id
+      level
+      description
+    }
+  }
+  employee {
+    id
+    firstName
+    lastName
+    email
+    phone
+  }
+}

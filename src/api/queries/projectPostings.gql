@@ -1,11 +1,10 @@
+#import "./projectPostingsProjectPostingFragment.gql"
+
 query projectPostings {
   projectPostings(first: 100) {
     edges {
       node {
-        id
-        slug
-        title
-        displayTitle
+        ...projectPostingsProjectPosting
       }
     }
   }

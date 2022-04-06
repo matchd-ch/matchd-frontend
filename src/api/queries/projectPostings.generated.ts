@@ -1,6 +1,7 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
+import { ProjectPostingsProjectPostingFragmentDoc } from "./projectPostingsProjectPostingFragment.generated";
 export type ProjectPostingsQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type ProjectPostingsQuery = {
@@ -55,10 +56,10 @@ export const ProjectPostingsDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "slug" } },
-                            { kind: "Field", name: { kind: "Name", value: "title" } },
-                            { kind: "Field", name: { kind: "Name", value: "displayTitle" } },
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "projectPostingsProjectPosting" },
+                            },
                           ],
                         },
                       },
@@ -71,5 +72,6 @@ export const ProjectPostingsDocument = {
         ],
       },
     },
+    ...ProjectPostingsProjectPostingFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<ProjectPostingsQuery, ProjectPostingsQueryVariables>;

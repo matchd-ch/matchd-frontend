@@ -128,7 +128,6 @@
 </template>
 
 <script lang="ts">
-import type { JobPosting } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
@@ -167,15 +166,15 @@ export default class JobPostingDetail extends Vue {
   showConfirmationModal = false;
   showFullMatchModal = false;
 
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get branchesLabel(): string {
+  get branchesLabel() {
     return this.jobPosting?.branches.map((branch) => branch.name).join(", ") || "";
   }
 
-  get hasBranches(): boolean {
+  get hasBranches() {
     return this.jobPosting ? this.jobPosting?.branches.length > 0 : false;
   }
 
@@ -183,19 +182,19 @@ export default class JobPostingDetail extends Vue {
     return this.$store.getters["user"];
   }
 
-  get matchLoading(): boolean {
+  get matchLoading() {
     return this.$store.getters["matchLoading"];
   }
 
-  get jobPosting(): JobPosting | null {
+  get jobPosting() {
     return this.$store.getters["jobPostingDetail"];
   }
 
-  get matchTypeEnum(): typeof MatchTypeEnum {
+  get matchTypeEnum() {
     return MatchTypeEnum;
   }
 
-  get matchType(): MatchTypeEnum {
+  get matchType() {
     if (this.jobPosting?.matchStatus === null) {
       return MatchTypeEnum.EmptyMatch;
     } else if (
@@ -213,19 +212,19 @@ export default class JobPostingDetail extends Vue {
     }
   }
 
-  replaceStack(url: string, stack: string): string {
+  replaceStack(url: string, stack: string) {
     return replaceStack(url, stack);
   }
 
-  formatDate(isoString: string): string {
+  formatDate(isoString: string) {
     return formatDate(isoString, "LLLL yyyy");
   }
 
-  formatDateWithDay(isoString: string): string {
+  formatDateWithDay(isoString: string) {
     return formatDate(isoString, "DDD");
   }
 
-  nl2br(text: string): string {
+  nl2br(text: string) {
     return nl2br(text);
   }
 
@@ -240,14 +239,14 @@ export default class JobPostingDetail extends Vue {
     next();
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
       calculateMargins();
     }
   }
 
-  async loadData(slug: string): Promise<void> {
+  async loadData(slug: string) {
     try {
       await this.$store.dispatch(ActionTypes.JOB_POSTING, { slug });
       this.meta.meta.title = `${this.jobPosting?.title} bei ${this.jobPosting?.company.name}`;
@@ -257,7 +256,7 @@ export default class JobPostingDetail extends Vue {
     }
   }
 
-  async mutateMatch(): Promise<void> {
+  async mutateMatch() {
     if (this.jobPosting?.id) {
       await this.$store.dispatch(ActionTypes.MATCH_JOB_POSTING, {
         jobPosting: {
@@ -270,22 +269,22 @@ export default class JobPostingDetail extends Vue {
     }
   }
 
-  async onClickMatchConfirm(): Promise<void> {
+  async onClickMatchConfirm() {
     await this.mutateMatch();
   }
 
-  onClickCancel(): void {
+  onClickCancel() {
     this.showConfirmationModal = false;
   }
 
-  onClickClose(): void {
+  onClickClose() {
     this.showFullMatchModal = false;
   }
 
-  onClickMatch(): void {
+  onClickMatch() {
     this.showConfirmationModal = true;
   }
-  detailSiteRoute(type: string): string {
+  detailSiteRoute(type: string) {
     return type === ProfileType.University ? "UniversityDetail" : "CompanyDetail";
   }
 }

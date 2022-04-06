@@ -2,7 +2,6 @@ import type {
   Attachment,
   Company,
   Dashboard,
-  JobPosting,
   KeywordConnection,
   Match,
   MatchJobPostingPayload,
@@ -19,11 +18,14 @@ import { BenefitsQuery } from "@/api/queries/benefits.generated";
 import { BranchesQuery } from "@/api/queries/branches.generated";
 import { CompanyQuery } from "@/api/queries/company.generated";
 import { CulturalFitsQuery } from "@/api/queries/culturalFits.generated";
+import { JobPostingQuery } from "@/api/queries/jobPosting.generated";
+import { JobPostingsQuery } from "@/api/queries/jobPostings.generated";
 import { JobRequirementsQuery } from "@/api/queries/jobRequirements.generated";
 import { JobTypesQuery } from "@/api/queries/jobTypes.generated";
 import { LanguageLevelsQuery } from "@/api/queries/languageLevels.generated";
 import { LanguagesQuery } from "@/api/queries/languages.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
+import { ProjectPostingsQuery } from "@/api/queries/projectPostings.generated";
 import { SkillsQuery } from "@/api/queries/skills.generated";
 import { SoftSkillsQuery } from "@/api/queries/softSkills.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
@@ -45,9 +47,9 @@ export type Mutations<S = State> = {
   [MutationTypes.DASHBOARD_LOADING](state: S): void;
   [MutationTypes.DASHBOARD_LOADED](state: S, payload: { dashboard: Dashboard | null }): void;
   [MutationTypes.JOB_POSTING_LOADING](state: S): void;
-  [MutationTypes.JOB_POSTING_LOADED](state: S, payload: { jobPosting: JobPosting }): void;
+  [MutationTypes.JOB_POSTING_LOADED](state: S, payload: JobPostingQuery): void;
   [MutationTypes.JOB_POSTINGS_LOADING](state: S): void;
-  [MutationTypes.JOB_POSTINGS_LOADED](state: S, payload: { jobPostings: JobPosting[] }): void;
+  [MutationTypes.JOB_POSTINGS_LOADED](state: S, payload: JobPostingsQuery): void;
   [MutationTypes.JOB_REQUIREMENTS_LOADING](state: S): void;
   [MutationTypes.JOB_REQUIREMENTS_LOADED](state: S, payload: JobRequirementsQuery): void;
   [MutationTypes.JOB_TYPES_LOADING](state: S): void;
@@ -79,10 +81,7 @@ export type Mutations<S = State> = {
     payload: { projectPosting: ProjectPosting }
   ): void;
   [MutationTypes.PROJECT_POSTINGS_LOADING](state: S): void;
-  [MutationTypes.PROJECT_POSTINGS_LOADED](
-    state: S,
-    payload: { projectPostings: ProjectPosting[] }
-  ): void;
+  [MutationTypes.PROJECT_POSTINGS_LOADED](state: S, payload: ProjectPostingsQuery): void;
   [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
   [MutationTypes.PROJECT_TYPES_LOADED](
     state: S,
@@ -178,16 +177,18 @@ export const mutations: MutationTree<State> & Mutations = {
     state.jobPosting.loading = true;
     state.jobPosting.data = null;
   },
-  [MutationTypes.JOB_POSTING_LOADED](state: State, payload: { jobPosting: JobPosting }) {
+  [MutationTypes.JOB_POSTING_LOADED](state: State, payload: JobPostingQuery) {
     state.jobPosting.loading = false;
-    state.jobPosting.data = payload.jobPosting;
+    state.jobPosting.data = payload.jobPosting ?? null;
   },
   [MutationTypes.JOB_POSTINGS_LOADING](state: State) {
     state.jobPostings.loading = true;
   },
-  [MutationTypes.JOB_POSTINGS_LOADED](state: State, payload: { jobPostings: JobPosting[] }) {
+  [MutationTypes.JOB_POSTINGS_LOADED](state: State, payload: JobPostingsQuery) {
     state.jobPostings.loading = false;
-    state.jobPostings.data = payload.jobPostings;
+    state.jobPostings.data = ensureNoNullsAndUndefineds(
+      payload.jobPostings?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.JOB_REQUIREMENTS_LOADING](state: State) {
     state.jobRequirements.loading = true;
@@ -318,12 +319,11 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.PROJECT_POSTINGS_LOADING](state: State) {
     state.projectPostings.loading = true;
   },
-  [MutationTypes.PROJECT_POSTINGS_LOADED](
-    state: State,
-    payload: { projectPostings: ProjectPosting[] }
-  ) {
+  [MutationTypes.PROJECT_POSTINGS_LOADED](state: State, payload: ProjectPostingsQuery) {
     state.projectPostings.loading = false;
-    state.projectPostings.data = payload.projectPostings;
+    state.projectPostings.data = ensureNoNullsAndUndefineds(
+      payload.projectPostings?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.PROJECT_TYPES_LOADING](state: State) {
     state.projectTypes.loading = true;
@@ -334,7 +334,7 @@ export const mutations: MutationTree<State> & Mutations = {
   ) {
     state.projectTypes.loading = false;
     state.projectTypes.data = ensureNoNullsAndUndefineds(
-      payload.projectTypes.edges.filter((edge) => edge?.node).map((edge) => edge?.node)
+      payload.projectTypes.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
     );
   },
   [MutationTypes.RESET_MATCHES](state: State) {

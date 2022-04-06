@@ -2552,10 +2552,26 @@ declare module "*/jobPosting.gql" {
   export default defaultDocument;
 }
 
+declare module "*/jobPostingFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const jobPosting: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/jobPostings.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const jobPostings: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/jobPostingsJobPostingFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const jobPostingsJobPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2632,6 +2648,14 @@ declare module "*/projectPostings.gql" {
   export default defaultDocument;
 }
 
+declare module "*/projectPostingsProjectPostingFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const projectPostingsProjectPosting: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/projectTypes.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -2704,6 +2728,89 @@ declare module "*/zipCityJobs.gql" {
   export default defaultDocument;
 }
 
+export const JobPosting = gql`
+  fragment jobPosting on JobPosting {
+    id
+    title
+    displayTitle
+    description
+    jobFromDate
+    jobToDate
+    datePublished
+    url
+    workload
+    formStep
+    state
+    matchStatus {
+      initiator
+      confirmed
+    }
+    company {
+      id
+      slug
+      name
+      street
+      zip
+      city
+      type
+    }
+    jobType {
+      id
+      name
+    }
+    branches {
+      id
+      name
+    }
+    skills {
+      id
+      name
+    }
+    jobRequirements(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+    languages {
+      id
+      language {
+        id
+        name
+      }
+      languageLevel {
+        id
+        level
+        description
+      }
+    }
+    employee {
+      id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+`;
+export const JobPostingsJobPosting = gql`
+  fragment jobPostingsJobPosting on JobPosting {
+    id
+    slug
+    title
+    displayTitle
+  }
+`;
+export const ProjectPostingsProjectPosting = gql`
+  fragment projectPostingsProjectPosting on ProjectPosting {
+    id
+    slug
+    title
+    displayTitle
+  }
+`;
 const AddEmployee = gql`
   mutation addEmployee($firstName: String!, $lastName: String!, $email: String!, $role: String!) {
     addEmployee(input: { firstName: $firstName, lastName: $lastName, email: $email, role: $role }) {
@@ -3460,85 +3567,22 @@ const Employees = gql`
 const JobPosting = gql`
   query jobPosting($id: String, $slug: String) {
     jobPosting(id: $id, slug: $slug) {
-      id
-      title
-      displayTitle
-      description
-      jobFromDate
-      jobToDate
-      datePublished
-      url
-      workload
-      formStep
-      state
-      matchStatus {
-        initiator
-        confirmed
-      }
-      company {
-        id
-        slug
-        name
-        street
-        zip
-        city
-        type
-      }
-      jobType {
-        id
-        name
-      }
-      branches {
-        id
-        name
-      }
-      skills {
-        id
-        name
-      }
-      jobRequirements(first: 100) {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-      languages {
-        id
-        language {
-          id
-          name
-        }
-        languageLevel {
-          id
-          level
-          description
-        }
-      }
-      employee {
-        id
-        firstName
-        lastName
-        email
-        phone
-      }
+      ...jobPosting
     }
   }
+  ${JobPosting}
 `;
 const JobPostings = gql`
   query jobPostings {
     jobPostings(first: 100) {
       edges {
         node {
-          id
-          slug
-          title
-          displayTitle
+          ...jobPostingsJobPosting
         }
       }
     }
   }
+  ${JobPostingsJobPosting}
 `;
 const JobRequirements = gql`
   query jobRequirements {
@@ -3893,14 +3937,12 @@ const ProjectPostings = gql`
     projectPostings(first: 100) {
       edges {
         node {
-          id
-          slug
-          title
-          displayTitle
+          ...projectPostingsProjectPosting
         }
       }
     }
   }
+  ${ProjectPostingsProjectPosting}
 `;
 const ProjectTypes = gql`
   query projectTypes {
