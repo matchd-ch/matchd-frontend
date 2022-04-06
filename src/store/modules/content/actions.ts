@@ -242,7 +242,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const response = await apiClient.query({
       query: LanguagesDocument,
       variables: {
-        shortList: !!payload?.shortList,
+        ...(payload?.shortList !== undefined && { shortList: !!payload.shortList }),
       },
       context: {
         batch: true,

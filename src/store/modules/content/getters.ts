@@ -148,28 +148,28 @@ export const getters: GetterTree<State, RootState> & Getters = {
   dashboard(state: State) {
     return state.dashboard.data;
   },
-  jobPostingDetail(state: State): JobPosting | null {
+  jobPostingDetail(state: State) {
     return state.jobPosting.data;
   },
-  jobPostings(state: State): JobPosting[] {
+  jobPostings(state: State) {
     return state.jobPostings.data;
   },
-  jobRequirements(state: State): JobRequirement[] {
+  jobRequirements(state: State) {
     return state.jobRequirements.data;
   },
-  jobTypes(state: State): JobType[] {
+  jobTypes(state: State) {
     return state.jobTypes.data;
   },
-  keywords(state: State): Keyword[] {
+  keywords(state: State) {
     return state.keywords.data;
   },
-  languages(state: State): Language[] {
+  languages(state: State) {
     return state.languages.data;
   },
-  languageLevels(state: State): LanguageLevel[] {
+  languageLevels(state: State) {
     return state.languages.levels;
   },
-  matchesForBubbles(state: State): SearchResultBubbleData {
+  matchesForBubbles(state: State) {
     return {
       nodes: [
         {
@@ -205,7 +205,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
       }),
     };
   },
-  matchesForGrid(state: State): SearchResult[] {
+  matchesForGrid(state: State) {
     return state.matches.data.map((match) => {
       return {
         id: match.slug,
@@ -224,41 +224,31 @@ export const getters: GetterTree<State, RootState> & Getters = {
       };
     });
   },
-  matchLoading(state: State): boolean {
+  matchLoading(state: State) {
     return state.match.loading;
   },
-  projectPostingDetail(state: State): {
-    data: ProjectPosting | null;
-    images: Attachment[];
-    imageFallback: Attachment | null;
-    documents: Attachment[];
-  } {
+  projectPostingDetail(state: State) {
     return state.projectPosting;
   },
-  projectPostings(state: State): ProjectPosting[] {
+  projectPostings(state: State) {
     return state.projectPostings.data;
   },
-  projectTypes(state: State): ProjectType[] {
+  projectTypes(state: State) {
     return state.projectTypes.data;
   },
-  skills(state: State): Skill[] {
+  skills(state: State) {
     return state.skills.data;
   },
-  softSkills(state: State): SoftSkill[] {
+  softSkills(state: State) {
     return state.softSkills.data;
   },
-  student(state: State): {
-    data: Student | null;
-    avatar: Attachment | null;
-    avatarFallback: Attachment | null;
-    certificates: Attachment[];
-  } {
+  student(state: State) {
     return state.student;
   },
-  topics(state: State): Topic[] {
+  topics(state: State) {
     return state.topics.data;
   },
-  zipCityJobs(state: State): ZipCity[] {
+  zipCityJobs(state: State) {
     return state.matches.zipCityJobs;
   },
 };
