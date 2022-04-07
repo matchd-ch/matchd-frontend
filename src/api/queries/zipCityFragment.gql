@@ -1,0 +1,5 @@
+fragment zipCityZipCity on ZipCity {
+    zip
+    city
+    canton
+}

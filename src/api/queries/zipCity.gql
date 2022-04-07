@@ -1,7 +1,7 @@
+#import "./zipCityFargment.gql"
+
 query zipCity {
   zipCity {
-    zip
-    city
-    canton
+    ...zipCityZipCity
   }
 }

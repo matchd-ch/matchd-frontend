@@ -5,7 +5,6 @@ import type {
   MatchJobPostingPayload,
   MatchProjectPostingPayload,
   MatchStudentPayload,
-  ZipCity,
 } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import { BenefitsQuery } from "@/api/queries/benefits.generated";
@@ -28,6 +27,7 @@ import { SkillsQuery } from "@/api/queries/skills.generated";
 import { SoftSkillsQuery } from "@/api/queries/softSkills.generated";
 import { StudentQuery } from "@/api/queries/student.generated";
 import { TopicsQuery } from "@/api/queries/topics.generated";
+import { ZipCityJobsQuery } from "@/api/queries/zipCityJobs.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { State } from "@/store/modules/content/state";
 import { MutationTree } from "vuex";
@@ -91,7 +91,7 @@ export type Mutations<S = State> = {
   [MutationTypes.TOPICS_LOADING](state: S): void;
   [MutationTypes.TOPICS_LOADED](state: S, payload: TopicsQuery): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
-  [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
+  [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: ZipCityJobsQuery): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -365,7 +365,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: State) {
     state.matches.zipCityJobsLoading = true;
   },
-  [MutationTypes.ZIP_CITY_JOBS_LOADED](state: State, payload: { zipCityJobs: ZipCity[] }) {
+  [MutationTypes.ZIP_CITY_JOBS_LOADED](state: State, payload: ZipCityJobsQuery) {
     state.matches.zipCityJobsLoading = false;
     state.matches.zipCityJobs = payload.zipCityJobs;
   },

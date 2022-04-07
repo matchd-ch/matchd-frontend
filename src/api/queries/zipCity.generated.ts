@@ -1,6 +1,7 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
+import { ZipCityZipCityFragmentDoc } from "./zipCityFragment.generated";
 export type ZipCityQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type ZipCityQuery = {
@@ -24,14 +25,13 @@ export const ZipCityDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "zip" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "canton" } },
+                { kind: "FragmentSpread", name: { kind: "Name", value: "zipCityZipCity" } },
               ],
             },
           },
         ],
       },
     },
+    ...ZipCityZipCityFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<ZipCityQuery, ZipCityQueryVariables>;

@@ -28,8 +28,7 @@ import { SkillsDocument } from "@/api/queries/skills.generated";
 import { SoftSkillsDocument } from "@/api/queries/softSkills.generated";
 import { StudentDocument } from "@/api/queries/student.generated";
 import { TopicsDocument } from "@/api/queries/topics.generated";
-import topicsQuery from "@/api/queries/topics.gql";
-import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
+import { ZipCityJobsDocument } from "@/api/queries/zipCityJobs.generated";
 import { MatchingInput } from "@/models/MatchingInput";
 import { ZipCityJobsInput } from "@/models/ZipCityJobsInput";
 import { RootState } from "@/store";
@@ -403,7 +402,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.ZIP_CITY_JOBS]({ commit }, payload?: ZipCityJobsInput) {
     commit(MutationTypes.ZIP_CITY_JOBS_LOADING);
     const response = await apiClient.query({
-      query: zipCityJobsQuery,
+      query: ZipCityJobsDocument,
       variables: payload,
       fetchPolicy: "no-cache",
       context: {

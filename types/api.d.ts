@@ -2766,6 +2766,14 @@ declare module "*/zipCity.gql" {
   export default defaultDocument;
 }
 
+declare module "*/zipCityFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const zipCityZipCity: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/zipCityJobs.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -3073,6 +3081,13 @@ export const TopicsTopic = gql`
   fragment topicsTopic on Topic {
     id
     name
+  }
+`;
+export const ZipCityZipCity = gql`
+  fragment zipCityZipCity on ZipCity {
+    zip
+    city
+    canton
   }
 `;
 const AddEmployee = gql`
@@ -4255,11 +4270,10 @@ const VerifyPasswordResetToken = gql`
 const ZipCity = gql`
   query zipCity {
     zipCity {
-      zip
-      city
-      canton
+      ...zipCityZipCity
     }
   }
+  ${ZipCityZipCity}
 `;
 const ZipCityJobs = gql`
   query zipCityJobs($branchId: String, $jobTypeId: String) {
