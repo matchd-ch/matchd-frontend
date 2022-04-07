@@ -49,7 +49,7 @@
         >
           <li v-for="document in projectPosting.documents" :key="document.id">
             <a
-              :href="replaceStack(document.url)"
+              :href="replaceStack(document.url, '')"
               target="_blank"
               download
               class="underline hover:text-orange-1 transition-colors"
@@ -173,7 +173,6 @@
 </template>
 
 <script lang="ts">
-import type { Attachment, ProjectPosting } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
@@ -189,6 +188,7 @@ import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ParamStrings } from "@/router/paramStrings";
+import { State } from "@/store/modules/content";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
@@ -236,12 +236,7 @@ export default class ProjectPostingDetail extends Vue {
     return "";
   }
 
-  get projectPosting(): {
-    data: ProjectPosting | null;
-    images: Attachment[];
-    imageFallback: Attachment | null;
-    documents: Attachment[];
-  } {
+  get projectPosting(): State["projectPosting"] {
     return this.$store.getters["projectPostingDetail"];
   }
 

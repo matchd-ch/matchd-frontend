@@ -11,7 +11,6 @@ import type {
   Language,
   LanguageLevel,
   Match,
-  ProjectPosting,
   ProjectType,
   Skill,
   SoftSkill,
@@ -22,6 +21,12 @@ import type {
 import { JobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsJobPostingFragment.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
+import {
+  ProjectPostingDocumentFragment,
+  ProjectPostingFragment,
+  ProjectPostingImageFallbackFragment,
+  ProjectPostingImageFragment,
+} from "@/api/queries/projectPostingFragment.generated";
 import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsProjectPostingFragment.generated";
 
 export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
@@ -73,10 +78,10 @@ export type State = {
   };
   projectPosting: {
     loading: boolean;
-    data: ProjectPosting | null;
-    images: Attachment[];
-    imageFallback: Attachment | null;
-    documents: Attachment[];
+    data: ProjectPostingFragment | null;
+    images: ProjectPostingImageFragment[];
+    imageFallback: ProjectPostingImageFallbackFragment | null;
+    documents: ProjectPostingDocumentFragment[];
   };
   projectPostings: {
     loading: boolean;

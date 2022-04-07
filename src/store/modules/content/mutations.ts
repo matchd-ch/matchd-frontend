@@ -3,11 +3,9 @@ import type {
   Company,
   Dashboard,
   KeywordConnection,
-  Match,
   MatchJobPostingPayload,
   MatchProjectPostingPayload,
   MatchStudentPayload,
-  ProjectPosting,
   ProjectTypeConnection,
   Student,
   TopicConnection,
@@ -17,6 +15,7 @@ import { ProfileType } from "@/api/models/types";
 import { BenefitsQuery } from "@/api/queries/benefits.generated";
 import { BranchesQuery } from "@/api/queries/branches.generated";
 import { CompanyQuery } from "@/api/queries/company.generated";
+import { CompanyMatchingQuery } from "@/api/queries/companyMatching.generated";
 import { CulturalFitsQuery } from "@/api/queries/culturalFits.generated";
 import { JobPostingQuery } from "@/api/queries/jobPosting.generated";
 import { JobPostingsQuery } from "@/api/queries/jobPostings.generated";
@@ -25,6 +24,7 @@ import { JobTypesQuery } from "@/api/queries/jobTypes.generated";
 import { LanguageLevelsQuery } from "@/api/queries/languageLevels.generated";
 import { LanguagesQuery } from "@/api/queries/languages.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
+import { ProjectPostingQuery } from "@/api/queries/projectPosting.generated";
 import { ProjectPostingsQuery } from "@/api/queries/projectPostings.generated";
 import { SkillsQuery } from "@/api/queries/skills.generated";
 import { SoftSkillsQuery } from "@/api/queries/softSkills.generated";
@@ -41,7 +41,7 @@ export type Mutations<S = State> = {
   [MutationTypes.COMPANY_LOADING](state: S): void;
   [MutationTypes.COMPANY_LOADED](state: S, payload: CompanyQuery): void;
   [MutationTypes.COMPANY_MATCHING_LOADING](state: S): void;
-  [MutationTypes.COMPANY_MATCHING_LOADED](state: S, payload: { matches: Match[] }): void;
+  [MutationTypes.COMPANY_MATCHING_LOADED](state: S, payload: CompanyMatchingQuery): void;
   [MutationTypes.CULTURAL_FITS_LOADING](state: S): void;
   [MutationTypes.CULTURAL_FITS_LOADED](state: S, payload: CulturalFitsQuery): void;
   [MutationTypes.DASHBOARD_LOADING](state: S): void;
@@ -76,10 +76,7 @@ export type Mutations<S = State> = {
   [MutationTypes.MATCHES_LOADING](state: S): void;
   [MutationTypes.MATCHES_LOADED](state: S, payload: MatchingQuery["matches"]): void;
   [MutationTypes.PROJECT_POSTING_LOADING](state: S): void;
-  [MutationTypes.PROJECT_POSTING_LOADED](
-    state: S,
-    payload: { projectPosting: ProjectPosting }
-  ): void;
+  [MutationTypes.PROJECT_POSTING_LOADED](state: S, payload: ProjectPostingQuery): void;
   [MutationTypes.PROJECT_POSTINGS_LOADING](state: S): void;
   [MutationTypes.PROJECT_POSTINGS_LOADED](state: S, payload: ProjectPostingsQuery): void;
   [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
@@ -150,9 +147,9 @@ export const mutations: MutationTree<State> & Mutations = {
     state.companyMatching.loading = true;
     state.companyMatching.data = [];
   },
-  [MutationTypes.COMPANY_MATCHING_LOADED](state: State, payload: { matches: Match[] }) {
+  [MutationTypes.COMPANY_MATCHING_LOADED](state: State, payload: CompanyMatchingQuery) {
     state.companyMatching.loading = false;
-    state.companyMatching.data = payload.matches;
+    state.companyMatching.data = ensureNoNullsAndUndefineds(payload.matches ?? []);
   },
   [MutationTypes.CULTURAL_FITS_LOADING](state: State) {
     state.culturalFits.loading = true;
@@ -299,22 +296,16 @@ export const mutations: MutationTree<State> & Mutations = {
     state.projectPosting.documents = [];
     state.projectPosting.imageFallback = null;
   },
-  [MutationTypes.PROJECT_POSTING_LOADED](
-    state: State,
-    payload: {
-      projectPosting: ProjectPosting;
-      images: Attachment[];
-      documents: Attachment[];
-      imageFallback: Attachment[];
-    }
-  ) {
+  [MutationTypes.PROJECT_POSTING_LOADED](state: State, payload: ProjectPostingQuery) {
     state.projectPosting.loading = false;
-    state.projectPosting.data = payload.projectPosting;
-    state.projectPosting.images = payload.images;
-    if (payload.imageFallback.length > 0) {
-      state.projectPosting.imageFallback = payload.imageFallback[0];
-    }
-    state.projectPosting.documents = payload.documents;
+    state.projectPosting.data = payload.projectPosting || null;
+    state.projectPosting.images = ensureNoNullsAndUndefineds(
+      payload.images?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
+    state.projectPosting.imageFallback = payload.imageFallback?.edges[0]?.node || null;
+    state.projectPosting.documents = ensureNoNullsAndUndefineds(
+      payload.documents?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+    );
   },
   [MutationTypes.PROJECT_POSTINGS_LOADING](state: State) {
     state.projectPostings.loading = true;

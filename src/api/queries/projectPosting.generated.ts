@@ -1,6 +1,12 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
+import {
+  ProjectPostingFragmentDoc,
+  ProjectPostingImageFragmentDoc,
+  ProjectPostingImageFallbackFragmentDoc,
+  ProjectPostingDocumentFragmentDoc,
+} from "./projectPostingFragment.generated";
 export type ProjectPostingQueryVariables = Types.Exact<{
   id?: Types.InputMaybe<Types.Scalars["String"]>;
   slug?: Types.InputMaybe<Types.Scalars["String"]>;
@@ -54,6 +60,7 @@ export type ProjectPostingQuery = {
       lastName?: string | null;
       email?: string | null;
       phone?: string | null;
+      role: string;
     } | null;
   } | null;
   images?: {
@@ -137,105 +144,7 @@ export const ProjectPostingDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "slug" } },
-                { kind: "Field", name: { kind: "Name", value: "title" } },
-                { kind: "Field", name: { kind: "Name", value: "displayTitle" } },
-                { kind: "Field", name: { kind: "Name", value: "description" } },
-                { kind: "Field", name: { kind: "Name", value: "additionalInformation" } },
-                { kind: "Field", name: { kind: "Name", value: "formStep" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-                { kind: "Field", name: { kind: "Name", value: "projectFromDate" } },
-                { kind: "Field", name: { kind: "Name", value: "datePublished" } },
-                { kind: "Field", name: { kind: "Name", value: "website" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "matchStatus" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "initiator" } },
-                      { kind: "Field", name: { kind: "Name", value: "confirmed" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "topic" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "projectType" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "keywords" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "company" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "slug" } },
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                      { kind: "Field", name: { kind: "Name", value: "street" } },
-                      { kind: "Field", name: { kind: "Name", value: "zip" } },
-                      { kind: "Field", name: { kind: "Name", value: "city" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "student" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "slug" } },
-                      { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                      { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                      { kind: "Field", name: { kind: "Name", value: "nickname" } },
-                      { kind: "Field", name: { kind: "Name", value: "city" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "employee" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                      { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                      { kind: "Field", name: { kind: "Name", value: "email" } },
-                      { kind: "Field", name: { kind: "Name", value: "phone" } },
-                    ],
-                  },
-                },
+                { kind: "FragmentSpread", name: { kind: "Name", value: "projectPosting" } },
               ],
             },
           },
@@ -275,10 +184,10 @@ export const ProjectPostingDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "fileName" } },
-                            { kind: "Field", name: { kind: "Name", value: "url" } },
-                            { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "projectPostingImage" },
+                            },
                           ],
                         },
                       },
@@ -324,10 +233,10 @@ export const ProjectPostingDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "fileName" } },
-                            { kind: "Field", name: { kind: "Name", value: "url" } },
-                            { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "projectPostingImageFallback" },
+                            },
                           ],
                         },
                       },
@@ -373,10 +282,10 @@ export const ProjectPostingDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "fileName" } },
-                            { kind: "Field", name: { kind: "Name", value: "url" } },
-                            { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "projectPostingDocument" },
+                            },
                           ],
                         },
                       },
@@ -389,5 +298,9 @@ export const ProjectPostingDocument = {
         ],
       },
     },
+    ...ProjectPostingFragmentDoc.definitions,
+    ...ProjectPostingImageFragmentDoc.definitions,
+    ...ProjectPostingImageFallbackFragmentDoc.definitions,
+    ...ProjectPostingDocumentFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<ProjectPostingQuery, ProjectPostingQueryVariables>;

@@ -12,7 +12,6 @@ import type {
   Language,
   LanguageLevel,
   Match,
-  ProjectPosting,
   ProjectPostingMatchInfo,
   ProjectType,
   Skill,
@@ -23,6 +22,12 @@ import type {
 } from "@/api/models/types";
 import { JobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsJobPostingFragment.generated";
+import {
+  ProjectPostingDocumentFragment,
+  ProjectPostingFragment,
+  ProjectPostingImageFallbackFragment,
+  ProjectPostingImageFragment,
+} from "@/api/queries/projectPostingFragment.generated";
 import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsProjectPostingFragment.generated";
 import {
   CompanyDashboard,
@@ -58,12 +63,7 @@ export type Getters = {
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
   matchLoading(state: State): boolean;
-  projectPostingDetail(state: State): {
-    data: ProjectPosting | null;
-    images: Attachment[];
-    imageFallback: Attachment | null;
-    documents: Attachment[];
-  };
+  projectPostingDetail(state: State): State["projectPosting"];
   projectPostings(state: State): ProjectPostingsProjectPostingFragment[];
   projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];

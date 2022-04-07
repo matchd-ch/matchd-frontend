@@ -2640,6 +2640,17 @@ declare module "*/projectPosting.gql" {
   export default defaultDocument;
 }
 
+declare module "*/projectPostingFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const projectPosting: DocumentNode;
+  export const projectPostingImage: DocumentNode;
+  export const projectPostingImageFallback: DocumentNode;
+  export const projectPostingDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/projectPostings.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -2801,6 +2812,85 @@ export const JobPostingsJobPosting = gql`
     slug
     title
     displayTitle
+  }
+`;
+export const ProjectPosting = gql`
+  fragment projectPosting on ProjectPosting {
+    id
+    slug
+    title
+    displayTitle
+    description
+    additionalInformation
+    formStep
+    state
+    projectFromDate
+    datePublished
+    website
+    matchStatus {
+      initiator
+      confirmed
+    }
+    topic {
+      id
+      name
+    }
+    projectType {
+      id
+      name
+    }
+    keywords {
+      id
+      name
+    }
+    company {
+      id
+      slug
+      name
+      street
+      zip
+      city
+    }
+    student {
+      id
+      slug
+      firstName
+      lastName
+      nickname
+      city
+    }
+    employee {
+      id
+      firstName
+      lastName
+      email
+      phone
+      role
+    }
+  }
+`;
+export const ProjectPostingImage = gql`
+  fragment projectPostingImage on Attachment {
+    id
+    fileName
+    url
+    mimeType
+  }
+`;
+export const ProjectPostingImageFallback = gql`
+  fragment projectPostingImageFallback on Attachment {
+    id
+    fileName
+    url
+    mimeType
+  }
+`;
+export const ProjectPostingDocument = gql`
+  fragment projectPostingDocument on Attachment {
+    id
+    fileName
+    url
+    mimeType
   }
 `;
 export const ProjectPostingsProjectPosting = gql`
@@ -3849,88 +3939,34 @@ const Me = gql`
 const ProjectPosting = gql`
   query projectPosting($id: String, $slug: String) {
     projectPosting(id: $id, slug: $slug) {
-      id
-      slug
-      title
-      displayTitle
-      description
-      additionalInformation
-      formStep
-      state
-      projectFromDate
-      datePublished
-      website
-      matchStatus {
-        initiator
-        confirmed
-      }
-      topic {
-        id
-        name
-      }
-      projectType {
-        id
-        name
-      }
-      keywords {
-        id
-        name
-      }
-      company {
-        id
-        slug
-        name
-        street
-        zip
-        city
-      }
-      student {
-        id
-        slug
-        firstName
-        lastName
-        nickname
-        city
-      }
-      employee {
-        id
-        firstName
-        lastName
-        email
-        phone
-      }
+      ...projectPosting
     }
     images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug, first: 100) {
       edges {
         node {
-          id
-          fileName
-          url
-          mimeType
+          ...projectPostingImage
         }
       }
     }
     imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug, first: 100) {
       edges {
         node {
-          id
-          fileName
-          url
-          mimeType
+          ...projectPostingImageFallback
         }
       }
     }
     documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug, first: 100) {
       edges {
         node {
-          id
-          fileName
-          url
-          mimeType
+          ...projectPostingDocument
         }
       }
     }
   }
+  ${ProjectPosting}
+  ${ProjectPostingImage}
+  ${ProjectPostingImageFallback}
+  ${ProjectPostingDocument}
 `;
 const ProjectPostings = gql`
   query projectPostings {
