@@ -24,11 +24,10 @@ import { MatchingDocument } from "@/api/queries/matching.generated";
 import { ProjectPostingDocument } from "@/api/queries/projectPosting.generated";
 import { ProjectPostingsDocument } from "@/api/queries/projectPostings.generated";
 import { ProjectTypesDocument } from "@/api/queries/projectTypes.generated";
-import projectTypesQuery from "@/api/queries/projectTypes.gql";
 import { SkillsDocument } from "@/api/queries/skills.generated";
 import { SoftSkillsDocument } from "@/api/queries/softSkills.generated";
 import { StudentDocument } from "@/api/queries/student.generated";
-import studentQuery from "@/api/queries/student.gql";
+import { TopicsDocument } from "@/api/queries/topics.generated";
 import topicsQuery from "@/api/queries/topics.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
 import { MatchingInput } from "@/models/MatchingInput";
@@ -394,7 +393,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.TOPICS]({ commit }) {
     commit(MutationTypes.TOPICS_LOADING);
     const response = await apiClient.query({
-      query: topicsQuery,
+      query: TopicsDocument,
       context: {
         batch: true,
       },

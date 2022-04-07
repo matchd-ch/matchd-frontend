@@ -2734,6 +2734,14 @@ declare module "*/topics.gql" {
   export default defaultDocument;
 }
 
+declare module "*/topicsFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const topicsTopic: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/uploadConfigurations.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -3059,6 +3067,12 @@ export const StudentCertificates = gql`
     url
     mimeType
     fileName
+  }
+`;
+export const TopicsTopic = gql`
+  fragment topicsTopic on Topic {
+    id
+    name
   }
 `;
 const AddEmployee = gql`
@@ -4214,12 +4228,12 @@ const Topics = gql`
     topics(first: 100) {
       edges {
         node {
-          id
-          name
+          ...topicsTopic
         }
       }
     }
   }
+  ${TopicsTopic}
 `;
 const UploadConfigurations = gql`
   query uploadConfigurations {

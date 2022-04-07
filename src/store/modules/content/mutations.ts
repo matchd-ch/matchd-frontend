@@ -5,7 +5,6 @@ import type {
   MatchJobPostingPayload,
   MatchProjectPostingPayload,
   MatchStudentPayload,
-  TopicConnection,
   ZipCity,
 } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
@@ -28,6 +27,7 @@ import { ProjectTypesQuery } from "@/api/queries/projectTypes.generated";
 import { SkillsQuery } from "@/api/queries/skills.generated";
 import { SoftSkillsQuery } from "@/api/queries/softSkills.generated";
 import { StudentQuery } from "@/api/queries/student.generated";
+import { TopicsQuery } from "@/api/queries/topics.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { State } from "@/store/modules/content/state";
 import { MutationTree } from "vuex";
@@ -89,7 +89,7 @@ export type Mutations<S = State> = {
   [MutationTypes.STUDENT_LOADING](state: S): void;
   [MutationTypes.STUDENT_LOADED](state: S, payload: StudentQuery): void;
   [MutationTypes.TOPICS_LOADING](state: S): void;
-  [MutationTypes.TOPICS_LOADED](state: S, payload: { topics: TopicConnection }): void;
+  [MutationTypes.TOPICS_LOADED](state: S, payload: TopicsQuery): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADED](state: S, payload: { zipCityJobs: ZipCity[] }): void;
 };
@@ -356,10 +356,10 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.TOPICS_LOADING](state: State) {
     state.topics.loading = true;
   },
-  [MutationTypes.TOPICS_LOADED](state: State, payload: { topics: TopicConnection }) {
+  [MutationTypes.TOPICS_LOADED](state: State, payload: TopicsQuery) {
     state.topics.loading = false;
     state.topics.data = ensureNoNullsAndUndefineds(
-      payload.topics.edges.filter((edge) => edge?.node).map((edge) => edge?.node)
+      payload.topics?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
     );
   },
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: State) {

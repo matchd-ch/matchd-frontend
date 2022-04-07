@@ -12,7 +12,6 @@ import type {
   Match,
   Skill,
   SoftSkill,
-  Topic,
   ZipCity,
 } from "@/api/models/types";
 import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
@@ -33,6 +32,7 @@ import {
   StudentCertificatesFragment,
   StudentStudentFragment,
 } from "@/api/queries/studentFragment.generated";
+import { TopicsTopicFragment } from "@/api/queries/topicsFragment.generated";
 
 export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
 
@@ -130,7 +130,7 @@ export type State = {
   };
   topics: {
     loading: boolean;
-    data: Topic[];
+    data: TopicsTopicFragment[];
   };
 };
 

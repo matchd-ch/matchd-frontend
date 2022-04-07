@@ -1,9 +1,10 @@
+#import "./topicsFragment.gql"
+
 query topics {
   topics(first: 100) {
     edges {
       node {
-        id
-        name
+        ...topicsTopic
       }
     }
   }
