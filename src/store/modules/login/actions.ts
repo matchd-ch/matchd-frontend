@@ -1,5 +1,5 @@
 import { createApolloClient } from "@/api/apollo-client";
-import logoutMutation from "@/api/mutations/logout.gql";
+import { LogoutDocument } from "@/api/mutations/logout.generated";
 import passwordResetMutation from "@/api/mutations/passwordReset.gql";
 import refreshTokenMutation from "@/api/mutations/refreshToken.gql";
 import sendPasswordResetEmailMutation from "@/api/mutations/sendPasswordResetEmail.gql";
@@ -57,10 +57,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.LOGOUT]({ commit }) {
     commit(MutationTypes.LOGOUT_LOADING);
     const response = await apiClient.mutate({
-      mutation: logoutMutation,
+      mutation: LogoutDocument,
     });
     await apiClient.resetStore();
-    commit(MutationTypes.LOGOUT_LOADED, response.data.logout);
+    commit(MutationTypes.LOGOUT_LOADED, response);
   },
   async [ActionTypes.REFRESH_LOGIN]({ commit, getters }) {
     commit(MutationTypes.REFRESH_LOGIN_LOADING);

@@ -1,8 +1,9 @@
 import type { ProjectPosting } from "@/api/models/types";
 import { ProjectPostingStep1Form } from "@/models/ProjectPostingStep1Form";
+import { ProjectPostingProjectPostingFragment } from "../queries/projectPostingFragment.generated";
 
 export function projectPostingStep1FormMapper(
-  projectPosting: ProjectPosting | null
+  projectPosting: ProjectPostingProjectPostingFragment | null
 ): ProjectPostingStep1Form {
   return {
     title: projectPosting?.title || "",

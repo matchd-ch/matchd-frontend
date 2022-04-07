@@ -1,4 +1,4 @@
-import type { ProjectPosting } from "@/api/models/types";
+import { ProjectPostingProjectPostingFragment } from "@/api/queries/projectPostingFragment.generated";
 import { ProjectPostingState } from "@/models/ProjectPostingState";
 import { RootState } from "@/store";
 import { GetterTree } from "vuex";
@@ -9,14 +9,14 @@ export type Getters = {
   projectPostingState(state: State): ProjectPostingState;
   projectPostingId(state: State): string;
   currentProjectPostingStep(state: State): number;
-  currentProjectPosting(state: State): ProjectPosting | null;
+  currentProjectPosting(state: State): ProjectPostingProjectPostingFragment | null;
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
-  projectPostingLoading(state: State): boolean {
+  projectPostingLoading(state: State) {
     return state.projectPosting.loading;
   },
-  projectPostingState(state: State): ProjectPostingState {
+  projectPostingState(state: State) {
     return {
       success: state.projectPosting.success,
       errors: state.projectPosting.errors || null,
@@ -24,13 +24,13 @@ export const getters: GetterTree<State, RootState> & Getters = {
       slug: state.projectPosting.slug,
     };
   },
-  projectPostingId(state: State): string {
+  projectPostingId(state: State) {
     return state.projectPosting.id;
   },
-  currentProjectPostingStep(state: State): number {
+  currentProjectPostingStep(state: State) {
     return state.currentProjectPosting.data?.formStep || 1;
   },
-  currentProjectPosting(state: State): ProjectPosting | null {
+  currentProjectPosting(state: State) {
     return state.currentProjectPosting.data;
   },
 };

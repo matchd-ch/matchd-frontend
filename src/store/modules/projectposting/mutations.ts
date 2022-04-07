@@ -6,6 +6,7 @@ import type {
   ProjectPostingBaseDataPayload,
   ProjectPostingSpecificDataPayload,
 } from "@/api/models/types";
+import { ProjectPostingQuery } from "@/api/queries/projectPosting.generated";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { State } from "@/store/modules/projectposting/state";
 import { MutationTree } from "vuex";
@@ -20,7 +21,7 @@ export type Mutations<S = State> = {
   [MutationTypes.PROJECTPOSTING_STEP_LOADING](state: S): void;
   [MutationTypes.PROJECTPOSTING_STEP_LOADED](state: S, payload: ProjectPostingSteps): void;
   [MutationTypes.PROJECTPOSTING_LOADING](state: S): void;
-  [MutationTypes.PROJECTPOSTING_LOADED](state: S, payload: ProjectPosting): void;
+  [MutationTypes.PROJECTPOSTING_LOADED](state: S, payload: ProjectPostingQuery): void;
   [MutationTypes.CLEAR_CURRENT_PROJECTPOSTING](state: S): void;
   [MutationTypes.ADD_EMPLOYEE_LOADING](state: S): void;
   [MutationTypes.ADD_EMPLOYEE_LOADED](state: S, payload: AddEmployeePayload): void;
@@ -44,9 +45,9 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.PROJECTPOSTING_LOADING](state: State) {
     state.currentProjectPosting.loading = true;
   },
-  [MutationTypes.PROJECTPOSTING_LOADED](state: State, payload: ProjectPosting) {
+  [MutationTypes.PROJECTPOSTING_LOADED](state: State, payload: ProjectPostingQuery) {
     state.currentProjectPosting.loading = false;
-    state.currentProjectPosting.data = payload;
+    state.currentProjectPosting.data = payload.projectPosting || null;
   },
   [MutationTypes.CLEAR_CURRENT_PROJECTPOSTING](state: State) {
     state.currentProjectPosting.data = null;

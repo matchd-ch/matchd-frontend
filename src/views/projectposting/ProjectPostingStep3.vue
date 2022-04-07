@@ -62,7 +62,9 @@
             class="mb-2 xl:mr-4 xl:mb-0"
             @click="onClickBack"
           >
-            <template v-if="currentProjectPosting?.formStep > 2">Abbrechen</template>
+            <template v-if="currentProjectPosting?.formStep && currentProjectPosting.formStep > 2"
+              >Abbrechen</template
+            >
             <template v-else>Zurück zu Schritt 1</template>
           </MatchdButton>
           <MatchdButton
@@ -81,7 +83,6 @@
 <script lang="ts">
 import { projectPostingStep3FormMapper } from "@/api/mappers/projectPostingStep3FormMapper";
 import { projectPostingStep3InputMapper } from "@/api/mappers/projectPostingStep3InputMapper";
-import type { Employee, ProjectPosting as ProjectPostingType } from "@/api/models/types";
 import { ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -90,7 +91,6 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import AddEmployeeForm from "@/containers/AddEmployeeForm.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { ProjectPostingState } from "@/models/ProjectPostingState";
 import { ProjectPostingStep3Form } from "@/models/ProjectPostingStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes as JobPostingActionTypes } from "@/store/modules/jobposting/action-types";
@@ -118,7 +118,7 @@ export default class ProjectPostingStep3 extends Vue {
     const form = useForm<ProjectPostingStep3Form>();
     const { value: state } = useField<ProjectPostingStateEnum>("state");
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+    const onSubmit = form.handleSubmit(async (formData) => {
       try {
         if (store.getters["currentProjectPosting"]?.id) {
           await store.dispatch(
@@ -148,34 +148,34 @@ export default class ProjectPostingStep3 extends Vue {
     return ProjectPostingStateEnum;
   }
 
-  get projectPostingData(): ProjectPostingStep3Form {
+  get projectPostingData() {
     if (!this.currentProjectPosting) {
       return {} as ProjectPostingStep3Form;
     }
     return projectPostingStep3FormMapper(this.currentProjectPosting, this.user?.employee);
   }
 
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get projectPostingLoading(): boolean {
+  get projectPostingLoading() {
     return this.$store.getters["projectPostingLoading"];
   }
 
-  get projectPostingState(): ProjectPostingState {
+  get projectPostingState() {
     return this.$store.getters["projectPostingState"];
   }
 
-  get addEmployeeLoading(): boolean {
+  get addEmployeeLoading() {
     return this.$store.getters["addEmployeeLoading"];
   }
 
-  get currentProjectPosting(): ProjectPostingType | null {
+  get currentProjectPosting() {
     return this.$store.getters["currentProjectPosting"];
   }
 
-  get employees(): Employee[] {
+  get employees() {
     return this.$store.getters["employees"];
   }
 
@@ -183,7 +183,7 @@ export default class ProjectPostingStep3 extends Vue {
     return this.$store.getters["user"];
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     if (!this.isStudent) {
       await this.$store.dispatch(JobPostingActionTypes.EMPLOYEES);
     }
@@ -194,25 +194,25 @@ export default class ProjectPostingStep3 extends Vue {
     calculateMargins();
   }
 
-  onClickBack(): void {
+  onClickBack() {
     this.$emit("navigateBack");
   }
 
-  onChangeState(event: Event): void {
+  onChangeState(event: Event) {
     const target = event.target as HTMLInputElement;
     this.veeForm.state = target.checked
       ? ProjectPostingStateEnum.Public
       : ProjectPostingStateEnum.Draft;
   }
 
-  onClickClose(): void {
+  onClickClose() {
     this.veeForm.resetForm({
       values: this.projectPostingData,
     });
     this.showEmployeeForm = false;
   }
 
-  async onAddEmployeeComplete(): Promise<void> {
+  async onAddEmployeeComplete() {
     this.showEmployeeForm = false;
     await this.$store.dispatch(JobPostingActionTypes.EMPLOYEES);
     const latestEmployee = this.employees[this.employees.length - 1];
@@ -220,7 +220,7 @@ export default class ProjectPostingStep3 extends Vue {
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }

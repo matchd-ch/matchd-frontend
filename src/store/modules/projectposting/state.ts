@@ -1,4 +1,5 @@
 import type { Employee, ProjectPosting } from "@/api/models/types";
+import { ProjectPostingProjectPostingFragment } from "@/api/queries/projectPostingFragment.generated";
 import { MatchdApiError } from "@/models/MatchdApiError";
 
 export type State = {
@@ -11,7 +12,7 @@ export type State = {
   };
   currentProjectPosting: {
     loading: boolean;
-    data: ProjectPosting | null;
+    data: ProjectPostingProjectPostingFragment | null;
   };
   employees: {
     loading: boolean;

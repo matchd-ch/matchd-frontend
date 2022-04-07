@@ -161,7 +161,7 @@
 <script lang="ts">
 import { projectPostingStep1FormMapper } from "@/api/mappers/projectPostingStep1FormMapper";
 import { projectPostingStep1InputMapper } from "@/api/mappers/projectPostingStep1InputMapper";
-import type { Keyword, ProjectPosting as ProjectPostingType } from "@/api/models/types";
+import type { Keyword } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -171,7 +171,6 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { ProjectPostingState } from "@/models/ProjectPostingState";
 import { ProjectPostingStep1Form } from "@/models/ProjectPostingStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
@@ -224,15 +223,15 @@ export default class ProjectPostingStep1 extends Vue {
   filteredKeywords: Keyword[] = [];
   keywordInput = "";
 
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get currentProjectPosting(): ProjectPostingType | null {
+  get currentProjectPosting() {
     return this.$store.getters["currentProjectPosting"];
   }
 
-  get projectPostingData(): ProjectPostingStep1Form {
+  get projectPostingData() {
     return projectPostingStep1FormMapper(this.currentProjectPosting);
   }
 
@@ -252,7 +251,7 @@ export default class ProjectPostingStep1 extends Vue {
     });
   }
 
-  get hasProjectPostings(): boolean {
+  get hasProjectPostings() {
     return !!this.$store.getters["projectPostings"].length;
   }
 
@@ -264,11 +263,11 @@ export default class ProjectPostingStep1 extends Vue {
     return this.$store.getters["topics"];
   }
 
-  get projectPostingLoading(): boolean {
+  get projectPostingLoading() {
     return this.$store.getters["projectPostingLoading"];
   }
 
-  get projectPostingState(): ProjectPostingState {
+  get projectPostingState() {
     return this.$store.getters["projectPostingState"];
   }
 
@@ -276,7 +275,7 @@ export default class ProjectPostingStep1 extends Vue {
     return this.$store.getters["user"];
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(ContentActionsTypes.KEYWORDS),
       this.$store.dispatch(ContentActionsTypes.PROJECT_TYPES),
@@ -290,7 +289,7 @@ export default class ProjectPostingStep1 extends Vue {
     calculateMargins();
   }
 
-  onInputKeyword(): void {
+  onInputKeyword() {
     if (this.keywordInput.length < 1) {
       this.filteredKeywords = [];
       return;
@@ -300,32 +299,32 @@ export default class ProjectPostingStep1 extends Vue {
     );
   }
 
-  onSelectKeyword(keyword: Keyword): void {
+  onSelectKeyword(keyword: Keyword) {
     this.keywordInput = "";
     this.veeForm.keywords = [...this.veeForm.keywords, keyword.id];
     this.onInputKeyword();
   }
 
-  onPressEnterKeyword(): void {
+  onPressEnterKeyword() {
     if (this.filteredKeywords.length === 1) {
       this.onSelectKeyword(this.filteredKeywords[0]);
     }
   }
 
-  onRemoveKeyword(keyword: Keyword): void {
+  onRemoveKeyword(keyword: Keyword) {
     this.veeForm.keywords = this.veeForm.keywords.filter((id) => id !== keyword.id);
   }
 
-  onChangeProjectType(projectTypeId: string): void {
+  onChangeProjectType(projectTypeId: string) {
     this.veeForm.setFieldValue("projectTypeId", projectTypeId);
   }
 
-  onChangeTopic(topicId: string): void {
+  onChangeTopic(topicId: string) {
     this.veeForm.setFieldValue("topicId", topicId);
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }

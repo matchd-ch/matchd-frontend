@@ -7,7 +7,7 @@ import type {
 import { ProjectPostingAllocationDocument } from "@/api/mutations/projectPostingAllocation.generated";
 import { ProjectPostingBaseDataDocument } from "@/api/mutations/projectPostingBaseData.generated";
 import { ProjectPostingSpecificDataDocument } from "@/api/mutations/projectPostingSpecificData.generated";
-import projectPostingQuery from "@/api/queries/projectPosting.gql";
+import { ProjectPostingDocument } from "@/api/queries/projectPosting.generated";
 import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/projectposting/mutation-types";
 import { Mutations } from "@/store/modules/projectposting/mutations";
@@ -87,10 +87,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.PROJECTPOSTING]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.PROJECTPOSTING_LOADING);
     const response = await apiClient.query({
-      query: projectPostingQuery,
+      query: ProjectPostingDocument,
       variables: payload,
       fetchPolicy: "no-cache",
     });
-    commit(MutationTypes.PROJECTPOSTING_LOADED, response.data.projectPosting);
+    commit(MutationTypes.PROJECTPOSTING_LOADED, response.data);
   },
 };

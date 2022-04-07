@@ -40,7 +40,6 @@
 </template>
 
 <script lang="ts">
-import type { ProjectPosting as ProjectPostingType } from "@/api/models/types";
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
@@ -71,30 +70,30 @@ export default class ProjectPostingCreate extends Vue {
   urlStepNumber: number | null = null;
   requestedCurrentProjectPosting = false;
 
-  get isStudent(): boolean {
+  get isStudent() {
     return this.$store.getters["isStudent"];
   }
 
-  get paramStrings(): typeof ParamStrings {
+  get paramStrings() {
     return ParamStrings;
   }
 
-  get currentStep(): number | null {
+  get currentStep() {
     return this.urlStepNumber;
   }
 
-  get projectPostingCreateComponent(): string {
+  get projectPostingCreateComponent() {
     if (this.urlStepNumber) {
       return `ProjectPostingStep${this.currentStep}`;
     }
     return "";
   }
 
-  get currentProjectPosting(): ProjectPostingType | null {
+  get currentProjectPosting() {
     return this.$store.getters["currentProjectPosting"];
   }
 
-  get projectPostingId(): string {
+  get projectPostingId() {
     return this.$store.getters["projectPostingId"];
   }
 
@@ -102,7 +101,7 @@ export default class ProjectPostingCreate extends Vue {
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
     next: NavigationGuardNext
-  ): Promise<void> {
+  ) {
     if (this.dirty && !this.confirmLeaveDirtyForm()) {
       next(false);
     } else {
@@ -120,7 +119,7 @@ export default class ProjectPostingCreate extends Vue {
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
     next: NavigationGuardNext
-  ): Promise<void> {
+  ) {
     if (this.dirty && !this.confirmLeaveDirtyForm()) {
       next(false);
     } else {
@@ -128,7 +127,7 @@ export default class ProjectPostingCreate extends Vue {
     }
   }
 
-  mounted(): void {
+  mounted() {
     this.urlStepNumber = parseStepName(String(this.$route.params.step));
     if (this.$route.params?.slug && this.$route.params?.slug !== ParamStrings.NEW) {
       this.meta.meta.title = `Projekt bearbeiten - ${this.currentProjectPosting?.title}`;
@@ -137,16 +136,9 @@ export default class ProjectPostingCreate extends Vue {
       this.meta.meta.title = "Projekt ausschreiben";
       this.clearCurrentProjectPosting();
     }
-
-    // this.urlStepNumber = parseStepName(String(to.params.step));
-    // if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
-    //   await this.loadProjectPostingWithSlug(String(to.params.slug));
-    // } else {
-    //   this.clearCurrentProjectPosting();
-    // }
   }
 
-  async onSubmitComplete(): Promise<void> {
+  async onSubmitComplete() {
     this.dirty = false;
     if (this.$route.params?.slug === ParamStrings.NEW) {
       await this.$router.replace({
@@ -168,7 +160,7 @@ export default class ProjectPostingCreate extends Vue {
     }
   }
 
-  async onNavigateBack(): Promise<void> {
+  async onNavigateBack() {
     if (this.currentProjectPosting?.formStep && this.currentProjectPosting?.formStep >= 3) {
       this.$router.push({ name: "Dashboard" });
     } else if (this.currentStep) {
@@ -180,21 +172,21 @@ export default class ProjectPostingCreate extends Vue {
     }
   }
 
-  onChangeDirty(dirty: boolean): void {
+  onChangeDirty(dirty: boolean) {
     this.dirty = dirty;
   }
 
-  confirmLeaveDirtyForm(): boolean {
+  confirmLeaveDirtyForm() {
     return window.confirm(
       "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
     );
   }
 
-  clearCurrentProjectPosting(): void {
+  clearCurrentProjectPosting() {
     this.$store.commit(MutationTypes.CLEAR_CURRENT_PROJECTPOSTING);
   }
 
-  async loadProjectPostingWithSlug(slug: string): Promise<void> {
+  async loadProjectPostingWithSlug(slug: string) {
     this.requestedCurrentProjectPosting = true;
     await this.$store.dispatch(ActionTypes.PROJECTPOSTING, { slug });
   }
