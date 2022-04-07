@@ -2683,6 +2683,14 @@ declare module "*/projectTypes.gql" {
   export default defaultDocument;
 }
 
+declare module "*/projectTypesFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const projectTypesProjectType: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/skills.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -2703,6 +2711,17 @@ declare module "*/student.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const student: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/studentFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const studentStudent: DocumentNode;
+  export const studentAvatar: DocumentNode;
+  export const studentAvatarFallback: DocumentNode;
+  export const studentCertificates: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2913,6 +2932,133 @@ export const ProjectPostingsProjectPosting = gql`
     slug
     title
     displayTitle
+  }
+`;
+export const ProjectTypesProjectType = gql`
+  fragment projectTypesProjectType on ProjectType {
+    id
+    name
+  }
+`;
+export const StudentStudent = gql`
+  fragment studentStudent on Student {
+    id
+    email
+    mobile
+    slug
+    state
+    firstName
+    lastName
+    street
+    zip
+    city
+    dateOfBirth
+    nickname
+    schoolName
+    fieldOfStudy
+    graduation
+    distinction
+    profileStep
+    jobFromDate
+    jobToDate
+    matchStatus {
+      initiator
+      confirmed
+    }
+    branch {
+      name
+      id
+    }
+    jobType {
+      name
+      id
+      mode
+    }
+    skills(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+    softSkills(first: 100) {
+      edges {
+        node {
+          id
+          student
+          company
+        }
+      }
+    }
+    culturalFits(first: 100) {
+      edges {
+        node {
+          id
+          company
+          student
+        }
+      }
+    }
+    hobbies {
+      id
+      name
+    }
+    onlineProjects {
+      id
+      url
+    }
+    languages(first: 100) {
+      edges {
+        node {
+          id
+          language {
+            name
+            id
+          }
+          languageLevel {
+            level
+            id
+          }
+        }
+      }
+    }
+    projectPostings {
+      id
+      title
+      displayTitle
+      slug
+      topic {
+        id
+        name
+      }
+      projectType {
+        id
+        name
+      }
+    }
+  }
+`;
+export const StudentAvatar = gql`
+  fragment studentAvatar on Attachment {
+    id
+    url
+    mimeType
+  }
+`;
+export const StudentAvatarFallback = gql`
+  fragment studentAvatarFallback on Attachment {
+    id
+    url
+    mimeType
+  }
+`;
+export const StudentCertificates = gql`
+  fragment studentCertificates on Attachment {
+    id
+    url
+    mimeType
+    fileName
   }
 `;
 const AddEmployee = gql`
@@ -3999,12 +4145,12 @@ const ProjectTypes = gql`
     projectTypes(first: 100) {
       edges {
         node {
-          id
-          name
+          ...projectTypesProjectType
         }
       }
     }
   }
+  ${ProjectTypesProjectType}
 `;
 const Skills = gql`
   query skills {
@@ -4034,129 +4180,34 @@ const SoftSkills = gql`
 const Student = gql`
   query student($slug: String!, $jobPostingId: String) {
     student(slug: $slug, jobPostingId: $jobPostingId) {
-      id
-      email
-      mobile
-      slug
-      state
-      firstName
-      lastName
-      street
-      zip
-      city
-      dateOfBirth
-      nickname
-      schoolName
-      fieldOfStudy
-      graduation
-      distinction
-      profileStep
-      jobFromDate
-      jobToDate
-      matchStatus {
-        initiator
-        confirmed
-      }
-      branch {
-        name
-        id
-      }
-      jobType {
-        name
-        id
-        mode
-      }
-      skills(first: 100) {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-      softSkills(first: 100) {
-        edges {
-          node {
-            id
-            student
-            company
-          }
-        }
-      }
-      culturalFits(first: 100) {
-        edges {
-          node {
-            id
-            company
-            student
-          }
-        }
-      }
-      hobbies {
-        id
-        name
-      }
-      onlineProjects {
-        id
-        url
-      }
-      languages(first: 100) {
-        edges {
-          node {
-            language {
-              name
-              id
-            }
-            languageLevel {
-              level
-              id
-            }
-          }
-        }
-      }
-      projectPostings {
-        title
-        displayTitle
-        slug
-        topic {
-          id
-          name
-        }
-        projectType {
-          id
-          name
-        }
-      }
+      ...studentStudent
     }
     avatar: attachments(key: STUDENT_AVATAR, slug: $slug, first: 100) {
       edges {
         node {
-          id
-          url
-          mimeType
+          ...studentAvatar
         }
       }
     }
     avatarFallback: attachments(key: STUDENT_AVATAR_FALLBACK, slug: $slug, first: 100) {
       edges {
         node {
-          id
-          url
-          mimeType
+          ...studentAvatarFallback
         }
       }
     }
     certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug, first: 100) {
       edges {
         node {
-          id
-          url
-          mimeType
-          fileName
+          ...studentCertificates
         }
       }
     }
   }
+  ${StudentStudent}
+  ${StudentAvatar}
+  ${StudentAvatarFallback}
+  ${StudentCertificates}
 `;
 const Topics = gql`
   query topics {

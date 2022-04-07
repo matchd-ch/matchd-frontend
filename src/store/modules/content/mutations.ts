@@ -5,8 +5,6 @@ import type {
   MatchJobPostingPayload,
   MatchProjectPostingPayload,
   MatchStudentPayload,
-  ProjectTypeConnection,
-  Student,
   TopicConnection,
   ZipCity,
 } from "@/api/models/types";
@@ -26,8 +24,10 @@ import { LanguagesQuery } from "@/api/queries/languages.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
 import { ProjectPostingQuery } from "@/api/queries/projectPosting.generated";
 import { ProjectPostingsQuery } from "@/api/queries/projectPostings.generated";
+import { ProjectTypesQuery } from "@/api/queries/projectTypes.generated";
 import { SkillsQuery } from "@/api/queries/skills.generated";
 import { SoftSkillsQuery } from "@/api/queries/softSkills.generated";
+import { StudentQuery } from "@/api/queries/student.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { State } from "@/store/modules/content/state";
 import { MutationTree } from "vuex";
@@ -80,25 +80,14 @@ export type Mutations<S = State> = {
   [MutationTypes.PROJECT_POSTINGS_LOADING](state: S): void;
   [MutationTypes.PROJECT_POSTINGS_LOADED](state: S, payload: ProjectPostingsQuery): void;
   [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
-  [MutationTypes.PROJECT_TYPES_LOADED](
-    state: S,
-    payload: { projectTypes: ProjectTypeConnection }
-  ): void;
+  [MutationTypes.PROJECT_TYPES_LOADED](state: S, payload: ProjectTypesQuery): void;
   [MutationTypes.RESET_MATCHES](state: S): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: SkillsQuery): void;
   [MutationTypes.SOFT_SKILLS_LOADING](state: S): void;
   [MutationTypes.SOFT_SKILLS_LOADED](state: S, payload: SoftSkillsQuery): void;
   [MutationTypes.STUDENT_LOADING](state: S): void;
-  [MutationTypes.STUDENT_LOADED](
-    state: S,
-    payload: {
-      student: Student;
-      avatar: Attachment[];
-      avatarFallback: Attachment[];
-      certificates: Attachment[];
-    }
-  ): void;
+  [MutationTypes.STUDENT_LOADED](state: S, payload: StudentQuery): void;
   [MutationTypes.TOPICS_LOADING](state: S): void;
   [MutationTypes.TOPICS_LOADED](state: S, payload: { topics: TopicConnection }): void;
   [MutationTypes.ZIP_CITY_JOBS_LOADING](state: S): void;
@@ -319,13 +308,10 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.PROJECT_TYPES_LOADING](state: State) {
     state.projectTypes.loading = true;
   },
-  [MutationTypes.PROJECT_TYPES_LOADED](
-    state: State,
-    payload: { projectTypes: ProjectTypeConnection }
-  ) {
+  [MutationTypes.PROJECT_TYPES_LOADED](state: State, payload: ProjectTypesQuery) {
     state.projectTypes.loading = false;
     state.projectTypes.data = ensureNoNullsAndUndefineds(
-      payload.projectTypes.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.projectTypes?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
     );
   },
   [MutationTypes.RESET_MATCHES](state: State) {
@@ -356,21 +342,15 @@ export const mutations: MutationTree<State> & Mutations = {
     state.student.avatarFallback = null;
     state.student.certificates = [];
   },
-  [MutationTypes.STUDENT_LOADED](
-    state: State,
-    payload: {
-      student: Student | null;
-      avatar: Attachment[];
-      avatarFallback: Attachment[];
-      certificates: Attachment[];
-    }
-  ) {
+  [MutationTypes.STUDENT_LOADED](state: State, payload: StudentQuery) {
     state.student = {
       loading: false,
-      data: payload.student,
-      avatar: payload.avatar?.[0] ?? null,
-      avatarFallback: payload.avatarFallback?.[0] ?? null,
-      certificates: payload.certificates,
+      data: payload.student ?? null,
+      avatar: payload.avatar?.edges.filter((edge) => edge?.node)[0]?.node ?? null,
+      avatarFallback: payload.avatarFallback?.edges.filter((edge) => edge?.node)[0]?.node ?? null,
+      certificates: ensureNoNullsAndUndefineds(
+        payload.certificates?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      ),
     };
   },
   [MutationTypes.TOPICS_LOADING](state: State) {

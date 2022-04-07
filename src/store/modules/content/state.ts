@@ -10,10 +10,8 @@ import type {
   Language,
   LanguageLevel,
   Match,
-  ProjectType,
   Skill,
   SoftSkill,
-  Student,
   Topic,
   ZipCity,
 } from "@/api/models/types";
@@ -28,6 +26,13 @@ import {
   ProjectPostingProjectPostingFragment,
 } from "@/api/queries/projectPostingFragment.generated";
 import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsFragment.generated";
+import { ProjectTypesProjectTypeFragment } from "@/api/queries/projectTypesFragment.generated";
+import {
+  StudentAvatarFallbackFragment,
+  StudentAvatarFragment,
+  StudentCertificatesFragment,
+  StudentStudentFragment,
+} from "@/api/queries/studentFragment.generated";
 
 export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
 
@@ -89,7 +94,7 @@ export type State = {
   };
   projectTypes: {
     loading: boolean;
-    data: ProjectType[];
+    data: ProjectTypesProjectTypeFragment[];
   };
   skills: {
     loading: boolean;
@@ -101,10 +106,10 @@ export type State = {
   };
   student: {
     loading: boolean;
-    data: Student | null;
-    avatar: Attachment | null;
-    avatarFallback: Attachment | null;
-    certificates: Attachment[];
+    data: StudentStudentFragment | null;
+    avatar: StudentAvatarFragment | null;
+    avatarFallback: StudentAvatarFallbackFragment | null;
+    certificates: StudentCertificatesFragment[];
   };
   languages: {
     loading: boolean;

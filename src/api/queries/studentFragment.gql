@@ -1,0 +1,116 @@
+fragment studentStudent on Student {
+  id
+  email
+  mobile
+  slug
+  state
+  firstName
+  lastName
+  street
+  zip
+  city
+  dateOfBirth
+  nickname
+  schoolName
+  fieldOfStudy
+  graduation
+  distinction
+  profileStep
+  jobFromDate
+  jobToDate
+  matchStatus {
+    initiator
+    confirmed
+  }
+  branch {
+    name
+    id
+  }
+  jobType {
+    name
+    id
+    mode
+  }
+  skills(first: 100) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+  softSkills(first: 100) {
+    edges {
+      node {
+        id
+        student
+        company
+      }
+    }
+  }
+  culturalFits(first: 100) {
+    edges {
+      node {
+        id
+        company
+        student
+      }
+    }
+  }
+  hobbies {
+    id
+    name
+  }
+  onlineProjects {
+    id
+    url
+  }
+  languages(first: 100) {
+    edges {
+      node {
+        id
+        language {
+          name
+          id
+        }
+        languageLevel {
+          level
+          id
+        }
+      }
+    }
+  }
+  projectPostings {
+    id
+    title
+    displayTitle
+    slug
+    topic {
+      id
+      name
+    }
+    projectType {
+      id
+      name
+    }
+  }
+}
+
+fragment studentAvatar on Attachment {
+  id
+  url
+  mimeType
+}
+
+fragment studentAvatarFallback on Attachment {
+  id
+  url
+  mimeType
+}
+
+fragment studentCertificates on Attachment {
+  id
+  url
+  mimeType
+  fileName
+}

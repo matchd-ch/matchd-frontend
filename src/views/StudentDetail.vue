@@ -39,20 +39,28 @@
         <p>{{ lookingFor }}</p>
       </profile-section>
       <profile-section
-        v-if="student.data.skills?.length"
+        v-if="student.data.skills.edges.length"
         title="Diese technischen Skills bringe ich mit"
       >
         <ul class="list list-inside list-disc marker-green-1 text-lg">
-          <li v-for="skill in student.data.skills" :key="skill.id">{{ skill.name }}</li>
+          <li
+            v-for="skill in student.data.skills.edges.filter((edge) => edge?.node)"
+            :key="skill?.node?.id"
+          >
+            {{ skill?.node?.name }}
+          </li>
         </ul>
       </profile-section>
       <profile-section
-        v-if="student.data.languages?.length"
+        v-if="student.data.languages.edges.length"
         title="Ich habe Kenntnisse in folgenden Sprachen"
       >
         <ul class="list list-inside list-disc marker-green-1 text-lg">
-          <li v-for="language in student.data.languages" :key="language.id">
-            {{ language.language.name }}&nbsp;({{ language.languageLevel.level }})
+          <li
+            v-for="language in student.data.languages.edges.filter((edge) => edge?.node)"
+            :key="language?.node?.id"
+          >
+            {{ language?.node?.language.name }}&nbsp;({{ language?.node?.languageLevel.level }})
           </li>
         </ul>
       </profile-section>
@@ -147,7 +155,6 @@
 </template>
 
 <script lang="ts">
-import type { Attachment, Student } from "@/api/models/types";
 import { DateMode, ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
@@ -161,6 +168,7 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
+import { State } from "@/store/modules/content";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
@@ -219,15 +227,10 @@ export default class StudentDetail extends Vue {
     }
   }
 
-  get student(): {
-    data: Student | null;
-    avatar: Attachment | null;
-    avatarFallback: Attachment | null;
-    certificates: Attachment[];
-  } {
+  get student(): State["student"] {
     const student = this.$store.getters["student"];
     if (!student?.data) {
-      return { data: null, avatar: null, avatarFallback: null, certificates: [] };
+      return { data: null, avatar: null, avatarFallback: null, certificates: [], loading: false };
     }
     return {
       ...student,

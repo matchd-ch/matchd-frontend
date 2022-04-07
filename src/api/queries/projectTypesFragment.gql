@@ -1,0 +1,4 @@
+fragment projectTypesProjectType on ProjectType {
+  id
+  name
+}

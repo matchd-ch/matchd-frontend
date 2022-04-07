@@ -1,6 +1,12 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
+import {
+  StudentStudentFragmentDoc,
+  StudentAvatarFragmentDoc,
+  StudentAvatarFallbackFragmentDoc,
+  StudentCertificatesFragmentDoc,
+} from "./studentFragment.generated";
 export type StudentQueryVariables = Types.Exact<{
   slug: Types.Scalars["String"];
   jobPostingId?: Types.InputMaybe<Types.Scalars["String"]>;
@@ -65,6 +71,7 @@ export type StudentQuery = {
         __typename?: "UserLanguageRelationEdge";
         node?: {
           __typename?: "UserLanguageRelation";
+          id: string;
           language: { __typename?: "Language"; name: string; id: string };
           languageLevel: { __typename?: "LanguageLevel"; level: string; id: string };
         } | null;
@@ -72,6 +79,7 @@ export type StudentQuery = {
     };
     projectPostings: Array<{
       __typename?: "ProjectPosting";
+      id: string;
       title: string;
       displayTitle: string;
       slug: string;
@@ -151,281 +159,7 @@ export const StudentDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "mobile" } },
-                { kind: "Field", name: { kind: "Name", value: "slug" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "street" } },
-                { kind: "Field", name: { kind: "Name", value: "zip" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "dateOfBirth" } },
-                { kind: "Field", name: { kind: "Name", value: "nickname" } },
-                { kind: "Field", name: { kind: "Name", value: "schoolName" } },
-                { kind: "Field", name: { kind: "Name", value: "fieldOfStudy" } },
-                { kind: "Field", name: { kind: "Name", value: "graduation" } },
-                { kind: "Field", name: { kind: "Name", value: "distinction" } },
-                { kind: "Field", name: { kind: "Name", value: "profileStep" } },
-                { kind: "Field", name: { kind: "Name", value: "jobFromDate" } },
-                { kind: "Field", name: { kind: "Name", value: "jobToDate" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "matchStatus" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "initiator" } },
-                      { kind: "Field", name: { kind: "Name", value: "confirmed" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "branch" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "jobType" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "mode" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "skills" },
-                  arguments: [
-                    {
-                      kind: "Argument",
-                      name: { kind: "Name", value: "first" },
-                      value: { kind: "IntValue", value: "100" },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "edges" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "node" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  { kind: "Field", name: { kind: "Name", value: "id" } },
-                                  { kind: "Field", name: { kind: "Name", value: "name" } },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "softSkills" },
-                  arguments: [
-                    {
-                      kind: "Argument",
-                      name: { kind: "Name", value: "first" },
-                      value: { kind: "IntValue", value: "100" },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "edges" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "node" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  { kind: "Field", name: { kind: "Name", value: "id" } },
-                                  { kind: "Field", name: { kind: "Name", value: "student" } },
-                                  { kind: "Field", name: { kind: "Name", value: "company" } },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "culturalFits" },
-                  arguments: [
-                    {
-                      kind: "Argument",
-                      name: { kind: "Name", value: "first" },
-                      value: { kind: "IntValue", value: "100" },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "edges" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "node" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  { kind: "Field", name: { kind: "Name", value: "id" } },
-                                  { kind: "Field", name: { kind: "Name", value: "company" } },
-                                  { kind: "Field", name: { kind: "Name", value: "student" } },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "hobbies" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "onlineProjects" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "url" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "languages" },
-                  arguments: [
-                    {
-                      kind: "Argument",
-                      name: { kind: "Name", value: "first" },
-                      value: { kind: "IntValue", value: "100" },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "edges" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "node" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "language" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        { kind: "Field", name: { kind: "Name", value: "name" } },
-                                        { kind: "Field", name: { kind: "Name", value: "id" } },
-                                      ],
-                                    },
-                                  },
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "languageLevel" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        { kind: "Field", name: { kind: "Name", value: "level" } },
-                                        { kind: "Field", name: { kind: "Name", value: "id" } },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "projectPostings" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "title" } },
-                      { kind: "Field", name: { kind: "Name", value: "displayTitle" } },
-                      { kind: "Field", name: { kind: "Name", value: "slug" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "topic" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "name" } },
-                          ],
-                        },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "projectType" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "name" } },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
+                { kind: "FragmentSpread", name: { kind: "Name", value: "studentStudent" } },
               ],
             },
           },
@@ -465,9 +199,10 @@ export const StudentDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "url" } },
-                            { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "studentAvatar" },
+                            },
                           ],
                         },
                       },
@@ -513,9 +248,10 @@ export const StudentDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "url" } },
-                            { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "studentAvatarFallback" },
+                            },
                           ],
                         },
                       },
@@ -561,10 +297,10 @@ export const StudentDocument = {
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "url" } },
-                            { kind: "Field", name: { kind: "Name", value: "mimeType" } },
-                            { kind: "Field", name: { kind: "Name", value: "fileName" } },
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "studentCertificates" },
+                            },
                           ],
                         },
                       },
@@ -577,5 +313,9 @@ export const StudentDocument = {
         ],
       },
     },
+    ...StudentStudentFragmentDoc.definitions,
+    ...StudentAvatarFragmentDoc.definitions,
+    ...StudentAvatarFallbackFragmentDoc.definitions,
+    ...StudentCertificatesFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<StudentQuery, StudentQueryVariables>;

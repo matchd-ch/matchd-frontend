@@ -1,5 +1,4 @@
 import type {
-  Attachment,
   Benefit,
   Branch,
   Company,
@@ -16,7 +15,6 @@ import type {
   ProjectType,
   Skill,
   SoftSkill,
-  Student,
   Topic,
   ZipCity,
 } from "@/api/models/types";
@@ -62,12 +60,7 @@ export type Getters = {
   projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
-  student(state: State): {
-    data: Student | null;
-    avatar: Attachment | null;
-    avatarFallback: Attachment | null;
-    certificates: Attachment[];
-  };
+  student(state: State): State["student"];
   topics(state: State): Topic[];
   zipCityJobs(state: State): ZipCity[];
 };

@@ -1,124 +1,27 @@
+#import "./studentFragment.gql"
+
 query student ($slug: String!, $jobPostingId: String) {
   student(slug: $slug, jobPostingId: $jobPostingId) {
-    id
-    email
-    mobile
-    slug
-    state
-    firstName
-    lastName
-    street
-    zip
-    city
-    dateOfBirth
-    nickname
-    schoolName
-    fieldOfStudy
-    graduation
-    distinction
-    profileStep
-    jobFromDate
-    jobToDate
-    matchStatus {
-      initiator
-      confirmed
-    }
-    branch {
-      name
-      id
-    }
-    jobType {
-      name
-      id
-      mode
-    }
-    skills(first: 100) {
-      edges {
-        node {
-          id
-          name
-        }
-      }
-    }
-    softSkills(first: 100) {
-      edges {
-        node {
-          id
-          student
-          company
-        }
-      }
-    }
-    culturalFits(first: 100) {
-      edges {
-        node {
-          id
-          company
-          student
-        }
-      }
-    }
-    hobbies {
-      id
-      name
-    }
-    onlineProjects {
-      id
-      url
-    }
-    languages(first: 100) {
-      edges {
-        node {
-          language {
-            name
-            id
-          }
-          languageLevel {
-            level
-            id
-          }
-        }
-      }
-    }
-    projectPostings {
-      title
-      displayTitle
-      slug
-      topic {
-        id
-        name
-      }
-      projectType {
-        id
-        name
-      }
-    }
+    ...studentStudent
   }
   avatar: attachments(key: STUDENT_AVATAR, slug: $slug, first: 100) {
     edges {
       node {
-        id
-        url
-        mimeType
+        ...studentAvatar
       }
     }
   }
   avatarFallback: attachments(key: STUDENT_AVATAR_FALLBACK, slug: $slug, first: 100) {
     edges {
       node {
-        id
-        url
-        mimeType
+        ...studentAvatarFallback
       }
     }
   }
   certificates: attachments(key: STUDENT_DOCUMENTS, slug: $slug, first: 100) {
     edges {
       node {
-        id
-        url
-        mimeType
-        fileName
+        ...studentCertificates
       }
     }
   }

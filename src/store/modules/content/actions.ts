@@ -18,16 +18,16 @@ import { JobPostingsDocument } from "@/api/queries/jobPostings.generated";
 import { JobRequirementsDocument } from "@/api/queries/jobRequirements.generated";
 import { JobTypesDocument } from "@/api/queries/jobTypes.generated";
 import { KeywordsDocument } from "@/api/queries/keywords.generated";
-import keywordsQuery from "@/api/queries/keywords.gql";
 import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
 import { LanguagesDocument } from "@/api/queries/languages.generated";
 import { MatchingDocument } from "@/api/queries/matching.generated";
 import { ProjectPostingDocument } from "@/api/queries/projectPosting.generated";
-import projectPostingQuery from "@/api/queries/projectPosting.gql";
 import { ProjectPostingsDocument } from "@/api/queries/projectPostings.generated";
+import { ProjectTypesDocument } from "@/api/queries/projectTypes.generated";
 import projectTypesQuery from "@/api/queries/projectTypes.gql";
 import { SkillsDocument } from "@/api/queries/skills.generated";
 import { SoftSkillsDocument } from "@/api/queries/softSkills.generated";
+import { StudentDocument } from "@/api/queries/student.generated";
 import studentQuery from "@/api/queries/student.gql";
 import topicsQuery from "@/api/queries/topics.gql";
 import zipCityJobsQuery from "@/api/queries/zipCityJobs.gql";
@@ -357,7 +357,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.PROJECT_TYPES]({ commit }) {
     commit(MutationTypes.PROJECT_TYPES_LOADING);
     const response = await apiClient.query({
-      query: projectTypesQuery,
+      query: ProjectTypesDocument,
       context: {
         batch: true,
       },
@@ -377,14 +377,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.STUDENT]({ commit }, payload: { slug: string; jobPostingId?: string }) {
     commit(MutationTypes.STUDENT_LOADING);
     const response = await apiClient.query({
-      query: studentQuery,
+      query: StudentDocument,
       variables: payload,
       fetchPolicy: "no-cache",
       context: {
         batch: true,
       },
     });
-
     commit(MutationTypes.STUDENT_LOADED, {
       student: response.data.student,
       avatar: response.data.avatar,
