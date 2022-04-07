@@ -1,4 +1,4 @@
-fragment projectPosting on ProjectPosting {
+fragment projectPostingProjectPosting on ProjectPosting {
   id
   slug
   title

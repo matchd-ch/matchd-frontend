@@ -2,7 +2,6 @@ import type {
   Attachment,
   Company,
   Dashboard,
-  KeywordConnection,
   MatchJobPostingPayload,
   MatchProjectPostingPayload,
   MatchStudentPayload,
@@ -21,6 +20,7 @@ import { JobPostingQuery } from "@/api/queries/jobPosting.generated";
 import { JobPostingsQuery } from "@/api/queries/jobPostings.generated";
 import { JobRequirementsQuery } from "@/api/queries/jobRequirements.generated";
 import { JobTypesQuery } from "@/api/queries/jobTypes.generated";
+import { KeywordsQuery } from "@/api/queries/keywords.generated";
 import { LanguageLevelsQuery } from "@/api/queries/languageLevels.generated";
 import { LanguagesQuery } from "@/api/queries/languages.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
@@ -55,7 +55,7 @@ export type Mutations<S = State> = {
   [MutationTypes.JOB_TYPES_LOADING](state: S): void;
   [MutationTypes.JOB_TYPES_LOADED](state: S, payload: JobTypesQuery): void;
   [MutationTypes.KEYWORDS_LOADING](state: S): void;
-  [MutationTypes.KEYWORDS_LOADED](state: S, payload: { keywords: KeywordConnection }): void;
+  [MutationTypes.KEYWORDS_LOADED](state: S, payload: KeywordsQuery): void;
   [MutationTypes.LANGUAGES_LOADING](state: S): void;
   [MutationTypes.LANGUAGES_LOADED](state: S, payload: LanguagesQuery): void;
   [MutationTypes.LANGUAGE_LEVELS_LOADING](state: S): void;
@@ -226,10 +226,10 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.KEYWORDS_LOADING](state: State) {
     state.keywords.loading = true;
   },
-  [MutationTypes.KEYWORDS_LOADED](state: State, payload: { keywords: KeywordConnection }) {
+  [MutationTypes.KEYWORDS_LOADED](state: State, payload: KeywordsQuery) {
     state.keywords.loading = false;
     state.keywords.data = ensureNoNullsAndUndefineds(
-      payload.keywords.edges.filter((edge) => edge?.node).map((edge) => edge?.node)
+      payload.keywords?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
     );
   },
   [MutationTypes.MATCH_LOADING](state: State) {

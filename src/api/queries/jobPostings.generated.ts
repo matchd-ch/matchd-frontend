@@ -1,7 +1,7 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { JobPostingsJobPostingFragmentDoc } from "./jobPostingsJobPostingFragment.generated";
+import { JobPostingsJobPostingFragmentDoc } from "./jobPostingsFragment.generated";
 export type JobPostingsQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type JobPostingsQuery = {

@@ -2,6 +2,6 @@
 
 query jobPosting ($id: String, $slug: String) {
   jobPosting(id: $id, slug: $slug) {
-    ...jobPosting
+    ...jobPostingJobPosting
   }
 }

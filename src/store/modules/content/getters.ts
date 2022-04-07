@@ -20,15 +20,9 @@ import type {
   Topic,
   ZipCity,
 } from "@/api/models/types";
-import { JobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
-import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsJobPostingFragment.generated";
-import {
-  ProjectPostingDocumentFragment,
-  ProjectPostingFragment,
-  ProjectPostingImageFallbackFragment,
-  ProjectPostingImageFragment,
-} from "@/api/queries/projectPostingFragment.generated";
-import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsProjectPostingFragment.generated";
+import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsFragment.generated";
+import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsFragment.generated";
 import {
   CompanyDashboard,
   GroupedJobPostingMatching,
@@ -53,7 +47,7 @@ export type Getters = {
   culturalFits(state: State): CulturalFit[];
   companyDashboard(state: State): CompanyDashboard | null;
   dashboard(state: State): Dashboard | null;
-  jobPostingDetail(state: State): JobPostingFragment | null;
+  jobPostingDetail(state: State): JobPostingJobPostingFragment | null;
   jobPostings(state: State): JobPostingsJobPostingFragment[];
   jobRequirements(state: State): JobRequirement[];
   jobTypes(state: State): JobType[];

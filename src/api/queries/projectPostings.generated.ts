@@ -1,7 +1,7 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { ProjectPostingsProjectPostingFragmentDoc } from "./projectPostingsProjectPostingFragment.generated";
+import { ProjectPostingsProjectPostingFragmentDoc } from "./projectPostingsFragment.generated";
 export type ProjectPostingsQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type ProjectPostingsQuery = {

@@ -1,7 +1,7 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type ProjectPostingFragment = {
+export type ProjectPostingProjectPostingFragment = {
   __typename?: "ProjectPosting";
   id: string;
   slug: string;
@@ -75,12 +75,12 @@ export type ProjectPostingDocumentFragment = {
   mimeType: string;
 };
 
-export const ProjectPostingFragmentDoc = {
+export const ProjectPostingProjectPostingFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "projectPosting" },
+      name: { kind: "Name", value: "projectPostingProjectPosting" },
       typeCondition: { kind: "NamedType", name: { kind: "Name", value: "ProjectPosting" } },
       selectionSet: {
         kind: "SelectionSet",
@@ -189,7 +189,7 @@ export const ProjectPostingFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<ProjectPostingFragment, unknown>;
+} as unknown as DocumentNode<ProjectPostingProjectPostingFragment, unknown>;
 export const ProjectPostingImageFragmentDoc = {
   kind: "Document",
   definitions: [

@@ -2555,7 +2555,7 @@ declare module "*/jobPosting.gql" {
 declare module "*/jobPostingFragment.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
-  export const jobPosting: DocumentNode;
+  export const jobPostingJobPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2568,7 +2568,7 @@ declare module "*/jobPostings.gql" {
   export default defaultDocument;
 }
 
-declare module "*/jobPostingsJobPostingFragment.gql" {
+declare module "*/jobPostingsFragment.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const jobPostingsJobPosting: DocumentNode;
@@ -2596,6 +2596,14 @@ declare module "*/keywords.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const keywords: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/keywordsFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const keywordsKeyword: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2643,7 +2651,7 @@ declare module "*/projectPosting.gql" {
 declare module "*/projectPostingFragment.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
-  export const projectPosting: DocumentNode;
+  export const projectPostingProjectPosting: DocumentNode;
   export const projectPostingImage: DocumentNode;
   export const projectPostingImageFallback: DocumentNode;
   export const projectPostingDocument: DocumentNode;
@@ -2659,7 +2667,7 @@ declare module "*/projectPostings.gql" {
   export default defaultDocument;
 }
 
-declare module "*/projectPostingsProjectPostingFragment.gql" {
+declare module "*/projectPostingsFragment.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const projectPostingsProjectPosting: DocumentNode;
@@ -2739,8 +2747,8 @@ declare module "*/zipCityJobs.gql" {
   export default defaultDocument;
 }
 
-export const JobPosting = gql`
-  fragment jobPosting on JobPosting {
+export const JobPostingJobPosting = gql`
+  fragment jobPostingJobPosting on JobPosting {
     id
     title
     displayTitle
@@ -2814,8 +2822,14 @@ export const JobPostingsJobPosting = gql`
     displayTitle
   }
 `;
-export const ProjectPosting = gql`
-  fragment projectPosting on ProjectPosting {
+export const KeywordsKeyword = gql`
+  fragment keywordsKeyword on Keyword {
+    id
+    name
+  }
+`;
+export const ProjectPostingProjectPosting = gql`
+  fragment projectPostingProjectPosting on ProjectPosting {
     id
     slug
     title
@@ -3657,10 +3671,10 @@ const Employees = gql`
 const JobPosting = gql`
   query jobPosting($id: String, $slug: String) {
     jobPosting(id: $id, slug: $slug) {
-      ...jobPosting
+      ...jobPostingJobPosting
     }
   }
-  ${JobPosting}
+  ${JobPostingJobPosting}
 `;
 const JobPostings = gql`
   query jobPostings {
@@ -3704,12 +3718,12 @@ const Keywords = gql`
     keywords(first: 100) {
       edges {
         node {
-          id
-          name
+          ...keywordsKeyword
         }
       }
     }
   }
+  ${KeywordsKeyword}
 `;
 const LanguageLevels = gql`
   query languageLevels {
@@ -3939,7 +3953,7 @@ const Me = gql`
 const ProjectPosting = gql`
   query projectPosting($id: String, $slug: String) {
     projectPosting(id: $id, slug: $slug) {
-      ...projectPosting
+      ...projectPostingProjectPosting
     }
     images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug, first: 100) {
       edges {
@@ -3963,7 +3977,7 @@ const ProjectPosting = gql`
       }
     }
   }
-  ${ProjectPosting}
+  ${ProjectPostingProjectPosting}
   ${ProjectPostingImage}
   ${ProjectPostingImageFallback}
   ${ProjectPostingDocument}

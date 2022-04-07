@@ -1,7 +1,7 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { JobPostingFragmentDoc } from "./jobPostingFragment.generated";
+import { JobPostingJobPostingFragmentDoc } from "./jobPostingFragment.generated";
 export type JobPostingQueryVariables = Types.Exact<{
   id?: Types.InputMaybe<Types.Scalars["String"]>;
   slug?: Types.InputMaybe<Types.Scalars["String"]>;
@@ -108,12 +108,14 @@ export const JobPostingDocument = {
             ],
             selectionSet: {
               kind: "SelectionSet",
-              selections: [{ kind: "FragmentSpread", name: { kind: "Name", value: "jobPosting" } }],
+              selections: [
+                { kind: "FragmentSpread", name: { kind: "Name", value: "jobPostingJobPosting" } },
+              ],
             },
           },
         ],
       },
     },
-    ...JobPostingFragmentDoc.definitions,
+    ...JobPostingJobPostingFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<JobPostingQuery, JobPostingQueryVariables>;

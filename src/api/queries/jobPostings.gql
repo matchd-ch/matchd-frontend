@@ -1,4 +1,4 @@
-#import "./jobPostingsJobPostingFragment.gql"
+#import "./jobPostingsFragment.gql"
 
 query jobPostings {
   jobPostings(first: 100) {

@@ -1,7 +1,7 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type JobPostingFragment = {
+export type JobPostingJobPostingFragment = {
   __typename?: "JobPosting";
   id: string;
   title: string;
@@ -60,12 +60,12 @@ export type JobPostingFragment = {
   } | null;
 };
 
-export const JobPostingFragmentDoc = {
+export const JobPostingJobPostingFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "jobPosting" },
+      name: { kind: "Name", value: "jobPostingJobPosting" },
       typeCondition: { kind: "NamedType", name: { kind: "Name", value: "JobPosting" } },
       selectionSet: {
         kind: "SelectionSet",
@@ -228,4 +228,4 @@ export const JobPostingFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<JobPostingFragment, unknown>;
+} as unknown as DocumentNode<JobPostingJobPostingFragment, unknown>;

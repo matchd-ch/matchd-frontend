@@ -1,9 +1,10 @@
+#import "./keywordsFragment.gql"
+
 query keywords {
   keywords(first: 100) {
     edges {
       node {
-        id
-        name
+        ...keywordsKeyword
       }
     }
   }

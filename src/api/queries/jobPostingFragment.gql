@@ -1,4 +1,4 @@
-fragment jobPosting on JobPosting {
+fragment jobPostingJobPosting on JobPosting {
   id
   title
   displayTitle

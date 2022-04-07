@@ -17,6 +17,7 @@ import { JobPostingDocument } from "@/api/queries/jobPosting.generated";
 import { JobPostingsDocument } from "@/api/queries/jobPostings.generated";
 import { JobRequirementsDocument } from "@/api/queries/jobRequirements.generated";
 import { JobTypesDocument } from "@/api/queries/jobTypes.generated";
+import { KeywordsDocument } from "@/api/queries/keywords.generated";
 import keywordsQuery from "@/api/queries/keywords.gql";
 import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
 import { LanguagesDocument } from "@/api/queries/languages.generated";
@@ -231,7 +232,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.KEYWORDS]({ commit }) {
     commit(MutationTypes.KEYWORDS_LOADING);
     const response = await apiClient.query({
-      query: keywordsQuery,
+      query: KeywordsDocument,
       context: {
         batch: true,
       },

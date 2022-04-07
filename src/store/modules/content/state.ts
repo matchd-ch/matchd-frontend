@@ -7,7 +7,6 @@ import type {
   Dashboard,
   JobRequirement,
   JobType,
-  Keyword,
   Language,
   LanguageLevel,
   Match,
@@ -18,16 +17,17 @@ import type {
   Topic,
   ZipCity,
 } from "@/api/models/types";
-import { JobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
-import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsJobPostingFragment.generated";
+import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsFragment.generated";
+import { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
 import {
   ProjectPostingDocumentFragment,
-  ProjectPostingFragment,
   ProjectPostingImageFallbackFragment,
   ProjectPostingImageFragment,
+  ProjectPostingProjectPostingFragment,
 } from "@/api/queries/projectPostingFragment.generated";
-import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsProjectPostingFragment.generated";
+import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsFragment.generated";
 
 export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
 
@@ -64,7 +64,7 @@ export type State = {
     loading: boolean;
   };
   keywords: {
-    data: Keyword[];
+    data: KeywordsKeywordFragment[];
     loading: boolean;
   };
   match: {
@@ -78,7 +78,7 @@ export type State = {
   };
   projectPosting: {
     loading: boolean;
-    data: ProjectPostingFragment | null;
+    data: ProjectPostingProjectPostingFragment | null;
     images: ProjectPostingImageFragment[];
     imageFallback: ProjectPostingImageFallbackFragment | null;
     documents: ProjectPostingDocumentFragment[];
@@ -121,7 +121,7 @@ export type State = {
   };
   jobPosting: {
     loading: boolean;
-    data: JobPostingFragment | null;
+    data: JobPostingJobPostingFragment | null;
   };
   topics: {
     loading: boolean;

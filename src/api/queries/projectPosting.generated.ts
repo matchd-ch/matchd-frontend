@@ -2,7 +2,7 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 import {
-  ProjectPostingFragmentDoc,
+  ProjectPostingProjectPostingFragmentDoc,
   ProjectPostingImageFragmentDoc,
   ProjectPostingImageFallbackFragmentDoc,
   ProjectPostingDocumentFragmentDoc,
@@ -144,7 +144,10 @@ export const ProjectPostingDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "FragmentSpread", name: { kind: "Name", value: "projectPosting" } },
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "projectPostingProjectPosting" },
+                },
               ],
             },
           },
@@ -298,7 +301,7 @@ export const ProjectPostingDocument = {
         ],
       },
     },
-    ...ProjectPostingFragmentDoc.definitions,
+    ...ProjectPostingProjectPostingFragmentDoc.definitions,
     ...ProjectPostingImageFragmentDoc.definitions,
     ...ProjectPostingImageFallbackFragmentDoc.definitions,
     ...ProjectPostingDocumentFragmentDoc.definitions,

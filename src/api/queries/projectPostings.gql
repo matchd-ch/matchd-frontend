@@ -1,4 +1,4 @@
-#import "./projectPostingsProjectPostingFragment.gql"
+#import "./projectPostingsFragment.gql"
 
 query projectPostings {
   projectPostings(first: 100) {

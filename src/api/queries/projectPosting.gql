@@ -2,7 +2,7 @@
 
 query projectPosting ($id: String, $slug: String) {
   projectPosting(id: $id, slug: $slug) {
-    ...projectPosting
+    ...projectPostingProjectPosting
   }
   images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug, first: 100) {
     edges {
