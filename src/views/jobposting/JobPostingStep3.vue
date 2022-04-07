@@ -79,7 +79,6 @@
 <script lang="ts">
 import { jobPostingStep3FormMapper } from "@/api/mappers/jobPostingStep3FormMapper";
 import { jobPostingStep3InputMapper } from "@/api/mappers/jobPostingStep3InputMapper";
-import type { Employee, JobPosting as JobPostingType } from "@/api/models/types";
 import { JobPostingState as JobPostingStateEnum } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -88,7 +87,6 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import AddEmployeeForm from "@/containers/AddEmployeeForm.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
@@ -145,26 +143,26 @@ export default class JobPostingStep3 extends Vue {
     return JobPostingStateEnum;
   }
 
-  get jobPostingData(): JobPostingStep3Form {
+  get jobPostingData() {
     if (!this.currentJobPosting || !this.user?.employee) {
       return {} as JobPostingStep3Form;
     }
     return jobPostingStep3FormMapper(this.currentJobPosting, this.user?.employee);
   }
 
-  get jobPostingLoading(): boolean {
+  get jobPostingLoading() {
     return this.$store.getters["jobPostingLoading"];
   }
 
-  get jobPostingState(): JobPostingState {
+  get jobPostingState() {
     return this.$store.getters["jobPostingState"];
   }
 
-  get currentJobPosting(): JobPostingType | null {
+  get currentJobPosting() {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get employees(): Employee[] {
+  get employees() {
     return this.$store.getters["employees"];
   }
 
@@ -172,7 +170,7 @@ export default class JobPostingStep3 extends Vue {
     return this.$store.getters["user"];
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await this.$store.dispatch(ActionTypes.EMPLOYEES);
 
     this.veeForm.resetForm({
@@ -181,22 +179,22 @@ export default class JobPostingStep3 extends Vue {
     calculateMargins();
   }
 
-  onClickBack(): void {
+  onClickBack() {
     this.$emit("navigateBack");
   }
 
-  onChangeState(value: boolean): void {
+  onChangeState(value: boolean) {
     this.veeForm.state = value ? JobPostingStateEnum.Public : JobPostingStateEnum.Draft;
   }
 
-  onClickClose(): void {
+  onClickClose() {
     this.veeForm.resetForm({
       values: this.jobPostingData,
     });
     this.showEmployeeForm = false;
   }
 
-  async onAddEmployeeComplete(): Promise<void> {
+  async onAddEmployeeComplete() {
     this.showEmployeeForm = false;
     await this.$store.dispatch(ActionTypes.EMPLOYEES);
     const latestEmployee = this.employees[this.employees.length - 1];
@@ -204,7 +202,7 @@ export default class JobPostingStep3 extends Vue {
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }

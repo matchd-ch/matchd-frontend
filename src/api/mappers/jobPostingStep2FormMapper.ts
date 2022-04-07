@@ -1,7 +1,9 @@
-import type { JobPosting } from "@/api/models/types";
 import { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
+import { JobPostingJobPostingFragment } from "../queries/jobPostingFragment.generated";
 
-export function jobPostingStep2FormMapper(jobPosting: JobPosting): JobPostingStep2Form {
+export function jobPostingStep2FormMapper(
+  jobPosting: JobPostingJobPostingFragment
+): JobPostingStep2Form {
   return {
     languages:
       jobPosting.languages?.map((language) => {

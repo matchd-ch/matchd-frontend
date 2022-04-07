@@ -2544,6 +2544,14 @@ declare module "*/employees.gql" {
   export default defaultDocument;
 }
 
+declare module "*/employeesFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const employeesEmployee: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/jobPosting.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -2782,6 +2790,15 @@ declare module "*/zipCityJobs.gql" {
   export default defaultDocument;
 }
 
+export const EmployeesEmployee = gql`
+  fragment employeesEmployee on Employee {
+    id
+    role
+    firstName
+    lastName
+    email
+  }
+`;
 export const JobPostingJobPosting = gql`
   fragment jobPostingJobPosting on JobPosting {
     id
@@ -3833,15 +3850,12 @@ const Employees = gql`
     me {
       company {
         employees {
-          id
-          role
-          firstName
-          lastName
-          email
+          ...employeesEmployee
         }
       }
     }
   }
+  ${EmployeesEmployee}
 `;
 const JobPosting = gql`
   query jobPosting($id: String, $slug: String) {

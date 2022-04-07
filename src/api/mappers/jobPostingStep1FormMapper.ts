@@ -1,8 +1,10 @@
-import type { JobPosting } from "@/api/models/types";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { DateTime } from "luxon";
+import { JobPostingJobPostingFragment } from "../queries/jobPostingFragment.generated";
 
-export function jobPostingStep1FormMapper(jobPosting: JobPosting | null): JobPostingStep1Form {
+export function jobPostingStep1FormMapper(
+  jobPosting: JobPostingJobPostingFragment | null
+): JobPostingStep1Form {
   return {
     title: jobPosting?.title || "",
     description: jobPosting?.description || "",

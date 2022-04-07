@@ -1,4 +1,6 @@
-import type { Employee, JobPosting } from "@/api/models/types";
+import type { JobPosting } from "@/api/models/types";
+import { EmployeesEmployeeFragment } from "@/api/queries/employeesFragment.generated";
+import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import { MatchdApiError } from "@/models/MatchdApiError";
 
 export type State = {
@@ -11,11 +13,11 @@ export type State = {
   };
   currentJobPosting: {
     loading: boolean;
-    data: JobPosting | null;
+    data: JobPostingJobPostingFragment | null;
   };
   employees: {
     loading: boolean;
-    data: Employee[];
+    data: EmployeesEmployeeFragment[];
   };
   addEmployee: {
     loading: boolean;

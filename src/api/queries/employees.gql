@@ -1,12 +1,10 @@
+#import "./employeesFragment.gql"
+
 query employees {
   me {
     company {
       employees {
-        id
-        role
-        firstName
-        lastName
-        email
+        ...employeesEmployee
       }
     }
   }

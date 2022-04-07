@@ -1,0 +1,7 @@
+fragment employeesEmployee on Employee {
+  id
+  role
+  firstName
+  lastName
+  email
+}

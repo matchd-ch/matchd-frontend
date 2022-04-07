@@ -175,7 +175,7 @@
 <script lang="ts">
 import { jobPostingStep1FormMapper } from "@/api/mappers/jobPostingStep1FormMapper";
 import { jobPostingStep1InputMapper } from "@/api/mappers/jobPostingStep1InputMapper";
-import type { Branch, JobPosting as JobPostingType, JobType } from "@/api/models/types";
+import type { Branch } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
@@ -183,9 +183,8 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
-import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { JobPostingState } from "@/models/JobPostingState";
 import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
@@ -224,7 +223,7 @@ export default class JobPostingStep1 extends Vue {
       },
       { label: "In diesen Bereichen und Projekten wird das junge Talent tätig sein" }
     );
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+    const onSubmit = form.handleSubmit(async (formData) => {
       if (
         formData.jobFromDateMonth &&
         formData.jobFromDateYear &&
@@ -278,27 +277,27 @@ export default class JobPostingStep1 extends Vue {
   });
   formData = {} as JobPostingStep1Form;
 
-  get currentJobPosting(): JobPostingType | null {
+  get currentJobPosting() {
     return this.$store.getters["currentJobPosting"];
   }
 
-  get jobPostingData(): JobPostingStep1Form {
+  get jobPostingData() {
     return jobPostingStep1FormMapper(this.currentJobPosting);
   }
 
-  get jobToDateOpenEnd(): boolean {
+  get jobToDateOpenEnd() {
     return this.veeForm.values.jobToDateOpenEnd === "true";
   }
 
-  get hasJobPostings(): boolean {
+  get hasJobPostings() {
     return !!this.$store.getters["jobPostings"].length;
   }
 
-  get jobTypes(): JobType[] {
+  get jobTypes() {
     return this.$store.getters["jobTypes"];
   }
 
-  get branches(): SelectPillMultipleItem[] {
+  get branches() {
     return this.$store.getters["branches"].map((branch) => {
       return {
         id: branch.id,
@@ -310,11 +309,11 @@ export default class JobPostingStep1 extends Vue {
     });
   }
 
-  get jobPostingLoading(): boolean {
+  get jobPostingLoading() {
     return this.$store.getters["jobPostingLoading"];
   }
 
-  get jobPostingState(): JobPostingState {
+  get jobPostingState() {
     return this.$store.getters["jobPostingState"];
   }
 
@@ -322,7 +321,7 @@ export default class JobPostingStep1 extends Vue {
     return this.$store.getters["user"];
   }
 
-  get validYears(): number[] {
+  get validYears() {
     const currentYear = new Date().getFullYear();
     const maxYear = currentYear + 10;
     const validYears = [];
@@ -332,7 +331,7 @@ export default class JobPostingStep1 extends Vue {
     return validYears;
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     await Promise.all([
       this.$store.dispatch(ContentActionsTypes.JOB_TYPE),
       this.$store.dispatch(ContentActionsTypes.BRANCHES),
@@ -345,11 +344,11 @@ export default class JobPostingStep1 extends Vue {
     calculateMargins();
   }
 
-  onChangeJobType(jobTypeId: string): void {
+  onChangeJobType(jobTypeId: string) {
     this.veeForm.setFieldValue("jobTypeId", jobTypeId);
   }
 
-  onChangeBranch(branch: Branch): void {
+  onChangeBranch(branch: Branch) {
     const branchExists = !!this.veeForm.branches.find(
       (selectedBranchId) => selectedBranchId === branch.id
     );
@@ -363,7 +362,7 @@ export default class JobPostingStep1 extends Vue {
   }
 
   @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
+  checkDirty() {
     this.$emit("changeDirty", this.veeForm.meta.dirty);
   }
 }

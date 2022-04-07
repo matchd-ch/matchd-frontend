@@ -9,8 +9,8 @@ import { AddEmployeeDocument } from "@/api/mutations/addEmployee.generated";
 import { JobPostingAllocationDocument } from "@/api/mutations/jobPostingAllocation.generated";
 import { JobPostingBaseDataDocument } from "@/api/mutations/jobPostingBaseData.generated";
 import { JobPostingRequirementsDocument } from "@/api/mutations/jobPostingRequirements.generated";
-import employeesQuery from "@/api/queries/employees.gql";
-import jobPostingQuery from "@/api/queries/jobPosting.gql";
+import { EmployeesDocument } from "@/api/queries/employees.generated";
+import { JobPostingDocument } from "@/api/queries/jobPosting.generated";
 import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import { Mutations } from "@/store/modules/jobposting/mutations";
@@ -83,11 +83,11 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.JOBPOSTING]({ commit }, payload: { slug: string }) {
     commit(MutationTypes.JOBPOSTING_LOADING);
     const response = await apiClient.query({
-      query: jobPostingQuery,
+      query: JobPostingDocument,
       variables: payload,
       fetchPolicy: "no-cache",
     });
-    commit(MutationTypes.JOBPOSTING_LOADED, response.data.jobPosting);
+    commit(MutationTypes.JOBPOSTING_LOADED, response.data);
   },
   async [ActionTypes.ADD_EMPLOYEE]({ commit }, payload: AddEmployeeInput) {
     commit(MutationTypes.ADD_EMPLOYEE_LOADING);
@@ -100,12 +100,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.EMPLOYEES]({ commit }) {
     commit(MutationTypes.EMPLOYEES_LOADING);
     const response = await apiClient.query({
-      query: employeesQuery,
+      query: EmployeesDocument,
       fetchPolicy: "no-cache",
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.EMPLOYEES_LOADED, response.data.me?.company?.employees);
+    commit(MutationTypes.EMPLOYEES_LOADED, response.data);
   },
 };

@@ -1,4 +1,5 @@
-import type { Employee, JobPosting } from "@/api/models/types";
+import type { Employee } from "@/api/models/types";
+import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import { AddEmployeeState } from "@/models/AddEmployeeState";
 import { JobPostingState } from "@/models/JobPostingState";
 import { RootState } from "@/store";
@@ -10,17 +11,17 @@ export type Getters = {
   jobPostingState(state: State): JobPostingState;
   jobPostingId(state: State): string;
   currentJobPostingStep(state: State): number;
-  currentJobPosting(state: State): JobPosting | null;
+  currentJobPosting(state: State): JobPostingJobPostingFragment | null;
   employees(state: State): Employee[];
   addEmployeeLoading(state: State): boolean;
   addEmployeeState(state: State): AddEmployeeState;
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
-  jobPostingLoading(state: State): boolean {
+  jobPostingLoading(state: State) {
     return state.jobPosting.loading;
   },
-  jobPostingState(state: State): JobPostingState {
+  jobPostingState(state: State) {
     return {
       success: state.jobPosting.success,
       errors: state.jobPosting.errors || null,
@@ -28,22 +29,22 @@ export const getters: GetterTree<State, RootState> & Getters = {
       slug: state.jobPosting.slug,
     };
   },
-  jobPostingId(state: State): string {
+  jobPostingId(state: State) {
     return state.jobPosting.id;
   },
-  currentJobPostingStep(state: State): number {
+  currentJobPostingStep(state: State) {
     return state.currentJobPosting.data?.formStep || 1;
   },
-  currentJobPosting(state: State): JobPosting | null {
+  currentJobPosting(state: State) {
     return state.currentJobPosting.data;
   },
-  employees(state: State): Employee[] {
+  employees(state: State) {
     return state.employees.data;
   },
-  addEmployeeLoading(state: State): boolean {
+  addEmployeeLoading(state: State) {
     return state.addEmployee.loading;
   },
-  addEmployeeState(state: State): AddEmployeeState {
+  addEmployeeState(state: State) {
     return {
       success: state.addEmployee.success,
       errors: state.addEmployee.errors || null,
