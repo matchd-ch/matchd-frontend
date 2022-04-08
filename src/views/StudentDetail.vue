@@ -8,13 +8,16 @@
     >
       <div class="back-button">
         <button class="text-paragraph-lg xl:test-paragraph-md" @click="$router.back()">
-          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Alle Talente
+          <ArrowBack class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
+          Alle Talente
         </button>
       </div>
       <div class="flex justify-center mt-9">
-        <img
+        <StackImage
+          v-if="student?.avatar?.url || student?.avatarFallback?.url"
           class="avatar rounded-full object-cover"
-          :src="replaceStack(avatarSrc, 'logo')"
+          :url="student.avatar?.url || student.avatarFallback?.url"
+          stack="avatar"
           :alt="`Profilbild ${student.data.nickname}`"
         />
       </div>
@@ -168,11 +171,11 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
-import { State } from "@/store/modules/content";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import StackImage from "../components/StackImage.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
@@ -186,6 +189,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     MatchingBar,
     StudentMatchModal,
     StudentFullMatchModal,
+    StackImage,
   },
 })
 export default class StudentDetail extends Vue {
@@ -227,7 +231,7 @@ export default class StudentDetail extends Vue {
     }
   }
 
-  get student(): State["student"] {
+  get student() {
     const student = this.$store.getters["student"];
     if (!student?.data) {
       return { data: null, avatar: null, avatarFallback: null, certificates: [], loading: false };
@@ -244,10 +248,6 @@ export default class StudentDetail extends Vue {
       avatar: student.avatar,
       avatarFallback: student.avatarFallback,
     };
-  }
-
-  get avatarSrc(): string {
-    return this.student.avatar?.url || this.student.avatarFallback?.url || "";
   }
 
   replaceStack(url: string, stack: string): string {
@@ -295,7 +295,7 @@ export default class StudentDetail extends Vue {
     }
   }
 
-  async loadData(slug: string, jobPostingId?: string): Promise<void> {
+  async loadData(slug: string, jobPostingId?: string) {
     try {
       await this.$store.dispatch(ActionTypes.STUDENT, {
         slug,

@@ -221,7 +221,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
   }
 
-  drawResults(): void {
+  async drawResults() {
     const result = d3
       .selectAll(".node")
       .append("a")
@@ -272,6 +272,12 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     }
 
     /* Masked Image */
+    // TODO: Image src is broken
+    // TODO: Click handler is brocken
+    // const imgSrc = await fetchAttachmentDataUri(
+    //   d.img,
+    //   this.resultType === "student" ? "avatar" : "logo"
+    // );
     result
       .append("image")
       .attr("clip-path", "url(#circleView)")
