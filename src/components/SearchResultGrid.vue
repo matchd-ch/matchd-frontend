@@ -8,7 +8,7 @@
     }"
   >
     <grid-tile
-      v-for="match in matches"
+      v-for="match in formattedMatches.value"
       :key="match.id"
       :link-to="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
       :img-src="replaceStack(match.img, resultType === 'student' ? 'avatar' : 'logo')"
@@ -33,9 +33,12 @@
 
 <script lang="ts">
 import GridTile from "@/components/GridTile.vue";
+import fetchAttachmentDataUri from "@/helpers/fetchAttachmentDataUri";
 import { replaceStack } from "@/helpers/replaceStack";
 import { SearchResult } from "@/models/SearchResult";
+import { ref } from "vue";
 import { Options, prop, Vue } from "vue-class-component";
+import { Watch } from "vue-property-decorator";
 import { LocationQueryRaw } from "vue-router";
 
 class Props {
@@ -51,6 +54,7 @@ class Props {
   },
 })
 export default class SearchBoost extends Vue.with(Props) {
+  formattedMatches = ref<SearchResult[]>(this.matches);
   get queryParams(): LocationQueryRaw {
     if (this.resultType !== "student") {
       return {};
@@ -71,6 +75,21 @@ export default class SearchBoost extends Vue.with(Props) {
       default:
         return "StudentDetail";
     }
+  }
+
+  @Watch("matches", { immediate: true })
+  async onUpdateMatches() {
+    this.formattedMatches.value = await Promise.all(
+      this.matches.map(async (match) => {
+        if (match.img) {
+          match.img = await fetchAttachmentDataUri(
+            match.img,
+            this.resultType === "student" ? "avatar" : "logo"
+          );
+        }
+        return match;
+      })
+    );
   }
 }
 </script>
