@@ -7,6 +7,7 @@
 /* todo: add proper typings and refactor */
 
 import type { Attachment } from "@/api/models/types";
+import fetchAttachmentDataUri from "@/helpers/fetchAttachmentDataUri";
 import { SearchLink, SearchNode, SearchResultBubbleData } from "@/models/SearchResultBubbleData";
 import * as d3 from "d3";
 import { Options, prop, Vue } from "vue-class-component";
@@ -89,21 +90,35 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     this.update();
   }
 
-  update(): void {
+  async update() {
     this.link = this.createLinks(this.links);
-    this.node = this.createNodes(this.nodes);
+    const formatedNodes = await Promise.all(
+      this.nodes.map(async (node) => {
+        if (node.img) {
+          node.img = await fetchAttachmentDataUri(
+            node.img,
+            this.resultType === "student" ? "avatar" : "logo"
+          );
+        }
+        return node;
+      })
+    );
+    this.node = this.createNodes(formatedNodes);
     this.drawRoot();
     this.drawResults();
     this.initForce();
   }
 
   tick(): void {
+    if (!this.node || !("attr" in this.node)) {
+      console.log(this.node);
+      return;
+    }
     this.link
       .attr("x1", this.width / 2)
       .attr("y1", this.height / 2)
       .attr("x2", (d: any) => d.target.x)
       .attr("y2", (d: any) => d.target.y);
-
     this.node.attr("transform", (d: any) => {
       if (d.main) {
         return `translate(${d.x - this.rootRadius},${d.y - this.rootRadius})`;
@@ -187,7 +202,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .attr("d", "M 25, 50 a 25,25 0 1,1 50,0 a 25,25 0 1,1 -50,0");
   }
 
-  drawRoot(): void {
+  async drawRoot() {
     const result = d3.selectAll(".root");
 
     /* Circle */
@@ -206,16 +221,19 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .attr("r", this.rootRadius);
 
     if (this.avatar) {
+      if (this.avatar?.url) {
+        this.avatar.url = await fetchAttachmentDataUri(
+          this.avatar.url,
+          this.rootType === "student" ? "avatar" : "logo"
+        );
+      }
       /* Masked Image */
       result
         .append("image")
         .attr("clip-path", "url(#circleView)")
         .attr("x", 0)
         .attr("y", 0)
-        .attr(
-          "href",
-          this.avatar?.url.replace("{stack}", this.rootType === "student" ? "avatar" : "logo") || ""
-        )
+        .attr("href", this.avatar?.url || "")
         .attr("width", this.rootRadius * 2)
         .attr("height", this.rootRadius * 2);
     }
@@ -278,6 +296,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
     //   d.img,
     //   this.resultType === "student" ? "avatar" : "logo"
     // );
+
     result
       .append("image")
       .attr("clip-path", "url(#circleView)")

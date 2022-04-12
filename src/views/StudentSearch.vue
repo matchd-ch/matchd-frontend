@@ -124,6 +124,7 @@ export default class StudentSearch extends Vue {
   }
 
   get matchesForBubbles() {
+    console.log(this.$store.getters["matchesForBubbles"]);
     return this.$store.getters["matchesForBubbles"];
   }
 
