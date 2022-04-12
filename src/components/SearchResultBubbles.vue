@@ -111,7 +111,6 @@ export default class SearchResultBubbles extends Vue.with(Props) {
 
   tick(): void {
     if (!this.node || !("attr" in this.node)) {
-      console.log(this.node);
       return;
     }
     this.link
