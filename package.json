@@ -27,7 +27,7 @@
     "@cypress/webpack-dev-server": "^1.8.4",
     "@gtm-support/vue-gtm": "^1.4.0",
     "@sentry/tracing": "^6.19.7",
-    "@sentry/vue": "^6.19.6",
+    "@sentry/vue": "^6.19.7",
     "cypress": "^9.6.0",
     "d3": "^7.4.4",
     "deepdash": "^5.3.9",
