@@ -90,7 +90,7 @@
     "postcss": "^8.4.14",
     "postcss-atrule-bem": "^4.0.0",
     "postcss-import": "^14.1.0",
-    "postcss-nesting": "^10.1.6",
+    "postcss-nesting": "^10.1.7",
     "prettier": "^2.6.2",
     "rucksack-css": "^1.0.2",
     "svgo": "^2.8.0",
