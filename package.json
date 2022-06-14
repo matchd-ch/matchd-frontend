@@ -28,7 +28,7 @@
     "@gtm-support/vue-gtm": "^1.6.0",
     "@sentry/tracing": "^6.19.7",
     "@sentry/vue": "^6.19.7",
-    "cypress": "^9.7.0",
+    "cypress": "^10.1.0",
     "d3": "^7.4.4",
     "deepdash": "^5.3.9",
     "ejs": "^3.1.8",
