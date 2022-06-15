@@ -1,5 +1,5 @@
 # Step 2
-mutation jobPostingRequirements ($input: JobPostingRequirementsInput!) {
+mutation jobPostingRequirements($input: JobPostingRequirementsInput!) {
   jobPostingRequirements(input: $input) {
     success
     errors

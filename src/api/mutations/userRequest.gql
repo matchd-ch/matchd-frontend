@@ -1,4 +1,4 @@
-mutation userRequest ($name: String!, $email: String!, $message: String!) {
+mutation userRequest($name: String!, $email: String!, $message: String!) {
   userRequest(input: { name: $name, email: $email, message: $message }) {
     success
     errors

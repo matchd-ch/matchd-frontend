@@ -1,5 +1,5 @@
 # Step 1
-mutation studentProfileBaseData ($input: StudentProfileBaseDataInput!) {
+mutation studentProfileBaseData($input: StudentProfileBaseDataInput!) {
   studentProfileBaseData(input: $input) {
     success
     errors

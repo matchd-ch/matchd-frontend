@@ -1,4 +1,4 @@
-mutation addEmployee (
+mutation addEmployee(
   $firstName: String!
   $lastName: String!
   $email: String!

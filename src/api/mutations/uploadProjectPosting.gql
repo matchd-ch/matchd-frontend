@@ -1,12 +1,10 @@
-mutation uploadProjectPosting ($file: Upload!, $key: AttachmentKey!, $projectPostingId: String!) {
+mutation uploadProjectPosting(
+  $file: Upload!
+  $key: AttachmentKey!
+  $projectPostingId: String!
+) {
   upload(
-    input: {
-      file: $file,
-      key: $key,
-      projectPosting: {
-        id: $projectPostingId
-      }
-    }
+    input: { file: $file, key: $key, projectPosting: { id: $projectPostingId } }
   ) {
     success
     errors

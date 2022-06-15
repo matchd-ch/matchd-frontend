@@ -1,6 +1,6 @@
 #import "./projectPostingFragment.gql"
 
-query projectPosting ($id: String, $slug: String) {
+query projectPosting($id: String, $slug: String) {
   projectPosting(id: $id, slug: $slug) {
     ...projectPostingProjectPosting
   }
@@ -11,14 +11,22 @@ query projectPosting ($id: String, $slug: String) {
       }
     }
   }
-  imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug, first: 100) {
+  imageFallback: attachments(
+    key: PROJECT_POSTING_FALLBACK
+    slug: $slug
+    first: 100
+  ) {
     edges {
       node {
         ...projectPostingImageFallback
       }
     }
   }
-  documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug, first: 100) {
+  documents: attachments(
+    key: PROJECT_POSTING_DOCUMENTS
+    slug: $slug
+    first: 100
+  ) {
     edges {
       node {
         ...projectPostingDocument

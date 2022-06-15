@@ -1,6 +1,6 @@
 # import "./jobPostingFragment.gql"
 
-query jobPosting ($id: String, $slug: String) {
+query jobPosting($id: String, $slug: String) {
   jobPosting(id: $id, slug: $slug) {
     ...jobPostingJobPosting
   }

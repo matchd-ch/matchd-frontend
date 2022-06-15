@@ -1,4 +1,4 @@
-query attachmentsProjectPosting ($key: AttachmentKey!, $id: String!) {
+query attachmentsProjectPosting($key: AttachmentKey!, $id: String!) {
   attachments(key: $key, id: $id, first: 100) {
     edges {
       node {
@@ -6,7 +6,7 @@ query attachmentsProjectPosting ($key: AttachmentKey!, $id: String!) {
         fileSize
         fileName
         mimeType
-        url    
+        url
       }
     }
   }

@@ -1,5 +1,5 @@
 # Step 3
-mutation companyProfileAdvantages ($input: CompanyProfileAdvantagesInput!) {
+mutation companyProfileAdvantages($input: CompanyProfileAdvantagesInput!) {
   companyProfileAdvantages(input: $input) {
     success
     errors

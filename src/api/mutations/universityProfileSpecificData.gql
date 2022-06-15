@@ -1,8 +1,8 @@
 # Step 2
-mutation universityProfileSpecificData ($input: UniversityProfileSpecificDataInput!) {
-  universityProfileSpecificData(
-    input: $input
-  ) {
+mutation universityProfileSpecificData(
+  $input: UniversityProfileSpecificDataInput!
+) {
+  universityProfileSpecificData(input: $input) {
     success
     errors
   }

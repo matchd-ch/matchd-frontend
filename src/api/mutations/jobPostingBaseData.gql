@@ -1,7 +1,5 @@
 # Step 1
-mutation jobPostingBaseData (
-  $input: JobPostingBaseDataInput!
-) {
+mutation jobPostingBaseData($input: JobPostingBaseDataInput!) {
   jobPostingBaseData(input: $input) {
     success
     errors

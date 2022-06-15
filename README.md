@@ -1,6 +1,7 @@
 # Matchd Frontend
 
 ## Introduction
+
 Matchd is a job matching system that matches candidates to companies based on a number of factors, making the screening process much easier for recruiters and thus faciliting the talent search process for companies.
 
 [![.github/workflows/ci.yml](https://github.com/matchd-ch/matchd-frontend/actions/workflows/branch_main.yml/badge.svg)](https://github.com/matchd-ch/matchd-frontend/actions/workflows/branch_main.yml)
@@ -65,8 +66,7 @@ $ npm run graphql
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-
-##  Matchd Test Accounts
+## Matchd Test Accounts
 
 https://github.com/matchd-ch/matchd-backend/blob/main/ACCOUNTS.md
 

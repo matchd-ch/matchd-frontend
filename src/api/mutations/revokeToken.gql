@@ -1,5 +1,5 @@
 mutation revokeToken {
-    revokeToken(refreshToken: "refresh token") {
-      revoked
-    }
+  revokeToken(refreshToken: "refresh token") {
+    revoked
+  }
 }

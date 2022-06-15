@@ -1,4 +1,4 @@
-mutation verifyAccount ($token: String!) {
+mutation verifyAccount($token: String!) {
   verifyAccount(token: $token) {
     success
     errors

@@ -1,6 +1,6 @@
 #import "./studentFragment.gql"
 
-query student ($slug: String!, $jobPostingId: String) {
+query student($slug: String!, $jobPostingId: String) {
   student(slug: $slug, jobPostingId: $jobPostingId) {
     ...studentStudent
   }
@@ -11,7 +11,11 @@ query student ($slug: String!, $jobPostingId: String) {
       }
     }
   }
-  avatarFallback: attachments(key: STUDENT_AVATAR_FALLBACK, slug: $slug, first: 100) {
+  avatarFallback: attachments(
+    key: STUDENT_AVATAR_FALLBACK
+    slug: $slug
+    first: 100
+  ) {
     edges {
       node {
         ...studentAvatarFallback

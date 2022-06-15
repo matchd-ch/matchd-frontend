@@ -1,4 +1,4 @@
-mutation registerCompany (
+mutation registerCompany(
   $name: String!
   $email: String!
   $password: String!

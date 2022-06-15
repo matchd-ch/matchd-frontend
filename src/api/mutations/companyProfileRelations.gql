@@ -1,5 +1,5 @@
 # Step 2
-mutation companyProfileRelations ($input: CompanyProfileRelationsInput!) {
+mutation companyProfileRelations($input: CompanyProfileRelationsInput!) {
   companyProfileRelations(input: $input) {
     success
     errors

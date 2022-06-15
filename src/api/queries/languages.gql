@@ -1,4 +1,4 @@
-query languages ($shortList: Boolean) {
+query languages($shortList: Boolean) {
   languages(shortList: $shortList, first: 100) {
     edges {
       node {

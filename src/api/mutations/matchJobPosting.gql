@@ -1,4 +1,4 @@
-mutation matchJobPosting ($jobPosting: JobPostingInput!) {
+mutation matchJobPosting($jobPosting: JobPostingInput!) {
   matchJobPosting(input: { jobPosting: $jobPosting }) {
     success
     errors

@@ -58,7 +58,7 @@ fragment projectPostingImage on Attachment {
   url
   mimeType
 }
-    
+
 fragment projectPostingImageFallback on Attachment {
   id
   fileName
@@ -72,4 +72,3 @@ fragment projectPostingDocument on Attachment {
   url
   mimeType
 }
-    

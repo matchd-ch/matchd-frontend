@@ -1,6 +1,6 @@
 fragment jobPostingsJobPosting on JobPosting {
-    id
-    slug
-    title
-    displayTitle
+  id
+  slug
+  title
+  displayTitle
 }

@@ -1,5 +1,5 @@
 # Step 1
-mutation projectPostingBaseData ($input: ProjectPostingBaseDataInput!) {
+mutation projectPostingBaseData($input: ProjectPostingBaseDataInput!) {
   projectPostingBaseData(input: $input) {
     success
     errors

@@ -1,4 +1,4 @@
-query company ($slug: String) {
+query company($slug: String) {
   company(slug: $slug) {
     id
     uid
@@ -73,7 +73,11 @@ query company ($slug: String) {
       }
     }
   }
-  logoFallback: attachments(key: COMPANY_AVATAR_FALLBACK, slug: $slug, first: 100) {
+  logoFallback: attachments(
+    key: COMPANY_AVATAR_FALLBACK
+    slug: $slug
+    first: 100
+  ) {
     edges {
       node {
         id

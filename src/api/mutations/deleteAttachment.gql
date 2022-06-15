@@ -1,5 +1,5 @@
-mutation deleteAttachment ($id: String) {
-  deleteAttachment(input: {id: $id}) {
+mutation deleteAttachment($id: String) {
+  deleteAttachment(input: { id: $id }) {
     success
     errors
   }

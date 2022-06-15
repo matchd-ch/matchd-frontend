@@ -1,5 +1,5 @@
 fragment zipCityZipCity on ZipCity {
-    zip
-    city
-    canton
+  zip
+  city
+  canton
 }

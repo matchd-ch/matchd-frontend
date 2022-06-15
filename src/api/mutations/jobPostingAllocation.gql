@@ -1,5 +1,5 @@
 # Step 3
-mutation jobPostingAllocation ($input: JobPostingAllocationInput!) {
+mutation jobPostingAllocation($input: JobPostingAllocationInput!) {
   jobPostingAllocation(input: $input) {
     success
     errors
