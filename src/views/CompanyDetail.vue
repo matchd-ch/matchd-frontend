@@ -55,27 +55,29 @@
         <p>{{ company.data.services }}</p>
       </ProfileSection>
       <ProfileSection
-        v-if="company.data.branches && company.data.branches.length > 0"
+        v-if="company.data.branches.edges.length > 0"
         :pink="true"
         title="In diesen Bereichen kannst du bei uns tätig sein"
       >
         <ul class="list list-inside list-disc marker-pink-1 text-lg">
-          <li v-for="branch in company.data.branches" :key="branch.id">{{ branch.name }}</li>
+          <li v-for="branch in company.data.branches.edges" :key="branch?.node?.id">
+            {{ branch?.node?.name }}
+          </li>
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="company.data.benefits.length"
+        v-if="company.data.benefits.edges.length"
         :pink="true"
         title="Das erwartet dich bei uns"
       >
         <ul class="flex flex-wrap content-start items-start -mb-1">
           <li
-            v-for="benefit in company.data.benefits"
-            :key="benefit.id"
+            v-for="benefit in company.data.benefits.edges"
+            :key="benefit?.node?.id"
             class="flex items-center text-md border border-pink-5 rounded-30 font-medium py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
           >
-            <span class="material-icons mr-2">{{ benefit.icon }}</span>
-            {{ benefit.name }}
+            <span class="material-icons mr-2">{{ benefit?.node?.icon }}</span>
+            {{ benefit?.node?.name }}
           </li>
         </ul>
       </ProfileSection>
@@ -117,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import type { Attachment, Company } from "@/api/models/types";
+import type { Attachment } from "@/api/models/types";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
 import CompanyLogo from "@/components/CompanyLogo.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -128,7 +130,6 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import { CompanyAttachment } from "@/store/modules/content/state";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
@@ -149,37 +150,32 @@ export default class CompanyDetail extends Vue {
   meta = setup(() => useMeta({}));
   currentMedia: Attachment | null = null;
 
-  get mainMedia(): CompanyAttachment {
+  get mainMedia() {
     return this.currentMedia || this.company.media[0];
   }
 
-  get additionalMedia(): CompanyAttachment[] {
+  get additionalMedia() {
     const [, ...additionalMedia] = this.company.media;
     return additionalMedia;
   }
 
-  get company(): {
-    data: Company | null;
-    logo: CompanyAttachment | null;
-    media: CompanyAttachment[];
-    logoFallback: CompanyAttachment | null;
-  } {
+  get company() {
     return this.$store.getters["company"];
   }
 
-  get avatarSrc(): string {
+  get avatarSrc() {
     return this.company.logo?.url || this.company.logoFallback?.url || "";
   }
 
-  replaceStack(url: string, stack: string): string {
+  replaceStack(url: string, stack: string) {
     return replaceStack(url, stack);
   }
 
-  nl2br(text: string): string {
+  nl2br(text: string) {
     return nl2br(text);
   }
 
-  onClickMedia(item: Attachment): void {
+  onClickMedia(item: Attachment) {
     this.currentMedia = item;
   }
 
@@ -187,21 +183,21 @@ export default class CompanyDetail extends Vue {
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
     next: NavigationGuardNext
-  ): Promise<void> {
+  ) {
     if (to.params.slug) {
       await this.loadData(String(to.params.slug));
     }
     next();
   }
 
-  async mounted(): Promise<void> {
+  async mounted() {
     if (this.$route.params.slug) {
       await this.loadData(String(this.$route.params.slug));
       calculateMargins();
     }
   }
 
-  async loadData(slug: string): Promise<void> {
+  async loadData(slug: string) {
     try {
       await this.$store.dispatch(ActionTypes.COMPANY, { slug });
       this.meta.meta.title = this.company.data?.name;
