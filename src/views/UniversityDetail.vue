@@ -51,27 +51,29 @@
         <p>{{ company.data.services }}</p>
       </ProfileSection>
       <ProfileSection
-        v-if="company.data.branches && company.data.branches.length > 0"
+        v-if="company.data.branches.edges.length > 0"
         :pink="true"
         title="In diesen Bereichen kannst du bei uns tätig sein"
       >
         <ul class="list list-inside list-disc marker-pink-1 text-lg">
-          <li v-for="branch in company.data.branches" :key="branch.id">{{ branch.name }}</li>
+          <li v-for="branch in company.data.branches.edges" :key="branch?.node?.id">
+            {{ branch?.node?.name }}
+          </li>
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="company.data.benefits.length"
+        v-if="company.data.benefits.edges.length"
         :pink="true"
         title="Das erwartet dich bei uns"
       >
         <ul class="flex flex-wrap content-start items-start -mb-1">
           <li
-            v-for="benefit in company.data.benefits"
-            :key="benefit.id"
+            v-for="benefit in company.data.benefits.edges"
+            :key="benefit?.node?.id"
             class="flex items-center text-md border border-pink-5 rounded-30 font-medium py-3 px-4 mx-1 mb-2 text-pink-1 bg-grey-5"
           >
-            <span class="material-icons mr-2">{{ benefit.icon }}</span>
-            {{ benefit.name }}
+            <span class="material-icons mr-2">{{ benefit?.node?.icon }}</span>
+            {{ benefit?.node?.name }}
           </li>
         </ul>
       </ProfileSection>
