@@ -1,44 +1,46 @@
 <template>
   <section
-    class="profile-section relative xl:grow p-9 xl:flex"
+    class="profile-section relative p-9"
     :class="{
       'border-green-1': !pink,
       'border-pink-1': pink,
       'pr-20': editStep,
+      'xl:grow xl:flex': !rows,
     }"
   >
     <h2
-      class="text-heading-lg mb-8 xl:mb-0 xl:w-1/2 xl:pr-8 2xl:pr-1/4 break-normal"
+      class="text-heading-lg mb-8 break-normal"
       :class="{
         'text-green-1': !pink,
         'text-pink-1': pink,
+        'xl:mb-0 xl:w-1/2 xl:pr-8 2xl:pr-1/4': !rows,
       }"
     >
       {{ title }}
     </h2>
-    <div class="xl:mb-0 xl:w-1/2">
+    <div :class="{ 'xl:mb-0 xl:w-1/2': !rows }">
       <slot />
     </div>
-    <EditLink v-if="editStep" :edit-step="editStep" route="ProfileEdit"></EditLink>
+    <EditLink v-if="editStep" :edit-step="editStep" route="ProfileEdit" />
   </section>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import EditLink from "@/components/EditLink.vue";
-import { Options, prop, Vue } from "vue-class-component";
 
-class Props {
-  pink = prop<boolean>({ default: false });
-  title = prop<string>({ required: true });
-  editStep = prop<string>({});
-}
-
-@Options({
-  components: {
-    EditLink,
-  },
-})
-export default class ProfileSection extends Vue.with(Props) {}
+withDefaults(
+  defineProps<{
+    pink?: boolean;
+    title: string;
+    editStep?: string;
+    rows?: boolean;
+  }>(),
+  {
+    pink: false,
+    rows: false,
+    editStep: undefined,
+  }
+);
 </script>
 
 <style lang="postcss" scoped>

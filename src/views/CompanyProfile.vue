@@ -81,8 +81,13 @@
           </li>
         </ul>
       </ProfileSection>
-      <section v-if="user.company.jobPostings.length" class="grow p-9">
-        <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
+
+      <ProfileSection
+        v-if="user.company.jobPostings.length"
+        :rows="true"
+        :pink="true"
+        title="Offene Stellen"
+      >
         <ul class="list">
           <li v-for="position in user.company.jobPostings" :key="position.id">
             <router-link
@@ -90,112 +95,139 @@
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ position.title }}, {{ position.jobType?.name }}
-              <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
+              <ArrowFrontSvg class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>
         </ul>
-      </section>
+      </ProfileSection>
+      <ProfileSection :pink="true" :rows="true" title="Ansprechpersonen">
+        <ul v-if="employees.length" class="grid grid-cols-3 gap-4 mb-10">
+          <li v-for="employee in employees" :key="employee.id" class="mb-4 text-sm">
+            <h6 class="text-lg font-medium transition-colors">
+              {{ employee.firstName }}
+              {{ employee.lastName }}
+            </h6>
+            <div v-if="employee.role">{{ employee.role }}</div>
+            <div v-if="employee.email">{{ employee.email }}</div>
+            <a
+              class="block underline hover:text-pink-1 font-medium mt-2 transition-colors cursor-pointer"
+              @click="deletionEmployee = employee"
+            >
+              entfernen
+            </a>
+          </li>
+        </ul>
+        <MatchdButton variant="outline" class="mb-3" @click="showFormModal = true">
+          Ansprechperson hinzufügen
+        </MatchdButton>
+        <MatchingModal v-if="showFormModal">
+          <AddEmployeeForm
+            class="mt-10 add-employee-form"
+            @click-close="showFormModal = false"
+            @submit-complete="showFormModal = false"
+          />
+        </MatchingModal>
+        <MatchingModal v-if="deletionEmployee">
+          <h6 class="text-lg font-medium text-center mb-4">
+            Soll die Ansprechperson
+            <span class="text-pink-1">
+              {{ deletionEmployee.firstName }}
+              {{ deletionEmployee.lastName }}
+            </span>
+            wirklich gelöscht werden?
+          </h6>
+          <template #footer>
+            <div class="grid grid-cols-2 gap-4 w-full">
+              <MatchdButton class="block w-full">Ja</MatchdButton>
+              <MatchdButton class="block w-full" variant="outline" @click="deletionEmployee = null">
+                Nein
+              </MatchdButton>
+            </div>
+          </template>
+        </MatchingModal>
+      </ProfileSection>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { AttachmentKey } from "@/api/models/types";
-import ArrowDown from "@/assets/icons/arrow-down.svg";
-import ArrowFront from "@/assets/icons/arrow-front.svg";
-import CompanyLogo from "@/components/CompanyLogo.vue";
-import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
-import MatchdVideo from "@/components/MatchdVideo.vue";
+<script setup lang="ts">
+import { AttachmentKey, Employee } from "@/api/models/types";
+import ArrowFrontSvg from "@/assets/icons/arrow-front.svg";
+import MatchingModal from "@/components/MatchingModal.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
+import { useStore } from "@/store";
+import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { Options, Vue } from "vue-class-component";
+import { computed, onMounted, ref } from "vue";
+import CompanyLogo from "../components/CompanyLogo.vue";
+import MatchdButton from "../components/MatchdButton.vue";
+import MatchdImageGrid from "../components/MatchdImageGrid.vue";
+import MatchdVideo from "../components/MatchdVideo.vue";
+import AddEmployeeForm from "../containers/AddEmployeeForm.vue";
 
-@Options({
-  components: {
-    CompanyLogo,
-    ProfileSection,
-    MatchdButton,
-    MatchdVideo,
-    MatchdImageGrid,
-    ArrowDown,
-    ArrowFront,
-  },
-})
-export default class CompanyProfile extends Vue {
-  get user() {
-    return this.$store.getters["user"];
-  }
+const store = useStore();
 
-  get logoFallback() {
-    return (
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.CompanyAvatarFallback,
-      })?.[0] ?? undefined
-    );
-  }
+const showFormModal = ref(false);
+const deletionEmployee = ref<Employee | null>(null);
 
-  get logoSrc() {
-    return this.logo?.url || this.logoFallback?.url || "";
-  }
+const user = computed(() => {
+  return store.getters["user"];
+});
 
-  get logo() {
-    return (
-      this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0] ??
-      undefined
-    );
-  }
+const logoFallback = computed(
+  () =>
+    store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatarFallback })?.[0] ??
+    undefined
+);
 
-  get() {
-    return (
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.CompanyAvatarFallback,
-      })?.[0] ?? undefined
-    );
-  }
+const logo = computed(
+  () => store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0] ?? undefined
+);
 
-  get mainMedia() {
-    return this.media?.[0] ?? undefined;
-  }
+const logoSrc = computed(() => logo.value.url || logoFallback.value.url || "");
 
-  get additionalMedia() {
-    const [, ...additionalMedia] = this.media;
-    return additionalMedia;
-  }
+const media = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
+);
 
-  get media() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
+const mainMedia = computed(() => media.value[0] ?? undefined);
 
-  replaceStack(url: string, stack: string) {
-    return replaceStack(url, stack);
-  }
+const additionalMedia = computed(() => {
+  const [, ...additionalMedia] = media.value;
+  return additionalMedia;
+});
 
-  nl2br(text: string) {
-    return nl2br(text);
-  }
+const employees = computed(() => store.getters["employees"]);
 
-  getStepName(step: number) {
-    return `${ParamStrings.STEP}${step}`;
-  }
+const getStepName = (step: number) => {
+  return `${ParamStrings.STEP}${step}`;
+};
 
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyAvatarFallback,
-      }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyDocuments,
-      }),
-    ]);
-    calculateMargins();
-  }
-}
+const handleRemoveEmployee = (id: Employee["id"]) => {
+  console.log(`REMOVE employee whith the id: ${id}`);
+};
+
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyAvatarFallback,
+    }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyDocuments,
+    }),
+    store.dispatch(ActionTypes.EMPLOYEES),
+  ]);
+  calculateMargins();
+});
 </script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.add-employee-form {
+  --color-primary-1: var(--color-pink-1);
+}
+</style>

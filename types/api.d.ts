@@ -419,6 +419,19 @@ type DeleteAttachmentPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+type DeleteEmployeeInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
+};
+
+/** Deletes an employee within the same company */
+type DeleteEmployeePayload = {
+  __typename?: "DeleteEmployeePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 type Employee = Node & {
   __typename?: "Employee";
   email?: Maybe<Scalars["String"]>;
@@ -872,6 +885,8 @@ type Mutation = {
   /** Updates a company profile with soft skills and cultural fit */
   companyProfileValues?: Maybe<CompanyProfileValuesPayload>;
   deleteAttachment?: Maybe<DeleteAttachmentPayload>;
+  /** Deletes an employee within the same company */
+  deleteEmployee?: Maybe<DeleteEmployeePayload>;
   /** Updates a job posting */
   jobPostingAllocation?: Maybe<JobPostingAllocationPayload>;
   /** Creates a job posting */
@@ -885,6 +900,12 @@ type Mutation = {
   matchProjectPosting?: Maybe<MatchProjectPostingPayload>;
   /** Initiate or confirm Matching */
   matchStudent?: Maybe<MatchStudentPayload>;
+  /**
+   * Change account password when user knows the old password.
+   *
+   * A new token and refresh token are sent. User must be verified.
+   */
+  passwordChange?: Maybe<PasswordChange>;
   /**
    * Change user password without old password.
    *
@@ -909,6 +930,17 @@ type Mutation = {
   registerCompany?: Maybe<RegisterCompany>;
   /** Creates a new user as student */
   registerStudent?: Maybe<RegisterStudent>;
+  /**
+   * Sends activation email.
+   *
+   * It is called resend because theoretically
+   * the first activation email was sent when
+   * the user registered.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
+  resendActivationEmail?: Maybe<ResendActivationEmail>;
   revokeToken?: Maybe<Revoke>;
   /**
    * Send password reset email.
@@ -956,6 +988,12 @@ type Mutation = {
   universityProfileSpecificData?: Maybe<UniversityProfileSpecificDataPayload>;
   /** Updates a company profile with soft skills and cultural fit */
   universityProfileValues?: Maybe<UniversityProfileValuesPayload>;
+  /** Updates company information */
+  updateCompany?: Maybe<UpdateCompanyMutationPayload>;
+  /** Updates student information */
+  updateStudent?: Maybe<UpdateStudentMutationPayload>;
+  /** Updates user information */
+  updateUser?: Maybe<UpdateUserMutationPayload>;
   upload?: Maybe<UserUploadPayload>;
   /** Creates a new user user request */
   userRequest?: Maybe<UserRequestPayload>;
@@ -993,6 +1031,10 @@ type MutationDeleteAttachmentArgs = {
   input: DeleteAttachmentInput;
 };
 
+type MutationDeleteEmployeeArgs = {
+  input: DeleteEmployeeInput;
+};
+
 type MutationJobPostingAllocationArgs = {
   input: JobPostingAllocationInput;
 };
@@ -1015,6 +1057,12 @@ type MutationMatchProjectPostingArgs = {
 
 type MutationMatchStudentArgs = {
   input: MatchStudentInput;
+};
+
+type MutationPasswordChangeArgs = {
+  newPassword1: Scalars["String"];
+  newPassword2: Scalars["String"];
+  oldPassword: Scalars["String"];
 };
 
 type MutationPasswordResetArgs = {
@@ -1060,6 +1108,10 @@ type MutationRegisterStudentArgs = {
   student?: InputMaybe<RegisterStudentInput>;
   type: Scalars["String"];
   username: Scalars["String"];
+};
+
+type MutationResendActivationEmailArgs = {
+  email: Scalars["String"];
 };
 
 type MutationRevokeTokenArgs = {
@@ -1114,6 +1166,18 @@ type MutationUniversityProfileSpecificDataArgs = {
 
 type MutationUniversityProfileValuesArgs = {
   input: UniversityProfileValuesInput;
+};
+
+type MutationUpdateCompanyArgs = {
+  input: UpdateCompanyMutationInput;
+};
+
+type MutationUpdateStudentArgs = {
+  input: UpdateStudentMutationInput;
+};
+
+type MutationUpdateUserArgs = {
+  input: UpdateUserMutationInput;
 };
 
 type MutationUploadArgs = {
@@ -1180,6 +1244,19 @@ type PageInfo = {
   hasPreviousPage: Scalars["Boolean"];
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars["String"]>;
+};
+
+/**
+ * Change account password when user knows the old password.
+ *
+ * A new token and refresh token are sent. User must be verified.
+ */
+type PasswordChange = {
+  __typename?: "PasswordChange";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  refreshToken?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+  token?: Maybe<Scalars["String"]>;
 };
 
 /**
@@ -1602,6 +1679,22 @@ type RegisterStudentInput = {
   mobile: Scalars["String"];
 };
 
+/**
+ * Sends activation email.
+ *
+ * It is called resend because theoretically
+ * the first activation email was sent when
+ * the user registered.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
+type ResendActivationEmail = {
+  __typename?: "ResendActivationEmail";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 type Revoke = {
   __typename?: "Revoke";
   revoked?: Maybe<Scalars["Int"]>;
@@ -1730,6 +1823,7 @@ type Student = Node & {
   hobbies?: Maybe<Array<Hobby>>;
   /** The ID of the object. */
   id: Scalars["ID"];
+  isMatchable: Scalars["Boolean"];
   jobFromDate?: Maybe<Scalars["Date"]>;
   jobToDate?: Maybe<Scalars["Date"]>;
   jobType?: Maybe<JobType>;
@@ -2014,6 +2108,50 @@ type UniversityProfileValuesPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+type UpdateCompanyMutationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
+  name?: InputMaybe<Scalars["String"]>;
+  state?: InputMaybe<ProfileState>;
+};
+
+/** Updates company information */
+type UpdateCompanyMutationPayload = {
+  __typename?: "UpdateCompanyMutationPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  company?: Maybe<Company>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type UpdateStudentMutationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  isMatchable?: InputMaybe<Scalars["Boolean"]>;
+};
+
+/** Updates student information */
+type UpdateStudentMutationPayload = {
+  __typename?: "UpdateStudentMutationPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  student?: Maybe<Student>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type UpdateUserMutationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
+};
+
+/** Updates user information */
+type UpdateUserMutationPayload = {
+  __typename?: "UpdateUserMutationPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+  user?: Maybe<User>;
+};
+
 type UploadConfiguration = {
   __typename?: "UploadConfiguration";
   contentTypesConfiguration: Array<UploadTypeConfiguration>;
@@ -2220,6 +2358,14 @@ declare module "*/deleteAttachment.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const deleteAttachment: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/deleteEmployee.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const deleteEmployee: DocumentNode;
 
   export default defaultDocument;
 }
@@ -3157,6 +3303,14 @@ const CompanyProfileValues = gql`
 const DeleteAttachment = gql`
   mutation deleteAttachment($id: String) {
     deleteAttachment(input: { id: $id }) {
+      success
+      errors
+    }
+  }
+`;
+const DeleteEmployee = gql`
+  mutation deleteEmployee($id: String!) {
+    deleteEmployee(input: { id: $id }) {
       success
       errors
     }

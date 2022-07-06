@@ -188,12 +188,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { AttachmentKey } from "@/api/models/types";
-import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
 import CompanyLogo from "@/components/CompanyLogo.vue";
-import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
@@ -201,82 +199,49 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
+import { useStore } from "@/store";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { Options, Vue } from "vue-class-component";
+import { computed, onMounted } from "vue";
 
-@Options({
-  components: {
-    CompanyLogo,
-    ProfileSection,
-    MatchdButton,
-    MatchdVideo,
-    MatchdImageGrid,
-    ArrowDown,
-    ArrowFront,
-  },
-})
-export default class CompanyProfile extends Vue {
-  get user() {
-    return this.$store.getters["user"];
-  }
+const store = useStore();
+const user = computed(() => store.getters["user"]);
+const logo = computed(
+  () => store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0] ?? undefined
+);
 
-  get logoSrc() {
-    return this.logo?.url || this.logoFallback?.url || "";
-  }
+const logoFallback = computed(
+  () =>
+    store.getters["attachmentsByKey"]({
+      key: AttachmentKey.CompanyAvatarFallback,
+    })?.[0] ?? undefined
+);
 
-  get logo() {
-    return (
-      this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0] ??
-      undefined
-    );
-  }
+const logoSrc = computed(() => logo.value.url || logoFallback.value.url || "");
+const media = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
+);
+const mainMedia = computed(() => media.value[0] ?? undefined);
+const additionalMedia = computed(() => {
+  const [, ...additionalMedia] = media.value;
+  return additionalMedia;
+});
 
-  get logoFallback() {
-    return (
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.CompanyAvatarFallback,
-      })?.[0] ?? undefined
-    );
-  }
+const getStepName = (step: number) => {
+  return `${ParamStrings.STEP}${step}`;
+};
 
-  get mainMedia() {
-    return this.media?.[0] ?? undefined;
-  }
-
-  get additionalMedia() {
-    const [, ...additionalMedia] = this.media;
-    return additionalMedia;
-  }
-
-  get media() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  replaceStack(url: string, stack: string) {
-    return replaceStack(url, stack);
-  }
-
-  nl2br(text: string) {
-    return nl2br(text);
-  }
-
-  getStepName(step: number) {
-    return `${ParamStrings.STEP}${step}`;
-  }
-
-  async mounted(): Promise<void> {
-    await Promise.all([
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyAvatarFallback,
-      }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyDocuments,
-      }),
-    ]);
-    calculateMargins();
-  }
-}
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyAvatarFallback,
+    }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyDocuments,
+    }),
+  ]);
+  calculateMargins();
+});
 </script>
 
 <style lang="postcss" scoped></style>

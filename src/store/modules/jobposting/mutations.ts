@@ -1,5 +1,6 @@
 import type {
   AddEmployeePayload,
+  DeleteEmployeePayload,
   JobPostingAllocationPayload,
   JobPostingBaseDataPayload,
   JobPostingRequirementsPayload,
@@ -25,6 +26,8 @@ export type Mutations<S = State> = {
   [MutationTypes.CLEAR_CURRENT_JOBPOSTING](state: S): void;
   [MutationTypes.ADD_EMPLOYEE_LOADING](state: S): void;
   [MutationTypes.ADD_EMPLOYEE_LOADED](state: S, payload: AddEmployeePayload): void;
+  [MutationTypes.DELETE_EMPLOYEE_LOADING](state: S): void;
+  [MutationTypes.DELETE_EMPLOYEE_LOADED](state: S, payload: DeleteEmployeePayload): void;
   [MutationTypes.EMPLOYEES_LOADING](state: S): void;
   [MutationTypes.EMPLOYEES_LOADED](state: S, payload: EmployeesQuery): void;
 };
@@ -60,6 +63,18 @@ export const mutations: MutationTree<State> & Mutations = {
     if (payload.success && payload.employee) {
       state.employees.data.push(payload.employee);
     }
+  },
+  [MutationTypes.DELETE_EMPLOYEE_LOADING](state: State) {
+    state.currentJobPosting.loading = true;
+  },
+  [MutationTypes.DELETE_EMPLOYEE_LOADED](state: State, payload: DeleteEmployeePayload) {
+    state.addEmployee.loading = false;
+    state.addEmployee.success = payload.success || false;
+    state.addEmployee.errors = errorCodeMapper(payload.errors);
+    // TODO: CHECK result
+    // if (payload.success && payload.employee) {
+    //   state.employees.data.push(payload.employee);
+    // }
   },
   [MutationTypes.EMPLOYEES_LOADING](state: State) {
     state.employees.loading = true;

@@ -2,6 +2,7 @@
   <div>
     <AddEmployeeForm
       v-if="showEmployeeForm"
+      class="add-employee-form"
       @submit-complete="onAddEmployeeComplete"
       @click-close="onClickClose"
     >
@@ -226,4 +227,8 @@ export default class ProjectPostingStep3 extends Vue {
 }
 </script>
 
-<style></style>
+<style lang="postcss" scoped>
+.add-employee-form {
+  --color-primary-1: var(--color-orange-1);
+}
+</style>

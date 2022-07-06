@@ -9,14 +9,15 @@
       <div
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
-        <div class="fixed inset-0 bg-black bg-opacity-50" aria-hidden="true"></div>
-
-        <span class="hidden sm:inline-block align-middle h-screen" aria-hidden="true">&#8203;</span>
-
         <div
-          class="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transition-all my-8 max-w-xl w-full"
+          class="matching-modal-backdrop fixed inset-0 bg-black bg-opacity-50"
+          aria-hidden="true"
+        />
+        <span class="hidden sm:inline-block align-middle h-screen" aria-hidden="true">&#8203;</span>
+        <div
+          class="inline-block align-middle bg-grey-4 rounded-lg text-left overflow-hidden shadow-xl transition-all my-8 max-w-xl w-full"
         >
-          <div class="bg-white px-4 pt-5 pb-4 sm:p-8 sm:pb-4">
+          <div class="px-4 pt-5 pb-4 sm:p-8 sm:pb-4">
             <slot />
           </div>
           <div class="bg-gray-50 px-4 pb-8 sm:px-6 md:flex md:justify-end">
@@ -41,7 +42,7 @@ export default class MatchingModal extends Vue {}
 </script>
 
 <style lang="postcss" scoped>
-.matching-modal :deep(*) {
-  --color-primary-1: var(--color-orange-1);
+.matching-modal-backdrop {
+  z-index: -1;
 }
 </style>

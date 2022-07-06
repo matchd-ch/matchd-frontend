@@ -1,11 +1,13 @@
 import { createApolloClient } from "@/api/apollo-client";
 import type {
   AddEmployeeInput,
+  DeleteEmployeeInput,
   JobPostingAllocationInput,
   JobPostingBaseDataInput,
   JobPostingRequirementsInput,
 } from "@/api/models/types";
 import { AddEmployeeDocument } from "@/api/mutations/addEmployee.generated";
+import { DeleteEmployeeDocument } from "@/api/mutations/deleteEmployee.generated";
 import { JobPostingAllocationDocument } from "@/api/mutations/jobPostingAllocation.generated";
 import { JobPostingBaseDataDocument } from "@/api/mutations/jobPostingBaseData.generated";
 import { JobPostingRequirementsDocument } from "@/api/mutations/jobPostingRequirements.generated";
@@ -48,6 +50,10 @@ export interface Actions {
   [ActionTypes.ADD_EMPLOYEE](
     { commit }: AugmentedActionContext,
     payload: AddEmployeeInput
+  ): Promise<void>;
+  [ActionTypes.DELETE_EMPLOYEE](
+    { commit }: AugmentedActionContext,
+    payload: DeleteEmployeeInput
   ): Promise<void>;
   [ActionTypes.EMPLOYEES]({ commit }: AugmentedActionContext): Promise<void>;
 }
@@ -96,6 +102,14 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: payload,
     });
     commit(MutationTypes.ADD_EMPLOYEE_LOADED, response.data?.addEmployee ?? undefined);
+  },
+  async [ActionTypes.DELETE_EMPLOYEE]({ commit }, payload: DeleteEmployeeInput) {
+    commit(MutationTypes.DELETE_EMPLOYEE_LOADING);
+    const response = await apiClient.mutate({
+      mutation: DeleteEmployeeDocument,
+      variables: payload,
+    });
+    commit(MutationTypes.DELETE_EMPLOYEE_LOADED, response.data?.deleteEmployee ?? undefined);
   },
   async [ActionTypes.EMPLOYEES]({ commit }) {
     commit(MutationTypes.EMPLOYEES_LOADING);

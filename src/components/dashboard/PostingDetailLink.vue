@@ -2,7 +2,7 @@
   <router-link
     v-if="posting.company"
     :to="{
-      name: isJob ? 'JobPostingDetail' : 'ProjectPostingDetail',
+      name: jobPosting ? 'JobPostingDetail' : 'ProjectPostingDetail',
       params: { slug: posting.slug },
     }"
     class="hover:text-primary-1 transition-colors underline"
@@ -11,48 +11,43 @@
       {{ posting.displayTitle }}
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
     </h3>
-    <p v-if="!isJob" class="text-sm">{{ posting.projectType.name }}</p>
-    <p v-if="isJob && posting.company">
-      {{ posting.company.name }}
+    <p v-if="projectPosting" class="text-sm">{{ projectPosting.projectType.name }}</p>
+    <p v-if="jobPosting">
+      {{ jobPosting.company.name }}
       <br />
-      {{ posting.company.zip }} {{ posting.company.city }}
+      {{ jobPosting.company.zip }} {{ jobPosting.company.city }}
     </p>
   </router-link>
   <router-link
-    v-else-if="posting.student && company"
+    v-else-if="projectPosting?.company"
     :to="{
       name: 'CompanyDetail',
-      params: { slug: company.slug },
+      params: { slug: projectPosting.company.slug },
     }"
     class="hover:text-primary-1 transition-colors underline"
   >
     <h3 class="font-medium text-lg">
-      {{ posting.displayTitle }}
+      {{ projectPosting.displayTitle }}
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
     </h3>
-    <p class="text-sm">{{ posting.projectType.name }}</p>
-    <p class="text-sm">{{ company.name }}</p>
+    <p class="text-sm">{{ projectPosting.projectType.name }}</p>
+    <p class="text-sm">{{ projectPosting.company.name }}</p>
   </router-link>
 </template>
 
-<script lang="ts">
-import type { Company, JobPosting, ProjectPosting } from "@/api/models/types";
+<script setup lang="ts">
+import type { JobPosting, ProjectPosting } from "@/api/models/types";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
-import { Options, prop, Vue } from "vue-class-component";
+import { computed } from "vue";
 
-class Props {
-  type = prop<"job" | "project">({ default: "job" });
-  posting = prop<JobPosting | ProjectPosting>({});
-  company = prop<Company>({});
-}
-@Options({
-  components: {
-    ArrowFrontIcon,
-  },
-})
-export default class PostingDetailLink extends Vue.with(Props) {
-  get isJob(): boolean {
-    return this.type === "job";
-  }
-}
+const props = defineProps<{
+  posting: JobPosting | ProjectPosting;
+}>();
+
+const jobPosting = computed(() =>
+  props.posting.__typename === "JobPosting" ? props.posting : null
+);
+const projectPosting = computed(() =>
+  props.posting.__typename === "ProjectPosting" ? props.posting : null
+);
 </script>

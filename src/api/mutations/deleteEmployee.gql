@@ -1,0 +1,12 @@
+mutation deleteEmployee(
+  $id: String!
+) {
+  deleteEmployee(
+    input: {
+      id: $id
+    }
+  ) {
+    success
+    errors
+  }
+}
