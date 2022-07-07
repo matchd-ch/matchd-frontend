@@ -1,4 +1,4 @@
-import type { JobPosting } from "@/api/models/types";
+import type { Employee } from "@/api/models/types";
 import { EmployeesEmployeeFragment } from "@/api/queries/employeesFragment.generated";
 import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import { MatchdApiError } from "@/models/MatchdApiError";
@@ -23,6 +23,12 @@ export type State = {
     loading: boolean;
     success: boolean;
     errors: MatchdApiError | null;
+    employee?: Employee;
+  };
+  deleteEmployee: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
   };
 };
 
@@ -43,6 +49,11 @@ export const state: State = {
     data: [],
   },
   addEmployee: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  deleteEmployee: {
     loading: false,
     success: false,
     errors: null,

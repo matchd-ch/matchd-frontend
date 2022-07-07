@@ -54,27 +54,24 @@ export const mutations: MutationTree<State> & Mutations = {
     state.currentJobPosting.data = null;
   },
   [MutationTypes.ADD_EMPLOYEE_LOADING](state: State) {
-    state.currentJobPosting.loading = true;
+    state.addEmployee.loading = true;
   },
   [MutationTypes.ADD_EMPLOYEE_LOADED](state: State, payload: AddEmployeePayload) {
-    state.addEmployee.loading = false;
     state.addEmployee.success = payload.success || false;
     state.addEmployee.errors = errorCodeMapper(payload.errors);
+    state.addEmployee.employee = payload.employee ?? undefined;
     if (payload.success && payload.employee) {
       state.employees.data.push(payload.employee);
     }
+    state.addEmployee.loading = false;
   },
   [MutationTypes.DELETE_EMPLOYEE_LOADING](state: State) {
-    state.currentJobPosting.loading = true;
+    state.deleteEmployee.loading = true;
   },
   [MutationTypes.DELETE_EMPLOYEE_LOADED](state: State, payload: DeleteEmployeePayload) {
-    state.addEmployee.loading = false;
-    state.addEmployee.success = payload.success || false;
-    state.addEmployee.errors = errorCodeMapper(payload.errors);
-    // TODO: CHECK result
-    // if (payload.success && payload.employee) {
-    //   state.employees.data.push(payload.employee);
-    // }
+    state.deleteEmployee.loading = false;
+    state.deleteEmployee.success = payload.success || false;
+    state.deleteEmployee.errors = errorCodeMapper(payload.errors);
   },
   [MutationTypes.EMPLOYEES_LOADING](state: State) {
     state.employees.loading = true;

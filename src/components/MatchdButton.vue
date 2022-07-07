@@ -1,32 +1,36 @@
 <template>
   <component
     :is="tag"
+    :disabled="disabled"
     class="btn relative overflow-hidden rounded-full font-medium text-xl py-3 px-6 xl:px-10 focus:outline-none focus:ring focus:ring-black focus:ring-opacity-50"
     :class="[variant, size, active ? 'active' : '']"
   >
-    <Loading v-if="loading" />
+    <LoadingSvg v-if="loading" />
     <slot v-else />
   </component>
 </template>
 
-<script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
-import Loading from "@/assets/icons/loading.svg";
+<script setup lang="ts">
+import LoadingSvg from "@/assets/icons/loading.svg";
 
-class Props {
-  tag = prop<string>({ default: "button" });
-  variant = prop<string>({ default: "fill" });
-  loading = prop<boolean>({ default: false });
-  active = prop<boolean>({ default: false });
-  size = prop<string>({ default: "" });
-}
-
-@Options({
-  components: {
-    Loading,
-  },
-})
-export default class MatchdButton extends Vue.with(Props) {}
+withDefaults(
+  defineProps<{
+    tag?: string;
+    variant?: string;
+    loading?: boolean;
+    active?: boolean;
+    disabled?: boolean;
+    size?: string;
+  }>(),
+  {
+    tag: "button",
+    variant: "fill",
+    loading: false,
+    active: false,
+    disabled: false,
+    size: undefined,
+  }
+);
 </script>
 
 <style lang="postcss" scoped>

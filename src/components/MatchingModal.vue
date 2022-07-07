@@ -29,17 +29,7 @@
   </teleport>
 </template>
 
-<script lang="ts">
-import MatchdButton from "@/components/MatchdButton.vue";
-import { Options, Vue } from "vue-class-component";
-
-@Options({
-  components: {
-    MatchdButton,
-  },
-})
-export default class MatchingModal extends Vue {}
-</script>
+<script setup lang="ts"></script>
 
 <style lang="postcss" scoped>
 .matching-modal-backdrop {

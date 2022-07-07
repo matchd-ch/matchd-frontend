@@ -4,9 +4,9 @@
 
 <script lang="ts">
 import CompanyProfile from "@/views/CompanyProfile.vue";
-import { Options, setup, Vue } from "vue-class-component";
 import StudentProfile from "@/views/StudentProfile.vue";
 import UniversityProfile from "@/views/UniversityProfile.vue";
+import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
 @Options({

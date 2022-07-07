@@ -100,79 +100,28 @@
           </li>
         </ul>
       </ProfileSection>
-      <ProfileSection :pink="true" :rows="true" title="Ansprechpersonen">
-        <ul v-if="employees.length" class="grid grid-cols-3 gap-4 mb-10">
-          <li v-for="employee in employees" :key="employee.id" class="mb-4 text-sm">
-            <h6 class="text-lg font-medium transition-colors">
-              {{ employee.firstName }}
-              {{ employee.lastName }}
-            </h6>
-            <div v-if="employee.role">{{ employee.role }}</div>
-            <div v-if="employee.email">{{ employee.email }}</div>
-            <a
-              class="block underline hover:text-pink-1 font-medium mt-2 transition-colors cursor-pointer"
-              @click="deletionEmployee = employee"
-            >
-              entfernen
-            </a>
-          </li>
-        </ul>
-        <MatchdButton variant="outline" class="mb-3" @click="showFormModal = true">
-          Ansprechperson hinzufügen
-        </MatchdButton>
-        <MatchingModal v-if="showFormModal">
-          <AddEmployeeForm
-            class="mt-10 add-employee-form"
-            @click-close="showFormModal = false"
-            @submit-complete="showFormModal = false"
-          />
-        </MatchingModal>
-        <MatchingModal v-if="deletionEmployee">
-          <h6 class="text-lg font-medium text-center mb-4">
-            Soll die Ansprechperson
-            <span class="text-pink-1">
-              {{ deletionEmployee.firstName }}
-              {{ deletionEmployee.lastName }}
-            </span>
-            wirklich gelöscht werden?
-          </h6>
-          <template #footer>
-            <div class="grid grid-cols-2 gap-4 w-full">
-              <MatchdButton class="block w-full">Ja</MatchdButton>
-              <MatchdButton class="block w-full" variant="outline" @click="deletionEmployee = null">
-                Nein
-              </MatchdButton>
-            </div>
-          </template>
-        </MatchingModal>
-      </ProfileSection>
+      <ContactPersons />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { AttachmentKey, Employee } from "@/api/models/types";
+import { AttachmentKey } from "@/api/models/types";
 import ArrowFrontSvg from "@/assets/icons/arrow-front.svg";
-import MatchingModal from "@/components/MatchingModal.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ParamStrings } from "@/router/paramStrings";
 import { useStore } from "@/store";
-import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
 import CompanyLogo from "../components/CompanyLogo.vue";
-import MatchdButton from "../components/MatchdButton.vue";
 import MatchdImageGrid from "../components/MatchdImageGrid.vue";
 import MatchdVideo from "../components/MatchdVideo.vue";
-import AddEmployeeForm from "../containers/AddEmployeeForm.vue";
+import ContactPersons from "./ContactPersons.vue";
 
 const store = useStore();
-
-const showFormModal = ref(false);
-const deletionEmployee = ref<Employee | null>(null);
 
 const user = computed(() => {
   return store.getters["user"];
@@ -201,14 +150,8 @@ const additionalMedia = computed(() => {
   return additionalMedia;
 });
 
-const employees = computed(() => store.getters["employees"]);
-
 const getStepName = (step: number) => {
   return `${ParamStrings.STEP}${step}`;
-};
-
-const handleRemoveEmployee = (id: Employee["id"]) => {
-  console.log(`REMOVE employee whith the id: ${id}`);
 };
 
 onMounted(async () => {
@@ -220,7 +163,6 @@ onMounted(async () => {
     store.dispatch(UploadActionTypes.UPLOADED_FILES, {
       key: AttachmentKey.CompanyDocuments,
     }),
-    store.dispatch(ActionTypes.EMPLOYEES),
   ]);
   calculateMargins();
 });

@@ -52,8 +52,14 @@
         werden kann. Ihrem Unternehmensprofil wird damit ein/e weitere/r User*in zugeordnet.
       </template>
     </MatchdField>
-    <MatchdButton variant="fill" class="block w-full mb-3">Ansprechperson speichern</MatchdButton>
-    <MatchdButton type="button" variant="outline" class="block w-full" @click="emit('clickClose')">
+    <MatchdButton
+      :loading="addEmployeeLoading"
+      :disabled="addEmployeeLoading"
+      variant="fill"
+      class="block w-full mb-3"
+      >Ansprechperson speichern</MatchdButton
+    >
+    <MatchdButton type="button" variant="outline" class="block w-full" @click="emits('clickClose')">
       Abbrechen
     </MatchdButton>
   </Form>
@@ -69,7 +75,10 @@ import { Field, Form, FormActions } from "vee-validate";
 import { computed } from "vue";
 
 const store = useStore();
-const emit = defineEmits(["submitComplete", "clickClose"]);
+const emits = defineEmits<{
+  (event: "submitComplete"): void;
+  (event: "clickClose"): void;
+}>();
 
 const employeeForm: AddEmployeeSubForm = {
   firstName: "",
@@ -82,20 +91,26 @@ const addEmployeeLoading = computed(() => store.getters["addEmployeeLoading"]);
 const addEmployeeState = computed(() => store.getters["addEmployeeState"]);
 
 const onAddNewEmployee = async (
-  form: AddEmployeeSubForm,
+  _form: Record<string, unknown>,
   actions: FormActions<Partial<AddEmployeeSubForm>>
 ) => {
-  await store.dispatch(ActionTypes.ADD_EMPLOYEE, employeeForm);
+  console.log("A");
+  await store.dispatch(ActionTypes.ADD_EMPLOYEE, employeeForm).finally(() => console.log("tuble"));
+  console.log("B");
   if (addEmployeeState.value.errors) {
+    console.log("C");
     actions.setErrors(addEmployeeState.value.errors);
     if (addEmployeeState.value.errors.username?.[0] === "unique") {
+      console.log("D");
       actions.setErrors({
         email: "Mit dieser E-Mailadresse wurde bereits eine Kontaktperson erfasst.",
       });
     }
+    console.log("E");
     return;
   } else if (addEmployeeState.value.success) {
-    emit("submitComplete");
+    console.log("SUCCESS");
+    emits("submitComplete");
   }
 };
 </script>
