@@ -173,17 +173,7 @@
           </a>
         </p>
       </ProfileSection>
-      <ProfileSection v-if="user.company.employees[0]" :pink="true" title="Ansprechspartner">
-        <p>
-          {{ user.company.employees[0].firstName }} {{ user.company.employees[0].lastName }}
-          <br />
-          {{ user.company.employees[0].role }}
-          <br />
-          {{ user.company.employees[0].email }}
-          <br />
-          {{ user.company.phone }}
-        </p>
-      </ProfileSection>
+      <ContactEmployees />
     </div>
   </div>
 </template>
@@ -202,21 +192,31 @@ import { ParamStrings } from "@/router/paramStrings";
 import { useStore } from "@/store";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { computed, onMounted } from "vue";
+import ContactEmployees from "./ContactEmployees.vue";
 
 const store = useStore();
 const user = computed(() => store.getters["user"]);
-const logo = computed(
-  () => store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0] ?? undefined
-);
 
-const logoFallback = computed(
-  () =>
-    store.getters["attachmentsByKey"]({
-      key: AttachmentKey.CompanyAvatarFallback,
-    })?.[0] ?? undefined
-);
+const logoFallback = computed(() => {
+  const attachments = store.getters["attachmentsByKey"]({
+    key: AttachmentKey.CompanyAvatarFallback,
+  });
+  if (!attachments[0]) {
+    return null;
+  }
+  return attachments[0];
+});
 
-const logoSrc = computed(() => logo.value.url || logoFallback.value.url || "");
+const logo = computed(() => {
+  const attachments = store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
+  if (!attachments[0]) {
+    return null;
+  }
+  return attachments[0];
+});
+
+const logoSrc = computed(() => logo.value?.url || logoFallback.value?.url || "");
+
 const media = computed(() =>
   store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
 );

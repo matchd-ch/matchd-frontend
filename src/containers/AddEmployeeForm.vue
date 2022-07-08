@@ -94,23 +94,25 @@ const onAddNewEmployee = async (
   _form: Record<string, unknown>,
   actions: FormActions<Partial<AddEmployeeSubForm>>
 ) => {
-  console.log("A");
-  await store.dispatch(ActionTypes.ADD_EMPLOYEE, employeeForm).finally(() => console.log("tuble"));
-  console.log("B");
-  if (addEmployeeState.value.errors) {
-    console.log("C");
-    actions.setErrors(addEmployeeState.value.errors);
-    if (addEmployeeState.value.errors.username?.[0] === "unique") {
-      console.log("D");
-      actions.setErrors({
-        email: "Mit dieser E-Mailadresse wurde bereits eine Kontaktperson erfasst.",
-      });
+  try {
+    await store.dispatch(ActionTypes.ADD_EMPLOYEE, employeeForm);
+    const errors = addEmployeeState.value.errors;
+    if (errors && Object.keys(errors).length) {
+      actions.setErrors(errors);
+      if (errors.username?.[0] === "unique") {
+        actions.setErrors({
+          email: "Mit dieser E-Mailadresse wurde bereits eine Kontaktperson erfasst.",
+        });
+      }
+      return;
     }
-    console.log("E");
-    return;
-  } else if (addEmployeeState.value.success) {
-    console.log("SUCCESS");
+    if (!addEmployeeState.value.success) {
+      console.error("Something went wrong...");
+      return;
+    }
     emits("submitComplete");
+  } catch (error) {
+    console.error(error);
   }
 };
 </script>

@@ -75,8 +75,6 @@ const deleteEmployeeLoading = computed(() => store.getters["deleteEmployeeLoadin
 const employees = computed(() => store.getters["employees"]);
 const user = computed(() => store.getters["user"]);
 
-console.log("user:", user.value);
-
 const emits = defineEmits<{
   (event: "deletionSuccess", id: Employee["id"]): void;
 }>();

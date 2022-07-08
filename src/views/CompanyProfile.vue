@@ -100,7 +100,7 @@
           </li>
         </ul>
       </ProfileSection>
-      <ContactPersons />
+      <ContactEmployees />
     </div>
   </div>
 </template>
@@ -119,7 +119,7 @@ import { computed, onMounted } from "vue";
 import CompanyLogo from "../components/CompanyLogo.vue";
 import MatchdImageGrid from "../components/MatchdImageGrid.vue";
 import MatchdVideo from "../components/MatchdVideo.vue";
-import ContactPersons from "./ContactPersons.vue";
+import ContactEmployees from "./ContactEmployees.vue";
 
 const store = useStore();
 
@@ -127,17 +127,25 @@ const user = computed(() => {
   return store.getters["user"];
 });
 
-const logoFallback = computed(
-  () =>
-    store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatarFallback })?.[0] ??
-    undefined
-);
+const logoFallback = computed(() => {
+  const attachments = store.getters["attachmentsByKey"]({
+    key: AttachmentKey.CompanyAvatarFallback,
+  });
+  if (!attachments[0]) {
+    return null;
+  }
+  return attachments[0];
+});
 
-const logo = computed(
-  () => store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })?.[0] ?? undefined
-);
+const logo = computed(() => {
+  const attachments = store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
+  if (!attachments[0]) {
+    return null;
+  }
+  return attachments[0];
+});
 
-const logoSrc = computed(() => logo.value.url || logoFallback.value.url || "");
+const logoSrc = computed(() => logo.value?.url || logoFallback.value?.url || "");
 
 const media = computed(() =>
   store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })

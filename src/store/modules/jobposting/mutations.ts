@@ -60,7 +60,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state.addEmployee.success = payload.success || false;
     state.addEmployee.errors = errorCodeMapper(payload.errors);
     state.addEmployee.employee = payload.employee ?? undefined;
-    if (payload.success && payload.employee) {
+    if (payload.success && payload.employee && state.employees.data) {
       state.employees.data.push(payload.employee);
     }
     state.addEmployee.loading = false;

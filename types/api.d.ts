@@ -4252,6 +4252,7 @@ const Me = gql`
         }
         projectPostings {
           id
+          slug
           title
           state
           projectType {
