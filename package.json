@@ -57,7 +57,7 @@
     "@graphql-codegen/typescript-document-nodes": "^2.2.14",
     "@graphql-codegen/near-operation-file-preset": "^2.2.15",
     "@graphql-codegen/typed-document-node": "^2.2.14",
-    "@graphql-codegen/typescript-graphql-files-modules": "^2.1.1",
+    "@graphql-codegen/typescript-graphql-files-modules": "^2.2.0",
     "@graphql-codegen/typescript-operations": "^2.4.3",
     "@types/apollo-upload-client": "^17.0.1",
     "@types/d3": "^7.4.0",
