@@ -8,15 +8,12 @@
   </router-link>
 </template>
 
-<script lang="ts">
-import { Vue, prop } from "vue-class-component";
-
-class Props {
-  editStep = prop<string>({ required: true });
-  slug = prop<string>({});
-  route = prop<string>({ required: true });
-}
-export default class EditLink extends Vue.with(Props) {}
+<script setup lang="ts">
+defineProps<{
+  editStep?: string;
+  slug?: string;
+  route?: string;
+}>();
 </script>
 
 <style lang="postcss" scoped>

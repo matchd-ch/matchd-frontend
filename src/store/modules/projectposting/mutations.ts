@@ -1,13 +1,13 @@
 import type {
   AddEmployeePayload,
-  Employee,
-  ProjectPosting,
   ProjectPostingAllocationPayload,
   ProjectPostingBaseDataPayload,
   ProjectPostingSpecificDataPayload,
 } from "@/api/models/types";
+import { EmployeesQuery } from "@/api/queries/employees.generated";
 import { ProjectPostingQuery } from "@/api/queries/projectPosting.generated";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
+import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { State } from "@/store/modules/projectposting/state";
 import { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
@@ -26,7 +26,7 @@ export type Mutations<S = State> = {
   [MutationTypes.ADD_EMPLOYEE_LOADING](state: S): void;
   [MutationTypes.ADD_EMPLOYEE_LOADED](state: S, payload: AddEmployeePayload): void;
   [MutationTypes.EMPLOYEES_LOADING](state: S): void;
-  [MutationTypes.EMPLOYEES_LOADED](state: S, payload: Employee[]): void;
+  [MutationTypes.EMPLOYEES_LOADED](state: S, payload: EmployeesQuery): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -59,15 +59,15 @@ export const mutations: MutationTree<State> & Mutations = {
     state.addEmployee.loading = false;
     state.addEmployee.success = payload.success || false;
     state.addEmployee.errors = errorCodeMapper(payload.errors);
-    if (payload.success && payload.employee) {
+    if (payload.success && payload.employee && state.employees.data) {
       state.employees.data.push(payload.employee);
     }
   },
   [MutationTypes.EMPLOYEES_LOADING](state: State) {
     state.employees.loading = true;
   },
-  [MutationTypes.EMPLOYEES_LOADED](state: State, payload: Employee[]) {
+  [MutationTypes.EMPLOYEES_LOADED](state: State, payload: EmployeesQuery) {
     state.employees.loading = false;
-    state.employees.data = payload;
+    state.employees.data = ensureNoNullsAndUndefineds(payload.me?.company?.employees ?? []);
   },
 };

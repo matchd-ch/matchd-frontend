@@ -114,6 +114,7 @@ export type MeQuery = {
       projectPostings: Array<{
         __typename?: "ProjectPosting";
         id: string;
+        slug: string;
         title: string;
         state: Types.ProjectPostingState;
         projectType: { __typename?: "ProjectType"; id: string; name: string };
@@ -490,6 +491,7 @@ export const MeDocument = {
                           kind: "SelectionSet",
                           selections: [
                             { kind: "Field", name: { kind: "Name", value: "id" } },
+                            { kind: "Field", name: { kind: "Name", value: "slug" } },
                             { kind: "Field", name: { kind: "Name", value: "title" } },
                             { kind: "Field", name: { kind: "Name", value: "state" } },
                             {

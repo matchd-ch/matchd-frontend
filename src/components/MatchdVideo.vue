@@ -11,7 +11,7 @@ import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
   attachment = prop<Attachment>({});
-  type = prop<string>({});
+  type = prop<string>({ default: "default" });
 }
 
 @Options({})
@@ -22,7 +22,7 @@ export default class MatchdVideo extends Vue.with(Props) {
     if (!this.attachment) {
       return "";
     }
-    return `video-${this.attachment.id}-${this.type || "default"}`;
+    return `video-${this.attachment.id}-${this.type}`;
   }
 
   get playerOptions(): VideoJsPlayerOptions {

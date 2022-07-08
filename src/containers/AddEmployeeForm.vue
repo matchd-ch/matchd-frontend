@@ -52,63 +52,67 @@
         werden kann. Ihrem Unternehmensprofil wird damit ein/e weitere/r User*in zugeordnet.
       </template>
     </MatchdField>
-    <MatchdButton variant="fill" class="block w-full mb-3">Ansprechperson speichern</MatchdButton>
-    <MatchdButton type="button" variant="outline" class="block w-full" @click="$emit('clickClose')"
-      >Abbrechen</MatchdButton
+    <MatchdButton
+      :loading="addEmployeeLoading"
+      :disabled="addEmployeeLoading"
+      variant="fill"
+      class="block w-full mb-3"
+      >Ansprechperson speichern</MatchdButton
     >
+    <MatchdButton type="button" variant="outline" class="block w-full" @click="emits('clickClose')">
+      Abbrechen
+    </MatchdButton>
   </Form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import { AddEmployeeState } from "@/models/AddEmployeeState";
 import { AddEmployeeSubForm } from "@/models/JobPostingStep3Form";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { Field, Form, FormActions } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { computed } from "vue";
 
-@Options({
-  components: {
-    Form,
-    Field,
-    MatchdButton,
-    MatchdField,
-  },
-  emits: ["submitComplete", "clickClose"],
-})
-export default class AddEmployeeForm extends Vue {
-  employeeForm: AddEmployeeSubForm = {
-    firstName: "",
-    lastName: "",
-    role: "",
-    email: "",
-  };
+const store = useStore();
+const emits = defineEmits<{
+  (event: "submitComplete"): void;
+  (event: "clickClose"): void;
+}>();
 
-  get addEmployeeLoading(): boolean {
-    return this.$store.getters["addEmployeeLoading"];
-  }
+const employeeForm: AddEmployeeSubForm = {
+  firstName: "",
+  lastName: "",
+  role: "",
+  email: "",
+};
 
-  get addEmployeeState(): AddEmployeeState {
-    return this.$store.getters["addEmployeeState"];
-  }
+const addEmployeeLoading = computed(() => store.getters["addEmployeeLoading"]);
+const addEmployeeState = computed(() => store.getters["addEmployeeState"]);
 
-  async onAddNewEmployee(
-    form: AddEmployeeSubForm,
-    actions: FormActions<Partial<AddEmployeeSubForm>>
-  ): Promise<void> {
-    await this.$store.dispatch(ActionTypes.ADD_EMPLOYEE, this.employeeForm);
-    if (this.addEmployeeState?.errors) {
-      actions.setErrors(this.addEmployeeState.errors);
-      if (this.addEmployeeState.errors.username?.[0] === "unique") {
+const onAddNewEmployee = async (
+  _form: Record<string, unknown>,
+  actions: FormActions<Partial<AddEmployeeSubForm>>
+) => {
+  try {
+    await store.dispatch(ActionTypes.ADD_EMPLOYEE, employeeForm);
+    const errors = addEmployeeState.value.errors;
+    if (errors && Object.keys(errors).length) {
+      actions.setErrors(errors);
+      if (errors.username?.[0] === "unique") {
         actions.setErrors({
           email: "Mit dieser E-Mailadresse wurde bereits eine Kontaktperson erfasst.",
         });
       }
       return;
-    } else if (this.addEmployeeState.success) {
-      this.$emit("submitComplete");
     }
+    if (!addEmployeeState.value.success) {
+      console.error("Something went wrong...");
+      return;
+    }
+    emits("submitComplete");
+  } catch (error) {
+    console.error(error);
   }
-}
+};
 </script>

@@ -90,6 +90,7 @@
           <li v-for="hobby in user.student.hobbies" :key="hobby.id">{{ hobby.name }}</li>
         </ul>
       </profile-section>
+      <!-- TODO: Fix certificates -->
       <profile-section v-if="certificates?.length" title="Zertifikate" :edit-step="getStepName(4)">
         <ul>
           <li v-for="certificate in certificates" :key="certificate.node?.id">

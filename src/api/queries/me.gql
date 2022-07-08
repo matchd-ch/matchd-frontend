@@ -118,6 +118,7 @@ query me {
       }
       projectPostings {
         id
+        slug
         title
         state
         projectType {

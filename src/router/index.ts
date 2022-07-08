@@ -9,7 +9,7 @@ import { redirectToCurrentProjectPostingStepGuard } from "@/router/guards/redire
 import { studentDetailOnlyWithPublishedJobOrProjectPostingGuard } from "@/router/guards/studentDetailOnlyWithPublishedJobOrProjectPostingGuard";
 import { talentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/talentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
+import Dashboard from "../views/DashboardOverview.vue";
 import { config } from "./../config";
 
 const routes: Array<RouteRecordRaw> = [

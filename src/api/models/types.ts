@@ -419,6 +419,19 @@ export type DeleteAttachmentPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+export type DeleteEmployeeInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
+};
+
+/** Deletes an employee within the same company */
+export type DeleteEmployeePayload = {
+  __typename?: "DeleteEmployeePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 export type Employee = Node & {
   __typename?: "Employee";
   email?: Maybe<Scalars["String"]>;
@@ -872,6 +885,8 @@ export type Mutation = {
   /** Updates a company profile with soft skills and cultural fit */
   companyProfileValues?: Maybe<CompanyProfileValuesPayload>;
   deleteAttachment?: Maybe<DeleteAttachmentPayload>;
+  /** Deletes an employee within the same company */
+  deleteEmployee?: Maybe<DeleteEmployeePayload>;
   /** Updates a job posting */
   jobPostingAllocation?: Maybe<JobPostingAllocationPayload>;
   /** Creates a job posting */
@@ -885,6 +900,12 @@ export type Mutation = {
   matchProjectPosting?: Maybe<MatchProjectPostingPayload>;
   /** Initiate or confirm Matching */
   matchStudent?: Maybe<MatchStudentPayload>;
+  /**
+   * Change account password when user knows the old password.
+   *
+   * A new token and refresh token are sent. User must be verified.
+   */
+  passwordChange?: Maybe<PasswordChange>;
   /**
    * Change user password without old password.
    *
@@ -909,6 +930,17 @@ export type Mutation = {
   registerCompany?: Maybe<RegisterCompany>;
   /** Creates a new user as student */
   registerStudent?: Maybe<RegisterStudent>;
+  /**
+   * Sends activation email.
+   *
+   * It is called resend because theoretically
+   * the first activation email was sent when
+   * the user registered.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
+  resendActivationEmail?: Maybe<ResendActivationEmail>;
   revokeToken?: Maybe<Revoke>;
   /**
    * Send password reset email.
@@ -956,6 +988,12 @@ export type Mutation = {
   universityProfileSpecificData?: Maybe<UniversityProfileSpecificDataPayload>;
   /** Updates a company profile with soft skills and cultural fit */
   universityProfileValues?: Maybe<UniversityProfileValuesPayload>;
+  /** Updates company information */
+  updateCompany?: Maybe<UpdateCompanyMutationPayload>;
+  /** Updates student information */
+  updateStudent?: Maybe<UpdateStudentMutationPayload>;
+  /** Updates user information */
+  updateUser?: Maybe<UpdateUserMutationPayload>;
   upload?: Maybe<UserUploadPayload>;
   /** Creates a new user user request */
   userRequest?: Maybe<UserRequestPayload>;
@@ -993,6 +1031,10 @@ export type MutationDeleteAttachmentArgs = {
   input: DeleteAttachmentInput;
 };
 
+export type MutationDeleteEmployeeArgs = {
+  input: DeleteEmployeeInput;
+};
+
 export type MutationJobPostingAllocationArgs = {
   input: JobPostingAllocationInput;
 };
@@ -1015,6 +1057,12 @@ export type MutationMatchProjectPostingArgs = {
 
 export type MutationMatchStudentArgs = {
   input: MatchStudentInput;
+};
+
+export type MutationPasswordChangeArgs = {
+  newPassword1: Scalars["String"];
+  newPassword2: Scalars["String"];
+  oldPassword: Scalars["String"];
 };
 
 export type MutationPasswordResetArgs = {
@@ -1060,6 +1108,10 @@ export type MutationRegisterStudentArgs = {
   student?: InputMaybe<RegisterStudentInput>;
   type: Scalars["String"];
   username: Scalars["String"];
+};
+
+export type MutationResendActivationEmailArgs = {
+  email: Scalars["String"];
 };
 
 export type MutationRevokeTokenArgs = {
@@ -1114,6 +1166,18 @@ export type MutationUniversityProfileSpecificDataArgs = {
 
 export type MutationUniversityProfileValuesArgs = {
   input: UniversityProfileValuesInput;
+};
+
+export type MutationUpdateCompanyArgs = {
+  input: UpdateCompanyMutationInput;
+};
+
+export type MutationUpdateStudentArgs = {
+  input: UpdateStudentMutationInput;
+};
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserMutationInput;
 };
 
 export type MutationUploadArgs = {
@@ -1180,6 +1244,19 @@ export type PageInfo = {
   hasPreviousPage: Scalars["Boolean"];
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars["String"]>;
+};
+
+/**
+ * Change account password when user knows the old password.
+ *
+ * A new token and refresh token are sent. User must be verified.
+ */
+export type PasswordChange = {
+  __typename?: "PasswordChange";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  refreshToken?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+  token?: Maybe<Scalars["String"]>;
 };
 
 /**
@@ -1602,6 +1679,22 @@ export type RegisterStudentInput = {
   mobile: Scalars["String"];
 };
 
+/**
+ * Sends activation email.
+ *
+ * It is called resend because theoretically
+ * the first activation email was sent when
+ * the user registered.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
+export type ResendActivationEmail = {
+  __typename?: "ResendActivationEmail";
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 export type Revoke = {
   __typename?: "Revoke";
   revoked?: Maybe<Scalars["Int"]>;
@@ -1730,6 +1823,7 @@ export type Student = Node & {
   hobbies?: Maybe<Array<Hobby>>;
   /** The ID of the object. */
   id: Scalars["ID"];
+  isMatchable: Scalars["Boolean"];
   jobFromDate?: Maybe<Scalars["Date"]>;
   jobToDate?: Maybe<Scalars["Date"]>;
   jobType?: Maybe<JobType>;
@@ -2012,6 +2106,50 @@ export type UniversityProfileValuesPayload = {
   clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type UpdateCompanyMutationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
+  name?: InputMaybe<Scalars["String"]>;
+  state?: InputMaybe<ProfileState>;
+};
+
+/** Updates company information */
+export type UpdateCompanyMutationPayload = {
+  __typename?: "UpdateCompanyMutationPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  company?: Maybe<Company>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type UpdateStudentMutationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  isMatchable?: InputMaybe<Scalars["Boolean"]>;
+};
+
+/** Updates student information */
+export type UpdateStudentMutationPayload = {
+  __typename?: "UpdateStudentMutationPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  student?: Maybe<Student>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type UpdateUserMutationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
+};
+
+/** Updates user information */
+export type UpdateUserMutationPayload = {
+  __typename?: "UpdateUserMutationPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+  user?: Maybe<User>;
 };
 
 export type UploadConfiguration = {
