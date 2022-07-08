@@ -55,7 +55,7 @@
     "@graphql-codegen/introspection": "^2.2.0",
     "@graphql-codegen/typescript": "^2.6.0",
     "@graphql-codegen/typescript-document-nodes": "^2.3.0",
-    "@graphql-codegen/near-operation-file-preset": "^2.2.15",
+    "@graphql-codegen/near-operation-file-preset": "^2.3.0",
     "@graphql-codegen/typed-document-node": "^2.2.14",
     "@graphql-codegen/typescript-graphql-files-modules": "^2.2.0",
     "@graphql-codegen/typescript-operations": "^2.5.0",
