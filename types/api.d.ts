@@ -2426,6 +2426,14 @@ declare module "*/matchStudent.gql" {
   export default defaultDocument;
 }
 
+declare module "*/passwordChange.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const PasswordChange: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/passwordReset.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -2582,6 +2590,14 @@ declare module "*/universityProfileValues.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const universityProfileValues: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/updateUser.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const UpdateUser: DocumentNode;
 
   export default defaultDocument;
 }
@@ -3378,6 +3394,18 @@ const MatchStudent = gql`
     }
   }
 `;
+const PasswordChange = gql`
+  mutation PasswordChange($oldPassword: String!, $newPassword1: String!, $newPassword2: String!) {
+    passwordChange(
+      oldPassword: $oldPassword
+      newPassword1: $newPassword1
+      newPassword2: $newPassword2
+    ) {
+      success
+      errors
+    }
+  }
+`;
 const PasswordReset = gql`
   mutation passwordReset($token: String!, $password: String!) {
     passwordReset(token: $token, newPassword1: $password, newPassword2: $password) {
@@ -3584,6 +3612,14 @@ const UniversityProfileSpecificData = gql`
 const UniversityProfileValues = gql`
   mutation universityProfileValues($input: UniversityProfileValuesInput!) {
     universityProfileValues(input: $input) {
+      success
+      errors
+    }
+  }
+`;
+const UpdateUser = gql`
+  mutation UpdateUser($input: UpdateUserMutationInput!) {
+    updateUser(input: $input) {
       success
       errors
     }

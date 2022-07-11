@@ -33,6 +33,9 @@
       <ProfileNavigationItem :to="{ params: { step: 'schritt4' } }" :active="urlStepNumber === 4">
         Set-up Talentsuche
       </ProfileNavigationItem>
+      <ProfileNavigationItem :to="{ params: { step: 'schritt5' } }" :active="urlStepNumber === 5">
+        Konto
+      </ProfileNavigationItem>
     </ProfileNavigation>
     <ProfileNavigation v-else-if="isUniversity">
       <ProfileNavigationItem :to="{ params: { step: 'schritt1' } }" :active="urlStepNumber === 1">
@@ -69,11 +72,12 @@ import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
 import { MutationTypes } from "@/store/modules/profile/mutation-types";
 import {
-  CompanyFinish as CompanyStep5,
+  CompanyFinish as CompanyStep6,
   CompanyStep1,
   CompanyStep2,
   CompanyStep3,
   CompanyStep4,
+  CompanyStep5,
 } from "@/views/profile/company";
 import {
   StudentFinish as StudentStep7,
@@ -111,6 +115,7 @@ Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
     CompanyStep3,
     CompanyStep4,
     CompanyStep5,
+    CompanyStep6,
     UniversityStep1,
     UniversityStep2,
     UniversityStep3,

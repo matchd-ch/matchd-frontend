@@ -40,7 +40,6 @@
     </div>
     <div class="flex flex-col min-h-full">
       <ProfileSection :pink="true" title="Über uns" :edit-step="getStepName(2)">
-        <!-- TODO: Check if this is necessary. -->
         <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="nl2br(user.company.description)"></p>
       </ProfileSection>
@@ -58,8 +57,8 @@
         title="In diesen Bereichen kannst du bei uns tätig sein"
         :edit-step="getStepName(3)"
       >
-        <ul class="list list-inside list-disc marker-pink-1">
-          <li v-for="branch in user.company.branches.edges" :key="branch?.node?.id" class="text-lg">
+        <ul class="list list-inside list-disc marker-pink-1 text-lg">
+          <li v-for="branch in user.company.branches.edges" :key="branch?.node?.id">
             {{ branch?.node?.name }}
           </li>
         </ul>
@@ -81,18 +80,23 @@
           </li>
         </ul>
       </ProfileSection>
-
+      <ProfileSection :pink="true" title="Konto" :edit-step="getStepName(5)">
+        <ul class="list list-inside list-disc marker-pink-1 text-lg">
+          <li>Email: {{ user.email }}</li>
+          <li>Passwort: ••••••••••••••••</li>
+        </ul>
+      </ProfileSection>
       <ProfileSection
         v-if="user.company.jobPostings.length"
         :rows="true"
         :pink="true"
         title="Offene Stellen"
       >
-        <ul class="list">
+        <ul class="list text-lg font-medium underline">
           <li v-for="position in user.company.jobPostings" :key="position.id">
             <router-link
               :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
-              class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
+              class="block hover:text-pink-1 mb-2 transition-colors"
             >
               {{ position.title }}, {{ position.jobType?.name }}
               <ArrowFrontSvg class="w-5 mb-1 ml-2 inline-block" />

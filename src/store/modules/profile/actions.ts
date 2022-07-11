@@ -14,11 +14,16 @@ import type {
   UniversityProfileRelationsInput,
   UniversityProfileSpecificDataInput,
   UniversityProfileValuesInput,
+  UpdateUserMutationInput,
 } from "@/api/models/types";
 import { CompanyProfileAdvantagesDocument } from "@/api/mutations/companyProfileAdvantages.generated";
 import { CompanyProfileBaseDataDocument } from "@/api/mutations/companyProfileBaseData.generated";
 import { CompanyProfileRelationsDocument } from "@/api/mutations/companyProfileRelations.generated";
 import { CompanyProfileValuesDocument } from "@/api/mutations/companyProfileValues.generated";
+import {
+  PasswordChangeDocument,
+  PasswordChangeMutationVariables,
+} from "@/api/mutations/passwordChange.generated";
 import { StudentProfileAbilitiesDocument } from "@/api/mutations/studentProfileAbilities.generated";
 import { StudentProfileBaseDataDocument } from "@/api/mutations/studentProfileBaseData.generated";
 import { StudentProfileCharacterDocument } from "@/api/mutations/studentProfileCharacter.generated";
@@ -29,6 +34,7 @@ import { UniversityProfileBaseDataDocument } from "@/api/mutations/universityPro
 import { UniversityProfileRelationsDocument } from "@/api/mutations/universityProfileRelations.generated";
 import { UniversityProfileSpecificDataDocument } from "@/api/mutations/universityProfileSpecificData.generated";
 import { UniversityProfileValuesDocument } from "@/api/mutations/universityProfileValues.generated";
+import { UpdateUserDocument } from "@/api/mutations/updateUser.generated";
 import { ZipCityDocument } from "@/api/queries/zipCity.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import { RootState } from "@/store";
@@ -88,6 +94,14 @@ export interface Actions {
   [ActionTypes.COMPANY_ONBOARDING_STEP4](
     { commit }: AugmentedActionContext,
     payload: CompanyProfileValuesInput
+  ): Promise<void>;
+  [ActionTypes.UPDATE_USER](
+    { commit }: AugmentedActionContext,
+    payload: UpdateUserMutationInput
+  ): Promise<void>;
+  [ActionTypes.PASSWORD_CHANGE](
+    { commit }: AugmentedActionContext,
+    payload: PasswordChangeMutationVariables
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
@@ -229,6 +243,25 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(
       MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
       response.data?.companyProfileValues ?? undefined
+    );
+  },
+  async [ActionTypes.UPDATE_USER]({ commit }, payload: UpdateUserMutationInput) {
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
+    const response = await apiClient.mutate({
+      mutation: UpdateUserDocument,
+      variables: { input: payload },
+    });
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data?.updateUser ?? undefined);
+  },
+  async [ActionTypes.PASSWORD_CHANGE]({ commit }, payload: PasswordChangeMutationVariables) {
+    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
+    const response = await apiClient.mutate({
+      mutation: PasswordChangeDocument,
+      variables: payload,
+    });
+    commit(
+      MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
+      response.data?.passwordChange ?? undefined
     );
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
