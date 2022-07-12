@@ -22,6 +22,5 @@ export enum ActionTypes {
   SKILLS = "SKILLS",
   SOFT_SKILLS = "SOFT_SKILLS",
   STUDENT = "STUDENT",
-  TOPICS = "TOPICS",
   ZIP_CITY_JOBS = "ZIP_CITY_JOBS",
 }

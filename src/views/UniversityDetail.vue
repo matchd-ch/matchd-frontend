@@ -43,7 +43,6 @@
     <div class="flex flex-col min-h-full">
       <section class="grow p-9 border-b border-pink-1">
         <h2 class="text-heading-lg mb-8 text-pink-1">Über uns</h2>
-        <!-- TODO: Check if this is necessary. -->
         <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="nl2br(company.data.description)"></p>
       </section>
@@ -132,7 +131,7 @@
               :to="{ name: 'ProjectPostingDetail', params: { slug: project.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
-              {{ project.projectType.name }} ({{ project.topic.name }})
+              {{ project.projectType.name }})
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>

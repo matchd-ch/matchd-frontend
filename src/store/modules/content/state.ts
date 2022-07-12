@@ -31,7 +31,6 @@ import {
   StudentCertificatesFragment,
   StudentStudentFragment,
 } from "@/api/queries/studentFragment.generated";
-import { TopicsTopicFragment } from "@/api/queries/topicsFragment.generated";
 import { ZipCityZipCityFragment } from "@/api/queries/zipCityFragment.generated";
 
 export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
@@ -128,10 +127,6 @@ export type State = {
     loading: boolean;
     data: JobPostingJobPostingFragment | null;
   };
-  topics: {
-    loading: boolean;
-    data: TopicsTopicFragment[];
-  };
 };
 
 export const state: State = {
@@ -225,9 +220,5 @@ export const state: State = {
   jobPosting: {
     loading: false,
     data: null,
-  },
-  topics: {
-    loading: false,
-    data: [],
   },
 };

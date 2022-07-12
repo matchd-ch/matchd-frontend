@@ -8,7 +8,8 @@ export type ProjectPostingProjectPostingFragment = {
   title: string;
   displayTitle: string;
   description: string;
-  additionalInformation: string;
+  teamSize?: number | null;
+  compensation?: string | null;
   formStep: number;
   state: Types.ProjectPostingState;
   projectFromDate?: any | null;
@@ -19,9 +20,8 @@ export type ProjectPostingProjectPostingFragment = {
     initiator: Types.ProfileType;
     confirmed: boolean;
   } | null;
-  topic: { __typename?: "Topic"; id: string; name: string };
-  projectType: { __typename?: "ProjectType"; id: string; name: string };
   keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
+  projectType: { __typename?: "ProjectType"; id: string; name: string };
   company?: {
     __typename?: "Company";
     id: string;
@@ -90,7 +90,8 @@ export const ProjectPostingProjectPostingFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "title" } },
           { kind: "Field", name: { kind: "Name", value: "displayTitle" } },
           { kind: "Field", name: { kind: "Name", value: "description" } },
-          { kind: "Field", name: { kind: "Name", value: "additionalInformation" } },
+          { kind: "Field", name: { kind: "Name", value: "teamSize" } },
+          { kind: "Field", name: { kind: "Name", value: "compensation" } },
           { kind: "Field", name: { kind: "Name", value: "formStep" } },
           { kind: "Field", name: { kind: "Name", value: "state" } },
           { kind: "Field", name: { kind: "Name", value: "projectFromDate" } },
@@ -109,7 +110,7 @@ export const ProjectPostingProjectPostingFragmentDoc = {
           },
           {
             kind: "Field",
-            name: { kind: "Name", value: "topic" },
+            name: { kind: "Name", value: "keywords" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [

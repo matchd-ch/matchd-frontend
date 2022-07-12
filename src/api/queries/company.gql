@@ -54,7 +54,7 @@ query company($slug: String) {
       title
       displayTitle
       slug
-      topic {
+      keywords {
         id
         name
       }

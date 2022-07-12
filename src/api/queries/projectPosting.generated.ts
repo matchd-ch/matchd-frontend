@@ -21,7 +21,8 @@ export type ProjectPostingQuery = {
     title: string;
     displayTitle: string;
     description: string;
-    additionalInformation: string;
+    teamSize?: number | null;
+    compensation?: string | null;
     formStep: number;
     state: Types.ProjectPostingState;
     projectFromDate?: any | null;
@@ -32,9 +33,8 @@ export type ProjectPostingQuery = {
       initiator: Types.ProfileType;
       confirmed: boolean;
     } | null;
-    topic: { __typename?: "Topic"; id: string; name: string };
-    projectType: { __typename?: "ProjectType"; id: string; name: string };
     keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
+    projectType: { __typename?: "ProjectType"; id: string; name: string };
     company?: {
       __typename?: "Company";
       id: string;

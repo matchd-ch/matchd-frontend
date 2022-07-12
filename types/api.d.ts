@@ -1296,8 +1296,8 @@ enum ProfileType {
 
 type ProjectPosting = Node & {
   __typename?: "ProjectPosting";
-  additionalInformation: Scalars["String"];
   company?: Maybe<Company>;
+  compensation?: Maybe<Scalars["String"]>;
   dateCreated?: Maybe<Scalars["Date"]>;
   datePublished?: Maybe<Scalars["Date"]>;
   description: Scalars["String"];
@@ -1314,8 +1314,8 @@ type ProjectPosting = Node & {
   slug: Scalars["String"];
   state: ProjectPostingState;
   student?: Maybe<Student>;
+  teamSize?: Maybe<Scalars["Int"]>;
   title: Scalars["String"];
-  topic: Topic;
   website: Scalars["String"];
 };
 
@@ -1338,17 +1338,18 @@ type ProjectPostingAllocationPayload = {
 };
 
 type ProjectPostingBaseDataInput = {
-  /** Additional Information */
-  additionalInformation?: InputMaybe<Scalars["String"]>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** Compensation */
+  compensation: Scalars["String"];
   /** Description */
   description: Scalars["String"];
   id?: InputMaybe<Scalars["String"]>;
-  keywords?: InputMaybe<Array<InputMaybe<KeywordInput>>>;
+  keywords: Array<InputMaybe<KeywordInput>>;
   projectType: ProjectTypeInput;
+  /** Team size */
+  teamSize: Scalars["Int"];
   /** Title */
   title: Scalars["String"];
-  topic: TopicInput;
 };
 
 /** Creates a project posting */
@@ -1472,7 +1473,6 @@ type Query = {
   skills?: Maybe<SkillConnectionsConnection>;
   softSkills?: Maybe<SoftSkillConnectionsConnection>;
   student?: Maybe<Student>;
-  topics?: Maybe<TopicConnection>;
   uploadConfigurations?: Maybe<Array<Maybe<UploadConfiguration>>>;
   verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
   zipCity: Array<ZipCity>;
@@ -1592,8 +1592,14 @@ type QueryProjectPostingArgs = {
 type QueryProjectPostingsArgs = {
   after?: InputMaybe<Scalars["String"]>;
   before?: InputMaybe<Scalars["String"]>;
+  companyId?: InputMaybe<Scalars["String"]>;
+  datePublished?: InputMaybe<Scalars["Date"]>;
   first?: InputMaybe<Scalars["Int"]>;
+  keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   last?: InputMaybe<Scalars["Int"]>;
+  projectFromDate?: InputMaybe<Scalars["Date"]>;
+  projectTypeId?: InputMaybe<Scalars["String"]>;
+  teamSize?: InputMaybe<Scalars["Int"]>;
 };
 
 type QueryProjectTypesArgs = {
@@ -1620,13 +1626,6 @@ type QuerySoftSkillsArgs = {
 type QueryStudentArgs = {
   jobPostingId?: InputMaybe<Scalars["String"]>;
   slug?: InputMaybe<Scalars["String"]>;
-};
-
-type QueryTopicsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
 };
 
 type QueryVerifyPasswordResetTokenArgs = {
@@ -1989,35 +1988,6 @@ type StudentProfileSpecificDataPayload = {
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   nicknameSuggestions?: Maybe<Array<Maybe<Scalars["String"]>>>;
   success?: Maybe<Scalars["Boolean"]>;
-};
-
-type Topic = Node & {
-  __typename?: "Topic";
-  /** The ID of the object. */
-  id: Scalars["ID"];
-  name: Scalars["String"];
-};
-
-type TopicConnection = {
-  __typename?: "TopicConnection";
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<TopicEdge>>;
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-};
-
-/** A Relay edge containing a `Topic` and its cursor. */
-type TopicEdge = {
-  __typename?: "TopicEdge";
-  /** A cursor for use in pagination */
-  cursor: Scalars["String"];
-  /** The item at the end of the edge */
-  node?: Maybe<Topic>;
-};
-
-type TopicInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
 };
 
 type UniversityProfileBaseDataInput = {
@@ -2896,22 +2866,6 @@ declare module "*/studentFragment.gql" {
   export default defaultDocument;
 }
 
-declare module "*/topics.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const topics: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/topicsFragment.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const topicsTopic: DocumentNode;
-
-  export default defaultDocument;
-}
-
 declare module "*/uploadConfigurations.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -3049,7 +3003,8 @@ export const ProjectPostingProjectPosting = gql`
     title
     displayTitle
     description
-    additionalInformation
+    teamSize
+    compensation
     formStep
     state
     projectFromDate
@@ -3059,7 +3014,7 @@ export const ProjectPostingProjectPosting = gql`
       initiator
       confirmed
     }
-    topic {
+    keywords {
       id
       name
     }
@@ -3223,7 +3178,7 @@ export const StudentStudent = gql`
       title
       displayTitle
       slug
-      topic {
+      keywords {
         id
         name
       }
@@ -3254,12 +3209,6 @@ export const StudentCertificates = gql`
     url
     mimeType
     fileName
-  }
-`;
-export const TopicsTopic = gql`
-  fragment topicsTopic on Topic {
-    id
-    name
   }
 `;
 export const ZipCityZipCity = gql`
@@ -3769,7 +3718,7 @@ const Company = gql`
         title
         displayTitle
         slug
-        topic {
+        keywords {
           id
           name
         }
@@ -3851,7 +3800,7 @@ const Dashboard = gql`
         dateCreated
         slug
         state
-        topic {
+        keywords {
           id
           name
         }
@@ -3859,7 +3808,7 @@ const Dashboard = gql`
           id
           name
         }
-        topic {
+        keywords {
           id
           name
         }
@@ -3901,7 +3850,7 @@ const Dashboard = gql`
           id
           name
         }
-        topic {
+        keywords {
           id
           name
         }
@@ -3998,7 +3947,7 @@ const Dashboard = gql`
           displayTitle
           slug
           state
-          topic {
+          keywords {
             id
             name
           }
@@ -4295,7 +4244,7 @@ const Me = gql`
             id
             name
           }
-          topic {
+          keywords {
             id
             name
           }
@@ -4442,18 +4391,6 @@ const Student = gql`
   ${StudentAvatar}
   ${StudentAvatarFallback}
   ${StudentCertificates}
-`;
-const Topics = gql`
-  query topics {
-    topics(first: 100) {
-      edges {
-        node {
-          ...topicsTopic
-        }
-      }
-    }
-  }
-  ${TopicsTopic}
 `;
 const UploadConfigurations = gql`
   query uploadConfigurations {

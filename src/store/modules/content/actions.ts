@@ -27,7 +27,6 @@ import { ProjectTypesDocument } from "@/api/queries/projectTypes.generated";
 import { SkillsDocument } from "@/api/queries/skills.generated";
 import { SoftSkillsDocument } from "@/api/queries/softSkills.generated";
 import { StudentDocument } from "@/api/queries/student.generated";
-import { TopicsDocument } from "@/api/queries/topics.generated";
 import { ZipCityJobsDocument } from "@/api/queries/zipCityJobs.generated";
 import { MatchingInput } from "@/models/MatchingInput";
 import { ZipCityJobsInput } from "@/models/ZipCityJobsInput";
@@ -96,7 +95,6 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: { slug: string; jobPostingId?: string }
   ): Promise<void>;
-  [ActionTypes.TOPICS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ZIP_CITY_JOBS](
     { commit }: AugmentedActionContext,
     payload: ZipCityJobsInput
@@ -388,16 +386,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
       avatarFallback: response.data.avatarFallback,
       certificates: response.data.certificates,
     });
-  },
-  async [ActionTypes.TOPICS]({ commit }) {
-    commit(MutationTypes.TOPICS_LOADING);
-    const response = await apiClient.query({
-      query: TopicsDocument,
-      context: {
-        batch: true,
-      },
-    });
-    commit(MutationTypes.TOPICS_LOADED, { topics: response.data.topics });
   },
   async [ActionTypes.ZIP_CITY_JOBS]({ commit }, payload?: ZipCityJobsInput) {
     commit(MutationTypes.ZIP_CITY_JOBS_LOADING);

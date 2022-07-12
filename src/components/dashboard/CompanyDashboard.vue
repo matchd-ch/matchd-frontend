@@ -35,7 +35,7 @@
             :key="projectPosting.id"
             class="link-list__item"
           >
-            <PostingEditLink :posting="projectPosting" type="project"></PostingEditLink>
+            <PostingEditLink :posting="projectPosting" />
           </li>
         </ul>
         <matchd-button
@@ -56,7 +56,7 @@
             :key="jobPosting.id"
             class="link-list__item"
           >
-            <PostingEditLink :posting="jobPosting"></PostingEditLink>
+            <PostingEditLink :posting="jobPosting" />
           </li>
         </ul>
         <matchd-button
@@ -76,10 +76,10 @@
           Momentan haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
           hier sehen.
         </p>
-        <company-match-group
+        <CompanyMatchGroup
           class="mt-4"
           :matches="dashboard?.uniqueRequestedJobPostingMatchings"
-        ></company-match-group>
+        ></CompanyMatchGroup>
       </profile-section>
       <profile-section title="Anfragen zum Matching" :pink="true">
         <p v-if="dashboard?.unconfirmedMatches?.length">
@@ -89,10 +89,10 @@
           Momentan haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie
           das hier sehen.
         </p>
-        <company-match-group
+        <CompanyMatchGroup
           class="mt-4"
           :matches="dashboard?.uniqueUnconfirmedJobPostingMatchings"
-        ></company-match-group>
+        ></CompanyMatchGroup>
       </profile-section>
       <profile-section
         v-if="dashboard?.confirmedMatches?.length || dashboard?.projectMatches?.length"
@@ -101,10 +101,10 @@
       >
         <template v-if="dashboard?.projectMatches">
           <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
-          <company-match-group
+          <CompanyMatchGroup
             type="ProjectPosting"
             :matches="dashboard.uniqueProjectPostingMatchings"
-          ></company-match-group>
+          ></CompanyMatchGroup>
         </template>
 
         <template v-if="dashboard?.confirmedMatches?.length">
@@ -114,9 +114,7 @@
           >
             Stellen
           </h2>
-          <company-match-group
-            :matches="dashboard?.uniqueJobPostingMatchings"
-          ></company-match-group>
+          <CompanyMatchGroup :matches="dashboard?.uniqueJobPostingMatchings"></CompanyMatchGroup>
         </template>
       </profile-section>
     </div>

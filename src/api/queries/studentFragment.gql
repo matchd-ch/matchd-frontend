@@ -85,7 +85,7 @@ fragment studentStudent on Student {
     title
     displayTitle
     slug
-    topic {
+    keywords {
       id
       name
     }

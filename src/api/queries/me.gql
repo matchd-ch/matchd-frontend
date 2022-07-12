@@ -125,7 +125,7 @@ query me {
           id
           name
         }
-        topic {
+        keywords {
           id
           name
         }

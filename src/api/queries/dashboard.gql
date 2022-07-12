@@ -8,7 +8,7 @@ query dashboard {
       dateCreated
       slug
       state
-      topic {
+      keywords {
         id
         name
       }
@@ -16,7 +16,7 @@ query dashboard {
         id
         name
       }
-      topic {
+      keywords {
         id
         name
       }
@@ -58,7 +58,7 @@ query dashboard {
         id
         name
       }
-      topic {
+      keywords {
         id
         name
       }
@@ -155,7 +155,7 @@ query dashboard {
         displayTitle
         slug
         state
-        topic {
+        keywords {
           id
           name
         }
