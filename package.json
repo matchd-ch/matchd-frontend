@@ -21,7 +21,7 @@
     "@vee-validate/rules": "^4.5.11",
     "@vueform/slider": "^2.0.10",
     "apollo-upload-client": "^17.0.0",
-    "core-js": "^3.23.3",
+    "core-js": "^3.23.4",
     "@cypress/vue": "^4.0.0",
     "@cypress/webpack-dev-server": "^2.0.0",
     "@gtm-support/vue-gtm": "^1.6.0",
