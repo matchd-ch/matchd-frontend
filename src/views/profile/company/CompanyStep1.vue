@@ -90,7 +90,7 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { companyProfileStep1FormMapper } from "@/api/mappers/companyProfileStep1FormMapper";
 import { companyProfileStep1InputMapper } from "@/api/mappers/companyProfileStep1InputMapper";
 import FormSaveError from "@/components/FormSaveError.vue";
@@ -98,95 +98,83 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import type { CompanyProfileStep1Form } from "@/models/CompanyProfileStep1Form";
-import type { OnboardingState } from "@/models/OnboardingState";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { ErrorMessage, Field, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Field, useForm } from "vee-validate";
+import { computed, onMounted, watch } from "vue";
+import { setup } from "vue-class-component";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
+const props = withDefaults(defineProps<{ edit: boolean }>(), {
+  edit: false,
+});
 
-@Options({
-  components: {
-    Field,
-    ErrorMessage,
-    FormSaveError,
-    MatchdButton,
-    MatchdField,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel"],
-})
-export default class CompanyStep1 extends Vue.with(Props) {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<CompanyProfileStep1Form>();
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.COMPANY_ONBOARDING_STEP1,
-          companyProfileStep1InputMapper(formData)
-        );
-        const onboardingState = store.getters["onboardingState"];
-        this.$emit("submitComplete", onboardingState.success);
-      } catch (e) {
-        console.log(e); // todo
-      }
-    });
+const emits = defineEmits<{
+  (event: "submitComplete", success: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+}>();
 
-    return {
-      ...form,
-      onSubmit,
-    };
+const store = useStore();
+
+const veeForm = setup(() => {
+  const form = useForm<CompanyProfileStep1Form>();
+  const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+    try {
+      await store.dispatch(
+        ActionTypes.COMPANY_ONBOARDING_STEP1,
+        companyProfileStep1InputMapper(formData)
+      );
+      const onboardingState = store.getters["onboardingState"];
+      emits("submitComplete", onboardingState.success);
+    } catch (e) {
+      console.log(e); // todo
+    }
   });
-  formData = {} as CompanyProfileStep1Form;
 
-  get showError(): boolean {
-    return !!this.onboardingState.errors;
-  }
+  return {
+    ...form,
+    onSubmit,
+  };
+});
+const formData = {} as CompanyProfileStep1Form;
 
-  get onboardingLoading(): boolean {
-    return this.$store.getters["onboardingLoading"];
-  }
+const onboardingState = computed(() => store.getters["onboardingState"]);
 
-  get onboardingState(): OnboardingState {
-    return this.$store.getters["onboardingState"];
-  }
+const showError = computed(() => !!onboardingState.value.errors);
 
-  get user() {
-    return this.$store.getters["user"];
-  }
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 
-  get profileData(): CompanyProfileStep1Form {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as CompanyProfileStep1Form;
-    }
-    return companyProfileStep1FormMapper(user);
-  }
+const user = computed(() => store.getters["user"]);
 
-  async mounted(): Promise<void> {
-    await this.$store.dispatch(ActionTypes.CITY_BY_ZIP);
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
-    calculateMargins();
+const profileData = computed(() => {
+  const user = store.getters["user"];
+  if (!user) {
+    return {} as CompanyProfileStep1Form;
   }
+  return companyProfileStep1FormMapper(user);
+});
 
-  async onBlurZip(zip: string): Promise<void> {
-    const city = this.$store.getters["cityByZip"]({ zip });
-    if (city) {
-      this.veeForm.setFieldValue("city", city);
-    }
-  }
+onMounted(async () => {
+  await store.dispatch(ActionTypes.CITY_BY_ZIP);
+  veeForm.resetForm({
+    values: profileData.value,
+  });
+  calculateMargins();
+});
 
-  @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
+const onBlurZip = async (zip: string) => {
+  const city = store.getters["cityByZip"]({ zip });
+  if (city) {
+    veeForm.setFieldValue("city", city);
   }
-}
+};
+
+watch(
+  () => veeForm.meta.dirty,
+  () => {
+    emits("changeDirty", veeForm.meta.dirty);
+  }
+);
 </script>
 
 <style></style>

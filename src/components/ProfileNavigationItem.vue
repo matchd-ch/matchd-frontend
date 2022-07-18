@@ -14,18 +14,20 @@
   </li>
 </template>
 
-<script lang="ts">
-import { Options, prop, Vue } from "vue-class-component";
+<script setup lang="ts">
 import { RouteLocationNormalized } from "vue-router";
 
-class Props {
-  to = prop<RouteLocationNormalized>({ required: true });
-  active = prop<boolean>({ default: false });
-  disabled = prop<boolean>({ default: false });
-}
-
-@Options({})
-export default class ProfileNavigationItem extends Vue.with(Props) {}
+const props = withDefaults(
+  defineProps<{
+    to: RouteLocationNormalized;
+    active?: boolean;
+    disabled?: boolean;
+  }>(),
+  {
+    active: false,
+    disabled: false,
+  }
+);
 </script>
 
 <style lang="postcss" scoped>

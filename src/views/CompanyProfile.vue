@@ -80,7 +80,7 @@
           </li>
         </ul>
       </ProfileSection>
-      <ProfileSection :pink="true" title="Konto" :edit-step="getStepName(5)">
+      <ProfileSection :pink="true" title="Konto" edit-step="konto">
         <ul class="list list-inside list-disc marker-pink-1 text-lg">
           <li>Email: {{ user.email }}</li>
           <li>Passwort: ••••••••••••••••</li>
@@ -162,7 +162,7 @@ const additionalMedia = computed(() => {
   return additionalMedia;
 });
 
-const getStepName = (step: number) => {
+const getStepName = (step: number | string) => {
   return `${ParamStrings.STEP}${step}`;
 };
 
