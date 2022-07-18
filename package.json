@@ -27,7 +27,7 @@
     "@gtm-support/vue-gtm": "^1.6.0",
     "@sentry/tracing": "^7.1.1",
     "@sentry/vue": "^7.1.1",
-    "@vee-validate/i18n": "^4.5.11",
+    "@vee-validate/i18n": "^4.6.2",
     "@vee-validate/rules": "^4.5.11",
     "@vueform/slider": "^2.0.10",
     "apollo-upload-client": "^17.0.0",
