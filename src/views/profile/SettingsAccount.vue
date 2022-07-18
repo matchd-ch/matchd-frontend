@@ -76,12 +76,12 @@
 import type { User } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
+import MatchdField from "@/components/MatchdField.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { Field, useForm } from "vee-validate";
 import { computed, onMounted, watch } from "vue";
-import MatchdField from "../../../components/MatchdField.vue";
 
 const emits = defineEmits<{
   (event: "submitComplete", success: boolean): void;

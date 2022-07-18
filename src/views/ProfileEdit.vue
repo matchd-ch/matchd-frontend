@@ -67,6 +67,7 @@ import {
   StudentStep6,
 } from "@/views/profile/student";
 import {
+  UniversitySettingsAccount,
   UniversityStep1,
   UniversityStep2,
   UniversityStep3,
@@ -99,7 +100,8 @@ interface ProfileItem {
     | typeof UniversityStep1
     | typeof UniversityStep2
     | typeof UniversityStep3
-    | typeof UniversityStep4;
+    | typeof UniversityStep4
+    | typeof UniversitySettingsAccount;
   label: string;
   step: string;
 }
@@ -195,6 +197,11 @@ const profiles: Profiles = {
       component: UniversityStep4,
       step: "schritt4",
       label: "Set-up Talentsuche",
+    },
+    {
+      component: UniversitySettingsAccount,
+      step: "konto",
+      label: "Konto",
     },
   ],
 };

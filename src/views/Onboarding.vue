@@ -98,6 +98,7 @@ import {
 } from "@/views/profile/student";
 import {
   UniversityFinish as UniversityStep5,
+  UniversitySettingsAccount,
   UniversityStep1,
   UniversityStep2,
   UniversityStep3,
@@ -130,6 +131,7 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     UniversityStep3,
     UniversityStep4,
     UniversityStep5,
+    UniversitySettingsAccount,
   },
 })
 export default class Onboarding extends Vue {

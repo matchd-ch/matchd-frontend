@@ -137,7 +137,7 @@
               :to="{ name: 'ProjectPostingDetail', params: { slug: project.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
-              {{ project.projectType.name }} ({{ project.topic.name }})
+              {{ project.projectType.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>
@@ -172,6 +172,12 @@
             <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
           </a>
         </p>
+      </ProfileSection>
+      <ProfileSection :pink="true" title="Konto" edit-step="konto">
+        <ul class="list list-inside list-disc marker-pink-1 text-lg">
+          <li>Email: {{ user.email }}</li>
+          <li>Passwort: ••••••••••••••••</li>
+        </ul>
       </ProfileSection>
       <ContactEmployees />
     </div>
