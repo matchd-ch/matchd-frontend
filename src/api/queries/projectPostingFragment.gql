@@ -4,7 +4,8 @@ fragment projectPostingProjectPosting on ProjectPosting {
   title
   displayTitle
   description
-  additionalInformation
+  teamSize
+  compensation
   formStep
   state
   projectFromDate
@@ -14,7 +15,7 @@ fragment projectPostingProjectPosting on ProjectPosting {
     initiator
     confirmed
   }
-  topic {
+  keywords {
     id
     name
   }

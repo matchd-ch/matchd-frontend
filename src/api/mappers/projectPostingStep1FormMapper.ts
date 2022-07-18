@@ -1,4 +1,3 @@
-import type { ProjectPosting } from "@/api/models/types";
 import { ProjectPostingStep1Form } from "@/models/ProjectPostingStep1Form";
 import { ProjectPostingProjectPostingFragment } from "../queries/projectPostingFragment.generated";
 
@@ -8,9 +7,9 @@ export function projectPostingStep1FormMapper(
   return {
     title: projectPosting?.title || "",
     description: projectPosting?.description || "",
-    additionalInformation: projectPosting?.additionalInformation || "",
-    topicId: projectPosting?.topic?.id || "",
     projectTypeId: projectPosting?.projectType?.id || "",
     keywords: projectPosting?.keywords?.map((keyword) => keyword.id) || [],
+    compensation: projectPosting?.compensation || "",
+    teamSize: projectPosting?.teamSize || 1,
   };
 }

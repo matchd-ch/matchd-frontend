@@ -118,7 +118,7 @@ export type MeQuery = {
         title: string;
         state: Types.ProjectPostingState;
         projectType: { __typename?: "ProjectType"; id: string; name: string };
-        topic: { __typename?: "Topic"; id: string; name: string };
+        keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
       }>;
       branches: {
         __typename?: "BranchConnection";
@@ -507,7 +507,7 @@ export const MeDocument = {
                             },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "topic" },
+                              name: { kind: "Name", value: "keywords" },
                               selectionSet: {
                                 kind: "SelectionSet",
                                 selections: [

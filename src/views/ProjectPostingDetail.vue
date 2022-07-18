@@ -26,21 +26,13 @@
       :edit-step="getStepName(1)"
       :slug="projectPosting.data.slug"
     >
-      <p>{{ projectPosting.data.topic.name }}</p>
       <ul class="list list-inside list-disc marker-orange-1 mt-4">
         <li v-for="keyword in projectPosting.data.keywords" :key="keyword.id">
           {{ keyword.name }}
         </li>
       </ul>
-      <!-- TODO: Check if this is necessary. -->
-      <!-- eslint-disable vue/no-v-html -->
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <p class="mt-4" v-html="nl2br(projectPosting.data.description)"></p>
-      <p
-        v-if="projectPosting.data.additionalInformation"
-        class="mt-4"
-        v-html="nl2br(projectPosting.data.additionalInformation)"
-      ></p>
-      <!-- eslint-enable vue/no-v-html -->
       <template v-if="projectPosting.documents.length">
         <h2 class="text-heading-sm mt-10">Dokumente</h2>
         <ul

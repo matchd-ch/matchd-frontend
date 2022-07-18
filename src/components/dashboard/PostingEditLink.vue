@@ -10,56 +10,49 @@
       {{ posting.displayTitle }} {{ isPublic ? "" : " (Entwurf)" }}
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
     </h3>
-    <p v-if="!isJob" class="text-sm">
-      {{ posting.projectType.name }}
-      <br />
-      {{ posting.topic.name }}
+    <p v-if="projectPosting" class="text-sm">
+      {{ projectPosting.projectType.name }}
     </p>
   </router-link>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { JobPosting, ProjectPosting } from "@/api/models/types";
 import { JobPostingState, ProjectPostingState } from "@/api/models/types";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
-import { Options, prop, Vue } from "vue-class-component";
-import { RouteParams } from "vue-router";
+import { computed } from "vue";
 
-class Props {
-  type = prop<"job" | "project">({ default: "job" });
-  posting = prop<JobPosting | ProjectPosting>({ required: true });
-}
-@Options({
-  components: {
-    ArrowFrontIcon,
-  },
-})
-export default class PostingEditLink extends Vue.with(Props) {
-  get routeName(): string {
-    if (this.type === "job") {
-      return "JobPostingCreate";
-    } else if (this.isPublic) {
-      return "ProjectPostingDetail";
-    } else {
-      return "ProjectPostingCreate";
-    }
-  }
+const props = defineProps<{
+  posting: JobPosting | ProjectPosting;
+}>();
 
-  get params(): RouteParams {
-    return this.type === "job" || !this.isPublic
-      ? { slug: this.posting.slug, step: "schritt1" }
-      : { slug: this.posting.slug };
-  }
+const jobPosting = computed(() =>
+  props.posting.__typename === "JobPosting" ? props.posting : null
+);
+const projectPosting = computed(() =>
+  props.posting.__typename === "ProjectPosting" ? props.posting : null
+);
 
-  get isJob(): boolean {
-    return this.type === "job";
-  }
+const isPublic = computed(() => {
+  return (
+    props.posting.state === JobPostingState.Public ||
+    props.posting.state === ProjectPostingState.Public
+  );
+});
 
-  get isPublic(): boolean {
-    return (
-      this.posting.state === JobPostingState.Public ||
-      this.posting.state === ProjectPostingState.Public
-    );
+const routeName = computed(() => {
+  if (jobPosting.value) {
+    return "JobPostingCreate";
+  } else if (isPublic.value) {
+    return "ProjectPostingDetail";
+  } else {
+    return "ProjectPostingCreate";
   }
-}
+});
+
+const params = computed(() => {
+  return jobPosting.value || !isPublic.value
+    ? { slug: props.posting.slug, step: "schritt1" }
+    : { slug: props.posting.slug };
+});
 </script>

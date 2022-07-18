@@ -70,7 +70,7 @@ export type StudentStudentFragment = {
     title: string;
     displayTitle: string;
     slug: string;
-    topic: { __typename?: "Topic"; id: string; name: string };
+    keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
     projectType: { __typename?: "ProjectType"; id: string; name: string };
   }>;
 };
@@ -361,7 +361,7 @@ export const StudentStudentFragmentDoc = {
                 { kind: "Field", name: { kind: "Name", value: "slug" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "topic" },
+                  name: { kind: "Name", value: "keywords" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [

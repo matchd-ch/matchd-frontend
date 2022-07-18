@@ -16,7 +16,7 @@ export type DashboardQuery = {
       dateCreated?: any | null;
       slug: string;
       state: Types.ProjectPostingState;
-      topic: { __typename?: "Topic"; id: string; name: string };
+      keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
       projectType: { __typename?: "ProjectType"; id: string; name: string };
       company?: { __typename?: "Company"; name: string; city: string; zip: string } | null;
       student?: {
@@ -48,7 +48,7 @@ export type DashboardQuery = {
       slug: string;
       state: Types.ProjectPostingState;
       projectType: { __typename?: "ProjectType"; id: string; name: string };
-      topic: { __typename?: "Topic"; id: string; name: string };
+      keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
       company?: { __typename?: "Company"; name: string; city: string; zip: string } | null;
       student?: {
         __typename?: "Student";
@@ -135,7 +135,7 @@ export type DashboardQuery = {
         displayTitle: string;
         slug: string;
         state: Types.ProjectPostingState;
-        topic: { __typename?: "Topic"; id: string; name: string };
+        keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
         projectType: { __typename?: "ProjectType"; id: string; name: string };
         company?: {
           __typename?: "Company";
@@ -196,7 +196,7 @@ export const DashboardDocument = {
                       { kind: "Field", name: { kind: "Name", value: "state" } },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "topic" },
+                        name: { kind: "Name", value: "keywords" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
@@ -218,7 +218,7 @@ export const DashboardDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "topic" },
+                        name: { kind: "Name", value: "keywords" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
@@ -309,7 +309,7 @@ export const DashboardDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "topic" },
+                        name: { kind: "Name", value: "keywords" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
@@ -537,7 +537,7 @@ export const DashboardDocument = {
                             { kind: "Field", name: { kind: "Name", value: "state" } },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "topic" },
+                              name: { kind: "Name", value: "keywords" },
                               selectionSet: {
                                 kind: "SelectionSet",
                                 selections: [

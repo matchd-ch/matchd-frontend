@@ -1,5 +1,5 @@
 <template>
-  <form v-if="topics.length && projectTypes.length" @submit="veeForm.onSubmit">
+  <form v-if="projectTypes.length" @submit="veeForm.onSubmit">
     <FormSaveError v-if="projectPostingState.errors" />
     <p v-if="!hasProjectPostings" class="mb-14">
       <template v-if="isStudent">
@@ -49,30 +49,6 @@
         maxlength="50"
       />
     </MatchdField>
-    <!-- Themengebiet Field -->
-    <SelectPillGroup :errors="veeForm.errors.topicId" class="mb-10">
-      <template #label>Themengebiet*</template>
-      <template #field>
-        <Field
-          id="topicId"
-          name="topicId"
-          as="input"
-          label="Themengebiet"
-          type="hidden"
-          rules="required"
-        />
-      </template>
-      <SelectPill
-        v-for="option in topics"
-        :key="option.id"
-        name="topicPill"
-        :value="option.id"
-        :checked="option.id === veeForm.values?.topicId"
-        @change="onChangeTopic"
-        >{{ option.name }}</SelectPill
-      >
-    </SelectPillGroup>
-    <!-- Stichworte Field -->
     <MatchdAutocomplete
       id="keywords"
       class="mb-3"
@@ -114,22 +90,6 @@
         class="h-72"
       />
     </MatchdField>
-    <!-- Problemstellung Field -->
-    <MatchdField
-      id="additionalInformation"
-      class="mb-10"
-      :errors="veeForm.errors.additionalInformation"
-    >
-      <template #label>Problemstellung und zu behandelnde Fragen</template>
-      <Field
-        id="additionalInformation"
-        name="additionalInformation"
-        as="textarea"
-        label="Problemstellung und zu behandelnde Fragen"
-        maxlength="1000"
-        class="h-72"
-      />
-    </MatchdField>
     <teleport to="footer">
       <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
         <MatchdButton
@@ -160,7 +120,6 @@
 
 <script lang="ts">
 import { projectPostingStep1FormMapper } from "@/api/mappers/projectPostingStep1FormMapper";
-import { projectPostingStep1InputMapper } from "@/api/mappers/projectPostingStep1InputMapper";
 import type { Keyword } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
@@ -200,10 +159,19 @@ export default class ProjectPostingStep1 extends Vue {
     const { value: keywords } = useField<string[]>("keywords");
     const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
       try {
-        await store.dispatch(
-          ActionTypes.SAVE_PROJECTPOSTING_STEP1,
-          projectPostingStep1InputMapper(store.getters["currentProjectPosting"]?.id, formData)
-        );
+        await store.dispatch(ActionTypes.SAVE_PROJECTPOSTING_STEP1, {
+          id: store.getters["currentProjectPosting"]?.id || null,
+          title: formData.title,
+          description: formData.description,
+          projectType: {
+            id: formData.projectTypeId,
+          },
+          compensation: formData.compensation,
+          teamSize: formData.teamSize,
+          keywords: formData.keywords.map((id) => ({
+            id: id,
+          })),
+        });
         const projectPostingState = store.getters["projectPostingState"];
         if (projectPostingState.success) {
           this.$emit("submitComplete");
@@ -259,10 +227,6 @@ export default class ProjectPostingStep1 extends Vue {
     return this.$store.getters["projectTypes"];
   }
 
-  get topics() {
-    return this.$store.getters["topics"];
-  }
-
   get projectPostingLoading() {
     return this.$store.getters["projectPostingLoading"];
   }
@@ -279,7 +243,6 @@ export default class ProjectPostingStep1 extends Vue {
     await Promise.all([
       this.$store.dispatch(ContentActionsTypes.KEYWORDS),
       this.$store.dispatch(ContentActionsTypes.PROJECT_TYPES),
-      this.$store.dispatch(ContentActionsTypes.TOPICS),
       this.$store.dispatch(ContentActionsTypes.PROJECT_POSTINGS),
     ]);
 
@@ -317,10 +280,6 @@ export default class ProjectPostingStep1 extends Vue {
 
   onChangeProjectType(projectTypeId: string) {
     this.veeForm.setFieldValue("projectTypeId", projectTypeId);
-  }
-
-  onChangeTopic(topicId: string) {
-    this.veeForm.setFieldValue("topicId", topicId);
   }
 
   @Watch("veeForm.meta.dirty")

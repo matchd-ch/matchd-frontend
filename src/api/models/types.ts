@@ -1296,8 +1296,8 @@ export enum ProfileType {
 
 export type ProjectPosting = Node & {
   __typename?: "ProjectPosting";
-  additionalInformation: Scalars["String"];
   company?: Maybe<Company>;
+  compensation?: Maybe<Scalars["String"]>;
   dateCreated?: Maybe<Scalars["Date"]>;
   datePublished?: Maybe<Scalars["Date"]>;
   description: Scalars["String"];
@@ -1314,8 +1314,8 @@ export type ProjectPosting = Node & {
   slug: Scalars["String"];
   state: ProjectPostingState;
   student?: Maybe<Student>;
+  teamSize?: Maybe<Scalars["Int"]>;
   title: Scalars["String"];
-  topic: Topic;
   website: Scalars["String"];
 };
 
@@ -1338,17 +1338,18 @@ export type ProjectPostingAllocationPayload = {
 };
 
 export type ProjectPostingBaseDataInput = {
-  /** Additional Information */
-  additionalInformation?: InputMaybe<Scalars["String"]>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** Compensation */
+  compensation: Scalars["String"];
   /** Description */
   description: Scalars["String"];
   id?: InputMaybe<Scalars["String"]>;
-  keywords?: InputMaybe<Array<InputMaybe<KeywordInput>>>;
+  keywords: Array<InputMaybe<KeywordInput>>;
   projectType: ProjectTypeInput;
+  /** Team size */
+  teamSize: Scalars["Int"];
   /** Title */
   title: Scalars["String"];
-  topic: TopicInput;
 };
 
 /** Creates a project posting */
@@ -1472,7 +1473,6 @@ export type Query = {
   skills?: Maybe<SkillConnectionsConnection>;
   softSkills?: Maybe<SoftSkillConnectionsConnection>;
   student?: Maybe<Student>;
-  topics?: Maybe<TopicConnection>;
   uploadConfigurations?: Maybe<Array<Maybe<UploadConfiguration>>>;
   verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
   zipCity: Array<ZipCity>;
@@ -1592,8 +1592,14 @@ export type QueryProjectPostingArgs = {
 export type QueryProjectPostingsArgs = {
   after?: InputMaybe<Scalars["String"]>;
   before?: InputMaybe<Scalars["String"]>;
+  companyId?: InputMaybe<Scalars["String"]>;
+  datePublished?: InputMaybe<Scalars["Date"]>;
   first?: InputMaybe<Scalars["Int"]>;
+  keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   last?: InputMaybe<Scalars["Int"]>;
+  projectFromDate?: InputMaybe<Scalars["Date"]>;
+  projectTypeId?: InputMaybe<Scalars["String"]>;
+  teamSize?: InputMaybe<Scalars["Int"]>;
 };
 
 export type QueryProjectTypesArgs = {
@@ -1620,13 +1626,6 @@ export type QuerySoftSkillsArgs = {
 export type QueryStudentArgs = {
   jobPostingId?: InputMaybe<Scalars["String"]>;
   slug?: InputMaybe<Scalars["String"]>;
-};
-
-export type QueryTopicsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
 };
 
 export type QueryVerifyPasswordResetTokenArgs = {
@@ -1989,35 +1988,6 @@ export type StudentProfileSpecificDataPayload = {
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   nicknameSuggestions?: Maybe<Array<Maybe<Scalars["String"]>>>;
   success?: Maybe<Scalars["Boolean"]>;
-};
-
-export type Topic = Node & {
-  __typename?: "Topic";
-  /** The ID of the object. */
-  id: Scalars["ID"];
-  name: Scalars["String"];
-};
-
-export type TopicConnection = {
-  __typename?: "TopicConnection";
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<TopicEdge>>;
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-};
-
-/** A Relay edge containing a `Topic` and its cursor. */
-export type TopicEdge = {
-  __typename?: "TopicEdge";
-  /** A cursor for use in pagination */
-  cursor: Scalars["String"];
-  /** The item at the end of the edge */
-  node?: Maybe<Topic>;
-};
-
-export type TopicInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type UniversityProfileBaseDataInput = {

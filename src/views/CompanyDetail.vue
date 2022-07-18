@@ -41,12 +41,10 @@
       <MatchdImageGrid :attachments="additionalMedia" class="mt-4" @click-media="onClickMedia" />
     </div>
     <div class="flex flex-col min-h-full">
-      <section class="grow p-9 border-b border-pink-1">
-        <h2 class="text-heading-lg mb-8 text-pink-1">Über uns</h2>
-        <!-- TODO: Check if this is necessary. -->
+      <ProfileSection :pink="true" title="Über uns" :rows="true">
         <!-- eslint-disable-next-line vue/no-v-html -->
         <p v-html="nl2br(company.data.description)"></p>
-      </section>
+      </ProfileSection>
       <ProfileSection
         v-if="company.data.services"
         :pink="true"
@@ -81,12 +79,7 @@
           </li>
         </ul>
       </ProfileSection>
-      <section
-        v-if="company.data.jobPostings.length"
-        class="grow p-9"
-        :class="{ 'border-b border-pink-1': company.data.projectPostings.length }"
-      >
-        <h2 class="text-heading-lg mb-8 text-pink-1">Offene Stellen</h2>
+      <ProfileSection v-if="company.data.jobPostings.length" title="Offene Stellen" :pink="true">
         <ul class="list">
           <li v-for="position in company.data.jobPostings" :key="position.id">
             <router-link
@@ -98,22 +91,26 @@
             </router-link>
           </li>
         </ul>
-      </section>
-      <section v-if="company.data.projectPostings.length" class="grow p-9">
-        <h2 class="text-heading-lg mb-8 text-pink-1">Projekte</h2>
+      </ProfileSection>
+      <ProfileSection
+        v-if="company.data.projectPostings.length"
+        title="Projekte"
+        :pink="true"
+        :rows="true"
+      >
         <ul class="list">
           <li v-for="projectPosting in company.data.projectPostings" :key="projectPosting.id">
             <router-link
               :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
-              {{ projectPosting.title }}, {{ projectPosting.topic?.name }},
+              {{ projectPosting.title }},
               {{ projectPosting.projectType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>
         </ul>
-      </section>
+      </ProfileSection>
     </div>
   </div>
 </template>

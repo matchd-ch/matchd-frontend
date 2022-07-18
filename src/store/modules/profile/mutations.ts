@@ -3,6 +3,7 @@ import type {
   CompanyProfileBaseDataPayload,
   CompanyProfileRelationsPayload,
   CompanyProfileValuesPayload,
+  PasswordChange,
   StudentProfileAbilitiesPayload,
   StudentProfileBaseDataPayload,
   StudentProfileCharacterPayload,
@@ -13,6 +14,7 @@ import type {
   UniversityProfileRelationsPayload,
   UniversityProfileSpecificDataPayload,
   UniversityProfileValuesPayload,
+  UpdateUserMutationPayload,
   ZipCity,
 } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
@@ -32,7 +34,9 @@ export type CompanyProfileStep =
   | CompanyProfileBaseDataPayload
   | CompanyProfileRelationsPayload
   | CompanyProfileAdvantagesPayload
-  | CompanyProfileValuesPayload;
+  | CompanyProfileValuesPayload
+  | UpdateUserMutationPayload
+  | PasswordChange;
 
 export type UniversityProfileStep =
   | UniversityProfileBaseDataPayload

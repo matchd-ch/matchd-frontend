@@ -33,10 +33,10 @@
       </div>
     </div>
     <div class="flex flex-col min-h-full">
-      <profile-section title="Ich suche" :edit-step="getStepName(2)">
+      <ProfileSection title="Ich suche" :edit-step="getStepName(2)">
         <p>{{ lookingFor }}</p>
-      </profile-section>
-      <profile-section
+      </ProfileSection>
+      <ProfileSection
         v-if="user.student.skills.edges?.length"
         title="Diese technischen Skills bringe ich mit"
         :edit-step="getStepName(4)"
@@ -46,8 +46,8 @@
             {{ skill?.node?.name }}
           </li>
         </ul>
-      </profile-section>
-      <profile-section
+      </ProfileSection>
+      <ProfileSection
         v-if="user.student.languages.edges.length"
         title="Ich habe Kenntnisse in folgenden Sprachen"
         :edit-step="getStepName(4)"
@@ -57,8 +57,8 @@
             {{ language?.node?.language.name }}&nbsp;({{ language?.node?.languageLevel.level }})
           </li>
         </ul>
-      </profile-section>
-      <profile-section
+      </ProfileSection>
+      <ProfileSection
         v-if="user.student.onlineProjects?.length"
         title="Das sind meine eigenen Projekte"
         :edit-step="getStepName(4)"
@@ -73,15 +73,15 @@
             >
           </li>
         </ul>
-      </profile-section>
-      <profile-section
+      </ProfileSection>
+      <ProfileSection
         v-if="user.student.distinction"
         title="Was mich sonst noch auszeichnet"
         :edit-step="getStepName(4)"
       >
         <p class="text-lg">{{ user.student.distinction }}</p>
-      </profile-section>
-      <profile-section
+      </ProfileSection>
+      <ProfileSection
         v-if="user.student.hobbies?.length"
         title="Das mache ich gerne in meiner Freizeit"
         :edit-step="getStepName(4)"
@@ -89,9 +89,9 @@
         <ul class="text-lg">
           <li v-for="hobby in user.student.hobbies" :key="hobby.id">{{ hobby.name }}</li>
         </ul>
-      </profile-section>
+      </ProfileSection>
       <!-- TODO: Fix certificates -->
-      <profile-section v-if="certificates?.length" title="Zertifikate" :edit-step="getStepName(4)">
+      <ProfileSection v-if="certificates?.length" title="Zertifikate" :edit-step="getStepName(4)">
         <ul>
           <li v-for="certificate in certificates" :key="certificate.node?.id">
             <a
@@ -105,7 +105,13 @@
             </a>
           </li>
         </ul>
-      </profile-section>
+      </ProfileSection>
+      <ProfileSection title="Konto" edit-step="konto">
+        <ul class="list list-inside list-disc marker-pink-1 text-lg">
+          <li>Email: {{ user.email }}</li>
+          <li>Passwort: ••••••••••••••••</li>
+        </ul>
+      </ProfileSection>
     </div>
   </div>
 </template>
@@ -173,7 +179,7 @@ export default class StudentProfile extends Vue {
     }
   }
 
-  getStepName(step: number) {
+  getStepName(step: number | string) {
     return `${ParamStrings.STEP}${step}`;
   }
 

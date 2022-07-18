@@ -1,5 +1,5 @@
 <template>
-  <div class="onboarding min-h-screen">
+  <div v-if="currentStep" class="onboarding min-h-screen">
     <div
       class="grid grid-cols-8 lg:grid-cols-16 lg:grid-rows-home gap-x-4 lg:gap-x-5 lg:border-b border-primary-1"
     >
@@ -80,6 +80,7 @@ import { parseStepName } from "@/helpers/parseStepName";
 import { ParamStrings } from "@/router/paramStrings";
 import {
   CompanyFinish as CompanyStep5,
+  CompanySettingsAccount,
   CompanyStep1,
   CompanyStep2,
   CompanyStep3,
@@ -87,6 +88,7 @@ import {
 } from "@/views/profile/company";
 import {
   StudentFinish as StudentStep7,
+  StudentSettingsAccount,
   StudentStep1,
   StudentStep2,
   StudentStep3,
@@ -96,6 +98,7 @@ import {
 } from "@/views/profile/student";
 import {
   UniversityFinish as UniversityStep5,
+  UniversitySettingsAccount,
   UniversityStep1,
   UniversityStep2,
   UniversityStep3,
@@ -116,16 +119,19 @@ Vue.registerHooks(["beforeRouteUpdate"]);
     StudentStep5,
     StudentStep6,
     StudentStep7,
+    StudentSettingsAccount,
     CompanyStep1,
     CompanyStep2,
     CompanyStep3,
     CompanyStep4,
     CompanyStep5,
+    CompanySettingsAccount,
     UniversityStep1,
     UniversityStep2,
     UniversityStep3,
     UniversityStep4,
     UniversityStep5,
+    UniversitySettingsAccount,
   },
 })
 export default class Onboarding extends Vue {

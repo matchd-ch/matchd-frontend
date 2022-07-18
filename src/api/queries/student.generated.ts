@@ -83,7 +83,7 @@ export type StudentQuery = {
       title: string;
       displayTitle: string;
       slug: string;
-      topic: { __typename?: "Topic"; id: string; name: string };
+      keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
       projectType: { __typename?: "ProjectType"; id: string; name: string };
     }>;
   } | null;

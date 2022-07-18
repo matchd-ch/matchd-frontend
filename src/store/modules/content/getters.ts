@@ -15,7 +15,6 @@ import type {
   ProjectType,
   Skill,
   SoftSkill,
-  Topic,
   ZipCity,
 } from "@/api/models/types";
 import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
@@ -61,7 +60,6 @@ export type Getters = {
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
   student(state: State): State["student"];
-  topics(state: State): Topic[];
   zipCityJobs(state: State): ZipCity[];
 };
 
@@ -233,9 +231,6 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   student(state: State) {
     return state.student;
-  },
-  topics(state: State) {
-    return state.topics.data;
   },
   zipCityJobs(state: State) {
     return state.matches.zipCityJobs;
