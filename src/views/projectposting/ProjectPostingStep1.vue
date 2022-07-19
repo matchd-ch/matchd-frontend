@@ -1,5 +1,5 @@
 <template>
-  <form v-if="projectTypes.length" @submit="veeForm.onSubmit">
+  <form v-if="projectTypes.length" @submit="onSubmit">
     <FormSaveError v-if="projectPostingState.errors" />
     <p v-if="!hasProjectPostings" class="mb-14">
       <template v-if="isStudent">
@@ -15,7 +15,7 @@
       </template>
     </p>
     <!-- Art der Projektarbeit Field -->
-    <SelectPillGroup :errors="veeForm.errors.projectTypeId" class="mb-10">
+    <SelectPillGroup :errors="veeForm.errors.value.projectTypeId" class="mb-10">
       <template #label>Art der Projektarbeit*</template>
       <template #field>
         <Field
@@ -34,11 +34,12 @@
         :value="option.id"
         :checked="option.id === veeForm.values?.projectTypeId"
         @change="onChangeProjectType"
-        >{{ option.name }}</SelectPill
       >
+        {{ option.name }}
+      </SelectPill>
     </SelectPillGroup>
     <!-- Bezeichnung Field -->
-    <MatchdField id="title" class="mb-10" :errors="veeForm.errors.title">
+    <MatchdField id="title" class="mb-10" :errors="veeForm.errors.value.title">
       <template #label>Beschriftung*</template>
       <Field
         id="title"
@@ -52,9 +53,9 @@
     <MatchdAutocomplete
       id="keywords"
       class="mb-3"
-      :class="{ 'mb-10': veeForm.keywords?.length === 0 }"
+      :class="{ 'mb-10': veeForm.values.keywords?.length === 0 }"
       :items="filteredKeywords"
-      :errors="veeForm.errors.keywords"
+      :errors="veeForm.errors.value.keywords"
       @select="onSelectKeyword"
     >
       <template #label>Stichworte*</template>
@@ -72,13 +73,13 @@
       <SelectPill
         v-for="selectedKeyword in selectedKeywords"
         :key="selectedKeyword.id"
-        has-delete="true"
+        :has-delete="true"
         @remove="onRemoveKeyword(selectedKeyword)"
         >{{ selectedKeyword.name }}</SelectPill
       >
     </SelectPillGroup>
     <!-- Beschreibung Field -->
-    <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
+    <MatchdField id="description" class="mb-10" :errors="veeForm.errors.value.description">
       <template #label>Beschreibung des Themenschwerpunktes*</template>
       <Field
         id="description"
@@ -88,6 +89,27 @@
         maxlength="300"
         rules="required"
         class="h-72"
+      />
+    </MatchdField>
+    <MatchdSelect id="teamSize" class="mb-10" :errors="veeForm.errors.value.teamSize">
+      <template #label>Teamgrösse*</template>
+      <Field id="teamSize" name="teamSize" as="select" label="Teamgrösse" rules="required">
+        <option value="1">1 Person</option>
+        <option value="2">max. 2 Personen</option>
+        <option value="4">max. 4 Personen</option>
+        <option value="6">max. 6 Personen</option>
+      </Field>
+    </MatchdSelect>
+    <MatchdField id="compensation" class="mb-10" :errors="veeForm.errors.value.compensation">
+      <template #label>Vergütung*</template>
+      <Field
+        id="compensation"
+        name="compensation"
+        as="textarea"
+        label="Vergütung"
+        maxlength="300"
+        class="h-72"
+        rules="required"
       />
     </MatchdField>
     <teleport to="footer">
@@ -106,7 +128,7 @@
           variant="fill"
           :disabled="projectPostingLoading"
           :loading="projectPostingLoading"
-          @click="veeForm.onSubmit"
+          @click="onSubmit"
         >
           <template v-if="currentProjectPosting?.formStep && currentProjectPosting.formStep > 2">
             Speichern
@@ -118,15 +140,13 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { projectPostingStep1FormMapper } from "@/api/mappers/projectPostingStep1FormMapper";
 import type { Keyword } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdAutocomplete from "@/components/MatchdAutocomplete.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
-import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
@@ -134,159 +154,117 @@ import { ProjectPostingStep1Form } from "@/models/ProjectPostingStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
-import { Field, useField, useForm } from "vee-validate";
-import { Options, setup, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Field, useForm } from "vee-validate";
+import { computed, onMounted, ref, watch } from "vue";
+import MatchdSelect from "../../components/MatchdSelect.vue";
 
-@Options({
-  components: {
-    Field,
-    FormSaveError,
-    MatchdButton,
-    MatchdField,
-    MatchdAutocomplete,
-    MatchdSelect,
-    MatchdToggle,
-    SelectPill,
-    SelectPillGroup,
-  },
-  emits: ["submitComplete", "changeDirty"],
-})
-export default class ProjectPostingStep1 extends Vue {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<ProjectPostingStep1Form>();
-    const { value: keywords } = useField<string[]>("keywords");
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(ActionTypes.SAVE_PROJECTPOSTING_STEP1, {
-          id: store.getters["currentProjectPosting"]?.id || null,
-          title: formData.title,
-          description: formData.description,
-          projectType: {
-            id: formData.projectTypeId,
-          },
-          compensation: formData.compensation,
-          teamSize: formData.teamSize,
-          keywords: formData.keywords.map((id) => ({
-            id: id,
-          })),
-        });
-        const projectPostingState = store.getters["projectPostingState"];
-        if (projectPostingState.success) {
-          this.$emit("submitComplete");
-        }
-      } catch (e) {
-        console.log(e); // todo
-      }
+const emits = defineEmits<{
+  (event: "submitComplete", success: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+}>();
+
+const store = useStore();
+
+const veeForm = useForm<ProjectPostingStep1Form>();
+const onSubmit = veeForm.handleSubmit(async (formData) => {
+  console.log("formData:", formData);
+  try {
+    await store.dispatch(ActionTypes.SAVE_PROJECTPOSTING_STEP1, {
+      id: store.getters["currentProjectPosting"]?.id || null,
+      title: formData.title,
+      description: formData.description,
+      projectType: {
+        id: formData.projectTypeId,
+      },
+      compensation: formData.compensation,
+      teamSize: formData.teamSize,
+      keywords: formData.keywords.map((id) => ({
+        id: id,
+      })),
     });
+    const projectPostingState = store.getters["projectPostingState"];
+    emits("submitComplete", projectPostingState.success);
+  } catch (e) {
+    console.log(e); // todo
+  }
+});
 
-    return {
-      ...form,
-      onSubmit,
-      keywords,
-    };
+const filteredKeywords = ref<Keyword[]>([]);
+const keywordInput = ref("");
+
+const isStudent = computed(() => store.getters["isStudent"]);
+const currentProjectPosting = computed(() => store.getters["currentProjectPosting"]);
+const projectPostingData = computed(() =>
+  projectPostingStep1FormMapper(currentProjectPosting.value)
+);
+const keywords = computed(() => store.getters["keywords"]);
+
+const selectedKeywords = computed(() => {
+  return keywords.value.filter((keyword) =>
+    veeForm.values.keywords?.some((id) => id === keyword.id)
+  );
+});
+
+const availableKeywords = computed(() => {
+  return keywords.value.filter((keyword) => {
+    return !veeForm.values.keywords.some((id) => id === keyword.id);
   });
-  formData = {} as ProjectPostingStep1Form;
-  filteredKeywords: Keyword[] = [];
-  keywordInput = "";
+});
 
-  get isStudent() {
-    return this.$store.getters["isStudent"];
+const hasProjectPostings = computed(() => !!store.getters["projectPostings"].length);
+const projectTypes = computed(() => store.getters["projectTypes"]);
+const projectPostingLoading = computed(() => store.getters["projectPostingLoading"]);
+const projectPostingState = computed(() => store.getters["projectPostingState"]);
+
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(ContentActionsTypes.KEYWORDS),
+    store.dispatch(ContentActionsTypes.PROJECT_TYPES),
+    store.dispatch(ContentActionsTypes.PROJECT_POSTINGS),
+  ]);
+
+  veeForm.resetForm({
+    values: projectPostingData.value,
+  });
+  calculateMargins();
+});
+
+const onInputKeyword = () => {
+  if (keywordInput.value.length < 1) {
+    filteredKeywords.value = [];
+    return;
   }
+  filteredKeywords.value = availableKeywords.value.filter((item) =>
+    item.name.toLowerCase().startsWith(keywordInput.value.toLowerCase())
+  );
+};
 
-  get currentProjectPosting() {
-    return this.$store.getters["currentProjectPosting"];
+const onSelectKeyword = (keyword: Keyword) => {
+  keywordInput.value = "";
+  veeForm.values.keywords = [...veeForm.values.keywords, keyword.id];
+  onInputKeyword();
+};
+
+const onPressEnterKeyword = () => {
+  if (filteredKeywords.value.length === 1) {
+    onSelectKeyword(filteredKeywords.value[0]);
   }
+};
 
-  get projectPostingData() {
-    return projectPostingStep1FormMapper(this.currentProjectPosting);
+const onRemoveKeyword = (keyword: Keyword) => {
+  veeForm.values.keywords = veeForm.values.keywords.filter((id) => id !== keyword.id);
+};
+
+const onChangeProjectType = (projectTypeId: string) => {
+  veeForm.setFieldValue("projectTypeId", projectTypeId);
+};
+
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emits("changeDirty", veeForm.meta.value.dirty);
   }
-
-  get keywords() {
-    return this.$store.getters["keywords"];
-  }
-
-  get selectedKeywords() {
-    return this.keywords.filter((keyword) =>
-      this.veeForm.keywords?.some((id) => id === keyword.id)
-    );
-  }
-
-  get availableKeywords() {
-    return this.keywords.filter((keyword) => {
-      return !this.veeForm.keywords.some((id) => id === keyword.id);
-    });
-  }
-
-  get hasProjectPostings() {
-    return !!this.$store.getters["projectPostings"].length;
-  }
-
-  get projectTypes() {
-    return this.$store.getters["projectTypes"];
-  }
-
-  get projectPostingLoading() {
-    return this.$store.getters["projectPostingLoading"];
-  }
-
-  get projectPostingState() {
-    return this.$store.getters["projectPostingState"];
-  }
-
-  get user() {
-    return this.$store.getters["user"];
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(ContentActionsTypes.KEYWORDS),
-      this.$store.dispatch(ContentActionsTypes.PROJECT_TYPES),
-      this.$store.dispatch(ContentActionsTypes.PROJECT_POSTINGS),
-    ]);
-
-    this.veeForm.resetForm({
-      values: this.projectPostingData,
-    });
-    calculateMargins();
-  }
-
-  onInputKeyword() {
-    if (this.keywordInput.length < 1) {
-      this.filteredKeywords = [];
-      return;
-    }
-    this.filteredKeywords = this.availableKeywords.filter((item) =>
-      item.name.toLowerCase().startsWith(this.keywordInput.toLowerCase())
-    );
-  }
-
-  onSelectKeyword(keyword: Keyword) {
-    this.keywordInput = "";
-    this.veeForm.keywords = [...this.veeForm.keywords, keyword.id];
-    this.onInputKeyword();
-  }
-
-  onPressEnterKeyword() {
-    if (this.filteredKeywords.length === 1) {
-      this.onSelectKeyword(this.filteredKeywords[0]);
-    }
-  }
-
-  onRemoveKeyword(keyword: Keyword) {
-    this.veeForm.keywords = this.veeForm.keywords.filter((id) => id !== keyword.id);
-  }
-
-  onChangeProjectType(projectTypeId: string) {
-    this.veeForm.setFieldValue("projectTypeId", projectTypeId);
-  }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty() {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+);
 </script>
 
 <style></style>

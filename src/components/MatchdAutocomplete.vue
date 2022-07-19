@@ -5,7 +5,7 @@
     </label>
     <div class="matchd-autocomplete__form-element">
       <slot />
-      <ul v-if="items.length > 0" class="matchd-autocomplete__result-list">
+      <ul v-if="items && items.length > 0" class="matchd-autocomplete__result-list">
         <li
           v-for="result in items.slice(0, 10)"
           :key="result.id"
