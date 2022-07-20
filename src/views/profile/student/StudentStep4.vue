@@ -146,7 +146,7 @@
       <template #label>Dein Talent</template>
       <Field
         id="distinction"
-        v-model="veeForm.distinction"
+        v-model="veeForm.values.distinction"
         name="distinction"
         as="textarea"
         maxlength="1000"
