@@ -12,7 +12,7 @@ export type PasswordChangeMutation = {
   passwordChange?: {
     __typename?: "PasswordChange";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

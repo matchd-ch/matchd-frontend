@@ -174,10 +174,10 @@
         </p>
       </ProfileSection>
       <ProfileSection :pink="true" title="Konto" edit-step="konto">
-        <ul class="list list-inside list-disc marker-pink-1 text-lg">
-          <li>Email: {{ user.email }}</li>
-          <li>Passwort: ••••••••••••••••</li>
-        </ul>
+        <h6 class="font-medium text-pink-1">Benutzername</h6>
+        <p class="mb-4">{{ user.email }}</p>
+        <h6 class="font-medium text-green-1">Passwort</h6>
+        <p>••••••••••••••••</p>
       </ProfileSection>
       <ContactEmployees />
     </div>

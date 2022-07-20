@@ -1,14 +1,16 @@
 <template>
   <li class="select-pill shrink-0 m-2">
     <label
-      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 cursor-pointer transition-colors"
+      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 transition-colors"
       :class="{
         'text-primary-1': checked || hasDelete,
         'pl-8 pr-4': hasDelete,
         'px-8': !hasDelete,
+        'cursor-pointer': hasInput,
       }"
     >
       <input
+        v-if="hasInput"
         type="radio"
         :name="name"
         class="appearance-none"
@@ -32,12 +34,14 @@ const props = withDefaults(
     name?: string;
     checked?: boolean;
     hasDelete?: boolean;
+    hasInput?: boolean;
   }>(),
   {
     value: "",
     name: "",
     checked: false,
     hasDelete: false,
+    hasInput: true,
   }
 );
 

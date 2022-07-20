@@ -10,7 +10,7 @@ export type CompanyProfileBaseDataMutation = {
   companyProfileBaseData?: {
     __typename?: "CompanyProfileBaseDataPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

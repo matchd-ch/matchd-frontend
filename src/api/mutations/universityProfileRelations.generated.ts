@@ -10,7 +10,7 @@ export type UniversityProfileRelationsMutation = {
   universityProfileRelations?: {
     __typename?: "UniversityProfileRelationsPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

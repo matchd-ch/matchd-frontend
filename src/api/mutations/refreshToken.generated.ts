@@ -10,7 +10,7 @@ export type RefreshTokenMutation = {
   refreshToken?: {
     __typename?: "RefreshToken";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     token?: string | null;
     refreshToken?: string | null;
   } | null;

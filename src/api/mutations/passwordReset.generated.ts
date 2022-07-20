@@ -11,7 +11,7 @@ export type PasswordResetMutation = {
   passwordReset?: {
     __typename?: "PasswordReset";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

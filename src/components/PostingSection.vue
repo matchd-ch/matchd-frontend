@@ -20,21 +20,14 @@
   </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import EditLink from "@/components/EditLink.vue";
-import { Options, prop, Vue } from "vue-class-component";
 
-class Props {
-  title = prop<string>({ required: true });
-  editStep = prop<string>({});
-  slug = prop<string>({});
-}
-@Options({
-  components: {
-    EditLink,
-  },
-})
-export default class PostingSection extends Vue.with(Props) {}
+defineProps<{
+  title: string;
+  editStep?: string;
+  slug?: string;
+}>();
 </script>
 <style lang="postcss" scoped>
 @block posting-section {

@@ -19,7 +19,7 @@ export type RegisterCompanyMutation = {
   registerCompany?: {
     __typename?: "RegisterCompany";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

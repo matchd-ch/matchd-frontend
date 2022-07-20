@@ -254,17 +254,19 @@ export default class StudentDetail extends Vue {
     return replaceStack(url, stack);
   }
 
-  get lookingFor(): string {
+  get lookingFor() {
+    if (!this.student.data?.jobFromDate || !this.student.data?.jobToDate) {
+      return "";
+    }
     const jobType = this.student.data?.jobType;
-    const jobFromDate = formatDate(this.student.data?.jobFromDate, "LLLL yyyy");
-    const jobToDate = formatDate(this.student.data?.jobToDate, "LLLL yyyy");
+    const jobFromDate = formatDate(this.student.data.jobFromDate, "LLLL yyyy");
+    const jobToDate = formatDate(this.student.data.jobToDate, "LLLL yyyy");
     const branch = this.student.data?.branch?.name;
 
     if (jobType?.mode === DateMode.DateRange) {
       return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
-    } else {
-      return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
     }
+    return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
   }
 
   certificateUrl(id: string): string {

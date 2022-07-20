@@ -22,8 +22,8 @@ export type MeQuery = {
       email?: string | null;
       mobile?: string | null;
       dateOfBirth?: string | null;
-      jobFromDate?: any | null;
-      jobToDate?: any | null;
+      jobFromDate?: string | null;
+      jobToDate?: string | null;
       distinction?: string | null;
       fieldOfStudy?: string | null;
       graduation?: string | null;

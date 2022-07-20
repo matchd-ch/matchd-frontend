@@ -10,7 +10,7 @@ export type DeleteEmployeeMutation = {
   deleteEmployee?: {
     __typename?: "DeleteEmployeePayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

@@ -10,7 +10,7 @@ export type VerifyAccountMutation = {
   verifyAccount?: {
     __typename?: "VerifyAccount";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

@@ -10,7 +10,7 @@ export type StudentProfileConditionMutation = {
   studentProfileCondition?: {
     __typename?: "StudentProfileConditionPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

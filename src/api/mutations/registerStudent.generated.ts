@@ -14,7 +14,7 @@ export type RegisterStudentMutation = {
   registerStudent?: {
     __typename?: "RegisterStudent";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

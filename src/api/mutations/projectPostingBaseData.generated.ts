@@ -10,7 +10,7 @@ export type ProjectPostingBaseDataMutation = {
   projectPostingBaseData?: {
     __typename?: "ProjectPostingBaseDataPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     projectPostingId?: string | null;
     slug?: string | null;
   } | null;

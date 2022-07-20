@@ -27,7 +27,7 @@
           veeForm.errors.value.projectFromDateMonth || veeForm.errors.value.projectFromDateYear
         "
       >
-        <template #label>Starttermin*</template>
+        <template #label>Starttermin</template>
         <fieldset id="projectDateFrom" class="flex">
           <Field
             id="projectFromDateMonth"
@@ -35,7 +35,6 @@
             as="select"
             label="Starttermin Monat"
             class="mr-3"
-            rules="required"
           >
             <option value disabled selected hidden>Monat</option>
             <option v-for="n in 12" :key="`projectFromDateMonth_${n}`" :value="n">
@@ -47,7 +46,6 @@
             name="projectFromDateYear"
             as="select"
             label="Starttermin Jahr"
-            rules="required"
           >
             <option value disabled selected hidden>Jahr</option>
             <option v-for="n in validYears" :key="`projectFromDateYear_${n}`" :value="n">
@@ -132,7 +130,6 @@
 
 <script setup lang="ts">
 import { projectPostingStep2FormMapper } from "@/api/mappers/projectPostingStep2FormMapper";
-import { projectPostingStep2InputMapper } from "@/api/mappers/projectPostingStep2InputMapper";
 import type { Attachment } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -161,21 +158,27 @@ const store = useStore();
 const veeForm = useForm<ProjectPostingStep2Form>();
 const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
-    if (store.getters["currentProjectPosting"]?.id) {
-      await store.dispatch(
-        ActionTypes.SAVE_PROJECTPOSTING_STEP2,
-        projectPostingStep2InputMapper(store.getters["currentProjectPosting"]?.id, formData)
-      );
-      const projectPostingState = store.getters["projectPostingState"];
-      if (projectPostingState.success) {
-        emits("submitComplete", projectPostingState.success);
-      } else if (projectPostingState.errors) {
-        veeForm.setErrors(projectPostingState.errors);
-        if (projectPostingState.errors?.projectFromDate) {
-          veeForm.setErrors({ projectFromDateMonth: "Stellenantritt darf nicht leer sein." });
-        }
-      }
+    if (!store.getters["currentProjectPosting"]?.id) {
+      return;
     }
+    await store.dispatch(ActionTypes.SAVE_PROJECTPOSTING_STEP2, {
+      id: store.getters["currentProjectPosting"].id,
+      ...(formData.website && { website: formData.website }),
+      ...(formData.projectFromDateMonth &&
+        formData.projectFromDateYear && {
+          projectFromDate: `${formData.projectFromDateMonth}.${formData.projectFromDateYear}`,
+        }),
+    });
+    const projectPostingState = store.getters["projectPostingState"];
+    if (!projectPostingState.success && projectPostingState.errors) {
+      if (projectPostingState.errors?.projectFromDate) {
+        veeForm.setErrors({ projectFromDateMonth: "Stellenantritt darf nicht leer sein." });
+        return;
+      }
+      veeForm.setErrors(projectPostingState.errors);
+      return;
+    }
+    emits("submitComplete", projectPostingState.success);
   } catch (e) {
     console.log(e);
   }

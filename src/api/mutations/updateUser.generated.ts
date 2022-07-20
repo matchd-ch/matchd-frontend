@@ -10,7 +10,7 @@ export type UpdateUserMutation = {
   updateUser?: {
     __typename?: "UpdateUserMutationPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

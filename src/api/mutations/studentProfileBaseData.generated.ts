@@ -10,7 +10,7 @@ export type StudentProfileBaseDataMutation = {
   studentProfileBaseData?: {
     __typename?: "StudentProfileBaseDataPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

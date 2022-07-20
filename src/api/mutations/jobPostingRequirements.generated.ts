@@ -10,7 +10,7 @@ export type JobPostingRequirementsMutation = {
   jobPostingRequirements?: {
     __typename?: "JobPostingRequirementsPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     jobPostingId?: string | null;
     slug?: string | null;
   } | null;

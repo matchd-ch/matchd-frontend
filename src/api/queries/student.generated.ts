@@ -33,8 +33,8 @@ export type StudentQuery = {
     graduation?: string | null;
     distinction?: string | null;
     profileStep: number;
-    jobFromDate?: any | null;
-    jobToDate?: any | null;
+    jobFromDate?: string | null;
+    jobToDate?: string | null;
     matchStatus?: {
       __typename?: "MatchStatus";
       initiator: Types.ProfileType;

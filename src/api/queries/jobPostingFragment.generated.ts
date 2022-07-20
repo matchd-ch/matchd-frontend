@@ -7,9 +7,9 @@ export type JobPostingJobPostingFragment = {
   title: string;
   displayTitle: string;
   description: string;
-  jobFromDate: any;
-  jobToDate?: any | null;
-  datePublished?: any | null;
+  jobFromDate: string;
+  jobToDate?: string | null;
+  datePublished?: string | null;
   url?: string | null;
   workload: number;
   formStep: number;

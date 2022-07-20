@@ -40,7 +40,7 @@
     </SelectPillGroup>
     <!-- Bezeichnung Field -->
     <MatchdField id="title" class="mb-10" :errors="veeForm.errors.value.title">
-      <template #label>Beschriftung*</template>
+      <template #label>Projekttitel*</template>
       <Field
         id="title"
         name="title"
@@ -58,7 +58,7 @@
       :errors="veeForm.errors.value.keywords"
       @select="onSelectKeyword"
     >
-      <template #label>Stichworte*</template>
+      <template #label>Stichwörter*</template>
       <input
         id="keywords"
         v-model="keywordInput"

@@ -12,8 +12,8 @@ export type DashboardQuery = {
       id: string;
       title: string;
       displayTitle: string;
-      datePublished?: any | null;
-      dateCreated?: any | null;
+      datePublished?: string | null;
+      dateCreated?: string | null;
       slug: string;
       state: Types.ProjectPostingState;
       keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
@@ -32,8 +32,8 @@ export type DashboardQuery = {
       id: string;
       title: string;
       displayTitle: string;
-      datePublished?: any | null;
-      dateCreated?: any | null;
+      datePublished?: string | null;
+      dateCreated?: string | null;
       slug: string;
       state: Types.JobPostingState;
       company: { __typename?: "Company"; name: string; city: string; zip: string };
@@ -43,8 +43,8 @@ export type DashboardQuery = {
       id: string;
       title: string;
       displayTitle: string;
-      datePublished?: any | null;
-      dateCreated?: any | null;
+      datePublished?: string | null;
+      dateCreated?: string | null;
       slug: string;
       state: Types.ProjectPostingState;
       projectType: { __typename?: "ProjectType"; id: string; name: string };
@@ -63,8 +63,8 @@ export type DashboardQuery = {
       id: string;
       title: string;
       displayTitle: string;
-      datePublished?: any | null;
-      dateCreated?: any | null;
+      datePublished?: string | null;
+      dateCreated?: string | null;
       slug: string;
       state: Types.JobPostingState;
       company: { __typename?: "Company"; name: string; city: string; zip: string };

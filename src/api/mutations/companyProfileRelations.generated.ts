@@ -10,7 +10,7 @@ export type CompanyProfileRelationsMutation = {
   companyProfileRelations?: {
     __typename?: "CompanyProfileRelationsPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 
