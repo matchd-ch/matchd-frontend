@@ -4,7 +4,6 @@ module.exports = {
     require("postcss-atrule-bem"),
     require("tailwindcss/nesting")(require("postcss-nesting")),
     require("tailwindcss"),
-    require("rucksack-css"),
     require("autoprefixer"),
   ],
 };
