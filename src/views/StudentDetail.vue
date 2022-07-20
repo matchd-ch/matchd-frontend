@@ -116,7 +116,7 @@
               :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
               class="block text-lg underline hover:text-green-1 font-medium mb-2 transition-colors"
             >
-              {{ projectPosting.title }}, {{ projectPosting.topic?.name }},
+              {{ projectPosting.title }},
               {{ projectPosting.projectType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
