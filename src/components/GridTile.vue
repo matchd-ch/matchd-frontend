@@ -7,7 +7,7 @@
       'grid-tile__item--pink': color === 'pink',
     }"
   >
-    <router-link :to="linkTo" class="grid-tile__link">
+    <router-link v-if="linkTo" :to="linkTo" class="grid-tile__link">
       <div class="grid-tile__image-wrap">
         <div class="grid-tile__image-box rounded-full border-2">
           <img :src="imgSrc" class="w-full" :alt="imgAlt" />

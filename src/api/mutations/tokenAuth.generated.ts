@@ -11,7 +11,7 @@ export type TokenAuthMutation = {
   tokenAuth?: {
     __typename?: "ObtainJSONWebToken";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     token?: string | null;
     refreshToken?: string | null;
     user?: {

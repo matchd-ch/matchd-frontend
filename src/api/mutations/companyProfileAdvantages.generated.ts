@@ -10,7 +10,7 @@ export type CompanyProfileAdvantagesMutation = {
   companyProfileAdvantages?: {
     __typename?: "CompanyProfileAdvantagesPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

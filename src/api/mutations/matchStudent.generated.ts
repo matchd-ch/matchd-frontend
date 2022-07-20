@@ -11,7 +11,7 @@ export type MatchStudentMutation = {
   matchStudent?: {
     __typename?: "MatchStudentPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     confirmed: boolean;
   } | null;
 };

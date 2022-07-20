@@ -6,11 +6,15 @@
       projectPostingDocumentsUploadConfigurations
     "
   >
-    <form @submit="veeForm.onSubmit">
+    <form @submit="onSubmit">
       <FormSaveError v-if="projectPostingState.errors" />
-
       <!-- Website Field -->
-      <MatchdField v-if="!isStudent" id="website" class="mb-10" :errors="veeForm.errors.website">
+      <MatchdField
+        v-if="!isStudent"
+        id="website"
+        class="mb-10"
+        :errors="veeForm.errors.value.website"
+      >
         <template #label>Website</template>
         <Field id="website" name="website" as="input" label="Website" rules="url" />
         <template #info>Link zu mehr Informationen auf Ihrer Webseite.</template>
@@ -19,9 +23,11 @@
       <MatchdSelect
         id="projectDateFrom"
         class="mb-10 grow"
-        :errors="veeForm.errors.projectFromDateMonth || veeForm.errors.projectFromDateYear"
+        :errors="
+          veeForm.errors.value.projectFromDateMonth || veeForm.errors.value.projectFromDateYear
+        "
       >
-        <template #label>Starttermin*</template>
+        <template #label>Starttermin</template>
         <fieldset id="projectDateFrom" class="flex">
           <Field
             id="projectFromDateMonth"
@@ -29,7 +35,6 @@
             as="select"
             label="Starttermin Monat"
             class="mr-3"
-            rules="required"
           >
             <option value disabled selected hidden>Monat</option>
             <option v-for="n in 12" :key="`projectFromDateMonth_${n}`" :value="n">
@@ -41,7 +46,6 @@
             name="projectFromDateYear"
             as="select"
             label="Starttermin Jahr"
-            rules="required"
           >
             <option value disabled selected hidden>Jahr</option>
             <option v-for="n in validYears" :key="`projectFromDateYear_${n}`" :value="n">
@@ -69,8 +73,9 @@
           :upload-configuration="projectPostingImagesUploadConfigurations"
           :formal="!isStudent"
           @select-files="onSelectProjectPostingImages"
-          >Bilder auswählen</MatchdFileUpload
         >
+          Bilder auswählen
+        </MatchdFileUpload>
       </MatchdFileBlock>
       <!-- Media -->
       <MatchdFileBlock>
@@ -113,226 +118,196 @@
             type="button"
             variant="fill"
             :disabled="projectPostingLoading"
-            @click="veeForm.onSubmit"
-            >Speichern</MatchdButton
+            @click="onSubmit"
           >
+            Speichern
+          </MatchdButton>
         </div>
       </teleport>
     </form>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { projectPostingStep2FormMapper } from "@/api/mappers/projectPostingStep2FormMapper";
-import { projectPostingStep2InputMapper } from "@/api/mappers/projectPostingStep2InputMapper";
 import type { Attachment } from "@/api/models/types";
-import { AttachmentKey, ProjectPostingState as ProjectPostingStateEnum } from "@/api/models/types";
-import FormSaveError from "@/components/FormSaveError.vue";
+import { AttachmentKey } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdField from "@/components/MatchdField.vue";
-import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ProjectPostingStep2Form } from "@/models/ProjectPostingStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/projectposting/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { MutationTypes as UploadMutationTypes } from "@/store/modules/upload/mutation-types";
-import { Field, Form, useField, useForm } from "vee-validate";
-import { Options, setup, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Field, Form, useForm } from "vee-validate";
+import { computed, onBeforeMount, onMounted, watch } from "vue";
+import FormSaveError from "../../components/FormSaveError.vue";
+import MatchdField from "../../components/MatchdField.vue";
+import MatchdFileBlock from "../../components/MatchdFileBlock.vue";
+import MatchdFileUpload from "../../components/MatchdFileUpload.vue";
+import MatchdFileView from "../../components/MatchdFileView.vue";
+import MatchdSelect from "../../components/MatchdSelect.vue";
 
-@Options({
-  components: {
-    Form,
-    Field,
-    FormSaveError,
-    MatchdButton,
-    MatchdSelect,
-    MatchdField,
-    MatchdFileBlock,
-    MatchdFileView,
-    MatchdFileUpload,
-  },
-  emits: ["submitComplete", "changeDirty", "navigateBack"],
-})
-export default class ProjectPostingStep2 extends Vue {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<ProjectPostingStep2Form>();
-    const { value: state } = useField<ProjectPostingStateEnum>("state");
+const emits = defineEmits<{
+  (event: "submitComplete", success: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "navigateBack"): void;
+}>();
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        if (store.getters["currentProjectPosting"]?.id) {
-          await store.dispatch(
-            ActionTypes.SAVE_PROJECTPOSTING_STEP2,
-            projectPostingStep2InputMapper(store.getters["currentProjectPosting"]?.id, formData)
-          );
-          const projectPostingState = store.getters["projectPostingState"];
-          if (projectPostingState.success) {
-            this.$emit("submitComplete");
-          } else if (projectPostingState.errors) {
-            form.setErrors(projectPostingState.errors);
-            if (projectPostingState.errors?.projectFromDate) {
-              form.setErrors({ projectFromDateMonth: "Stellenantritt darf nicht leer sein." });
-            }
-          }
-        }
-      } catch (e) {
-        console.log(e);
+const store = useStore();
+const veeForm = useForm<ProjectPostingStep2Form>();
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    if (!store.getters["currentProjectPosting"]?.id) {
+      return;
+    }
+    await store.dispatch(ActionTypes.SAVE_PROJECTPOSTING_STEP2, {
+      id: store.getters["currentProjectPosting"].id,
+      ...(formData.website && { website: formData.website }),
+      ...(formData.projectFromDateMonth &&
+        formData.projectFromDateYear && {
+          projectFromDate: `${formData.projectFromDateMonth}.${formData.projectFromDateYear}`,
+        }),
+    });
+    const projectPostingState = store.getters["projectPostingState"];
+    if (!projectPostingState.success && projectPostingState.errors) {
+      if (projectPostingState.errors?.projectFromDate) {
+        veeForm.setErrors({ projectFromDateMonth: "Stellenantritt darf nicht leer sein." });
+        return;
       }
-    });
+      veeForm.setErrors(projectPostingState.errors);
+      return;
+    }
+    emits("submitComplete", projectPostingState.success);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
-    return {
-      ...form,
-      onSubmit,
-      state,
-    };
+const currentProjectPosting = computed(() => store.getters["currentProjectPosting"]);
+
+const projectPostingData = computed(() => {
+  if (!currentProjectPosting.value) {
+    return {} as ProjectPostingStep2Form;
+  }
+  return projectPostingStep2FormMapper(currentProjectPosting.value);
+});
+
+const isStudent = computed(() => store.getters["isStudent"]);
+const projectPostingLoading = computed(() => store.getters["projectPostingLoading"]);
+const projectPostingState = computed(() => store.getters["projectPostingState"]);
+
+const validYears = computed(() => {
+  const currentYear = new Date().getFullYear();
+  const maxYear = currentYear + 10;
+  const validYears = [];
+  for (let i = currentYear; maxYear > i; i++) {
+    validYears.push(i);
+  }
+  return validYears;
+});
+
+const user = computed(() => store.getters["user"]);
+const projectPostingImagesQueue = computed(() =>
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingImages })
+);
+const projectPostingImages = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingImages })
+);
+
+const projectPostingImagesUploadConfigurations = computed(() => {
+  return store.getters["uploadConfigurationByKey"]({
+    key: AttachmentKey.ProjectPostingImages,
   });
-  formData = {} as ProjectPostingStep2Form;
+});
 
-  get projectPostingData() {
-    if (!this.currentProjectPosting) {
-      return {} as ProjectPostingStep2Form;
-    }
-    return projectPostingStep2FormMapper(this.currentProjectPosting);
-  }
+const projectPostingDocumentsQueue = computed(() =>
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingDocuments })
+);
 
-  get isStudent() {
-    return this.$store.getters["isStudent"];
-  }
+const projectPostingDocuments = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingDocuments })
+);
 
-  get projectPostingLoading() {
-    return this.$store.getters["projectPostingLoading"];
-  }
+const projectPostingDocumentsUploadConfigurations = computed(() => {
+  return store.getters["uploadConfigurationByKey"]({
+    key: AttachmentKey.ProjectPostingDocuments,
+  });
+});
 
-  get projectPostingState() {
-    return this.$store.getters["projectPostingState"];
-  }
+const onSelectProjectPostingImages = async (files: FileList) => {
+  await store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
+    key: AttachmentKey.ProjectPostingImages,
+    files,
+    id: currentProjectPosting.value?.id ?? "",
+  });
+};
 
-  get currentProjectPosting() {
-    return this.$store.getters["currentProjectPosting"];
-  }
+const onDeleteProjectPostingImages = async (file: Attachment) => {
+  await store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
+    key: AttachmentKey.ProjectPostingImages,
+    id: file.id,
+    projectPostingId: currentProjectPosting.value?.id ?? "",
+  });
+};
 
-  get validYears() {
-    const currentYear = new Date().getFullYear();
-    const maxYear = currentYear + 10;
-    const validYears = [];
-    for (let i = currentYear; maxYear > i; i++) {
-      validYears.push(i);
-    }
-    return validYears;
-  }
+const onSelectProjectPostingDocuments = async (files: FileList) => {
+  await store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
+    key: AttachmentKey.ProjectPostingDocuments,
+    files,
+    id: currentProjectPosting.value?.id ?? "",
+  });
+};
 
-  get user() {
-    return this.$store.getters["user"];
-  }
+const onDeleteProjectPostingDocuments = async (file: Attachment) => {
+  await store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
+    key: AttachmentKey.ProjectPostingDocuments,
+    id: file.id,
+    projectPostingId: currentProjectPosting.value?.id ?? "",
+  });
+};
 
-  get projectPostingImagesQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingImages });
-  }
+const onClickBack = () => {
+  emits("navigateBack");
+};
 
-  get projectPostingImages() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingImages });
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emits("changeDirty", veeForm.meta.value.dirty);
   }
+);
 
-  get projectPostingImagesUploadConfigurations() {
-    return this.$store.getters["uploadConfigurationByKey"]({
-      key: AttachmentKey.ProjectPostingImages,
-    });
-  }
+onBeforeMount(() => {
+  store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
+    key: AttachmentKey.ProjectPostingImages,
+  });
+  store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
+    key: AttachmentKey.ProjectPostingDocuments,
+  });
+});
 
-  get projectPostingDocumentsQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingDocuments });
+onMounted(async () => {
+  await store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS);
+  if (currentProjectPosting.value) {
+    await Promise.all([
+      store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
+        key: AttachmentKey.ProjectPostingImages,
+        id: currentProjectPosting.value.id ?? "",
+      }),
+      store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
+        key: AttachmentKey.ProjectPostingFallback,
+        id: currentProjectPosting.value.id ?? "",
+      }),
+      store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
+        key: AttachmentKey.ProjectPostingDocuments,
+        id: currentProjectPosting.value.id ?? "",
+      }),
+    ]);
   }
-
-  get projectPostingDocuments() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingDocuments });
-  }
-
-  get projectPostingDocumentsUploadConfigurations() {
-    return this.$store.getters["uploadConfigurationByKey"]({
-      key: AttachmentKey.ProjectPostingDocuments,
-    });
-  }
-
-  beforeMount() {
-    this.$store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
-      key: AttachmentKey.ProjectPostingImages,
-    });
-    this.$store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
-      key: AttachmentKey.ProjectPostingDocuments,
-    });
-  }
-
-  async mounted() {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS);
-    if (this.currentProjectPosting) {
-      await Promise.all([
-        this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
-          key: AttachmentKey.ProjectPostingImages,
-          id: this.currentProjectPosting?.id || "",
-        }),
-        this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
-          key: AttachmentKey.ProjectPostingFallback,
-          id: this.currentProjectPosting?.id || "",
-        }),
-        this.$store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
-          key: AttachmentKey.ProjectPostingDocuments,
-          id: this.currentProjectPosting?.id || "",
-        }),
-      ]);
-    }
-    this.veeForm.resetForm({
-      values: this.projectPostingData,
-    });
-    calculateMargins();
-  }
-
-  async onSelectProjectPostingImages(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
-      key: AttachmentKey.ProjectPostingImages,
-      files,
-      id: this.currentProjectPosting?.id || "",
-    });
-  }
-
-  async onDeleteProjectPostingImages(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
-      key: AttachmentKey.ProjectPostingImages,
-      id: file.id,
-      projectPostingId: this.currentProjectPosting?.id || "",
-    });
-  }
-
-  async onSelectProjectPostingDocuments(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
-      key: AttachmentKey.ProjectPostingDocuments,
-      files,
-      id: this.currentProjectPosting?.id || "",
-    });
-  }
-
-  async onDeleteProjectPostingDocuments(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
-      key: AttachmentKey.ProjectPostingDocuments,
-      id: file.id,
-      projectPostingId: this.currentProjectPosting?.id || "",
-    });
-  }
-
-  onClickBack(): void {
-    this.$emit("navigateBack");
-  }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+  veeForm.resetForm({
+    values: projectPostingData.value,
+  });
+  calculateMargins();
+});
 </script>
-
-<style></style>

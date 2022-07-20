@@ -9,7 +9,7 @@ export function errorCodeMapper(
 ): MatchdApiError | null {
   const mappedErrors: MatchdApiError = {};
 
-  if (!graphQLErrors) {
+  if (!graphQLErrors || typeof graphQLErrors !== "object") {
     return null;
   }
 

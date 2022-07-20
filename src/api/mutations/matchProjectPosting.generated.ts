@@ -10,7 +10,7 @@ export type MatchProjectPostingMutation = {
   matchProjectPosting?: {
     __typename?: "MatchProjectPostingPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     confirmed: boolean;
   } | null;
 };

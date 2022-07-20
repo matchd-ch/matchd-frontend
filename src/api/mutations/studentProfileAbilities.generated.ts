@@ -10,7 +10,7 @@ export type StudentProfileAbilitiesMutation = {
   studentProfileAbilities?: {
     __typename?: "StudentProfileAbilitiesPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

@@ -42,6 +42,10 @@
   p {
     @apply text-lg;
   }
+  
+  ul {
+    @apply text-lg;
+  }
 
   #app {
     -webkit-font-smoothing: antialiased;

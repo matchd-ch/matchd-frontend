@@ -10,7 +10,7 @@ export type DeleteAttachmentMutation = {
   deleteAttachment?: {
     __typename?: "DeleteAttachmentPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

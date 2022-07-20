@@ -134,21 +134,18 @@ export default class JobPostingStep2 extends Vue {
   veeForm = setup(() => {
     const store = useStore();
     const form = useForm<JobPostingStep2Form>();
-    const { value: skills } = useField<string[]>("skills", (value: string[]) => {
-      if (value?.length === 0) {
+    const { value: skills } = useField<string[]>("skills", (value) => {
+      if ((value as string[])?.length === 0) {
         return "Sie musst mindestens einen technischen Skill auswählen.";
       }
       return true;
     });
-    const { value: languages } = useField<SelectedLanguage[]>(
-      "languages",
-      (value: SelectedLanguage[]) => {
-        if (value?.length === 0) {
-          return "Du musst mindestens eine Sprache auswählen.";
-        }
-        return true;
+    const { value: languages } = useField<SelectedLanguage[]>("languages", (value) => {
+      if ((value as SelectedLanguage[])?.length === 0) {
+        return "Du musst mindestens eine Sprache auswählen.";
       }
-    );
+      return true;
+    });
     const { value: jobRequirements } = useField<string[]>("jobRequirements");
     const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
       try {

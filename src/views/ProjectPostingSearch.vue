@@ -29,7 +29,7 @@
         </div>
         <SearchBoost
           class="search-boost flex xl:hidden mt-4"
-          tech-boost-label="Stichworte"
+          tech-boost-label="Stichwörter"
           :tech-boost="techBoost"
           :soft-boost="softBoost"
           @change-soft-boost="onChangeSoftBoost"
@@ -57,7 +57,7 @@
     <teleport to="footer">
       <SearchBoost
         class="search-boost hidden xl:flex"
-        tech-boost-label="Stichworte"
+        tech-boost-label="Stichwörter"
         :tech-boost="techBoost"
         :soft-boost="softBoost"
         @change-soft-boost="onChangeSoftBoost"

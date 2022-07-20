@@ -7,6 +7,13 @@ generates:
     config:
       minify: false
       schemaDescription: true
+      defaultScalarType: unknown
+      scalars:
+        ID: string
+        String: string
+        Boolean: boolean
+        Int: number
+        Float: number
 hooks:
   afterOneFileWrite:
     - prettier --write

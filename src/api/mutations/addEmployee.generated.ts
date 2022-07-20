@@ -13,7 +13,7 @@ export type AddEmployeeMutation = {
   addEmployee?: {
     __typename?: "AddEmployeePayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     employee?: {
       __typename?: "Employee";
       id: string;

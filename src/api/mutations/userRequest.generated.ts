@@ -12,7 +12,7 @@ export type UserRequestMutation = {
   userRequest?: {
     __typename?: "UserRequestPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

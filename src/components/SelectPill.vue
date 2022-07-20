@@ -1,46 +1,58 @@
 <template>
   <li class="select-pill shrink-0 m-2">
     <label
-      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 cursor-pointer transition-colors"
+      class="flex items-center rounded-full bg-white border font-medium text-sm py-3 transition-colors"
       :class="{
         'text-primary-1': checked || hasDelete,
         'pl-8 pr-4': hasDelete,
         'px-8': !hasDelete,
+        'cursor-pointer': hasInput,
       }"
     >
       <input
+        v-if="hasInput"
         type="radio"
         :name="name"
         class="appearance-none"
         :value="value"
-        @change="$emit('change', value)"
+        @change="handleChange"
       />
       <slot />
-      <button v-if="hasDelete" type="button" @click.stop="$emit('remove', value)">
+      <button v-if="hasDelete" type="button" @click.stop="emits('remove')">
         <IconClose class="w-6 h-6" />
       </button>
     </label>
   </li>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import IconClose from "@/assets/icons/close.svg";
-import { Options, prop, Vue } from "vue-class-component";
 
-class Props {
-  value = prop<string>({ default: "" });
-  name = prop<string>({ default: "" });
-  checked = prop<boolean>({ default: false });
-  hasDelete = prop<boolean>({ default: false });
-}
+const props = withDefaults(
+  defineProps<{
+    value?: string;
+    name?: string;
+    checked?: boolean;
+    hasDelete?: boolean;
+    hasInput?: boolean;
+  }>(),
+  {
+    value: "",
+    name: "",
+    checked: false,
+    hasDelete: false,
+    hasInput: true,
+  }
+);
 
-@Options({
-  components: {
-    IconClose,
-  },
-  emits: ["change", "remove"],
-})
-export default class SelectPill extends Vue.with(Props) {}
+const emits = defineEmits<{
+  (event: "change", value: string): void;
+  (event: "remove"): void;
+}>();
+
+const handleChange = (event: Event) => {
+  emits("change", (event.target as HTMLInputElement).value);
+};
 </script>
 
 <style lang="postcss" scoped>

@@ -410,7 +410,7 @@
         "fields": [
           {
             "name": "icon",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -442,7 +442,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -712,7 +712,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -956,7 +956,7 @@
         "fields": [
           {
             "name": "benefits",
-            "description": null,
+            "description": "",
             "args": [
               {
                 "name": "after",
@@ -1033,7 +1033,7 @@
           },
           {
             "name": "branches",
-            "description": null,
+            "description": "",
             "args": [
               {
                 "name": "after",
@@ -1110,7 +1110,7 @@
           },
           {
             "name": "city",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1146,7 +1146,7 @@
           },
           {
             "name": "description",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1242,7 +1242,7 @@
           },
           {
             "name": "linkEducation",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1254,7 +1254,7 @@
           },
           {
             "name": "linkProjects",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1266,7 +1266,7 @@
           },
           {
             "name": "linkThesis",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -1278,7 +1278,7 @@
           },
           {
             "name": "memberItStGallen",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1310,7 +1310,7 @@
           },
           {
             "name": "phone",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1326,7 +1326,7 @@
           },
           {
             "name": "profileStep",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1366,7 +1366,7 @@
           },
           {
             "name": "services",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1382,7 +1382,7 @@
           },
           {
             "name": "slug",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1434,7 +1434,7 @@
           },
           {
             "name": "street",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1450,7 +1450,7 @@
           },
           {
             "name": "topLevelOrganisationDescription",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1466,7 +1466,7 @@
           },
           {
             "name": "topLevelOrganisationWebsite",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1498,7 +1498,7 @@
           },
           {
             "name": "uid",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1514,7 +1514,7 @@
           },
           {
             "name": "website",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1530,7 +1530,7 @@
           },
           {
             "name": "zip",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2083,7 +2083,7 @@
         "fields": [
           {
             "name": "company",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2115,7 +2115,7 @@
           },
           {
             "name": "student",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2793,7 +2793,7 @@
           },
           {
             "name": "role",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2887,7 +2887,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3042,7 +3042,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3154,7 +3154,7 @@
           },
           {
             "name": "company",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3194,7 +3194,7 @@
           },
           {
             "name": "description",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3238,7 +3238,7 @@
           },
           {
             "name": "formStep",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3270,7 +3270,7 @@
           },
           {
             "name": "jobFromDate",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3286,7 +3286,7 @@
           },
           {
             "name": "jobRequirements",
-            "description": null,
+            "description": "",
             "args": [
               {
                 "name": "after",
@@ -3363,7 +3363,7 @@
           },
           {
             "name": "jobToDate",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3375,7 +3375,7 @@
           },
           {
             "name": "jobType",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3455,7 +3455,7 @@
           },
           {
             "name": "slug",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3503,7 +3503,7 @@
           },
           {
             "name": "url",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4041,7 +4041,7 @@
           },
           {
             "name": "language",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4057,7 +4057,7 @@
           },
           {
             "name": "languageLevel",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4454,7 +4454,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4730,7 +4730,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4916,7 +4916,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5090,7 +5090,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5209,7 +5209,7 @@
         "fields": [
           {
             "name": "description",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -5237,7 +5237,7 @@
           },
           {
             "name": "level",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -7769,7 +7769,7 @@
           },
           {
             "name": "url",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8080,7 +8080,7 @@
         "fields": [
           {
             "name": "company",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -8128,7 +8128,7 @@
           },
           {
             "name": "description",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8172,7 +8172,7 @@
           },
           {
             "name": "formStep",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8248,7 +8248,7 @@
           },
           {
             "name": "projectFromDate",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -8260,7 +8260,7 @@
           },
           {
             "name": "projectType",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8276,7 +8276,7 @@
           },
           {
             "name": "slug",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8308,7 +8308,7 @@
           },
           {
             "name": "student",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -8348,7 +8348,7 @@
           },
           {
             "name": "website",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -9103,7 +9103,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11095,7 +11095,7 @@
           },
           {
             "name": "name",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11339,7 +11339,7 @@
         "fields": [
           {
             "name": "company",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11371,7 +11371,7 @@
           },
           {
             "name": "student",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11613,7 +11613,7 @@
         "fields": [
           {
             "name": "branch",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -11637,7 +11637,7 @@
           },
           {
             "name": "culturalFits",
-            "description": null,
+            "description": "",
             "args": [
               {
                 "name": "after",
@@ -11838,7 +11838,7 @@
           },
           {
             "name": "jobFromDate",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -11850,7 +11850,7 @@
           },
           {
             "name": "jobToDate",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -11862,7 +11862,7 @@
           },
           {
             "name": "jobType",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -11874,7 +11874,7 @@
           },
           {
             "name": "languages",
-            "description": null,
+            "description": "",
             "args": [
               {
                 "name": "after",
@@ -11987,7 +11987,7 @@
           },
           {
             "name": "nickname",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -12019,7 +12019,7 @@
           },
           {
             "name": "profileStep",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -12071,7 +12071,7 @@
           },
           {
             "name": "skills",
-            "description": null,
+            "description": "",
             "args": [
               {
                 "name": "after",
@@ -12148,7 +12148,7 @@
           },
           {
             "name": "slug",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -12164,7 +12164,7 @@
           },
           {
             "name": "softSkills",
-            "description": null,
+            "description": "",
             "args": [
               {
                 "name": "after",
@@ -14082,7 +14082,7 @@
         "fields": [
           {
             "name": "company",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -14094,7 +14094,7 @@
           },
           {
             "name": "dateJoined",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14110,7 +14110,7 @@
           },
           {
             "name": "email",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14138,7 +14138,7 @@
           },
           {
             "name": "firstName",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14218,7 +14218,7 @@
           },
           {
             "name": "lastLogin",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -14230,7 +14230,7 @@
           },
           {
             "name": "lastName",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14246,7 +14246,7 @@
           },
           {
             "name": "password",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14339,7 +14339,7 @@
           },
           {
             "name": "language",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14355,7 +14355,7 @@
           },
           {
             "name": "languageLevel",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14533,7 +14533,7 @@
           },
           {
             "name": "company",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -14545,7 +14545,7 @@
           },
           {
             "name": "email",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14573,7 +14573,7 @@
           },
           {
             "name": "firstName",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14605,7 +14605,7 @@
           },
           {
             "name": "lastName",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14657,7 +14657,7 @@
           },
           {
             "name": "type",
-            "description": null,
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -16039,31 +16039,6 @@
     ],
     "directives": [
       {
-        "name": "deprecated",
-        "description": "Marks an element of a GraphQL schema as no longer supported.",
-        "isRepeatable": false,
-        "locations": [
-          "ARGUMENT_DEFINITION",
-          "ENUM_VALUE",
-          "FIELD_DEFINITION",
-          "INPUT_FIELD_DEFINITION"
-        ],
-        "args": [
-          {
-            "name": "reason",
-            "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": "\"No longer supported\"",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ]
-      },
-      {
         "name": "include",
         "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
         "isRepeatable": false,
@@ -16102,30 +16077,6 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ]
-      },
-      {
-        "name": "specifiedBy",
-        "description": "Exposes a URL that specifies the behavior of this scalar.",
-        "isRepeatable": false,
-        "locations": ["SCALAR"],
-        "args": [
-          {
-            "name": "url",
-            "description": "The URL that specifies the behavior of this scalar.",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               }
             },

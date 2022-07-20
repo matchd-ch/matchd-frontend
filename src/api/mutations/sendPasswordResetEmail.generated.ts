@@ -10,7 +10,7 @@ export type SendPasswordResetEmailMutation = {
   sendPasswordResetEmail?: {
     __typename?: "SendPasswordResetEmail";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

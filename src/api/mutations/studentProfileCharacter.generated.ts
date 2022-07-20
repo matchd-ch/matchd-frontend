@@ -10,7 +10,7 @@ export type StudentProfileCharacterMutation = {
   studentProfileCharacter?: {
     __typename?: "StudentProfileCharacterPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

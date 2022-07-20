@@ -116,7 +116,7 @@
               :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
               class="block text-lg underline hover:text-green-1 font-medium mb-2 transition-colors"
             >
-              {{ projectPosting.title }}, {{ projectPosting.topic?.name }},
+              {{ projectPosting.title }},
               {{ projectPosting.projectType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
@@ -254,17 +254,19 @@ export default class StudentDetail extends Vue {
     return replaceStack(url, stack);
   }
 
-  get lookingFor(): string {
+  get lookingFor() {
+    if (!this.student.data?.jobFromDate || !this.student.data?.jobToDate) {
+      return "";
+    }
     const jobType = this.student.data?.jobType;
-    const jobFromDate = formatDate(this.student.data?.jobFromDate, "LLLL yyyy");
-    const jobToDate = formatDate(this.student.data?.jobToDate, "LLLL yyyy");
+    const jobFromDate = formatDate(this.student.data.jobFromDate, "LLLL yyyy");
+    const jobToDate = formatDate(this.student.data.jobToDate, "LLLL yyyy");
     const branch = this.student.data?.branch?.name;
 
     if (jobType?.mode === DateMode.DateRange) {
       return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
-    } else {
-      return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
     }
+    return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
   }
 
   certificateUrl(id: string): string {

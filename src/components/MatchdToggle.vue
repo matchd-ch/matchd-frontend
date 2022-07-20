@@ -29,21 +29,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import IconInfo from "@/assets/icons/info.svg";
-import { Options, prop, Vue } from "vue-class-component";
 
-class Props {
-  id = prop<string>({});
-  errors = prop<string>({});
-}
-
-@Options({
-  components: {
-    IconInfo,
-  },
-})
-export default class MatchdToggle extends Vue.with(Props) {}
+defineProps<{
+  id: string;
+  errors?: string;
+}>();
 </script>
 
 <style lang="postcss" scoped>

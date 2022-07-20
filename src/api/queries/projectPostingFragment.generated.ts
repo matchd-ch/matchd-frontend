@@ -12,8 +12,8 @@ export type ProjectPostingProjectPostingFragment = {
   compensation?: string | null;
   formStep: number;
   state: Types.ProjectPostingState;
-  projectFromDate?: any | null;
-  datePublished?: any | null;
+  projectFromDate?: string | null;
+  datePublished?: string | null;
   website: string;
   matchStatus?: {
     __typename?: "MatchStatus";

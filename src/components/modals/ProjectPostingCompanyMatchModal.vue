@@ -7,7 +7,7 @@
       <strong
         >{{ projectPosting.employee?.firstName }} {{ projectPosting.employee?.lastName }}</strong
       >
-      von <strong>{{ projectPosting.company.name }}</strong> erhält den Link zu deinem
+      von <strong>{{ projectPosting.company?.name }}</strong> erhält den Link zu deinem
       Matchd-Profil.
     </p>
 
@@ -25,7 +25,7 @@
       <MatchdButton
         variant="outline"
         class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-        @click="$emit('clickCancel')"
+        @click="emits('clickCancel')"
       >
         Abbrechen
       </MatchdButton>
@@ -33,43 +33,38 @@
         :disabled="!permissionGranted"
         :loading="loading"
         class="block w-full md:w-auto"
-        @click="$emit('clickConfirm')"
+        @click="emits('clickConfirm')"
       >
-        <template v-if="matchType === matchTypeEnum.HalfMatch"> Bestätigen </template>
-        <template v-else> Freigeben </template>
+        <template v-if="matchType === MatchTypeEnum.HalfMatch">Bestätigen</template>
+        <template v-else>Freigeben</template>
       </MatchdButton>
     </template>
   </MatchingModal>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { ProjectPosting, User } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
-import { Options, prop, Vue } from "vue-class-component";
+import { ref } from "vue";
 
-class Props {
-  user = prop<User>({});
-  projectPosting = prop<ProjectPosting>({});
-  loading = prop<boolean>({ default: false });
-  matchType = prop<MatchTypeEnum>({});
-}
-
-@Options({
-  components: {
-    MatchdButton,
-    MatchingModal,
-    MatchdToggle,
-  },
-  emits: ["clickConfirm", "clickCancel"],
-})
-export default class ProjectPostingMatchModal extends Vue.with(Props) {
-  permissionGranted = false;
-
-  get matchTypeEnum(): typeof MatchTypeEnum {
-    return MatchTypeEnum;
+withDefaults(
+  defineProps<{
+    user: Pick<User, "firstName">;
+    projectPosting: ProjectPosting;
+    loading?: boolean;
+    matchType: MatchTypeEnum;
+  }>(),
+  {
+    loading: false,
   }
-}
+);
+
+const emits = defineEmits<{
+  (event: "clickConfirm"): void;
+  (event: "clickCancel"): void;
+}>();
+const permissionGranted = ref(false);
 </script>

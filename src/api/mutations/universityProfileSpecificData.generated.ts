@@ -10,7 +10,7 @@ export type UniversityProfileSpecificDataMutation = {
   universityProfileSpecificData?: {
     __typename?: "UniversityProfileSpecificDataPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 

@@ -10,7 +10,7 @@ export type ProjectPostingSpecificDataMutation = {
   projectPostingSpecificData?: {
     __typename?: "ProjectPostingSpecificDataPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     projectPostingId?: string | null;
     slug?: string | null;
   } | null;

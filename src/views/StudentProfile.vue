@@ -19,7 +19,7 @@
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ user.student.nickname }}</h2>
         <p
-          v-if="user.firstName"
+          v-if="user.firstName && user.student.dateOfBirth"
           class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full"
         >
           {{ user.firstName }} {{ user.lastName }}
@@ -53,7 +53,7 @@
         :edit-step="getStepName(4)"
       >
         <ul class="text-lg">
-          <li v-for="language in user.student.languages.edges" :key="language?.node?.id">
+          <li v-for="language in user.student.languages.edges" :key="language?.node?.language.id">
             {{ language?.node?.language.name }}&nbsp;({{ language?.node?.languageLevel.level }})
           </li>
         </ul>
@@ -93,24 +93,24 @@
       <!-- TODO: Fix certificates -->
       <ProfileSection v-if="certificates?.length" title="Zertifikate" :edit-step="getStepName(4)">
         <ul>
-          <li v-for="certificate in certificates" :key="certificate.node?.id">
+          <li v-for="certificate in certificates" :key="certificate.id">
             <a
               :href="certificate.url"
               class="font-medium underline inline-block text-lg hover:text-primary-1 transition-colors"
               target="_blank"
               download
             >
-              <span>{{ certificate.node?.fileName }}</span>
+              <span>{{ certificate.fileName }}</span>
               <ArrowDown class="w-5 mb-1 ml-2 inline-block" />
             </a>
           </li>
         </ul>
       </ProfileSection>
       <ProfileSection title="Konto" edit-step="konto">
-        <ul class="list list-inside list-disc marker-pink-1 text-lg">
-          <li>Email: {{ user.email }}</li>
-          <li>Passwort: ••••••••••••••••</li>
-        </ul>
+        <h6 class="font-medium text-green-1">Benutzername</h6>
+        <p class="mb-4">{{ user.email }}</p>
+        <h6 class="font-medium text-green-1">Passwort</h6>
+        <p>••••••••••••••••</p>
       </ProfileSection>
     </div>
   </div>
@@ -167,16 +167,18 @@ export default class StudentProfile extends Vue {
   }
 
   get lookingFor() {
+    if (!this.user?.student?.jobFromDate || !this.user?.student?.jobToDate) {
+      return "";
+    }
     const jobType = this.user?.student?.jobType;
-    const jobFromDate = formatDate(this.user?.student?.jobFromDate, "LLLL yyyy");
-    const jobToDate = formatDate(this.user?.student?.jobToDate, "LLLL yyyy");
+    const jobFromDate = formatDate(this.user.student.jobFromDate, "LLLL yyyy");
+    const jobToDate = formatDate(this.user.student.jobToDate, "LLLL yyyy");
     const branch = this.user?.student?.branch?.name;
 
     if (jobType?.mode === DateMode.DateRange) {
       return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
-    } else {
-      return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
     }
+    return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
   }
 
   getStepName(step: number | string) {

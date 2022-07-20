@@ -10,6 +10,14 @@ generates:
       - "typescript-document-nodes"
     config:
       noExport: true
+      defaultScalarType: unknown
+      scalars:
+        ID: string
+        String: string
+        Boolean: boolean
+        Int: number
+        Float: number
+        Date: string
   ./src/api/models/types.ts:
     plugins:
       - "typescript"
@@ -18,6 +26,14 @@ generates:
     config:
       onlyOperationTypes: false
       enumPrefix: false
+      defaultScalarType: unknown
+      scalars:
+        ID: string
+        String: string
+        Boolean: boolean
+        Int: number
+        Float: number
+        Date: string
   ./src/:
     preset: near-operation-file
     presetConfig:
@@ -25,6 +41,15 @@ generates:
     plugins:
       - typescript-operations
       - typed-document-node
+    config:
+      defaultScalarType: unknown
+      scalars:
+        ID: string
+        String: string
+        Boolean: boolean
+        Int: number
+        Float: number
+        Date: string
 hooks:
   afterOneFileWrite:
     - prettier --write

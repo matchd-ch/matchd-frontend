@@ -56,7 +56,7 @@
         placeholder="+41712223344"
       />
     </MatchdField>
-    <template v-if="edit">
+    <template v-if="props.edit">
       <teleport to="footer">
         <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
           <MatchdButton
@@ -64,16 +64,18 @@
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
             @click="$emit('clickCancel')"
-            >Abbrechen</MatchdButton
           >
+            Abbrechen
+          </MatchdButton>
           <MatchdButton
             type="button"
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
             @click="veeForm.onSubmit"
-            >Speichern</MatchdButton
           >
+            Speichern
+          </MatchdButton>
         </div>
       </teleport>
     </template>
@@ -84,8 +86,9 @@
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
         @click="veeForm.onSubmit"
-        >Speichern und weiter</MatchdButton
       >
+        Speichern und weiter
+      </MatchdButton>
     </template>
   </form>
 </template>
@@ -118,7 +121,7 @@ const store = useStore();
 
 const veeForm = setup(() => {
   const form = useForm<CompanyProfileStep1Form>();
-  const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
+  const onSubmit = form.handleSubmit(async (formData) => {
     try {
       await store.dispatch(
         ActionTypes.COMPANY_ONBOARDING_STEP1,
@@ -130,20 +133,15 @@ const veeForm = setup(() => {
       console.log(e); // todo
     }
   });
-
   return {
     ...form,
     onSubmit,
   };
 });
-const formData = {} as CompanyProfileStep1Form;
 
 const onboardingState = computed(() => store.getters["onboardingState"]);
-
 const showError = computed(() => !!onboardingState.value.errors);
-
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
-
 const user = computed(() => store.getters["user"]);
 
 const profileData = computed(() => {

@@ -11,57 +11,11 @@ type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /**
-   * The `Date` scalar type represents a Date
-   * value as specified by
-   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
-   */
-  Date: any;
-  /**
-   * The `DateTime` scalar type represents a DateTime
-   * value as specified by
-   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
-   */
-  DateTime: any;
-  /**
-   *
-   *     Errors messages and codes mapped to
-   *     fields or non fields errors.
-   *     Example:
-   *     {
-   *         field_name: [
-   *             {
-   *                 "message": "error message",
-   *                 "code": "error_code"
-   *             }
-   *         ],
-   *         other_field: [
-   *             {
-   *                 "message": "error message",
-   *                 "code": "error_code"
-   *             }
-   *         ],
-   *         nonFieldErrors: [
-   *             {
-   *                 "message": "error message",
-   *                 "code": "error_code"
-   *             }
-   *         ]
-   *     }
-   *
-   */
-  ExpectedErrorType: any;
-  /**
-   * The `GenericScalar` scalar type represents a generic
-   * GraphQL scalar value that could be:
-   * String, Boolean, Int, Float, List or Object.
-   */
-  GenericScalar: any;
-  /**
-   * Create scalar that ignores normal serialization/deserialization, since
-   * that will be handled by the multipart request spec
-   */
-  Upload: any;
+  Date: string;
+  DateTime: unknown;
+  ExpectedErrorType: unknown;
+  GenericScalar: unknown;
+  Upload: unknown;
 };
 
 type AddEmployeeInput = {

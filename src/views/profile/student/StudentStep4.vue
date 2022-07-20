@@ -146,7 +146,7 @@
       <template #label>Dein Talent</template>
       <Field
         id="distinction"
-        v-model="veeForm.distinction"
+        v-model="veeForm.values.distinction"
         name="distinction"
         as="textarea"
         maxlength="1000"
@@ -251,21 +251,18 @@ export default class StudentStep4 extends Vue.with(Props) {
   veeForm = setup(() => {
     const store = useStore();
     const form = useForm<StudentProfileStep4Form>();
-    const { value: skills } = useField<string[]>("skills", (value: string[]) => {
-      if (value?.length === 0) {
+    const { value: skills } = useField<string[]>("skills", (value) => {
+      if ((value as string[])?.length === 0) {
         return "Du musst mindestens einen technischen Skill auswählen.";
       }
       return true;
     });
-    const { value: languages } = useField<SelectedLanguage[]>(
-      "languages",
-      (value: SelectedLanguage[]) => {
-        if (value?.length === 0) {
-          return "Du musst mindestens eine Sprache auswählen.";
-        }
-        return true;
+    const { value: languages } = useField<SelectedLanguage[]>("languages", (value) => {
+      if ((value as SelectedLanguage[])?.length === 0) {
+        return "Du musst mindestens eine Sprache auswählen.";
       }
-    );
+      return true;
+    });
     const { value: onlineProjects } = useField<OnlineProjectInput[]>("onlineProjects");
     const { value: hobbies } = useField<HobbyInput[]>("hobbies");
     const { value: distinction } =

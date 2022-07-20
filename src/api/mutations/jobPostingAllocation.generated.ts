@@ -10,7 +10,7 @@ export type JobPostingAllocationMutation = {
   jobPostingAllocation?: {
     __typename?: "JobPostingAllocationPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
     jobPostingId?: string | null;
     slug?: string | null;
   } | null;

@@ -11,7 +11,7 @@ export type UploadMutation = {
   upload?: {
     __typename?: "UserUploadPayload";
     success?: boolean | null;
-    errors?: any | null;
+    errors?: unknown | null;
   } | null;
 };
 
