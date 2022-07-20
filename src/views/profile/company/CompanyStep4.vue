@@ -115,11 +115,11 @@ export default class CompanyStep4Form extends Vue.with(Props) {
 
     const { value: softSkills } = useField<string[]>(
       "softSkills",
-      (value: string[]) => value?.length >= this.minSoftSkills
+      (value) => (value as string[])?.length >= this.minSoftSkills
     );
     const { value: culturalFits } = useField<string[]>(
       "culturalFits",
-      (value: string[]) => value?.length >= this.minCulturalFits
+      (value) => (value as string[])?.length >= this.minCulturalFits
     );
 
     const onSubmit = form.handleSubmit(async (formData): Promise<void> => {

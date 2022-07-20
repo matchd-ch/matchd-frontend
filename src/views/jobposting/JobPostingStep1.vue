@@ -215,8 +215,8 @@ export default class JobPostingStep1 extends Vue {
     const { value: fullTime } = useField<boolean>("fullTime");
     const { value: branches } = useField<string[]>(
       "branches",
-      (value: string[]) => {
-        if (value?.length === 0) {
+      (value) => {
+        if ((value as string[])?.length === 0) {
           return "In diesen Bereichen und Projekten wird das junge Talent tätig sein ist ein Pflichtfeld";
         }
         return true;
