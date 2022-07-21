@@ -1,5 +1,5 @@
 <template>
-  <MatchingModal>
+  <MatchingModal v-if="user">
     <h2 class="text-heading-sm mb-3 px-8">Hey {{ user.firstName }}</h2>
     <p class="mb-3 px-8">
       Du hast im Matchd-Pool ein spannendes Projekt gefunden – Yaay! Jetzt brauchen wir nur noch
@@ -43,7 +43,8 @@
 </template>
 
 <script setup lang="ts">
-import type { ProjectPosting, User } from "@/api/models/types";
+import { MeQuery } from "@/api/queries/me.generated";
+import { ProjectPostingProjectPostingFragment } from "@/api/queries/projectPostingFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
@@ -52,8 +53,8 @@ import { ref } from "vue";
 
 withDefaults(
   defineProps<{
-    user: Pick<User, "firstName">;
-    projectPosting: ProjectPosting;
+    user: MeQuery["me"];
+    projectPosting: ProjectPostingProjectPostingFragment;
     loading?: boolean;
     matchType: MatchTypeEnum;
   }>(),

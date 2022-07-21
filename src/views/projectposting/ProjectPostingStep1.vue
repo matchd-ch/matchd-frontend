@@ -94,10 +94,9 @@
     <MatchdSelect id="teamSize" class="mb-10" :errors="veeForm.errors.value.teamSize">
       <template #label>Teamgrösse*</template>
       <Field id="teamSize" name="teamSize" as="select" label="Teamgrösse" rules="required">
-        <option value="1">1 Person</option>
-        <option value="2">max. 2 Personen</option>
-        <option value="4">max. 4 Personen</option>
-        <option value="6">max. 6 Personen</option>
+        <option v-for="size in getDefaultTeamSizes()" :key="size.value" :value="size.value">
+          {{ size.label }}
+        </option>
       </Field>
     </MatchdSelect>
     <MatchdField id="compensation" class="mb-10" :errors="veeForm.errors.value.compensation">
@@ -150,6 +149,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
+import { getDefaultTeamSizes } from "@/helpers/teamSize";
 import { ProjectPostingStep1Form } from "@/models/ProjectPostingStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";

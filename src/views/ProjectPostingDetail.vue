@@ -26,9 +26,8 @@
       <!-- eslint-disable-next-line vue/no-v-html -->
       <p class="mb-4 pr-10" v-html="nl2br(projectPosting.data.description)"></p>
       <template v-if="projectPosting.data.teamSize">
-        <!-- TODO: "1 Person", "max. 2 Personen", "max. 4 Personen", "max. 6 Personen" -->
         <h6 class="font-medium text-orange-1">Teamgrösse</h6>
-        <p class="mb-4">{{ projectPosting.data.teamSize }}</p>
+        <p class="mb-4">{{ getTeamSize(projectPosting.data.teamSize).label }}</p>
       </template>
 
       <template v-if="projectPosting.data.compensation">
@@ -196,6 +195,7 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
+import { getTeamSize } from "@/helpers/teamSize";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ParamStrings } from "@/router/paramStrings";
 import { useStore } from "@/store";

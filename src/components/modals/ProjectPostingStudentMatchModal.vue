@@ -26,28 +26,24 @@
   </MatchingModal>
 </template>
 
-<script lang="ts">
-import type { ProjectPosting, User } from "@/api/models/types";
+<script setup lang="ts">
+import { MeQuery } from "@/api/queries/me.generated";
+import { ProjectPostingProjectPostingFragment } from "@/api/queries/projectPostingFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
-import { Options, prop, Vue } from "vue-class-component";
 
-class Props {
-  user = prop<User>({});
-  projectPosting = prop<ProjectPosting>({});
-  loading = prop<boolean>({ default: false });
-  matchType = prop<MatchTypeEnum>({});
-}
+withDefaults(
+  defineProps<{
+    user: MeQuery["me"];
+    projectPosting: ProjectPostingProjectPostingFragment;
+    loading?: boolean;
+    matchType: MatchTypeEnum;
+  }>(),
+  {
+    loading: false,
+  }
+);
 
-@Options({
-  components: {
-    MatchdButton,
-    MatchingModal,
-    MatchdToggle,
-  },
-  emits: ["clickConfirm", "clickCancel"],
-})
-export default class ProjectPostingMatchModal extends Vue.with(Props) {}
+const emits = defineEmits<{ (event: "clickConfirm"): void; (event: "clickCancel"): void }>();
 </script>
