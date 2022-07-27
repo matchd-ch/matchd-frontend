@@ -106,7 +106,6 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "projectposting-search" */ "../views/ProjectPostingSearch.vue"),
     meta: {
       accessType: ["student", "company", "university"],
-      public: true,
     },
     beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
   },
