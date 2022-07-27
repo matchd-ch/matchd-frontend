@@ -1546,8 +1546,10 @@ export type QueryProjectPostingArgs = {
 export type QueryProjectPostingsArgs = {
   after?: InputMaybe<Scalars["String"]>;
   before?: InputMaybe<Scalars["String"]>;
-  companyId?: InputMaybe<Scalars["String"]>;
   datePublished?: InputMaybe<Scalars["Date"]>;
+  filterCompanyProjects?: InputMaybe<Scalars["Boolean"]>;
+  filterTalentProjects?: InputMaybe<Scalars["Boolean"]>;
+  filterUniversityProjects?: InputMaybe<Scalars["Boolean"]>;
   first?: InputMaybe<Scalars["Int"]>;
   keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   last?: InputMaybe<Scalars["Int"]>;

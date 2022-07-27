@@ -19,17 +19,15 @@
   </li>
 </template>
 
-<script lang="ts">
-import { prop, Vue } from "vue-class-component";
+<script setup lang="ts">
+import { RouteLocationRaw } from "vue-router";
 
-class Props {
-  linkTo = prop<string>({});
-  imgSrc = prop<string>({});
-  imgAlt = prop<string>({});
-  color = prop<string>({});
-}
-
-export default class GridTile extends Vue.with(Props) {}
+defineProps<{
+  linkTo: RouteLocationRaw;
+  imgSrc: string;
+  imgAlt: string;
+  color: string;
+}>();
 </script>
 
 <style type="postcss" scoped>

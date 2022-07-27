@@ -10276,11 +10276,11 @@
                 "deprecationReason": null
               },
               {
-                "name": "companyId",
-                "description": "Company id",
+                "name": "datePublished",
+                "description": "Date published",
                 "type": {
                   "kind": "SCALAR",
-                  "name": "String",
+                  "name": "Date",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -10288,11 +10288,35 @@
                 "deprecationReason": null
               },
               {
-                "name": "datePublished",
-                "description": "Date published",
+                "name": "filterCompanyProjects",
+                "description": "Filter projects from companies",
                 "type": {
                   "kind": "SCALAR",
-                  "name": "Date",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "filterTalentProjects",
+                "description": "Filter projects from talents",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "filterUniversityProjects",
+                "description": "Filter projects from universities",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
                   "ofType": null
                 },
                 "defaultValue": null,

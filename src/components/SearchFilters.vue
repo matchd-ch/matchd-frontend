@@ -4,7 +4,7 @@
 
     <form
       class="mt-10 xl:mt-0 xl:grow xl:max-w-3xl xl:block"
-      :class="{ block: open, hidden: !open }"
+      :class="{ block: isOpen, hidden: !isOpen }"
     >
       <slot />
     </form>
@@ -12,28 +12,19 @@
       <slot name="display-toggles" />
     </div>
     <div class="flex justify-center mt-4 xl:hidden">
-      <button @click="open = !open">
-        <ArrowDown class="w-8 transition" :class="{ 'rotate-180': open }" />
+      <button @click="isOpen = !isOpen">
+        <ArrowDown class="w-8 transition" :class="{ 'rotate-180': isOpen }" />
       </button>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import ArrowDown from "@/assets/icons/arrow-down.svg";
-import { Options, Vue } from "vue-class-component";
+import { ref } from "vue";
 
-@Options({
-  components: {
-    ArrowDown,
-  },
-  emits: ["changeFilters"],
-})
-export default class SearchFilters extends Vue {
-  open = false;
-  techBoost = 3;
-  softBoost = 3;
-}
+defineEmits<{ (event: "changeFilters"): void }>();
+const isOpen = ref(false);
 </script>
 
 <style lang="postcss" scoped>

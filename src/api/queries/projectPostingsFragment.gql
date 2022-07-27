@@ -1,6 +1,36 @@
 fragment projectPostingsProjectPosting on ProjectPosting {
   id
-  slug
   title
-  displayTitle
+  slug
+  projectType {
+    id
+    name
+  }
+  keywords {
+    id
+    name
+  }
+  description
+  teamSize
+  compensation
+  website
+  projectFromDate
+  employee {
+    id
+    firstName
+    lastName
+    role
+    email
+    phone
+  }
+  student {
+    id
+  }
+  company {
+    id
+  }
+  formStep
+  state
+  dateCreated
+  datePublished
 }

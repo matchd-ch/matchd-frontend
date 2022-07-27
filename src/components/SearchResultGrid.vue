@@ -7,8 +7,8 @@
       'search-result-grid--company': resultType === 'company',
     }"
   >
-    <grid-tile
-      v-for="match in formattedMatches.value"
+    <GridTile
+      v-for="match in formattedMatches"
       :key="match.id"
       :link-to="{ name: toRouteName, params: { slug: match.id }, query: queryParams }"
       :img-src="replaceStack(match.img, resultType === 'student' ? 'avatar' : 'logo')"
@@ -27,71 +27,68 @@
         <h2 class="text-paragraph-lg font-medium">{{ match.title }}</h2>
         <h3 class="text-paragraph-lg">{{ match.name }}</h3>
       </div>
-    </grid-tile>
+    </GridTile>
   </ul>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import GridTile from "@/components/GridTile.vue";
 import fetchAttachmentDataUri from "@/helpers/fetchAttachmentDataUri";
 import { replaceStack } from "@/helpers/replaceStack";
 import { SearchResult } from "@/models/SearchResult";
-import { ref } from "vue";
-import { Options, prop, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
-import { LocationQueryRaw } from "vue-router";
+import { computed, ref, watch } from "vue";
 
-class Props {
-  matches = prop<SearchResult[]>({ default: [] });
-  resultType = prop<string>({ default: "" });
-  jobPostingId = prop<string>({ default: "" });
-  color = prop<string>({ default: "" });
-}
-
-@Options({
-  components: {
-    GridTile,
-  },
-})
-export default class SearchBoost extends Vue.with(Props) {
-  formattedMatches = ref<SearchResult[]>(this.matches);
-  get queryParams(): LocationQueryRaw {
-    if (this.resultType !== "student") {
-      return {};
-    }
-    return { jobPostingId: this.jobPostingId };
+const props = withDefaults(
+  defineProps<{
+    matches?: SearchResult[];
+    resultType?: string;
+    jobPostingId?: string;
+    color?: string;
+  }>(),
+  {
+    matches: () => [],
+    resultType: "",
+    jobPostingId: "",
+    color: "",
   }
+);
 
-  replaceStack(url: string, stack: string): string {
-    return replaceStack(url, stack);
+const formattedMatches = ref<SearchResult[]>(props.matches);
+const queryParams = computed(() => {
+  if (props.resultType !== "student") {
+    return {};
   }
+  return { jobPostingId: props.jobPostingId };
+});
 
-  get toRouteName(): string {
-    switch (this.resultType) {
-      case "jobposting":
-        return "JobPostingDetail";
-      case "company":
-        return "CompanyDetail";
-      default:
-        return "StudentDetail";
-    }
+const toRouteName = computed(() => {
+  switch (props.resultType) {
+    case "jobposting":
+      return "JobPostingDetail";
+    case "company":
+      return "CompanyDetail";
+    default:
+      return "StudentDetail";
   }
+});
 
-  @Watch("matches", { immediate: true })
-  async onUpdateMatches() {
-    this.formattedMatches.value = await Promise.all(
-      this.matches.map(async (match) => {
+watch(
+  () => props.matches,
+  async () => {
+    formattedMatches.value = await Promise.all(
+      props.matches.map(async (match) => {
         if (match.img) {
           match.img = await fetchAttachmentDataUri(
             match.img,
-            this.resultType === "student" ? "avatar" : "logo"
+            props.resultType === "student" ? "avatar" : "logo"
           );
         }
         return match;
       })
     );
-  }
-}
+  },
+  { immediate: true }
+);
 </script>
 
 <style lang="postcss" scoped>

@@ -167,7 +167,6 @@ const store = useStore();
 
 const veeForm = useForm<ProjectPostingStep1Form>();
 const onSubmit = veeForm.handleSubmit(async (formData) => {
-  console.log("formData:", formData);
   try {
     await store.dispatch(ActionTypes.SAVE_PROJECTPOSTING_STEP1, {
       id: store.getters["currentProjectPosting"]?.id || null,

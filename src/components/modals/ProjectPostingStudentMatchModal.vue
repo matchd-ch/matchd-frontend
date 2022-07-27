@@ -15,11 +15,11 @@
       <MatchdButton
         variant="outline"
         class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-        @click="$emit('clickCancel')"
+        @click="emits('clickCancel')"
       >
         Abbrechen
       </MatchdButton>
-      <MatchdButton :loading="loading" class="block w-full md:w-auto" @click="$emit('clickConfirm')"
+      <MatchdButton :loading="loading" class="block w-full md:w-auto" @click="emits('clickConfirm')"
         >Bestätigen
       </MatchdButton>
     </template>
