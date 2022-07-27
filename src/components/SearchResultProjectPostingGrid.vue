@@ -2,58 +2,57 @@
   <ul
     class="search-result-project-posting-grid grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-px"
   >
-    <project-posting-grid-tile
-      v-for="match in matches"
-      :key="match.id"
-      :link-to="{ name: 'ProjectPostingDetail', params: { slug: match.id } }"
-      :img-src="replaceStack(match.img, 'avatar')"
-      :img-alt="match.name"
+    <ProjectPostingGridTile
+      v-for="projectPosting in projectPostings"
+      :key="projectPosting.id"
+      :link-to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
+      :color="color"
     >
-      <template #match-status>
-        <div
-          v-if="match.matchStatus?.initiator"
-          class="search-result-project-posting-grid__match-status-helper"
-        >
-          <div class="search-result-project-posting-grid__match-status">
-            <span v-if="match.matchStatus.confirmed" class="material-icons">people</span>
-            <span v-else class="material-icons">record_voice_over</span>
-          </div>
-        </div>
-      </template>
-
-      <h2 class="text-paragraph-lg font-medium mb-4">{{ match.title }}</h2>
-      <p v-if="match.description" class="mb-2 text-paragraph-md">
-        {{ match.description.slice(0, 100) }}
-        <template v-if="match.description.length > 100">&hellip;</template>
+      <h2 class="text-paragraph-lg font-medium mb-4">{{ projectPosting.title }}</h2>
+      <p v-if="projectPosting.description" class="mb-2 text-paragraph-md">
+        {{ projectPosting.description.slice(0, 100) }}
+        <template v-if="projectPosting.description.length > 100">&hellip;</template>
       </p>
-      <p v-if="match.keywords.length" class="text-paragraph-md">{{ match.keywords.join(", ") }}</p>
-    </project-posting-grid-tile>
+      <p v-if="projectPosting.keywords?.length" class="text-paragraph-md">
+        {{ projectPosting.keywords.map((k) => k.name).join(", ") }}
+      </p>
+    </ProjectPostingGridTile>
   </ul>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { AttachmentKey } from "@/api/models/types";
+import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsFragment.generated";
 import ProjectPostingGridTile from "@/components/ProjectPostingGridTile.vue";
-import { replaceStack } from "@/helpers/replaceStack";
-import { SearchResult } from "@/models/SearchResult";
-import { Options, prop, Vue } from "vue-class-component";
+import { useStore } from "@/store";
+import { computed } from "vue";
 
-class Props {
-  matches = prop<SearchResult[]>({ default: [] });
-  resultType = prop<string>({ default: "" });
-  jobPostingId = prop<string>({ default: "" });
-  color = prop<string>({ default: "" });
-}
-
-@Options({
-  components: {
-    ProjectPostingGridTile,
-  },
-})
-export default class SearchResultProjectPostingGrid extends Vue.with(Props) {
-  replaceStack(url: string, stack: string): string {
-    return replaceStack(url, stack);
+withDefaults(
+  defineProps<{
+    projectPostings: ProjectPostingsProjectPostingFragment[];
+    color?: string;
+  }>(),
+  {
+    color: "pink",
   }
-}
+);
+
+const store = useStore();
+const isStudent = computed(() => store.getters["isStudent"]);
+
+const avatar = computed(() => {
+  return (
+    store.getters["attachmentsByKey"]({
+      key: isStudent.value ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
+    })?.[0] ||
+    store.getters["attachmentsByKey"]({
+      key: isStudent.value
+        ? AttachmentKey.StudentAvatarFallback
+        : AttachmentKey.CompanyAvatarFallback,
+    })?.[0] ||
+    undefined
+  );
+});
 </script>
 
 <style lang="postcss" scoped>

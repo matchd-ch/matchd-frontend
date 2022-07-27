@@ -11,7 +11,7 @@
     >
       <input
         v-if="hasInput"
-        type="radio"
+        type="checkbox"
         :name="name"
         class="appearance-none"
         :value="value"
@@ -28,13 +28,14 @@
 <script setup lang="ts">
 import IconClose from "@/assets/icons/close.svg";
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     value?: string;
     name?: string;
     checked?: boolean;
     hasDelete?: boolean;
     hasInput?: boolean;
+    backdropOpacity?: number;
   }>(),
   {
     value: "",
@@ -42,6 +43,7 @@ const props = withDefaults(
     checked: false,
     hasDelete: false,
     hasInput: true,
+    backdropOpacity: 1,
   }
 );
 

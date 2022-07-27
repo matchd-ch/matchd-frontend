@@ -7,7 +7,7 @@
     >
       <div class="project-posting-grid-tile__image-wrap shrink-0 w-1/3">
         <div class="project-posting-grid-tile__image-box border-primary-1 rounded-full border-2">
-          <img :src="imgSrc" class="w-full" :alt="imgAlt" />
+          <img v-if="imgSrc" :src="imgSrc" class="w-full" :alt="imgAlt" />
         </div>
         <slot name="match-status" />
       </div>
@@ -18,17 +18,15 @@
   </li>
 </template>
 
-<script lang="ts">
-import { prop, Vue } from "vue-class-component";
+<script setup lang="ts">
+import { RouteLocationRaw } from "vue-router";
 
-class Props {
-  linkTo = prop<string>({});
-  imgSrc = prop<string>({});
-  imgAlt = prop<string>({});
-  color = prop<string>({});
-}
-
-export default class GridTile extends Vue.with(Props) {}
+defineProps<{
+  linkTo: RouteLocationRaw;
+  imgSrc?: string;
+  imgAlt?: string;
+  color?: string;
+}>();
 </script>
 
 <style lang="postcss" scoped>

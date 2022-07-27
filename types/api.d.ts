@@ -1546,14 +1546,17 @@ type QueryProjectPostingArgs = {
 type QueryProjectPostingsArgs = {
   after?: InputMaybe<Scalars["String"]>;
   before?: InputMaybe<Scalars["String"]>;
-  companyId?: InputMaybe<Scalars["String"]>;
   datePublished?: InputMaybe<Scalars["Date"]>;
+  filterCompanyProjects?: InputMaybe<Scalars["Boolean"]>;
+  filterTalentProjects?: InputMaybe<Scalars["Boolean"]>;
+  filterUniversityProjects?: InputMaybe<Scalars["Boolean"]>;
   first?: InputMaybe<Scalars["Int"]>;
   keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   last?: InputMaybe<Scalars["Int"]>;
   projectFromDate?: InputMaybe<Scalars["Date"]>;
-  projectTypeId?: InputMaybe<Scalars["String"]>;
+  projectTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   teamSize?: InputMaybe<Scalars["Int"]>;
+  textSearch?: InputMaybe<Scalars["String"]>;
 };
 
 type QueryProjectTypesArgs = {
@@ -3033,9 +3036,39 @@ export const ProjectPostingDocument = gql`
 export const ProjectPostingsProjectPosting = gql`
   fragment projectPostingsProjectPosting on ProjectPosting {
     id
-    slug
     title
-    displayTitle
+    slug
+    projectType {
+      id
+      name
+    }
+    keywords {
+      id
+      name
+    }
+    description
+    teamSize
+    compensation
+    website
+    projectFromDate
+    employee {
+      id
+      firstName
+      lastName
+      role
+      email
+      phone
+    }
+    student {
+      id
+    }
+    company {
+      id
+    }
+    formStep
+    state
+    dateCreated
+    datePublished
   }
 `;
 export const ProjectTypesProjectType = gql`
@@ -4266,8 +4299,23 @@ const ProjectPosting = gql`
   ${ProjectPostingDocument}
 `;
 const ProjectPostings = gql`
-  query projectPostings {
-    projectPostings(first: 100) {
+  query projectPostings(
+    $textSearch: String
+    $projectTypeIds: [String]
+    $keywordIds: [String]
+    $filterTalentProjects: Boolean
+    $filterCompanyProjects: Boolean
+    $filterUniversityProjects: Boolean
+  ) {
+    projectPostings(
+      first: 1000
+      textSearch: $textSearch
+      projectTypeIds: $projectTypeIds
+      keywordIds: $keywordIds
+      filterTalentProjects: $filterTalentProjects
+      filterCompanyProjects: $filterCompanyProjects
+      filterUniversityProjects: $filterUniversityProjects
+    ) {
       edges {
         node {
           ...projectPostingsProjectPosting

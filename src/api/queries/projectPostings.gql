@@ -1,7 +1,22 @@
 #import "./projectPostingsFragment.gql"
 
-query projectPostings {
-  projectPostings(first: 100) {
+query projectPostings(
+  $textSearch: String,
+  $projectTypeIds: [String],
+  $keywordIds: [String],
+  $filterTalentProjects: Boolean,
+  $filterCompanyProjects: Boolean,
+  $filterUniversityProjects: Boolean
+) {
+  projectPostings(
+    first: 1000,
+    textSearch: $textSearch,
+    projectTypeIds: $projectTypeIds,
+    keywordIds: $keywordIds,
+    filterTalentProjects: $filterTalentProjects,
+    filterCompanyProjects: $filterCompanyProjects,
+    filterUniversityProjects: $filterUniversityProjects
+  ) {
     edges {
       node {
         ...projectPostingsProjectPosting

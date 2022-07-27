@@ -11,7 +11,7 @@
           :key="result.id"
           class="matchd-autocomplete__result-item"
         >
-          <button type="button" @click="$emit('select', result)">{{ result.name }}</button>
+          <button type="button" @click="emits('select', result)">{{ result.name }}</button>
         </li>
       </ul>
     </div>
@@ -23,23 +23,24 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import IconInfo from "@/assets/icons/info.svg";
-import { Options, prop, Vue } from "vue-class-component";
 
-class Props {
-  id = prop<string>({});
-  items = prop<{ id: string; name: string }[]>({});
-  errors = prop<string>({ default: "" });
-}
+type Item = { id: string; name: string };
 
-@Options({
-  components: {
-    IconInfo,
-  },
-  emits: ["select"],
-})
-export default class MatchdAutocomplete extends Vue.with(Props) {}
+withDefaults(
+  defineProps<{
+    id: string;
+    items?: Item[];
+    errors?: string;
+  }>(),
+  {
+    errors: "",
+    items: () => [],
+  }
+);
+
+const emits = defineEmits<{ (event: "select", item: Item): void }>();
 </script>
 
 <style lang="postcss" scoped>

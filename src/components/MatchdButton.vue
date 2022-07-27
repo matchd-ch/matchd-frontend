@@ -66,7 +66,7 @@ withDefaults(
   }
 }
 
-.fill {
+@block fill {
   @apply bg-black text-white border border-black;
 
   &:not(:disabled) {
@@ -81,11 +81,27 @@ withDefaults(
       }
     }
   }
+
+  @modifier white {
+    @apply bg-white border-white text-black;
+    & svg {
+      fill: black;
+    }
+    &:not(:disabled) {
+      &:hover,
+      &:focus,
+      &.active {
+        @apply text-white bg-black border-black;
+        & svg {
+          fill: white;
+        }
+      }
+    }
+  }
 }
 
-.outline {
-  @apply border border-black;
-  @apply text-black;
+@block outline {
+  @apply border border-black text-black outline-none;
 
   &:not(:disabled) {
     &:hover,
@@ -95,6 +111,23 @@ withDefaults(
 
       & svg {
         fill: white;
+      }
+    }
+  }
+
+  @modifier white {
+    @apply border border-white text-white;
+    & svg {
+      fill: white;
+    }
+    &:not(:disabled) {
+      &:hover,
+      &:focus,
+      &.active {
+        @apply text-black bg-white;
+        & svg {
+          fill: black;
+        }
       }
     }
   }

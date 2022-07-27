@@ -3,6 +3,7 @@ import type {
   MatchJobPostingInput,
   MatchProjectPostingInput,
   MatchStudentInput,
+  ProjectPostingSpecificDataInput,
 } from "@/api/models/types";
 import { MatchJobPostingDocument } from "@/api/mutations/matchJobPosting.generated";
 import { MatchProjectPostingDocument } from "@/api/mutations/matchProjectPosting.generated";
@@ -22,7 +23,10 @@ import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
 import { LanguagesDocument } from "@/api/queries/languages.generated";
 import { MatchingDocument } from "@/api/queries/matching.generated";
 import { ProjectPostingDocument } from "@/api/queries/projectPosting.generated";
-import { ProjectPostingsDocument } from "@/api/queries/projectPostings.generated";
+import {
+  ProjectPostingsDocument,
+  ProjectPostingsQueryVariables,
+} from "@/api/queries/projectPostings.generated";
 import { ProjectTypesDocument } from "@/api/queries/projectTypes.generated";
 import { SkillsDocument } from "@/api/queries/skills.generated";
 import { SoftSkillsDocument } from "@/api/queries/softSkills.generated";
@@ -87,7 +91,10 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: { slug: string }
   ): Promise<void>;
-  [ActionTypes.PROJECT_POSTINGS]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.PROJECT_POSTINGS](
+    { commit }: AugmentedActionContext,
+    payload: ProjectPostingsQueryVariables
+  ): Promise<void>;
   [ActionTypes.PROJECT_TYPES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
@@ -325,7 +332,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.SKILLS_LOADED, { skills: response.data.skills });
   },
-  async [ActionTypes.PROJECT_POSTING]({ commit }, payload: { slug: string }) {
+  async [ActionTypes.PROJECT_POSTING]({ commit }, payload) {
     commit(MutationTypes.PROJECT_POSTING_LOADING);
     const response = await apiClient.query({
       query: ProjectPostingDocument,
@@ -337,11 +344,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.PROJECT_POSTING_LOADED, response.data);
   },
-  async [ActionTypes.PROJECT_POSTINGS]({ commit }) {
+  async [ActionTypes.PROJECT_POSTINGS]({ commit }, payload) {
     commit(MutationTypes.PROJECT_POSTINGS_LOADING);
     const response = await apiClient.query({
       query: ProjectPostingsDocument,
       fetchPolicy: "no-cache",
+      variables: payload,
       context: {
         batch: true,
       },
