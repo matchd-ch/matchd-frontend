@@ -106,6 +106,7 @@
     <div>
       <SearchResultProjectPostingGrid
         v-if="projectPostings.length"
+        class="search-result-project-posting-grid"
         :project-postings="projectPostings"
         result-type="student"
         :color="isStudent ? 'green' : 'pink'"
@@ -124,8 +125,9 @@
 </template>
 
 <script setup lang="ts">
-import { AttachmentKey, ProjectType } from "@/api/models/types";
+import { AttachmentKey } from "@/api/models/types";
 import { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
+import { ProjectTypesProjectTypeFragment } from "@/api/queries/projectTypesFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ProjectPostingSearchFilters from "@/components/ProjectPostingSearchFilters.vue";
 import SearchResultProjectPostingGrid from "@/components/SearchResultProjectPostingGrid.vue";
@@ -152,7 +154,7 @@ const keywords = computed(() => store.getters["keywords"]);
 const keywordsInput = ref("");
 const selectedKeywords = ref<KeywordsKeywordFragment[]>([]);
 const projectTypes = computed(() => store.getters["projectTypes"]);
-const selectedProjectTypes = ref<ProjectType[]>([]);
+const selectedProjectTypes = ref<ProjectTypesProjectTypeFragment[]>([]);
 const textSearch = ref("");
 const projectPostingId = ref("");
 enum Entities {
@@ -236,7 +238,7 @@ const handleRemoveKeyword = (keyword: KeywordsKeywordFragment) => {
   selectedKeywords.value = selectedKeywords.value.filter((kw) => kw.id !== keyword.id);
 };
 
-const handleSelectProjectType = (projectType: ProjectType) => {
+const handleSelectProjectType = (projectType: ProjectTypesProjectTypeFragment) => {
   if (selectedProjectTypes.value.find((pt) => pt.id === projectType.id)) {
     selectedProjectTypes.value = selectedProjectTypes.value.filter(
       (kw) => kw.id !== projectType.id
@@ -248,13 +250,13 @@ const handleSelectProjectType = (projectType: ProjectType) => {
 
 const fetchProjectPostings = async () => {
   await store.dispatch(ActionTypes.PROJECT_POSTINGS, {
-    // TODO: Remove comment when the endpoint is updated
-    // ...(textSearch.value && { textSearch: textSearch.value }),
+    ...(textSearch.value && { textSearch: textSearch.value }),
     ...(entities.value.TALENT.checked && { filterTalentProjects: true }),
     ...(entities.value.COMPANY.checked && { filterCompanyProjects: true }),
     ...(entities.value.UNIVERSITY.checked && { filterUniversityProjects: true }),
-    // TODO: Remove [0] when the endpoint is updated
-    ...(selectedProjectTypes.value.length && { projectTypeId: selectedProjectTypes.value[0].id }),
+    ...(selectedProjectTypes.value.length && {
+      projectTypeIds: selectedProjectTypes.value.map((pt) => pt.id),
+    }),
     ...(selectedKeywords.value.length && { keywordIds: selectedKeywords.value.map((kw) => kw.id) }),
   });
   if (projectPostings.value.length > 0 && projectPostingId.value === "") {
@@ -263,6 +265,7 @@ const fetchProjectPostings = async () => {
 };
 
 const resetFilter = () => {
+  textSearch.value = "";
   selectedKeywords.value = [];
   selectedProjectTypes.value = [];
   Object.values(entities.value).forEach((cat) => (cat.checked = false));
@@ -289,6 +292,10 @@ onMounted(async () => {
 </script>
 
 <style lang="postcss" scoped>
+/* TODO: Check if logged in */
+/* @block search-result-project-posting-grid {
+  --color-primary-1: var(--color-green-1);
+} */
 @block search-filters {
   --color-primary-1: var(--color-white);
 }

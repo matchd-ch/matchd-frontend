@@ -1,7 +1,8 @@
 #import "./projectPostingsFragment.gql"
 
 query projectPostings(
-  $projectTypeId: String,
+  $textSearch: String,
+  $projectTypeIds: [String],
   $keywordIds: [String],
   $filterTalentProjects: Boolean,
   $filterCompanyProjects: Boolean,
@@ -9,7 +10,8 @@ query projectPostings(
 ) {
   projectPostings(
     first: 1000,
-    projectTypeId: $projectTypeId,
+    textSearch: $textSearch,
+    projectTypeIds: $projectTypeIds,
     keywordIds: $keywordIds,
     filterTalentProjects: $filterTalentProjects,
     filterCompanyProjects: $filterCompanyProjects,

@@ -1554,8 +1554,9 @@ type QueryProjectPostingsArgs = {
   keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   last?: InputMaybe<Scalars["Int"]>;
   projectFromDate?: InputMaybe<Scalars["Date"]>;
-  projectTypeId?: InputMaybe<Scalars["String"]>;
+  projectTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   teamSize?: InputMaybe<Scalars["Int"]>;
+  textSearch?: InputMaybe<Scalars["String"]>;
 };
 
 type QueryProjectTypesArgs = {
@@ -4299,7 +4300,8 @@ const ProjectPosting = gql`
 `;
 const ProjectPostings = gql`
   query projectPostings(
-    $projectTypeId: String
+    $textSearch: String
+    $projectTypeIds: [String]
     $keywordIds: [String]
     $filterTalentProjects: Boolean
     $filterCompanyProjects: Boolean
@@ -4307,7 +4309,8 @@ const ProjectPostings = gql`
   ) {
     projectPostings(
       first: 1000
-      projectTypeId: $projectTypeId
+      textSearch: $textSearch
+      projectTypeIds: $projectTypeIds
       keywordIds: $keywordIds
       filterTalentProjects: $filterTalentProjects
       filterCompanyProjects: $filterCompanyProjects

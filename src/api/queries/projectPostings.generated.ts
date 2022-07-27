@@ -3,7 +3,10 @@ import * as Types from "../models/types";
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 import { ProjectPostingsProjectPostingFragmentDoc } from "./projectPostingsFragment.generated";
 export type ProjectPostingsQueryVariables = Types.Exact<{
-  projectTypeId?: Types.InputMaybe<Types.Scalars["String"]>;
+  textSearch?: Types.InputMaybe<Types.Scalars["String"]>;
+  projectTypeIds?: Types.InputMaybe<
+    Array<Types.InputMaybe<Types.Scalars["String"]>> | Types.InputMaybe<Types.Scalars["String"]>
+  >;
   keywordIds?: Types.InputMaybe<
     Array<Types.InputMaybe<Types.Scalars["String"]>> | Types.InputMaybe<Types.Scalars["String"]>
   >;
@@ -60,8 +63,16 @@ export const ProjectPostingsDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "projectTypeId" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "textSearch" } },
           type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "projectTypeIds" } },
+          type: {
+            kind: "ListType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+          },
         },
         {
           kind: "VariableDefinition",
@@ -101,8 +112,13 @@ export const ProjectPostingsDocument = {
               },
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "projectTypeId" },
-                value: { kind: "Variable", name: { kind: "Name", value: "projectTypeId" } },
+                name: { kind: "Name", value: "textSearch" },
+                value: { kind: "Variable", name: { kind: "Name", value: "textSearch" } },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "projectTypeIds" },
+                value: { kind: "Variable", name: { kind: "Name", value: "projectTypeIds" } },
               },
               {
                 kind: "Argument",

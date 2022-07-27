@@ -1554,8 +1554,9 @@ export type QueryProjectPostingsArgs = {
   keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   last?: InputMaybe<Scalars["Int"]>;
   projectFromDate?: InputMaybe<Scalars["Date"]>;
-  projectTypeId?: InputMaybe<Scalars["String"]>;
+  projectTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   teamSize?: InputMaybe<Scalars["Int"]>;
+  textSearch?: InputMaybe<Scalars["String"]>;
 };
 
 export type QueryProjectTypesArgs = {

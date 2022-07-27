@@ -30,14 +30,10 @@ import { computed } from "vue";
 withDefaults(
   defineProps<{
     projectPostings: ProjectPostingsProjectPostingFragment[];
-    resultType?: string;
-    jobPostingId?: string;
     color?: string;
   }>(),
   {
-    resultType: "",
-    jobPostingId: "",
-    color: "",
+    color: "pink",
   }
 );
 
