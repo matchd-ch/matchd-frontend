@@ -35,7 +35,7 @@ import NavBarCompany from "@/components/NavBarCompany.vue";
 import NavBarStudent from "@/components/NavBarStudent.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
-import { computed, onMounted, onUnmounted, watchEffect } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
 import { useMeta } from "vue-meta";
 import { useRoute, useRouter } from "vue-router";
 import NavBarPublic from "./components/NavBarPublic.vue";
@@ -64,11 +64,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener("resize", calculateMargins, true);
-});
-
-watchEffect(() => {
-  // console.log("showNavbar:", showNavbar.value, "user:", !!user.value);
-  console.log("isPublic:", isPublic.value, "user:", !!user.value);
 });
 </script>
 
