@@ -4,7 +4,7 @@
     class="projectPosting-detail flex flex-col min-h-content-with-fixed-bars"
   >
     <div class="border-b border-orange-1 p-9">
-      <button class="text-black hover:text-orange-1 transition-colors" @click="$router.back()">
+      <button class="text-black hover:text-orange-1 transition-colors" @click="router.back()">
         <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Zurück zur Übersicht
       </button>
     </div>
@@ -25,16 +25,16 @@
       <h6 class="font-medium text-orange-1">Beschreibung</h6>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <p class="mb-4 pr-10" v-html="nl2br(projectPosting.data.description)"></p>
-      <template v-if="projectPosting.data.teamSize">
-        <h6 class="font-medium text-orange-1">Teamgrösse</h6>
-        <p class="mb-4">{{ getTeamSize(projectPosting.data.teamSize).label }}</p>
+      <template v-if="isLoggedIn">
+        <template v-if="projectPosting.data.teamSize">
+          <h6 class="font-medium text-orange-1">Teamgrösse</h6>
+          <p class="mb-4">{{ getTeamSize(projectPosting.data.teamSize).label }}</p>
+        </template>
+        <template v-if="projectPosting.data.compensation">
+          <h6 class="font-medium text-orange-1">Vergütung</h6>
+          <p class="mb-4">{{ projectPosting.data.compensation }}</p>
+        </template>
       </template>
-
-      <template v-if="projectPosting.data.compensation">
-        <h6 class="font-medium text-orange-1">Vergütung</h6>
-        <p class="mb-4">{{ projectPosting.data.compensation }}</p>
-      </template>
-
       <h6 class="font-medium text-orange-1 mb-2">Stichwörter</h6>
       <SelectPillGroup class="mb-4">
         <SelectPill
@@ -57,46 +57,47 @@
         <h6 class="font-medium text-orange-1">Starttermin</h6>
         <p class="mb-4">{{ formatDate(projectPosting.data.projectFromDate, "LLLL yyyy") }}</p>
       </template>
-      <template v-if="projectPosting.documents.length">
-        <h6 class="font-medium text-orange-1">Dokumente</h6>
-        <ul class="list list-inside mb-4">
-          <li v-for="document in projectPosting.documents" :key="document.id">
-            <a
-              :href="replaceStack(document.url, '')"
-              target="_blank"
-              download
-              class="underline hover:text-orange-1 transition-colors"
-            >
-              {{ document.fileName }}
-            </a>
-          </li>
-        </ul>
+      <template v-if="isLoggedIn">
+        <template v-if="projectPosting.documents.length">
+          <h6 class="font-medium text-orange-1">Dokumente</h6>
+          <ul class="list list-inside mb-4">
+            <li v-for="document in projectPosting.documents" :key="document.id">
+              <a
+                :href="replaceStack(document.url, '')"
+                target="_blank"
+                download
+                class="underline hover:text-orange-1 transition-colors"
+              >
+                {{ document.fileName }}
+              </a>
+            </li>
+          </ul>
+        </template>
+        <template v-if="projectPosting.images.length">
+          <h6 class="font-medium text-orange-1">Bilder</h6>
+          <ul class="list list-inside mb-4">
+            <li v-for="image in projectPosting.images" :key="image.id">
+              <a
+                :href="replaceStack(image.url, 'image-large')"
+                target="_blank"
+                class="underline hover:text-orange-1 transition-colors"
+              >
+                {{ image.fileName }}
+              </a>
+            </li>
+          </ul>
+        </template>
+        <p
+          v-if="projectPosting.data.website"
+          class="flex items-center mt-4 text-black hover:text-orange-1 transition-colors"
+        >
+          <span class="material-icons mr-2">open_in_new</span>
+          <a :href="projectPosting.data.website" target="_blank" class="underline">Website</a>
+        </p>
       </template>
-      <template v-if="projectPosting.images.length">
-        <h6 class="font-medium text-orange-1">Bilder</h6>
-        <ul class="list list-inside mb-4">
-          <li v-for="image in projectPosting.images" :key="image.id">
-            <a
-              :href="replaceStack(image.url, 'image-large')"
-              target="_blank"
-              class="underline hover:text-orange-1 transition-colors"
-            >
-              {{ image.fileName }}
-            </a>
-          </li>
-        </ul>
-      </template>
-
-      <p
-        v-if="projectPosting.data.website"
-        class="flex items-center mt-4 text-black hover:text-orange-1 transition-colors"
-      >
-        <span class="material-icons mr-2">open_in_new</span>
-        <a :href="projectPosting.data.website" target="_blank" class="underline">Website</a>
-      </p>
     </PostingSection>
     <!-- Neugierig -->
-    <PostingSection title="Neugierig? Dann lassen wir es matchen!">
+    <PostingSection v-if="isLoggedIn" title="Neugierig? Dann lassen wir es matchen!">
       <template v-if="projectPosting.data.company">
         <router-link
           :to="{ name: 'CompanyDetail', params: { slug: projectPosting.data.company.slug } }"
@@ -147,7 +148,9 @@
     <teleport to="footer">
       <MatchingBar
         v-if="
-          (projectPosting.data.student && !isStudent) || (projectPosting.data.company && isStudent)
+          isLoggedIn &&
+          ((projectPosting.data.student && !isStudent) ||
+            (projectPosting.data.company && isStudent))
         "
       >
         <template v-if="matchType === matchTypeEnum.FullMatch">
@@ -155,6 +158,9 @@
           <template v-else>Sie haben Ihr Interesse gezeigt!</template>
         </template>
         <MatchdButton v-else @click="onClickMatch">Mit diesem Projekt matchen</MatchdButton>
+      </MatchingBar>
+      <MatchingBar v-else-if="!isLoggedIn" @click="router.push({ name: 'Triage' })">
+        <MatchdButton>Neugierig?</MatchdButton>
       </MatchingBar>
     </teleport>
     <template v-if="user">
@@ -213,8 +219,12 @@ const showFullMatchModal = ref(false);
 const user = computed(() => store.getters["user"]);
 const isStudent = computed(() => store.getters["isStudent"]);
 const matchLoading = computed(() => store.getters["matchLoading"]);
+const isLoggedIn = computed(() => store.getters["isLoggedIn"]);
 
 const getStepName = (step: number) => {
+  if (!isLoggedIn.value) {
+    return "";
+  }
   if (isStudent.value && user.value?.student?.id === projectPosting.value?.data?.student?.id) {
     return `${ParamStrings.STEP}${step}`;
   }
@@ -247,11 +257,15 @@ const matchType = computed(() => {
 
 const loadData = async (slug: string) => {
   try {
-    await store.dispatch(ActionTypes.PROJECT_POSTING, { slug });
+    user.value
+      ? await store.dispatch(ActionTypes.PROJECT_POSTING, { slug })
+      : await store.dispatch(ActionTypes.PROJECT_POSTING_PUBLIC, { slug });
+    console.log(store.getters["projectPostingDetail"]);
     meta.meta.title = `${projectPosting.value.data?.title}`;
     showFullMatchModal.value = matchType.value === MatchTypeEnum.FullMatch;
   } catch (e) {
-    router.replace("/404");
+    console.log("ERROR:", e);
+    // router.replace("/404");
   }
 };
 

@@ -11,7 +11,7 @@
         }"
       >
         <div class="text-black grid grid-cols-12 xl:gap-x-16">
-          <div class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-6 xl:col-start-4 mb-10">
+          <div class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-6 xl:col-start-4">
             <MatchdField class="mt-10 mb-10">
               <template #label>Suchbegriff</template>
               <Field
@@ -81,8 +81,9 @@
               </SelectPill>
             </SelectPillGroup>
           </div>
+          <hr class="col-span-12 block border-white mb-10 mx-[-1rem] xl:mx-[-2rem]" />
           <MatchdButton
-            class="col-span-12 xl:col-span-3 xl:col-start-4 mb-10"
+            class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-3 xl:col-start-4 mb-10"
             type="button"
             :loading="false"
             @click="
@@ -93,7 +94,7 @@
             Suchen
           </MatchdButton>
           <MatchdButton
-            class="col-span-12 xl:col-span-3 mb-10"
+            class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-3 mb-10"
             type="button"
             variant="fill--white"
             @click="
@@ -140,7 +141,7 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Field } from "vee-validate";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useMeta } from "vue-meta";
 import { useRouter } from "vue-router";
 import MatchdAutocomplete from "../components/MatchdAutocomplete.vue";
@@ -183,14 +184,6 @@ const entities = ref<{ [key in Entities]: { name: string; checked: boolean } }>(
 
 const projectPostings = computed(() => store.getters["projectPostings"]);
 const isStudent = computed(() => store.getters["isStudent"]);
-
-watch(
-  () => isStudent.value,
-  () => {
-    console.log(isStudent.value);
-  },
-  { immediate: true }
-);
 
 const avatar = computed(() => {
   return (

@@ -3,7 +3,6 @@ import type {
   MatchJobPostingInput,
   MatchProjectPostingInput,
   MatchStudentInput,
-  ProjectPostingSpecificDataInput,
 } from "@/api/models/types";
 import { MatchJobPostingDocument } from "@/api/mutations/matchJobPosting.generated";
 import { MatchProjectPostingDocument } from "@/api/mutations/matchProjectPosting.generated";
@@ -23,6 +22,7 @@ import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
 import { LanguagesDocument } from "@/api/queries/languages.generated";
 import { MatchingDocument } from "@/api/queries/matching.generated";
 import { ProjectPostingDocument } from "@/api/queries/projectPosting.generated";
+import { ProjectPostingPublicDocument } from "@/api/queries/projectPostingPublic.generated";
 import {
   ProjectPostingsDocument,
   ProjectPostingsQueryVariables,
@@ -88,6 +88,10 @@ export interface Actions {
   ): Promise<void>;
   [ActionTypes.MATCHING]({ commit }: AugmentedActionContext, payload: MatchingInput): Promise<void>;
   [ActionTypes.PROJECT_POSTING](
+    { commit }: AugmentedActionContext,
+    payload: { slug: string }
+  ): Promise<void>;
+  [ActionTypes.PROJECT_POSTING_PUBLIC](
     { commit }: AugmentedActionContext,
     payload: { slug: string }
   ): Promise<void>;
@@ -336,6 +340,18 @@ export const actions: ActionTree<State, RootState> & Actions = {
     commit(MutationTypes.PROJECT_POSTING_LOADING);
     const response = await apiClient.query({
       query: ProjectPostingDocument,
+      fetchPolicy: "no-cache",
+      variables: payload,
+      context: {
+        batch: true,
+      },
+    });
+    commit(MutationTypes.PROJECT_POSTING_LOADED, response.data);
+  },
+  async [ActionTypes.PROJECT_POSTING_PUBLIC]({ commit }, payload) {
+    commit(MutationTypes.PROJECT_POSTING_LOADING);
+    const response = await apiClient.query({
+      query: ProjectPostingPublicDocument,
       fetchPolicy: "no-cache",
       variables: payload,
       context: {
