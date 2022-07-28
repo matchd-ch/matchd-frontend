@@ -1,14 +1,14 @@
 <template>
   <NavBar :open="open" @toggle-navigation="onToggleNavigation">
     <div class="grow md:flex-row justify-center pb-4 md:pb-0 md:flex md:justify-center">
-      <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
-      <nav-link :to="{ name: 'StudentSearch' }">Talent finden</nav-link>
-      <nav-link :to="{ name: 'ProjectPostingSearch' }">Projektidee finden</nav-link>
+      <NavLink :to="{ name: 'Dashboard' }">Dashboard</NavLink>
+      <NavLink :to="{ name: 'StudentSearch' }">Talent finden</NavLink>
+      <NavLink :to="{ name: 'ProjectPostingSearch' }">Projektidee finden</NavLink>
     </div>
     <NavDropdown :text="user?.company?.name">
-      <nav-link :to="{ name: 'Profile' }" class="border-b border-grey-2"
-        >Profileinstellungen</nav-link
-      >
+      <NavLink :to="{ name: 'Profile' }" class="border-b border-grey-2">
+        Profileinstellungen
+      </NavLink>
       <button
         class="block focus:bg-gray-200 focus:outline-none focus:shadow-outline focus:text-gray-900 hover:text-primary-1 bg-transparent md:mt-0 md:text-lg mt-2 px-4 py-2 text-sm"
         @click="$emit('clickLogout')"

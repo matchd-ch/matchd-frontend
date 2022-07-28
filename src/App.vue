@@ -8,6 +8,7 @@
       'theme-student': isStudent,
       'theme-company': isCompany,
       'theme-university': isUniversity,
+      'theme-public': !user && isPublic && showNavbar,
     }"
   >
     <header
@@ -18,8 +19,9 @@
         :is="navigation"
         v-if="showNavbar && user"
         :user="user"
-        @click-logout="onClickLogout"
+        @click-logout="handleLogoutClick"
       />
+      <NavBarPublic v-else-if="showNavbar" />
     </header>
     <div class="mt-fixed-header mb-fixed-footer">
       <router-view />
@@ -28,62 +30,46 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import NavBarCompany from "@/components/NavBarCompany.vue";
 import NavBarStudent from "@/components/NavBarStudent.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { ActionTypes as LoginActions } from "@/store/modules/login/action-types";
-import { Options, setup, Vue } from "vue-class-component";
+import { computed, onMounted, onUnmounted, watchEffect } from "vue";
 import { useMeta } from "vue-meta";
+import { useRoute, useRouter } from "vue-router";
+import NavBarPublic from "./components/NavBarPublic.vue";
+import { useStore } from "./store";
 
-@Options({
-  components: { NavBarStudent, NavBarCompany },
-})
-export default class App extends Vue {
-  meta = setup(() =>
-    useMeta({
-      title: "",
-    })
-  );
+useMeta({ title: "" });
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const user = computed(() => store.getters["user"]);
+const isStudent = computed(() => store.getters["isStudent"]);
+const isCompany = computed(() => store.getters["isCompany"]);
+const isUniversity = computed(() => store.getters["isUniversity"]);
+const showNavbar = computed(() => !route.meta.hideNavigation);
+const isPublic = computed(() => route.meta.public);
+const navigation = computed(() => (isStudent.value ? NavBarStudent : NavBarCompany));
 
-  get isStudent(): boolean {
-    return this.$store.getters["isStudent"];
-  }
+const handleLogoutClick = async () => {
+  await store.dispatch(LoginActions.LOGOUT);
+  router.push({ name: "Login" });
+};
 
-  get isCompany(): boolean {
-    return this.$store.getters["isCompany"];
-  }
+onMounted(() => {
+  window.addEventListener("resize", calculateMargins, true);
+});
 
-  get isUniversity(): boolean {
-    return this.$store.getters["isUniversity"];
-  }
+onUnmounted(() => {
+  window.removeEventListener("resize", calculateMargins, true);
+});
 
-  get user() {
-    return this.$store.getters["user"];
-  }
-
-  get showNavbar(): boolean {
-    return !this.$route.meta.hideNavigation;
-  }
-
-  get navigation(): string {
-    if (this.isStudent) return "NavBarStudent";
-    return "NavBarCompany";
-  }
-
-  async onClickLogout(): Promise<void> {
-    await this.$store.dispatch(LoginActions.LOGOUT);
-    this.$router.push({ name: "Login" });
-  }
-
-  mounted(): void {
-    window.addEventListener("resize", calculateMargins, true);
-  }
-
-  unmounted(): void {
-    window.removeEventListener("resize", calculateMargins, true);
-  }
-}
+watchEffect(() => {
+  // console.log("showNavbar:", showNavbar.value, "user:", !!user.value);
+  console.log("isPublic:", isPublic.value, "user:", !!user.value);
+});
 </script>
 
 <style lang="postcss">

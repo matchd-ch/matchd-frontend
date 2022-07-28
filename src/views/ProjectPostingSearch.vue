@@ -5,7 +5,10 @@
         v-slot="{ closePanel }"
         ref="projectPostingSearchFiltersRef"
         class="search-filters z-50"
-        :class="{ 'bg-company-gradient-t-b': !isStudent, 'bg-student-gradient-t-b': isStudent }"
+        :class="{
+          'bg-company-gradient-t-b': !isStudent,
+          'bg-student-gradient-t-b': isStudent,
+        }"
       >
         <div class="text-black grid grid-cols-12 xl:gap-x-16">
           <div class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-6 xl:col-start-4 mb-10">
@@ -137,7 +140,7 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Field } from "vee-validate";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useMeta } from "vue-meta";
 import { useRouter } from "vue-router";
 import MatchdAutocomplete from "../components/MatchdAutocomplete.vue";
@@ -180,6 +183,14 @@ const entities = ref<{ [key in Entities]: { name: string; checked: boolean } }>(
 
 const projectPostings = computed(() => store.getters["projectPostings"]);
 const isStudent = computed(() => store.getters["isStudent"]);
+
+watch(
+  () => isStudent.value,
+  () => {
+    console.log(isStudent.value);
+  },
+  { immediate: true }
+);
 
 const avatar = computed(() => {
   return (
@@ -292,10 +303,6 @@ onMounted(async () => {
 </script>
 
 <style lang="postcss" scoped>
-/* TODO: Check if logged in */
-/* @block search-result-project-posting-grid {
-  --color-primary-1: var(--color-green-1);
-} */
 @block search-filters {
   --color-primary-1: var(--color-white);
 }

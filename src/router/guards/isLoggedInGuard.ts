@@ -8,7 +8,7 @@ export async function isLoggedInGuard(
   next: NavigationGuardNext
 ): Promise<void> {
   const store = useStore();
-  if (to.meta?.public) {
+  if (to.meta?.public && !store.getters["isLoggedIn"]) {
     next();
   } else if (!store.getters["isLoggedIn"] || store.getters["refreshToken"] === null) {
     next({ name: "Login", query: { redirectUri: to.fullPath } });
