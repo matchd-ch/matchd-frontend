@@ -260,12 +260,10 @@ const loadData = async (slug: string) => {
     user.value
       ? await store.dispatch(ActionTypes.PROJECT_POSTING, { slug })
       : await store.dispatch(ActionTypes.PROJECT_POSTING_PUBLIC, { slug });
-    console.log(store.getters["projectPostingDetail"]);
     meta.meta.title = `${projectPosting.value.data?.title}`;
     showFullMatchModal.value = matchType.value === MatchTypeEnum.FullMatch;
   } catch (e) {
-    console.log("ERROR:", e);
-    // router.replace("/404");
+    router.replace("/404");
   }
 };
 
