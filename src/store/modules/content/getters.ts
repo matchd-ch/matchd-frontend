@@ -56,6 +56,7 @@ export type Getters = {
   matchLoading(state: State): boolean;
   projectPostingDetail(state: State): State["projectPosting"];
   projectPostings(state: State): ProjectPostingsProjectPostingFragment[];
+  projectPostingsLoading(state: State): boolean;
   projectTypes(state: State): ProjectType[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
@@ -219,6 +220,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   projectPostings(state: State) {
     return state.projectPostings.data;
+  },
+  projectPostingsLoading(state: State) {
+    return state.projectPostings.loading;
   },
   projectTypes(state: State) {
     return state.projectTypes.data;
