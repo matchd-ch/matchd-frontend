@@ -1,10 +1,21 @@
 <template>
   <div class="project-posting-search-filters" :class="[{ 'is-open': isOpen }]">
-    <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center">
+    <div
+      class="flex flex-col xl:flex-row xl:justify-between xl:items-center cursor-pointer"
+      @click.prevent="isOpen = !isOpen"
+      @mouseenter="bounce = true"
+      @mouseleave="bounce = false"
+    >
       <h1 class="text-display-xl-fluid flex-grow">Ich suche</h1>
       <div class="flex justify-center flex-shrink mt-4">
-        <button @click="isOpen = !isOpen">
-          <ArrowDown class="w-10 transition" :class="{ 'rotate-180': isOpen }" />
+        <button>
+          <ArrowDown
+            class="w-10 transition"
+            :class="{
+              'rotate-180': isOpen,
+              'animate-bounce': !isOpen && bounce,
+            }"
+          />
         </button>
       </div>
     </div>
@@ -23,6 +34,7 @@ const emits = defineEmits<{
   (event: "isOpen", isOpen: boolean): void;
 }>();
 const isOpen = ref(false);
+const bounce = ref(false);
 
 const closePanel = () => {
   isOpen.value = false;
