@@ -1,0 +1,7 @@
+#import "./projectPostingFragment.gql"
+
+query projectPostingPublic($id: String, $slug: String) {
+  projectPosting(id: $id, slug: $slug) {
+    ...projectPostingProjectPosting
+  }
+}

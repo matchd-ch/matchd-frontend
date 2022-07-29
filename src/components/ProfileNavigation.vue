@@ -8,12 +8,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
-
-@Options({})
-export default class ProfileNavigation extends Vue {}
-</script>
+<script setup lang="ts"></script>
 
 <style lang="postcss" scoped>
 .profile-navigation-wrapper {
@@ -34,7 +29,5 @@ export default class ProfileNavigation extends Vue {}
     @apply right-0;
     background-image: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
   }
-}
-.profile-navigation {
 }
 </style>

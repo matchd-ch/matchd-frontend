@@ -26,6 +26,12 @@
   --color-primary-3: #fb617b;
   --color-primary-5: #ffe9e9;
 }
+.theme-public {
+  --color-primary-1: #f21d5e;
+  --color-primary-2: #fc3f78;
+  --color-primary-3: #fb617b;
+  --color-primary-5: #ffe9e9;
+}
 
 @tailwind components;
 @tailwind utilities;

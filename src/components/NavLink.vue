@@ -6,16 +6,12 @@
     <slot />
   </router-link>
 </template>
-<script lang="ts">
-import { Vue, prop, Options } from "vue-class-component";
-import { RouteLocationNormalized } from "vue-router";
+<script setup lang="ts">
+import { RouteLocationRaw } from "vue-router";
 
-class Props {
-  to = prop<RouteLocationNormalized>({ required: true });
-}
-
-@Options({})
-export default class NavLink extends Vue.with(Props) {}
+const props = defineProps<{
+  to: RouteLocationRaw;
+}>();
 </script>
 
 <style lang="postcss" scoped></style>

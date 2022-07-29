@@ -3,7 +3,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 export async function isProfileCompleteGuard(
   to: RouteLocationNormalized,
-  from: RouteLocationNormalized,
+  _from: RouteLocationNormalized,
   next: NavigationGuardNext
 ): Promise<void> {
   if (to.meta?.public) {

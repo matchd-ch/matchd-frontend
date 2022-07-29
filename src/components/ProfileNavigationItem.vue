@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import { RouteLocationNormalized } from "vue-router";
+import { RouteLocationRaw } from "vue-router";
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
-    to: RouteLocationNormalized;
+    to: RouteLocationRaw;
     active?: boolean;
     disabled?: boolean;
   }>(),

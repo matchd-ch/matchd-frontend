@@ -2,7 +2,6 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { isLoggedInGuard } from "@/router/guards/isLoggedInGuard";
 import { isProfileCompleteGuard } from "@/router/guards/isProfileCompleteGuard";
 import { needsStateResetBeforePasswordResetGuard } from "@/router/guards/needsStateResetBeforePasswordResetGuard";
-import { projectsOnlyWithPublishedProjectPostingGuard } from "@/router/guards/projectsOnlyWithPublishedProjectPostingGuard";
 import { redirectToCurrentJobPostingStepGuard } from "@/router/guards/redirectToCurrentJobPostingStepGuard";
 import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectToCurrentOnboardingStepGuard";
 import { redirectToCurrentProjectPostingStepGuard } from "@/router/guards/redirectToCurrentProjectPostingStepGuard";
@@ -106,15 +105,19 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "projectposting-search" */ "../views/ProjectPostingSearch.vue"),
     meta: {
       accessType: ["student", "company", "university"],
+      public: true,
     },
-    beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
+    // beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
   },
   {
     path: "/projekte/:slug",
     name: "ProjectPostingDetail",
     component: () =>
       import(/* webpackChunkName: "projectposting-detail" */ "../views/ProjectPostingDetail.vue"),
-    beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
+    // beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
+    meta: {
+      public: true,
+    },
   },
   {
     path: "/talente",

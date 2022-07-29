@@ -1,10 +1,10 @@
 <template>
   <NavBar :open="open" @toggle-navigation="onToggleNavigation">
     <div class="grow md:flex-row justify-center pb-4 md:pb-0 md:flex md:justify-center">
-      <nav-link :to="{ name: 'Dashboard' }">Dashboard</nav-link>
-      <nav-link :to="{ name: 'JobPostingSearch' }">Stelle finden</nav-link>
-      <nav-link :to="{ name: 'ProjectPostingSearch' }">Projekt finden</nav-link>
-      <nav-link :to="{ name: 'CompanyList' }">Unternehmen entdecken</nav-link>
+      <NavLink :to="{ name: 'Dashboard' }">Dashboard</NavLink>
+      <NavLink :to="{ name: 'JobPostingSearch' }">Stelle finden</NavLink>
+      <NavLink :to="{ name: 'ProjectPostingSearch' }">Projekt finden</NavLink>
+      <NavLink :to="{ name: 'CompanyList' }">Unternehmen entdecken</NavLink>
     </div>
     <NavDropdown :text="user?.firstName">
       <NavLink :to="{ name: 'Profile' }" class="border-b border-grey-2">Mein Profil</NavLink>

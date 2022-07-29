@@ -5,10 +5,13 @@
         v-slot="{ closePanel }"
         ref="projectPostingSearchFiltersRef"
         class="search-filters z-50"
-        :class="{ 'bg-company-gradient-t-b': !isStudent, 'bg-student-gradient-t-b': isStudent }"
+        :class="{
+          'bg-company-gradient-t-b': !isStudent,
+          'bg-student-gradient-t-b': isStudent,
+        }"
       >
         <div class="text-black grid grid-cols-12 xl:gap-x-16">
-          <div class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-6 xl:col-start-4 mb-10">
+          <div class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-6 xl:col-start-4">
             <MatchdField class="mt-10 mb-10">
               <template #label>Suchbegriff</template>
               <Field
@@ -78,8 +81,9 @@
               </SelectPill>
             </SelectPillGroup>
           </div>
+          <hr class="col-span-12 block border-white mb-10 mx-[-1rem] xl:mx-[-2rem]" />
           <MatchdButton
-            class="col-span-12 xl:col-span-3 xl:col-start-4 mb-10"
+            class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-3 xl:col-start-4 mb-10"
             type="button"
             :loading="false"
             @click="
@@ -90,7 +94,7 @@
             Suchen
           </MatchdButton>
           <MatchdButton
-            class="col-span-12 xl:col-span-3 mb-10"
+            class="col-span-12 md:col-span-10 md:col-start-2 xl:col-span-3 mb-10"
             type="button"
             variant="fill--white"
             @click="
@@ -104,8 +108,9 @@
       </ProjectPostingSearchFilters>
     </teleport>
     <div>
+      <LoadingSpinner v-if="isLoading" class="py-20 md:py-40" />
       <SearchResultProjectPostingGrid
-        v-if="projectPostings.length"
+        v-else-if="projectPostings.length"
         class="search-result-project-posting-grid"
         :project-postings="projectPostings"
         result-type="student"
@@ -128,6 +133,7 @@
 import { AttachmentKey } from "@/api/models/types";
 import { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
 import { ProjectTypesProjectTypeFragment } from "@/api/queries/projectTypesFragment.generated";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ProjectPostingSearchFilters from "@/components/ProjectPostingSearchFilters.vue";
 import SearchResultProjectPostingGrid from "@/components/SearchResultProjectPostingGrid.vue";
@@ -139,7 +145,6 @@ import { ActionTypes } from "@/store/modules/content/action-types";
 import { Field } from "vee-validate";
 import { computed, onMounted, ref } from "vue";
 import { useMeta } from "vue-meta";
-import { useRouter } from "vue-router";
 import MatchdAutocomplete from "../components/MatchdAutocomplete.vue";
 import MatchdField from "../components/MatchdField.vue";
 
@@ -147,7 +152,6 @@ const meta = useMeta({
   title: "Projekte suchen",
 });
 const store = useStore();
-const router = useRouter();
 const projectPostingSearchFiltersRef = ref<typeof ProjectPostingSearchFilters | null>(null);
 const filteredKeywords = ref<KeywordsKeywordFragment[]>([]);
 const keywords = computed(() => store.getters["keywords"]);
@@ -180,6 +184,7 @@ const entities = ref<{ [key in Entities]: { name: string; checked: boolean } }>(
 
 const projectPostings = computed(() => store.getters["projectPostings"]);
 const isStudent = computed(() => store.getters["isStudent"]);
+const isLoading = computed(() => store.getters["projectPostingsLoading"]);
 
 const avatar = computed(() => {
   return (
@@ -194,14 +199,6 @@ const avatar = computed(() => {
     undefined
   );
 });
-
-const persistFiltersToUrl = () => {
-  router.replace({
-    query: {
-      projectPostingId: projectPostingId.value,
-    },
-  });
-};
 
 const availableKeywords = computed(() => {
   return keywords.value.filter((keyword) => {
@@ -271,17 +268,8 @@ const resetFilter = () => {
   Object.values(entities.value).forEach((cat) => (cat.checked = false));
   fetchProjectPostings();
 };
-// onBeforeUnmount(() => {
-//   projectPostingId.value = (route.query?.projectPostingId as string) || "";
-//   persistFiltersToUrl();
-// });
 
 onMounted(async () => {
-  // await store.dispatch(ActionTypes.PROJECT_POSTINGS);
-  // if (projectPostings.value.length > 0 && projectPostingId.value === "") {
-  //   projectPostingId.value = projectPostings.value[0].id;
-  // }
-
   await Promise.all([
     store.dispatch(ActionTypes.KEYWORDS),
     store.dispatch(ActionTypes.PROJECT_TYPES),
@@ -292,10 +280,6 @@ onMounted(async () => {
 </script>
 
 <style lang="postcss" scoped>
-/* TODO: Check if logged in */
-/* @block search-result-project-posting-grid {
-  --color-primary-1: var(--color-green-1);
-} */
 @block search-filters {
   --color-primary-1: var(--color-white);
 }

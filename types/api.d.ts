@@ -2756,6 +2756,14 @@ declare module "*/projectPostingFragment.gql" {
   export default defaultDocument;
 }
 
+declare module "*/projectPostingPublic.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const projectPostingPublic: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/projectPostings.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -4297,6 +4305,14 @@ const ProjectPosting = gql`
   ${ProjectPostingImage}
   ${ProjectPostingImageFallback}
   ${ProjectPostingDocument}
+`;
+const ProjectPostingPublic = gql`
+  query projectPostingPublic($id: String, $slug: String) {
+    projectPosting(id: $id, slug: $slug) {
+      ...projectPostingProjectPosting
+    }
+  }
+  ${ProjectPostingProjectPosting}
 `;
 const ProjectPostings = gql`
   query projectPostings(
