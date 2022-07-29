@@ -27,7 +27,7 @@
     "@vueform/slider": "^2.1.2",
     "apollo-upload-client": "^17.0.0",
     "assertion-error": "^2.0.0",
-    "core-js": "^3.24.0",
+    "core-js": "^3.24.1",
     "cypress": "^10.3.1",
     "d3": "^7.6.1",
     "deepdash": "^5.3.9",
