@@ -1,6 +1,6 @@
 <template>
   <div class="loading-spinner text-center">
-    <LoadingSvg :class="[`w-[${size}]`, `h-[${size}]`]" />
+    <LoadingSvg />
   </div>
 </template>
 <script setup lang="ts">
