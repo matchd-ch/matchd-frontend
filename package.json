@@ -67,7 +67,7 @@
     "@types/pretty-bytes": "^5.2.0",
     "@types/video.js": "^7.3.42",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.31.0",
+    "@typescript-eslint/parser": "^5.32.0",
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-eslint": "~5.0.8",
     "@vue/cli-plugin-router": "~5.0.8",
