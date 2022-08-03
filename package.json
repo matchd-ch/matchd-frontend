@@ -65,7 +65,7 @@
     "@types/ejs": "^3.1.1",
     "@types/luxon": "^3.0.0",
     "@types/pretty-bytes": "^5.2.0",
-    "@types/video.js": "^7.3.42",
+    "@types/video.js": "^7.3.43",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
     "@vue/cli-plugin-babel": "~5.0.8",
