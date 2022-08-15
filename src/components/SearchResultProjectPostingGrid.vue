@@ -5,6 +5,8 @@
     <ProjectPostingGridTile
       v-for="projectPosting in projectPostings"
       :key="projectPosting.id"
+      :img-src="projectPosting.avatarUrl ?? undefined"
+      :img-alt="projectPosting.title ?? undefined"
       :link-to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
       :color="color"
     >

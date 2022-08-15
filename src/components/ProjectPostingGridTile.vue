@@ -7,7 +7,7 @@
     >
       <div class="project-posting-grid-tile__image-wrap shrink-0 w-1/3">
         <div class="project-posting-grid-tile__image-box border-primary-1 rounded-full border-2">
-          <img v-if="imgSrc" :src="imgSrc" class="w-full" :alt="imgAlt" />
+          <img v-if="imgSrc" :src="imgSrc" :alt="imgAlt" />
         </div>
         <slot name="match-status" />
       </div>
@@ -40,8 +40,10 @@ defineProps<{
     @apply relative;
 
     & img {
-      @apply absolute top-1/2;
-      transform: translateY(-50%);
+      @apply absolute top-0;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
     }
 
     &::before {

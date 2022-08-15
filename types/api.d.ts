@@ -1250,6 +1250,7 @@ enum ProfileType {
 
 type ProjectPosting = Node & {
   __typename?: "ProjectPosting";
+  avatarUrl?: Maybe<Scalars["String"]>;
   company?: Maybe<Company>;
   compensation?: Maybe<Scalars["String"]>;
   dateCreated?: Maybe<Scalars["Date"]>;
@@ -3077,6 +3078,7 @@ export const ProjectPostingsProjectPosting = gql`
     state
     dateCreated
     datePublished
+    avatarUrl
   }
 `;
 export const ProjectTypesProjectType = gql`

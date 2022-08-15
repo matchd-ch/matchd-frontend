@@ -186,20 +186,6 @@ const projectPostings = computed(() => store.getters["projectPostings"]);
 const isStudent = computed(() => store.getters["isStudent"]);
 const isLoading = computed(() => store.getters["projectPostingsLoading"]);
 
-const avatar = computed(() => {
-  return (
-    store.getters["attachmentsByKey"]({
-      key: isStudent.value ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
-    })?.[0] ||
-    store.getters["attachmentsByKey"]({
-      key: isStudent.value
-        ? AttachmentKey.StudentAvatarFallback
-        : AttachmentKey.CompanyAvatarFallback,
-    })?.[0] ||
-    undefined
-  );
-});
-
 const availableKeywords = computed(() => {
   return keywords.value.filter((keyword) => {
     return keywords.value.some((kw) => kw.id === keyword.id);

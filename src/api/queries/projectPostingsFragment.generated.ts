@@ -15,6 +15,7 @@ export type ProjectPostingsProjectPostingFragment = {
   state: Types.ProjectPostingState;
   dateCreated?: string | null;
   datePublished?: string | null;
+  avatarUrl?: string | null;
   projectType: { __typename?: "ProjectType"; id: string; name: string };
   keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
   employee?: {
@@ -105,6 +106,7 @@ export const ProjectPostingsProjectPostingFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "state" } },
           { kind: "Field", name: { kind: "Name", value: "dateCreated" } },
           { kind: "Field", name: { kind: "Name", value: "datePublished" } },
+          { kind: "Field", name: { kind: "Name", value: "avatarUrl" } },
         ],
       },
     },

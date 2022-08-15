@@ -33,4 +33,5 @@ fragment projectPostingsProjectPosting on ProjectPosting {
   state
   dateCreated
   datePublished
+  avatarUrl
 }

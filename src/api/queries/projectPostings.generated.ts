@@ -35,6 +35,7 @@ export type ProjectPostingsQuery = {
         state: Types.ProjectPostingState;
         dateCreated?: string | null;
         datePublished?: string | null;
+        avatarUrl?: string | null;
         projectType: { __typename?: "ProjectType"; id: string; name: string };
         keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
         employee?: {
