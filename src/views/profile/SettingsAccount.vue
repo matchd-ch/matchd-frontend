@@ -1,6 +1,5 @@
 <template>
   <form v-if="user" @submit="onFormSubmit">
-    <p class="mb-8">TBD....</p>
     <FormSaveError v-if="showError" />
     <MatchdField id="name" class="mb-10" :errors="form.errors.value.email">
       <template #label>Email*</template>

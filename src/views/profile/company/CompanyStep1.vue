@@ -1,7 +1,7 @@
 <template>
-  <form v-if="user" @submit="veeForm.onSubmit">
+  <form v-if="user" @submit="onSubmit">
     <FormSaveError v-if="showError" />
-    <MatchdField id="name" class="mb-10" :errors="veeForm.errors.name">
+    <MatchdField id="name" class="mb-10" :errors="veeForm.errors.value.name">
       <template #label>Name des Unternehmens inkl. Rechtsform*</template>
       <Field
         id="name"
@@ -12,12 +12,12 @@
         rules="required"
       />
     </MatchdField>
-    <MatchdField id="street" class="mb-10" :errors="veeForm.errors.street">
+    <MatchdField id="street" class="mb-10" :errors="veeForm.errors.value.street">
       <template #label>Adresse*</template>
       <Field id="street" name="street" as="input" label="Adresse" rules="required" />
     </MatchdField>
     <div class="lg:flex">
-      <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.zip">
+      <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.value.zip">
         <template #label>PLZ</template>
         <Field
           id="zip"
@@ -28,24 +28,24 @@
           @blur="onBlurZip(veeForm.values?.zip)"
         />
       </MatchdField>
-      <MatchdField id="city" class="mb-10 lg:grow" :errors="veeForm.errors.city">
+      <MatchdField id="city" class="mb-10 lg:grow" :errors="veeForm.errors.value.city">
         <template #label>Ort</template>
         <Field id="city" name="city" as="input" label="Ort" />
       </MatchdField>
     </div>
-    <MatchdField id="firstName" class="mb-10" :errors="veeForm.errors.firstName">
+    <MatchdField id="firstName" class="mb-10" :errors="veeForm.errors.value.firstName">
       <template #label>Vorname Ansprechperson*</template>
       <Field id="firstName" name="firstName" as="input" label="Vorname" rules="required" />
     </MatchdField>
-    <MatchdField id="lastName" class="mb-10" :errors="veeForm.errors.lastName">
+    <MatchdField id="lastName" class="mb-10" :errors="veeForm.errors.value.lastName">
       <template #label>Nachname Ansprechperson*</template>
       <Field id="lastName" name="lastName" as="input" label="Nachname" rules="required" />
     </MatchdField>
-    <MatchdField id="role" class="mb-10" :errors="veeForm.errors.role">
+    <MatchdField id="role" class="mb-10" :errors="veeForm.errors.value.role">
       <template #label>Funktion*</template>
       <Field id="role" name="role" as="input" label="Funktion" rules="required" />
     </MatchdField>
-    <MatchdField id="phone" class="mb-10" :errors="veeForm.errors.phone">
+    <MatchdField id="phone" class="mb-10" :errors="veeForm.errors.value.phone">
       <template #label>Telefonnummer*</template>
       <Field
         id="phone"
@@ -72,7 +72,7 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
           >
             Speichern
           </MatchdButton>
@@ -85,7 +85,7 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
       >
         Speichern und weiter
       </MatchdButton>
@@ -105,11 +105,15 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { Field, useForm } from "vee-validate";
 import { computed, onMounted, watch } from "vue";
-import { setup } from "vue-class-component";
 
-const props = withDefaults(defineProps<{ edit: boolean }>(), {
-  edit: false,
-});
+const props = withDefaults(
+  defineProps<{
+    edit?: boolean;
+  }>(),
+  {
+    edit: false,
+  }
+);
 
 const emits = defineEmits<{
   (event: "submitComplete", success: boolean): void;
@@ -119,24 +123,18 @@ const emits = defineEmits<{
 
 const store = useStore();
 
-const veeForm = setup(() => {
-  const form = useForm<CompanyProfileStep1Form>();
-  const onSubmit = form.handleSubmit(async (formData) => {
-    try {
-      await store.dispatch(
-        ActionTypes.COMPANY_ONBOARDING_STEP1,
-        companyProfileStep1InputMapper(formData)
-      );
-      const onboardingState = store.getters["onboardingState"];
-      emits("submitComplete", onboardingState.success);
-    } catch (e) {
-      console.log(e); // todo
-    }
-  });
-  return {
-    ...form,
-    onSubmit,
-  };
+const veeForm = useForm<CompanyProfileStep1Form>();
+const onSubmit = veeForm.handleSubmit(async (formData) => {
+  try {
+    await store.dispatch(
+      ActionTypes.COMPANY_ONBOARDING_STEP1,
+      companyProfileStep1InputMapper(formData)
+    );
+    const onboardingState = store.getters["onboardingState"];
+    emits("submitComplete", onboardingState.success);
+  } catch (e) {
+    console.log(e); // todo
+  }
 });
 
 const onboardingState = computed(() => store.getters["onboardingState"]);
@@ -168,9 +166,9 @@ const onBlurZip = async (zip: string) => {
 };
 
 watch(
-  () => veeForm.meta.dirty,
+  () => veeForm.meta.value.dirty,
   () => {
-    emits("changeDirty", veeForm.meta.dirty);
+    emits("changeDirty", veeForm.meta.value.dirty);
   }
 );
 </script>

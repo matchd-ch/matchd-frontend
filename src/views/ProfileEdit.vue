@@ -35,7 +35,7 @@
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
         :is="currentProfileComponent"
-        edit="true"
+        :edit="true"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 px-4 lg:px-5 py-12"
         @change-dirty="onChangeDirty"
         @submit-complete="onSubmitComplete"

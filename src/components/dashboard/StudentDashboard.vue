@@ -106,7 +106,7 @@
           Dein Talent ist gesucht! Folgende Unternehmen möchten dich gerne kennenlernen.
         </p>
         <p v-else>
-          Momentan hast du keine offenen An2fragen. Sobald ein Unternehmen dich matchen möchte,
+          Momentan hast du keine offenen Anfragen. Sobald ein Unternehmen dich matchen möchte,
           siehst du das hier.
         </p>
         <ul>
