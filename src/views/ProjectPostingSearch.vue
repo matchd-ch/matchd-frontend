@@ -66,7 +66,7 @@
               </SelectPill>
             </SelectPillGroup>
 
-            <SelectPillGroup class="mb-10">
+            <SelectPillGroup v-if="!isLoggedIn" class="mb-10">
               <template #label>Ausschreibung durch</template>
               <SelectPill
                 v-for="option in Object.values(entities)"
@@ -130,7 +130,6 @@
 </template>
 
 <script setup lang="ts">
-import { AttachmentKey } from "@/api/models/types";
 import { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
 import { ProjectTypesProjectTypeFragment } from "@/api/queries/projectTypesFragment.generated";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
@@ -148,7 +147,7 @@ import { useMeta } from "vue-meta";
 import MatchdAutocomplete from "../components/MatchdAutocomplete.vue";
 import MatchdField from "../components/MatchdField.vue";
 
-const meta = useMeta({
+useMeta({
   title: "Projekte suchen",
 });
 const store = useStore();
@@ -159,6 +158,7 @@ const keywordsInput = ref("");
 const selectedKeywords = ref<KeywordsKeywordFragment[]>([]);
 const projectTypes = computed(() => store.getters["projectTypes"]);
 const selectedProjectTypes = ref<ProjectTypesProjectTypeFragment[]>([]);
+const isLoggedIn = computed(() => store.getters["isLoggedIn"]);
 const textSearch = ref("");
 const projectPostingId = ref("");
 enum Entities {
