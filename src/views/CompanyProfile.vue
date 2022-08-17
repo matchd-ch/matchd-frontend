@@ -83,7 +83,7 @@
       <ProfileSection :pink="true" title="Konto" edit-step="konto">
         <h6 class="font-medium text-pink-1">Benutzername</h6>
         <p class="mb-4">{{ user.email }}</p>
-        <h6 class="font-medium text-green-1">Passwort</h6>
+        <h6 class="font-medium text-pink-1">Passwort</h6>
         <p>••••••••••••••••</p>
       </ProfileSection>
       <ProfileSection
