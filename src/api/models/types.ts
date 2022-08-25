@@ -64,12 +64,12 @@ export type AttachmentEdge = {
 
 /** An enumeration. */
 export enum AttachmentKey {
+  ChallengeDocuments = "CHALLENGE_DOCUMENTS",
+  ChallengeFallback = "CHALLENGE_FALLBACK",
+  ChallengeImages = "CHALLENGE_IMAGES",
   CompanyAvatar = "COMPANY_AVATAR",
   CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
   CompanyDocuments = "COMPANY_DOCUMENTS",
-  ProjectPostingDocuments = "PROJECT_POSTING_DOCUMENTS",
-  ProjectPostingFallback = "PROJECT_POSTING_FALLBACK",
-  ProjectPostingImages = "PROJECT_POSTING_IMAGES",
   StudentAvatar = "STUDENT_AVATAR",
   StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
   StudentDocuments = "STUDENT_DOCUMENTS",
@@ -168,10 +168,166 @@ export type BranchInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type Challenge = Node & {
+  __typename?: "Challenge";
+  avatarUrl?: Maybe<Scalars["String"]>;
+  challengeFromDate?: Maybe<Scalars["Date"]>;
+  challengeType: ChallengeType;
+  company?: Maybe<Company>;
+  compensation?: Maybe<Scalars["String"]>;
+  dateCreated?: Maybe<Scalars["Date"]>;
+  datePublished?: Maybe<Scalars["Date"]>;
+  description: Scalars["String"];
+  displayTitle: Scalars["String"];
+  employee?: Maybe<Employee>;
+  formStep: Scalars["Int"];
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  keywords?: Maybe<Array<Keyword>>;
+  matchHints?: Maybe<MatchHints>;
+  matchStatus?: Maybe<MatchStatus>;
+  slug: Scalars["String"];
+  state: ChallengeState;
+  student?: Maybe<Student>;
+  teamSize?: Maybe<Scalars["Int"]>;
+  title: Scalars["String"];
+  website: Scalars["String"];
+};
+
+export type ChallengeAllocationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  employee?: InputMaybe<EmployeeInput>;
+  id?: InputMaybe<Scalars["String"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
+/** Updates a challenge */
+export type ChallengeAllocationPayload = {
+  __typename?: "ChallengeAllocationPayload";
+  challengeId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type ChallengeBaseDataInput = {
+  challengeType: ChallengeTypeInput;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** Compensation */
+  compensation: Scalars["String"];
+  /** Description */
+  description: Scalars["String"];
+  id?: InputMaybe<Scalars["String"]>;
+  keywords: Array<InputMaybe<KeywordInput>>;
+  /** Team size */
+  teamSize: Scalars["Int"];
+  /** Title */
+  title: Scalars["String"];
+};
+
+/** Creates a challenge */
+export type ChallengeBaseDataPayload = {
+  __typename?: "ChallengeBaseDataPayload";
+  challengeId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type ChallengeConnection = {
+  __typename?: "ChallengeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ChallengeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `Challenge` and its cursor. */
+export type ChallengeEdge = {
+  __typename?: "ChallengeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Challenge>;
+};
+
+export type ChallengeInput = {
+  id: Scalars["String"];
+};
+
+export type ChallengeMatchInfo = Node & {
+  __typename?: "ChallengeMatchInfo";
+  challenge: Challenge;
+  company?: Maybe<Company>;
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  student?: Maybe<Student>;
+};
+
+export type ChallengeMatchingInput = {
+  challenge: ChallengeInput;
+};
+
+export type ChallengeSpecificDataInput = {
+  challengeFromDate?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  website?: InputMaybe<Scalars["String"]>;
+};
+
+/** Creates a challenge */
+export type ChallengeSpecificDataPayload = {
+  __typename?: "ChallengeSpecificDataPayload";
+  challengeId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** An enumeration. */
+export enum ChallengeState {
+  Draft = "DRAFT",
+  Public = "PUBLIC",
+}
+
+export type ChallengeType = Node & {
+  __typename?: "ChallengeType";
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+export type ChallengeTypeConnection = {
+  __typename?: "ChallengeTypeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ChallengeTypeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `ChallengeType` and its cursor. */
+export type ChallengeTypeEdge = {
+  __typename?: "ChallengeTypeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<ChallengeType>;
+};
+
+export type ChallengeTypeInput = {
+  id: Scalars["String"];
+  name?: InputMaybe<Scalars["String"]>;
+};
+
 export type Company = Node & {
   __typename?: "Company";
   benefits: BenefitConnection;
   branches: BranchConnection;
+  challenges: Array<Challenge>;
   city: Scalars["String"];
   culturalFits?: Maybe<Array<CulturalFit>>;
   description: Scalars["String"];
@@ -180,14 +336,13 @@ export type Company = Node & {
   /** The ID of the object. */
   id: Scalars["ID"];
   jobPostings: Array<JobPosting>;
+  linkChallenges?: Maybe<Scalars["String"]>;
   linkEducation?: Maybe<Scalars["String"]>;
-  linkProjects?: Maybe<Scalars["String"]>;
   linkThesis?: Maybe<Scalars["String"]>;
   memberItStGallen: Scalars["Boolean"];
   name: Scalars["String"];
   phone: Scalars["String"];
   profileStep: Scalars["Int"];
-  projectPostings: Array<ProjectPosting>;
   services: Scalars["String"];
   slug: Scalars["String"];
   softSkills?: Maybe<Array<SoftSkill>>;
@@ -345,12 +500,12 @@ export type CulturalFitInput = {
 
 export type Dashboard = {
   __typename?: "Dashboard";
+  challengeMatches?: Maybe<Array<ChallengeMatchInfo>>;
+  challenges?: Maybe<Array<Challenge>>;
   confirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
   jobPostings?: Maybe<Array<JobPosting>>;
+  latestChallenges?: Maybe<Array<Challenge>>;
   latestJobPostings?: Maybe<Array<JobPosting>>;
-  latestProjectPostings?: Maybe<Array<ProjectPosting>>;
-  projectMatches?: Maybe<Array<ProjectPostingMatchInfo>>;
-  projectPostings?: Maybe<Array<ProjectPosting>>;
   requestedMatches?: Maybe<Array<JobPostingMatchInfo>>;
   unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
 };
@@ -762,6 +917,20 @@ export type Match = {
   type: MatchType;
 };
 
+export type MatchChallengeInput = {
+  challenge: ChallengeInput;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+};
+
+/** Initiate or confirm Matching */
+export type MatchChallengePayload = {
+  __typename?: "MatchChallengePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  confirmed: Scalars["Boolean"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 export type MatchHints = {
   __typename?: "MatchHints";
   hasConfirmedMatch: Scalars["Boolean"];
@@ -776,20 +945,6 @@ export type MatchJobPostingInput = {
 /** Initiate or confirm Matching */
 export type MatchJobPostingPayload = {
   __typename?: "MatchJobPostingPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  confirmed: Scalars["Boolean"];
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-export type MatchProjectPostingInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  projectPosting: ProjectPostingInput;
-};
-
-/** Initiate or confirm Matching */
-export type MatchProjectPostingPayload = {
-  __typename?: "MatchProjectPostingPayload";
   clientMutationId?: Maybe<Scalars["String"]>;
   confirmed: Scalars["Boolean"];
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
@@ -819,9 +974,9 @@ export type MatchStudentPayload = {
 
 /** An enumeration. */
 export enum MatchType {
+  Challenge = "CHALLENGE",
   Company = "COMPANY",
   JobPosting = "JOB_POSTING",
-  ProjectPosting = "PROJECT_POSTING",
   Student = "STUDENT",
   University = "UNIVERSITY",
 }
@@ -830,6 +985,12 @@ export type Mutation = {
   __typename?: "Mutation";
   /** Adds a new emplyoee to a company */
   addEmployee?: Maybe<AddEmployeePayload>;
+  /** Updates a challenge */
+  challengeAllocation?: Maybe<ChallengeAllocationPayload>;
+  /** Creates a challenge */
+  challengeBaseData?: Maybe<ChallengeBaseDataPayload>;
+  /** Creates a challenge */
+  challengeSpecificData?: Maybe<ChallengeSpecificDataPayload>;
   /** Updates the Company Profile with benefits and branches */
   companyProfileAdvantages?: Maybe<CompanyProfileAdvantagesPayload>;
   /** Updates the profile of a Company */
@@ -849,9 +1010,9 @@ export type Mutation = {
   jobPostingRequirements?: Maybe<JobPostingRequirementsPayload>;
   logout?: Maybe<Scalars["Boolean"]>;
   /** Initiate or confirm Matching */
-  matchJobPosting?: Maybe<MatchJobPostingPayload>;
+  matchChallenge?: Maybe<MatchChallengePayload>;
   /** Initiate or confirm Matching */
-  matchProjectPosting?: Maybe<MatchProjectPostingPayload>;
+  matchJobPosting?: Maybe<MatchJobPostingPayload>;
   /** Initiate or confirm Matching */
   matchStudent?: Maybe<MatchStudentPayload>;
   /**
@@ -872,12 +1033,6 @@ export type Mutation = {
    * Also, if user has not been verified yet, verify it.
    */
   passwordReset?: Maybe<PasswordReset>;
-  /** Updates a project posting */
-  projectPostingAllocation?: Maybe<ProjectPostingAllocationPayload>;
-  /** Creates a project posting */
-  projectPostingBaseData?: Maybe<ProjectPostingBaseDataPayload>;
-  /** Creates a project posting */
-  projectPostingSpecificData?: Maybe<ProjectPostingSpecificDataPayload>;
   /** Same as `grapgql_jwt` implementation, with standard output. */
   refreshToken?: Maybe<RefreshToken>;
   /** Creates a new user with company */
@@ -965,6 +1120,18 @@ export type MutationAddEmployeeArgs = {
   input: AddEmployeeInput;
 };
 
+export type MutationChallengeAllocationArgs = {
+  input: ChallengeAllocationInput;
+};
+
+export type MutationChallengeBaseDataArgs = {
+  input: ChallengeBaseDataInput;
+};
+
+export type MutationChallengeSpecificDataArgs = {
+  input: ChallengeSpecificDataInput;
+};
+
 export type MutationCompanyProfileAdvantagesArgs = {
   input: CompanyProfileAdvantagesInput;
 };
@@ -1001,12 +1168,12 @@ export type MutationJobPostingRequirementsArgs = {
   input: JobPostingRequirementsInput;
 };
 
-export type MutationMatchJobPostingArgs = {
-  input: MatchJobPostingInput;
+export type MutationMatchChallengeArgs = {
+  input: MatchChallengeInput;
 };
 
-export type MutationMatchProjectPostingArgs = {
-  input: MatchProjectPostingInput;
+export type MutationMatchJobPostingArgs = {
+  input: MatchJobPostingInput;
 };
 
 export type MutationMatchStudentArgs = {
@@ -1023,18 +1190,6 @@ export type MutationPasswordResetArgs = {
   newPassword1: Scalars["String"];
   newPassword2: Scalars["String"];
   token: Scalars["String"];
-};
-
-export type MutationProjectPostingAllocationArgs = {
-  input: ProjectPostingAllocationInput;
-};
-
-export type MutationProjectPostingBaseDataArgs = {
-  input: ProjectPostingBaseDataInput;
-};
-
-export type MutationProjectPostingSpecificDataArgs = {
-  input: ProjectPostingSpecificDataInput;
 };
 
 export type MutationRefreshTokenArgs = {
@@ -1175,14 +1330,14 @@ export type ObtainJsonWebToken = {
   user?: Maybe<UserNode>;
 };
 
-export type OnlineProject = Node & {
-  __typename?: "OnlineProject";
+export type OnlineChallenge = Node & {
+  __typename?: "OnlineChallenge";
   /** The ID of the object. */
   id: Scalars["ID"];
   url: Scalars["String"];
 };
 
-export type OnlineProjectInput = {
+export type OnlineChallengeInput = {
   id?: InputMaybe<Scalars["String"]>;
   url?: InputMaybe<Scalars["String"]>;
 };
@@ -1248,166 +1403,14 @@ export enum ProfileType {
   University = "UNIVERSITY",
 }
 
-export type ProjectPosting = Node & {
-  __typename?: "ProjectPosting";
-  avatarUrl?: Maybe<Scalars["String"]>;
-  company?: Maybe<Company>;
-  compensation?: Maybe<Scalars["String"]>;
-  dateCreated?: Maybe<Scalars["Date"]>;
-  datePublished?: Maybe<Scalars["Date"]>;
-  description: Scalars["String"];
-  displayTitle: Scalars["String"];
-  employee?: Maybe<Employee>;
-  formStep: Scalars["Int"];
-  /** The ID of the object. */
-  id: Scalars["ID"];
-  keywords?: Maybe<Array<Keyword>>;
-  matchHints?: Maybe<MatchHints>;
-  matchStatus?: Maybe<MatchStatus>;
-  projectFromDate?: Maybe<Scalars["Date"]>;
-  projectType: ProjectType;
-  slug: Scalars["String"];
-  state: ProjectPostingState;
-  student?: Maybe<Student>;
-  teamSize?: Maybe<Scalars["Int"]>;
-  title: Scalars["String"];
-  website: Scalars["String"];
-};
-
-export type ProjectPostingAllocationInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  employee?: InputMaybe<EmployeeInput>;
-  id?: InputMaybe<Scalars["String"]>;
-  /** State */
-  state: Scalars["String"];
-};
-
-/** Updates a project posting */
-export type ProjectPostingAllocationPayload = {
-  __typename?: "ProjectPostingAllocationPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-export type ProjectPostingBaseDataInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  /** Compensation */
-  compensation: Scalars["String"];
-  /** Description */
-  description: Scalars["String"];
-  id?: InputMaybe<Scalars["String"]>;
-  keywords: Array<InputMaybe<KeywordInput>>;
-  projectType: ProjectTypeInput;
-  /** Team size */
-  teamSize: Scalars["Int"];
-  /** Title */
-  title: Scalars["String"];
-};
-
-/** Creates a project posting */
-export type ProjectPostingBaseDataPayload = {
-  __typename?: "ProjectPostingBaseDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-export type ProjectPostingConnection = {
-  __typename?: "ProjectPostingConnection";
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<ProjectPostingEdge>>;
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-};
-
-/** A Relay edge containing a `ProjectPosting` and its cursor. */
-export type ProjectPostingEdge = {
-  __typename?: "ProjectPostingEdge";
-  /** A cursor for use in pagination */
-  cursor: Scalars["String"];
-  /** The item at the end of the edge */
-  node?: Maybe<ProjectPosting>;
-};
-
-export type ProjectPostingInput = {
-  id: Scalars["String"];
-};
-
-export type ProjectPostingMatchInfo = Node & {
-  __typename?: "ProjectPostingMatchInfo";
-  company?: Maybe<Company>;
-  /** The ID of the object. */
-  id: Scalars["ID"];
-  projectPosting: ProjectPosting;
-  student?: Maybe<Student>;
-};
-
-export type ProjectPostingMatchingInput = {
-  projectPosting: ProjectPostingInput;
-};
-
-export type ProjectPostingSpecificDataInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["String"]>;
-  projectFromDate?: InputMaybe<Scalars["String"]>;
-  website?: InputMaybe<Scalars["String"]>;
-};
-
-/** Creates a project posting */
-export type ProjectPostingSpecificDataPayload = {
-  __typename?: "ProjectPostingSpecificDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** An enumeration. */
-export enum ProjectPostingState {
-  Draft = "DRAFT",
-  Public = "PUBLIC",
-}
-
-export type ProjectType = Node & {
-  __typename?: "ProjectType";
-  /** The ID of the object. */
-  id: Scalars["ID"];
-  name: Scalars["String"];
-};
-
-export type ProjectTypeConnection = {
-  __typename?: "ProjectTypeConnection";
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<ProjectTypeEdge>>;
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-};
-
-/** A Relay edge containing a `ProjectType` and its cursor. */
-export type ProjectTypeEdge = {
-  __typename?: "ProjectTypeEdge";
-  /** A cursor for use in pagination */
-  cursor: Scalars["String"];
-  /** The item at the end of the edge */
-  node?: Maybe<ProjectType>;
-};
-
-export type ProjectTypeInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
-};
-
 export type Query = {
   __typename?: "Query";
   attachments?: Maybe<AttachmentConnection>;
   benefits?: Maybe<BenefitConnectionsConnection>;
   branches?: Maybe<BranchConnectionsConnection>;
+  challenge?: Maybe<Challenge>;
+  challengeTypes?: Maybe<ChallengeTypeConnection>;
+  challenges?: Maybe<ChallengeConnection>;
   company?: Maybe<Company>;
   culturalFits?: Maybe<CulturalFitConnectionsConnection>;
   dashboard?: Maybe<Dashboard>;
@@ -1422,9 +1425,6 @@ export type Query = {
   matches?: Maybe<Array<Maybe<Match>>>;
   me?: Maybe<User>;
   node?: Maybe<Node>;
-  projectPosting?: Maybe<ProjectPosting>;
-  projectPostings?: Maybe<ProjectPostingConnection>;
-  projectTypes?: Maybe<ProjectTypeConnection>;
   skills?: Maybe<SkillConnectionsConnection>;
   softSkills?: Maybe<SoftSkillConnectionsConnection>;
   student?: Maybe<Student>;
@@ -1456,6 +1456,34 @@ export type QueryBranchesArgs = {
   before?: InputMaybe<Scalars["String"]>;
   first?: InputMaybe<Scalars["Int"]>;
   last?: InputMaybe<Scalars["Int"]>;
+};
+
+export type QueryChallengeArgs = {
+  id?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars["String"]>;
+};
+
+export type QueryChallengeTypesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+export type QueryChallengesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  challengeFromDate?: InputMaybe<Scalars["Date"]>;
+  challengeTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  datePublished?: InputMaybe<Scalars["Date"]>;
+  filterCompanyChallenges?: InputMaybe<Scalars["Boolean"]>;
+  filterTalentChallenges?: InputMaybe<Scalars["Boolean"]>;
+  filterUniversityChallenges?: InputMaybe<Scalars["Boolean"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  last?: InputMaybe<Scalars["Int"]>;
+  teamSize?: InputMaybe<Scalars["Int"]>;
+  textSearch?: InputMaybe<Scalars["String"]>;
 };
 
 export type QueryCompanyArgs = {
@@ -1526,9 +1554,9 @@ export type QueryLanguagesArgs = {
 };
 
 export type QueryMatchesArgs = {
+  challengeMatching?: InputMaybe<ChallengeMatchingInput>;
   first?: InputMaybe<Scalars["Int"]>;
   jobPostingMatching?: InputMaybe<JobPostingMatchingInput>;
-  projectPostingMatching?: InputMaybe<ProjectPostingMatchingInput>;
   skip?: InputMaybe<Scalars["Int"]>;
   softBoost?: InputMaybe<Scalars["Int"]>;
   studentMatching?: InputMaybe<StudentMatchingInput>;
@@ -1537,34 +1565,6 @@ export type QueryMatchesArgs = {
 
 export type QueryNodeArgs = {
   id: Scalars["ID"];
-};
-
-export type QueryProjectPostingArgs = {
-  id?: InputMaybe<Scalars["String"]>;
-  slug?: InputMaybe<Scalars["String"]>;
-};
-
-export type QueryProjectPostingsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  datePublished?: InputMaybe<Scalars["Date"]>;
-  filterCompanyProjects?: InputMaybe<Scalars["Boolean"]>;
-  filterTalentProjects?: InputMaybe<Scalars["Boolean"]>;
-  filterUniversityProjects?: InputMaybe<Scalars["Boolean"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  last?: InputMaybe<Scalars["Int"]>;
-  projectFromDate?: InputMaybe<Scalars["Date"]>;
-  projectTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  teamSize?: InputMaybe<Scalars["Int"]>;
-  textSearch?: InputMaybe<Scalars["String"]>;
-};
-
-export type QueryProjectTypesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
 };
 
 export type QuerySkillsArgs = {
@@ -1769,6 +1769,7 @@ export type SoftSkillInput = {
 export type Student = Node & {
   __typename?: "Student";
   branch?: Maybe<Branch>;
+  challenges: Array<Challenge>;
   city?: Maybe<Scalars["String"]>;
   culturalFits: CulturalFitConnection;
   dateOfBirth?: Maybe<Scalars["String"]>;
@@ -1789,9 +1790,8 @@ export type Student = Node & {
   matchStatus?: Maybe<MatchStatus>;
   mobile?: Maybe<Scalars["String"]>;
   nickname?: Maybe<Scalars["String"]>;
-  onlineProjects?: Maybe<Array<OnlineProject>>;
+  onlineChallenges?: Maybe<Array<OnlineChallenge>>;
   profileStep: Scalars["Int"];
-  projectPostings: Array<ProjectPosting>;
   schoolName?: Maybe<Scalars["String"]>;
   skills: SkillConnection;
   slug: Scalars["String"];
@@ -1849,8 +1849,8 @@ export type StudentProfileAbilitiesInput = {
   hobbies?: InputMaybe<Array<InputMaybe<HobbyInput>>>;
   /** Languages */
   languages: Array<InputMaybe<UserLanguageRelationInput>>;
-  /** Online_Projects */
-  onlineProjects?: InputMaybe<Array<InputMaybe<OnlineProjectInput>>>;
+  /** Online_Challenges */
+  onlineChallenges?: InputMaybe<Array<InputMaybe<OnlineChallengeInput>>>;
   /** Skills */
   skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
 };
@@ -1988,10 +1988,10 @@ export type UniversityProfileRelationsInput = {
   /** Branches */
   branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** website challenges */
+  linkChallenges?: InputMaybe<Scalars["String"]>;
   /** website education */
   linkEducation?: InputMaybe<Scalars["String"]>;
-  /** website projects */
-  linkProjects?: InputMaybe<Scalars["String"]>;
   /** website thesis */
   linkThesis?: InputMaybe<Scalars["String"]>;
   /** services */
@@ -2204,10 +2204,10 @@ export enum UserType {
 }
 
 export type UserUploadInput = {
+  challenge?: InputMaybe<ChallengeInput>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
   file: Scalars["Upload"];
   key: AttachmentKey;
-  projectPosting?: InputMaybe<ProjectPostingInput>;
 };
 
 export type UserUploadPayload = {

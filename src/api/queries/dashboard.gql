@@ -1,6 +1,6 @@
 query dashboard {
   dashboard {
-    projectPostings {
+    challenges {
       id
       title
       displayTitle
@@ -12,7 +12,7 @@ query dashboard {
         id
         name
       }
-      projectType {
+      challengeType {
         id
         name
       }
@@ -46,7 +46,7 @@ query dashboard {
         zip
       }
     }
-    latestProjectPostings {
+    latestChallenges {
       id
       title
       displayTitle
@@ -54,7 +54,7 @@ query dashboard {
       dateCreated
       slug
       state
-      projectType {
+      challengeType {
         id
         name
       }
@@ -148,8 +148,8 @@ query dashboard {
         slug
       }
     }
-    projectMatches {
-      projectPosting {
+    challengeMatches {
+      challenge {
         id
         title
         displayTitle
@@ -159,7 +159,7 @@ query dashboard {
           id
           name
         }
-        projectType {
+        challengeType {
           id
           name
         }

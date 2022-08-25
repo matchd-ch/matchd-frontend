@@ -1,33 +1,33 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { ProjectTypesProjectTypeFragmentDoc } from "./projectTypesFragment.generated";
-export type ProjectTypesQueryVariables = Types.Exact<{ [key: string]: never }>;
+import { ChallengeTypesChallengeTypeFragmentDoc } from "./challengeTypesFragment.generated";
+export type ChallengeTypesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
-export type ProjectTypesQuery = {
+export type ChallengeTypesQuery = {
   __typename?: "Query";
-  projectTypes?: {
-    __typename?: "ProjectTypeConnection";
+  challengeTypes?: {
+    __typename?: "ChallengeTypeConnection";
     edges: Array<{
-      __typename?: "ProjectTypeEdge";
-      node?: { __typename?: "ProjectType"; id: string; name: string } | null;
+      __typename?: "ChallengeTypeEdge";
+      node?: { __typename?: "ChallengeType"; id: string; name: string } | null;
     } | null>;
   } | null;
 };
 
-export const ProjectTypesDocument = {
+export const ChallengeTypesDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "projectTypes" },
+      name: { kind: "Name", value: "challengeTypes" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "projectTypes" },
+            name: { kind: "Name", value: "challengeTypes" },
             arguments: [
               {
                 kind: "Argument",
@@ -52,7 +52,7 @@ export const ProjectTypesDocument = {
                           selections: [
                             {
                               kind: "FragmentSpread",
-                              name: { kind: "Name", value: "projectTypesProjectType" },
+                              name: { kind: "Name", value: "challengeTypesChallengeType" },
                             },
                           ],
                         },
@@ -66,6 +66,6 @@ export const ProjectTypesDocument = {
         ],
       },
     },
-    ...ProjectTypesProjectTypeFragmentDoc.definitions,
+    ...ChallengeTypesChallengeTypeFragmentDoc.definitions,
   ],
-} as unknown as DocumentNode<ProjectTypesQuery, ProjectTypesQueryVariables>;
+} as unknown as DocumentNode<ChallengeTypesQuery, ChallengeTypesQueryVariables>;

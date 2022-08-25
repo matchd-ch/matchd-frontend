@@ -2,20 +2,20 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 import {
-  ProjectPostingProjectPostingFragmentDoc,
-  ProjectPostingImageFragmentDoc,
-  ProjectPostingImageFallbackFragmentDoc,
-  ProjectPostingDocumentFragmentDoc,
-} from "./projectPostingFragment.generated";
-export type ProjectPostingPublicQueryVariables = Types.Exact<{
+  ChallengeChallengeFragmentDoc,
+  ChallengeImageFragmentDoc,
+  ChallengeImageFallbackFragmentDoc,
+  ChallengeDocumentFragmentDoc,
+} from "./challengeFragment.generated";
+export type ChallengePublicQueryVariables = Types.Exact<{
   id?: Types.InputMaybe<Types.Scalars["String"]>;
   slug?: Types.InputMaybe<Types.Scalars["String"]>;
 }>;
 
-export type ProjectPostingPublicQuery = {
+export type ChallengePublicQuery = {
   __typename?: "Query";
-  projectPosting?: {
-    __typename?: "ProjectPosting";
+  challenge?: {
+    __typename?: "Challenge";
     id: string;
     slug: string;
     title: string;
@@ -24,8 +24,8 @@ export type ProjectPostingPublicQuery = {
     teamSize?: number | null;
     compensation?: string | null;
     formStep: number;
-    state: Types.ProjectPostingState;
-    projectFromDate?: string | null;
+    state: Types.ChallengeState;
+    challengeFromDate?: string | null;
     datePublished?: string | null;
     website: string;
     matchStatus?: {
@@ -34,7 +34,7 @@ export type ProjectPostingPublicQuery = {
       confirmed: boolean;
     } | null;
     keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
-    projectType: { __typename?: "ProjectType"; id: string; name: string };
+    challengeType: { __typename?: "ChallengeType"; id: string; name: string };
     company?: {
       __typename?: "Company";
       id: string;
@@ -65,13 +65,13 @@ export type ProjectPostingPublicQuery = {
   } | null;
 };
 
-export const ProjectPostingPublicDocument = {
+export const ChallengePublicDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "projectPostingPublic" },
+      name: { kind: "Name", value: "challengePublic" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -89,7 +89,7 @@ export const ProjectPostingPublicDocument = {
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "projectPosting" },
+            name: { kind: "Name", value: "challenge" },
             arguments: [
               {
                 kind: "Argument",
@@ -105,16 +105,13 @@ export const ProjectPostingPublicDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                {
-                  kind: "FragmentSpread",
-                  name: { kind: "Name", value: "projectPostingProjectPosting" },
-                },
+                { kind: "FragmentSpread", name: { kind: "Name", value: "challengeChallenge" } },
               ],
             },
           },
         ],
       },
     },
-    ...ProjectPostingProjectPostingFragmentDoc.definitions,
+    ...ChallengeChallengeFragmentDoc.definitions,
   ],
-} as unknown as DocumentNode<ProjectPostingPublicQuery, ProjectPostingPublicQueryVariables>;
+} as unknown as DocumentNode<ChallengePublicQuery, ChallengePublicQueryVariables>;

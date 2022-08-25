@@ -2,20 +2,20 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 import {
-  ProjectPostingProjectPostingFragmentDoc,
-  ProjectPostingImageFragmentDoc,
-  ProjectPostingImageFallbackFragmentDoc,
-  ProjectPostingDocumentFragmentDoc,
-} from "./projectPostingFragment.generated";
-export type ProjectPostingQueryVariables = Types.Exact<{
+  ChallengeChallengeFragmentDoc,
+  ChallengeImageFragmentDoc,
+  ChallengeImageFallbackFragmentDoc,
+  ChallengeDocumentFragmentDoc,
+} from "./challengeFragment.generated";
+export type ChallengeQueryVariables = Types.Exact<{
   id?: Types.InputMaybe<Types.Scalars["String"]>;
   slug?: Types.InputMaybe<Types.Scalars["String"]>;
 }>;
 
-export type ProjectPostingQuery = {
+export type ChallengeQuery = {
   __typename?: "Query";
-  projectPosting?: {
-    __typename?: "ProjectPosting";
+  challenge?: {
+    __typename?: "Challenge";
     id: string;
     slug: string;
     title: string;
@@ -24,8 +24,8 @@ export type ProjectPostingQuery = {
     teamSize?: number | null;
     compensation?: string | null;
     formStep: number;
-    state: Types.ProjectPostingState;
-    projectFromDate?: string | null;
+    state: Types.ChallengeState;
+    challengeFromDate?: string | null;
     datePublished?: string | null;
     website: string;
     matchStatus?: {
@@ -34,7 +34,7 @@ export type ProjectPostingQuery = {
       confirmed: boolean;
     } | null;
     keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
-    projectType: { __typename?: "ProjectType"; id: string; name: string };
+    challengeType: { __typename?: "ChallengeType"; id: string; name: string };
     company?: {
       __typename?: "Company";
       id: string;
@@ -104,13 +104,13 @@ export type ProjectPostingQuery = {
   } | null;
 };
 
-export const ProjectPostingDocument = {
+export const ChallengeDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "projectPosting" },
+      name: { kind: "Name", value: "challenge" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -128,7 +128,7 @@ export const ProjectPostingDocument = {
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "projectPosting" },
+            name: { kind: "Name", value: "challenge" },
             arguments: [
               {
                 kind: "Argument",
@@ -144,10 +144,7 @@ export const ProjectPostingDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                {
-                  kind: "FragmentSpread",
-                  name: { kind: "Name", value: "projectPostingProjectPosting" },
-                },
+                { kind: "FragmentSpread", name: { kind: "Name", value: "challengeChallenge" } },
               ],
             },
           },
@@ -159,7 +156,7 @@ export const ProjectPostingDocument = {
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "key" },
-                value: { kind: "EnumValue", value: "PROJECT_POSTING_IMAGES" },
+                value: { kind: "EnumValue", value: "CHALLENGE_IMAGES" },
               },
               {
                 kind: "Argument",
@@ -189,7 +186,7 @@ export const ProjectPostingDocument = {
                           selections: [
                             {
                               kind: "FragmentSpread",
-                              name: { kind: "Name", value: "projectPostingImage" },
+                              name: { kind: "Name", value: "challengeImage" },
                             },
                           ],
                         },
@@ -208,7 +205,7 @@ export const ProjectPostingDocument = {
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "key" },
-                value: { kind: "EnumValue", value: "PROJECT_POSTING_FALLBACK" },
+                value: { kind: "EnumValue", value: "CHALLENGE_FALLBACK" },
               },
               {
                 kind: "Argument",
@@ -238,7 +235,7 @@ export const ProjectPostingDocument = {
                           selections: [
                             {
                               kind: "FragmentSpread",
-                              name: { kind: "Name", value: "projectPostingImageFallback" },
+                              name: { kind: "Name", value: "challengeImageFallback" },
                             },
                           ],
                         },
@@ -257,7 +254,7 @@ export const ProjectPostingDocument = {
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "key" },
-                value: { kind: "EnumValue", value: "PROJECT_POSTING_DOCUMENTS" },
+                value: { kind: "EnumValue", value: "CHALLENGE_DOCUMENTS" },
               },
               {
                 kind: "Argument",
@@ -287,7 +284,7 @@ export const ProjectPostingDocument = {
                           selections: [
                             {
                               kind: "FragmentSpread",
-                              name: { kind: "Name", value: "projectPostingDocument" },
+                              name: { kind: "Name", value: "challengeDocument" },
                             },
                           ],
                         },
@@ -301,9 +298,9 @@ export const ProjectPostingDocument = {
         ],
       },
     },
-    ...ProjectPostingProjectPostingFragmentDoc.definitions,
-    ...ProjectPostingImageFragmentDoc.definitions,
-    ...ProjectPostingImageFallbackFragmentDoc.definitions,
-    ...ProjectPostingDocumentFragmentDoc.definitions,
+    ...ChallengeChallengeFragmentDoc.definitions,
+    ...ChallengeImageFragmentDoc.definitions,
+    ...ChallengeImageFallbackFragmentDoc.definitions,
+    ...ChallengeDocumentFragmentDoc.definitions,
   ],
-} as unknown as DocumentNode<ProjectPostingQuery, ProjectPostingQueryVariables>;
+} as unknown as DocumentNode<ChallengeQuery, ChallengeQueryVariables>;

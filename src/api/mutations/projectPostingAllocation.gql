@@ -1,9 +1,0 @@
-# Step 3
-mutation projectPostingAllocation($input: ProjectPostingAllocationInput!) {
-  projectPostingAllocation(input: $input) {
-    success
-    errors
-    projectPostingId
-    slug
-  }
-}

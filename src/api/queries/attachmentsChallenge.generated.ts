@@ -1,12 +1,12 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type AttachmentsProjectPostingQueryVariables = Types.Exact<{
+export type AttachmentsChallengeQueryVariables = Types.Exact<{
   key: Types.AttachmentKey;
   id: Types.Scalars["String"];
 }>;
 
-export type AttachmentsProjectPostingQuery = {
+export type AttachmentsChallengeQuery = {
   __typename?: "Query";
   attachments?: {
     __typename?: "AttachmentConnection";
@@ -24,13 +24,13 @@ export type AttachmentsProjectPostingQuery = {
   } | null;
 };
 
-export const AttachmentsProjectPostingDocument = {
+export const AttachmentsChallengeDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "attachmentsProjectPosting" },
+      name: { kind: "Name", value: "attachmentsChallenge" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -105,7 +105,4 @@ export const AttachmentsProjectPostingDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<
-  AttachmentsProjectPostingQuery,
-  AttachmentsProjectPostingQueryVariables
->;
+} as unknown as DocumentNode<AttachmentsChallengeQuery, AttachmentsChallengeQueryVariables>;

@@ -1,28 +1,28 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type ProjectPostingAllocationMutationVariables = Types.Exact<{
-  input: Types.ProjectPostingAllocationInput;
+export type ChallengeSpecificDataMutationVariables = Types.Exact<{
+  input: Types.ChallengeSpecificDataInput;
 }>;
 
-export type ProjectPostingAllocationMutation = {
+export type ChallengeSpecificDataMutation = {
   __typename?: "Mutation";
-  projectPostingAllocation?: {
-    __typename?: "ProjectPostingAllocationPayload";
+  challengeSpecificData?: {
+    __typename?: "ChallengeSpecificDataPayload";
     success?: boolean | null;
     errors?: unknown | null;
-    projectPostingId?: string | null;
+    challengeId?: string | null;
     slug?: string | null;
   } | null;
 };
 
-export const ProjectPostingAllocationDocument = {
+export const ChallengeSpecificDataDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "mutation",
-      name: { kind: "Name", value: "projectPostingAllocation" },
+      name: { kind: "Name", value: "challengeSpecificData" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -31,7 +31,7 @@ export const ProjectPostingAllocationDocument = {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "ProjectPostingAllocationInput" },
+              name: { kind: "Name", value: "ChallengeSpecificDataInput" },
             },
           },
         },
@@ -41,7 +41,7 @@ export const ProjectPostingAllocationDocument = {
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "projectPostingAllocation" },
+            name: { kind: "Name", value: "challengeSpecificData" },
             arguments: [
               {
                 kind: "Argument",
@@ -54,7 +54,7 @@ export const ProjectPostingAllocationDocument = {
               selections: [
                 { kind: "Field", name: { kind: "Name", value: "success" } },
                 { kind: "Field", name: { kind: "Name", value: "errors" } },
-                { kind: "Field", name: { kind: "Name", value: "projectPostingId" } },
+                { kind: "Field", name: { kind: "Name", value: "challengeId" } },
                 { kind: "Field", name: { kind: "Name", value: "slug" } },
               ],
             },
@@ -63,7 +63,4 @@ export const ProjectPostingAllocationDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<
-  ProjectPostingAllocationMutation,
-  ProjectPostingAllocationMutationVariables
->;
+} as unknown as DocumentNode<ChallengeSpecificDataMutation, ChallengeSpecificDataMutationVariables>;

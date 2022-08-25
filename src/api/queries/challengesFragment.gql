@@ -1,8 +1,8 @@
-fragment projectPostingsProjectPosting on ProjectPosting {
+fragment challengesChallenge on Challenge {
   id
   title
   slug
-  projectType {
+  challengeType {
     id
     name
   }
@@ -14,7 +14,7 @@ fragment projectPostingsProjectPosting on ProjectPosting {
   teamSize
   compensation
   website
-  projectFromDate
+  challengeFromDate
   employee {
     id
     firstName

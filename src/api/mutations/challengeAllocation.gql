@@ -1,0 +1,9 @@
+# Step 3
+mutation challengeAllocation($input: ChallengeAllocationInput!) {
+  challengeAllocation(input: $input) {
+    success
+    errors
+    challengeId
+    slug
+  }
+}

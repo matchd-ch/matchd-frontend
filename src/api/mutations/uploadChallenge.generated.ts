@@ -1,13 +1,13 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type UploadProjectPostingMutationVariables = Types.Exact<{
+export type UploadChallengeMutationVariables = Types.Exact<{
   file: Types.Scalars["Upload"];
   key: Types.AttachmentKey;
-  projectPostingId: Types.Scalars["String"];
+  challengeId: Types.Scalars["String"];
 }>;
 
-export type UploadProjectPostingMutation = {
+export type UploadChallengeMutation = {
   __typename?: "Mutation";
   upload?: {
     __typename?: "UserUploadPayload";
@@ -16,13 +16,13 @@ export type UploadProjectPostingMutation = {
   } | null;
 };
 
-export const UploadProjectPostingDocument = {
+export const UploadChallengeDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "mutation",
-      name: { kind: "Name", value: "uploadProjectPosting" },
+      name: { kind: "Name", value: "uploadChallenge" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -42,7 +42,7 @@ export const UploadProjectPostingDocument = {
         },
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "projectPostingId" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "challengeId" } },
           type: {
             kind: "NonNullType",
             type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
@@ -74,7 +74,7 @@ export const UploadProjectPostingDocument = {
                     },
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "projectPosting" },
+                      name: { kind: "Name", value: "challenge" },
                       value: {
                         kind: "ObjectValue",
                         fields: [
@@ -83,7 +83,7 @@ export const UploadProjectPostingDocument = {
                             name: { kind: "Name", value: "id" },
                             value: {
                               kind: "Variable",
-                              name: { kind: "Name", value: "projectPostingId" },
+                              name: { kind: "Name", value: "challengeId" },
                             },
                           },
                         ],
@@ -105,4 +105,4 @@ export const UploadProjectPostingDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<UploadProjectPostingMutation, UploadProjectPostingMutationVariables>;
+} as unknown as DocumentNode<UploadChallengeMutation, UploadChallengeMutationVariables>;

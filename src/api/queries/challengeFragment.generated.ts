@@ -1,8 +1,8 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type ProjectPostingProjectPostingFragment = {
-  __typename?: "ProjectPosting";
+export type ChallengeChallengeFragment = {
+  __typename?: "Challenge";
   id: string;
   slug: string;
   title: string;
@@ -11,8 +11,8 @@ export type ProjectPostingProjectPostingFragment = {
   teamSize?: number | null;
   compensation?: string | null;
   formStep: number;
-  state: Types.ProjectPostingState;
-  projectFromDate?: string | null;
+  state: Types.ChallengeState;
+  challengeFromDate?: string | null;
   datePublished?: string | null;
   website: string;
   matchStatus?: {
@@ -21,7 +21,7 @@ export type ProjectPostingProjectPostingFragment = {
     confirmed: boolean;
   } | null;
   keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
-  projectType: { __typename?: "ProjectType"; id: string; name: string };
+  challengeType: { __typename?: "ChallengeType"; id: string; name: string };
   company?: {
     __typename?: "Company";
     id: string;
@@ -51,7 +51,7 @@ export type ProjectPostingProjectPostingFragment = {
   } | null;
 };
 
-export type ProjectPostingImageFragment = {
+export type ChallengeImageFragment = {
   __typename?: "Attachment";
   id: string;
   fileName: string;
@@ -59,7 +59,7 @@ export type ProjectPostingImageFragment = {
   mimeType: string;
 };
 
-export type ProjectPostingImageFallbackFragment = {
+export type ChallengeImageFallbackFragment = {
   __typename?: "Attachment";
   id: string;
   fileName: string;
@@ -67,7 +67,7 @@ export type ProjectPostingImageFallbackFragment = {
   mimeType: string;
 };
 
-export type ProjectPostingDocumentFragment = {
+export type ChallengeDocumentFragment = {
   __typename?: "Attachment";
   id: string;
   fileName: string;
@@ -75,13 +75,13 @@ export type ProjectPostingDocumentFragment = {
   mimeType: string;
 };
 
-export const ProjectPostingProjectPostingFragmentDoc = {
+export const ChallengeChallengeFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "projectPostingProjectPosting" },
-      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "ProjectPosting" } },
+      name: { kind: "Name", value: "challengeChallenge" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Challenge" } },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
@@ -94,7 +94,7 @@ export const ProjectPostingProjectPostingFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "compensation" } },
           { kind: "Field", name: { kind: "Name", value: "formStep" } },
           { kind: "Field", name: { kind: "Name", value: "state" } },
-          { kind: "Field", name: { kind: "Name", value: "projectFromDate" } },
+          { kind: "Field", name: { kind: "Name", value: "challengeFromDate" } },
           { kind: "Field", name: { kind: "Name", value: "datePublished" } },
           { kind: "Field", name: { kind: "Name", value: "website" } },
           {
@@ -121,7 +121,7 @@ export const ProjectPostingProjectPostingFragmentDoc = {
           },
           {
             kind: "Field",
-            name: { kind: "Name", value: "projectType" },
+            name: { kind: "Name", value: "challengeType" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -190,13 +190,13 @@ export const ProjectPostingProjectPostingFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<ProjectPostingProjectPostingFragment, unknown>;
-export const ProjectPostingImageFragmentDoc = {
+} as unknown as DocumentNode<ChallengeChallengeFragment, unknown>;
+export const ChallengeImageFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "projectPostingImage" },
+      name: { kind: "Name", value: "challengeImage" },
       typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Attachment" } },
       selectionSet: {
         kind: "SelectionSet",
@@ -209,13 +209,13 @@ export const ProjectPostingImageFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<ProjectPostingImageFragment, unknown>;
-export const ProjectPostingImageFallbackFragmentDoc = {
+} as unknown as DocumentNode<ChallengeImageFragment, unknown>;
+export const ChallengeImageFallbackFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "projectPostingImageFallback" },
+      name: { kind: "Name", value: "challengeImageFallback" },
       typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Attachment" } },
       selectionSet: {
         kind: "SelectionSet",
@@ -228,13 +228,13 @@ export const ProjectPostingImageFallbackFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<ProjectPostingImageFallbackFragment, unknown>;
-export const ProjectPostingDocumentFragmentDoc = {
+} as unknown as DocumentNode<ChallengeImageFallbackFragment, unknown>;
+export const ChallengeDocumentFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "projectPostingDocument" },
+      name: { kind: "Name", value: "challengeDocument" },
       typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Attachment" } },
       selectionSet: {
         kind: "SelectionSet",
@@ -247,4 +247,4 @@ export const ProjectPostingDocumentFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<ProjectPostingDocumentFragment, unknown>;
+} as unknown as DocumentNode<ChallengeDocumentFragment, unknown>;

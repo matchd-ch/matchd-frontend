@@ -64,7 +64,7 @@ export type StudentQuery = {
       } | null>;
     };
     hobbies?: Array<{ __typename?: "Hobby"; id: string; name: string }> | null;
-    onlineProjects?: Array<{ __typename?: "OnlineProject"; id: string; url: string }> | null;
+    onlineChallenges?: Array<{ __typename?: "OnlineChallenge"; id: string; url: string }> | null;
     languages: {
       __typename?: "UserLanguageRelationConnection";
       edges: Array<{
@@ -77,14 +77,14 @@ export type StudentQuery = {
         } | null;
       } | null>;
     };
-    projectPostings: Array<{
-      __typename?: "ProjectPosting";
+    challenges: Array<{
+      __typename?: "Challenge";
       id: string;
       title: string;
       displayTitle: string;
       slug: string;
       keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
-      projectType: { __typename?: "ProjectType"; id: string; name: string };
+      challengeType: { __typename?: "ChallengeType"; id: string; name: string };
     }>;
   } | null;
   avatar?: {

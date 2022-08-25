@@ -11,7 +11,7 @@ query company($slug: String) {
     phone
     website
     linkEducation
-    linkProjects
+    linkChallenges
     linkThesis
     topLevelOrganisationDescription
     topLevelOrganisationWebsite
@@ -49,7 +49,7 @@ query company($slug: String) {
       }
       slug
     }
-    projectPostings {
+    challenges {
       id
       title
       displayTitle
@@ -58,7 +58,7 @@ query company($slug: String) {
         id
         name
       }
-      projectType {
+      challengeType {
         id
         name
       }

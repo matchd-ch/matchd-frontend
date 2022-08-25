@@ -1,0 +1,9 @@
+# Step 1
+mutation challengeBaseData($input: ChallengeBaseDataInput!) {
+  challengeBaseData(input: $input) {
+    success
+    errors
+    challengeId
+    slug
+  }
+}

@@ -1,34 +1,34 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type MatchProjectPostingMutationVariables = Types.Exact<{
-  projectPosting: Types.ProjectPostingInput;
+export type MatchChallengeMutationVariables = Types.Exact<{
+  challengePosting: Types.ChallengeInput;
 }>;
 
-export type MatchProjectPostingMutation = {
+export type MatchChallengeMutation = {
   __typename?: "Mutation";
-  matchProjectPosting?: {
-    __typename?: "MatchProjectPostingPayload";
+  matchChallenge?: {
+    __typename?: "MatchChallengePayload";
     success?: boolean | null;
     errors?: unknown | null;
     confirmed: boolean;
   } | null;
 };
 
-export const MatchProjectPostingDocument = {
+export const MatchChallengeDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "mutation",
-      name: { kind: "Name", value: "matchProjectPosting" },
+      name: { kind: "Name", value: "matchChallenge" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "projectPosting" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "challengePosting" } },
           type: {
             kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "ProjectPostingInput" } },
+            type: { kind: "NamedType", name: { kind: "Name", value: "ChallengeInput" } },
           },
         },
       ],
@@ -37,7 +37,7 @@ export const MatchProjectPostingDocument = {
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "matchProjectPosting" },
+            name: { kind: "Name", value: "matchChallenge" },
             arguments: [
               {
                 kind: "Argument",
@@ -47,8 +47,11 @@ export const MatchProjectPostingDocument = {
                   fields: [
                     {
                       kind: "ObjectField",
-                      name: { kind: "Name", value: "projectPosting" },
-                      value: { kind: "Variable", name: { kind: "Name", value: "projectPosting" } },
+                      name: { kind: "Name", value: "challenge" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "challengePosting" },
+                      },
                     },
                   ],
                 },
@@ -67,4 +70,4 @@ export const MatchProjectPostingDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<MatchProjectPostingMutation, MatchProjectPostingMutationVariables>;
+} as unknown as DocumentNode<MatchChallengeMutation, MatchChallengeMutationVariables>;

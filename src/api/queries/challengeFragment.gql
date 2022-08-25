@@ -1,4 +1,4 @@
-fragment projectPostingProjectPosting on ProjectPosting {
+fragment challengeChallenge on Challenge {
   id
   slug
   title
@@ -8,7 +8,7 @@ fragment projectPostingProjectPosting on ProjectPosting {
   compensation
   formStep
   state
-  projectFromDate
+  challengeFromDate
   datePublished
   website
   matchStatus {
@@ -19,7 +19,7 @@ fragment projectPostingProjectPosting on ProjectPosting {
     id
     name
   }
-  projectType {
+  challengeType {
     id
     name
   }
@@ -53,21 +53,21 @@ fragment projectPostingProjectPosting on ProjectPosting {
   }
 }
 
-fragment projectPostingImage on Attachment {
+fragment challengeImage on Attachment {
   id
   fileName
   url
   mimeType
 }
 
-fragment projectPostingImageFallback on Attachment {
+fragment challengeImageFallback on Attachment {
   id
   fileName
   url
   mimeType
 }
 
-fragment projectPostingDocument on Attachment {
+fragment challengeDocument on Attachment {
   id
   fileName
   url

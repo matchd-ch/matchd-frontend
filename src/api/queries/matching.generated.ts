@@ -4,7 +4,7 @@ import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/
 export type MatchingQueryVariables = Types.Exact<{
   studentMatchingInput?: Types.InputMaybe<Types.StudentMatchingInput>;
   jobPostingMatchingInput?: Types.InputMaybe<Types.JobPostingMatchingInput>;
-  projectPostingMatchingInput?: Types.InputMaybe<Types.ProjectPostingMatchingInput>;
+  challengeMatchingInput?: Types.InputMaybe<Types.ChallengeMatchingInput>;
   softBoost: Types.Scalars["Int"];
   techBoost: Types.Scalars["Int"];
   first?: Types.InputMaybe<Types.Scalars["Int"]>;
@@ -52,11 +52,8 @@ export const MatchingDocument = {
         },
         {
           kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "projectPostingMatchingInput" },
-          },
-          type: { kind: "NamedType", name: { kind: "Name", value: "ProjectPostingMatchingInput" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "challengeMatchingInput" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "ChallengeMatchingInput" } },
         },
         {
           kind: "VariableDefinition",
@@ -107,10 +104,10 @@ export const MatchingDocument = {
               },
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "projectPostingMatching" },
+                name: { kind: "Name", value: "challengeMatching" },
                 value: {
                   kind: "Variable",
-                  name: { kind: "Name", value: "projectPostingMatchingInput" },
+                  name: { kind: "Name", value: "challengeMatchingInput" },
                 },
               },
               {

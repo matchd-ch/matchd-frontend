@@ -209,35 +209,35 @@ const validYears = computed(() => {
 
 const user = computed(() => store.getters["user"]);
 const projectPostingImagesQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingImages })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ChallengeImages })
 );
 const projectPostingImages = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingImages })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.ChallengeImages })
 );
 
 const projectPostingImagesUploadConfigurations = computed(() => {
   return store.getters["uploadConfigurationByKey"]({
-    key: AttachmentKey.ProjectPostingImages,
+    key: AttachmentKey.ChallengeImages,
   });
 });
 
 const projectPostingDocumentsQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ProjectPostingDocuments })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ChallengeDocuments })
 );
 
 const projectPostingDocuments = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.ProjectPostingDocuments })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.ChallengeDocuments })
 );
 
 const projectPostingDocumentsUploadConfigurations = computed(() => {
   return store.getters["uploadConfigurationByKey"]({
-    key: AttachmentKey.ProjectPostingDocuments,
+    key: AttachmentKey.ChallengeDocuments,
   });
 });
 
 const onSelectProjectPostingImages = async (files: FileList) => {
   await store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
-    key: AttachmentKey.ProjectPostingImages,
+    key: AttachmentKey.ChallengeImages,
     files,
     id: currentProjectPosting.value?.id ?? "",
   });
@@ -245,7 +245,7 @@ const onSelectProjectPostingImages = async (files: FileList) => {
 
 const onDeleteProjectPostingImages = async (file: Attachment) => {
   await store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
-    key: AttachmentKey.ProjectPostingImages,
+    key: AttachmentKey.ChallengeImages,
     id: file.id,
     projectPostingId: currentProjectPosting.value?.id ?? "",
   });
@@ -253,7 +253,7 @@ const onDeleteProjectPostingImages = async (file: Attachment) => {
 
 const onSelectProjectPostingDocuments = async (files: FileList) => {
   await store.dispatch(UploadActionTypes.UPLOAD_PROJECT_POSTING_FILE, {
-    key: AttachmentKey.ProjectPostingDocuments,
+    key: AttachmentKey.ChallengeDocuments,
     files,
     id: currentProjectPosting.value?.id ?? "",
   });
@@ -261,7 +261,7 @@ const onSelectProjectPostingDocuments = async (files: FileList) => {
 
 const onDeleteProjectPostingDocuments = async (file: Attachment) => {
   await store.dispatch(UploadActionTypes.DELETE_PROJECT_POSTING_FILE, {
-    key: AttachmentKey.ProjectPostingDocuments,
+    key: AttachmentKey.ChallengeDocuments,
     id: file.id,
     projectPostingId: currentProjectPosting.value?.id ?? "",
   });
@@ -280,10 +280,10 @@ watch(
 
 onBeforeMount(() => {
   store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
-    key: AttachmentKey.ProjectPostingImages,
+    key: AttachmentKey.ChallengeImages,
   });
   store.commit(UploadMutationTypes.CLEAR_FILES_FOR_KEY, {
-    key: AttachmentKey.ProjectPostingDocuments,
+    key: AttachmentKey.ChallengeDocuments,
   });
 });
 
@@ -292,15 +292,15 @@ onMounted(async () => {
   if (currentProjectPosting.value) {
     await Promise.all([
       store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
-        key: AttachmentKey.ProjectPostingImages,
+        key: AttachmentKey.ChallengeImages,
         id: currentProjectPosting.value.id ?? "",
       }),
       store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
-        key: AttachmentKey.ProjectPostingFallback,
+        key: AttachmentKey.ChallengeFallback,
         id: currentProjectPosting.value.id ?? "",
       }),
       store.dispatch(UploadActionTypes.UPLOADED_PROJECT_POSTING_FILES, {
-        key: AttachmentKey.ProjectPostingDocuments,
+        key: AttachmentKey.ChallengeDocuments,
         id: currentProjectPosting.value.id ?? "",
       }),
     ]);

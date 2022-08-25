@@ -1,28 +1,28 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { ProjectPostingsProjectPostingFragmentDoc } from "./projectPostingsFragment.generated";
-export type ProjectPostingsQueryVariables = Types.Exact<{
+import { ChallengesChallengeFragmentDoc } from "./challengesFragment.generated";
+export type ChallengesQueryVariables = Types.Exact<{
   textSearch?: Types.InputMaybe<Types.Scalars["String"]>;
-  projectTypeIds?: Types.InputMaybe<
+  challengeTypeIds?: Types.InputMaybe<
     Array<Types.InputMaybe<Types.Scalars["String"]>> | Types.InputMaybe<Types.Scalars["String"]>
   >;
   keywordIds?: Types.InputMaybe<
     Array<Types.InputMaybe<Types.Scalars["String"]>> | Types.InputMaybe<Types.Scalars["String"]>
   >;
-  filterTalentProjects?: Types.InputMaybe<Types.Scalars["Boolean"]>;
-  filterCompanyProjects?: Types.InputMaybe<Types.Scalars["Boolean"]>;
-  filterUniversityProjects?: Types.InputMaybe<Types.Scalars["Boolean"]>;
+  filterTalentChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]>;
+  filterCompanyChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]>;
+  filterUniversityChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]>;
 }>;
 
-export type ProjectPostingsQuery = {
+export type ChallengesQuery = {
   __typename?: "Query";
-  projectPostings?: {
-    __typename?: "ProjectPostingConnection";
+  challenges?: {
+    __typename?: "ChallengeConnection";
     edges: Array<{
-      __typename?: "ProjectPostingEdge";
+      __typename?: "ChallengeEdge";
       node?: {
-        __typename?: "ProjectPosting";
+        __typename?: "Challenge";
         id: string;
         title: string;
         slug: string;
@@ -30,13 +30,13 @@ export type ProjectPostingsQuery = {
         teamSize?: number | null;
         compensation?: string | null;
         website: string;
-        projectFromDate?: string | null;
+        challengeFromDate?: string | null;
         formStep: number;
-        state: Types.ProjectPostingState;
+        state: Types.ChallengeState;
         dateCreated?: string | null;
         datePublished?: string | null;
         avatarUrl?: string | null;
-        projectType: { __typename?: "ProjectType"; id: string; name: string };
+        challengeType: { __typename?: "ChallengeType"; id: string; name: string };
         keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
         employee?: {
           __typename?: "Employee";
@@ -54,13 +54,13 @@ export type ProjectPostingsQuery = {
   } | null;
 };
 
-export const ProjectPostingsDocument = {
+export const ChallengesDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "projectPostings" },
+      name: { kind: "Name", value: "challenges" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -69,7 +69,7 @@ export const ProjectPostingsDocument = {
         },
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "projectTypeIds" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "challengeTypeIds" } },
           type: {
             kind: "ListType",
             type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
@@ -85,17 +85,20 @@ export const ProjectPostingsDocument = {
         },
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "filterTalentProjects" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "filterTalentChallenges" } },
           type: { kind: "NamedType", name: { kind: "Name", value: "Boolean" } },
         },
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "filterCompanyProjects" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "filterCompanyChallenges" } },
           type: { kind: "NamedType", name: { kind: "Name", value: "Boolean" } },
         },
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "filterUniversityProjects" } },
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "filterUniversityChallenges" },
+          },
           type: { kind: "NamedType", name: { kind: "Name", value: "Boolean" } },
         },
       ],
@@ -104,7 +107,7 @@ export const ProjectPostingsDocument = {
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "projectPostings" },
+            name: { kind: "Name", value: "challenges" },
             arguments: [
               {
                 kind: "Argument",
@@ -118,8 +121,8 @@ export const ProjectPostingsDocument = {
               },
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "projectTypeIds" },
-                value: { kind: "Variable", name: { kind: "Name", value: "projectTypeIds" } },
+                name: { kind: "Name", value: "challengeTypeIds" },
+                value: { kind: "Variable", name: { kind: "Name", value: "challengeTypeIds" } },
               },
               {
                 kind: "Argument",
@@ -128,20 +131,26 @@ export const ProjectPostingsDocument = {
               },
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "filterTalentProjects" },
-                value: { kind: "Variable", name: { kind: "Name", value: "filterTalentProjects" } },
-              },
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "filterCompanyProjects" },
-                value: { kind: "Variable", name: { kind: "Name", value: "filterCompanyProjects" } },
-              },
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "filterUniversityProjects" },
+                name: { kind: "Name", value: "filterTalentChallenges" },
                 value: {
                   kind: "Variable",
-                  name: { kind: "Name", value: "filterUniversityProjects" },
+                  name: { kind: "Name", value: "filterTalentChallenges" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "filterCompanyChallenges" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "filterCompanyChallenges" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "filterUniversityChallenges" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "filterUniversityChallenges" },
                 },
               },
             ],
@@ -162,7 +171,7 @@ export const ProjectPostingsDocument = {
                           selections: [
                             {
                               kind: "FragmentSpread",
-                              name: { kind: "Name", value: "projectPostingsProjectPosting" },
+                              name: { kind: "Name", value: "challengesChallenge" },
                             },
                           ],
                         },
@@ -176,6 +185,6 @@ export const ProjectPostingsDocument = {
         ],
       },
     },
-    ...ProjectPostingsProjectPostingFragmentDoc.definitions,
+    ...ChallengesChallengeFragmentDoc.definitions,
   ],
-} as unknown as DocumentNode<ProjectPostingsQuery, ProjectPostingsQueryVariables>;
+} as unknown as DocumentNode<ChallengesQuery, ChallengesQueryVariables>;

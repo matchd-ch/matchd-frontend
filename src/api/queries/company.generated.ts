@@ -20,7 +20,7 @@ export type CompanyQuery = {
     phone: string;
     website: string;
     linkEducation?: string | null;
-    linkProjects?: string | null;
+    linkChallenges?: string | null;
     linkThesis?: string | null;
     topLevelOrganisationDescription: string;
     topLevelOrganisationWebsite: string;
@@ -54,14 +54,14 @@ export type CompanyQuery = {
       slug: string;
       jobType: { __typename?: "JobType"; id: string; name: string };
     }>;
-    projectPostings: Array<{
-      __typename?: "ProjectPosting";
+    challenges: Array<{
+      __typename?: "Challenge";
       id: string;
       title: string;
       displayTitle: string;
       slug: string;
       keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
-      projectType: { __typename?: "ProjectType"; id: string; name: string };
+      challengeType: { __typename?: "ChallengeType"; id: string; name: string };
     }>;
   } | null;
   logo?: {
@@ -128,7 +128,7 @@ export const CompanyDocument = {
                 { kind: "Field", name: { kind: "Name", value: "phone" } },
                 { kind: "Field", name: { kind: "Name", value: "website" } },
                 { kind: "Field", name: { kind: "Name", value: "linkEducation" } },
-                { kind: "Field", name: { kind: "Name", value: "linkProjects" } },
+                { kind: "Field", name: { kind: "Name", value: "linkChallenges" } },
                 { kind: "Field", name: { kind: "Name", value: "linkThesis" } },
                 { kind: "Field", name: { kind: "Name", value: "topLevelOrganisationDescription" } },
                 { kind: "Field", name: { kind: "Name", value: "topLevelOrganisationWebsite" } },
@@ -245,7 +245,7 @@ export const CompanyDocument = {
                 },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "projectPostings" },
+                  name: { kind: "Name", value: "challenges" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
@@ -266,7 +266,7 @@ export const CompanyDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "projectType" },
+                        name: { kind: "Name", value: "challengeType" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [

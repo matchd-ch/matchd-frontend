@@ -1,0 +1,7 @@
+#import "./challengeFragment.gql"
+
+query challengePublic($id: String, $slug: String) {
+  challenge(id: $id, slug: $slug) {
+    ...challengeChallenge
+  }
+}

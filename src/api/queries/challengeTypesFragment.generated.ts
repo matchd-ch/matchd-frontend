@@ -1,19 +1,19 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type ProjectTypesProjectTypeFragment = {
-  __typename?: "ProjectType";
+export type ChallengeTypesChallengeTypeFragment = {
+  __typename?: "ChallengeType";
   id: string;
   name: string;
 };
 
-export const ProjectTypesProjectTypeFragmentDoc = {
+export const ChallengeTypesChallengeTypeFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "projectTypesProjectType" },
-      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "ProjectType" } },
+      name: { kind: "Name", value: "challengeTypesChallengeType" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "ChallengeType" } },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
@@ -23,4 +23,4 @@ export const ProjectTypesProjectTypeFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<ProjectTypesProjectTypeFragment, unknown>;
+} as unknown as DocumentNode<ChallengeTypesChallengeTypeFragment, unknown>;

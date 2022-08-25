@@ -47,7 +47,7 @@ query me {
           }
         }
       }
-      onlineProjects {
+      onlineChallenges {
         id
         url
       }
@@ -116,12 +116,12 @@ query me {
           name
         }
       }
-      projectPostings {
+      challenges {
         id
         slug
         title
         state
-        projectType {
+        challengeType {
           id
           name
         }
@@ -154,7 +154,7 @@ query me {
         id
       }
       linkEducation
-      linkProjects
+      linkChallenges
       linkThesis
     }
   }

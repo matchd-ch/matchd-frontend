@@ -7,17 +7,17 @@ export type DashboardQuery = {
   __typename?: "Query";
   dashboard?: {
     __typename?: "Dashboard";
-    projectPostings?: Array<{
-      __typename?: "ProjectPosting";
+    challenges?: Array<{
+      __typename?: "Challenge";
       id: string;
       title: string;
       displayTitle: string;
       datePublished?: string | null;
       dateCreated?: string | null;
       slug: string;
-      state: Types.ProjectPostingState;
+      state: Types.ChallengeState;
       keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
-      projectType: { __typename?: "ProjectType"; id: string; name: string };
+      challengeType: { __typename?: "ChallengeType"; id: string; name: string };
       company?: { __typename?: "Company"; name: string; city: string; zip: string } | null;
       student?: {
         __typename?: "Student";
@@ -38,16 +38,16 @@ export type DashboardQuery = {
       state: Types.JobPostingState;
       company: { __typename?: "Company"; name: string; city: string; zip: string };
     }> | null;
-    latestProjectPostings?: Array<{
-      __typename?: "ProjectPosting";
+    latestChallenges?: Array<{
+      __typename?: "Challenge";
       id: string;
       title: string;
       displayTitle: string;
       datePublished?: string | null;
       dateCreated?: string | null;
       slug: string;
-      state: Types.ProjectPostingState;
-      projectType: { __typename?: "ProjectType"; id: string; name: string };
+      state: Types.ChallengeState;
+      challengeType: { __typename?: "ChallengeType"; id: string; name: string };
       keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
       company?: { __typename?: "Company"; name: string; city: string; zip: string } | null;
       student?: {
@@ -126,17 +126,17 @@ export type DashboardQuery = {
         slug: string;
       };
     }> | null;
-    projectMatches?: Array<{
-      __typename?: "ProjectPostingMatchInfo";
-      projectPosting: {
-        __typename?: "ProjectPosting";
+    challengeMatches?: Array<{
+      __typename?: "ChallengeMatchInfo";
+      challenge: {
+        __typename?: "Challenge";
         id: string;
         title: string;
         displayTitle: string;
         slug: string;
-        state: Types.ProjectPostingState;
+        state: Types.ChallengeState;
         keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
-        projectType: { __typename?: "ProjectType"; id: string; name: string };
+        challengeType: { __typename?: "ChallengeType"; id: string; name: string };
         company?: {
           __typename?: "Company";
           name: string;
@@ -183,7 +183,7 @@ export const DashboardDocument = {
               selections: [
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "projectPostings" },
+                  name: { kind: "Name", value: "challenges" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
@@ -207,7 +207,7 @@ export const DashboardDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "projectType" },
+                        name: { kind: "Name", value: "challengeType" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
@@ -285,7 +285,7 @@ export const DashboardDocument = {
                 },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "latestProjectPostings" },
+                  name: { kind: "Name", value: "latestChallenges" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
@@ -298,7 +298,7 @@ export const DashboardDocument = {
                       { kind: "Field", name: { kind: "Name", value: "state" } },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "projectType" },
+                        name: { kind: "Name", value: "challengeType" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
@@ -520,13 +520,13 @@ export const DashboardDocument = {
                 },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "projectMatches" },
+                  name: { kind: "Name", value: "challengeMatches" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "projectPosting" },
+                        name: { kind: "Name", value: "challenge" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
@@ -548,7 +548,7 @@ export const DashboardDocument = {
                             },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "projectType" },
+                              name: { kind: "Name", value: "challengeType" },
                               selectionSet: {
                                 kind: "SelectionSet",
                                 selections: [

@@ -1,0 +1,36 @@
+#import "./challengeFragment.gql"
+
+query challenge($id: String, $slug: String) {
+  challenge(id: $id, slug: $slug) {
+    ...challengeChallenge
+  }
+  images: attachments(key: CHALLENGE_IMAGES, slug: $slug, first: 100) {
+    edges {
+      node {
+        ...challengeImage
+      }
+    }
+  }
+  imageFallback: attachments(
+    key: CHALLENGE_FALLBACK
+    slug: $slug
+    first: 100
+  ) {
+    edges {
+      node {
+        ...challengeImageFallback
+      }
+    }
+  }
+  documents: attachments(
+    key: CHALLENGE_DOCUMENTS
+    slug: $slug
+    first: 100
+  ) {
+    edges {
+      node {
+        ...challengeDocument
+      }
+    }
+  }
+}

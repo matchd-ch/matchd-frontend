@@ -1,8 +1,8 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-export type ProjectPostingsProjectPostingFragment = {
-  __typename?: "ProjectPosting";
+export type ChallengesChallengeFragment = {
+  __typename?: "Challenge";
   id: string;
   title: string;
   slug: string;
@@ -10,13 +10,13 @@ export type ProjectPostingsProjectPostingFragment = {
   teamSize?: number | null;
   compensation?: string | null;
   website: string;
-  projectFromDate?: string | null;
+  challengeFromDate?: string | null;
   formStep: number;
-  state: Types.ProjectPostingState;
+  state: Types.ChallengeState;
   dateCreated?: string | null;
   datePublished?: string | null;
   avatarUrl?: string | null;
-  projectType: { __typename?: "ProjectType"; id: string; name: string };
+  challengeType: { __typename?: "ChallengeType"; id: string; name: string };
   keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
   employee?: {
     __typename?: "Employee";
@@ -31,13 +31,13 @@ export type ProjectPostingsProjectPostingFragment = {
   company?: { __typename?: "Company"; id: string } | null;
 };
 
-export const ProjectPostingsProjectPostingFragmentDoc = {
+export const ChallengesChallengeFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "projectPostingsProjectPosting" },
-      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "ProjectPosting" } },
+      name: { kind: "Name", value: "challengesChallenge" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Challenge" } },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
@@ -46,7 +46,7 @@ export const ProjectPostingsProjectPostingFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "slug" } },
           {
             kind: "Field",
-            name: { kind: "Name", value: "projectType" },
+            name: { kind: "Name", value: "challengeType" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -70,7 +70,7 @@ export const ProjectPostingsProjectPostingFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "teamSize" } },
           { kind: "Field", name: { kind: "Name", value: "compensation" } },
           { kind: "Field", name: { kind: "Name", value: "website" } },
-          { kind: "Field", name: { kind: "Name", value: "projectFromDate" } },
+          { kind: "Field", name: { kind: "Name", value: "challengeFromDate" } },
           {
             kind: "Field",
             name: { kind: "Name", value: "employee" },
@@ -111,4 +111,4 @@ export const ProjectPostingsProjectPostingFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<ProjectPostingsProjectPostingFragment, unknown>;
+} as unknown as DocumentNode<ChallengesChallengeFragment, unknown>;

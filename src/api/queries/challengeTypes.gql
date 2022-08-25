@@ -1,0 +1,11 @@
+#import "./challengeTypesFragment.gql"
+
+query challengeTypes {
+  challengeTypes(first: 100) {
+    edges {
+      node {
+        ...challengeTypesChallengeType
+      }
+    }
+  }
+}
