@@ -37,7 +37,7 @@
     "luxon": "^3.0.1",
     "omit-deep": "^0.3.0",
     "pretty-bytes": "^6.0.0",
-    "vee-validate": "^4.6.6",
+    "vee-validate": "^4.6.7",
     "video.js": "^7.20.2",
     "vue": "^3.2.37",
     "vue-apollo": "^3.1.0",
