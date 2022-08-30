@@ -21,12 +21,13 @@
     <div :class="{ 'xl:mb-0 xl:w-1/2': !rows }">
       <slot />
     </div>
-    <EditLink v-if="editStep" :edit-step="editStep" route="ProfileEdit" />
+    <EditLink v-if="editStep" :edit-step="editStep" :route="Routes.PROFILE_EDIT" />
   </section>
 </template>
 
 <script lang="ts" setup>
 import EditLink from "@/components/EditLink.vue";
+import { Routes } from "@/router";
 
 withDefaults(
   defineProps<{

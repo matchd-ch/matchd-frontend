@@ -12,12 +12,12 @@
         rules="url"
       />
     </MatchdField>
-    <!-- Link Projects Field -->
-    <MatchdField id="linkProjects" class="mb-10" :errors="veeForm.errors.linkProjects">
+    <!-- Link Challenges Field -->
+    <MatchdField id="linkChallenges" class="mb-10" :errors="veeForm.errors.linkChallenges">
       <template #label>Wissenswertes zum Thema Praxisprojekte</template>
       <Field
-        id="linkProjects"
-        name="linkProjects"
+        id="linkChallenges"
+        name="linkChallenges"
         as="input"
         label="Wissenswertes zum Thema Praxisprojekte"
         rules="url"
@@ -56,7 +56,7 @@
       @change="onChangeBranch"
     >
       <template #label
-        >In diesen Bereichen und Projekten können Talente bei Ihnen tätig werden</template
+        >In diesen Bereichen und Challenges können Talente bei Ihnen tätig werden</template
       >
     </SelectPillMultiple>
     <!-- Benefits Field -->

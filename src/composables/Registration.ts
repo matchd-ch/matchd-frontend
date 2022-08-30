@@ -1,4 +1,5 @@
 import { AccountType } from "@/models/AccountType";
+import { Routes } from "@/router";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -18,7 +19,7 @@ export function useRegistration() {
   }
 
   function onClickNo() {
-    router.push({ name: "Triage", hash: "#nichts-passendes-gefunden" });
+    router.push({ name: Routes.TRIAGE, hash: "#nichts-passendes-gefunden" });
   }
 
   function onTogglePasswordVisibility() {

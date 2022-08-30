@@ -18,9 +18,9 @@
     <MatchdButton
       variant="outline"
       class="block w-full mt-5"
-      @click="$router.push({ name: 'ProjectPostingCreate', params: { step: 'schritt1' } })"
+      @click="$router.push({ name: 'ChallengeCreate', params: { step: 'schritt1' } })"
     >
-      Projektidee ausschreiben
+      Challenge ausschreiben
     </MatchdButton>
     <p class="mt-5 text-black text-center">
       Falls Sie Fragen oder Feedback haben,

@@ -17,7 +17,7 @@ export function studentProfileStep4InputMapper(
       };
     }),
     distinction: studentProfileForm.distinction,
-    onlineProjects: studentProfileForm.onlineProjects,
+    onlineChallenges: studentProfileForm.onlineChallenges,
     hobbies: studentProfileForm.hobbies,
   };
 }

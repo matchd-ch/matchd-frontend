@@ -3344,8 +3344,8 @@ const Logout = gql`
   }
 `;
 const MatchChallenge = gql`
-  mutation matchChallenge($challengePosting: ChallengeInput!) {
-    matchChallenge(input: { challenge: $challengePosting }) {
+  mutation matchChallenge($challenge: ChallengeInput!) {
+    matchChallenge(input: { challenge: $challenge }) {
       success
       errors
       confirmed

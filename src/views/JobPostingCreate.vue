@@ -54,6 +54,7 @@
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
+import { Routes } from "@/router/index";
 import { ParamStrings } from "@/router/paramStrings";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
@@ -148,7 +149,7 @@ export default class JobPostingCreate extends Vue {
       });
     }
     if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep >= 3) {
-      this.$router.push({ name: "Dashboard" });
+      this.$router.push({ name: Routes.DASHBOARD });
     } else if (this.currentStep) {
       this.$router.push({
         params: {
@@ -161,7 +162,7 @@ export default class JobPostingCreate extends Vue {
 
   async onNavigateBack(): Promise<void> {
     if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep >= 3) {
-      this.$router.push({ name: "Dashboard" });
+      this.$router.push({ name: Routes.DASHBOARD });
     } else if (this.currentStep) {
       this.$router.push({
         params: {

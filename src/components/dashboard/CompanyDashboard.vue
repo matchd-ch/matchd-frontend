@@ -16,34 +16,34 @@
           Willkommen zurück bei Matchd! Wir wünschen viel Erfolg bei der Talentsuche
         </h2>
         <p class="mt-4">
-          Auf dieser Seite finden Sie Ihre ausgeschriebenen Projekte und Stellen sowie den aktuellen
-          Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir Sie jeweils auch
-          per E-Mail.
+          Auf dieser Seite finden Sie Ihre ausgeschriebenen Challenges und Stellen sowie den
+          aktuellen Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir Sie
+          jeweils auch per E-Mail.
         </p>
       </div>
     </div>
     <div class="flex flex-col min-h-full">
       <profile-section title="Ihre Ausschreibungen" :pink="true">
-        <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
-        <p v-if="dashboard?.projectPostings?.length === 0">
-          Momentan haben Sie noch keine Projekte ausgeschrieben. Sobald Sie ein Projekt
+        <h2 class="text-base font-medium text-primary-1 mb-4">Challenges</h2>
+        <p v-if="dashboard?.challenges?.length === 0">
+          Momentan haben Sie noch keine Challenges ausgeschrieben. Sobald Sie ein Challenge
           ausschreiben, kann die Talentsuche beginnen.
         </p>
-        <ul v-if="dashboard?.projectPostings?.length">
+        <ul v-if="dashboard?.challenges?.length">
           <li
-            v-for="projectPosting in dashboard?.projectPostings"
-            :key="projectPosting.id"
+            v-for="challenge in dashboard?.challenges"
+            :key="challenge.id"
             class="link-list__item"
           >
-            <PostingEditLink :posting="projectPosting" />
+            <PostingEditLink :posting="challenge" />
           </li>
         </ul>
         <matchd-button
           class="block w-full mt-8 text-center"
-          :to="{ name: 'ProjectPostingCreate' }"
+          :to="{ name: 'ChallengeCreate' }"
           tag="router-link"
         >
-          Neues Projekt ausschreiben
+          Neue Challenge ausschreiben
         </matchd-button>
         <h2 class="text-base font-medium text-primary-1 mt-12 mb-4">Stellen</h2>
         <p v-if="dashboard?.jobPostings?.length === 0">
@@ -95,22 +95,22 @@
         ></CompanyMatchGroup>
       </profile-section>
       <profile-section
-        v-if="dashboard?.confirmedMatches?.length || dashboard?.projectMatches?.length"
+        v-if="dashboard?.confirmedMatches?.length || dashboard?.challengeMatches?.length"
         title="Hier hats gematchd!"
         :pink="true"
       >
-        <template v-if="dashboard?.projectMatches">
-          <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
+        <template v-if="dashboard?.challengeMatches">
+          <h2 class="text-base font-medium text-primary-1 mb-4">Challenges</h2>
           <CompanyMatchGroup
-            type="ProjectPosting"
-            :matches="dashboard.uniqueProjectPostingMatchings"
+            type="Challenge"
+            :matches="dashboard.uniqueChallengeMatchings"
           ></CompanyMatchGroup>
         </template>
 
         <template v-if="dashboard?.confirmedMatches?.length">
           <h2
             class="text-base font-medium text-primary-1 mb-4"
-            :class="{ 'mt-8': dashboard?.projectMatches?.length }"
+            :class="{ 'mt-8': dashboard?.challengeMatches?.length }"
           >
             Stellen
           </h2>

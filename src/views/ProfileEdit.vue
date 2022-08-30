@@ -48,6 +48,7 @@
 <script setup lang="ts">
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
+import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { MutationTypes } from "@/store/modules/profile/mutation-types";
 import {
@@ -251,13 +252,13 @@ const onChangeDirty = (newDirty: boolean) => {
 };
 
 const onClickCancel = () => {
-  router.push({ name: "Profile" });
+  router.push({ name: Routes.PROFILE });
 };
 
 const onSubmitComplete = (success: boolean) => {
   if (success) {
     dirty.value = false;
-    router.push({ name: "Profile" });
+    router.push({ name: Routes.PROFILE });
   }
 };
 

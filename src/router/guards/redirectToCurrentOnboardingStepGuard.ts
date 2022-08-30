@@ -1,6 +1,7 @@
 import { parseStepName } from "@/helpers/parseStepName";
 import { useStore } from "@/store";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { Routes } from "..";
 
 export async function redirectToCurrentOnboardingStepGuard(
   to: RouteLocationNormalized,
@@ -19,8 +20,8 @@ export async function redirectToCurrentOnboardingStepGuard(
   } else {
     const nextStep = urlStep < profileStep ? urlStep : profileStep;
     if (
-      (to.name === `Onboarding` && to.params.step === `schritt${nextStep}`) ||
-      (to.name === "Onboarding" &&
+      (to.name === Routes.ONBOARDING && to.params.step === `schritt${nextStep}`) ||
+      (to.name === Routes.ONBOARDING &&
         ((isStudent && nextStep === 7) ||
           (isCompany && nextStep === 4) ||
           (isUniversity && nextStep === 4)))
@@ -32,9 +33,9 @@ export async function redirectToCurrentOnboardingStepGuard(
         (isCompany && nextStep <= 3) ||
         (isUniversity && nextStep <= 4))
     ) {
-      next({ name: `Onboarding`, params: { step: `schritt${profileStep}` } });
+      next({ name: Routes.ONBOARDING, params: { step: `schritt${profileStep}` } });
     } else {
-      next({ name: "Onboarding", params: { step: "finish" } });
+      next({ name: Routes.ONBOARDING, params: { step: "finish" } });
     }
   }
 }

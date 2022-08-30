@@ -36,6 +36,7 @@ import GridTile from "@/components/GridTile.vue";
 import fetchAttachmentDataUri from "@/helpers/fetchAttachmentDataUri";
 import { replaceStack } from "@/helpers/replaceStack";
 import { SearchResult } from "@/models/SearchResult";
+import { Routes } from "@/router";
 import { computed, ref, watch } from "vue";
 
 const props = withDefaults(
@@ -64,11 +65,11 @@ const queryParams = computed(() => {
 const toRouteName = computed(() => {
   switch (props.resultType) {
     case "jobposting":
-      return "JobPostingDetail";
+      return Routes.JOB_POSTING_DETAIL;
     case "company":
-      return "CompanyDetail";
+      return Routes.COMPANY_DETAIL;
     default:
-      return "StudentDetail";
+      return Routes.STUDENT_DETAIL;
   }
 });
 

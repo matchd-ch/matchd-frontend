@@ -59,17 +59,17 @@
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="user.student.onlineProjects?.length"
-        title="Das sind meine eigenen Projekte"
+        v-if="user.student.onlineChallenges?.length"
+        title="Das sind meine eigenen Challenges"
         :edit-step="getStepName(4)"
       >
         <ul class="text-lg">
-          <li v-for="project in user.student.onlineProjects" :key="project.id">
+          <li v-for="challenge in user.student.onlineChallenges" :key="challenge.id">
             <a
               class="font-medium underline hover:text-primary-1 transition-colors"
               target="_blank"
-              :href="project.url"
-              >{{ project.url }}</a
+              :href="challenge.url"
+              >{{ challenge.url }}</a
             >
           </li>
         </ul>

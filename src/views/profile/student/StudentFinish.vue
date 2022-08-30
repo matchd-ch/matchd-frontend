@@ -18,16 +18,16 @@
     <MatchdButton
       variant="outline"
       class="block w-full mt-5"
-      @click="$router.push({ name: 'ProjectPostingCreate', params: { step: 'schritt1' } })"
+      @click="$router.push({ name: 'ChallengeCreate', params: { step: 'schritt1' } })"
     >
-      Projektidee ausschreiben
+      Challenge ausschreiben
     </MatchdButton>
     <MatchdButton
       variant="outline"
       class="block w-full mt-5"
-      @click="$router.push({ name: 'ProjectPostingSearch' })"
+      @click="$router.push({ name: Routes.CHALLENGE_SEARCH })"
     >
-      Projekte finden
+      Challenge finden
     </MatchdButton>
     <p class="mt-5 text-black text-center">
       Du hast Fragen oder möchtest uns etwas mitteilen?
@@ -38,20 +38,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
-
-@Options({
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-    MatchdButton,
-  },
-})
-export default class StudentFinish extends Vue {}
+import { Routes } from "@/router";
 </script>
 
 <style></style>

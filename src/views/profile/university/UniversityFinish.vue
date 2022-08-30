@@ -10,8 +10,8 @@
     <MatchdButton
       variant="outline"
       class="block w-full mt-5"
-      @click="$router.push({ name: 'ProjectPostingCreate', params: { step: 'schritt1' } })"
-      >Projektidee ausschreiben</MatchdButton
+      @click="$router.push({ name: 'ChallengeCreate', params: { step: 'schritt1' } })"
+      >Challenge ausschreiben</MatchdButton
     >
     <MatchdButton
       variant="outline"
@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
+import { Routes } from "@/router";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, Vue } from "vue-class-component";
 
@@ -44,11 +45,11 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class UniversityFinish extends Vue {
   onClickStudentSearch(): void {
-    this.$router.push({ name: "StudentSearch" });
+    this.$router.push({ name: Routes.STUDENT_SEARCH });
   }
 
   onClickJobPostingCreate(): void {
-    this.$router.push({ name: "JobPostingCreate", params: { step: "schritt1" } });
+    this.$router.push({ name: Routes.JOB_POSTING_CREATE, params: { step: "schritt1" } });
   }
 }
 </script>

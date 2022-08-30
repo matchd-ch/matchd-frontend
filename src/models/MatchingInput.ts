@@ -1,6 +1,6 @@
 import type {
+  ChallengeMatchingInput,
   JobPostingMatchingInput,
-  ProjectPostingMatchingInput,
   StudentMatchingInput,
 } from "@/api/models/types";
 
@@ -10,6 +10,6 @@ export interface MatchingInput {
   softBoost: number;
   techBoost: number;
   jobPostingMatchingInput?: JobPostingMatchingInput;
-  projectPostingMatchingInput?: ProjectPostingMatchingInput;
+  challengeMatchingInput?: ChallengeMatchingInput;
   studentMatchingInput?: StudentMatchingInput;
 }

@@ -4,7 +4,7 @@
     <!-- Branch Field -->
     <SelectPillMultiple :options="branches" name="branches" class="mb-10" @change="onChangeBranch">
       <template #label
-        >In diesen Bereichen und Projekten können Talente bei Ihnen tätig werden</template
+        >In diesen Bereichen und Challenges können Talente bei Ihnen tätig werden</template
       >
     </SelectPillMultiple>
     <!-- Benefits Field -->

@@ -16,7 +16,7 @@
           Hey {{ user?.firstName }}, ready to match?
         </h2>
         <p class="mt-4">
-          Auf dieser Seite findest du die neuesten Stellenausschreibungen, neue Projekte sowie den
+          Auf dieser Seite findest du die neuesten Stellenausschreibungen, neue Challenges sowie den
           aktuellen Stand deiner Matches. Damit du keinen Match verpasst, behalten wir dich auch per
           E-Mail up-to-date.
         </p>
@@ -24,8 +24,8 @@
     </div>
     <div class="flex flex-col min-h-full">
       <profile-section
-        v-if="dashboard.latestJobPostings?.length || dashboard.latestProjectPostings?.length"
-        title="Neue Stellen und Projekte"
+        v-if="dashboard.latestJobPostings?.length || dashboard.latestChallenges?.length"
+        title="Neue Stellen und Challenges"
       >
         <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
         <p v-if="dashboard.latestJobPostings?.length === 0">
@@ -48,37 +48,33 @@
             >Weitere Stellen finden</matchd-button
           >
         </template>
-        <h2 class="text-base font-medium text-primary-1 mb-4 mt-12">Projekte</h2>
-        <p v-if="dashboard.latestProjectPostings?.length === 0">
-          Momentan sind keine zu dir passenden Projekte ausgeschrieben.
+        <h2 class="text-base font-medium text-primary-1 mb-4 mt-12">Challenges</h2>
+        <p v-if="dashboard.latestChallenges?.length === 0">
+          Momentan sind keine zu dir passenden Challenges ausgeschrieben.
         </p>
-        <ul v-if="dashboard.latestProjectPostings?.length">
+        <ul v-if="dashboard.latestChallenges?.length">
           <li
-            v-for="projectPosting in dashboard.latestProjectPostings"
-            :key="projectPosting.id"
+            v-for="challenge in dashboard.latestChallenges"
+            :key="challenge.id"
             class="link-list__item"
           >
-            <PostingDetailLink :posting="projectPosting"></PostingDetailLink>
+            <PostingDetailLink :posting="challenge"></PostingDetailLink>
           </li>
         </ul>
         <matchd-button
           class="block w-full mt-8 text-center"
-          :to="{ name: 'ProjectPostingCreate' }"
+          :to="{ name: 'ChallengeCreate' }"
           tag="router-link"
-          >Neues Projekt ausschreiben</matchd-button
+          >Neue Challenge ausschreiben</matchd-button
         >
       </profile-section>
-      <profile-section v-if="dashboard.projectPostings?.length" title="Deine Projekt-Ideen">
-        <p v-if="dashboard.projectPostings?.length === 0">
-          Momentan sind keine zu dir passenden Projekte ausgeschrieben.
+      <profile-section v-if="dashboard.challenges?.length" title="Deine Challenge-Ideen">
+        <p v-if="dashboard.challenges?.length === 0">
+          Momentan sind keine zu dir passenden Challenges ausgeschrieben.
         </p>
-        <ul v-if="dashboard.projectPostings?.length">
-          <li
-            v-for="projectPosting in dashboard.projectPostings"
-            :key="projectPosting.id"
-            class="link-list__item"
-          >
-            <PostingEditLink type="project" :posting="projectPosting"></PostingEditLink>
+        <ul v-if="dashboard.challenges?.length">
+          <li v-for="challenge in dashboard.challenges" :key="challenge.id" class="link-list__item">
+            <PostingEditLink type="challenge" :posting="challenge"></PostingEditLink>
           </li>
         </ul>
       </profile-section>
@@ -120,19 +116,19 @@
         </ul>
       </profile-section>
       <profile-section
-        v-if="dashboard.confirmedMatches?.length || dashboard.projectMatches?.length"
+        v-if="dashboard.confirmedMatches?.length || dashboard.challengeMatches?.length"
         title="Hier hats gematchd!"
       >
-        <template v-if="dashboard.projectMatches?.length">
-          <h2 class="text-base font-medium text-primary-1 mb-4">Projekte</h2>
+        <template v-if="dashboard.challengeMatches?.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4">Challenges</h2>
           <ul>
             <li
-              v-for="match in dashboard.projectMatches"
-              :key="match.projectPosting.id"
+              v-for="match in dashboard.challengeMatches"
+              :key="match.challenge.id"
               class="link-list__item"
             >
               <PostingDetailLink
-                :posting="match.projectPosting"
+                :posting="match.challenge"
                 :matcher="match.company"
               ></PostingDetailLink>
             </li>

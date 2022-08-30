@@ -13,18 +13,18 @@ import type {
   Skill,
   SoftSkill,
 } from "@/api/models/types";
+import {
+  ChallengeChallengeFragment,
+  ChallengeDocumentFragment,
+  ChallengeImageFallbackFragment,
+  ChallengeImageFragment,
+} from "@/api/queries/challengeFragment.generated";
+import { ChallengesChallengeFragment } from "@/api/queries/challengesFragment.generated";
+import { ChallengeTypesChallengeTypeFragment } from "@/api/queries/challengeTypesFragment.generated";
 import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsFragment.generated";
 import { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
-import {
-  ProjectPostingDocumentFragment,
-  ProjectPostingImageFallbackFragment,
-  ProjectPostingImageFragment,
-  ProjectPostingProjectPostingFragment,
-} from "@/api/queries/projectPostingFragment.generated";
-import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsFragment.generated";
-import { ProjectTypesProjectTypeFragment } from "@/api/queries/projectTypesFragment.generated";
 import {
   StudentAvatarFallbackFragment,
   StudentAvatarFragment,
@@ -80,20 +80,20 @@ export type State = {
     zipCityJobsLoading: boolean;
     zipCityJobs: ZipCityZipCityFragment[];
   };
-  projectPosting: {
+  challenge: {
     loading: boolean;
-    data: ProjectPostingProjectPostingFragment | null;
-    images: ProjectPostingImageFragment[];
-    imageFallback: ProjectPostingImageFallbackFragment | null;
-    documents: ProjectPostingDocumentFragment[];
+    data: ChallengeChallengeFragment | null;
+    images: ChallengeImageFragment[];
+    imageFallback: ChallengeImageFallbackFragment | null;
+    documents: ChallengeDocumentFragment[];
   };
-  projectPostings: {
+  challenges: {
     loading: boolean;
-    data: ProjectPostingsProjectPostingFragment[];
+    data: ChallengesChallengeFragment[];
   };
-  projectTypes: {
+  challengeTypes: {
     loading: boolean;
-    data: ProjectTypesProjectTypeFragment[];
+    data: ChallengeTypesChallengeTypeFragment[];
   };
   skills: {
     loading: boolean;
@@ -174,18 +174,18 @@ export const state: State = {
     zipCityJobsLoading: false,
     zipCityJobs: [],
   },
-  projectPosting: {
+  challenge: {
     loading: false,
     data: null,
     images: [],
     imageFallback: null,
     documents: [],
   },
-  projectPostings: {
+  challenges: {
     loading: false,
     data: [],
   },
-  projectTypes: {
+  challengeTypes: {
     loading: false,
     data: [],
   },

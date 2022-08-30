@@ -93,19 +93,19 @@
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="company.data.projectPostings.length"
-        title="Projekte"
+        v-if="company.data.challenges.length"
+        title="Challenges"
         :pink="true"
         :rows="true"
       >
         <ul class="list">
-          <li v-for="projectPosting in company.data.projectPostings" :key="projectPosting.id">
+          <li v-for="challenge in company.data.challenges" :key="challenge.id">
             <router-link
-              :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
+              :to="{ name: 'ChallengeDetail', params: { slug: challenge.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
-              {{ projectPosting.title }},
-              {{ projectPosting.projectType?.name }}
+              {{ challenge.title }},
+              {{ challenge.challengeType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>

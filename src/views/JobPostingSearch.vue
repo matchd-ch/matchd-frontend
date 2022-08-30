@@ -118,6 +118,7 @@ import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
+import { Routes } from "@/router";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
@@ -247,7 +248,7 @@ export default class JobPostingSearch extends Vue {
   }
 
   onClickResult(slug: string) {
-    this.$router.push({ name: "JobPostingDetail", params: { slug } });
+    this.$router.push({ name: Routes.JOB_POSTING_DETAIL, params: { slug } });
   }
 
   onChangeLayout(layout: string) {

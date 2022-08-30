@@ -1,3 +1,8 @@
+import {
+  ChallengeStore,
+  State as ChallengeState,
+  store as challenge,
+} from "@/store/modules/challenge";
 import { ContentStore, State as ContentState, store as content } from "@/store/modules/content";
 import {
   JobPostingStore,
@@ -6,11 +11,6 @@ import {
 } from "@/store/modules/jobposting";
 import { LoginStore, State as LoginState, store as login } from "@/store/modules/login";
 import { ProfileStore, State as ProfileState, store as profile } from "@/store/modules/profile";
-import {
-  ProjectPostingStore,
-  State as ProjectPostingState,
-  store as projectPosting,
-} from "@/store/modules/projectposting";
 import {
   RegistrationStore,
   State as RegistrationState,
@@ -31,7 +31,7 @@ export type RootState = {
   profile: ProfileState;
   upload: UploadState;
   jobPosting: JobPostingState;
-  projectPosting: ProjectPostingState;
+  challenge: ChallengeState;
   content: ContentState;
 };
 
@@ -40,7 +40,7 @@ export type Store = RegistrationStore<Pick<RootState, "registration">> &
   ProfileStore<Pick<RootState, "profile">> &
   UploadStore<Pick<RootState, "upload">> &
   JobPostingStore<Pick<RootState, "jobPosting">> &
-  ProjectPostingStore<Pick<RootState, "projectPosting">> &
+  ChallengeStore<Pick<RootState, "challenge">> &
   ContentStore<Pick<RootState, "content">>;
 
 // Plug in logger when in development environment
@@ -54,7 +54,7 @@ export const store = createStore<RootState>({
     profile,
     upload,
     jobPosting,
-    projectPosting,
+    challenge: challenge,
     content,
   },
   plugins,

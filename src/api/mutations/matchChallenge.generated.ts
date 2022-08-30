@@ -2,7 +2,7 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type MatchChallengeMutationVariables = Types.Exact<{
-  challengePosting: Types.ChallengeInput;
+  challenge: Types.ChallengeInput;
 }>;
 
 export type MatchChallengeMutation = {
@@ -25,7 +25,7 @@ export const MatchChallengeDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "challengePosting" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "challenge" } },
           type: {
             kind: "NonNullType",
             type: { kind: "NamedType", name: { kind: "Name", value: "ChallengeInput" } },
@@ -48,10 +48,7 @@ export const MatchChallengeDocument = {
                     {
                       kind: "ObjectField",
                       name: { kind: "Name", value: "challenge" },
-                      value: {
-                        kind: "Variable",
-                        name: { kind: "Name", value: "challengePosting" },
-                      },
+                      value: { kind: "Variable", name: { kind: "Name", value: "challenge" } },
                     },
                   ],
                 },

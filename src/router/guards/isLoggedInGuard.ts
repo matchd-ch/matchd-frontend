@@ -1,6 +1,7 @@
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { Routes } from "..";
 
 export async function isLoggedInGuard(
   to: RouteLocationNormalized,
@@ -11,13 +12,13 @@ export async function isLoggedInGuard(
   if (to.meta?.public && !store.getters["isLoggedIn"]) {
     next();
   } else if (!store.getters["isLoggedIn"] || store.getters["refreshToken"] === null) {
-    next({ name: "Login", query: { redirectUri: to.fullPath } });
+    next({ name: Routes.LOGIN, query: { redirectUri: to.fullPath } });
   } else {
     try {
       await store.dispatch(ActionTypes.ME);
       next();
     } catch (e) {
-      next({ name: "Login", query: { redirectUri: to.fullPath } });
+      next({ name: Routes.LOGIN, query: { redirectUri: to.fullPath } });
     }
   }
 }
