@@ -1,5 +1,5 @@
 <template>
-  <form v-if="profileData" @submit="veeForm.onSubmit">
+  <form v-if="profileData" @submit="onSubmit">
     <FormSaveError v-if="showError" />
     <p>
       Standardmässig ist dein Matchd-Profil auf «anonym» gestellt. Unternehmen und
@@ -27,7 +27,7 @@
             aria-hidden="true"
             class="pointer-events-none inline-block h-6 w-6 m-1 rounded-full bg-white ring-0 transition ease-in-out duration-200 translate-x-0"
             :class="isAnonymous ? 'translate-x-0' : 'translate-x-6'"
-          ></span>
+          />
         </button>
         <div
           class="grow text-right ml-8"
@@ -79,7 +79,7 @@
             type="button"
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
+            @click="emit('clickCancel')"
             >Abbrechen</MatchdButton
           >
           <MatchdButton
@@ -87,14 +87,14 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
             >Speichern</MatchdButton
           >
         </div>
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')"
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="emit('clickBack')"
         >Zurück</MatchdButton
       >
       <MatchdButton
@@ -102,121 +102,84 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
         >Speichern und weiter</MatchdButton
       >
     </template>
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { studentProfileStep6FormMapper } from "@/api/mappers/studentProfileStep6FormMapper";
 import { studentProfileStep6InputMapper } from "@/api/mappers/studentProfileStep6InputMapper";
 import { ProfileState } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdField from "@/components/MatchdField.vue";
-import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
-import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { OnboardingState } from "@/models/OnboardingState";
 import { StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { Field, useField, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { useField, useForm } from "vee-validate";
+import { computed, onMounted, watch } from "vue";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
+const props = withDefaults(
+  defineProps<{
+    edit: boolean;
+  }>(),
+  {
+    edit: false,
+  }
+);
 
-@Options({
-  components: {
-    Field,
-    FormSaveError,
-    MatchdButton,
-    MatchdField,
-    MatchdFileBlock,
-    MatchdFileUpload,
-    MatchdFileView,
-    NicknameSuggestions,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel", "clickBack"],
-})
-export default class StudentStep6 extends Vue.with(Props) {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<StudentProfileStep6Form>();
-    const { value: state } = useField<ProfileState>("state");
+const emit = defineEmits<{
+  (event: "submitComplete", success: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+  (event: "clickBack"): void;
+}>();
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.STUDENT_ONBOARDING_STEP6,
-          studentProfileStep6InputMapper(formData)
-        );
-        const onboardingState = store.getters["onboardingState"];
-        this.$emit("submitComplete", onboardingState.success);
-      } catch (e) {
-        console.log(e);
-      }
-    });
+const store = useStore();
+const veeForm = useForm<StudentProfileStep6Form>();
+const { value: state } = useField<ProfileState>("state");
 
-    return {
-      ...form,
-      onSubmit,
-      state,
-    };
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    await store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP6,
+      studentProfileStep6InputMapper(formData)
+    );
+    const onboardingState = store.getters["onboardingState"];
+    emit("submitComplete", onboardingState.success);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const showError = computed(() => !!onboardingState.value.errors);
+const onboardingState = computed(() => store.getters["onboardingState"]);
+const currentStep = computed(() => store.getters["profileStep"]);
+const isAnonymous = computed(() => state.value === ProfileState.Anonymous);
+const user = computed(() => store.getters["user"]);
+const profileData = computed(() =>
+  !user.value ? ({} as StudentProfileStep6Form) : studentProfileStep6FormMapper(user.value)
+);
+const onToggleUserState = () =>
+  (state.value = isAnonymous.value ? ProfileState.Public : ProfileState.Anonymous);
+
+onMounted(async () => {
+  veeForm.resetForm({
+    values: profileData.value,
   });
+  calculateMargins();
+});
 
-  get showError(): boolean {
-    return !!this.onboardingState.errors;
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
   }
-
-  get onboardingLoading(): boolean {
-    return this.$store.getters["onboardingLoading"];
-  }
-
-  get onboardingState(): OnboardingState {
-    return this.$store.getters["onboardingState"];
-  }
-
-  get currentStep(): number | undefined {
-    return this.$store.getters["profileStep"];
-  }
-
-  get isAnonymous(): boolean {
-    return this.veeForm.state === ProfileState.Anonymous;
-  }
-
-  get profileData(): StudentProfileStep6Form {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as StudentProfileStep6Form;
-    }
-    return studentProfileStep6FormMapper(user);
-  }
-
-  onToggleUserState(): void {
-    this.veeForm.state = this.isAnonymous ? ProfileState.Public : ProfileState.Anonymous;
-  }
-
-  async mounted(): Promise<void> {
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
-
-    calculateMargins();
-  }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+);
 </script>
 
 <style></style>
