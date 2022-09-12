@@ -108,13 +108,14 @@
             {{ challenge.data.employee?.lastName }}
           </h3>
           <p>
-            <span>{{ challenge.data.employee?.role }}</span>
+            <span>{{ challenge.data.employee?.role }}&nbsp;</span>
             <a
               :href="`mailto:${challenge.data.employee?.email}`"
               target="_blank"
               class="underline font-medium text-black hover:text-orange-1 transition-colors"
-              >{{ challenge.data.employee?.email }}</a
             >
+              {{ challenge.data.employee?.email }}
+            </a>
           </p>
         </router-link>
       </template>
