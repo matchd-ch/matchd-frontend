@@ -71,7 +71,7 @@ defineProps<{
   }
 
   & :deep(input:checked) + .matchd-toggle__slider {
-    @apply bg-primary-1;
+    @apply bg-green-1;
     & .matchd-toggle__slider-knob {
       @apply translate-x-6;
     }
