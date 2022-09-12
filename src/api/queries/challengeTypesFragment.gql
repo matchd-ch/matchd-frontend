@@ -1,0 +1,4 @@
+fragment challengeTypesChallengeType on ChallengeType {
+  id
+  name
+}

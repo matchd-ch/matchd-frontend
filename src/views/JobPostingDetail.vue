@@ -142,6 +142,7 @@ import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
+import { Routes } from "@/router";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
@@ -285,7 +286,7 @@ export default class JobPostingDetail extends Vue {
     this.showConfirmationModal = true;
   }
   detailSiteRoute(type: string) {
-    return type === ProfileType.University ? "UniversityDetail" : "CompanyDetail";
+    return type === ProfileType.University ? Routes.UNIVERSITY_DETAIL : Routes.COMPANY_DETAIL;
   }
 }
 </script>

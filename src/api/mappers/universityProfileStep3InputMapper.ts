@@ -6,7 +6,7 @@ export function universityProfileStep3InputMapper(
 ): UniversityProfileRelationsInput {
   return {
     linkEducation: universityProfileForm.linkEducation,
-    linkProjects: universityProfileForm.linkProjects,
+    linkChallenges: universityProfileForm.linkChallenges,
     linkThesis: universityProfileForm.linkThesis,
     services: universityProfileForm.services,
     branches: universityProfileForm.branches.map((branchId) => {

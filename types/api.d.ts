@@ -64,12 +64,12 @@ type AttachmentEdge = {
 
 /** An enumeration. */
 enum AttachmentKey {
+  ChallengeDocuments = "CHALLENGE_DOCUMENTS",
+  ChallengeFallback = "CHALLENGE_FALLBACK",
+  ChallengeImages = "CHALLENGE_IMAGES",
   CompanyAvatar = "COMPANY_AVATAR",
   CompanyAvatarFallback = "COMPANY_AVATAR_FALLBACK",
   CompanyDocuments = "COMPANY_DOCUMENTS",
-  ProjectPostingDocuments = "PROJECT_POSTING_DOCUMENTS",
-  ProjectPostingFallback = "PROJECT_POSTING_FALLBACK",
-  ProjectPostingImages = "PROJECT_POSTING_IMAGES",
   StudentAvatar = "STUDENT_AVATAR",
   StudentAvatarFallback = "STUDENT_AVATAR_FALLBACK",
   StudentDocuments = "STUDENT_DOCUMENTS",
@@ -168,10 +168,166 @@ type BranchInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+type Challenge = Node & {
+  __typename?: "Challenge";
+  avatarUrl?: Maybe<Scalars["String"]>;
+  challengeFromDate?: Maybe<Scalars["Date"]>;
+  challengeType: ChallengeType;
+  company?: Maybe<Company>;
+  compensation?: Maybe<Scalars["String"]>;
+  dateCreated?: Maybe<Scalars["Date"]>;
+  datePublished?: Maybe<Scalars["Date"]>;
+  description: Scalars["String"];
+  displayTitle: Scalars["String"];
+  employee?: Maybe<Employee>;
+  formStep: Scalars["Int"];
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  keywords?: Maybe<Array<Keyword>>;
+  matchHints?: Maybe<MatchHints>;
+  matchStatus?: Maybe<MatchStatus>;
+  slug: Scalars["String"];
+  state: ChallengeState;
+  student?: Maybe<Student>;
+  teamSize?: Maybe<Scalars["Int"]>;
+  title: Scalars["String"];
+  website: Scalars["String"];
+};
+
+type ChallengeAllocationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  employee?: InputMaybe<EmployeeInput>;
+  id?: InputMaybe<Scalars["String"]>;
+  /** State */
+  state: Scalars["String"];
+};
+
+/** Updates a challenge */
+type ChallengeAllocationPayload = {
+  __typename?: "ChallengeAllocationPayload";
+  challengeId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type ChallengeBaseDataInput = {
+  challengeType: ChallengeTypeInput;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** Compensation */
+  compensation: Scalars["String"];
+  /** Description */
+  description: Scalars["String"];
+  id?: InputMaybe<Scalars["String"]>;
+  keywords: Array<InputMaybe<KeywordInput>>;
+  /** Team size */
+  teamSize: Scalars["Int"];
+  /** Title */
+  title: Scalars["String"];
+};
+
+/** Creates a challenge */
+type ChallengeBaseDataPayload = {
+  __typename?: "ChallengeBaseDataPayload";
+  challengeId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type ChallengeConnection = {
+  __typename?: "ChallengeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ChallengeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `Challenge` and its cursor. */
+type ChallengeEdge = {
+  __typename?: "ChallengeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<Challenge>;
+};
+
+type ChallengeInput = {
+  id: Scalars["String"];
+};
+
+type ChallengeMatchInfo = Node & {
+  __typename?: "ChallengeMatchInfo";
+  challenge: Challenge;
+  company?: Maybe<Company>;
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  student?: Maybe<Student>;
+};
+
+type ChallengeMatchingInput = {
+  challenge: ChallengeInput;
+};
+
+type ChallengeSpecificDataInput = {
+  challengeFromDate?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
+  website?: InputMaybe<Scalars["String"]>;
+};
+
+/** Creates a challenge */
+type ChallengeSpecificDataPayload = {
+  __typename?: "ChallengeSpecificDataPayload";
+  challengeId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  slug?: Maybe<Scalars["String"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+/** An enumeration. */
+enum ChallengeState {
+  Draft = "DRAFT",
+  Public = "PUBLIC",
+}
+
+type ChallengeType = Node & {
+  __typename?: "ChallengeType";
+  /** The ID of the object. */
+  id: Scalars["ID"];
+  name: Scalars["String"];
+};
+
+type ChallengeTypeConnection = {
+  __typename?: "ChallengeTypeConnection";
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<ChallengeTypeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `ChallengeType` and its cursor. */
+type ChallengeTypeEdge = {
+  __typename?: "ChallengeTypeEdge";
+  /** A cursor for use in pagination */
+  cursor: Scalars["String"];
+  /** The item at the end of the edge */
+  node?: Maybe<ChallengeType>;
+};
+
+type ChallengeTypeInput = {
+  id: Scalars["String"];
+  name?: InputMaybe<Scalars["String"]>;
+};
+
 type Company = Node & {
   __typename?: "Company";
   benefits: BenefitConnection;
   branches: BranchConnection;
+  challenges: Array<Challenge>;
   city: Scalars["String"];
   culturalFits?: Maybe<Array<CulturalFit>>;
   description: Scalars["String"];
@@ -180,14 +336,13 @@ type Company = Node & {
   /** The ID of the object. */
   id: Scalars["ID"];
   jobPostings: Array<JobPosting>;
+  linkChallenges?: Maybe<Scalars["String"]>;
   linkEducation?: Maybe<Scalars["String"]>;
-  linkProjects?: Maybe<Scalars["String"]>;
   linkThesis?: Maybe<Scalars["String"]>;
   memberItStGallen: Scalars["Boolean"];
   name: Scalars["String"];
   phone: Scalars["String"];
   profileStep: Scalars["Int"];
-  projectPostings: Array<ProjectPosting>;
   services: Scalars["String"];
   slug: Scalars["String"];
   softSkills?: Maybe<Array<SoftSkill>>;
@@ -345,12 +500,12 @@ type CulturalFitInput = {
 
 type Dashboard = {
   __typename?: "Dashboard";
+  challengeMatches?: Maybe<Array<ChallengeMatchInfo>>;
+  challenges?: Maybe<Array<Challenge>>;
   confirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
   jobPostings?: Maybe<Array<JobPosting>>;
+  latestChallenges?: Maybe<Array<Challenge>>;
   latestJobPostings?: Maybe<Array<JobPosting>>;
-  latestProjectPostings?: Maybe<Array<ProjectPosting>>;
-  projectMatches?: Maybe<Array<ProjectPostingMatchInfo>>;
-  projectPostings?: Maybe<Array<ProjectPosting>>;
   requestedMatches?: Maybe<Array<JobPostingMatchInfo>>;
   unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
 };
@@ -762,6 +917,20 @@ type Match = {
   type: MatchType;
 };
 
+type MatchChallengeInput = {
+  challenge: ChallengeInput;
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+};
+
+/** Initiate or confirm Matching */
+type MatchChallengePayload = {
+  __typename?: "MatchChallengePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  confirmed: Scalars["Boolean"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 type MatchHints = {
   __typename?: "MatchHints";
   hasConfirmedMatch: Scalars["Boolean"];
@@ -776,20 +945,6 @@ type MatchJobPostingInput = {
 /** Initiate or confirm Matching */
 type MatchJobPostingPayload = {
   __typename?: "MatchJobPostingPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  confirmed: Scalars["Boolean"];
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-type MatchProjectPostingInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  projectPosting: ProjectPostingInput;
-};
-
-/** Initiate or confirm Matching */
-type MatchProjectPostingPayload = {
-  __typename?: "MatchProjectPostingPayload";
   clientMutationId?: Maybe<Scalars["String"]>;
   confirmed: Scalars["Boolean"];
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
@@ -819,9 +974,9 @@ type MatchStudentPayload = {
 
 /** An enumeration. */
 enum MatchType {
+  Challenge = "CHALLENGE",
   Company = "COMPANY",
   JobPosting = "JOB_POSTING",
-  ProjectPosting = "PROJECT_POSTING",
   Student = "STUDENT",
   University = "UNIVERSITY",
 }
@@ -830,6 +985,12 @@ type Mutation = {
   __typename?: "Mutation";
   /** Adds a new emplyoee to a company */
   addEmployee?: Maybe<AddEmployeePayload>;
+  /** Updates a challenge */
+  challengeAllocation?: Maybe<ChallengeAllocationPayload>;
+  /** Creates a challenge */
+  challengeBaseData?: Maybe<ChallengeBaseDataPayload>;
+  /** Creates a challenge */
+  challengeSpecificData?: Maybe<ChallengeSpecificDataPayload>;
   /** Updates the Company Profile with benefits and branches */
   companyProfileAdvantages?: Maybe<CompanyProfileAdvantagesPayload>;
   /** Updates the profile of a Company */
@@ -849,9 +1010,9 @@ type Mutation = {
   jobPostingRequirements?: Maybe<JobPostingRequirementsPayload>;
   logout?: Maybe<Scalars["Boolean"]>;
   /** Initiate or confirm Matching */
-  matchJobPosting?: Maybe<MatchJobPostingPayload>;
+  matchChallenge?: Maybe<MatchChallengePayload>;
   /** Initiate or confirm Matching */
-  matchProjectPosting?: Maybe<MatchProjectPostingPayload>;
+  matchJobPosting?: Maybe<MatchJobPostingPayload>;
   /** Initiate or confirm Matching */
   matchStudent?: Maybe<MatchStudentPayload>;
   /**
@@ -872,12 +1033,6 @@ type Mutation = {
    * Also, if user has not been verified yet, verify it.
    */
   passwordReset?: Maybe<PasswordReset>;
-  /** Updates a project posting */
-  projectPostingAllocation?: Maybe<ProjectPostingAllocationPayload>;
-  /** Creates a project posting */
-  projectPostingBaseData?: Maybe<ProjectPostingBaseDataPayload>;
-  /** Creates a project posting */
-  projectPostingSpecificData?: Maybe<ProjectPostingSpecificDataPayload>;
   /** Same as `grapgql_jwt` implementation, with standard output. */
   refreshToken?: Maybe<RefreshToken>;
   /** Creates a new user with company */
@@ -965,6 +1120,18 @@ type MutationAddEmployeeArgs = {
   input: AddEmployeeInput;
 };
 
+type MutationChallengeAllocationArgs = {
+  input: ChallengeAllocationInput;
+};
+
+type MutationChallengeBaseDataArgs = {
+  input: ChallengeBaseDataInput;
+};
+
+type MutationChallengeSpecificDataArgs = {
+  input: ChallengeSpecificDataInput;
+};
+
 type MutationCompanyProfileAdvantagesArgs = {
   input: CompanyProfileAdvantagesInput;
 };
@@ -1001,12 +1168,12 @@ type MutationJobPostingRequirementsArgs = {
   input: JobPostingRequirementsInput;
 };
 
-type MutationMatchJobPostingArgs = {
-  input: MatchJobPostingInput;
+type MutationMatchChallengeArgs = {
+  input: MatchChallengeInput;
 };
 
-type MutationMatchProjectPostingArgs = {
-  input: MatchProjectPostingInput;
+type MutationMatchJobPostingArgs = {
+  input: MatchJobPostingInput;
 };
 
 type MutationMatchStudentArgs = {
@@ -1023,18 +1190,6 @@ type MutationPasswordResetArgs = {
   newPassword1: Scalars["String"];
   newPassword2: Scalars["String"];
   token: Scalars["String"];
-};
-
-type MutationProjectPostingAllocationArgs = {
-  input: ProjectPostingAllocationInput;
-};
-
-type MutationProjectPostingBaseDataArgs = {
-  input: ProjectPostingBaseDataInput;
-};
-
-type MutationProjectPostingSpecificDataArgs = {
-  input: ProjectPostingSpecificDataInput;
 };
 
 type MutationRefreshTokenArgs = {
@@ -1175,14 +1330,14 @@ type ObtainJsonWebToken = {
   user?: Maybe<UserNode>;
 };
 
-type OnlineProject = Node & {
-  __typename?: "OnlineProject";
+type OnlineChallenge = Node & {
+  __typename?: "OnlineChallenge";
   /** The ID of the object. */
   id: Scalars["ID"];
   url: Scalars["String"];
 };
 
-type OnlineProjectInput = {
+type OnlineChallengeInput = {
   id?: InputMaybe<Scalars["String"]>;
   url?: InputMaybe<Scalars["String"]>;
 };
@@ -1248,166 +1403,14 @@ enum ProfileType {
   University = "UNIVERSITY",
 }
 
-type ProjectPosting = Node & {
-  __typename?: "ProjectPosting";
-  avatarUrl?: Maybe<Scalars["String"]>;
-  company?: Maybe<Company>;
-  compensation?: Maybe<Scalars["String"]>;
-  dateCreated?: Maybe<Scalars["Date"]>;
-  datePublished?: Maybe<Scalars["Date"]>;
-  description: Scalars["String"];
-  displayTitle: Scalars["String"];
-  employee?: Maybe<Employee>;
-  formStep: Scalars["Int"];
-  /** The ID of the object. */
-  id: Scalars["ID"];
-  keywords?: Maybe<Array<Keyword>>;
-  matchHints?: Maybe<MatchHints>;
-  matchStatus?: Maybe<MatchStatus>;
-  projectFromDate?: Maybe<Scalars["Date"]>;
-  projectType: ProjectType;
-  slug: Scalars["String"];
-  state: ProjectPostingState;
-  student?: Maybe<Student>;
-  teamSize?: Maybe<Scalars["Int"]>;
-  title: Scalars["String"];
-  website: Scalars["String"];
-};
-
-type ProjectPostingAllocationInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  employee?: InputMaybe<EmployeeInput>;
-  id?: InputMaybe<Scalars["String"]>;
-  /** State */
-  state: Scalars["String"];
-};
-
-/** Updates a project posting */
-type ProjectPostingAllocationPayload = {
-  __typename?: "ProjectPostingAllocationPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-type ProjectPostingBaseDataInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  /** Compensation */
-  compensation: Scalars["String"];
-  /** Description */
-  description: Scalars["String"];
-  id?: InputMaybe<Scalars["String"]>;
-  keywords: Array<InputMaybe<KeywordInput>>;
-  projectType: ProjectTypeInput;
-  /** Team size */
-  teamSize: Scalars["Int"];
-  /** Title */
-  title: Scalars["String"];
-};
-
-/** Creates a project posting */
-type ProjectPostingBaseDataPayload = {
-  __typename?: "ProjectPostingBaseDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-type ProjectPostingConnection = {
-  __typename?: "ProjectPostingConnection";
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<ProjectPostingEdge>>;
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-};
-
-/** A Relay edge containing a `ProjectPosting` and its cursor. */
-type ProjectPostingEdge = {
-  __typename?: "ProjectPostingEdge";
-  /** A cursor for use in pagination */
-  cursor: Scalars["String"];
-  /** The item at the end of the edge */
-  node?: Maybe<ProjectPosting>;
-};
-
-type ProjectPostingInput = {
-  id: Scalars["String"];
-};
-
-type ProjectPostingMatchInfo = Node & {
-  __typename?: "ProjectPostingMatchInfo";
-  company?: Maybe<Company>;
-  /** The ID of the object. */
-  id: Scalars["ID"];
-  projectPosting: ProjectPosting;
-  student?: Maybe<Student>;
-};
-
-type ProjectPostingMatchingInput = {
-  projectPosting: ProjectPostingInput;
-};
-
-type ProjectPostingSpecificDataInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["String"]>;
-  projectFromDate?: InputMaybe<Scalars["String"]>;
-  website?: InputMaybe<Scalars["String"]>;
-};
-
-/** Creates a project posting */
-type ProjectPostingSpecificDataPayload = {
-  __typename?: "ProjectPostingSpecificDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  projectPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-};
-
-/** An enumeration. */
-enum ProjectPostingState {
-  Draft = "DRAFT",
-  Public = "PUBLIC",
-}
-
-type ProjectType = Node & {
-  __typename?: "ProjectType";
-  /** The ID of the object. */
-  id: Scalars["ID"];
-  name: Scalars["String"];
-};
-
-type ProjectTypeConnection = {
-  __typename?: "ProjectTypeConnection";
-  /** Contains the nodes in this connection. */
-  edges: Array<Maybe<ProjectTypeEdge>>;
-  /** Pagination data for this connection. */
-  pageInfo: PageInfo;
-};
-
-/** A Relay edge containing a `ProjectType` and its cursor. */
-type ProjectTypeEdge = {
-  __typename?: "ProjectTypeEdge";
-  /** A cursor for use in pagination */
-  cursor: Scalars["String"];
-  /** The item at the end of the edge */
-  node?: Maybe<ProjectType>;
-};
-
-type ProjectTypeInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
-};
-
 type Query = {
   __typename?: "Query";
   attachments?: Maybe<AttachmentConnection>;
   benefits?: Maybe<BenefitConnectionsConnection>;
   branches?: Maybe<BranchConnectionsConnection>;
+  challenge?: Maybe<Challenge>;
+  challengeTypes?: Maybe<ChallengeTypeConnection>;
+  challenges?: Maybe<ChallengeConnection>;
   company?: Maybe<Company>;
   culturalFits?: Maybe<CulturalFitConnectionsConnection>;
   dashboard?: Maybe<Dashboard>;
@@ -1422,9 +1425,6 @@ type Query = {
   matches?: Maybe<Array<Maybe<Match>>>;
   me?: Maybe<User>;
   node?: Maybe<Node>;
-  projectPosting?: Maybe<ProjectPosting>;
-  projectPostings?: Maybe<ProjectPostingConnection>;
-  projectTypes?: Maybe<ProjectTypeConnection>;
   skills?: Maybe<SkillConnectionsConnection>;
   softSkills?: Maybe<SoftSkillConnectionsConnection>;
   student?: Maybe<Student>;
@@ -1456,6 +1456,34 @@ type QueryBranchesArgs = {
   before?: InputMaybe<Scalars["String"]>;
   first?: InputMaybe<Scalars["Int"]>;
   last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryChallengeArgs = {
+  id?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars["String"]>;
+};
+
+type QueryChallengeTypesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+};
+
+type QueryChallengesArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  challengeFromDate?: InputMaybe<Scalars["Date"]>;
+  challengeTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  datePublished?: InputMaybe<Scalars["Date"]>;
+  filterCompanyChallenges?: InputMaybe<Scalars["Boolean"]>;
+  filterTalentChallenges?: InputMaybe<Scalars["Boolean"]>;
+  filterUniversityChallenges?: InputMaybe<Scalars["Boolean"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  last?: InputMaybe<Scalars["Int"]>;
+  teamSize?: InputMaybe<Scalars["Int"]>;
+  textSearch?: InputMaybe<Scalars["String"]>;
 };
 
 type QueryCompanyArgs = {
@@ -1526,9 +1554,9 @@ type QueryLanguagesArgs = {
 };
 
 type QueryMatchesArgs = {
+  challengeMatching?: InputMaybe<ChallengeMatchingInput>;
   first?: InputMaybe<Scalars["Int"]>;
   jobPostingMatching?: InputMaybe<JobPostingMatchingInput>;
-  projectPostingMatching?: InputMaybe<ProjectPostingMatchingInput>;
   skip?: InputMaybe<Scalars["Int"]>;
   softBoost?: InputMaybe<Scalars["Int"]>;
   studentMatching?: InputMaybe<StudentMatchingInput>;
@@ -1537,34 +1565,6 @@ type QueryMatchesArgs = {
 
 type QueryNodeArgs = {
   id: Scalars["ID"];
-};
-
-type QueryProjectPostingArgs = {
-  id?: InputMaybe<Scalars["String"]>;
-  slug?: InputMaybe<Scalars["String"]>;
-};
-
-type QueryProjectPostingsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  datePublished?: InputMaybe<Scalars["Date"]>;
-  filterCompanyProjects?: InputMaybe<Scalars["Boolean"]>;
-  filterTalentProjects?: InputMaybe<Scalars["Boolean"]>;
-  filterUniversityProjects?: InputMaybe<Scalars["Boolean"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  last?: InputMaybe<Scalars["Int"]>;
-  projectFromDate?: InputMaybe<Scalars["Date"]>;
-  projectTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  teamSize?: InputMaybe<Scalars["Int"]>;
-  textSearch?: InputMaybe<Scalars["String"]>;
-};
-
-type QueryProjectTypesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
 };
 
 type QuerySkillsArgs = {
@@ -1769,6 +1769,7 @@ type SoftSkillInput = {
 type Student = Node & {
   __typename?: "Student";
   branch?: Maybe<Branch>;
+  challenges: Array<Challenge>;
   city?: Maybe<Scalars["String"]>;
   culturalFits: CulturalFitConnection;
   dateOfBirth?: Maybe<Scalars["String"]>;
@@ -1789,9 +1790,8 @@ type Student = Node & {
   matchStatus?: Maybe<MatchStatus>;
   mobile?: Maybe<Scalars["String"]>;
   nickname?: Maybe<Scalars["String"]>;
-  onlineProjects?: Maybe<Array<OnlineProject>>;
+  onlineChallenges?: Maybe<Array<OnlineChallenge>>;
   profileStep: Scalars["Int"];
-  projectPostings: Array<ProjectPosting>;
   schoolName?: Maybe<Scalars["String"]>;
   skills: SkillConnection;
   slug: Scalars["String"];
@@ -1849,8 +1849,8 @@ type StudentProfileAbilitiesInput = {
   hobbies?: InputMaybe<Array<InputMaybe<HobbyInput>>>;
   /** Languages */
   languages: Array<InputMaybe<UserLanguageRelationInput>>;
-  /** Online_Projects */
-  onlineProjects?: InputMaybe<Array<InputMaybe<OnlineProjectInput>>>;
+  /** Online_Challenges */
+  onlineChallenges?: InputMaybe<Array<InputMaybe<OnlineChallengeInput>>>;
   /** Skills */
   skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
 };
@@ -1988,10 +1988,10 @@ type UniversityProfileRelationsInput = {
   /** Branches */
   branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
+  /** website challenges */
+  linkChallenges?: InputMaybe<Scalars["String"]>;
   /** website education */
   linkEducation?: InputMaybe<Scalars["String"]>;
-  /** website projects */
-  linkProjects?: InputMaybe<Scalars["String"]>;
   /** website thesis */
   linkThesis?: InputMaybe<Scalars["String"]>;
   /** services */
@@ -2204,10 +2204,10 @@ enum UserType {
 }
 
 type UserUploadInput = {
+  challenge?: InputMaybe<ChallengeInput>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
   file: Scalars["Upload"];
   key: AttachmentKey;
-  projectPosting?: InputMaybe<ProjectPostingInput>;
 };
 
 type UserUploadPayload = {
@@ -2246,6 +2246,30 @@ declare module "*/addEmployee.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const addEmployee: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challengeAllocation.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challengeAllocation: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challengeBaseData.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challengeBaseData: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challengeSpecificData.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challengeSpecificData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2330,18 +2354,18 @@ declare module "*/logout.gql" {
   export default defaultDocument;
 }
 
-declare module "*/matchJobPosting.gql" {
+declare module "*/matchChallenge.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
-  export const matchJobPosting: DocumentNode;
+  export const matchChallenge: DocumentNode;
 
   export default defaultDocument;
 }
 
-declare module "*/matchProjectPosting.gql" {
+declare module "*/matchJobPosting.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
-  export const matchProjectPosting: DocumentNode;
+  export const matchJobPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2366,30 +2390,6 @@ declare module "*/passwordReset.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const passwordReset: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectPostingAllocation.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectPostingAllocation: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectPostingBaseData.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectPostingBaseData: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectPostingSpecificData.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectPostingSpecificData: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2538,10 +2538,10 @@ declare module "*/upload.gql" {
   export default defaultDocument;
 }
 
-declare module "*/uploadProjectPosting.gql" {
+declare module "*/uploadChallenge.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
-  export const uploadProjectPosting: DocumentNode;
+  export const uploadChallenge: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2570,10 +2570,10 @@ declare module "*/attachments.gql" {
   export default defaultDocument;
 }
 
-declare module "*/attachmentsProjectPosting.gql" {
+declare module "*/attachmentsChallenge.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
-  export const attachmentsProjectPosting: DocumentNode;
+  export const attachmentsChallenge: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2590,6 +2590,65 @@ declare module "*/branches.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const branches: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challenge.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challenge: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challengeFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challengeChallenge: DocumentNode;
+  export const challengeImage: DocumentNode;
+  export const challengeImageFallback: DocumentNode;
+  export const challengeDocument: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challengePublic.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challengePublic: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challengeTypes.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challengeTypes: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challengeTypesFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challengeTypesChallengeType: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challenges.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challenges: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/challengesFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const challengesChallenge: DocumentNode;
 
   export default defaultDocument;
 }
@@ -2738,65 +2797,6 @@ declare module "*/me.gql" {
   export default defaultDocument;
 }
 
-declare module "*/projectPosting.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectPosting: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectPostingFragment.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectPostingProjectPosting: DocumentNode;
-  export const projectPostingImage: DocumentNode;
-  export const projectPostingImageFallback: DocumentNode;
-  export const projectPostingDocument: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectPostingPublic.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectPostingPublic: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectPostings.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectPostings: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectPostingsFragment.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectPostingsProjectPosting: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectTypes.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectTypes: DocumentNode;
-
-  export default defaultDocument;
-}
-
-declare module "*/projectTypesFragment.gql" {
-  import { DocumentNode } from "graphql";
-  const defaultDocument: DocumentNode;
-  export const projectTypesProjectType: DocumentNode;
-
-  export default defaultDocument;
-}
-
 declare module "*/skills.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -2872,6 +2872,131 @@ declare module "*/zipCityJobs.gql" {
   export default defaultDocument;
 }
 
+export const ChallengeChallenge = gql`
+  fragment challengeChallenge on Challenge {
+    id
+    slug
+    title
+    displayTitle
+    description
+    teamSize
+    compensation
+    formStep
+    state
+    challengeFromDate
+    datePublished
+    website
+    matchStatus {
+      initiator
+      confirmed
+    }
+    keywords {
+      id
+      name
+    }
+    challengeType {
+      id
+      name
+    }
+    keywords {
+      id
+      name
+    }
+    company {
+      id
+      slug
+      name
+      street
+      zip
+      city
+    }
+    student {
+      id
+      slug
+      firstName
+      lastName
+      nickname
+      city
+    }
+    employee {
+      id
+      firstName
+      lastName
+      email
+      phone
+      role
+    }
+  }
+`;
+export const ChallengeImage = gql`
+  fragment challengeImage on Attachment {
+    id
+    fileName
+    url
+    mimeType
+  }
+`;
+export const ChallengeImageFallback = gql`
+  fragment challengeImageFallback on Attachment {
+    id
+    fileName
+    url
+    mimeType
+  }
+`;
+export const ChallengeDocument = gql`
+  fragment challengeDocument on Attachment {
+    id
+    fileName
+    url
+    mimeType
+  }
+`;
+export const ChallengeTypesChallengeType = gql`
+  fragment challengeTypesChallengeType on ChallengeType {
+    id
+    name
+  }
+`;
+export const ChallengesChallenge = gql`
+  fragment challengesChallenge on Challenge {
+    id
+    title
+    slug
+    challengeType {
+      id
+      name
+    }
+    keywords {
+      id
+      name
+    }
+    description
+    teamSize
+    compensation
+    website
+    challengeFromDate
+    employee {
+      id
+      firstName
+      lastName
+      role
+      email
+      phone
+    }
+    student {
+      id
+    }
+    company {
+      id
+    }
+    formStep
+    state
+    dateCreated
+    datePublished
+    avatarUrl
+  }
+`;
 export const EmployeesEmployee = gql`
   fragment employeesEmployee on Employee {
     id
@@ -2962,131 +3087,6 @@ export const KeywordsKeyword = gql`
     name
   }
 `;
-export const ProjectPostingProjectPosting = gql`
-  fragment projectPostingProjectPosting on ProjectPosting {
-    id
-    slug
-    title
-    displayTitle
-    description
-    teamSize
-    compensation
-    formStep
-    state
-    projectFromDate
-    datePublished
-    website
-    matchStatus {
-      initiator
-      confirmed
-    }
-    keywords {
-      id
-      name
-    }
-    projectType {
-      id
-      name
-    }
-    keywords {
-      id
-      name
-    }
-    company {
-      id
-      slug
-      name
-      street
-      zip
-      city
-    }
-    student {
-      id
-      slug
-      firstName
-      lastName
-      nickname
-      city
-    }
-    employee {
-      id
-      firstName
-      lastName
-      email
-      phone
-      role
-    }
-  }
-`;
-export const ProjectPostingImage = gql`
-  fragment projectPostingImage on Attachment {
-    id
-    fileName
-    url
-    mimeType
-  }
-`;
-export const ProjectPostingImageFallback = gql`
-  fragment projectPostingImageFallback on Attachment {
-    id
-    fileName
-    url
-    mimeType
-  }
-`;
-export const ProjectPostingDocument = gql`
-  fragment projectPostingDocument on Attachment {
-    id
-    fileName
-    url
-    mimeType
-  }
-`;
-export const ProjectPostingsProjectPosting = gql`
-  fragment projectPostingsProjectPosting on ProjectPosting {
-    id
-    title
-    slug
-    projectType {
-      id
-      name
-    }
-    keywords {
-      id
-      name
-    }
-    description
-    teamSize
-    compensation
-    website
-    projectFromDate
-    employee {
-      id
-      firstName
-      lastName
-      role
-      email
-      phone
-    }
-    student {
-      id
-    }
-    company {
-      id
-    }
-    formStep
-    state
-    dateCreated
-    datePublished
-    avatarUrl
-  }
-`;
-export const ProjectTypesProjectType = gql`
-  fragment projectTypesProjectType on ProjectType {
-    id
-    name
-  }
-`;
 export const StudentStudent = gql`
   fragment studentStudent on Student {
     id
@@ -3151,7 +3151,7 @@ export const StudentStudent = gql`
       id
       name
     }
-    onlineProjects {
+    onlineChallenges {
       id
       url
     }
@@ -3170,7 +3170,7 @@ export const StudentStudent = gql`
         }
       }
     }
-    projectPostings {
+    challenges {
       id
       title
       displayTitle
@@ -3179,7 +3179,7 @@ export const StudentStudent = gql`
         id
         name
       }
-      projectType {
+      challengeType {
         id
         name
       }
@@ -3227,6 +3227,36 @@ const AddEmployee = gql`
         lastName
         email
       }
+    }
+  }
+`;
+const ChallengeAllocation = gql`
+  mutation challengeAllocation($input: ChallengeAllocationInput!) {
+    challengeAllocation(input: $input) {
+      success
+      errors
+      challengeId
+      slug
+    }
+  }
+`;
+const ChallengeBaseData = gql`
+  mutation challengeBaseData($input: ChallengeBaseDataInput!) {
+    challengeBaseData(input: $input) {
+      success
+      errors
+      challengeId
+      slug
+    }
+  }
+`;
+const ChallengeSpecificData = gql`
+  mutation challengeSpecificData($input: ChallengeSpecificDataInput!) {
+    challengeSpecificData(input: $input) {
+      success
+      errors
+      challengeId
+      slug
     }
   }
 `;
@@ -3313,18 +3343,18 @@ const Logout = gql`
     logout
   }
 `;
-const MatchJobPosting = gql`
-  mutation matchJobPosting($jobPosting: JobPostingInput!) {
-    matchJobPosting(input: { jobPosting: $jobPosting }) {
+const MatchChallenge = gql`
+  mutation matchChallenge($challenge: ChallengeInput!) {
+    matchChallenge(input: { challenge: $challenge }) {
       success
       errors
       confirmed
     }
   }
 `;
-const MatchProjectPosting = gql`
-  mutation matchProjectPosting($projectPosting: ProjectPostingInput!) {
-    matchProjectPosting(input: { projectPosting: $projectPosting }) {
+const MatchJobPosting = gql`
+  mutation matchJobPosting($jobPosting: JobPostingInput!) {
+    matchJobPosting(input: { jobPosting: $jobPosting }) {
       success
       errors
       confirmed
@@ -3357,36 +3387,6 @@ const PasswordReset = gql`
     passwordReset(token: $token, newPassword1: $password, newPassword2: $password) {
       success
       errors
-    }
-  }
-`;
-const ProjectPostingAllocation = gql`
-  mutation projectPostingAllocation($input: ProjectPostingAllocationInput!) {
-    projectPostingAllocation(input: $input) {
-      success
-      errors
-      projectPostingId
-      slug
-    }
-  }
-`;
-const ProjectPostingBaseData = gql`
-  mutation projectPostingBaseData($input: ProjectPostingBaseDataInput!) {
-    projectPostingBaseData(input: $input) {
-      success
-      errors
-      projectPostingId
-      slug
-    }
-  }
-`;
-const ProjectPostingSpecificData = gql`
-  mutation projectPostingSpecificData($input: ProjectPostingSpecificDataInput!) {
-    projectPostingSpecificData(input: $input) {
-      success
-      errors
-      projectPostingId
-      slug
     }
   }
 `;
@@ -3579,9 +3579,9 @@ const Upload = gql`
     }
   }
 `;
-const UploadProjectPosting = gql`
-  mutation uploadProjectPosting($file: Upload!, $key: AttachmentKey!, $projectPostingId: String!) {
-    upload(input: { file: $file, key: $key, projectPosting: { id: $projectPostingId } }) {
+const UploadChallenge = gql`
+  mutation uploadChallenge($file: Upload!, $key: AttachmentKey!, $challengeId: String!) {
+    upload(input: { file: $file, key: $key, challenge: { id: $challengeId } }) {
       success
       errors
     }
@@ -3618,8 +3618,8 @@ const Attachments = gql`
     }
   }
 `;
-const AttachmentsProjectPosting = gql`
-  query attachmentsProjectPosting($key: AttachmentKey!, $id: String!) {
+const AttachmentsChallenge = gql`
+  query attachmentsChallenge($key: AttachmentKey!, $id: String!) {
     attachments(key: $key, id: $id, first: 100) {
       edges {
         node {
@@ -3658,6 +3658,85 @@ const Branches = gql`
     }
   }
 `;
+const Challenge = gql`
+  query challenge($id: String, $slug: String) {
+    challenge(id: $id, slug: $slug) {
+      ...challengeChallenge
+    }
+    images: attachments(key: CHALLENGE_IMAGES, slug: $slug, first: 100) {
+      edges {
+        node {
+          ...challengeImage
+        }
+      }
+    }
+    imageFallback: attachments(key: CHALLENGE_FALLBACK, slug: $slug, first: 100) {
+      edges {
+        node {
+          ...challengeImageFallback
+        }
+      }
+    }
+    documents: attachments(key: CHALLENGE_DOCUMENTS, slug: $slug, first: 100) {
+      edges {
+        node {
+          ...challengeDocument
+        }
+      }
+    }
+  }
+  ${ChallengeChallenge}
+  ${ChallengeImage}
+  ${ChallengeImageFallback}
+  ${ChallengeDocument}
+`;
+const ChallengePublic = gql`
+  query challengePublic($id: String, $slug: String) {
+    challenge(id: $id, slug: $slug) {
+      ...challengeChallenge
+    }
+  }
+  ${ChallengeChallenge}
+`;
+const ChallengeTypes = gql`
+  query challengeTypes {
+    challengeTypes(first: 100) {
+      edges {
+        node {
+          ...challengeTypesChallengeType
+        }
+      }
+    }
+  }
+  ${ChallengeTypesChallengeType}
+`;
+const Challenges = gql`
+  query challenges(
+    $textSearch: String
+    $challengeTypeIds: [String]
+    $keywordIds: [String]
+    $filterTalentChallenges: Boolean
+    $filterCompanyChallenges: Boolean
+    $filterUniversityChallenges: Boolean
+  ) {
+    challenges(
+      first: 1000
+      textSearch: $textSearch
+      challengeTypeIds: $challengeTypeIds
+      keywordIds: $keywordIds
+      filterTalentChallenges: $filterTalentChallenges
+      filterCompanyChallenges: $filterCompanyChallenges
+      filterUniversityChallenges: $filterUniversityChallenges
+    ) {
+      edges {
+        node {
+          ...challengesChallenge
+        }
+      }
+    }
+  }
+  ${ChallengesChallenge}
+`;
 const Company = gql`
   query company($slug: String) {
     company(slug: $slug) {
@@ -3672,7 +3751,7 @@ const Company = gql`
       phone
       website
       linkEducation
-      linkProjects
+      linkChallenges
       linkThesis
       topLevelOrganisationDescription
       topLevelOrganisationWebsite
@@ -3710,7 +3789,7 @@ const Company = gql`
         }
         slug
       }
-      projectPostings {
+      challenges {
         id
         title
         displayTitle
@@ -3719,7 +3798,7 @@ const Company = gql`
           id
           name
         }
-        projectType {
+        challengeType {
           id
           name
         }
@@ -3789,7 +3868,7 @@ const CulturalFits = gql`
 const Dashboard = gql`
   query dashboard {
     dashboard {
-      projectPostings {
+      challenges {
         id
         title
         displayTitle
@@ -3801,7 +3880,7 @@ const Dashboard = gql`
           id
           name
         }
-        projectType {
+        challengeType {
           id
           name
         }
@@ -3835,7 +3914,7 @@ const Dashboard = gql`
           zip
         }
       }
-      latestProjectPostings {
+      latestChallenges {
         id
         title
         displayTitle
@@ -3843,7 +3922,7 @@ const Dashboard = gql`
         dateCreated
         slug
         state
-        projectType {
+        challengeType {
           id
           name
         }
@@ -3937,8 +4016,8 @@ const Dashboard = gql`
           slug
         }
       }
-      projectMatches {
-        projectPosting {
+      challengeMatches {
+        challenge {
           id
           title
           displayTitle
@@ -3948,7 +4027,7 @@ const Dashboard = gql`
             id
             name
           }
-          projectType {
+          challengeType {
             id
             name
           }
@@ -4079,7 +4158,7 @@ const Matching = gql`
   query matching(
     $studentMatchingInput: StudentMatchingInput
     $jobPostingMatchingInput: JobPostingMatchingInput
-    $projectPostingMatchingInput: ProjectPostingMatchingInput
+    $challengeMatchingInput: ChallengeMatchingInput
     $softBoost: Int!
     $techBoost: Int!
     $first: Int
@@ -4088,7 +4167,7 @@ const Matching = gql`
     matches(
       studentMatching: $studentMatchingInput
       jobPostingMatching: $jobPostingMatchingInput
-      projectPostingMatching: $projectPostingMatchingInput
+      challengeMatching: $challengeMatchingInput
       first: $first
       skip: $skip
       softBoost: $softBoost
@@ -4163,7 +4242,7 @@ const Me = gql`
             }
           }
         }
-        onlineProjects {
+        onlineChallenges {
           id
           url
         }
@@ -4232,12 +4311,12 @@ const Me = gql`
             name
           }
         }
-        projectPostings {
+        challenges {
           id
           slug
           title
           state
-          projectType {
+          challengeType {
             id
             name
           }
@@ -4270,90 +4349,11 @@ const Me = gql`
           id
         }
         linkEducation
-        linkProjects
+        linkChallenges
         linkThesis
       }
     }
   }
-`;
-const ProjectPosting = gql`
-  query projectPosting($id: String, $slug: String) {
-    projectPosting(id: $id, slug: $slug) {
-      ...projectPostingProjectPosting
-    }
-    images: attachments(key: PROJECT_POSTING_IMAGES, slug: $slug, first: 100) {
-      edges {
-        node {
-          ...projectPostingImage
-        }
-      }
-    }
-    imageFallback: attachments(key: PROJECT_POSTING_FALLBACK, slug: $slug, first: 100) {
-      edges {
-        node {
-          ...projectPostingImageFallback
-        }
-      }
-    }
-    documents: attachments(key: PROJECT_POSTING_DOCUMENTS, slug: $slug, first: 100) {
-      edges {
-        node {
-          ...projectPostingDocument
-        }
-      }
-    }
-  }
-  ${ProjectPostingProjectPosting}
-  ${ProjectPostingImage}
-  ${ProjectPostingImageFallback}
-  ${ProjectPostingDocument}
-`;
-const ProjectPostingPublic = gql`
-  query projectPostingPublic($id: String, $slug: String) {
-    projectPosting(id: $id, slug: $slug) {
-      ...projectPostingProjectPosting
-    }
-  }
-  ${ProjectPostingProjectPosting}
-`;
-const ProjectPostings = gql`
-  query projectPostings(
-    $textSearch: String
-    $projectTypeIds: [String]
-    $keywordIds: [String]
-    $filterTalentProjects: Boolean
-    $filterCompanyProjects: Boolean
-    $filterUniversityProjects: Boolean
-  ) {
-    projectPostings(
-      first: 1000
-      textSearch: $textSearch
-      projectTypeIds: $projectTypeIds
-      keywordIds: $keywordIds
-      filterTalentProjects: $filterTalentProjects
-      filterCompanyProjects: $filterCompanyProjects
-      filterUniversityProjects: $filterUniversityProjects
-    ) {
-      edges {
-        node {
-          ...projectPostingsProjectPosting
-        }
-      }
-    }
-  }
-  ${ProjectPostingsProjectPosting}
-`;
-const ProjectTypes = gql`
-  query projectTypes {
-    projectTypes(first: 100) {
-      edges {
-        node {
-          ...projectTypesProjectType
-        }
-      }
-    }
-  }
-  ${ProjectTypesProjectType}
 `;
 const Skills = gql`
   query skills {

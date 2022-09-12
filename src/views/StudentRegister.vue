@@ -56,7 +56,7 @@
       >
         <template #title>
           Bei Matchd bist du genau richtig!
-          <br />Schreib dich ein und deine Job- oder Projektsuche kann starten.
+          <br />Schreib dich ein und deine Job- oder Challengesuche kann starten.
         </template>
         <Form v-slot="{ errors }" @submit="onSubmitStudentData">
           <div class="xl:flex">

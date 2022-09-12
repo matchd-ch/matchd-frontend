@@ -66,6 +66,7 @@ import MatchdField from "@/components/MatchdField.vue";
 import { LoginForm } from "@/models/LoginForm";
 import { LoginState } from "@/models/LoginState";
 import type { PasswordResetState } from "@/models/PasswordResetState";
+import { Routes } from "@/router";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
@@ -119,7 +120,7 @@ export default class Login extends Vue {
         }
         this.$router.push({ path: redirectUri, query });
       } else {
-        this.$router.push({ name: "Dashboard" });
+        this.$router.push({ name: Routes.DASHBOARD });
       }
     }
   }

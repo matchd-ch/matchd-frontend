@@ -1,7 +1,0 @@
-mutation matchProjectPosting($projectPosting: ProjectPostingInput!) {
-  matchProjectPosting(input: { projectPosting: $projectPosting }) {
-    success
-    errors
-    confirmed
-  }
-}

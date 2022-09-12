@@ -61,7 +61,7 @@ fragment studentStudent on Student {
     id
     name
   }
-  onlineProjects {
+  onlineChallenges {
     id
     url
   }
@@ -80,7 +80,7 @@ fragment studentStudent on Student {
       }
     }
   }
-  projectPostings {
+  challenges {
     id
     title
     displayTitle
@@ -89,7 +89,7 @@ fragment studentStudent on Student {
       id
       name
     }
-    projectType {
+    challengeType {
       id
       name
     }

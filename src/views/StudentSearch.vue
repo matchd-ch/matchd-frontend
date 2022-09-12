@@ -94,6 +94,7 @@ import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
+import { Routes } from "@/router";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
@@ -197,7 +198,7 @@ export default class StudentSearch extends Vue {
 
   onClickResult(slug: string) {
     this.$router.push({
-      name: "StudentDetail",
+      name: Routes.STUDENT_DETAIL,
       params: { slug },
       query: { jobPostingId: this.jobPostingId },
     });

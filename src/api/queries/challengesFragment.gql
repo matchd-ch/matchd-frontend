@@ -1,0 +1,37 @@
+fragment challengesChallenge on Challenge {
+  id
+  title
+  slug
+  challengeType {
+    id
+    name
+  }
+  keywords {
+    id
+    name
+  }
+  description
+  teamSize
+  compensation
+  website
+  challengeFromDate
+  employee {
+    id
+    firstName
+    lastName
+    role
+    email
+    phone
+  }
+  student {
+    id
+  }
+  company {
+    id
+  }
+  formStep
+  state
+  dateCreated
+  datePublished
+  avatarUrl
+}

@@ -6,7 +6,7 @@ export interface BenefitWithStatus extends Benefit {
 
 export interface UniversityProfileStep3Form {
   linkEducation: string;
-  linkProjects: string;
+  linkChallenges: string;
   linkThesis: string;
   services: string;
   branches: string[];

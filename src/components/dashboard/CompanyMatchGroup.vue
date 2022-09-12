@@ -5,8 +5,8 @@
         <h3 class="mb-2">{{ match.jobPosting.displayTitle }}</h3>
       </template>
       <template v-else>
-        <h3 class="font-medium text-lg">{{ match.projectPosting.displayTitle }}</h3>
-        <h4 class="text-sm">{{ match.projectPosting.projectType.name }}</h4>
+        <h3 class="font-medium text-lg">{{ match.challenge.displayTitle }}</h3>
+        <h4 class="text-sm">{{ match.challenge.challengeType.name }}</h4>
       </template>
 
       <ul>
@@ -30,19 +30,19 @@
             </router-link>
           </li>
         </template>
-        <li v-if="'projectPosting' in match && match.projectPosting.student">
+        <li v-if="'challenge' in match && match.challenge.student">
           <router-link
             :to="{
-              name: 'ProjectPostingDetail',
-              params: { slug: match.projectPosting.slug },
+              name: 'ChallengeDetail',
+              params: { slug: match.challenge.slug },
             }"
             class="hover:text-primary-1 transition-colors underline font-medium"
           >
-            <template v-if="match.projectPosting.student.firstName">
-              {{ match.projectPosting.student.firstName }}
-              {{ match.projectPosting.student.lastName }}
+            <template v-if="match.challenge.student.firstName">
+              {{ match.challenge.student.firstName }}
+              {{ match.challenge.student.lastName }}
             </template>
-            <template v-else>{{ match.projectPosting.student.nickname }}</template>
+            <template v-else>{{ match.challenge.student.nickname }}</template>
             <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
           </router-link>
         </li>
@@ -53,13 +53,10 @@
 
 <script setup lang="ts">
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
-import {
-  GroupedJobPostingMatching,
-  GroupedProjectPostingMatching,
-} from "@/models/CompanyDashboard";
+import { GroupedChallengeMatching, GroupedJobPostingMatching } from "@/models/CompanyDashboard";
 
 const props = defineProps<{
-  matches: GroupedJobPostingMatching[] | GroupedProjectPostingMatching[];
+  matches: GroupedJobPostingMatching[] | GroupedChallengeMatching[];
 }>();
 </script>
 

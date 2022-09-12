@@ -1,0 +1,12 @@
+mutation uploadChallenge(
+  $file: Upload!
+  $key: AttachmentKey!
+  $challengeId: String!
+) {
+  upload(
+    input: { file: $file, key: $key, challenge: { id: $challengeId } }
+  ) {
+    success
+    errors
+  }
+}

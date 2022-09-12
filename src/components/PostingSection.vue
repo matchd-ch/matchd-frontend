@@ -15,13 +15,14 @@
       v-if="editStep"
       :slug="slug"
       :edit-step="editStep"
-      route="ProjectPostingCreate"
+      :route="Routes.CHALLENGE_CREATE"
     ></EditLink>
   </section>
 </template>
 
 <script setup lang="ts">
 import EditLink from "@/components/EditLink.vue";
+import { Routes } from "@/router";
 
 defineProps<{
   title: string;

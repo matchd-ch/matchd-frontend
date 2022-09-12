@@ -1,5 +1,6 @@
 import { useStore } from "@/store";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { Routes } from "..";
 
 export async function isProfileCompleteGuard(
   to: RouteLocationNormalized,
@@ -16,13 +17,13 @@ export async function isProfileCompleteGuard(
     const isUniversity = store.getters["isUniversity"];
 
     if (
-      to.name !== "Onboarding" &&
+      to.name !== Routes.ONBOARDING &&
       profileStep &&
       ((isStudent && profileStep <= 6) ||
         (isCompany && profileStep <= 4) ||
         (isUniversity && profileStep <= 4))
     ) {
-      next({ name: "Onboarding" });
+      next({ name: Routes.ONBOARDING });
     } else if (!to.meta?.accessType) {
       next();
     } else if (
@@ -33,7 +34,7 @@ export async function isProfileCompleteGuard(
       next();
     } else {
       console.error("Access denied");
-      next({ name: "Dashboard" });
+      next({ name: Routes.DASHBOARD });
     }
   }
 }

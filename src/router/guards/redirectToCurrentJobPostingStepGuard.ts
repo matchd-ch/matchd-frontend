@@ -3,6 +3,7 @@ import { ParamStrings } from "@/router/paramStrings";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { Routes } from "..";
 
 export async function redirectToCurrentJobPostingStepGuard(
   to: RouteLocationNormalized,
@@ -16,7 +17,7 @@ export async function redirectToCurrentJobPostingStepGuard(
     (to.params.slug === ParamStrings.NEW && to.params.step !== `${ParamStrings.STEP}1`)
   ) {
     next({
-      name: "JobPostingCreate",
+      name: Routes.JOB_POSTING_CREATE,
       params: { step: `${ParamStrings.STEP}1`, slug: ParamStrings.NEW },
     });
   } else if (to.params.slug !== ParamStrings.NEW && to.params.step) {
@@ -26,14 +27,14 @@ export async function redirectToCurrentJobPostingStepGuard(
       // Prevent user to go to a step which is beyond the state of the job posting
       if (currentStep < parseStepName(String(to.params.step))) {
         next({
-          name: "JobPostingCreate",
+          name: Routes.JOB_POSTING_CREATE,
           params: { ...to.params, step: `${ParamStrings.STEP}${currentStep}` },
         });
       } else {
         next();
       }
     } catch (e) {
-      next({ name: "Dashboard" });
+      next({ name: Routes.DASHBOARD });
     }
   } else {
     next();

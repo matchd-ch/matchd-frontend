@@ -1,0 +1,9 @@
+# Step 2
+mutation challengeSpecificData($input: ChallengeSpecificDataInput!) {
+  challengeSpecificData(input: $input) {
+    success
+    errors
+    challengeId
+    slug
+  }
+}

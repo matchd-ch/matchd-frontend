@@ -2,13 +2,16 @@ import type {
   Attachment,
   Company,
   Dashboard,
+  MatchChallengePayload,
   MatchJobPostingPayload,
-  MatchProjectPostingPayload,
   MatchStudentPayload,
 } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import { BenefitsQuery } from "@/api/queries/benefits.generated";
 import { BranchesQuery } from "@/api/queries/branches.generated";
+import { ChallengeQuery } from "@/api/queries/challenge.generated";
+import { ChallengesQuery } from "@/api/queries/challenges.generated";
+import { ChallengeTypesQuery } from "@/api/queries/challengeTypes.generated";
 import { CompanyQuery } from "@/api/queries/company.generated";
 import { CompanyMatchingQuery } from "@/api/queries/companyMatching.generated";
 import { CulturalFitsQuery } from "@/api/queries/culturalFits.generated";
@@ -20,9 +23,6 @@ import { KeywordsQuery } from "@/api/queries/keywords.generated";
 import { LanguageLevelsQuery } from "@/api/queries/languageLevels.generated";
 import { LanguagesQuery } from "@/api/queries/languages.generated";
 import { MatchingQuery } from "@/api/queries/matching.generated";
-import { ProjectPostingQuery } from "@/api/queries/projectPosting.generated";
-import { ProjectPostingsQuery } from "@/api/queries/projectPostings.generated";
-import { ProjectTypesQuery } from "@/api/queries/projectTypes.generated";
 import { SkillsQuery } from "@/api/queries/skills.generated";
 import { SoftSkillsQuery } from "@/api/queries/softSkills.generated";
 import { StudentQuery } from "@/api/queries/student.generated";
@@ -64,9 +64,9 @@ export type Mutations<S = State> = {
     state: S,
     payload: { id: string; match: MatchJobPostingPayload }
   ): void;
-  [MutationTypes.MATCH_PROJECT_POSTING_LOADED](
+  [MutationTypes.MATCH_CHALLENGE_LOADED](
     state: S,
-    payload: { id: string; match: MatchProjectPostingPayload }
+    payload: { id: string; match: MatchChallengePayload }
   ): void;
   [MutationTypes.MATCH_STUDENT_LOADED](
     state: S,
@@ -74,12 +74,12 @@ export type Mutations<S = State> = {
   ): void;
   [MutationTypes.MATCHES_LOADING](state: S): void;
   [MutationTypes.MATCHES_LOADED](state: S, payload: MatchingQuery["matches"]): void;
-  [MutationTypes.PROJECT_POSTING_LOADING](state: S): void;
-  [MutationTypes.PROJECT_POSTING_LOADED](state: S, payload: ProjectPostingQuery): void;
-  [MutationTypes.PROJECT_POSTINGS_LOADING](state: S): void;
-  [MutationTypes.PROJECT_POSTINGS_LOADED](state: S, payload: ProjectPostingsQuery): void;
-  [MutationTypes.PROJECT_TYPES_LOADING](state: S): void;
-  [MutationTypes.PROJECT_TYPES_LOADED](state: S, payload: ProjectTypesQuery): void;
+  [MutationTypes.CHALLENGE_LOADING](state: S): void;
+  [MutationTypes.CHALLENGE_LOADED](state: S, payload: ChallengeQuery): void;
+  [MutationTypes.CHALLENGES_LOADING](state: S): void;
+  [MutationTypes.CHALLENGES_LOADED](state: S, payload: ChallengesQuery): void;
+  [MutationTypes.CHALLENGE_TYPES_LOADING](state: S): void;
+  [MutationTypes.CHALLENGE_TYPES_LOADED](state: S, payload: ChallengeTypesQuery): void;
   [MutationTypes.RESET_MATCHES](state: S): void;
   [MutationTypes.SKILLS_LOADING](state: S): void;
   [MutationTypes.SKILLS_LOADED](state: S, payload: SkillsQuery): void;
@@ -237,16 +237,16 @@ export const mutations: MutationTree<State> & Mutations = {
       };
     }
   },
-  [MutationTypes.MATCH_PROJECT_POSTING_LOADED](
+  [MutationTypes.MATCH_CHALLENGE_LOADED](
     state: State,
-    payload: { id: string; match: MatchProjectPostingPayload }
+    payload: { id: string; match: MatchChallengePayload }
   ) {
     state.match.loading = false;
-    if (state.projectPosting.data?.id === payload.id) {
-      state.projectPosting.data = {
-        ...state.projectPosting.data,
+    if (state.challenge.data?.id === payload.id) {
+      state.challenge.data = {
+        ...state.challenge.data,
         matchStatus: {
-          ...state.projectPosting.data.matchStatus,
+          ...state.challenge.data.matchStatus,
           initiator: ProfileType.Student,
           confirmed: payload.match.confirmed,
         },
@@ -275,40 +275,40 @@ export const mutations: MutationTree<State> & Mutations = {
     state.matches.loading = false;
     state.matches.data = ensureNoNullsAndUndefineds(payload?.filter((match) => match) ?? []);
   },
-  [MutationTypes.PROJECT_POSTING_LOADING](state: State) {
-    state.projectPosting.loading = true;
-    state.projectPosting.data = null;
-    state.projectPosting.images = [];
-    state.projectPosting.documents = [];
-    state.projectPosting.imageFallback = null;
+  [MutationTypes.CHALLENGE_LOADING](state: State) {
+    state.challenge.loading = true;
+    state.challenge.data = null;
+    state.challenge.images = [];
+    state.challenge.documents = [];
+    state.challenge.imageFallback = null;
   },
-  [MutationTypes.PROJECT_POSTING_LOADED](state: State, payload: ProjectPostingQuery) {
-    state.projectPosting.loading = false;
-    state.projectPosting.data = payload.projectPosting || null;
-    state.projectPosting.images = ensureNoNullsAndUndefineds(
+  [MutationTypes.CHALLENGE_LOADED](state: State, payload: ChallengeQuery) {
+    state.challenge.loading = false;
+    state.challenge.data = payload.challenge || null;
+    state.challenge.images = ensureNoNullsAndUndefineds(
       payload.images?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
     );
-    state.projectPosting.imageFallback = payload.imageFallback?.edges[0]?.node || null;
-    state.projectPosting.documents = ensureNoNullsAndUndefineds(
+    state.challenge.imageFallback = payload.imageFallback?.edges[0]?.node || null;
+    state.challenge.documents = ensureNoNullsAndUndefineds(
       payload.documents?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
     );
   },
-  [MutationTypes.PROJECT_POSTINGS_LOADING](state: State) {
-    state.projectPostings.loading = true;
+  [MutationTypes.CHALLENGES_LOADING](state: State) {
+    state.challenges.loading = true;
   },
-  [MutationTypes.PROJECT_POSTINGS_LOADED](state: State, payload: ProjectPostingsQuery) {
-    state.projectPostings.loading = false;
-    state.projectPostings.data = ensureNoNullsAndUndefineds(
-      payload.projectPostings?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+  [MutationTypes.CHALLENGES_LOADED](state: State, payload: ChallengesQuery) {
+    state.challenges.loading = false;
+    state.challenges.data = ensureNoNullsAndUndefineds(
+      payload.challenges?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
     );
   },
-  [MutationTypes.PROJECT_TYPES_LOADING](state: State) {
-    state.projectTypes.loading = true;
+  [MutationTypes.CHALLENGE_TYPES_LOADING](state: State) {
+    state.challengeTypes.loading = true;
   },
-  [MutationTypes.PROJECT_TYPES_LOADED](state: State, payload: ProjectTypesQuery) {
-    state.projectTypes.loading = false;
-    state.projectTypes.data = ensureNoNullsAndUndefineds(
-      payload.projectTypes?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+  [MutationTypes.CHALLENGE_TYPES_LOADED](state: State, payload: ChallengeTypesQuery) {
+    state.challengeTypes.loading = false;
+    state.challengeTypes.data = ensureNoNullsAndUndefineds(
+      payload.challengeTypes?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
     );
   },
   [MutationTypes.RESET_MATCHES](state: State) {

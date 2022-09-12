@@ -1,14 +1,19 @@
 import { createApolloClient } from "@/api/apollo-client";
 import type {
+  ChallengeInput,
+  MatchChallengeInput,
   MatchJobPostingInput,
-  MatchProjectPostingInput,
   MatchStudentInput,
 } from "@/api/models/types";
+import { MatchChallengeDocument } from "@/api/mutations/matchChallenge.generated";
 import { MatchJobPostingDocument } from "@/api/mutations/matchJobPosting.generated";
-import { MatchProjectPostingDocument } from "@/api/mutations/matchProjectPosting.generated";
 import { MatchStudentDocument } from "@/api/mutations/matchStudent.generated";
 import { BenefitsDocument } from "@/api/queries/benefits.generated";
 import { BranchesDocument } from "@/api/queries/branches.generated";
+import { ChallengeDocument } from "@/api/queries/challenge.generated";
+import { ChallengePublicDocument } from "@/api/queries/challengePublic.generated";
+import { ChallengesDocument, ChallengesQueryVariables } from "@/api/queries/challenges.generated";
+import { ChallengeTypesDocument } from "@/api/queries/challengeTypes.generated";
 import { CompanyDocument } from "@/api/queries/company.generated";
 import { CompanyMatchingDocument } from "@/api/queries/companyMatching.generated";
 import { CulturalFitsDocument } from "@/api/queries/culturalFits.generated";
@@ -21,13 +26,6 @@ import { KeywordsDocument } from "@/api/queries/keywords.generated";
 import { LanguageLevelsDocument } from "@/api/queries/languageLevels.generated";
 import { LanguagesDocument } from "@/api/queries/languages.generated";
 import { MatchingDocument } from "@/api/queries/matching.generated";
-import { ProjectPostingDocument } from "@/api/queries/projectPosting.generated";
-import { ProjectPostingPublicDocument } from "@/api/queries/projectPostingPublic.generated";
-import {
-  ProjectPostingsDocument,
-  ProjectPostingsQueryVariables,
-} from "@/api/queries/projectPostings.generated";
-import { ProjectTypesDocument } from "@/api/queries/projectTypes.generated";
 import { SkillsDocument } from "@/api/queries/skills.generated";
 import { SoftSkillsDocument } from "@/api/queries/softSkills.generated";
 import { StudentDocument } from "@/api/queries/student.generated";
@@ -78,28 +76,28 @@ export interface Actions {
     { commit }: AugmentedActionContext,
     payload: MatchJobPostingInput
   ): Promise<void>;
-  [ActionTypes.MATCH_PROJECT_POSTING](
+  [ActionTypes.MATCH_CHALLENGE](
     { commit }: AugmentedActionContext,
-    payload: MatchProjectPostingInput
+    payload: MatchChallengeInput
   ): Promise<void>;
   [ActionTypes.MATCH_STUDENT](
     { commit }: AugmentedActionContext,
     payload: MatchStudentInput
   ): Promise<void>;
   [ActionTypes.MATCHING]({ commit }: AugmentedActionContext, payload: MatchingInput): Promise<void>;
-  [ActionTypes.PROJECT_POSTING](
+  [ActionTypes.CHALLENGE](
     { commit }: AugmentedActionContext,
     payload: { slug: string }
   ): Promise<void>;
-  [ActionTypes.PROJECT_POSTING_PUBLIC](
+  [ActionTypes.CHALLENGE_PUBLIC](
     { commit }: AugmentedActionContext,
     payload: { slug: string }
   ): Promise<void>;
-  [ActionTypes.PROJECT_POSTINGS](
+  [ActionTypes.CHALLENGES](
     { commit }: AugmentedActionContext,
-    payload: ProjectPostingsQueryVariables
+    payload: ChallengesQueryVariables
   ): Promise<void>;
-  [ActionTypes.PROJECT_TYPES]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.CHALLENGE_TYPES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.STUDENT](
@@ -284,19 +282,19 @@ export const actions: ActionTree<State, RootState> & Actions = {
       throw new Error("MATCH_JOB_POSTING_LOADED: data or matchJobPosting is undefined");
     }
   },
-  async [ActionTypes.MATCH_PROJECT_POSTING]({ commit }, payload: MatchProjectPostingInput) {
+  async [ActionTypes.MATCH_CHALLENGE]({ commit }, payload: MatchChallengeInput) {
     commit(MutationTypes.MATCH_LOADING);
     const response = await apiClient.mutate({
-      mutation: MatchProjectPostingDocument,
+      mutation: MatchChallengeDocument,
       variables: payload,
     });
-    if (response.data?.matchProjectPosting) {
-      commit(MutationTypes.MATCH_PROJECT_POSTING_LOADED, {
-        id: payload.projectPosting?.id,
-        match: response.data.matchProjectPosting,
+    if (response.data?.matchChallenge) {
+      commit(MutationTypes.MATCH_CHALLENGE_LOADED, {
+        id: payload.challenge.id,
+        match: response.data.matchChallenge,
       });
     } else {
-      throw new Error("MATCH_PROJECT_POSTING_LOADED: data or matchProjectPosting is undefined");
+      throw new Error("MATCH_CHALLENGE_LOADED: data or matchChallenge is undefined");
     }
   },
   async [ActionTypes.MATCH_STUDENT]({ commit }, payload: MatchStudentInput) {
@@ -336,53 +334,53 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.SKILLS_LOADED, { skills: response.data.skills });
   },
-  async [ActionTypes.PROJECT_POSTING]({ commit }, payload) {
-    commit(MutationTypes.PROJECT_POSTING_LOADING);
+  async [ActionTypes.CHALLENGE]({ commit }, payload) {
+    commit(MutationTypes.CHALLENGE_LOADING);
     const response = await apiClient.query({
-      query: ProjectPostingDocument,
+      query: ChallengeDocument,
       fetchPolicy: "no-cache",
       variables: payload,
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.PROJECT_POSTING_LOADED, response.data);
+    commit(MutationTypes.CHALLENGE_LOADED, response.data);
   },
-  async [ActionTypes.PROJECT_POSTING_PUBLIC]({ commit }, payload) {
-    commit(MutationTypes.PROJECT_POSTING_LOADING);
+  async [ActionTypes.CHALLENGE_PUBLIC]({ commit }, payload) {
+    commit(MutationTypes.CHALLENGE_LOADING);
     const response = await apiClient.query({
-      query: ProjectPostingPublicDocument,
+      query: ChallengePublicDocument,
       fetchPolicy: "no-cache",
       variables: payload,
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.PROJECT_POSTING_LOADED, response.data);
+    commit(MutationTypes.CHALLENGE_LOADED, response.data);
   },
-  async [ActionTypes.PROJECT_POSTINGS]({ commit }, payload) {
-    commit(MutationTypes.PROJECT_POSTINGS_LOADING);
+  async [ActionTypes.CHALLENGES]({ commit }, payload) {
+    commit(MutationTypes.CHALLENGES_LOADING);
     const response = await apiClient.query({
-      query: ProjectPostingsDocument,
+      query: ChallengesDocument,
       fetchPolicy: "no-cache",
       variables: payload,
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.PROJECT_POSTINGS_LOADED, {
-      projectPostings: response.data.projectPostings,
+    commit(MutationTypes.CHALLENGES_LOADED, {
+      challenges: response.data.challenges,
     });
   },
-  async [ActionTypes.PROJECT_TYPES]({ commit }) {
-    commit(MutationTypes.PROJECT_TYPES_LOADING);
+  async [ActionTypes.CHALLENGE_TYPES]({ commit }) {
+    commit(MutationTypes.CHALLENGE_TYPES_LOADING);
     const response = await apiClient.query({
-      query: ProjectTypesDocument,
+      query: ChallengeTypesDocument,
       context: {
         batch: true,
       },
     });
-    commit(MutationTypes.PROJECT_TYPES_LOADED, { projectTypes: response.data.projectTypes });
+    commit(MutationTypes.CHALLENGE_TYPES_LOADED, { challengeTypes: response.data.challengeTypes });
   },
   async [ActionTypes.SOFT_SKILLS]({ commit }) {
     commit(MutationTypes.SOFT_SKILLS_LOADING);

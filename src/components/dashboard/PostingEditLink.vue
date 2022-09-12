@@ -10,43 +10,41 @@
       {{ posting.displayTitle }} {{ isPublic ? "" : " (Entwurf)" }}
       <ArrowFrontIcon class="xl:w-5 w-8 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />
     </h3>
-    <p v-if="projectPosting" class="text-sm">
-      {{ projectPosting.projectType.name }}
+    <p v-if="challenge" class="text-sm">
+      {{ challenge.challengeType.name }}
     </p>
   </router-link>
 </template>
 
 <script setup lang="ts">
-import type { JobPosting, ProjectPosting } from "@/api/models/types";
-import { JobPostingState, ProjectPostingState } from "@/api/models/types";
+import type { Challenge, JobPosting } from "@/api/models/types";
+import { ChallengeState, JobPostingState } from "@/api/models/types";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
+import { Routes } from "@/router";
 import { computed } from "vue";
 
 const props = defineProps<{
-  posting: JobPosting | ProjectPosting;
+  posting: JobPosting | Challenge;
 }>();
 
 const jobPosting = computed(() =>
   props.posting.__typename === "JobPosting" ? props.posting : null
 );
-const projectPosting = computed(() =>
-  props.posting.__typename === "ProjectPosting" ? props.posting : null
-);
+const challenge = computed(() => (props.posting.__typename === "Challenge" ? props.posting : null));
 
 const isPublic = computed(() => {
   return (
-    props.posting.state === JobPostingState.Public ||
-    props.posting.state === ProjectPostingState.Public
+    props.posting.state === JobPostingState.Public || props.posting.state === ChallengeState.Public
   );
 });
 
 const routeName = computed(() => {
   if (jobPosting.value) {
-    return "JobPostingCreate";
+    return Routes.JOB_POSTING_CREATE;
   } else if (isPublic.value) {
-    return "ProjectPostingDetail";
+    return Routes.CHALLENGE_DETAIL;
   } else {
-    return "ProjectPostingCreate";
+    return Routes.CHALLENGE_CREATE;
   }
 });
 

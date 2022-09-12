@@ -2,24 +2,50 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { isLoggedInGuard } from "@/router/guards/isLoggedInGuard";
 import { isProfileCompleteGuard } from "@/router/guards/isProfileCompleteGuard";
 import { needsStateResetBeforePasswordResetGuard } from "@/router/guards/needsStateResetBeforePasswordResetGuard";
+import { redirectToCurrentChallengeStepGuard } from "@/router/guards/redirectToCurrentChallengeStepGuard";
 import { redirectToCurrentJobPostingStepGuard } from "@/router/guards/redirectToCurrentJobPostingStepGuard";
 import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectToCurrentOnboardingStepGuard";
-import { redirectToCurrentProjectPostingStepGuard } from "@/router/guards/redirectToCurrentProjectPostingStepGuard";
-import { studentDetailOnlyWithPublishedJobOrProjectPostingGuard } from "@/router/guards/studentDetailOnlyWithPublishedJobOrProjectPostingGuard";
+import { studentDetailOnlyWithPublishedJobOrChallengeGuard } from "@/router/guards/studentDetailOnlyWithPublishedJobOrChallengeGuard";
 import { talentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/talentsOnlyWithPublishedJobPostingGuard";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Dashboard from "../views/DashboardOverview.vue";
 import { config } from "./../config";
 
+export enum Routes {
+  DASHBOARD = "Dashboard",
+  LOGIN = "Login",
+  TRIAGE = "Triage",
+  ACTIVATE = "Activate",
+  ONBOARDING = "Onboarding",
+  PROFILE = "Profile",
+  PROFILE_EDIT = "ProfileEdit",
+  JOB_POSTING_CREATE = "JobPostingCreate",
+  JOB_POSTING_SEARCH = "JobPostingSearch",
+  JOB_POSTING_DETAIL = "JobPostingDetail",
+  CHALLENGE_CREATE = "ChallengeCreate",
+  CHALLENGE_SEARCH = "ChallengeSearch",
+  CHALLENGE_DETAIL = "ChallengeDetail",
+  STUDENT_SEARCH = "StudentSearch",
+  STUDENT_DETAIL = "StudentDetail",
+  STUDENT_REGISTER = "StudentRegister",
+  COMPANY_DETAIL = "CompanyDetail",
+  COMPANY_LIST = "CompanyList",
+  COMPANY_REGISTER = "CompanyRegister",
+  UNIVERSITY_DETAIL = "UniversityDetail",
+  PASSWORD_FORGOTTEN = "PasswordForgotten",
+  PASSWORD_RESET = "PasswordReset",
+  CONTACT = "Contact",
+}
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Dashboard",
+    name: Routes.DASHBOARD,
     component: Dashboard,
   },
   {
     path: "/login",
-    name: "Login",
+    name: Routes.LOGIN,
     component: () => import(/* webpackChunkName: "login" */ "../views/Login.vue"),
     meta: {
       public: true,
@@ -28,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/registrierung",
-    name: "Triage",
+    name: Routes.TRIAGE,
     component: () => import(/* webpackChunkName: "register" */ "../views/Triage.vue"),
     meta: {
       public: true,
@@ -37,7 +63,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/aktivierung/:token",
-    name: "Activate",
+    name: Routes.ACTIVATE,
     component: () => import(/* webpackChunkName: "register" */ "../views/Activate.vue"),
     meta: {
       public: true,
@@ -46,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/onboarding/:step?",
-    name: "Onboarding",
+    name: Routes.ONBOARDING,
     component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
     beforeEnter: redirectToCurrentOnboardingStepGuard,
     meta: {
@@ -55,17 +81,17 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/profil",
-    name: "Profile",
+    name: Routes.PROFILE,
     component: () => import(/* webpackChunkName: "profile" */ "../views/Profile.vue"),
   },
   {
     path: "/profil/bearbeiten/:step",
-    name: "ProfileEdit",
+    name: Routes.PROFILE_EDIT,
     component: () => import(/* webpackChunkName: "profile" */ "../views/ProfileEdit.vue"),
   },
   {
     path: "/stellen/ausschreiben/:slug?/:step?",
-    name: "JobPostingCreate",
+    name: Routes.JOB_POSTING_CREATE,
     component: () =>
       import(/* webpackChunkName: "jobposting-create" */ "../views/JobPostingCreate.vue"),
     beforeEnter: redirectToCurrentJobPostingStepGuard,
@@ -75,7 +101,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/stellen",
-    name: "JobPostingSearch",
+    name: Routes.JOB_POSTING_SEARCH,
     component: () =>
       import(/* webpackChunkName: "jobposting-search" */ "../views/JobPostingSearch.vue"),
     meta: {
@@ -84,44 +110,44 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/stellen/:slug",
-    name: "JobPostingDetail",
+    name: Routes.JOB_POSTING_DETAIL,
     component: () =>
       import(/* webpackChunkName: "jobposting-detail" */ "../views/JobPostingDetail.vue"),
   },
   {
-    path: "/projekte/ausschreiben/:slug?/:step?",
-    name: "ProjectPostingCreate",
+    path: "/challenges/ausschreiben/:slug?/:step?",
+    name: Routes.CHALLENGE_CREATE,
     component: () =>
-      import(/* webpackChunkName: "projectposting-create" */ "../views/ProjectPostingCreate.vue"),
-    beforeEnter: redirectToCurrentProjectPostingStepGuard,
+      import(/* webpackChunkName: "challenge-create" */ "../views/ChallengeCreate.vue"),
+    beforeEnter: redirectToCurrentChallengeStepGuard,
     meta: {
       accessType: ["company", "student", "university"],
     },
   },
   {
-    path: "/projekte",
-    name: "ProjectPostingSearch",
+    path: "/challenges",
+    name: Routes.CHALLENGE_SEARCH,
     component: () =>
-      import(/* webpackChunkName: "projectposting-search" */ "../views/ProjectPostingSearch.vue"),
+      import(/* webpackChunkName: "challenge-search" */ "../views/ChallengeSearch.vue"),
     meta: {
       accessType: ["student", "company", "university"],
       public: true,
     },
-    // beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
+    // beforeEnter: challengesOnlyWithPublishedChallengeGuard,
   },
   {
-    path: "/projekte/:slug",
-    name: "ProjectPostingDetail",
+    path: "/challenges/:slug",
+    name: Routes.CHALLENGE_DETAIL,
     component: () =>
-      import(/* webpackChunkName: "projectposting-detail" */ "../views/ProjectPostingDetail.vue"),
-    // beforeEnter: projectsOnlyWithPublishedProjectPostingGuard,
+      import(/* webpackChunkName: "challenge-detail" */ "../views/ChallengeDetail.vue"),
+    // beforeEnter: challengesOnlyWithPublishedChallengeGuard,
     meta: {
       public: true,
     },
   },
   {
     path: "/talente",
-    name: "StudentSearch",
+    name: Routes.STUDENT_SEARCH,
     component: () => import(/* webpackChunkName: "student-search" */ "../views/StudentSearch.vue"),
     meta: {
       accessType: ["company", "university"],
@@ -130,21 +156,21 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/talente/:slug",
-    name: "StudentDetail",
+    name: Routes.STUDENT_DETAIL,
     component: () => import(/* webpackChunkName: "student-detail" */ "../views/StudentDetail.vue"),
     meta: {
       accessType: ["company", "university"],
     },
-    beforeEnter: studentDetailOnlyWithPublishedJobOrProjectPostingGuard,
+    beforeEnter: studentDetailOnlyWithPublishedJobOrChallengeGuard,
   },
   {
     path: "/firmen/:slug",
-    name: "CompanyDetail",
+    name: Routes.COMPANY_DETAIL,
     component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyDetail.vue"),
   },
   {
     path: "/firmen",
-    name: "CompanyList",
+    name: Routes.COMPANY_LIST,
     component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyList.vue"),
     meta: {
       accessType: ["student"],
@@ -152,13 +178,13 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/bildungsinstitute/:slug",
-    name: "UniversityDetail",
+    name: Routes.UNIVERSITY_DETAIL,
     component: () =>
       import(/* webpackChunkName: "university-detail" */ "../views/UniversityDetail.vue"),
   },
   {
     path: "/passwort-vergessen",
-    name: "PasswordForgotten",
+    name: Routes.PASSWORD_FORGOTTEN,
     component: () => import(/* webpackChunkName: "login" */ "../views/PasswordForgotten.vue"),
     meta: {
       public: true,
@@ -168,7 +194,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/passwort-reset/:token",
-    name: "PasswordReset",
+    name: Routes.PASSWORD_RESET,
     component: () => import(/* webpackChunkName: "login" */ "../views/PasswordReset.vue"),
     meta: {
       public: true,
@@ -178,7 +204,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/registrierung/schueler*in-lernender",
     alias: ["/registrierung/berufseinsteiger*in", "/registrierung/student*in"],
-    name: "StudentRegister",
+    name: Routes.STUDENT_REGISTER,
     component: () => import(/* webpackChunkName: "register" */ "../views/StudentRegister.vue"),
     meta: {
       public: true,
@@ -188,7 +214,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/registrierung/unternehmung",
     alias: "/registrierung/bildungsinstitution",
-    name: "CompanyRegister",
+    name: Routes.COMPANY_REGISTER,
     component: () => import(/* webpackChunkName: "register" */ "../views/CompanyRegister.vue"),
     meta: {
       public: true,
@@ -197,7 +223,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/kontakt",
-    name: "Contact",
+    name: Routes.CONTACT,
     component: () => import(/* webpackChunkName: "register" */ "../views/Contact.vue"),
     meta: {
       public: true,

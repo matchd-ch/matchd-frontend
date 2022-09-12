@@ -217,11 +217,11 @@ export default class JobPostingStep1 extends Vue {
       "branches",
       (value) => {
         if ((value as string[])?.length === 0) {
-          return "In diesen Bereichen und Projekten wird das junge Talent tätig sein ist ein Pflichtfeld";
+          return "In diesen Bereichen und Challenges wird das junge Talent tätig sein ist ein Pflichtfeld";
         }
         return true;
       },
-      { label: "In diesen Bereichen und Projekten wird das junge Talent tätig sein" }
+      { label: "In diesen Bereichen und Challenges wird das junge Talent tätig sein" }
     );
     const onSubmit = form.handleSubmit(async (formData) => {
       if (

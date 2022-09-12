@@ -16,7 +16,7 @@ export function studentProfileStep4FormMapper(
           language: edge!.node!.language,
           level: edge!.node!.languageLevel,
         })) || [],
-    onlineProjects: user.student?.onlineProjects || [],
+    onlineChallenges: user.student?.onlineChallenges || [],
     hobbies: user.student?.hobbies || [],
     distinction: user.student?.distinction || "",
   };

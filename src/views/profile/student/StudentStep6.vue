@@ -61,7 +61,7 @@
           <li>deinen Vor- und Nachnamen</li>
           <li>dein Geburtsmonat und -jahr</li>
           <li>dein Profilbild</li>
-          <li>deine Online-Projekte</li>
+          <li>deine Online-Challenges</li>
           <li>deine Hobbies und Interessen</li>
           <li>was dich sonst noch auszeichnet</li>
           <li>und alle Daten, welche auch im anonymen Zustand sichtbar sind</li>

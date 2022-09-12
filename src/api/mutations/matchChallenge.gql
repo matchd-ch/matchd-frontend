@@ -1,0 +1,7 @@
+mutation matchChallenge($challenge: ChallengeInput!) {
+  matchChallenge(input: { challenge: $challenge }) {
+    success
+    errors
+    confirmed
+  }
+}

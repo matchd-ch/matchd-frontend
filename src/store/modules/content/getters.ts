@@ -1,6 +1,8 @@
 import type {
   Benefit,
   Branch,
+  ChallengeMatchInfo,
+  ChallengeType,
   Company,
   CulturalFit,
   Dashboard,
@@ -11,19 +13,17 @@ import type {
   Language,
   LanguageLevel,
   Match,
-  ProjectPostingMatchInfo,
-  ProjectType,
   Skill,
   SoftSkill,
   ZipCity,
 } from "@/api/models/types";
+import { ChallengesChallengeFragment } from "@/api/queries/challengesFragment.generated";
 import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsFragment.generated";
-import { ProjectPostingsProjectPostingFragment } from "@/api/queries/projectPostingsFragment.generated";
 import {
   CompanyDashboard,
+  GroupedChallengeMatching,
   GroupedJobPostingMatching,
-  GroupedProjectPostingMatching,
 } from "@/models/CompanyDashboard";
 import { SearchResult } from "@/models/SearchResult";
 import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
@@ -54,10 +54,10 @@ export type Getters = {
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
   matchLoading(state: State): boolean;
-  projectPostingDetail(state: State): State["projectPosting"];
-  projectPostings(state: State): ProjectPostingsProjectPostingFragment[];
-  projectPostingsLoading(state: State): boolean;
-  projectTypes(state: State): ProjectType[];
+  challengeDetail(state: State): State["challenge"];
+  challenges(state: State): ChallengesChallengeFragment[];
+  challengesLoading(state: State): boolean;
+  challengeTypes(state: State): ChallengeType[];
   skills(state: State): Skill[];
   softSkills(state: State): SoftSkill[];
   student(state: State): State["student"];
@@ -101,14 +101,14 @@ export const getters: GetterTree<State, RootState> & Getters = {
       }
       return r;
     }
-    function projectPostingReducer(r: GroupedProjectPostingMatching[], a: ProjectPostingMatchInfo) {
-      const existingProjectPosting = r.find(
-        (groupedJobPosting) => groupedJobPosting.projectPosting.id === a.projectPosting.id
+    function challengeReducer(r: GroupedChallengeMatching[], a: ChallengeMatchInfo) {
+      const existingChallenge = r.find(
+        (groupedJobPosting) => groupedJobPosting.challenge.id === a.challenge.id
       );
-      if (!existingProjectPosting) {
-        r.push({ projectPosting: a.projectPosting, ...(a.student && { students: [a.student] }) });
-      } else if (existingProjectPosting.students && a.student) {
-        existingProjectPosting.students.push(a.student);
+      if (!existingChallenge) {
+        r.push({ challenge: a.challenge, ...(a.student && { students: [a.student] }) });
+      } else if (existingChallenge.students && a.student) {
+        existingChallenge.students.push(a.student);
       }
       return r;
     }
@@ -127,10 +127,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
         jobPostingReducer,
         []
       ),
-      uniqueProjectPostingMatchings: state.dashboard.data.projectMatches?.reduce(
-        projectPostingReducer,
-        []
-      ),
+      uniqueChallengeMatchings: state.dashboard.data.challengeMatches?.reduce(challengeReducer, []),
     };
   },
   dashboard(state: State) {
@@ -215,17 +212,17 @@ export const getters: GetterTree<State, RootState> & Getters = {
   matchLoading(state: State) {
     return state.match.loading;
   },
-  projectPostingDetail(state: State) {
-    return state.projectPosting;
+  challengeDetail(state: State) {
+    return state.challenge;
   },
-  projectPostings(state: State) {
-    return state.projectPostings.data;
+  challenges(state: State) {
+    return state.challenges.data;
   },
-  projectPostingsLoading(state: State) {
-    return state.projectPostings.loading;
+  challengesLoading(state: State) {
+    return state.challenges.loading;
   },
-  projectTypes(state: State) {
-    return state.projectTypes.data;
+  challengeTypes(state: State) {
+    return state.challengeTypes.data;
   },
   skills(state: State) {
     return state.skills.data;

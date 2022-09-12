@@ -7,7 +7,7 @@ export function universityProfileStep3FormMapper(
   return {
     services: user.company?.services || "",
     linkEducation: user.company?.linkEducation || "",
-    linkProjects: user.company?.linkProjects || "",
+    linkChallenges: user.company?.linkChallenges || "",
     linkThesis: user.company?.linkThesis || "",
     branches:
       user.company?.branches?.edges

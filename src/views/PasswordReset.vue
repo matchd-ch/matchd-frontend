@@ -66,6 +66,7 @@ import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import type { PasswordResetState } from "@/models/PasswordResetState";
+import { Routes } from "@/router";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
@@ -109,7 +110,7 @@ export default class PasswordReset extends Vue {
         token: this.token,
       });
       if (!this.passwordResetState.tokenIsValid) {
-        this.$router.replace({ name: "PasswordForgotten" });
+        this.$router.replace({ name: Routes.PASSWORD_FORGOTTEN });
       }
     }
   }
@@ -127,7 +128,7 @@ export default class PasswordReset extends Vue {
       token: this.token,
     });
     resetForm();
-    this.$router.replace({ name: "Login" });
+    this.$router.replace({ name: Routes.LOGIN });
   }
 }
 </script>

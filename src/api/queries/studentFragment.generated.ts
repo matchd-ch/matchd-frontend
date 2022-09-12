@@ -51,7 +51,7 @@ export type StudentStudentFragment = {
     } | null>;
   };
   hobbies?: Array<{ __typename?: "Hobby"; id: string; name: string }> | null;
-  onlineProjects?: Array<{ __typename?: "OnlineProject"; id: string; url: string }> | null;
+  onlineChallenges?: Array<{ __typename?: "OnlineChallenge"; id: string; url: string }> | null;
   languages: {
     __typename?: "UserLanguageRelationConnection";
     edges: Array<{
@@ -64,14 +64,14 @@ export type StudentStudentFragment = {
       } | null;
     } | null>;
   };
-  projectPostings: Array<{
-    __typename?: "ProjectPosting";
+  challenges: Array<{
+    __typename?: "Challenge";
     id: string;
     title: string;
     displayTitle: string;
     slug: string;
     keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
-    projectType: { __typename?: "ProjectType"; id: string; name: string };
+    challengeType: { __typename?: "ChallengeType"; id: string; name: string };
   }>;
 };
 
@@ -283,7 +283,7 @@ export const StudentStudentFragmentDoc = {
           },
           {
             kind: "Field",
-            name: { kind: "Name", value: "onlineProjects" },
+            name: { kind: "Name", value: "onlineChallenges" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -351,7 +351,7 @@ export const StudentStudentFragmentDoc = {
           },
           {
             kind: "Field",
-            name: { kind: "Name", value: "projectPostings" },
+            name: { kind: "Name", value: "challenges" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -372,7 +372,7 @@ export const StudentStudentFragmentDoc = {
                 },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "projectType" },
+                  name: { kind: "Name", value: "challengeType" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [

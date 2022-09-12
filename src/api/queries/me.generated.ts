@@ -49,7 +49,7 @@ export type MeQuery = {
           } | null;
         } | null>;
       };
-      onlineProjects?: Array<{ __typename?: "OnlineProject"; id: string; url: string }> | null;
+      onlineChallenges?: Array<{ __typename?: "OnlineChallenge"; id: string; url: string }> | null;
       hobbies?: Array<{ __typename?: "Hobby"; id: string; name: string }> | null;
       jobType?: { __typename?: "JobType"; id: string; name: string; mode: Types.DateMode } | null;
       skills: {
@@ -94,7 +94,7 @@ export type MeQuery = {
       services: string;
       phone: string;
       linkEducation?: string | null;
-      linkProjects?: string | null;
+      linkChallenges?: string | null;
       linkThesis?: string | null;
       employees: Array<{
         __typename?: "Employee";
@@ -111,13 +111,13 @@ export type MeQuery = {
         state: Types.JobPostingState;
         jobType: { __typename?: "JobType"; id: string; name: string };
       }>;
-      projectPostings: Array<{
-        __typename?: "ProjectPosting";
+      challenges: Array<{
+        __typename?: "Challenge";
         id: string;
         slug: string;
         title: string;
-        state: Types.ProjectPostingState;
-        projectType: { __typename?: "ProjectType"; id: string; name: string };
+        state: Types.ChallengeState;
+        challengeType: { __typename?: "ChallengeType"; id: string; name: string };
         keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
       }>;
       branches: {
@@ -299,7 +299,7 @@ export const MeDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "onlineProjects" },
+                        name: { kind: "Name", value: "onlineChallenges" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
@@ -486,7 +486,7 @@ export const MeDocument = {
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "projectPostings" },
+                        name: { kind: "Name", value: "challenges" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
@@ -496,7 +496,7 @@ export const MeDocument = {
                             { kind: "Field", name: { kind: "Name", value: "state" } },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "projectType" },
+                              name: { kind: "Name", value: "challengeType" },
                               selectionSet: {
                                 kind: "SelectionSet",
                                 selections: [
@@ -609,7 +609,7 @@ export const MeDocument = {
                         },
                       },
                       { kind: "Field", name: { kind: "Name", value: "linkEducation" } },
-                      { kind: "Field", name: { kind: "Name", value: "linkProjects" } },
+                      { kind: "Field", name: { kind: "Name", value: "linkChallenges" } },
                       { kind: "Field", name: { kind: "Name", value: "linkThesis" } },
                     ],
                   },

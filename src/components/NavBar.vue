@@ -3,7 +3,10 @@
     class="flex flex-col md:items-center md:justify-between md:flex-row px-2.5 py-2.5 bg-white border-primary-1 relative"
   >
     <div class="p-4 flex flex-row items-center justify-between">
-      <router-link :to="{ name: 'Dashboard' }" class="logo hover:text-primary-1 transition-colors">
+      <router-link
+        :to="{ name: Routes.DASHBOARD }"
+        class="logo hover:text-primary-1 transition-colors"
+      >
         <Logo class="w-36" />
       </router-link>
       <button
@@ -36,18 +39,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Logo from "@/assets/logo.svg";
-import { Options, Vue } from "vue-class-component";
-import NavDropdown from "./NavDropdown.vue";
-import NavLink from "./NavLink.vue";
+import { Routes } from "@/router";
+import { ref } from "vue";
 
-@Options({
-  components: { NavDropdown, NavLink, Logo },
-})
-export default class NavBar extends Vue {
-  open = false;
-}
+const open = ref(false);
 </script>
 
 <style lang="postcss" scoped>

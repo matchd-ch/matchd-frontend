@@ -1,6 +1,6 @@
 <template>
   <div class="px-4 lg:px-5">
-    <BackLink :to="{ name: 'Dashboard' }" class="fixed" />
+    <BackLink :to="{ name: Routes.DASHBOARD }" class="fixed" />
   </div>
   <div
     id="nichts-passendes-gefunden"
@@ -36,74 +36,54 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { UserRequestInput } from "@/api/models/types";
-import Logo from "@/assets/logo.svg";
-import BackLink from "@/components/BackLink.vue";
-import MatchdButton from "@/components/MatchdButton.vue";
-import RegisterContactForm from "@/components/RegisterContactForm.vue";
-import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
-import RegisterTile from "@/components/RegisterTile.vue";
+import { Routes } from "@/router";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/registration/action-types";
-import { Options, setup, Vue } from "vue-class-component";
+import { computed } from "vue";
 import { useMeta } from "vue-meta";
 
-@Options({
-  components: {
-    BackLink,
-    RegisterTile,
-    MatchdButton,
-    RegisterContactForm,
-    RegisterContactFormSent,
-    Logo,
-  },
-})
-export default class Contact extends Vue {
-  meta = setup(() =>
-    useMeta({
-      title: "Kontakt",
-    })
-  );
+const meta = useMeta({
+  title: "Kontakt",
+});
 
-  get fullName(): string | undefined {
-    if (this.user) {
-      return `${this.user.firstName} ${this.user.lastName}`;
-    }
-    return undefined;
-  }
+const store = useStore();
 
-  get linkRoute(): string {
-    if (this.user) {
-      return "Dashboard";
-    }
-    return "Login";
-  }
+const user = computed(() => {
+  return store.getters["user"];
+});
 
-  get linkName(): string {
-    if (this.user) {
-      return "Dashboard";
-    }
-    return "Login";
+const fullName = computed(() => {
+  if (user.value) {
+    return `${user.value.firstName} ${user.value.lastName}`;
   }
+  return undefined;
+});
 
-  get user() {
-    return this.$store.getters["user"];
+const linkRoute = computed(() => {
+  if (user.value) {
+    return Routes.DASHBOARD;
   }
+  return Routes.LOGIN;
+});
 
-  get contactFormLoading(): boolean {
-    return this.$store.getters["contactFormSending"];
+const linkName = computed(() => {
+  if (user.value) {
+    return Routes.DASHBOARD;
   }
+  return Routes.LOGIN;
+});
 
-  get contactFormSent(): boolean {
-    return this.$store.getters["contactFormSent"];
-  }
+const contactFormLoading = computed(() => store.getters["contactFormSending"]);
 
-  async onSubmit(form: UserRequestInput): Promise<void> {
-    this.$store.dispatch(ActionTypes.SEND_REGISTRATION_CONTACT_FORM, {
-      ...form,
-    });
-  }
-}
+const contactFormSent = computed(() => store.getters["contactFormSent"]);
+
+const onSubmit = async (form: UserRequestInput) => {
+  store.dispatch(ActionTypes.SEND_REGISTRATION_CONTACT_FORM, {
+    ...form,
+  });
+};
 </script>
 
 <style></style>

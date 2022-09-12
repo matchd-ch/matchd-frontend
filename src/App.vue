@@ -39,6 +39,7 @@ import { computed, onMounted, onUnmounted } from "vue";
 import { useMeta } from "vue-meta";
 import { useRoute, useRouter } from "vue-router";
 import NavBarPublic from "./components/NavBarPublic.vue";
+import { Routes } from "./router";
 import { useStore } from "./store";
 
 useMeta({ title: "" });
@@ -55,7 +56,7 @@ const navigation = computed(() => (isStudent.value ? NavBarStudent : NavBarCompa
 
 const handleLogoutClick = async () => {
   await store.dispatch(LoginActions.LOGOUT);
-  router.push({ name: "Login" });
+  router.push({ name: Routes.LOGIN });
 };
 
 onMounted(() => {

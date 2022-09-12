@@ -52,39 +52,39 @@
     >
       <template #label>Sprachkenntnisse*</template>
     </LanguagePicker>
-    <!-- Online Projects Field -->
-    <MatchdField id="onlineProjects" class="mb-10">
-      <template #label>Deine Onlineprojekte</template>
+    <!-- Online Challenges Field -->
+    <MatchdField id="onlineChallenges" class="mb-10">
+      <template #label>Deine Onlinechallenges</template>
       <input
-        id="onlineProjects"
-        v-model="onlineProjectInput"
+        id="onlineChallenges"
+        v-model="onlineChallengeInput"
         type="text"
         placeholder="Github-URL, Unity-URL, etc."
-        @keypress.enter.prevent="onAppendOnlineProject"
+        @keypress.enter.prevent="onAppendOnlineChallenge"
       />
       <template #iconRight>
         <button
           type="button"
           class="h-full bg-primary-1 text-white rounded-full flex justify-center items-center py-2 px-8 disabled:opacity-60"
-          :disabled="!isValidOnlineProjectUrl"
-          @click="onAppendOnlineProject"
+          :disabled="!isValidOnlineChallengeUrl"
+          @click="onAppendOnlineChallenge"
         >
           Hinzufügen
         </button>
       </template>
-      <template v-if="!isValidOnlineProjectUrl" #info
+      <template v-if="!isValidOnlineChallengeUrl" #info
         >Bitte gib die URL in folgendem Format ein: http://matchd.ch oder
         https://matchd.ch</template
       >
     </MatchdField>
 
-    <SelectPillGroup v-if="veeForm.onlineProjects?.length" class="mb-10">
+    <SelectPillGroup v-if="veeForm.onlineChallenges?.length" class="mb-10">
       <SelectPill
-        v-for="onlineProject in veeForm.onlineProjects"
-        :key="onlineProject.url"
+        v-for="onlineChallenge in veeForm.onlineChallenges"
+        :key="onlineChallenge.url"
         has-delete="true"
-        @remove="onRemoveOnlineProject(onlineProject)"
-        >{{ onlineProject.url }}</SelectPill
+        @remove="onRemoveOnlineChallenge(onlineChallenge)"
+        >{{ onlineChallenge.url }}</SelectPill
       >
     </SelectPillGroup>
     <!-- Certificates Field -->
@@ -201,7 +201,7 @@ import { studentProfileStep4InputMapper } from "@/api/mappers/studentProfileStep
 import type {
   Attachment,
   HobbyInput,
-  OnlineProjectInput,
+  OnlineChallengeInput,
   Skill,
   StudentProfileAbilitiesInput,
 } from "@/api/models/types";
@@ -263,7 +263,7 @@ export default class StudentStep4 extends Vue.with(Props) {
       }
       return true;
     });
-    const { value: onlineProjects } = useField<OnlineProjectInput[]>("onlineProjects");
+    const { value: onlineChallenges } = useField<OnlineChallengeInput[]>("onlineChallenges");
     const { value: hobbies } = useField<HobbyInput[]>("hobbies");
     const { value: distinction } =
       useField<StudentProfileAbilitiesInput["distinction"]>("distinction");
@@ -286,14 +286,14 @@ export default class StudentStep4 extends Vue.with(Props) {
       onSubmit,
       hobbies,
       languages,
-      onlineProjects,
+      onlineChallenges: onlineChallenges,
       skills,
     };
   });
 
   filteredSkills: Skill[] = [];
   skillInput = "";
-  onlineProjectInput = "";
+  onlineChallengeInput = "";
   hobbyInput = "";
 
   get showError() {
@@ -334,8 +334,8 @@ export default class StudentStep4 extends Vue.with(Props) {
     return this.$store.getters["languageLevels"];
   }
 
-  get isValidOnlineProjectUrl() {
-    return this.onlineProjectInput.length > 0 && isValidUrl(this.onlineProjectInput);
+  get isValidOnlineChallengeUrl() {
+    return this.onlineChallengeInput.length > 0 && isValidUrl(this.onlineChallengeInput);
   }
 
   get studentDocumentsQueue() {
@@ -405,19 +405,19 @@ export default class StudentStep4 extends Vue.with(Props) {
     );
   }
 
-  onAppendOnlineProject() {
-    if (this.isValidOnlineProjectUrl) {
-      this.veeForm.onlineProjects = [
-        ...this.veeForm.onlineProjects,
-        { url: this.onlineProjectInput },
+  onAppendOnlineChallenge() {
+    if (this.isValidOnlineChallengeUrl) {
+      this.veeForm.onlineChallenges = [
+        ...this.veeForm.onlineChallenges,
+        { url: this.onlineChallengeInput },
       ];
-      this.onlineProjectInput = "";
+      this.onlineChallengeInput = "";
     }
   }
 
-  onRemoveOnlineProject(onlineProject: OnlineProjectInput) {
-    this.veeForm.onlineProjects = this.veeForm.onlineProjects.filter(
-      (selectedOnlineProject) => selectedOnlineProject.url !== onlineProject.url
+  onRemoveOnlineChallenge(onlineChallenge: OnlineChallengeInput) {
+    this.veeForm.onlineChallenges = this.veeForm.onlineChallenges.filter(
+      (selectedOnlineChallenge) => selectedOnlineChallenge.url !== onlineChallenge.url
     );
   }
 

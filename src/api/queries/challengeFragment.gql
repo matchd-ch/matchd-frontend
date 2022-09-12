@@ -1,0 +1,75 @@
+fragment challengeChallenge on Challenge {
+  id
+  slug
+  title
+  displayTitle
+  description
+  teamSize
+  compensation
+  formStep
+  state
+  challengeFromDate
+  datePublished
+  website
+  matchStatus {
+    initiator
+    confirmed
+  }
+  keywords {
+    id
+    name
+  }
+  challengeType {
+    id
+    name
+  }
+  keywords {
+    id
+    name
+  }
+  company {
+    id
+    slug
+    name
+    street
+    zip
+    city
+  }
+  student {
+    id
+    slug
+    firstName
+    lastName
+    nickname
+    city
+  }
+  employee {
+    id
+    firstName
+    lastName
+    email
+    phone
+    role
+  }
+}
+
+fragment challengeImage on Attachment {
+  id
+  fileName
+  url
+  mimeType
+}
+
+fragment challengeImageFallback on Attachment {
+  id
+  fileName
+  url
+  mimeType
+}
+
+fragment challengeDocument on Attachment {
+  id
+  fileName
+  url
+  mimeType
+}

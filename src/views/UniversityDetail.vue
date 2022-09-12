@@ -77,7 +77,7 @@
         </ul>
       </ProfileSection>
       <ProfileSection
-        v-if="company.data.linkEducation || company.data.linkProjects || company.data.linkThesis"
+        v-if="company.data.linkEducation || company.data.linkChallenges || company.data.linkThesis"
         :pink="true"
         title="Wissenswertes zu..."
       >
@@ -92,20 +92,20 @@
             </a>
           </li>
         </ul>
-        <ul v-if="company.data.linkProjects" :class="{ 'mt-5': company.data.linkEducation }">
+        <ul v-if="company.data.linkChallenges" :class="{ 'mt-5': company.data.linkEducation }">
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Praxisprojekte</h3>
           </li>
           <li class="link-list__item hover:text-primary-1 transition-colors underline">
-            <a target="_blank" :href="company.data.linkProjects" class="inline-block">
-              {{ company.data.linkProjects }}
+            <a target="_blank" :href="company.data.linkChallenges" class="inline-block">
+              {{ company.data.linkChallenges }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </a>
           </li>
         </ul>
         <ul
           v-if="company.data.linkThesis"
-          :class="{ 'mt-5': company.data.linkProjects || company.data.linkEducation }"
+          :class="{ 'mt-5': company.data.linkChallenges || company.data.linkEducation }"
         >
           <li class="link-list__item">
             <h3 class="font-medium text-lg">Abschlussarbeiten</h3>
@@ -118,20 +118,17 @@
           </li>
         </ul>
       </ProfileSection>
-      <section
-        v-if="company.data.projectPostings.length > 0"
-        class="grow p-9 border-b border-pink-1"
-      >
+      <section v-if="company.data.challenges.length > 0" class="grow p-9 border-b border-pink-1">
         <h2 class="text-heading-lg mb-8 text-pink-1">
           Themen für wissenschaftliche Projektarbeiten
         </h2>
         <ul class="list">
-          <li v-for="project in company.data.projectPostings" :key="project.id">
+          <li v-for="challenge in company.data.challenges" :key="challenge.id">
             <router-link
-              :to="{ name: 'ProjectPostingDetail', params: { slug: project.slug } }"
+              :to="{ name: 'ChallengeDetail', params: { slug: challenge.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
-              {{ project.projectType.name }})
+              {{ challenge.challengeType.name }})
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>

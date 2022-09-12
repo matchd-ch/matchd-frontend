@@ -68,16 +68,16 @@
         </ul>
       </profile-section>
       <profile-section
-        v-if="student.data.onlineProjects?.length"
-        title="Das sind meine eigenen Projekte"
+        v-if="student.data.onlineChallenges?.length"
+        title="Das sind meine eigenen Challenges"
       >
         <ul>
-          <li v-for="project in student.data.onlineProjects" :key="project.id">
+          <li v-for="challenge in student.data.onlineChallenges" :key="challenge.id">
             <a
               class="font-medium underline text-lg text-black hover:text-green-1 transition-colors"
               target="_blank"
-              :href="project.url"
-              >{{ project.url }}</a
+              :href="challenge.url"
+              >{{ challenge.url }}</a
             >
           </li>
         </ul>
@@ -108,16 +108,16 @@
           </li>
         </ul>
       </profile-section>
-      <section v-if="student.data.projectPostings.length" class="grow p-9">
-        <h2 class="text-heading-lg mb-8 text-green-1">Projektideen</h2>
+      <section v-if="student.data.challenges.length" class="grow p-9">
+        <h2 class="text-heading-lg mb-8 text-green-1">Challenges</h2>
         <ul class="list">
-          <li v-for="projectPosting in student.data.projectPostings" :key="projectPosting.id">
+          <li v-for="challenge in student.data.challenges" :key="challenge.id">
             <router-link
-              :to="{ name: 'ProjectPostingDetail', params: { slug: projectPosting.slug } }"
+              :to="{ name: 'ChallengeDetail', params: { slug: challenge.slug } }"
               class="block text-lg underline hover:text-green-1 font-medium mb-2 transition-colors"
             >
-              {{ projectPosting.title }},
-              {{ projectPosting.projectType?.name }}
+              {{ challenge.title }},
+              {{ challenge.challengeType?.name }}
               <ArrowFront class="w-5 mb-1 ml-2 inline-block" />
             </router-link>
           </li>

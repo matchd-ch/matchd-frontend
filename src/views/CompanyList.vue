@@ -26,6 +26,7 @@ import { ProfileType } from "@/api/models/types";
 import GridTile from "@/components/GridTile.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { replaceStack } from "@/helpers/replaceStack";
+import { Routes } from "@/router";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
@@ -59,7 +60,7 @@ export default class CompanyList extends Vue {
     }
   }
   detailSiteRoute(type: string): string {
-    return ProfileType.University === type ? "UniversityDetail" : "CompanyDetail";
+    return ProfileType.University === type ? Routes.UNIVERSITY_DETAIL : Routes.COMPANY_DETAIL;
   }
 }
 </script>
