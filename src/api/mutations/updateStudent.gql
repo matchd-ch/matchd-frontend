@@ -1,0 +1,6 @@
+mutation UpdateStudent($input: UpdateStudentMutationInput!) {
+  updateStudent(input: $input) {
+    success
+    errors
+  }
+}

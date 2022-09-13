@@ -18,6 +18,7 @@ export async function isLoggedInGuard(
       await store.dispatch(ActionTypes.ME);
       next();
     } catch (e) {
+      await store.dispatch(ActionTypes.LOGOUT_CLEAR_STATE);
       next({ name: Routes.LOGIN, query: { redirectUri: to.fullPath } });
     }
   }

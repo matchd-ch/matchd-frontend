@@ -30,6 +30,7 @@ export type MeQuery = {
       profileStep: number;
       nickname?: string | null;
       state: Types.ProfileState;
+      isMatchable: boolean;
       branch?: { __typename?: "Branch"; id: string; name: string } | null;
       culturalFits: {
         __typename?: "CulturalFitConnection";
@@ -183,6 +184,7 @@ export const MeDocument = {
                       { kind: "Field", name: { kind: "Name", value: "profileStep" } },
                       { kind: "Field", name: { kind: "Name", value: "nickname" } },
                       { kind: "Field", name: { kind: "Name", value: "state" } },
+                      { kind: "Field", name: { kind: "Name", value: "isMatchable" } },
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "branch" },

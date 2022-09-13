@@ -14,6 +14,7 @@ import type {
   UniversityProfileRelationsInput,
   UniversityProfileSpecificDataInput,
   UniversityProfileValuesInput,
+  UpdateStudentMutationInput,
   UpdateUserMutationInput,
 } from "@/api/models/types";
 import { CompanyProfileAdvantagesDocument } from "@/api/mutations/companyProfileAdvantages.generated";
@@ -34,6 +35,7 @@ import { UniversityProfileBaseDataDocument } from "@/api/mutations/universityPro
 import { UniversityProfileRelationsDocument } from "@/api/mutations/universityProfileRelations.generated";
 import { UniversityProfileSpecificDataDocument } from "@/api/mutations/universityProfileSpecificData.generated";
 import { UniversityProfileValuesDocument } from "@/api/mutations/universityProfileValues.generated";
+import { UpdateStudentDocument } from "@/api/mutations/updateStudent.generated";
 import { UpdateUserDocument } from "@/api/mutations/updateUser.generated";
 import { ZipCityDocument } from "@/api/queries/zipCity.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
@@ -98,6 +100,10 @@ export interface Actions {
   [ActionTypes.UPDATE_USER](
     { commit }: AugmentedActionContext,
     payload: UpdateUserMutationInput
+  ): Promise<void>;
+  [ActionTypes.UPDATE_STUDENT](
+    { commit }: AugmentedActionContext,
+    payload: UpdateStudentMutationInput
   ): Promise<void>;
   [ActionTypes.PASSWORD_CHANGE](
     { commit }: AugmentedActionContext,
@@ -246,23 +252,28 @@ export const actions: ActionTree<State, RootState> & Actions = {
     );
   },
   async [ActionTypes.UPDATE_USER]({ commit }, payload: UpdateUserMutationInput) {
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
+    commit(MutationTypes.UPDATE_USER_LOADING);
     const response = await apiClient.mutate({
       mutation: UpdateUserDocument,
       variables: { input: payload },
     });
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADED, response.data?.updateUser ?? undefined);
+    commit(MutationTypes.UPDATE_USER_LOADED, response.data?.updateUser ?? undefined);
+  },
+  async [ActionTypes.UPDATE_STUDENT]({ commit }, payload: UpdateStudentMutationInput) {
+    commit(MutationTypes.UPDATE_STUDENT_LOADING);
+    const response = await apiClient.mutate({
+      mutation: UpdateStudentDocument,
+      variables: { input: payload },
+    });
+    commit(MutationTypes.UPDATE_STUDENT_LOADED, response.data?.updateStudent ?? undefined);
   },
   async [ActionTypes.PASSWORD_CHANGE]({ commit }, payload: PasswordChangeMutationVariables) {
-    commit(MutationTypes.COMPANY_ONBOARDING_STEP_LOADING);
+    commit(MutationTypes.PASSWORD_CHANGE_LOADING);
     const response = await apiClient.mutate({
       mutation: PasswordChangeDocument,
       variables: payload,
     });
-    commit(
-      MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
-      response.data?.passwordChange ?? undefined
-    );
+    commit(MutationTypes.PASSWORD_CHANGE_LOADED, response.data ?? undefined);
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit },

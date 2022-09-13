@@ -2522,6 +2522,14 @@ declare module "*/universityProfileValues.gql" {
   export default defaultDocument;
 }
 
+declare module "*/updateStudent.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const UpdateStudent: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/updateUser.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -2680,6 +2688,10 @@ declare module "*/culturalFits.gql" {
 declare module "*/dashboard.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
+  export const dashboardStudent: DocumentNode;
+  export const dashboardCompany: DocumentNode;
+  export const dashboardChallenge: DocumentNode;
+  export const dashboardJobPosting: DocumentNode;
   export const dashboard: DocumentNode;
 
   export default defaultDocument;
@@ -2996,6 +3008,67 @@ export const ChallengesChallenge = gql`
     datePublished
     avatarUrl
   }
+`;
+export const DashboardCompany = gql`
+  fragment dashboardCompany on Company {
+    id
+    name
+    city
+    zip
+    slug
+  }
+`;
+export const DashboardStudent = gql`
+  fragment dashboardStudent on Student {
+    id
+    nickname
+    firstName
+    lastName
+    slug
+    zip
+  }
+`;
+export const DashboardChallenge = gql`
+  fragment dashboardChallenge on Challenge {
+    id
+    title
+    displayTitle
+    datePublished
+    dateCreated
+    slug
+    state
+    keywords {
+      id
+      name
+    }
+    challengeType {
+      id
+      name
+    }
+    company {
+      ...dashboardCompany
+    }
+    student {
+      ...dashboardStudent
+    }
+  }
+  ${DashboardCompany}
+  ${DashboardStudent}
+`;
+export const DashboardJobPosting = gql`
+  fragment dashboardJobPosting on JobPosting {
+    id
+    title
+    displayTitle
+    datePublished
+    dateCreated
+    slug
+    state
+    company {
+      ...dashboardCompany
+    }
+  }
+  ${DashboardCompany}
 `;
 export const EmployeesEmployee = gql`
   fragment employeesEmployee on Employee {
@@ -3563,6 +3636,14 @@ const UniversityProfileValues = gql`
     }
   }
 `;
+const UpdateStudent = gql`
+  mutation UpdateStudent($input: UpdateStudentMutationInput!) {
+    updateStudent(input: $input) {
+      success
+      errors
+    }
+  }
+`;
 const UpdateUser = gql`
   mutation UpdateUser($input: UpdateUserMutationInput!) {
     updateUser(input: $input) {
@@ -3869,196 +3950,58 @@ const Dashboard = gql`
   query dashboard {
     dashboard {
       challenges {
-        id
-        title
-        displayTitle
-        datePublished
-        dateCreated
-        slug
-        state
-        keywords {
-          id
-          name
-        }
-        challengeType {
-          id
-          name
-        }
-        keywords {
-          id
-          name
-        }
-        company {
-          name
-          city
-          zip
+        ...dashboardChallenge
+      }
+      challengeMatches {
+        challenge {
+          ...dashboardChallenge
         }
         student {
-          firstName
-          lastName
-          nickname
-          zip
+          ...dashboardStudent
         }
-      }
-      latestJobPostings {
-        id
-        title
-        displayTitle
-        datePublished
-        dateCreated
-        slug
-        state
         company {
-          name
-          city
-          zip
+          ...dashboardCompany
         }
       }
       latestChallenges {
-        id
-        title
-        displayTitle
-        datePublished
-        dateCreated
-        slug
-        state
-        challengeType {
-          id
-          name
-        }
-        keywords {
-          id
-          name
-        }
-        company {
-          name
-          city
-          zip
-        }
-        student {
-          firstName
-          lastName
-          nickname
-          zip
-        }
+        ...dashboardChallenge
+      }
+      latestJobPostings {
+        ...dashboardJobPosting
       }
       jobPostings {
-        id
-        title
-        displayTitle
-        datePublished
-        dateCreated
-        slug
-        state
-        company {
-          name
-          city
-          zip
-        }
+        ...dashboardJobPosting
       }
       requestedMatches {
         jobPosting {
-          id
-          title
-          displayTitle
-          slug
-          state
-          company {
-            name
-            city
-            zip
-          }
+          ...dashboardJobPosting
         }
         student {
-          nickname
-          firstName
-          lastName
-          slug
+          ...dashboardStudent
         }
       }
       unconfirmedMatches {
         jobPosting {
-          id
-          title
-          displayTitle
-          slug
-          state
-          company {
-            name
-            city
-            zip
-          }
+          ...dashboardJobPosting
         }
         student {
-          nickname
-          firstName
-          lastName
-          slug
+          ...dashboardStudent
         }
       }
       confirmedMatches {
         jobPosting {
-          id
-          title
-          displayTitle
-          slug
-          state
-          company {
-            name
-            city
-            zip
-          }
+          ...dashboardJobPosting
         }
         student {
-          nickname
-          firstName
-          lastName
-          slug
-        }
-      }
-      challengeMatches {
-        challenge {
-          id
-          title
-          displayTitle
-          slug
-          state
-          keywords {
-            id
-            name
-          }
-          challengeType {
-            id
-            name
-          }
-          company {
-            name
-            city
-            zip
-            slug
-          }
-          student {
-            id
-            slug
-            firstName
-            lastName
-            nickname
-          }
-        }
-        student {
-          nickname
-          firstName
-          lastName
-          slug
-        }
-        company {
-          id
-          name
-          slug
+          ...dashboardStudent
         }
       }
     }
   }
+  ${DashboardChallenge}
+  ${DashboardStudent}
+  ${DashboardCompany}
+  ${DashboardJobPosting}
 `;
 const Employees = gql`
   query employees {
@@ -4217,6 +4160,7 @@ const Me = gql`
         profileStep
         nickname
         state
+        isMatchable
         branch {
           id
           name

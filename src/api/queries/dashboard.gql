@@ -1,192 +1,102 @@
+fragment dashboardStudent on Student {
+  id
+  nickname
+  firstName
+  lastName
+  slug
+  zip
+}
+fragment dashboardCompany on Company {
+  id
+  name
+  city
+  zip
+  slug
+}
+fragment dashboardChallenge on Challenge {
+  id
+  title
+  displayTitle
+  datePublished
+  dateCreated
+  slug
+  state
+  keywords {
+    id
+    name
+  }
+  challengeType {
+    id
+    name
+  }
+  company {
+    ...dashboardCompany
+  }
+  student {
+    ...dashboardStudent
+  }
+}
+
+fragment dashboardJobPosting on JobPosting {
+  id
+  title
+  displayTitle
+  datePublished
+  dateCreated
+  slug
+  state
+  company {
+    ...dashboardCompany
+  }
+}
+
 query dashboard {
   dashboard {
     challenges {
-      id
-      title
-      displayTitle
-      datePublished
-      dateCreated
-      slug
-      state
-      keywords {
-        id
-        name
-      }
-      challengeType {
-        id
-        name
-      }
-      keywords {
-        id
-        name
-      }
-      company {
-        name
-        city
-        zip
+      ...dashboardChallenge
+    }
+    challengeMatches {
+      challenge {
+        ...dashboardChallenge
       }
       student {
-        firstName
-        lastName
-        nickname
-        zip
+        ...dashboardStudent
       }
-    }
-    latestJobPostings {
-      id
-      title
-      displayTitle
-      datePublished
-      dateCreated
-      slug
-      state
       company {
-        name
-        city
-        zip
+        ...dashboardCompany
       }
     }
     latestChallenges {
-      id
-      title
-      displayTitle
-      datePublished
-      dateCreated
-      slug
-      state
-      challengeType {
-        id
-        name
-      }
-      keywords {
-        id
-        name
-      }
-      company {
-        name
-        city
-        zip
-      }
-      student {
-        firstName
-        lastName
-        nickname
-        zip
-      }
+      ...dashboardChallenge
+    }
+    latestJobPostings {
+      ...dashboardJobPosting
     }
     jobPostings {
-      id
-      title
-      displayTitle
-      datePublished
-      dateCreated
-      slug
-      state
-      company {
-        name
-        city
-        zip
-      }
+      ...dashboardJobPosting
     }
     requestedMatches {
       jobPosting {
-        id
-        title
-        displayTitle
-        slug
-        state
-        company {
-          name
-          city
-          zip
-        }
+        ...dashboardJobPosting
       }
       student {
-        nickname
-        firstName
-        lastName
-        slug
+        ...dashboardStudent
       }
     }
     unconfirmedMatches {
       jobPosting {
-        id
-        title
-        displayTitle
-        slug
-        state
-        company {
-          name
-          city
-          zip
-        }
+        ...dashboardJobPosting
       }
       student {
-        nickname
-        firstName
-        lastName
-        slug
+        ...dashboardStudent
       }
     }
     confirmedMatches {
       jobPosting {
-        id
-        title
-        displayTitle
-        slug
-        state
-        company {
-          name
-          city
-          zip
-        }
+        ...dashboardJobPosting
       }
       student {
-        nickname
-        firstName
-        lastName
-        slug
-      }
-    }
-    challengeMatches {
-      challenge {
-        id
-        title
-        displayTitle
-        slug
-        state
-        keywords {
-          id
-          name
-        }
-        challengeType {
-          id
-          name
-        }
-        company {
-          name
-          city
-          zip
-          slug
-        }
-        student {
-          id
-          slug
-          firstName
-          lastName
-          nickname
-        }
-      }
-      student {
-        nickname
-        firstName
-        lastName
-        slug
-      }
-      company {
-        id
-        name
-        slug
+        ...dashboardStudent
       }
     }
   }

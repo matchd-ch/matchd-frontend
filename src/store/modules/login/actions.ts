@@ -29,6 +29,7 @@ export interface Actions {
     payload: { username: string; password: string }
   ): Promise<void>;
   [ActionTypes.LOGOUT]({ commit }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.LOGOUT_CLEAR_STATE]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.REFRESH_LOGIN]({ commit, getters }: AugmentedActionContext): Promise<void>;
   [ActionTypes.ME]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.VERIFY_PASSWORD_RESET_TOKEN](
@@ -61,6 +62,10 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     await apiClient.resetStore();
     commit(MutationTypes.LOGOUT_LOADED, response);
+  },
+  async [ActionTypes.LOGOUT_CLEAR_STATE]({ commit }) {
+    await apiClient.resetStore();
+    commit(MutationTypes.LOGOUT_LOADED, {});
   },
   async [ActionTypes.REFRESH_LOGIN]({ commit, getters }) {
     commit(MutationTypes.REFRESH_LOGIN_LOADING);

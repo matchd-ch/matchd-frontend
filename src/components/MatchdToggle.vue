@@ -15,7 +15,7 @@
         <span
           aria-hidden="true"
           class="matchd-toggle__slider-knob pointer-events-none inline-block h-6 w-6 m-1 rounded-full bg-white ring-0 transition ease-in-out duration-200 translate-x-0"
-        ></span>
+        />
       </label>
       <span class="matchd-toggle__value-on ml-3">
         <slot name="value" />

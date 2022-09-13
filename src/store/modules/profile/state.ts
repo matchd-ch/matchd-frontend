@@ -8,6 +8,21 @@ export type State = {
     errors: MatchdApiError | null;
     nicknameSuggestions: string[];
   };
+  updateStudent: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
+  updateUser: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
+  passwordChange: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
   zipCity: {
     loading: boolean;
     data: ZipCity[];
@@ -20,6 +35,21 @@ export const state: State = {
     success: false,
     errors: null,
     nicknameSuggestions: [],
+  },
+  updateStudent: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  updateUser: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  passwordChange: {
+    loading: false,
+    success: false,
+    errors: null,
   },
   zipCity: {
     loading: false,

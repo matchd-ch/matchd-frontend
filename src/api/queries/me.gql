@@ -22,6 +22,7 @@ query me {
       profileStep
       nickname
       state
+      isMatchable
       branch {
         id
         name

@@ -68,53 +68,50 @@
         </matchd-button>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
-        <p v-if="dashboard?.requestedMatches?.length">
+        <p v-if="dashboard?.requestedMatches?.length || dashboard?.challengeMatches?.length">
           Sobald Ihre Matching-Anfrage vom Talent bestätigt wurde, kanns mit dem Kennenlernen
           weitergehen.
         </p>
-        <p v-if="!dashboard?.requestedMatches?.length">
+        <p v-else>
           Momentan haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
           hier sehen.
         </p>
-        <CompanyMatchGroup
-          class="mt-4"
-          :matches="dashboard?.uniqueRequestedJobPostingMatchings"
-        ></CompanyMatchGroup>
+        <template v-if="dashboard?.challengeMatches?.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4 mt-8">Challenges</h2>
+          <CompanyMatchGroup class="mt-4" :matches="dashboard?.challengeMatches" />
+        </template>
+        <template v-if="dashboard?.requestedMatches?.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
+          <CompanyMatchGroup
+            class="mt-4"
+            :matches="dashboard?.uniqueRequestedJobPostingMatchings"
+          />
+        </template>
       </profile-section>
       <profile-section title="Anfragen zum Matching" :pink="true">
-        <p v-if="dashboard?.unconfirmedMatches?.length">
-          Ihre Ausschreibung ist beliebt. Folgende Talente möchten Sie gerne kennenlernen.
-        </p>
-        <p v-else>
+        <p v-if="!dashboard?.unconfirmedMatches?.length">
           Momentan haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie
           das hier sehen.
         </p>
-        <CompanyMatchGroup
-          class="mt-4"
-          :matches="dashboard?.uniqueUnconfirmedJobPostingMatchings"
-        ></CompanyMatchGroup>
+        <div v-else>
+          <p>Ihre Ausschreibung ist beliebt. Folgende Talente möchten Sie gerne kennenlernen.</p>
+          <h2 class="text-base font-medium text-primary-1 mb-4 mt-8">Challenges</h2>
+          <CompanyMatchGroup class="mt-4" :matches="dashboard?.challengeMatches" />
+          <h2 class="text-base font-medium text-primary-1 mb-4 mt-8">Stellen</h2>
+          <CompanyMatchGroup
+            class="mt-4"
+            :matches="dashboard?.uniqueUnconfirmedJobPostingMatchings"
+          />
+        </div>
       </profile-section>
       <profile-section
         v-if="dashboard?.confirmedMatches?.length || dashboard?.challengeMatches?.length"
         title="Hier hats gematchd!"
         :pink="true"
       >
-        <template v-if="dashboard?.challengeMatches">
-          <h2 class="text-base font-medium text-primary-1 mb-4">Challenges</h2>
-          <CompanyMatchGroup
-            type="Challenge"
-            :matches="dashboard.uniqueChallengeMatchings"
-          ></CompanyMatchGroup>
-        </template>
-
         <template v-if="dashboard?.confirmedMatches?.length">
-          <h2
-            class="text-base font-medium text-primary-1 mb-4"
-            :class="{ 'mt-8': dashboard?.challengeMatches?.length }"
-          >
-            Stellen
-          </h2>
-          <CompanyMatchGroup :matches="dashboard?.uniqueJobPostingMatchings"></CompanyMatchGroup>
+          <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
+          <CompanyMatchGroup :matches="dashboard?.uniqueJobPostingMatchings" />
         </template>
       </profile-section>
     </div>

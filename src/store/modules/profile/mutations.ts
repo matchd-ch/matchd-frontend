@@ -14,9 +14,11 @@ import type {
   UniversityProfileRelationsPayload,
   UniversityProfileSpecificDataPayload,
   UniversityProfileValuesPayload,
+  UpdateStudentMutationPayload,
   UpdateUserMutationPayload,
   ZipCity,
 } from "@/api/models/types";
+import { PasswordChangeMutation } from "@/api/mutations/passwordChange.generated";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { State } from "@/store/modules/profile/state";
 import { MutationTree } from "vuex";
@@ -47,6 +49,12 @@ export type UniversityProfileStep =
 export type Mutations<S = State> = {
   [MutationTypes.STUDENT_ONBOARDING_STEP_LOADING](state: S): void;
   [MutationTypes.STUDENT_ONBOARDING_STEP_LOADED](state: S, payload: StudentProfileStep): void;
+  [MutationTypes.UPDATE_STUDENT_LOADING](state: S): void;
+  [MutationTypes.UPDATE_STUDENT_LOADED](state: S, payload: UpdateStudentMutationPayload): void;
+  [MutationTypes.UPDATE_USER_LOADING](state: S): void;
+  [MutationTypes.UPDATE_USER_LOADED](state: S, payload: UpdateUserMutationPayload): void;
+  [MutationTypes.PASSWORD_CHANGE_LOADING](state: S): void;
+  [MutationTypes.PASSWORD_CHANGE_LOADED](state: S, payload: PasswordChangeMutation): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP_LOADING](state: S): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP_LOADED](state: S, payload: CompanyProfileStep): void;
   [MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING](state: S): void;
@@ -68,6 +76,30 @@ export const mutations: MutationTree<State> & Mutations = {
     state.profile.loading = false;
     state.profile.success = payload.success || false;
     state.profile.errors = errorCodeMapper(payload.errors);
+  },
+  [MutationTypes.UPDATE_USER_LOADING](state: State) {
+    state.updateUser.loading = true;
+  },
+  [MutationTypes.UPDATE_USER_LOADED](state: State, payload: UpdateUserMutationPayload) {
+    state.updateUser.loading = false;
+    state.updateUser.success = payload.success || false;
+    state.updateUser.errors = errorCodeMapper(payload.errors);
+  },
+  [MutationTypes.UPDATE_STUDENT_LOADING](state: State) {
+    state.updateStudent.loading = true;
+  },
+  [MutationTypes.UPDATE_STUDENT_LOADED](state: State, payload: UpdateStudentMutationPayload) {
+    state.updateStudent.loading = false;
+    state.updateStudent.success = payload.success || false;
+    state.updateStudent.errors = errorCodeMapper(payload.errors);
+  },
+  [MutationTypes.PASSWORD_CHANGE_LOADING](state: State) {
+    state.passwordChange.loading = true;
+  },
+  [MutationTypes.PASSWORD_CHANGE_LOADED](state: State, payload: PasswordChangeMutation) {
+    state.passwordChange.loading = false;
+    state.passwordChange.success = payload.passwordChange?.success || false;
+    state.passwordChange.errors = errorCodeMapper(payload.passwordChange?.errors);
   },
   [MutationTypes.COMPANY_ONBOARDING_STEP_LOADING](state: State) {
     state.profile.loading = true;
