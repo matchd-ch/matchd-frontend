@@ -57,6 +57,7 @@
           maxlength="255"
           type="email"
           rules="required|email"
+          autocomplete="username"
         />
       </MatchdField>
       <h2 class="text-heading-lg mt-16 mb-8">Passwort ändern</h2>
@@ -69,6 +70,7 @@
           type="password"
           label="Altes Passwort"
           maxlength="255"
+          autocomplete="current-password"
         />
       </MatchdField>
       <MatchdField id="newPassword1" class="mb-10" :errors="form.errors.value.newPassword1">
@@ -80,6 +82,7 @@
           type="password"
           label="Neues Passwort"
           maxlength="255"
+          autocomplete="new-password"
         />
       </MatchdField>
       <MatchdField id="newPassword2" class="mb-10" :errors="form.errors.value.newPassword2">
@@ -91,6 +94,7 @@
           type="password"
           label="Neues Passwort wiederholen"
           maxlength="255"
+          autocomplete="new-password"
         />
       </MatchdField>
       <teleport to="footer">
