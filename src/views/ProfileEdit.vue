@@ -34,7 +34,7 @@
   <div class="profil min-h-content-with-fixed-bars">
     <div class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5">
       <component
-        :is="currentProfileComponent"
+        :is="currentProfile?.component"
         :edit="true"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 px-4 lg:px-5 py-12"
         @change-dirty="onChangeDirty"
@@ -105,6 +105,8 @@ interface ProfileItem {
     | typeof UniversitySettingsAccount;
   label: string;
   step: string;
+  /** Is set to true it disables the isDirty confirmation dialog before */
+  disableIsDirtyCheck?: boolean;
 }
 
 interface Profiles {
@@ -139,6 +141,7 @@ const profiles: Profiles = {
       component: CompanySettingsAccount,
       step: "konto",
       label: "Konto",
+      disableIsDirtyCheck: true,
     },
   ],
   student: [
@@ -176,6 +179,7 @@ const profiles: Profiles = {
       component: StudentSettingsAccount,
       step: "konto",
       label: "Konto",
+      disableIsDirtyCheck: true,
     },
   ],
   university: [
@@ -203,6 +207,7 @@ const profiles: Profiles = {
       component: UniversitySettingsAccount,
       step: "konto",
       label: "Konto",
+      disableIsDirtyCheck: true,
     },
   ],
 };
@@ -225,13 +230,13 @@ const isUniversity = computed(() => {
   return store.getters["isUniversity"];
 });
 
-const currentProfileComponent = computed(() => {
+const currentProfile = computed(() => {
   if (isUniversity.value) {
-    return profiles.university.find((p) => p.step === route.params.step)?.component;
+    return profiles.university.find((p) => p.step === route.params.step);
   } else if (isCompany.value) {
-    return profiles.company.find((p) => p.step === route.params.step)?.component;
+    return profiles.company.find((p) => p.step === route.params.step);
   } else {
-    return profiles.student.find((p) => p.step === route.params.step)?.component;
+    return profiles.student.find((p) => p.step === route.params.step);
   }
 });
 

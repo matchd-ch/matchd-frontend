@@ -132,7 +132,7 @@ import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { Routes } from "@/router";
 import { useStore } from "@/store";
-import { ActionTypes as LoginActionTypes } from "@/store/modules/login/action-types";
+import { ActionTypes, ActionTypes as LoginActionTypes } from "@/store/modules/login/action-types";
 import { ActionTypes as ProfileActionTypes } from "@/store/modules/profile/action-types";
 import { Field, useForm } from "vee-validate";
 import { computed, onMounted, ref, watch } from "vue";
@@ -173,16 +173,18 @@ interface FormData {
   isMatchable?: boolean;
 }
 
+const getInitialFormValues = (): FormData => ({
+  email: user.value?.email ?? "",
+  oldPassword: "",
+  newPassword1: "",
+  newPassword2: "",
+  ...(isStudent.value && {
+    isMatchable: user.value?.student?.isMatchable ?? false,
+  }),
+});
+
 const form = useForm<FormData>({
-  initialValues: {
-    email: user.value?.email ?? "",
-    oldPassword: "",
-    newPassword1: "",
-    newPassword2: "",
-    ...(isStudent.value && {
-      isMatchable: user.value?.student?.isMatchable ?? false,
-    }),
-  },
+  initialValues: getInitialFormValues(),
 });
 
 const handleOnBeforeFormSubmit = form.handleSubmit(async (formData) => {
@@ -265,7 +267,8 @@ const handleFormSubmit = form.handleSubmit(async (formData) => {
     await updateStudent(formData);
     await updatePassword(formData);
     await updateEmail(formData);
-    // emits("submitComplete", updateUserState.value.success);
+    await store.dispatch(ActionTypes.ME);
+    form.resetForm({ values: getInitialFormValues() });
   } catch (e) {
     console.error(e);
   }
