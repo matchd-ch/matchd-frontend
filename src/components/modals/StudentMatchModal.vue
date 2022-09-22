@@ -1,6 +1,6 @@
 <template>
   <MatchingModal>
-    <h2 class="text-heading-sm mb-3">Hallo {{ user.firstName }} {{ user.lastName }}</h2>
+    <h2 class="text-heading-sm mb-3">Hallo {{ user?.firstName }} {{ user?.lastName }}</h2>
     <p class="mb-3">
       <template v-if="matchType === matchTypeEnum.HalfMatch">
         Nach dem Klick auf "Match bestätigen" informieren wir
@@ -22,15 +22,11 @@
       <MatchdButton
         variant="outline"
         class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-        @click="$emit('clickCancel')"
+        @click="emit('clickCancel')"
       >
         Abbrechen
       </MatchdButton>
-      <MatchdButton
-        :loading="loading"
-        class="block w-full md:w-auto"
-        @click="$emit('clickConfirm')"
-      >
+      <MatchdButton :loading="loading" class="block w-full md:w-auto" @click="emit('clickConfirm')">
         <template v-if="matchType === matchTypeEnum.HalfMatch">Match bestätigen</template>
         <template v-else>Matching starten</template>
       </MatchdButton>
@@ -38,30 +34,29 @@
   </MatchingModal>
 </template>
 
-<script lang="ts">
-import type { Student, User } from "@/api/models/types";
+<script setup lang="ts">
+import { MeQuery } from "@/api/queries/me.generated";
+import { StudentStudentFragment } from "@/api/queries/studentFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
-import { Options, prop, Vue } from "vue-class-component";
+import { computed } from "vue";
 
-class Props {
-  user = prop<User>({});
-  student = prop<Student>({});
-  loading = prop<boolean>({ default: false });
-  matchType = prop<MatchTypeEnum>({});
-}
-
-@Options({
-  components: {
-    MatchdButton,
-    MatchingModal,
-  },
-  emits: ["clickConfirm", "clickCancel"],
-})
-export default class StudentMatchModal extends Vue.with(Props) {
-  get matchTypeEnum(): typeof MatchTypeEnum {
-    return MatchTypeEnum;
+const props = withDefaults(
+  defineProps<{
+    user: MeQuery["me"];
+    student: StudentStudentFragment;
+    loading?: boolean;
+    matchType: MatchTypeEnum;
+  }>(),
+  {
+    loading: false,
   }
-}
+);
+
+const emit = defineEmits<{
+  (event: "clickConfirm"): void;
+  (event: "clickCancel"): void;
+}>();
+const matchTypeEnum = computed(() => MatchTypeEnum);
 </script>

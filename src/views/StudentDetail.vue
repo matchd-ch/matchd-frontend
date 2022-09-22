@@ -14,9 +14,9 @@
       </div>
       <div class="flex justify-center mt-9">
         <StackImage
-          v-if="student?.avatar?.url || student?.avatarFallback?.url"
+          v-if="student.avatar?.url || student.avatarFallback?.url"
           class="avatar rounded-full object-cover"
-          :url="student.avatar?.url || student.avatarFallback?.url"
+          :url="student.avatar?.url || student.avatarFallback?.url || ''"
           stack="avatar"
           :alt="`Profilbild ${student.data.nickname}`"
         />
@@ -126,22 +126,22 @@
     </div>
     <teleport to="footer">
       <MatchingBar v-if="hasMatchingBar">
-        <template v-if="matchType === matchTypeEnum.HalfOwnMatch"
-          >Sie haben bereits Interesse an diesem Talent gezeigt</template
-        >
-        <template v-else-if="matchType === matchTypeEnum.FullMatch"
-          >Gratulation, it’s a Match!</template
-        >
-        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch"
-          >Match bestätigen</MatchdButton
-        >
-        <MatchdButton v-else @click="onClickMatch"
-          >Mit {{ student.data.firstName || student.data.nickname }} matchen</MatchdButton
-        >
+        <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
+          Sie haben bereits Interesse an diesem Talent gezeigt
+        </template>
+        <template v-else-if="matchType === matchTypeEnum.FullMatch">
+          Gratulation, it’s a Match!
+        </template>
+        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
+          Match bestätigen
+        </MatchdButton>
+        <MatchdButton v-else @click="onClickMatch">
+          Mit {{ student.data.firstName || student.data.nickname }} matchen
+        </MatchdButton>
       </MatchingBar>
     </teleport>
     <StudentMatchModal
-      v-if="showConfirmationModal"
+      v-if="showConfirmationModal && user"
       :user="user"
       :student="student.data"
       :loading="matchLoading"
@@ -157,7 +157,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { DateMode, ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
@@ -169,187 +169,154 @@ import StudentMatchModal from "@/components/modals/StudentMatchModal.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
-import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import { Options, setup, Vue } from "vue-class-component";
+import { computed, nextTick, onMounted, ref } from "vue";
+import { Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import StackImage from "../components/StackImage.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
-@Options({
-  components: {
-    ArrowBack,
-    ArrowFront,
-    ArrowDown,
-    ProfileSection,
-    MatchdButton,
-    MatchingBar,
-    StudentMatchModal,
-    StudentFullMatchModal,
-    StackImage,
-  },
-})
-export default class StudentDetail extends Vue {
-  meta = setup(() => useMeta({}));
-  showConfirmationModal = false;
-  showMatchModal = false;
+const meta = useMeta({});
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+const showConfirmationModal = ref(false);
+const showMatchModal = ref(false);
 
-  get user() {
-    return this.$store.getters["user"];
+const user = computed(() => store.getters["user"]);
+const hasMatchingBar = computed(() => !!route.query.jobPostingId);
+const matchLoading = computed(() => store.getters["matchLoading"]);
+const matchTypeEnum = computed(() => MatchTypeEnum);
+
+const student = computed(() => {
+  const student = store.getters["student"];
+  if (!student?.data) {
+    return { data: null, avatar: null, avatarFallback: null, certificates: [], loading: false };
   }
+  return {
+    ...student,
+    data: {
+      ...student.data,
+      dateOfBirth: student.data.dateOfBirth
+        ? formatDate(student.data.dateOfBirth, "LLLL yyyy")
+        : "",
+    },
+    certificates: student.certificates,
+    avatar: student.avatar,
+    avatarFallback: student.avatarFallback,
+  };
+});
 
-  get hasMatchingBar(): boolean {
-    return !!this.$route.query.jobPostingId;
+const matchType = computed(() => {
+  if (student.value?.data?.matchStatus === null) {
+    return MatchTypeEnum.EmptyMatch;
+  } else if (
+    student.value?.data?.matchStatus?.confirmed === false &&
+    student.value?.data?.matchStatus?.initiator === ProfileType.Student
+  ) {
+    return MatchTypeEnum.HalfMatch;
+  } else if (
+    student.value?.data?.matchStatus?.confirmed === false &&
+    student.value?.data?.matchStatus?.initiator === ProfileType.Company
+  ) {
+    return MatchTypeEnum.HalfOwnMatch;
+  } else {
+    return MatchTypeEnum.FullMatch;
   }
+});
 
-  get matchLoading(): boolean {
-    return this.$store.getters["matchLoading"];
+const lookingFor = computed(() => {
+  if (!student.value.data?.jobFromDate || !student.value.data?.jobToDate) {
+    return "";
   }
+  const jobType = student.value.data?.jobType;
+  const jobFromDate = formatDate(student.value.data.jobFromDate, "LLLL yyyy");
+  const jobToDate = formatDate(student.value.data.jobToDate, "LLLL yyyy");
+  const branch = student.value.data?.branch?.name;
 
-  get matchTypeEnum(): typeof MatchTypeEnum {
-    return MatchTypeEnum;
+  if (jobType?.mode === DateMode.DateRange) {
+    return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
   }
+  return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
+});
 
-  get matchType(): MatchTypeEnum {
-    if (this.student?.data?.matchStatus === null) {
-      return MatchTypeEnum.EmptyMatch;
-    } else if (
-      this.student?.data?.matchStatus?.confirmed === false &&
-      this.student?.data?.matchStatus?.initiator === ProfileType.Student
-    ) {
-      return MatchTypeEnum.HalfMatch;
-    } else if (
-      this.student?.data?.matchStatus?.confirmed === false &&
-      this.student?.data?.matchStatus?.initiator === ProfileType.Company
-    ) {
-      return MatchTypeEnum.HalfOwnMatch;
-    } else {
-      return MatchTypeEnum.FullMatch;
-    }
+const certificateUrl = (id: string) =>
+  student.value.certificates.find((cert) => id == cert.id)?.url ?? "";
+
+const loadData = async (slug: string, jobPostingId?: string) => {
+  try {
+    await store.dispatch(ActionTypes.STUDENT, {
+      slug,
+      ...(jobPostingId && { jobPostingId }),
+    });
+    meta.meta.title = student.value.data?.firstName
+      ? `${student.value.data?.firstName} ${student.value.data?.lastName} (${student.value.data?.nickname})`
+      : student.value.data?.nickname;
+    showMatchModal.value = matchType.value === MatchTypeEnum.FullMatch;
+  } catch (e) {
+    router.replace("/404");
   }
+};
 
-  get student() {
-    const student = this.$store.getters["student"];
-    if (!student?.data) {
-      return { data: null, avatar: null, avatarFallback: null, certificates: [], loading: false };
-    }
-    return {
-      ...student,
-      data: {
-        ...student.data,
-        dateOfBirth: student.data.dateOfBirth
-          ? formatDate(student.data.dateOfBirth, "LLLL yyyy")
-          : "",
+onBeforeRouteUpdate(async (to, _from, next) => {
+  if (to.params.slug) {
+    await loadData(
+      String(to.params.slug),
+      to.query.jobPostingId ? String(to.query.jobPostingId) : undefined
+    );
+  }
+  next();
+});
+
+onMounted(async () => {
+  if (route.params.slug) {
+    await loadData(
+      String(route.params.slug),
+      route.query.jobPostingId ? String(route.query.jobPostingId) : undefined
+    );
+    calculateMargins();
+  }
+});
+
+const mutateMatch = async () => {
+  if (String(route.query.jobPostingId) && student.value.data?.id) {
+    await store.dispatch(ActionTypes.MATCH_STUDENT, {
+      jobPosting: {
+        id: String(route.query.jobPostingId),
       },
-      certificates: student.certificates,
-      avatar: student.avatar,
-      avatarFallback: student.avatarFallback,
-    };
+      student: {
+        id: student.value.data.id,
+      },
+    });
+    await loadData(
+      String(route.params.slug),
+      route.query.jobPostingId ? String(route.query.jobPostingId) : undefined
+    );
+    showConfirmationModal.value = false;
+    showMatchModal.value = matchType.value === MatchTypeEnum.FullMatch;
+    nextTick(calculateMargins);
   }
+};
 
-  replaceStack(url: string, stack: string): string {
-    return replaceStack(url, stack);
-  }
+const onClickMatchConfirm = async () => {
+  await mutateMatch();
+};
 
-  get lookingFor() {
-    if (!this.student.data?.jobFromDate || !this.student.data?.jobToDate) {
-      return "";
-    }
-    const jobType = this.student.data?.jobType;
-    const jobFromDate = formatDate(this.student.data.jobFromDate, "LLLL yyyy");
-    const jobToDate = formatDate(this.student.data.jobToDate, "LLLL yyyy");
-    const branch = this.student.data?.branch?.name;
+const onClickCancel = () => {
+  showConfirmationModal.value = false;
+};
 
-    if (jobType?.mode === DateMode.DateRange) {
-      return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} bis ${jobToDate} im Bereich ${branch}`;
-    }
-    return `Ich suche ein(e) ${jobType?.name} ab ${jobFromDate} im Bereich ${branch}`;
-  }
+const onClickMatch = () => {
+  showConfirmationModal.value = true;
+};
 
-  certificateUrl(id: string): string {
-    return this.student.certificates.find((cert) => id == cert.id)?.url ?? "";
-  }
-
-  async beforeRouteUpdate(
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ): Promise<void> {
-    if (to.params.slug) {
-      await this.loadData(
-        String(to.params.slug),
-        to.query.jobPostingId ? String(to.query.jobPostingId) : undefined
-      );
-    }
-    next();
-  }
-
-  async mounted(): Promise<void> {
-    if (this.$route.params.slug) {
-      await this.loadData(
-        String(this.$route.params.slug),
-        this.$route.query.jobPostingId ? String(this.$route.query.jobPostingId) : undefined
-      );
-      calculateMargins();
-    }
-  }
-
-  async loadData(slug: string, jobPostingId?: string) {
-    try {
-      await this.$store.dispatch(ActionTypes.STUDENT, {
-        slug,
-        ...(jobPostingId && { jobPostingId }),
-      });
-      this.meta.meta.title = this.student.data?.firstName
-        ? `${this.student.data?.firstName} ${this.student.data?.lastName} (${this.student.data?.nickname})`
-        : this.student.data?.nickname;
-      this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
-    } catch (e) {
-      this.$router.replace("/404");
-    }
-  }
-
-  async mutateMatch(): Promise<void> {
-    if (String(this.$route.query.jobPostingId) && this.student.data?.id) {
-      await this.$store.dispatch(ActionTypes.MATCH_STUDENT, {
-        jobPosting: {
-          id: String(this.$route.query.jobPostingId),
-        },
-        student: {
-          id: this.student.data.id,
-        },
-      });
-      await this.loadData(
-        String(this.$route.params.slug),
-        this.$route.query.jobPostingId ? String(this.$route.query.jobPostingId) : undefined
-      );
-      this.showConfirmationModal = false;
-      this.showMatchModal = this.matchType === MatchTypeEnum.FullMatch;
-      this.$nextTick(() => {
-        calculateMargins();
-      });
-    }
-  }
-
-  async onClickMatchConfirm(): Promise<void> {
-    await this.mutateMatch();
-  }
-
-  onClickCancel(): void {
-    this.showConfirmationModal = false;
-  }
-
-  onClickMatch(): void {
-    this.showConfirmationModal = true;
-  }
-
-  onClickClose(): void {
-    this.showMatchModal = false;
-  }
-}
+const onClickClose = () => {
+  showMatchModal.value = false;
+};
 </script>
 
 <style lang="postcss" scoped>

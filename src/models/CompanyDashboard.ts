@@ -15,4 +15,5 @@ export interface CompanyDashboard extends Dashboard {
   uniqueUnconfirmedJobPostingMatchings: GroupedJobPostingMatching[] | undefined;
   uniqueJobPostingMatchings: GroupedJobPostingMatching[] | undefined;
   uniqueChallengeMatchings: GroupedChallengeMatching[] | undefined;
+  uniqueChallengeMatchingsWithStudents: GroupedChallengeMatching[] | undefined;
 }

@@ -1,6 +1,5 @@
 import { createApolloClient } from "@/api/apollo-client";
 import type {
-  ChallengeInput,
   MatchChallengeInput,
   MatchJobPostingInput,
   MatchStudentInput,

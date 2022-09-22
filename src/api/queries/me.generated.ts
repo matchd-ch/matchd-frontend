@@ -1,6 +1,12 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
+import {
+  StudentStudentFragmentDoc,
+  StudentAvatarFragmentDoc,
+  StudentAvatarFallbackFragmentDoc,
+  StudentCertificatesFragmentDoc,
+} from "./studentFragment.generated";
 export type MeQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
@@ -16,43 +22,32 @@ export type MeQuery = {
     student?: {
       __typename?: "Student";
       id: string;
-      city?: string | null;
-      zip?: string | null;
-      street?: string | null;
       email?: string | null;
       mobile?: string | null;
+      slug: string;
+      state: Types.ProfileState;
+      firstName?: string | null;
+      lastName?: string | null;
+      street?: string | null;
+      zip?: string | null;
+      city?: string | null;
       dateOfBirth?: string | null;
-      jobFromDate?: string | null;
-      jobToDate?: string | null;
-      distinction?: string | null;
+      nickname?: string | null;
+      schoolName?: string | null;
       fieldOfStudy?: string | null;
       graduation?: string | null;
+      distinction?: string | null;
       profileStep: number;
-      nickname?: string | null;
-      state: Types.ProfileState;
+      jobFromDate?: string | null;
+      jobToDate?: string | null;
       isMatchable: boolean;
-      branch?: { __typename?: "Branch"; id: string; name: string } | null;
-      culturalFits: {
-        __typename?: "CulturalFitConnection";
-        edges: Array<{
-          __typename?: "CulturalFitEdge";
-          node?: { __typename?: "CulturalFit"; id: string } | null;
-        } | null>;
-      };
-      languages: {
-        __typename?: "UserLanguageRelationConnection";
-        edges: Array<{
-          __typename?: "UserLanguageRelationEdge";
-          node?: {
-            __typename?: "UserLanguageRelation";
-            language: { __typename?: "Language"; id: string; name: string };
-            languageLevel: { __typename?: "LanguageLevel"; id: string; level: string };
-          } | null;
-        } | null>;
-      };
-      onlineChallenges?: Array<{ __typename?: "OnlineChallenge"; id: string; url: string }> | null;
-      hobbies?: Array<{ __typename?: "Hobby"; id: string; name: string }> | null;
-      jobType?: { __typename?: "JobType"; id: string; name: string; mode: Types.DateMode } | null;
+      matchStatus?: {
+        __typename?: "MatchStatus";
+        initiator: Types.ProfileType;
+        confirmed: boolean;
+      } | null;
+      branch?: { __typename?: "Branch"; name: string; id: string } | null;
+      jobType?: { __typename?: "JobType"; name: string; id: string; mode: Types.DateMode } | null;
       skills: {
         __typename?: "SkillConnection";
         edges: Array<{
@@ -64,9 +59,44 @@ export type MeQuery = {
         __typename?: "SoftSkillConnection";
         edges: Array<{
           __typename?: "SoftSkillEdge";
-          node?: { __typename?: "SoftSkill"; id: string } | null;
+          node?: { __typename?: "SoftSkill"; id: string; student: string; company: string } | null;
         } | null>;
       };
+      culturalFits: {
+        __typename?: "CulturalFitConnection";
+        edges: Array<{
+          __typename?: "CulturalFitEdge";
+          node?: {
+            __typename?: "CulturalFit";
+            id: string;
+            company: string;
+            student: string;
+          } | null;
+        } | null>;
+      };
+      hobbies?: Array<{ __typename?: "Hobby"; id: string; name: string }> | null;
+      onlineChallenges?: Array<{ __typename?: "OnlineChallenge"; id: string; url: string }> | null;
+      languages: {
+        __typename?: "UserLanguageRelationConnection";
+        edges: Array<{
+          __typename?: "UserLanguageRelationEdge";
+          node?: {
+            __typename?: "UserLanguageRelation";
+            id: string;
+            language: { __typename?: "Language"; name: string; id: string };
+            languageLevel: { __typename?: "LanguageLevel"; level: string; id: string };
+          } | null;
+        } | null>;
+      };
+      challenges: Array<{
+        __typename?: "Challenge";
+        id: string;
+        title: string;
+        displayTitle: string;
+        slug: string;
+        keywords?: Array<{ __typename?: "Keyword"; id: string; name: string }> | null;
+        challengeType: { __typename?: "ChallengeType"; id: string; name: string };
+      }>;
     } | null;
     employee?: {
       __typename?: "Employee";
@@ -169,241 +199,7 @@ export const MeDocument = {
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "city" } },
-                      { kind: "Field", name: { kind: "Name", value: "zip" } },
-                      { kind: "Field", name: { kind: "Name", value: "street" } },
-                      { kind: "Field", name: { kind: "Name", value: "email" } },
-                      { kind: "Field", name: { kind: "Name", value: "mobile" } },
-                      { kind: "Field", name: { kind: "Name", value: "dateOfBirth" } },
-                      { kind: "Field", name: { kind: "Name", value: "jobFromDate" } },
-                      { kind: "Field", name: { kind: "Name", value: "jobToDate" } },
-                      { kind: "Field", name: { kind: "Name", value: "distinction" } },
-                      { kind: "Field", name: { kind: "Name", value: "fieldOfStudy" } },
-                      { kind: "Field", name: { kind: "Name", value: "graduation" } },
-                      { kind: "Field", name: { kind: "Name", value: "profileStep" } },
-                      { kind: "Field", name: { kind: "Name", value: "nickname" } },
-                      { kind: "Field", name: { kind: "Name", value: "state" } },
-                      { kind: "Field", name: { kind: "Name", value: "isMatchable" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "branch" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "name" } },
-                          ],
-                        },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "culturalFits" },
-                        arguments: [
-                          {
-                            kind: "Argument",
-                            name: { kind: "Name", value: "first" },
-                            value: { kind: "IntValue", value: "100" },
-                          },
-                        ],
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "edges" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "node" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        { kind: "Field", name: { kind: "Name", value: "id" } },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "languages" },
-                        arguments: [
-                          {
-                            kind: "Argument",
-                            name: { kind: "Name", value: "first" },
-                            value: { kind: "IntValue", value: "100" },
-                          },
-                        ],
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "edges" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "node" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        {
-                                          kind: "Field",
-                                          name: { kind: "Name", value: "language" },
-                                          selectionSet: {
-                                            kind: "SelectionSet",
-                                            selections: [
-                                              {
-                                                kind: "Field",
-                                                name: { kind: "Name", value: "id" },
-                                              },
-                                              {
-                                                kind: "Field",
-                                                name: { kind: "Name", value: "name" },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                        {
-                                          kind: "Field",
-                                          name: { kind: "Name", value: "languageLevel" },
-                                          selectionSet: {
-                                            kind: "SelectionSet",
-                                            selections: [
-                                              {
-                                                kind: "Field",
-                                                name: { kind: "Name", value: "id" },
-                                              },
-                                              {
-                                                kind: "Field",
-                                                name: { kind: "Name", value: "level" },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "onlineChallenges" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "url" } },
-                          ],
-                        },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "hobbies" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "name" } },
-                          ],
-                        },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "jobType" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            { kind: "Field", name: { kind: "Name", value: "id" } },
-                            { kind: "Field", name: { kind: "Name", value: "name" } },
-                            { kind: "Field", name: { kind: "Name", value: "mode" } },
-                          ],
-                        },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "skills" },
-                        arguments: [
-                          {
-                            kind: "Argument",
-                            name: { kind: "Name", value: "first" },
-                            value: { kind: "IntValue", value: "100" },
-                          },
-                        ],
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "edges" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "node" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        { kind: "Field", name: { kind: "Name", value: "id" } },
-                                        { kind: "Field", name: { kind: "Name", value: "name" } },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "softSkills" },
-                        arguments: [
-                          {
-                            kind: "Argument",
-                            name: { kind: "Name", value: "first" },
-                            value: { kind: "IntValue", value: "100" },
-                          },
-                        ],
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "edges" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "node" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        { kind: "Field", name: { kind: "Name", value: "id" } },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
+                      { kind: "FragmentSpread", name: { kind: "Name", value: "studentStudent" } },
                     ],
                   },
                 },
@@ -622,5 +418,6 @@ export const MeDocument = {
         ],
       },
     },
+    ...StudentStudentFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<MeQuery, MeQueryVariables>;

@@ -1,3 +1,5 @@
+#import "./studentFragment.gql"
+
 query me {
   me {
     id
@@ -7,75 +9,7 @@ query me {
     email
     type
     student {
-      id
-      city
-      zip
-      street
-      email
-      mobile
-      dateOfBirth
-      jobFromDate
-      jobToDate
-      distinction
-      fieldOfStudy
-      graduation
-      profileStep
-      nickname
-      state
-      isMatchable
-      branch {
-        id
-        name
-      }
-      culturalFits(first: 100) {
-        edges {
-          node {
-            id
-          }
-        }
-      }
-      languages(first: 100) {
-        edges {
-          node {
-            language {
-              id
-              name
-            }
-            languageLevel {
-              id
-              level
-            }
-          }
-        }
-      }
-      onlineChallenges {
-        id
-        url
-      }
-      hobbies {
-        id
-        name
-      }
-      jobType {
-        id
-        name
-        mode
-      }
-      skills(first: 100) {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-      softSkills(first: 100) {
-        edges {
-          node {
-            id
-          }
-        }
-      }
+      ...studentStudent
     }
     employee {
       id

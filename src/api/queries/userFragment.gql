@@ -1,0 +1,94 @@
+#import "./studentFragment.gql"
+
+fragment MeUser on User {
+  id
+  firstName
+  lastName
+  username
+  email
+  type
+  student {
+    ...studentStudent
+  }
+  employee {
+    id
+    role
+    firstName
+    lastName
+    phone
+    email
+  }
+  company {
+    id
+    name
+    displayName
+    city
+    zip
+    street
+    profileStep
+    state
+    description
+    website
+    memberItStGallen
+    topLevelOrganisationWebsite
+    topLevelOrganisationDescription
+    services
+    phone
+    employees {
+      firstName
+      lastName
+      email
+      role
+    }
+    jobPostings {
+      id
+      slug
+      title
+      state
+      jobType {
+        id
+        name
+      }
+    }
+    challenges {
+      id
+      slug
+      title
+      state
+      challengeType {
+        id
+        name
+      }
+      keywords {
+        id
+        name
+      }
+    }
+    branches(first: 100) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+    benefits(first: 100) {
+      edges {
+        node {
+          id
+          icon
+          name
+        }
+      }
+    }
+    culturalFits {
+      id
+    }
+    softSkills {
+      id
+    }
+    linkEducation
+    linkChallenges
+    linkThesis
+  }
+}

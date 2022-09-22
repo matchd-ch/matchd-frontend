@@ -150,7 +150,7 @@ const routes: Array<RouteRecordRaw> = [
     name: Routes.STUDENT_SEARCH,
     component: () => import(/* webpackChunkName: "student-search" */ "../views/StudentSearch.vue"),
     meta: {
-      accessType: ["company", "university"],
+      accessType: ["student", "company", "university"],
     },
     beforeEnter: talentsOnlyWithPublishedJobPostingGuard,
   },

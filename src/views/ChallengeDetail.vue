@@ -277,10 +277,6 @@ const onClickCancel = () => {
   showConfirmationModal.value = false;
 };
 
-const onClickClose = () => {
-  showFullMatchModal.value = false;
-};
-
 const onClickMatch = () => {
   showConfirmationModal.value = true;
 };

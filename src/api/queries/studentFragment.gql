@@ -18,6 +18,7 @@ fragment studentStudent on Student {
   profileStep
   jobFromDate
   jobToDate
+  isMatchable
   matchStatus {
     initiator
     confirmed

@@ -7,6 +7,7 @@ export type EmployeesEmployeeFragment = {
   role: string;
   firstName?: string | null;
   lastName?: string | null;
+  phone?: string | null;
   email?: string | null;
 };
 
@@ -24,6 +25,7 @@ export const EmployeesEmployeeFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "role" } },
           { kind: "Field", name: { kind: "Name", value: "firstName" } },
           { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "phone" } },
           { kind: "Field", name: { kind: "Name", value: "email" } },
         ],
       },

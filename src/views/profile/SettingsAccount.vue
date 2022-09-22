@@ -19,7 +19,7 @@
           zu deaktivieren, bspw. weil du bereits eine Stelle angetreten hast oder an einer Challenge
           beteiligt bist. Du kannst diese Einstellung bei Bedarf jederzeit anpassen.
         </p>
-        <h3 class="mb-2 font-medium mt-14">Dürfen dich Unternehmen matchen?</h3>
+        <h3 class="mb-2 font-medium mt-14">Profil deaktivieren?</h3>
         <div class="flex justify-center mb-20">
           <div class="flex justify-between items-center mt-4">
             <div

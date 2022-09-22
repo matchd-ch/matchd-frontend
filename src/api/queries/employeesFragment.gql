@@ -3,5 +3,6 @@ fragment employeesEmployee on Employee {
   role
   firstName
   lastName
+  phone
   email
 }

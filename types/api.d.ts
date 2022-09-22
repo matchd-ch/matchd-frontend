@@ -2852,6 +2852,14 @@ declare module "*/uploadConfigurations.gql" {
   export default defaultDocument;
 }
 
+declare module "*/userFragment.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const MeUser: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/verifyPasswordResetToken.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
@@ -3076,6 +3084,7 @@ export const EmployeesEmployee = gql`
     role
     firstName
     lastName
+    phone
     email
   }
 `;
@@ -3160,6 +3169,28 @@ export const KeywordsKeyword = gql`
     name
   }
 `;
+export const StudentAvatar = gql`
+  fragment studentAvatar on Attachment {
+    id
+    url
+    mimeType
+  }
+`;
+export const StudentAvatarFallback = gql`
+  fragment studentAvatarFallback on Attachment {
+    id
+    url
+    mimeType
+  }
+`;
+export const StudentCertificates = gql`
+  fragment studentCertificates on Attachment {
+    id
+    url
+    mimeType
+    fileName
+  }
+`;
 export const StudentStudent = gql`
   fragment studentStudent on Student {
     id
@@ -3181,6 +3212,7 @@ export const StudentStudent = gql`
     profileStep
     jobFromDate
     jobToDate
+    isMatchable
     matchStatus {
       initiator
       confirmed
@@ -3259,27 +3291,100 @@ export const StudentStudent = gql`
     }
   }
 `;
-export const StudentAvatar = gql`
-  fragment studentAvatar on Attachment {
+export const MeUser = gql`
+  fragment MeUser on User {
     id
-    url
-    mimeType
+    firstName
+    lastName
+    username
+    email
+    type
+    student {
+      ...studentStudent
+    }
+    employee {
+      id
+      role
+      firstName
+      lastName
+      phone
+      email
+    }
+    company {
+      id
+      name
+      displayName
+      city
+      zip
+      street
+      profileStep
+      state
+      description
+      website
+      memberItStGallen
+      topLevelOrganisationWebsite
+      topLevelOrganisationDescription
+      services
+      phone
+      employees {
+        firstName
+        lastName
+        email
+        role
+      }
+      jobPostings {
+        id
+        slug
+        title
+        state
+        jobType {
+          id
+          name
+        }
+      }
+      challenges {
+        id
+        slug
+        title
+        state
+        challengeType {
+          id
+          name
+        }
+        keywords {
+          id
+          name
+        }
+      }
+      branches(first: 100) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      benefits(first: 100) {
+        edges {
+          node {
+            id
+            icon
+            name
+          }
+        }
+      }
+      culturalFits {
+        id
+      }
+      softSkills {
+        id
+      }
+      linkEducation
+      linkChallenges
+      linkThesis
+    }
   }
-`;
-export const StudentAvatarFallback = gql`
-  fragment studentAvatarFallback on Attachment {
-    id
-    url
-    mimeType
-  }
-`;
-export const StudentCertificates = gql`
-  fragment studentCertificates on Attachment {
-    id
-    url
-    mimeType
-    fileName
-  }
+  ${StudentStudent}
 `;
 export const ZipCityZipCity = gql`
   fragment zipCityZipCity on ZipCity {
@@ -4145,75 +4250,7 @@ const Me = gql`
       email
       type
       student {
-        id
-        city
-        zip
-        street
-        email
-        mobile
-        dateOfBirth
-        jobFromDate
-        jobToDate
-        distinction
-        fieldOfStudy
-        graduation
-        profileStep
-        nickname
-        state
-        isMatchable
-        branch {
-          id
-          name
-        }
-        culturalFits(first: 100) {
-          edges {
-            node {
-              id
-            }
-          }
-        }
-        languages(first: 100) {
-          edges {
-            node {
-              language {
-                id
-                name
-              }
-              languageLevel {
-                id
-                level
-              }
-            }
-          }
-        }
-        onlineChallenges {
-          id
-          url
-        }
-        hobbies {
-          id
-          name
-        }
-        jobType {
-          id
-          name
-          mode
-        }
-        skills(first: 100) {
-          edges {
-            node {
-              id
-              name
-            }
-          }
-        }
-        softSkills(first: 100) {
-          edges {
-            node {
-              id
-            }
-          }
-        }
+        ...studentStudent
       }
       employee {
         id
@@ -4298,6 +4335,7 @@ const Me = gql`
       }
     }
   }
+  ${StudentStudent}
 `;
 const Skills = gql`
   query skills {

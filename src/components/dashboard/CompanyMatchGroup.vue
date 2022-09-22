@@ -1,8 +1,13 @@
 <template>
   <ul>
-    <li v-for="(match, index) in matches" :key="index" class="link-list__item mb-4">
+    <li
+      v-for="(match, index) in matches"
+      :key="index"
+      class="link-list__item mb-4"
+      :class="[{ 'link-list__item--job': 'jobPosting' in match }]"
+    >
       <template v-if="'jobPosting' in match">
-        <h3 class="mb-2">{{ match.jobPosting.displayTitle }}</h3>
+        <h3 class="title mb-2">{{ match.jobPosting.displayTitle }}</h3>
       </template>
       <template v-else>
         <h3 class="font-medium text-lg">{{ match.challenge.displayTitle }}</h3>
@@ -55,5 +60,11 @@ const getStudentName = (student: Student) =>
 <style lang="postcss" scoped>
 .link-list__item {
   @apply mb-2;
+}
+.link-list__item--job {
+  padding-top: 16px;
+  &:first-of-type {
+    padding-top: 0;
+  }
 }
 </style>

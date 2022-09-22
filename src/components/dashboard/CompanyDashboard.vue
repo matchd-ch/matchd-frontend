@@ -5,7 +5,7 @@
     >
       <div class="flex justify-center">
         <CompanyLogo
-          v-if="avatar"
+          v-if="avatar && user?.company?.name"
           :url="avatar.url"
           :name="user?.company?.name"
           class="m-5 lg:m-20 w-40 h-40 xl:w-60 xl:h-60"
@@ -68,7 +68,7 @@
         </matchd-button>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
-        <p v-if="dashboard?.requestedMatches?.length || dashboard?.challengeMatches?.length">
+        <p v-if="dashboard?.requestedMatches?.length">
           Sobald Ihre Matching-Anfrage vom Talent bestätigt wurde, kanns mit dem Kennenlernen
           weitergehen.
         </p>
@@ -76,12 +76,8 @@
           Momentan haben Sie keine offenen Matches. Sobald Sie ein Match auslösen, werden Sie das
           hier sehen.
         </p>
-        <template v-if="dashboard?.challengeMatches?.length">
-          <h2 class="text-base font-medium text-primary-1 mb-4 mt-8">Challenges</h2>
-          <CompanyMatchGroup class="mt-4" :matches="dashboard?.challengeMatches" />
-        </template>
-        <template v-if="dashboard?.requestedMatches?.length">
-          <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
+        <template v-if="dashboard?.uniqueRequestedJobPostingMatchings?.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4 mt-8">Stellen</h2>
           <CompanyMatchGroup
             class="mt-4"
             :matches="dashboard?.uniqueRequestedJobPostingMatchings"
@@ -89,28 +85,35 @@
         </template>
       </profile-section>
       <profile-section title="Anfragen zum Matching" :pink="true">
-        <p v-if="!dashboard?.unconfirmedMatches?.length">
+        <p v-if="!dashboard?.uniqueUnconfirmedJobPostingMatchings?.length">
           Momentan haben Sie keine offenen Anfragen. Sobald ein Talent ein Match auslöst, werden Sie
           das hier sehen.
         </p>
         <div v-else>
           <p>Ihre Ausschreibung ist beliebt. Folgende Talente möchten Sie gerne kennenlernen.</p>
-          <h2 class="text-base font-medium text-primary-1 mb-4 mt-8">Challenges</h2>
-          <CompanyMatchGroup class="mt-4" :matches="dashboard?.challengeMatches" />
-          <h2 class="text-base font-medium text-primary-1 mb-4 mt-8">Stellen</h2>
-          <CompanyMatchGroup
-            class="mt-4"
-            :matches="dashboard?.uniqueUnconfirmedJobPostingMatchings"
-          />
+          <template v-if="dashboard?.uniqueUnconfirmedJobPostingMatchings?.length">
+            <h2 class="text-base font-medium text-primary-1 mb-4 mt-8">Stellen</h2>
+            <CompanyMatchGroup
+              class="mt-4"
+              :matches="dashboard?.uniqueUnconfirmedJobPostingMatchings"
+            />
+          </template>
         </div>
       </profile-section>
       <profile-section
-        v-if="dashboard?.confirmedMatches?.length || dashboard?.challengeMatches?.length"
+        v-if="
+          dashboard?.confirmedMatches?.length ||
+          dashboard?.uniqueChallengeMatchingsWithStudents?.length
+        "
         title="Hier hats gematchd!"
         :pink="true"
       >
-        <template v-if="dashboard?.confirmedMatches?.length">
-          <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
+        <template v-if="dashboard?.uniqueChallengeMatchingsWithStudents?.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4">Challenges</h2>
+          <CompanyMatchGroup :matches="dashboard?.uniqueChallengeMatchingsWithStudents" />
+        </template>
+        <template v-if="dashboard?.uniqueJobPostingMatchings?.length">
+          <h2 class="text-base font-medium text-primary-1 mb-4 pt-8">Stellen</h2>
           <CompanyMatchGroup :matches="dashboard?.uniqueJobPostingMatchings" />
         </template>
       </profile-section>
@@ -118,59 +121,32 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { AttachmentKey } from "@/api/models/types";
 import CompanyLogo from "@/components/CompanyLogo.vue";
 import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
-import { replaceStack } from "@/helpers/replaceStack";
 import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
-import { Options, prop, Vue } from "vue-class-component";
+import { useStore } from "@/store";
+import { computed } from "vue";
 
-class Props {
-  dashboard = prop<ICompanyDashboard>({ required: true });
-}
+const props = defineProps<{ dashboard: ICompanyDashboard }>();
+const store = useStore();
 
-@Options({
-  components: {
-    CompanyLogo,
-    MatchdButton,
-    MatchdFileUpload,
-    MatchdFileView,
-    ProfileSection,
-    PostingEditLink,
-    CompanyMatchGroup,
-  },
-})
-export default class CompanyDashboard extends Vue.with(Props) {
-  get isStudent() {
-    return this.$store.getters["isStudent"];
-  }
+const avatar = computed(
+  () =>
+    store.getters["attachmentsByKey"]({
+      key: AttachmentKey.CompanyAvatar,
+    })?.[0] ||
+    store.getters["attachmentsByKey"]({
+      key: AttachmentKey.CompanyAvatarFallback,
+    })?.[0] ||
+    undefined
+);
 
-  get avatar() {
-    return (
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.CompanyAvatar,
-      })?.[0] ||
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.CompanyAvatarFallback,
-      })?.[0] ||
-      undefined
-    );
-  }
-
-  replaceStack(url: string, stack: string) {
-    return replaceStack(url, stack);
-  }
-
-  get user() {
-    return this.$store.getters["user"];
-  }
-}
+const user = computed(() => store.getters["user"]);
 </script>
 
 <style lang="postcss" scoped>

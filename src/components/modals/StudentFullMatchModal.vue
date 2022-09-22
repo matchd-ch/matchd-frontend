@@ -24,34 +24,24 @@
       >{{ student.mobile }}</a
     >
     <template #footer>
-      <MatchdButton
-        class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-        @click="$emit('clickClose')"
-      >
+      <MatchdButton class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0" @click="emit('clickClose')">
         Schliessen
       </MatchdButton>
     </template>
   </MatchingModal>
 </template>
 
-<script lang="ts">
-import type { Student } from "@/api/models/types";
+<script setup lang="ts">
+import { StudentStudentFragment } from "@/api/queries/studentFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import TadaIcon from "@/components/TadaIcon.vue";
-import { Options, prop, Vue } from "vue-class-component";
 
-class Props {
-  student = prop<Student>({});
-}
+const props = defineProps<{
+  student: StudentStudentFragment;
+}>();
 
-@Options({
-  components: {
-    MatchdButton,
-    MatchingModal,
-    TadaIcon,
-  },
-  emits: ["clickClose"],
-})
-export default class StudentFullMatchModal extends Vue.with(Props) {}
+const emit = defineEmits<{
+  (event: "clickClose"): void;
+}>();
 </script>

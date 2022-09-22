@@ -103,7 +103,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
     }
     function challengeReducer(r: GroupedChallengeMatching[], a: ChallengeMatchInfo) {
       const existingChallenge = r.find(
-        (groupedJobPosting) => groupedJobPosting.challenge.id === a.challenge.id
+        (groupedChallenge) => groupedChallenge.challenge.id === a.challenge.id
       );
       if (!existingChallenge) {
         r.push({ challenge: a.challenge, ...(a.student && { students: [a.student] }) });
@@ -128,6 +128,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
         []
       ),
       uniqueChallengeMatchings: state.dashboard.data.challengeMatches?.reduce(challengeReducer, []),
+      uniqueChallengeMatchingsWithStudents: state.dashboard.data.challengeMatches
+        ?.reduce(challengeReducer, [])
+        .filter((c) => c.students?.length),
     };
   },
   dashboard(state: State) {

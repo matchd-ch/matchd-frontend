@@ -22,6 +22,7 @@ export type StudentStudentFragment = {
   profileStep: number;
   jobFromDate?: string | null;
   jobToDate?: string | null;
+  isMatchable: boolean;
   matchStatus?: {
     __typename?: "MatchStatus";
     initiator: Types.ProfileType;
@@ -126,6 +127,7 @@ export const StudentStudentFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "profileStep" } },
           { kind: "Field", name: { kind: "Name", value: "jobFromDate" } },
           { kind: "Field", name: { kind: "Name", value: "jobToDate" } },
+          { kind: "Field", name: { kind: "Name", value: "isMatchable" } },
           {
             kind: "Field",
             name: { kind: "Name", value: "matchStatus" },

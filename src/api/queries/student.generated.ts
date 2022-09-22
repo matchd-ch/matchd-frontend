@@ -35,6 +35,7 @@ export type StudentQuery = {
     profileStep: number;
     jobFromDate?: string | null;
     jobToDate?: string | null;
+    isMatchable: boolean;
     matchStatus?: {
       __typename?: "MatchStatus";
       initiator: Types.ProfileType;
