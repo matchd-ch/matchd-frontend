@@ -28,7 +28,7 @@
     "apollo-upload-client": "^17.0.0",
     "assertion-error": "^2.0.0",
     "core-js": "^3.25.3",
-    "cypress": "^10.8.0",
+    "cypress": "^10.9.0",
     "d3": "^7.6.1",
     "deepdash": "^5.3.9",
     "ejs": "^3.1.8",
