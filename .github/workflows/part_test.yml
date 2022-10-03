@@ -26,7 +26,7 @@ jobs:
           node-version: "${{ env.DEFAULT_NODEJS_VERSION }}"
 
       - id: cache-npm
-        uses: actions/cache@v3.0.9
+        uses: actions/cache@v3.0.10
         with:
           path: ~/.npm
           key: npm-${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('package-lock.json') }}
@@ -55,7 +55,7 @@ jobs:
           node-version: "${{ env.DEFAULT_NODEJS_VERSION }}"
 
       - id: cache-npm
-        uses: actions/cache@v3.0.9
+        uses: actions/cache@v3.0.10
         with:
           path: ~/.npm
           key: npm-${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('package-lock.json') }}
