@@ -23,18 +23,34 @@
       </div>
       <div class="xl:flex mt-10 items-start">
         <h2 class="flex-1 text-center mb-8 xl:mb-0">{{ student.data.nickname }}</h2>
-        <p
+        <ul
           v-if="student.data.firstName"
           class="xl:border-l xl:ml-11 xl:pl-11 flex-1 xl:text-left text-center xl:h-full"
         >
-          {{ student.data.firstName }} {{ student.data.lastName }}
-          <br />
-          geboren im {{ student.data.dateOfBirth }}
-          <template v-if="student.data.street">
-            <br />
-            {{ student.data.street }}, {{ student.data.zip }} {{ student.data.city }}
-          </template>
-        </p>
+          <li>{{ student.data.firstName }} {{ student.data.lastName }}</li>
+          <li class="mb-4">geboren im {{ student.data.dateOfBirth }}</li>
+          <li v-if="student.data.street" class="mb-4">
+            {{ student.data.street }}<br />{{ student.data.zip }} {{ student.data.city }}
+          </li>
+          <li v-if="student.data.email">
+            <a
+              :href="`mailto:${student.data.email}`"
+              target="_blank"
+              class="inline-block text-lg underline"
+            >
+              {{ student.data.email }}
+            </a>
+          </li>
+          <li v-if="student.data.mobile">
+            <a
+              :href="`tel:${student.data.mobile}`"
+              target="_blank"
+              class="inline-block text-lg underline"
+            >
+              {{ student.data.mobile }}
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="flex flex-col min-h-full">
@@ -129,7 +145,11 @@
         <template v-if="matchType === matchTypeEnum.HalfOwnMatch">
           Sie haben bereits Interesse an diesem Talent gezeigt
         </template>
-        <template v-else-if="matchType === matchTypeEnum.FullMatch">
+        <template
+          v-else-if="
+            matchType === matchTypeEnum.FullMatch || matchCategory === MatchCategory.CHALLENGE
+          "
+        >
           Gratulation, it’s a Match!
         </template>
         <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch">
@@ -180,6 +200,12 @@ import StackImage from "../components/StackImage.vue";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
+enum MatchCategory {
+  CHALLENGE = "CHALLENGE",
+  JOB_POSTING = "JOB_POSTING",
+  EMPTY = "EMPTY",
+}
+
 const meta = useMeta({});
 const store = useStore();
 const route = useRoute();
@@ -188,9 +214,20 @@ const showConfirmationModal = ref(false);
 const showMatchModal = ref(false);
 
 const user = computed(() => store.getters["user"]);
-const hasMatchingBar = computed(() => !!route.query.jobPostingId);
+const hasMatchingBar = computed(
+  () => !!route.query.jobPostingId || (route.query.challengeId && isChallengeFullMatch.value)
+);
 const matchLoading = computed(() => store.getters["matchLoading"]);
 const matchTypeEnum = computed(() => MatchTypeEnum);
+const matchCategory = computed(() => {
+  if (route.query.jobPostingId) {
+    return MatchCategory.JOB_POSTING;
+  }
+  if (route.query.challengeId) {
+    return MatchCategory.CHALLENGE;
+  }
+  return MatchCategory.EMPTY;
+});
 
 const student = computed(() => {
   const student = store.getters["student"];
@@ -212,7 +249,9 @@ const student = computed(() => {
 });
 
 const matchType = computed(() => {
-  if (student.value?.data?.matchStatus === null) {
+  if (isChallengeFullMatch.value) {
+    return MatchTypeEnum.FullMatch;
+  } else if (student.value?.data?.matchStatus === null) {
     return MatchTypeEnum.EmptyMatch;
   } else if (
     student.value?.data?.matchStatus?.confirmed === false &&
@@ -227,6 +266,16 @@ const matchType = computed(() => {
   } else {
     return MatchTypeEnum.FullMatch;
   }
+});
+
+const isChallengeFullMatch = computed(() => {
+  if (matchCategory.value !== MatchCategory.CHALLENGE) {
+    return false;
+  }
+  if (!student.value.data?.email) {
+    return false;
+  }
+  return true;
 });
 
 const lookingFor = computed(() => {

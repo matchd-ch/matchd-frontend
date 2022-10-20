@@ -32,6 +32,7 @@
             :to="{
               name: 'StudentDetail',
               params: { slug: student.slug },
+              query: { challengeId: match.challenge.id },
             }"
             class="hover:text-primary-1 transition-colors underline font-medium"
           >
