@@ -1,6 +1,6 @@
 {
   "name": "matchd-frontend",
-  "version": "1.2.5-beta.6",
+  "version": "1.2.5-beta.7",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
