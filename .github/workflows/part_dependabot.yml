@@ -18,4 +18,4 @@ jobs:
         with:
           github-token: ${{ github.token }}
           # Major Updates need to be merged manually
-          target: minor
+          target: patch
