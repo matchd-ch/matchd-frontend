@@ -75,7 +75,7 @@
     "@vue/cli-plugin-unit-jest": "~5.0.8",
     "@vue/cli-plugin-vuex": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
-    "@vue/compiler-sfc": "^3.2.39",
+    "@vue/compiler-sfc": "^3.2.43",
     "@vue/eslint-config-airbnb": "^7.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
