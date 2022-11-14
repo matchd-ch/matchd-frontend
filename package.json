@@ -39,7 +39,7 @@
     "pretty-bytes": "^6.0.0",
     "vee-validate": "^4.7.2",
     "video.js": "^7.20.3",
-    "vue": "^3.2.44",
+    "vue": "^3.2.45",
     "vue-apollo": "^3.1.0",
     "vue-class-component": "^8.0.0-0",
     "vue-cookie-next": "^1.3.0",
