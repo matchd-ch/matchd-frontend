@@ -89,7 +89,7 @@
     "graphql-tag": "^2.12.6",
     "postcss": "^8.4.19",
     "postcss-atrule-bem": "^4.0.0",
-    "postcss-import": "^15.0.0",
+    "postcss-import": "^15.0.1",
     "postcss-nesting": "^10.2.0",
     "prettier": "^2.8.0",
     "svgo": "^2.8.0",
