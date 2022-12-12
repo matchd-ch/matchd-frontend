@@ -50,7 +50,7 @@
     "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
-    "@graphql-codegen/add": "^3.2.1",
+    "@graphql-codegen/add": "^3.2.3",
     "@graphql-codegen/cli": "^2.16.1",
     "@graphql-codegen/fragment-matcher": "^3.3.3",
     "@graphql-codegen/introspection": "^2.2.1",
