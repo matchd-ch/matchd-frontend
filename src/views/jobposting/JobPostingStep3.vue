@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2 class="text-heading-lg mb-8">Kontakt</h2>
     <AddEmployeeForm
       v-if="showEmployeeForm"
       class="add-employee-form"
@@ -7,12 +8,12 @@
       @click-close="onClickClose"
     >
     </AddEmployeeForm>
-    <form v-if="employees.length > 0 && !showEmployeeForm" @submit="veeForm.onSubmit">
+    <form v-if="employees.length > 0 && !showEmployeeForm" @submit.prevent>
       <FormSaveError v-if="jobPostingState.errors" />
 
       <div class="mb-10">
         <!-- Kontaktperson -->
-        <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.employeeId">
+        <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.value.employeeId">
           <template #label>Ansprechperson*</template>
           <Field
             id="employeeId"
@@ -33,25 +34,30 @@
           variant="outline"
           class="block w-full"
           @click="showEmployeeForm = true"
-          >Zusätzliche Ansprechperson erfassen</MatchdButton
         >
+          Zusätzliche Ansprechperson erfassen
+        </MatchdButton>
       </div>
       <!-- State Field -->
-      <MatchdToggle id="state" class="mb-10" :errors="veeForm.errors.state">
-        <template #label>Sichtbarkeit der Stelle</template>
+      <h2 class="text-heading-lg mt-16 mb-8">Sichtbarkeit</h2>
+      <MatchdToggle id="state" class="mb-10" :errors="veeForm.errors.value.state">
         <input
           id="state"
           name="state"
           type="checkbox"
           value="true"
-          :checked="veeForm.state === jobPostingStateEnum.Public"
-          @change="onChangeState($event.target.checked)"
+          :checked="veeForm.values.state === JobPostingStateEnum.Public"
+          @change="onChangeState($event)"
         />
-        <template v-if="veeForm.state === jobPostingStateEnum.Public" #value>
+        <template v-if="veeForm.values.state === JobPostingStateEnum.Public" #value>
           <span class="text-primary-1">Öffentlich</span>
         </template>
         <template v-else #value>Entwurf</template>
       </MatchdToggle>
+      <div v-if="currentJobPosting">
+        <h2 class="text-heading-lg mt-16 mb-8">Löschen</h2>
+        <DeleteJobPosting :job-posting="currentJobPosting" />
+      </div>
       <teleport to="footer">
         <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
           <MatchdButton
@@ -61,29 +67,32 @@
             class="mb-2 xl:mr-4 xl:mb-0"
             @click="onClickBack"
           >
-            <template v-if="currentJobPosting?.formStep > 3">Abbrechen</template>
+            <template v-if="currentJobPosting?.formStep && currentJobPosting.formStep > 2">
+              Abbrechen
+            </template>
             <template v-else>Zurück zu Schritt 2</template>
           </MatchdButton>
           <MatchdButton
             type="button"
             variant="fill"
             :disabled="jobPostingLoading"
-            @click="veeForm.onSubmit"
-            >Speichern</MatchdButton
+            @click="onSubmit"
           >
+            Speichern
+          </MatchdButton>
         </div>
       </teleport>
     </form>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { jobPostingStep3FormMapper } from "@/api/mappers/jobPostingStep3FormMapper";
 import { jobPostingStep3InputMapper } from "@/api/mappers/jobPostingStep3InputMapper";
 import { JobPostingState as JobPostingStateEnum } from "@/api/models/types";
+import DeleteJobPosting from "@/components/DeleteJobPosting.vue";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdField from "@/components/MatchdField.vue";
 import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import AddEmployeeForm from "@/containers/AddEmployeeForm.vue";
@@ -91,122 +100,89 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import { Field, Form, useField, useForm } from "vee-validate";
-import { Options, setup, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Field, useForm } from "vee-validate";
+import { computed, onMounted, ref, watch } from "vue";
 
-@Options({
-  components: {
-    AddEmployeeForm,
-    Form,
-    Field,
-    FormSaveError,
-    MatchdButton,
-    MatchdSelect,
-    MatchdField,
-    MatchdToggle,
-  },
-  emits: ["submitComplete", "changeDirty", "navigateBack"],
-})
-export default class JobPostingStep3 extends Vue {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<JobPostingStep3Form>();
-    const { value: state } = useField<JobPostingStateEnum>("state");
+const emit = defineEmits<{
+  (event: "submitComplete", success: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "navigateBack"): void;
+}>();
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        if (store.getters["currentJobPosting"]?.id) {
-          await store.dispatch(
-            ActionTypes.SAVE_JOBPOSTING_STEP3,
-            jobPostingStep3InputMapper(store.getters["currentJobPosting"]?.id, formData)
-          );
-          const jobPostingState = store.getters["jobPostingState"];
-          if (jobPostingState.success) {
-            this.$emit("submitComplete");
-          }
-        }
-      } catch (e) {
-        console.log(e);
+const store = useStore();
+const veeForm = useForm<JobPostingStep3Form>();
+const showEmployeeForm = ref(false);
+
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    if (store.getters["currentJobPosting"]?.id) {
+      await store.dispatch(
+        ActionTypes.SAVE_JOBPOSTING_STEP3,
+        jobPostingStep3InputMapper(store.getters["currentJobPosting"]?.id, formData)
+      );
+      const jobPostingState = store.getters["jobPostingState"];
+      if (jobPostingState.success) {
+        emit("submitComplete", jobPostingState.success);
       }
-    });
-
-    return {
-      ...form,
-      onSubmit,
-      state,
-    };
-  });
-  formData = {} as JobPostingStep3Form;
-  showEmployeeForm = false;
-
-  get jobPostingStateEnum(): typeof JobPostingStateEnum {
-    return JobPostingStateEnum;
-  }
-
-  get jobPostingData() {
-    if (!this.currentJobPosting || !this.user?.employee) {
-      return {} as JobPostingStep3Form;
     }
-    return jobPostingStep3FormMapper(this.currentJobPosting, this.user?.employee);
+  } catch (e) {
+    console.log(e);
   }
+});
 
-  get jobPostingLoading() {
-    return this.$store.getters["jobPostingLoading"];
+const jobPostingData = computed(() => {
+  if (!currentJobPosting.value || !user.value?.employee) {
+    return {} as JobPostingStep3Form;
   }
+  return jobPostingStep3FormMapper(currentJobPosting.value, user.value?.employee);
+});
 
-  get jobPostingState() {
-    return this.$store.getters["jobPostingState"];
+const jobPostingLoading = computed(() => store.getters["jobPostingLoading"]);
+const jobPostingState = computed(() => store.getters["jobPostingState"]);
+const currentJobPosting = computed(() => store.getters["currentJobPosting"]);
+const employees = computed(() => store.getters["employees"]);
+const user = computed(() => store.getters["user"]);
+
+onMounted(async () => {
+  await store.dispatch(ActionTypes.EMPLOYEES);
+  veeForm.resetForm({
+    values: jobPostingData.value,
+  });
+  calculateMargins();
+});
+
+const onClickBack = () => {
+  emit("navigateBack");
+};
+
+const onChangeState = (event: Event) => {
+  veeForm.setValues({
+    state: (event.target as HTMLInputElement).checked
+      ? JobPostingStateEnum.Public
+      : JobPostingStateEnum.Draft,
+  });
+};
+
+const onClickClose = () => {
+  veeForm.resetForm({
+    values: jobPostingData.value,
+  });
+  showEmployeeForm.value = false;
+};
+
+const onAddEmployeeComplete = async () => {
+  showEmployeeForm.value = false;
+  await store.dispatch(ActionTypes.EMPLOYEES);
+  const latestEmployee = employees.value[employees.value.length - 1];
+  veeForm.setFieldValue("employeeId", latestEmployee.id);
+};
+
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
   }
-
-  get currentJobPosting() {
-    return this.$store.getters["currentJobPosting"];
-  }
-
-  get employees() {
-    return this.$store.getters["employees"];
-  }
-
-  get user() {
-    return this.$store.getters["user"];
-  }
-
-  async mounted() {
-    await this.$store.dispatch(ActionTypes.EMPLOYEES);
-
-    this.veeForm.resetForm({
-      values: this.jobPostingData,
-    });
-    calculateMargins();
-  }
-
-  onClickBack() {
-    this.$emit("navigateBack");
-  }
-
-  onChangeState(value: boolean) {
-    this.veeForm.state = value ? JobPostingStateEnum.Public : JobPostingStateEnum.Draft;
-  }
-
-  onClickClose() {
-    this.veeForm.resetForm({
-      values: this.jobPostingData,
-    });
-    this.showEmployeeForm = false;
-  }
-
-  async onAddEmployeeComplete() {
-    this.showEmployeeForm = false;
-    await this.$store.dispatch(ActionTypes.EMPLOYEES);
-    const latestEmployee = this.employees[this.employees.length - 1];
-    this.veeForm.setFieldValue("employeeId", latestEmployee.id);
-  }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty() {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+);
 </script>
 
 <style lang="postcss" scoped>

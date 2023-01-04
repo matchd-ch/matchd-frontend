@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2 class="text-heading-lg mb-8">Kontakt</h2>
     <AddEmployeeForm
       v-if="showEmployeeForm"
       class="add-employee-form"
@@ -7,7 +8,7 @@
       @click-close="onClickClose"
     >
     </AddEmployeeForm>
-    <form @submit="onSubmit">
+    <form @submit.prevent>
       <FormSaveError v-if="challengeState.errors" />
 
       <template v-if="employees?.length > 0 && !showEmployeeForm && !isStudent">
@@ -39,8 +40,8 @@
       </template>
       <template v-if="!showEmployeeForm || isStudent">
         <!-- State Field -->
+        <h2 class="text-heading-lg mt-16 mb-8">Sichtbarkeit</h2>
         <MatchdToggle id="state" class="mb-10" :errors="veeForm.errors.value.state">
-          <template #label>Sichtbarkeit der Challenge</template>
           <input
             id="state"
             name="state"
@@ -55,6 +56,10 @@
           <template v-else #value>Entwurf</template>
         </MatchdToggle>
       </template>
+      <div v-if="currentChallenge">
+        <h2 class="text-heading-lg mt-16 mb-8">Löschen</h2>
+        <DeleteChallenge :challenge="currentChallenge" />
+      </div>
       <teleport to="footer">
         <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
           <MatchdButton
@@ -82,6 +87,7 @@
 import { challengeStep3InputMapper } from "@/api/mappers/challengeStep3InputMapper";
 import { challengeStep3FormMapper } from "@/api/mappers/challengetep3FormMapper";
 import { ChallengeState as ChallengeStateEnum } from "@/api/models/types";
+import DeleteChallenge from "@/components/DeleteChallenge.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import AddEmployeeForm from "@/containers/AddEmployeeForm.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
@@ -89,7 +95,7 @@ import { ChallengeStep3Form } from "@/models/ChallengeStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/challenge/action-types";
 import { ActionTypes as JobPostingActionTypes } from "@/store/modules/jobposting/action-types";
-import { Field, Form, useForm } from "vee-validate";
+import { Field, useForm } from "vee-validate";
 import { computed, onMounted, ref, watch } from "vue";
 import FormSaveError from "../../components/FormSaveError.vue";
 import MatchdSelect from "../../components/MatchdSelect.vue";
@@ -135,7 +141,6 @@ const challengeData = computed(() => {
 const isStudent = computed(() => store.getters["isStudent"]);
 const challengeLoading = computed(() => store.getters["challengeLoading"]);
 const challengeState = computed(() => store.getters["challengeState"]);
-const addEmployeeLoading = computed(() => store.getters["addEmployeeLoading"]);
 const employees = computed(() => store.getters["employees"]);
 
 onMounted(async () => {
