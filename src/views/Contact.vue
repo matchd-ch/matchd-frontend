@@ -38,6 +38,9 @@
 
 <script setup lang="ts">
 import type { UserRequestInput } from "@/api/models/types";
+import BackLink from "@/components/BackLink.vue";
+import RegisterContactForm from "@/components/RegisterContactForm.vue";
+import RegisterContactFormSent from "@/components/RegisterContactFormSent.vue";
 import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/registration/action-types";

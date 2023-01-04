@@ -27,7 +27,7 @@ defineProps<{
 const router = useRouter();
 const showModal = ref(false);
 const handleFormSubmit = () => {
-  router.push({ name: Routes.DASHBOARD });
+  router.push({ name: Routes.ACCOUNT_DELETED });
 };
 </script>
 <style lang="postcss" scoped></style>
