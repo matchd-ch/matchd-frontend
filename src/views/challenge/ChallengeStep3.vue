@@ -1,16 +1,15 @@
 <template>
   <div>
-    <h2 class="text-heading-lg mb-8">Kontakt</h2>
-    <AddEmployeeForm
-      v-if="showEmployeeForm"
-      class="add-employee-form"
-      @submit-complete="onAddEmployeeComplete"
-      @click-close="onClickClose"
-    >
-    </AddEmployeeForm>
+    <template v-if="showEmployeeForm">
+      <h2 class="text-heading-lg mb-8">Kontakt</h2>
+      <AddEmployeeForm
+        class="add-employee-form"
+        @submit-complete="onAddEmployeeComplete"
+        @click-close="onClickClose"
+      />
+    </template>
     <form @submit.prevent>
       <FormSaveError v-if="challengeState.errors" />
-
       <template v-if="employees?.length > 0 && !showEmployeeForm && !isStudent">
         <!-- Kontaktperson -->
         <MatchdSelect id="employeeId" class="mb-3" :errors="veeForm.errors.value.employeeId">
@@ -40,7 +39,7 @@
       </template>
       <template v-if="!showEmployeeForm || isStudent">
         <!-- State Field -->
-        <h2 class="text-heading-lg mt-16 mb-8">Sichtbarkeit</h2>
+        <h2 :class="[{ 'mt-16': !isStudent }]" class="text-heading-lg mb-8">Sichtbarkeit</h2>
         <MatchdToggle id="state" class="mb-10" :errors="veeForm.errors.value.state">
           <input
             id="state"

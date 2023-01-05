@@ -6,7 +6,7 @@
           <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Zurück zur Übersicht
         </button>
       </div>
-      <div v-if="challenge">
+      <div v-if="getStepName(1)">
         <DeleteChallenge :challenge="challenge.data" />
       </div>
     </div>
@@ -305,6 +305,10 @@ onMounted(async () => {
 .challenge-navigation-bar {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: center;
+  text-align: left;
+}
+.challenge-navigation-bar div:nth-of-type(2) {
   text-align: right;
 }
 </style>

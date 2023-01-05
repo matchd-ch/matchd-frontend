@@ -267,7 +267,7 @@ const onSubmitComplete = (success: boolean) => {
   }
 };
 
-onBeforeRouteUpdate(async (to, _from, next) => {
+onBeforeRouteUpdate(async (_to, _from, next) => {
   confirmWhenDirty(next);
 });
 onBeforeRouteLeave(async (_to, _from, next) => {

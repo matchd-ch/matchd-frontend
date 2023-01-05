@@ -1,8 +1,8 @@
 <template>
   <MatchingModal>
-    <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user.firstName }}</h2>
+    <h2 class="text-heading-sm mb-3 px-8">Hallo {{ user?.firstName }}</h2>
     <p class="mb-3 px-8">
-      <template v-if="matchType === matchTypeEnum.HalfMatch"
+      <template v-if="matchType === MatchTypeEnum.HalfMatch"
         >Nach dem Klick auf "Bestätigen" informieren wir
         <strong>{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</strong>
         von <strong>{{ jobPosting.company.name }}</strong
@@ -36,7 +36,7 @@
       <MatchdButton
         variant="outline"
         class="block w-full md:w-auto mb-3 md:mr-3 md:mb-0"
-        @click="$emit('clickCancel')"
+        @click="emit('clickCancel')"
       >
         Abbrechen
       </MatchdButton>
@@ -44,43 +44,40 @@
         :disabled="!permissionGranted"
         :loading="loading"
         class="block w-full md:w-auto"
-        @click="$emit('clickConfirm')"
+        @click="emit('clickConfirm')"
       >
-        <template v-if="matchType === matchTypeEnum.HalfMatch"> Bestätigen </template>
+        <template v-if="matchType === MatchTypeEnum.HalfMatch"> Bestätigen </template>
         <template v-else> Freigeben </template>
       </MatchdButton>
     </template>
   </MatchingModal>
 </template>
 
-<script lang="ts">
-import type { JobPosting, User } from "@/api/models/types";
+<script setup lang="ts">
+import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import { MeQuery } from "@/api/queries/me.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
-import { Options, prop, Vue } from "vue-class-component";
+import { ref } from "vue";
 
-class Props {
-  user = prop<User>({});
-  jobPosting = prop<JobPosting>({});
-  loading = prop<boolean>({ default: false });
-  matchType = prop<MatchTypeEnum>({});
-}
-
-@Options({
-  components: {
-    MatchdButton,
-    MatchingModal,
-    MatchdToggle,
-  },
-  emits: ["clickConfirm", "clickCancel"],
-})
-export default class JobPostingMatchModal extends Vue.with(Props) {
-  permissionGranted = false;
-
-  get matchTypeEnum(): typeof MatchTypeEnum {
-    return MatchTypeEnum;
+withDefaults(
+  defineProps<{
+    user: MeQuery["me"];
+    jobPosting: JobPostingJobPostingFragment;
+    loading?: boolean;
+    matchType: MatchTypeEnum;
+  }>(),
+  {
+    loading: false,
   }
-}
+);
+
+const emit = defineEmits<{
+  (event: "clickConfirm"): void;
+  (event: "clickCancel"): void;
+}>();
+
+const permissionGranted = ref(false);
 </script>

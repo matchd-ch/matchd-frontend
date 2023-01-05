@@ -25,7 +25,7 @@ import { computed, onMounted } from "vue";
 import { setup } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
-const meta = setup(() =>
+setup(() =>
   useMeta({
     title: "Dashboard",
   })
