@@ -59,7 +59,7 @@
     "@graphql-codegen/typescript": "^2.8.7",
     "@graphql-codegen/typescript-document-nodes": "^2.3.12",
     "@graphql-codegen/typescript-graphql-files-modules": "^2.2.1",
-    "@graphql-codegen/typescript-operations": "^2.5.11",
+    "@graphql-codegen/typescript-operations": "^2.5.12",
     "@types/apollo-upload-client": "^17.0.2",
     "@types/d3": "^7.4.0",
     "@types/ejs": "^3.1.1",
