@@ -38,7 +38,7 @@
     "omit-deep": "^0.3.0",
     "pretty-bytes": "^6.0.0",
     "vee-validate": "^4.7.3",
-    "video.js": "^7.20.3",
+    "video.js": "^7.21.1",
     "vue": "^3.2.45",
     "vue-apollo": "^3.1.0",
     "vue-class-component": "^8.0.0-0",
