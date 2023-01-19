@@ -1,0 +1,40 @@
+releases:
+  - name: {{ requiredEnv "HELM_RELEASE_NAME" }}
+    kubeContext: {{ requiredEnv "KUBE_CONTEXT" }}
+    namespace: {{ requiredEnv "KUBE_NAMESPACE" }}
+    createNamespace: false
+    version: {{ requiredEnv "HELM_RELEASE_VERSION" }}
+    chart: "./chart"
+    values:
+      - deployment:
+          variants:
+            regular:
+              replicaCount: {{ requiredEnv "VALUE_REGULAR_REPLICA_COUNT" }}
+              autoscaling:
+                enabled: {{ requiredEnv "VALUE_REGULAR_AUTOSCALING_ENABLED" }}
+            stable:
+              replicaCount: {{ requiredEnv "VALUE_STABLE_REPLICA_COUNT" }}
+              autoscaling:
+                enabled: {{ requiredEnv "VALUE_STABLE_AUTOSCALING_ENABLED" }}
+        version: "{{ requiredEnv "HELM_RELEASE_VERSION" }}"
+        environment: "{{ requiredEnv "VALUE_ENVIRONMENT" }}"
+        name: "{{ requiredEnv "HELM_RELEASE_NAME" }}"
+        image:
+          repository: "ghcr.io/{{ requiredEnv "VALUE_IMAGE_REPOSITORY" }}"
+          tag: "{{ requiredEnv "HELM_RELEASE_VERSION" }}"
+          secrets:
+            - name: "{{ requiredEnv "HELM_RELEASE_NAME" }}-pull"
+        ingress:
+          domain: "{{ requiredEnv "VALUE_DOMAIN" }}"
+          letsencrypt: {{ requiredEnv "VALUE_LETS_ENCRYPT_ENABLED" }}
+          monitoring: {{ requiredEnv "VALUE_MONITORING_ENABLED" }}
+        env:
+          VUE_APP_BASE_URL: "/"
+          VUE_APP_API_URL: " {{ requiredEnv "VALUE_API_URL" }}"
+          VUE_APP_DATA_PROTECTION_URL: "https://matchd.ch/impressum-datenschutz/"
+          VUE_APP_GTM_ENABLED: "{{ requiredEnv "VALUE_GTM_ENABLED" }}"
+          VUE_APP_GTM_DEBUG: "{{ requiredEnv "VALUE_GTM_DEBUG" }}"
+          VUE_APP_GTM_CONTAINER_ID: "{{ requiredEnv "VALUE_GTM_CONTAINER_ID" }}"
+          VUE_APP_SENTRY_DSN: "{{ requiredEnv "VALUE_SENTRY_DSN" }}"
+          VUE_APP_SENTRY_ENVIRONMENT: "{{ requiredEnv "HELM_RELEASE_VERSION" }}"
+          VUE_APP_SENTRY_RELEASE: "{{ requiredEnv "HELM_RELEASE_VERSION" }}"

@@ -39,18 +39,23 @@ on:
         default: false
       task:
         type: string
-        default: install
+        default: apply
       apiUrl:
         type: string
         required: true
+      gtmContainerId:
+        type: string
+        required: true
+      sentryDsn:
+        type: string
+        required: true
+      commentDeployment:
+        type: boolean
+        default: false
     secrets:
       DOCKER_PULL_USERNAME:
         required: true
       DOCKER_PULL_SECRET:
-        required: true
-      GTM_CONTAINER_ID:
-        required: true
-      SENTRY_DSN:
         required: true
 
 jobs:
@@ -60,11 +65,28 @@ jobs:
     permissions:
       contents: "read"
       id-token: "write"
+      pull-requests: write
 
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: "Read .tool-versions"
+        id: toolVersions
+        run: |
+          HELMFILE_VERSION="$(cat .tool-versions | grep "helmfile " | cut -d' ' -f2-)"
+          echo "HELMFILE_VERSION=${HELMFILE_VERSION}" >> $GITHUB_ENV
+
+          HELM_VERSION="$(cat .tool-versions | grep "helm " | cut -d' ' -f2-)"
+          echo "HELM_VERSION=${HELM_VERSION}" >> $GITHUB_ENV
+
+      - name: Setup helmfile
+        uses: mamezou-tech/setup-helmfile@v1.2.0
+        with:
+          helmfile-version: "v${{ env.HELMFILE_VERSION }}"
+          helm-version: "v${{ env.HELM_VERSION }}"
+          install-kubectl: "no"
 
       - uses: google-github-actions/setup-gcloud@v0.6.2
         with:
@@ -104,47 +126,30 @@ jobs:
               --filename=-
 
       - name: "Deploy"
-        # TODO: Switch back to deliverybot/helm@v1 as soon as the following PR is merged and released:
-        # - https://github.com/deliverybot/helm/pull/68
-        uses: "Velocity-Engineering/helm@cc5fac2c25dd983ac00d6dcb2cbaebc96c18e6ce"
+        run: helmfile --file .helm/helmfile.yaml ${{ inputs.task }}
+        env:
+          VALUE_SENTRY_DSN: "${{ inputs.sentryDsn }}"
+          VALUE_GTM_CONTAINER_ID: "${{ inputs.gtmContainerId }}"
+          VALUE_GTM_DEBUG: "${{ inputs.gtmDebug }}"
+          VALUE_GTM_ENABLED: "${{ inputs.gtmEnabled }}"
+          VALUE_API_URL: "${{ inputs.apiUrl }}"
+          VALUE_MONITORING_ENABLED: "${{ inputs.monitoringEnabled }}"
+          VALUE_LETS_ENCRYPT_ENABLED: "${{ inputs.letsencryptEnabled }}"
+          VALUE_DOMAIN: "${{ inputs.domain }}"
+          VALUE_IMAGE_REPOSITORY: "ghcr.io/${{ github.repository }}"
+          HELM_RELEASE_NAME: "${{ inputs.release }}"
+          VALUE_ENVIRONMENT: "${{ inputs.environment }}"
+          VALUE_STABLE_AUTOSCALING_ENABLED: "${{ inputs.autoscalingEnabled }}"
+          VALUE_STABLE_REPLICA_COUNT: "${{ inputs.stableReplicaCount }}"
+          VALUE_REGULAR_AUTOSCALING_ENABLED: "${{ inputs.autoscalingEnabled }}"
+          VALUE_REGULAR_REPLICA_COUNT: "${{ inputs.regularReplicaCount }}"
+          HELM_RELEASE_VERSION: "${{ inputs.version }}"
+          KUBE_NAMESPACE: "${{ inputs.namespace }}"
+          KUBE_CONTEXT: "gke_joshmartin-cluster_europe-west6-a_joshmartin-cluster-next"
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: "${{ inputs.commentDeployment }}"
         with:
-          task: "${{ inputs.task }}"
-          release: "${{ inputs.release }}"
-          namespace: "${{ inputs.namespace }}"
-          helm: helm3
-          version: "${{ inputs.version }}"
-          chart: ".helm/chart"
-          token: "${{ github.token }}"
-          values: |
-            deployment:
-              variants:
-                regular:
-                  replicaCount: ${{ inputs.regularReplicaCount }}
-                  autoscaling:
-                    enabled: ${{ inputs.autoscalingEnabled }}
-                stable:
-                  replicaCount: ${{ inputs.stableReplicaCount }}
-                  autoscaling:
-                    enabled: ${{ inputs.autoscalingEnabled }}
-            version: ${{ inputs.version }}
-            environment: ${{ inputs.environment }}
-            name: ${{ inputs.release }}
-            image:
-              repository: ghcr.io/${{ github.repository }}
-              tag: ${{ inputs.version }}
-              secrets:
-                - name: "${{ inputs.release }}-pull"
-            ingress:
-              domain: ${{ inputs.domain }}
-              letsencrypt: ${{ inputs.letsencryptEnabled }}
-              monitoring: ${{ inputs.monitoringEnabled }}
-            env:
-              BASE_URL: "/"
-              API_URL: "${{ inputs.apiUrl }}"
-              DATA_PROTECTION_URL: "https://matchd.ch/impressum-datenschutz/"
-              GTM_ENABLED: "${{ inputs.gtmEnabled }}"
-              GTM_DEBUG: "${{ inputs.gtmDebug }}"
-              GTM_CONTAINER_ID: "${{ secrets.GTM_CONTAINER_ID }}"
-              SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"
-              SENTRY_ENVIRONMENT: "${{ inputs.environment }}"
-              SENTRY_RELEASE: "${{ inputs.version }}"
+          message: "Deployed to https://${{ inputs.domain }}"
+          comment_tag: "deployment"
