@@ -3,6 +3,7 @@ import type {
   CompanyProfileBaseDataPayload,
   CompanyProfileRelationsPayload,
   CompanyProfileValuesPayload,
+  DeleteUserMutationPayload,
   PasswordChange,
   StudentProfileAbilitiesPayload,
   StudentProfileBaseDataPayload,
@@ -53,6 +54,8 @@ export type Mutations<S = State> = {
   [MutationTypes.UPDATE_STUDENT_LOADED](state: S, payload: UpdateStudentMutationPayload): void;
   [MutationTypes.UPDATE_USER_LOADING](state: S): void;
   [MutationTypes.UPDATE_USER_LOADED](state: S, payload: UpdateUserMutationPayload): void;
+  [MutationTypes.DELETE_USER_LOADING](state: S): void;
+  [MutationTypes.DELETE_USER_LOADED](state: S, payload: DeleteUserMutationPayload): void;
   [MutationTypes.PASSWORD_CHANGE_LOADING](state: S): void;
   [MutationTypes.PASSWORD_CHANGE_LOADED](state: S, payload: PasswordChangeMutation): void;
   [MutationTypes.COMPANY_ONBOARDING_STEP_LOADING](state: S): void;
@@ -92,6 +95,14 @@ export const mutations: MutationTree<State> & Mutations = {
     state.updateStudent.loading = false;
     state.updateStudent.success = payload.success || false;
     state.updateStudent.errors = errorCodeMapper(payload.errors);
+  },
+  [MutationTypes.DELETE_USER_LOADING](state: State) {
+    state.deleteUser.loading = true;
+  },
+  [MutationTypes.DELETE_USER_LOADED](state: State, payload: DeleteUserMutationPayload) {
+    state.deleteUser.loading = false;
+    state.deleteUser.success = payload.success || false;
+    state.deleteUser.errors = errorCodeMapper(payload.errors);
   },
   [MutationTypes.PASSWORD_CHANGE_LOADING](state: State) {
     state.passwordChange.loading = true;

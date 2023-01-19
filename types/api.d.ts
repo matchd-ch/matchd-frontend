@@ -62,7 +62,6 @@ type AttachmentEdge = {
   node?: Maybe<Attachment>;
 };
 
-/** An enumeration. */
 enum AttachmentKey {
   ChallengeDocuments = "CHALLENGE_DOCUMENTS",
   ChallengeFallback = "CHALLENGE_FALLBACK",
@@ -288,7 +287,6 @@ type ChallengeSpecificDataPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 enum ChallengeState {
   Draft = "DRAFT",
   Public = "PUBLIC",
@@ -510,7 +508,6 @@ type Dashboard = {
   unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
 };
 
-/** An enumeration. */
 enum DateMode {
   DateFrom = "DATE_FROM",
   DateRange = "DATE_RANGE",
@@ -528,6 +525,19 @@ type DeleteAttachmentPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+type DeleteChallengeInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
+};
+
+/** Deletes a challenge */
+type DeleteChallengePayload = {
+  __typename?: "DeleteChallengePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 type DeleteEmployeeInput = {
   clientMutationId?: InputMaybe<Scalars["String"]>;
   id: Scalars["String"];
@@ -536,6 +546,31 @@ type DeleteEmployeeInput = {
 /** Deletes an employee within the same company */
 type DeleteEmployeePayload = {
   __typename?: "DeleteEmployeePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type DeleteJobPostingInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
+};
+
+/** Deletes a job posting */
+type DeleteJobPostingPayload = {
+  __typename?: "DeleteJobPostingPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+type DeleteUserMutationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+};
+
+/** Deletes the user */
+type DeleteUserMutationPayload = {
+  __typename?: "DeleteUserMutationPayload";
   clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
@@ -741,7 +776,6 @@ type JobPostingRequirementsPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 enum JobPostingState {
   Draft = "DRAFT",
   Public = "PUBLIC",
@@ -972,7 +1006,6 @@ type MatchStudentPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 enum MatchType {
   Challenge = "CHALLENGE",
   Company = "COMPANY",
@@ -1000,8 +1033,14 @@ type Mutation = {
   /** Updates a company profile with soft skills and cultural fit */
   companyProfileValues?: Maybe<CompanyProfileValuesPayload>;
   deleteAttachment?: Maybe<DeleteAttachmentPayload>;
+  /** Deletes a challenge */
+  deleteChallenge?: Maybe<DeleteChallengePayload>;
   /** Deletes an employee within the same company */
   deleteEmployee?: Maybe<DeleteEmployeePayload>;
+  /** Deletes a job posting */
+  deleteJobPosting?: Maybe<DeleteJobPostingPayload>;
+  /** Deletes the user */
+  deleteUser?: Maybe<DeleteUserMutationPayload>;
   /** Updates a job posting */
   jobPostingAllocation?: Maybe<JobPostingAllocationPayload>;
   /** Creates a job posting */
@@ -1152,8 +1191,20 @@ type MutationDeleteAttachmentArgs = {
   input: DeleteAttachmentInput;
 };
 
+type MutationDeleteChallengeArgs = {
+  input: DeleteChallengeInput;
+};
+
 type MutationDeleteEmployeeArgs = {
   input: DeleteEmployeeInput;
+};
+
+type MutationDeleteJobPostingArgs = {
+  input: DeleteJobPostingInput;
+};
+
+type MutationDeleteUserArgs = {
+  input: DeleteUserMutationInput;
 };
 
 type MutationJobPostingAllocationArgs = {
@@ -1385,14 +1436,12 @@ type PasswordReset = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 enum ProfileState {
   Anonymous = "ANONYMOUS",
   Incomplete = "INCOMPLETE",
   Public = "PUBLIC",
 }
 
-/** An enumeration. */
 enum ProfileType {
   CollegeStudent = "COLLEGE_STUDENT",
   Company = "COMPANY",
@@ -2185,7 +2234,6 @@ type UserRequestPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 enum UserType {
   /** College Student */
   CollegeStudent = "COLLEGE_STUDENT",
@@ -2318,6 +2366,14 @@ declare module "*/deleteEmployee.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const deleteEmployee: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/deleteUser.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const deleteUser: DocumentNode;
 
   export default defaultDocument;
 }
@@ -3481,6 +3537,15 @@ const DeleteAttachment = gql`
 const DeleteEmployee = gql`
   mutation deleteEmployee($id: String!) {
     deleteEmployee(input: { id: $id }) {
+      success
+      errors
+    }
+  }
+`;
+const DeleteUser = gql`
+  mutation deleteUser {
+    deleteUser(input: {}) {
+      clientMutationId
       success
       errors
     }
