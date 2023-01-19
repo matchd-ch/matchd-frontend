@@ -1,5 +1,6 @@
 import { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
 import { ChallengeState } from "@/models/ChallengeState";
+import { DeleteChallengeState } from "@/models/DeleteChallengeState";
 import { RootState } from "@/store";
 import { GetterTree } from "vuex";
 import { State } from "./state";
@@ -10,6 +11,8 @@ export type Getters = {
   challengeId(state: State): string;
   currentChallengeStep(state: State): number;
   currentChallenge(state: State): ChallengeChallengeFragment | null;
+  deleteChallengeLoading(state: State): boolean;
+  deleteChallengeState(state: State): DeleteChallengeState;
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -32,5 +35,14 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   currentChallenge(state: State) {
     return state.currentChallenge.data;
+  },
+  deleteChallengeLoading(state: State): boolean {
+    return state.deleteChallenge.loading;
+  },
+  deleteChallengeState(state: State): DeleteChallengeState {
+    return {
+      success: state.deleteChallenge.success,
+      errors: state.deleteChallenge.errors || null,
+    };
   },
 };

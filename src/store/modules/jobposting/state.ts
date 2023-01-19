@@ -30,6 +30,11 @@ export type State = {
     success: boolean;
     errors: MatchdApiError | null;
   };
+  deleteJobPosting: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
 };
 
 export const state: State = {
@@ -54,6 +59,11 @@ export const state: State = {
     errors: null,
   },
   deleteEmployee: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  deleteJobPosting: {
     loading: false,
     success: false,
     errors: null,

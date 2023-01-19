@@ -2,6 +2,7 @@ import type { Employee } from "@/api/models/types";
 import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import { AddEmployeeState } from "@/models/AddEmployeeState";
 import { DeleteEmployeeState } from "@/models/DeleteEmployeeState";
+import { DeleteJobPostingState } from "@/models/DeleteJobPostingState";
 import { JobPostingState } from "@/models/JobPostingState";
 import { RootState } from "@/store";
 import { GetterTree } from "vuex";
@@ -18,6 +19,8 @@ export type Getters = {
   addEmployeeState(state: State): AddEmployeeState;
   deleteEmployeeLoading(state: State): boolean;
   deleteEmployeeState(state: State): DeleteEmployeeState;
+  deleteJobPostingLoading(state: State): boolean;
+  deleteJobPostingState(state: State): DeleteJobPostingState;
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -60,6 +63,15 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return {
       success: state.deleteEmployee.success,
       errors: state.deleteEmployee.errors || null,
+    };
+  },
+  deleteJobPostingLoading(state: State): boolean {
+    return state.deleteJobPosting.loading;
+  },
+  deleteJobPostingState(state: State): DeleteJobPostingState {
+    return {
+      success: state.deleteJobPosting.success,
+      errors: state.deleteJobPosting.errors || null,
     };
   },
 };

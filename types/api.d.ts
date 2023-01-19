@@ -2362,10 +2362,26 @@ declare module "*/deleteAttachment.gql" {
   export default defaultDocument;
 }
 
+declare module "*/deleteChallenge.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const deleteChallenge: DocumentNode;
+
+  export default defaultDocument;
+}
+
 declare module "*/deleteEmployee.gql" {
   import { DocumentNode } from "graphql";
   const defaultDocument: DocumentNode;
   export const deleteEmployee: DocumentNode;
+
+  export default defaultDocument;
+}
+
+declare module "*/deleteJobPosting.gql" {
+  import { DocumentNode } from "graphql";
+  const defaultDocument: DocumentNode;
+  export const deleteJobPosting: DocumentNode;
 
   export default defaultDocument;
 }
@@ -3534,9 +3550,25 @@ const DeleteAttachment = gql`
     }
   }
 `;
+const DeleteChallenge = gql`
+  mutation deleteChallenge($id: String!) {
+    deleteChallenge(input: { id: $id }) {
+      success
+      errors
+    }
+  }
+`;
 const DeleteEmployee = gql`
   mutation deleteEmployee($id: String!) {
     deleteEmployee(input: { id: $id }) {
+      success
+      errors
+    }
+  }
+`;
+const DeleteJobPosting = gql`
+  mutation deleteJobPosting($id: String!) {
+    deleteJobPosting(input: { id: $id }) {
       success
       errors
     }

@@ -3,6 +3,7 @@ import type {
   ChallengeAllocationPayload,
   ChallengeBaseDataPayload,
   ChallengeSpecificDataPayload,
+  DeleteChallengePayload,
 } from "@/api/models/types";
 import { ChallengeQuery } from "@/api/queries/challenge.generated";
 import { EmployeesQuery } from "@/api/queries/employees.generated";
@@ -27,6 +28,8 @@ export type Mutations<S = State> = {
   [MutationTypes.ADD_EMPLOYEE_LOADED](state: S, payload: AddEmployeePayload): void;
   [MutationTypes.EMPLOYEES_LOADING](state: S): void;
   [MutationTypes.EMPLOYEES_LOADED](state: S, payload: EmployeesQuery): void;
+  [MutationTypes.DELETE_CHALLENGE_LOADING](state: S): void;
+  [MutationTypes.DELETE_CHALLENGE_LOADED](state: S, payload: DeleteChallengePayload): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -69,5 +72,13 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.EMPLOYEES_LOADED](state: State, payload: EmployeesQuery) {
     state.employees.loading = false;
     state.employees.data = ensureNoNullsAndUndefineds(payload.me?.company?.employees ?? []);
+  },
+  [MutationTypes.DELETE_CHALLENGE_LOADING](state: State) {
+    state.deleteChallenge.loading = true;
+  },
+  [MutationTypes.DELETE_CHALLENGE_LOADED](state: State, payload: DeleteChallengePayload) {
+    state.deleteChallenge.loading = false;
+    state.deleteChallenge.success = payload.success || false;
+    state.deleteChallenge.errors = errorCodeMapper(payload.errors);
   },
 };

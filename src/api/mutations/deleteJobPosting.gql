@@ -1,0 +1,6 @@
+mutation deleteJobPosting($id: String!) {
+  deleteJobPosting(input:{id: $id}) {
+    success
+    errors
+  }
+}

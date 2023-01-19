@@ -1,0 +1,6 @@
+mutation deleteChallenge($id: String!) {
+  deleteChallenge(input:{id: $id}) {
+    success
+    errors
+  }
+}
