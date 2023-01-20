@@ -118,9 +118,24 @@
         </template>
       </profile-section>
     </div>
+    <DeletionInfoModal v-model:showModal="showDeletionInfoModal">
+      <template #title>{{
+        "challengeDeleted" in route.query
+          ? "Challenge gelöscht"
+          : "jobPostingDeleted" in route.query
+          ? "Stelle gelöscht"
+          : ""
+      }}</template>
+      {{
+        "challengeDeleted" in route.query
+          ? "Die Challenge wurde erfolgreich gelöscht."
+          : "jobPostingDeleted" in route.query
+          ? "Die Stelle wurde erfolgreich gelöscht."
+          : ""
+      }}
+    </DeletionInfoModal>
   </div>
 </template>
-
 <script setup lang="ts">
 import { AttachmentKey } from "@/api/models/types";
 import CompanyLogo from "@/components/CompanyLogo.vue";
@@ -130,10 +145,15 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
 import { useStore } from "@/store";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import DeletionInfoModal from "./DeletionInfoModal.vue";
 
-const props = defineProps<{ dashboard: ICompanyDashboard }>();
+defineProps<{ dashboard: ICompanyDashboard }>();
 const store = useStore();
+const route = useRoute();
+const user = computed(() => store.getters["user"]);
+const showDeletionInfoModal = ref(false);
 
 const avatar = computed(
   () =>
@@ -146,9 +166,12 @@ const avatar = computed(
     undefined
 );
 
-const user = computed(() => store.getters["user"]);
+onMounted(() => {
+  if ("challengeDeleted" in route.query || "jobPostingDeleted" in route.query) {
+    showDeletionInfoModal.value = true;
+  }
+});
 </script>
-
 <style lang="postcss" scoped>
 .link-list__item {
   @apply mb-4;

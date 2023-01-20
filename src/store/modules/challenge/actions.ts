@@ -84,10 +84,11 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.CHALLENGE_LOADED, response.data);
   },
-  async [ActionTypes.DELETE_CHALLENGE]({ commit }) {
+  async [ActionTypes.DELETE_CHALLENGE]({ commit }, payload: DeleteChallengeInput) {
     commit(MutationTypes.DELETE_CHALLENGE_LOADING);
     const response = await apiClient.mutate({
       mutation: DeleteChallengeDocument,
+      variables: payload,
     });
     commit(MutationTypes.DELETE_CHALLENGE_LOADED, response.data?.deleteChallenge ?? undefined);
   },

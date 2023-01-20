@@ -23,7 +23,7 @@
   <MatchingModal v-if="showErrorModal">
     <h2 class="text-heading-sm mb-3">Hoppla!</h2>
     <p class="mb-3">
-      Beim Löschen Des Kontos ist ein Fehler aufgetreten. Bitte versuche es erneut.
+      Beim Löschen des Kontos ist ein Fehler aufgetreten. Bitte versuche es erneut.
     </p>
     <template #footer>
       <MatchdButton class="block w-full md:w-auto" @click="showErrorModal = false">

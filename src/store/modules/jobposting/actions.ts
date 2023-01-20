@@ -128,10 +128,11 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(MutationTypes.EMPLOYEES_LOADED, response.data);
   },
-  async [ActionTypes.DELETE_JOBPOSTING]({ commit }) {
+  async [ActionTypes.DELETE_JOBPOSTING]({ commit }, payload: DeleteJobPostingInput) {
     commit(MutationTypes.DELETE_JOBPOSTING_LOADING);
     const response = await apiClient.mutate({
       mutation: DeleteJobPostingDocument,
+      variables: payload,
     });
     commit(MutationTypes.DELETE_JOBPOSTING_LOADED, response.data?.deleteJobPosting ?? undefined);
   },
