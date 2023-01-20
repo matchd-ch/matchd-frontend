@@ -10,16 +10,16 @@ jobs:
 
     concurrency: review-${{ github.event.pull_request.number }}
 
-    uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
+    uses: ./.github/workflows/part_deploy.yml
     with:
       namespace: matchd-frontend-review
       release: review-matchd-frontend-${{ github.event.pull_request.number }}
       environment: review-${{ github.event.pull_request.number }}
       domain: review-matchd-frontend-${{ github.event.pull_request.number }}.joshmartin.ch
       apiUrl: "https://development.matchd.ch"
-      task: remove
+      task: destroy
+      gtmContainerId: "${{ vars.GTM_CONTAINER_ID }}"
+      sentryDsn: "${{ vars.SENTRY_DSN }}"
     secrets:
-      DOCKER_PULL_USERNAME: ${{ secrets.DOCKER_PULL_USERNAME }}
-      DOCKER_PULL_SECRET: ${{ secrets.DOCKER_PULL_SECRET }}
-      GTM_CONTAINER_ID: "${{ secrets.GTM_CONTAINER_ID }}"
-      SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"
+      DOCKER_PULL_USERNAME: "${{ secrets.DOCKER_PULL_USERNAME }}"
+      DOCKER_PULL_SECRET: "${{ secrets.DOCKER_PULL_SECRET }}"

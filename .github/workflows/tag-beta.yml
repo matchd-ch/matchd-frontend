@@ -9,14 +9,14 @@ jobs:
   build:
     name: Build
 
-    uses: matchd-ch/matchd-frontend/.github/workflows/part_build.yml@main
+    uses: ./.github/workflows/part_build.yml
 
   deploy:
     name: "Deploy"
 
     needs: ["build"]
 
-    uses: matchd-ch/matchd-frontend/.github/workflows/part_deploy.yml@main
+    uses: ./.github/workflows/part_deploy.yml
     with:
       namespace: matchd-frontend-staging
       release: matchd-frontend
@@ -25,8 +25,8 @@ jobs:
       domain: staging.matchd.ch
       version: "${{ needs.build.outputs.tag }}"
       apiUrl: "https://api.staging.matchd.ch"
+      gtmContainerId: "${{ vars.GTM_CONTAINER_ID }}"
+      sentryDsn: "${{ vars.SENTRY_DSN }}"
     secrets:
-      DOCKER_PULL_USERNAME: ${{ secrets.DOCKER_PULL_USERNAME }}
-      DOCKER_PULL_SECRET: ${{ secrets.DOCKER_PULL_SECRET }}
-      GTM_CONTAINER_ID: "${{ secrets.GTM_CONTAINER_ID }}"
-      SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"
+      DOCKER_PULL_USERNAME: "${{ secrets.DOCKER_PULL_USERNAME }}"
+      DOCKER_PULL_SECRET: "${{ secrets.DOCKER_PULL_SECRET }}"

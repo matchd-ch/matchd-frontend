@@ -1,6 +1,8 @@
 FROM nginx:1.23.3-alpine
 
-ENV  NODE_ENV=production
+RUN apk add --no-cache jq
+
+ENV NODE_ENV=production
 
 COPY .docker/entrypoint.sh /
 COPY .docker/nginx/ /etc/nginx/
