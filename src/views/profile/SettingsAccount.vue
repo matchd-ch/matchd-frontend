@@ -97,6 +97,10 @@
           autocomplete="new-password"
         />
       </MatchdField>
+      <div v-if="user">
+        <h2 class="text-heading-lg mt-16 mb-8">Löschen</h2>
+        <DeleteAccount :user="user" />
+      </div>
       <teleport to="footer">
         <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
           <MatchdButton
@@ -124,6 +128,7 @@
 
 <script setup lang="ts">
 import type { User } from "@/api/models/types";
+import DeleteAccount from "@/components/DeleteAccount.vue";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";

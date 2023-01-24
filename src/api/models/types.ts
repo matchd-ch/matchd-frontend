@@ -62,7 +62,6 @@ export type AttachmentEdge = {
   node?: Maybe<Attachment>;
 };
 
-/** An enumeration. */
 export enum AttachmentKey {
   ChallengeDocuments = "CHALLENGE_DOCUMENTS",
   ChallengeFallback = "CHALLENGE_FALLBACK",
@@ -288,7 +287,6 @@ export type ChallengeSpecificDataPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 export enum ChallengeState {
   Draft = "DRAFT",
   Public = "PUBLIC",
@@ -510,7 +508,6 @@ export type Dashboard = {
   unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
 };
 
-/** An enumeration. */
 export enum DateMode {
   DateFrom = "DATE_FROM",
   DateRange = "DATE_RANGE",
@@ -528,6 +525,19 @@ export type DeleteAttachmentPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+export type DeleteChallengeInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
+};
+
+/** Deletes a challenge */
+export type DeleteChallengePayload = {
+  __typename?: "DeleteChallengePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
 export type DeleteEmployeeInput = {
   clientMutationId?: InputMaybe<Scalars["String"]>;
   id: Scalars["String"];
@@ -536,6 +546,31 @@ export type DeleteEmployeeInput = {
 /** Deletes an employee within the same company */
 export type DeleteEmployeePayload = {
   __typename?: "DeleteEmployeePayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type DeleteJobPostingInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"];
+};
+
+/** Deletes a job posting */
+export type DeleteJobPostingPayload = {
+  __typename?: "DeleteJobPostingPayload";
+  clientMutationId?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  success?: Maybe<Scalars["Boolean"]>;
+};
+
+export type DeleteUserMutationInput = {
+  clientMutationId?: InputMaybe<Scalars["String"]>;
+};
+
+/** Deletes the user */
+export type DeleteUserMutationPayload = {
+  __typename?: "DeleteUserMutationPayload";
   clientMutationId?: Maybe<Scalars["String"]>;
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
@@ -741,7 +776,6 @@ export type JobPostingRequirementsPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 export enum JobPostingState {
   Draft = "DRAFT",
   Public = "PUBLIC",
@@ -972,7 +1006,6 @@ export type MatchStudentPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 export enum MatchType {
   Challenge = "CHALLENGE",
   Company = "COMPANY",
@@ -1000,8 +1033,14 @@ export type Mutation = {
   /** Updates a company profile with soft skills and cultural fit */
   companyProfileValues?: Maybe<CompanyProfileValuesPayload>;
   deleteAttachment?: Maybe<DeleteAttachmentPayload>;
+  /** Deletes a challenge */
+  deleteChallenge?: Maybe<DeleteChallengePayload>;
   /** Deletes an employee within the same company */
   deleteEmployee?: Maybe<DeleteEmployeePayload>;
+  /** Deletes a job posting */
+  deleteJobPosting?: Maybe<DeleteJobPostingPayload>;
+  /** Deletes the user */
+  deleteUser?: Maybe<DeleteUserMutationPayload>;
   /** Updates a job posting */
   jobPostingAllocation?: Maybe<JobPostingAllocationPayload>;
   /** Creates a job posting */
@@ -1152,8 +1191,20 @@ export type MutationDeleteAttachmentArgs = {
   input: DeleteAttachmentInput;
 };
 
+export type MutationDeleteChallengeArgs = {
+  input: DeleteChallengeInput;
+};
+
 export type MutationDeleteEmployeeArgs = {
   input: DeleteEmployeeInput;
+};
+
+export type MutationDeleteJobPostingArgs = {
+  input: DeleteJobPostingInput;
+};
+
+export type MutationDeleteUserArgs = {
+  input: DeleteUserMutationInput;
 };
 
 export type MutationJobPostingAllocationArgs = {
@@ -1385,14 +1436,12 @@ export type PasswordReset = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 export enum ProfileState {
   Anonymous = "ANONYMOUS",
   Incomplete = "INCOMPLETE",
   Public = "PUBLIC",
 }
 
-/** An enumeration. */
 export enum ProfileType {
   CollegeStudent = "COLLEGE_STUDENT",
   Company = "COMPANY",
@@ -2185,7 +2234,6 @@ export type UserRequestPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
-/** An enumeration. */
 export enum UserType {
   /** College Student */
   CollegeStudent = "COLLEGE_STUDENT",

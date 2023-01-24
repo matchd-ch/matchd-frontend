@@ -23,6 +23,11 @@ export type State = {
     success: boolean;
     errors: MatchdApiError | null;
   };
+  deleteChallenge: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
 };
 
 export const state: State = {
@@ -42,6 +47,11 @@ export const state: State = {
     data: [],
   },
   addEmployee: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  deleteChallenge: {
     loading: false,
     success: false,
     errors: null,

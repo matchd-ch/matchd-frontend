@@ -3,10 +3,12 @@ import {
   ChallengeAllocationInput,
   ChallengeBaseDataInput,
   ChallengeSpecificDataInput,
+  DeleteChallengeInput,
 } from "@/api/models/types";
 import { ChallengeAllocationDocument } from "@/api/mutations/challengeAllocation.generated";
 import { ChallengeBaseDataDocument } from "@/api/mutations/challengeBaseData.generated";
 import { ChallengeSpecificDataDocument } from "@/api/mutations/challengeSpecificData.generated";
+import { DeleteChallengeDocument } from "@/api/mutations/deleteChallenge.generated";
 import { ChallengeDocument } from "@/api/queries/challenge.generated";
 import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/challenge/mutation-types";
@@ -41,6 +43,10 @@ export interface Actions {
   [ActionTypes.CHALLENGE](
     { commit }: AugmentedActionContext,
     payload: { slug: string }
+  ): Promise<void>;
+  [ActionTypes.DELETE_CHALLENGE](
+    { commit }: AugmentedActionContext,
+    payload: DeleteChallengeInput
   ): Promise<void>;
 }
 
@@ -77,5 +83,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
       fetchPolicy: "no-cache",
     });
     commit(MutationTypes.CHALLENGE_LOADED, response.data);
+  },
+  async [ActionTypes.DELETE_CHALLENGE]({ commit }, payload: DeleteChallengeInput) {
+    commit(MutationTypes.DELETE_CHALLENGE_LOADING);
+    const response = await apiClient.mutate({
+      mutation: DeleteChallengeDocument,
+      variables: payload,
+    });
+    commit(MutationTypes.DELETE_CHALLENGE_LOADED, response.data?.deleteChallenge ?? undefined);
   },
 };

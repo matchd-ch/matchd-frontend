@@ -1,4 +1,5 @@
 import type { ZipCity } from "@/api/models/types";
+import { DeleteUserState } from "@/models/DeleteUserState";
 import type { OnboardingState } from "@/models/OnboardingState";
 import type { PasswordChangeState } from "@/models/PasswordChangeState";
 import type { UpdateStudentState } from "@/models/UpdateStudentState";
@@ -14,6 +15,8 @@ export type Getters = {
   updateStudentState(state: State): UpdateStudentState;
   updateUserLoading(state: State): boolean;
   updateUserState(state: State): UpdateUserState;
+  deleteUserLoading(state: State): boolean;
+  deleteUserState(state: State): DeleteUserState;
   passwordChangeLoading(state: State): boolean;
   passwordChangeState(state: State): PasswordChangeState;
   cityByZip(state: State): (payload: { zip: string }) => string;
@@ -44,10 +47,21 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   updateUserState(state: State): UpdateUserState {
     return {
-      success: state.updateStudent.success,
-      errors: state.updateStudent.errors || null,
+      success: state.updateUser.success,
+      errors: state.updateUser.errors || null,
     };
   },
+
+  deleteUserLoading(state: State): boolean {
+    return state.deleteUser.loading;
+  },
+  deleteUserState(state: State): DeleteUserState {
+    return {
+      success: state.deleteUser.success,
+      errors: state.deleteUser.errors || null,
+    };
+  },
+
   passwordChangeLoading(state: State): boolean {
     return state.passwordChange.loading;
   },

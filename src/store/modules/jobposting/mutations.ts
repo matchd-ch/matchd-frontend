@@ -1,6 +1,7 @@
 import type {
   AddEmployeePayload,
   DeleteEmployeePayload,
+  DeleteJobPostingPayload,
   JobPostingAllocationPayload,
   JobPostingBaseDataPayload,
   JobPostingRequirementsPayload,
@@ -30,6 +31,8 @@ export type Mutations<S = State> = {
   [MutationTypes.DELETE_EMPLOYEE_LOADED](state: S, payload: DeleteEmployeePayload): void;
   [MutationTypes.EMPLOYEES_LOADING](state: S): void;
   [MutationTypes.EMPLOYEES_LOADED](state: S, payload: EmployeesQuery): void;
+  [MutationTypes.DELETE_JOBPOSTING_LOADING](state: S): void;
+  [MutationTypes.DELETE_JOBPOSTING_LOADED](state: S, payload: DeleteJobPostingPayload): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -79,5 +82,13 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.EMPLOYEES_LOADED](state: State, payload: EmployeesQuery) {
     state.employees.loading = false;
     state.employees.data = ensureNoNullsAndUndefineds(payload.me?.company?.employees ?? []);
+  },
+  [MutationTypes.DELETE_JOBPOSTING_LOADING](state: State) {
+    state.deleteJobPosting.loading = true;
+  },
+  [MutationTypes.DELETE_JOBPOSTING_LOADED](state: State, payload: DeleteJobPostingPayload) {
+    state.deleteJobPosting.loading = false;
+    state.deleteJobPosting.success = payload.success || false;
+    state.deleteJobPosting.errors = errorCodeMapper(payload.errors);
   },
 };

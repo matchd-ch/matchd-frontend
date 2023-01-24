@@ -16,7 +16,7 @@
         :disabled="!currentJobPosting || currentJobPosting?.formStep < 3"
         :active="currentStep === 3"
       >
-        Kontakt
+        Kontakt und Sichtbarkeit
       </ProfileNavigationItem>
     </ProfileNavigation>
   </teleport>

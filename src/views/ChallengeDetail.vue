@@ -1,9 +1,14 @@
 <template>
   <div v-if="challenge.data" class="challenge-detail flex flex-col min-h-content-with-fixed-bars">
-    <div class="border-b border-orange-1 p-9">
-      <button class="text-black hover:text-orange-1 transition-colors" @click="router.back()">
-        <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Zurück zur Übersicht
-      </button>
+    <div class="border-b border-orange-1 p-9 challenge-navigation-bar">
+      <div>
+        <button class="text-black hover:text-orange-1 transition-colors" @click="router.back()">
+          <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Zurück zur Übersicht
+        </button>
+      </div>
+      <div v-if="getStepName(1)">
+        <DeleteChallenge :challenge="challenge.data" />
+      </div>
     </div>
     <PostingSection
       :edit-step="getStepName(1)"
@@ -179,6 +184,7 @@
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
+import DeleteChallenge from "@/components/DeleteChallenge.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import ChallengeCompanyMatchModal from "@/components/modals/ChallengeCompanyMatchModal.vue";
@@ -295,3 +301,14 @@ onMounted(async () => {
   }
 });
 </script>
+<style lang="postcss" scoped>
+.challenge-navigation-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  text-align: left;
+}
+.challenge-navigation-bar div:nth-of-type(2) {
+  text-align: right;
+}
+</style>

@@ -18,6 +18,11 @@ export type State = {
     success: boolean;
     errors: MatchdApiError | null;
   };
+  deleteUser: {
+    loading: boolean;
+    success: boolean;
+    errors: MatchdApiError | null;
+  };
   passwordChange: {
     loading: boolean;
     success: boolean;
@@ -42,6 +47,11 @@ export const state: State = {
     errors: null,
   },
   updateUser: {
+    loading: false,
+    success: false,
+    errors: null,
+  },
+  deleteUser: {
     loading: false,
     success: false,
     errors: null,

@@ -10,7 +10,7 @@
     </div>
 
     <PostingSection v-if="jobPosting.datePublished" title="Veröffentlicht am">{{
-      formatDateWithDay(jobPosting.datePublished)
+      formatDate(jobPosting.datePublished, "DDD")
     }}</PostingSection>
 
     <PostingSection title="Beschreibung">
@@ -24,8 +24,8 @@
       <p>{{ jobPosting.jobType.name }}</p>
       <p>
         <template v-if="jobPosting.jobToDate"
-          >{{ formatDate(jobPosting.jobFromDate) }} bis
-          {{ formatDate(jobPosting.jobToDate) }}</template
+          >{{ formatDate(jobPosting.jobFromDate, "LLLL yyyy") }} bis
+          {{ formatDate(jobPosting.jobToDate, "LLLL yyyy") }}</template
         >
         <template v-else>ab {{ jobPosting.jobFromDate }}</template>
       </p>
@@ -39,11 +39,11 @@
     </PostingSection>
 
     <PostingSection title="Das bringst du mit">
-      <template v-if="jobPosting.jobRequirements.length">
+      <template v-if="jobRequirements.length">
         <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
         <ul class="list-disc list-inside marker-orange-1 text-lg">
-          <li v-for="jobRequirement in jobPosting.jobRequirements" :key="jobRequirement.id">
-            {{ jobRequirement.name }}
+          <li v-for="jobRequirement in jobRequirements" :key="jobRequirement?.id">
+            {{ jobRequirement?.name }}
           </li>
         </ul>
       </template>
@@ -98,13 +98,13 @@
     </PostingSection>
     <teleport to="footer">
       <MatchingBar v-if="isStudent">
-        <template v-if="matchType === matchTypeEnum.HalfOwnMatch"
+        <template v-if="matchType === MatchTypeEnum.HalfOwnMatch"
           >Du hast bereits Interesse gezeigt, fingers crossed! 🤞</template
         >
-        <template v-else-if="matchType === matchTypeEnum.FullMatch"
+        <template v-else-if="matchType === MatchTypeEnum.FullMatch"
           >Gratulation, it’s a Match!</template
         >
-        <MatchdButton v-else-if="matchType === matchTypeEnum.HalfMatch" @click="onClickMatch"
+        <MatchdButton v-else-if="matchType === MatchTypeEnum.HalfMatch" @click="onClickMatch"
           >Match bestätigen</MatchdButton
         >
         <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
@@ -127,12 +127,11 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
-import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import JobPostingFullMatchModal from "@/components/modals/JobPostingFullMatchModal.vue";
 import JobPostingMatchModal from "@/components/modals/JobPostingMatchModal.vue";
@@ -140,153 +139,109 @@ import PostingSection from "@/components/PostingSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
-import { replaceStack } from "@/helpers/replaceStack";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { Routes } from "@/router";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import { Options, setup, Vue } from "vue-class-component";
+import { computed, onMounted, ref } from "vue";
 import { useMeta } from "vue-meta";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 
-Vue.registerHooks(["beforeRouteUpdate"]);
+const meta = useMeta({});
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const showConfirmationModal = ref(false);
+const showFullMatchModal = ref(false);
 
-@Options({
-  components: {
-    ArrowBack,
-    IconArrow,
-    MatchdButton,
-    MatchdToggle,
-    MatchingBar,
-    JobPostingMatchModal,
-    JobPostingFullMatchModal,
-    PostingSection,
-  },
-})
-export default class JobPostingDetail extends Vue {
-  meta = setup(() => useMeta({}));
-  showConfirmationModal = false;
-  showFullMatchModal = false;
+const isStudent = computed(() => store.getters["isStudent"]);
+const branchesLabel = computed(
+  () => jobPosting.value?.branches.map((branch) => branch.name).join(", ") || ""
+);
+const hasBranches = computed(() =>
+  jobPosting.value ? jobPosting.value?.branches.length > 0 : false
+);
+const user = computed(() => store.getters["user"]);
+const matchLoading = computed(() => store.getters["matchLoading"]);
+const jobPosting = computed(() => store.getters["jobPostingDetail"]);
 
-  get isStudent() {
-    return this.$store.getters["isStudent"];
+const jobRequirements = computed(() => {
+  return jobPosting.value?.jobRequirements.edges.map((edge) => edge?.node) || [];
+});
+
+const matchType = computed(() => {
+  if (jobPosting.value?.matchStatus === null) {
+    return MatchTypeEnum.EmptyMatch;
+  } else if (
+    jobPosting.value?.matchStatus?.confirmed === false &&
+    jobPosting.value?.matchStatus?.initiator === ProfileType.Company
+  ) {
+    return MatchTypeEnum.HalfMatch;
+  } else if (
+    jobPosting.value?.matchStatus?.confirmed === false &&
+    jobPosting.value?.matchStatus?.initiator === ProfileType.Student
+  ) {
+    return MatchTypeEnum.HalfOwnMatch;
+  } else {
+    return MatchTypeEnum.FullMatch;
   }
+});
 
-  get branchesLabel() {
-    return this.jobPosting?.branches.map((branch) => branch.name).join(", ") || "";
+const loadData = async (slug: string) => {
+  try {
+    await store.dispatch(ActionTypes.JOB_POSTING, { slug });
+    meta.meta.title = `${jobPosting.value?.title} bei ${jobPosting.value?.company.name}`;
+    showFullMatchModal.value = matchType.value === MatchTypeEnum.FullMatch;
+  } catch (e) {
+    console.log("FEHLER:", e);
+    router.replace("/404");
   }
+};
 
-  get hasBranches() {
-    return this.jobPosting ? this.jobPosting?.branches.length > 0 : false;
+const mutateMatch = async () => {
+  if (jobPosting.value?.id) {
+    await store.dispatch(ActionTypes.MATCH_JOB_POSTING, {
+      jobPosting: {
+        id: jobPosting.value.id,
+      },
+    });
+    await loadData(String(route.params.slug));
+    showFullMatchModal.value = matchType.value === MatchTypeEnum.FullMatch;
+    showConfirmationModal.value = false;
   }
+};
 
-  get user() {
-    return this.$store.getters["user"];
-  }
+const onClickMatchConfirm = async () => {
+  await mutateMatch();
+};
 
-  get matchLoading() {
-    return this.$store.getters["matchLoading"];
-  }
+const onClickCancel = () => {
+  showConfirmationModal.value = false;
+};
 
-  get jobPosting() {
-    return this.$store.getters["jobPostingDetail"];
-  }
+const onClickClose = () => {
+  showFullMatchModal.value = false;
+};
 
-  get matchTypeEnum() {
-    return MatchTypeEnum;
-  }
+const onClickMatch = () => {
+  showConfirmationModal.value = true;
+};
 
-  get matchType() {
-    if (this.jobPosting?.matchStatus === null) {
-      return MatchTypeEnum.EmptyMatch;
-    } else if (
-      this.jobPosting?.matchStatus?.confirmed === false &&
-      this.jobPosting?.matchStatus?.initiator === ProfileType.Company
-    ) {
-      return MatchTypeEnum.HalfMatch;
-    } else if (
-      this.jobPosting?.matchStatus?.confirmed === false &&
-      this.jobPosting?.matchStatus?.initiator === ProfileType.Student
-    ) {
-      return MatchTypeEnum.HalfOwnMatch;
-    } else {
-      return MatchTypeEnum.FullMatch;
-    }
-  }
+const detailSiteRoute = (type: string) => {
+  return type === ProfileType.University ? Routes.UNIVERSITY_DETAIL : Routes.COMPANY_DETAIL;
+};
 
-  replaceStack(url: string, stack: string) {
-    return replaceStack(url, stack);
+onBeforeRouteUpdate(async (to, _from, next) => {
+  if (to.params.slug) {
+    await loadData(String(to.params.slug));
   }
+  next();
+});
 
-  formatDate(isoString: string) {
-    return formatDate(isoString, "LLLL yyyy");
+onMounted(async () => {
+  if (route.params.slug) {
+    await loadData(String(route.params.slug));
+    calculateMargins();
   }
-
-  formatDateWithDay(isoString: string) {
-    return formatDate(isoString, "DDD");
-  }
-
-  nl2br(text: string) {
-    return nl2br(text);
-  }
-
-  async beforeRouteUpdate(
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ): Promise<void> {
-    if (to.params.slug) {
-      await this.loadData(String(to.params.slug));
-    }
-    next();
-  }
-
-  async mounted() {
-    if (this.$route.params.slug) {
-      await this.loadData(String(this.$route.params.slug));
-      calculateMargins();
-    }
-  }
-
-  async loadData(slug: string) {
-    try {
-      await this.$store.dispatch(ActionTypes.JOB_POSTING, { slug });
-      this.meta.meta.title = `${this.jobPosting?.title} bei ${this.jobPosting?.company.name}`;
-      this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
-    } catch (e) {
-      this.$router.replace("/404");
-    }
-  }
-
-  async mutateMatch() {
-    if (this.jobPosting?.id) {
-      await this.$store.dispatch(ActionTypes.MATCH_JOB_POSTING, {
-        jobPosting: {
-          id: this.jobPosting.id,
-        },
-      });
-      await this.loadData(String(this.$route.params.slug));
-      this.showFullMatchModal = this.matchType === MatchTypeEnum.FullMatch;
-      this.showConfirmationModal = false;
-    }
-  }
-
-  async onClickMatchConfirm() {
-    await this.mutateMatch();
-  }
-
-  onClickCancel() {
-    this.showConfirmationModal = false;
-  }
-
-  onClickClose() {
-    this.showFullMatchModal = false;
-  }
-
-  onClickMatch() {
-    this.showConfirmationModal = true;
-  }
-  detailSiteRoute(type: string) {
-    return type === ProfileType.University ? Routes.UNIVERSITY_DETAIL : Routes.COMPANY_DETAIL;
-  }
-}
+});
 </script>

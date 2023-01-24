@@ -35,6 +35,7 @@ export enum Routes {
   PASSWORD_FORGOTTEN = "PasswordForgotten",
   PASSWORD_RESET = "PasswordReset",
   CONTACT = "Contact",
+  ACCOUNT_DELETED = "ACCOUNT_DELETED",
 }
 
 const routes: Array<RouteRecordRaw> = [
@@ -55,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/registrierung",
     name: Routes.TRIAGE,
-    component: () => import(/* webpackChunkName: "register" */ "../views/Triage.vue"),
+    component: () => import(/* webpackChunkName: "triage" */ "../views/Triage.vue"),
     meta: {
       public: true,
       hideNavigation: true,
@@ -64,7 +65,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/aktivierung/:token",
     name: Routes.ACTIVATE,
-    component: () => import(/* webpackChunkName: "register" */ "../views/Activate.vue"),
+    component: () => import(/* webpackChunkName: "activate" */ "../views/Activate.vue"),
     meta: {
       public: true,
       hideNavigation: true,
@@ -87,7 +88,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/profil/bearbeiten/:step",
     name: Routes.PROFILE_EDIT,
-    component: () => import(/* webpackChunkName: "profile" */ "../views/ProfileEdit.vue"),
+    component: () => import(/* webpackChunkName: "profile-edit" */ "../views/ProfileEdit.vue"),
   },
   {
     path: "/stellen/ausschreiben/:slug?/:step?",
@@ -133,14 +134,12 @@ const routes: Array<RouteRecordRaw> = [
       accessType: ["student", "company", "university"],
       public: true,
     },
-    // beforeEnter: challengesOnlyWithPublishedChallengeGuard,
   },
   {
     path: "/challenges/:slug",
     name: Routes.CHALLENGE_DETAIL,
     component: () =>
       import(/* webpackChunkName: "challenge-detail" */ "../views/ChallengeDetail.vue"),
-    // beforeEnter: challengesOnlyWithPublishedChallengeGuard,
     meta: {
       public: true,
     },
@@ -171,7 +170,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/firmen",
     name: Routes.COMPANY_LIST,
-    component: () => import(/* webpackChunkName: "company-detail" */ "../views/CompanyList.vue"),
+    component: () => import(/* webpackChunkName: "company-list" */ "../views/CompanyList.vue"),
     meta: {
       accessType: ["student"],
     },
@@ -195,7 +194,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/passwort-reset/:token",
     name: Routes.PASSWORD_RESET,
-    component: () => import(/* webpackChunkName: "login" */ "../views/PasswordReset.vue"),
+    component: () => import(/* webpackChunkName: "password-reset" */ "../views/PasswordReset.vue"),
     meta: {
       public: true,
       hideNavigation: true,
@@ -205,7 +204,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/registrierung/schueler*in-lernender",
     alias: ["/registrierung/berufseinsteiger*in", "/registrierung/student*in"],
     name: Routes.STUDENT_REGISTER,
-    component: () => import(/* webpackChunkName: "register" */ "../views/StudentRegister.vue"),
+    component: () =>
+      import(/* webpackChunkName: "student-register" */ "../views/StudentRegister.vue"),
     meta: {
       public: true,
       hideNavigation: true,
@@ -215,7 +215,8 @@ const routes: Array<RouteRecordRaw> = [
     path: "/registrierung/unternehmung",
     alias: "/registrierung/bildungsinstitution",
     name: Routes.COMPANY_REGISTER,
-    component: () => import(/* webpackChunkName: "register" */ "../views/CompanyRegister.vue"),
+    component: () =>
+      import(/* webpackChunkName: "company-register" */ "../views/CompanyRegister.vue"),
     meta: {
       public: true,
       hideNavigation: true,
@@ -224,7 +225,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/kontakt",
     name: Routes.CONTACT,
-    component: () => import(/* webpackChunkName: "register" */ "../views/Contact.vue"),
+    component: () => import(/* webpackChunkName: "contact" */ "../views/Contact.vue"),
+    meta: {
+      public: true,
+      hideNavigation: true,
+    },
+  },
+  {
+    path: "/konto-geloescht",
+    name: Routes.ACCOUNT_DELETED,
+    component: () =>
+      import(/* webpackChunkName: "account-deleted" */ "../views/AccountDeleted.vue"),
     meta: {
       public: true,
       hideNavigation: true,

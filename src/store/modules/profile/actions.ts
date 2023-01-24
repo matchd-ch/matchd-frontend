@@ -4,6 +4,7 @@ import type {
   CompanyProfileBaseDataInput,
   CompanyProfileRelationsInput,
   CompanyProfileValuesInput,
+  DeleteUserMutationInput,
   StudentProfileAbilitiesInput,
   StudentProfileBaseDataInput,
   StudentProfileCharacterInput,
@@ -21,6 +22,7 @@ import { CompanyProfileAdvantagesDocument } from "@/api/mutations/companyProfile
 import { CompanyProfileBaseDataDocument } from "@/api/mutations/companyProfileBaseData.generated";
 import { CompanyProfileRelationsDocument } from "@/api/mutations/companyProfileRelations.generated";
 import { CompanyProfileValuesDocument } from "@/api/mutations/companyProfileValues.generated";
+import { DeleteUserDocument } from "@/api/mutations/deleteUser.generated";
 import {
   PasswordChangeDocument,
   PasswordChangeMutationVariables,
@@ -104,6 +106,10 @@ export interface Actions {
   [ActionTypes.UPDATE_STUDENT](
     { commit }: AugmentedActionContext,
     payload: UpdateStudentMutationInput
+  ): Promise<void>;
+  [ActionTypes.DELETE_USER](
+    { commit }: AugmentedActionContext,
+    payload: DeleteUserMutationInput
   ): Promise<void>;
   [ActionTypes.PASSWORD_CHANGE](
     { commit }: AugmentedActionContext,
@@ -266,6 +272,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
       variables: { input: payload },
     });
     commit(MutationTypes.UPDATE_STUDENT_LOADED, response.data?.updateStudent ?? undefined);
+  },
+  async [ActionTypes.DELETE_USER]({ commit }) {
+    commit(MutationTypes.DELETE_USER_LOADING);
+    const response = await apiClient.mutate({
+      mutation: DeleteUserDocument,
+    });
+    commit(MutationTypes.DELETE_USER_LOADED, response.data?.deleteUser ?? undefined);
   },
   async [ActionTypes.PASSWORD_CHANGE]({ commit }, payload: PasswordChangeMutationVariables) {
     commit(MutationTypes.PASSWORD_CHANGE_LOADING);

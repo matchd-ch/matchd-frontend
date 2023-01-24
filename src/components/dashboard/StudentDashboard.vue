@@ -148,6 +148,10 @@
         </template>
       </profile-section>
     </div>
+    <DeletionInfoModal v-model:showModal="showDeletionInfoModal">
+      <template #title>Challenge gelöscht</template>
+      Die Challenge wurde erfolgreich gelöscht.
+    </DeletionInfoModal>
   </div>
 </template>
 
@@ -159,15 +163,16 @@ import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { useStore } from "@/store";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 import StackImage from "../StackImage.vue";
+import DeletionInfoModal from "./DeletionInfoModal.vue";
 
 defineProps<{ dashboard: Dashboard }>();
 
 const store = useStore();
-const isStudent = computed(() => store.getters["isStudent"]);
-
-const isCompany = computed(() => store.getters["isCompany"]);
+const route = useRoute();
+const showDeletionInfoModal = ref(false);
 
 const user = computed(() => store.getters["user"]);
 
@@ -181,6 +186,12 @@ const avatar = computed(
     })?.[0] ||
     undefined
 );
+
+onMounted(() => {
+  if ("challengeDeleted" in route.query) {
+    showDeletionInfoModal.value = true;
+  }
+});
 </script>
 
 <style lang="postcss" scoped>
