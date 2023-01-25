@@ -22,6 +22,7 @@
         @click-logout="handleLogoutClick"
       />
       <NavBarPublic v-else-if="showNavbar" />
+      <ImpersonateBar v-if="impersonator" />
     </header>
     <div class="mt-fixed-header mb-fixed-footer">
       <router-view />
@@ -38,7 +39,9 @@ import { ActionTypes as LoginActions } from "@/store/modules/login/action-types"
 import { computed, onMounted, onUnmounted } from "vue";
 import { useMeta } from "vue-meta";
 import { useRoute, useRouter } from "vue-router";
+import ImpersonateBar from "./components/ImpersonateBar.vue";
 import NavBarPublic from "./components/NavBarPublic.vue";
+import useImpersonator from "./helpers/useImpersonator";
 import { Routes } from "./router";
 import { useStore } from "./store";
 
@@ -53,6 +56,7 @@ const isUniversity = computed(() => store.getters["isUniversity"]);
 const showNavbar = computed(() => !route.meta.hideNavigation);
 const isPublic = computed(() => route.meta.public);
 const navigation = computed(() => (isStudent.value ? NavBarStudent : NavBarCompany));
+const { impersonator } = useImpersonator();
 
 const handleLogoutClick = async () => {
   await store.dispatch(LoginActions.LOGOUT);

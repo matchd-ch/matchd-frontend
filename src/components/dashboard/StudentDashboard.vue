@@ -5,6 +5,7 @@
     >
       <div class="flex justify-center m-5 lg:m-20 lg:w-86 lg:h-86">
         <StackImage
+          v-if="avatar"
           class="avatar rounded-full object-cover"
           :url="avatar.url"
           stack="avatar"

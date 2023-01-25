@@ -10,6 +10,7 @@ import { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
 import { Mutations } from "@/store/modules/login/mutations";
 import { State } from "@/store/modules/login/state";
+import jwtDecode from "jwt-decode";
 import { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
@@ -31,6 +32,10 @@ export interface Actions {
   [ActionTypes.LOGOUT]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.LOGOUT_CLEAR_STATE]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.REFRESH_LOGIN]({ commit, getters }: AugmentedActionContext): Promise<void>;
+  [ActionTypes.IMPERSONATE](
+    { commit }: AugmentedActionContext,
+    payload: { token: string }
+  ): Promise<void>;
   [ActionTypes.ME]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.VERIFY_PASSWORD_RESET_TOKEN](
     { commit }: AugmentedActionContext,
@@ -76,6 +81,17 @@ export const actions: ActionTree<State, RootState> & Actions = {
       },
     });
     commit(MutationTypes.REFRESH_LOGIN_LOADED, response.data.refreshToken);
+  },
+  async [ActionTypes.IMPERSONATE]({ commit }, payload: { token: string }) {
+    try {
+      jwtDecode(payload.token);
+      commit(MutationTypes.LOGIN_LOADED, {
+        token: payload.token,
+        success: true,
+      });
+    } catch {
+      console.error("Invalid token");
+    }
   },
   async [ActionTypes.ME]({ commit }) {
     commit(MutationTypes.ME_LOADING);
