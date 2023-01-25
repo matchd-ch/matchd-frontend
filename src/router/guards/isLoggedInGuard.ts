@@ -1,3 +1,4 @@
+import useImpersonator from "@/helpers/useImpersonator";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/login/action-types";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
@@ -9,9 +10,14 @@ export async function isLoggedInGuard(
   next: NavigationGuardNext
 ): Promise<void> {
   const store = useStore();
+  const { impersonator } = useImpersonator();
+
   if (to.meta?.public && !store.getters["isLoggedIn"]) {
     next();
-  } else if (!store.getters["isLoggedIn"] || store.getters["refreshToken"] === null) {
+  } else if (
+    (!store.getters["isLoggedIn"] || store.getters["refreshToken"] === null) &&
+    !impersonator.value
+  ) {
     next({ name: Routes.LOGIN, query: { redirectUri: to.fullPath } });
   } else {
     try {

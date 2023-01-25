@@ -36,6 +36,7 @@ export enum Routes {
   PASSWORD_RESET = "PasswordReset",
   CONTACT = "Contact",
   ACCOUNT_DELETED = "ACCOUNT_DELETED",
+  IMPERSONATE = "IMPERSONATE",
 }
 
 const routes: Array<RouteRecordRaw> = [
@@ -236,6 +237,15 @@ const routes: Array<RouteRecordRaw> = [
     name: Routes.ACCOUNT_DELETED,
     component: () =>
       import(/* webpackChunkName: "account-deleted" */ "../views/AccountDeleted.vue"),
+    meta: {
+      public: true,
+      hideNavigation: true,
+    },
+  },
+  {
+    path: "/impersonate",
+    name: Routes.IMPERSONATE,
+    component: () => import(/* webpackChunkName: "impersonate" */ "../views/Impersonate.vue"),
     meta: {
       public: true,
       hideNavigation: true,

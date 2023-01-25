@@ -68,7 +68,7 @@ const handleFormSubmit = async () => {
     showErrorModal.value = true;
     return;
   }
-  store.dispatch(LoginActionTypes.LOGOUT_CLEAR_STATE);
+  await store.dispatch(LoginActionTypes.LOGOUT_CLEAR_STATE);
   router.push({ name: Routes.ACCOUNT_DELETED });
 };
 
