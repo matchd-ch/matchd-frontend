@@ -2,7 +2,6 @@
   <div class="login min-h-screen flex flex-col px-4 lg:px-5">
     <BackLink :to="{ name: 'Triage' }" />
     <h1 class="text-display-xl-fluid text-black">Login</h1>
-    Test
     <div class="grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
         <GenericError v-if="loginState.errors?.nonFieldErrors?.includes('not_verified')">
