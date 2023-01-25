@@ -243,9 +243,9 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/impersonate2",
+    path: "/impersonate",
     name: Routes.IMPERSONATE,
-    component: () => import(/* webpackChunkName: "impersonate2" */ "../views/Impersonate.vue"),
+    component: () => import(/* webpackChunkName: "impersonate" */ "../views/Impersonate.vue"),
     meta: {
       public: true,
       hideNavigation: true,
