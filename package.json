@@ -18,7 +18,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.5",
     "@cypress/vue": "^4.2.2",
-    "@cypress/webpack-dev-server": "^2.4.1",
+    "@cypress/webpack-dev-server": "^3.3.0",
     "@gtm-support/vue-gtm": "^1.6.0",
     "@sentry/tracing": "^7.12.1",
     "@sentry/vue": "^7.12.1",
