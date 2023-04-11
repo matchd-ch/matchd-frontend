@@ -1,5 +1,5 @@
 import type { ChallengeAllocationInput } from "@/api/models/types";
-import { ChallengeStep3Form } from "@/models/ChallengeStep3Form";
+import type { ChallengeStep3Form } from "@/models/ChallengeStep3Form";
 
 export function challengeStep3InputMapper(
   id: string,

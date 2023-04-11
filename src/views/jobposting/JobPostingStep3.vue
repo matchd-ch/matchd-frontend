@@ -97,7 +97,7 @@ import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import AddEmployeeForm from "@/containers/AddEmployeeForm.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
+import type { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { Field, useForm } from "vee-validate";

@@ -1,6 +1,6 @@
-import { AccountType } from "@/models/AccountType";
-import { MatchdApiError } from "@/models/MatchdApiError";
-import { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
+import type { AccountType } from "@/models/AccountType";
+import type { MatchdApiError } from "@/models/MatchdApiError";
+import type { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
 
 export type State = {
   loading: boolean;

@@ -1,4 +1,4 @@
-import { SearchResult } from "@/models/SearchResult";
+import type { SearchResult } from "@/models/SearchResult";
 
 export interface SearchNode extends SearchResult {
   main: boolean;

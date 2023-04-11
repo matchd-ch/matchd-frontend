@@ -1,6 +1,6 @@
-import { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
+import type { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 import { DateTime } from "luxon";
-import { MeQuery } from "../queries/me.generated";
+import type { MeQuery } from "../queries/me.generated";
 
 export function studentProfileStep2FormMapper(
   user: NonNullable<MeQuery["me"]>

@@ -7,7 +7,8 @@ import { redirectToCurrentJobPostingStepGuard } from "@/router/guards/redirectTo
 import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectToCurrentOnboardingStepGuard";
 import { studentDetailOnlyWithPublishedJobOrChallengeGuard } from "@/router/guards/studentDetailOnlyWithPublishedJobOrChallengeGuard";
 import { talentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/talentsOnlyWithPublishedJobPostingGuard";
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../views/DashboardOverview.vue";
 import { config } from "./../config";
 

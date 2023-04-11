@@ -1,4 +1,4 @@
-import { AccountType } from "@/models/AccountType";
+import type { AccountType } from "@/models/AccountType";
 
 export interface Account {
   firstName: string;

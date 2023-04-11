@@ -1,4 +1,5 @@
-import { Store as VuexStore, type CommitOptions, type DispatchOptions, type Module } from "vuex";
+import type { Store as VuexStore } from "vuex";
+import { type CommitOptions, type DispatchOptions, type Module } from "vuex";
 
 // TODO: How to surpass cyclical dependency linting errors cleanly?
 import { type RootState } from "@/store";

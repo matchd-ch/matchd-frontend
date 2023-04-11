@@ -151,7 +151,7 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { getDefaultTeamSizes } from "@/helpers/teamSize";
-import { ChallengeStep1Form } from "@/models/ChallengeStep1Form";
+import type { ChallengeStep1Form } from "@/models/ChallengeStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ChallengeActionTypes } from "@/store/modules/challenge/action-types";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";

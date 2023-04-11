@@ -30,7 +30,7 @@
   </MatchdButton>
 </template>
 <script setup lang="ts">
-import { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
+import type { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import { Routes } from "@/router";

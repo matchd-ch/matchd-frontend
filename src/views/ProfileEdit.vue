@@ -76,13 +76,8 @@ import {
 } from "@/views/profile/university";
 import { computed, ref } from "vue";
 import { useMeta } from "vue-meta";
-import {
-  NavigationGuardNext,
-  onBeforeRouteLeave,
-  onBeforeRouteUpdate,
-  useRoute,
-  useRouter,
-} from "vue-router";
+import type { NavigationGuardNext } from "vue-router";
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 
 interface ProfileItem {
   component:

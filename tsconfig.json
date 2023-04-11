@@ -5,7 +5,8 @@
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
-    "verbatimModuleSyntax": true,
+    // TODO: Enable the following line if @graphql-codegen is able to handle typescript v5 type-imports
+    "verbatimModuleSyntax": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "skipLibCheck": true,

@@ -40,8 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
-import { MeQuery } from "@/api/queries/me.generated";
+import type { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
+import type { MeQuery } from "@/api/queries/me.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingModal from "@/components/MatchingModal.vue";

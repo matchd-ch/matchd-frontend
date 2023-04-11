@@ -27,11 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
-import { MeQuery } from "@/api/queries/me.generated";
+import type { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
+import type { MeQuery } from "@/api/queries/me.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
-import { MatchTypeEnum } from "@/models/MatchTypeEnum";
+import type { MatchTypeEnum } from "@/models/MatchTypeEnum";
 
 withDefaults(
   defineProps<{

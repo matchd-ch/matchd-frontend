@@ -143,7 +143,7 @@ import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
-import { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
+import type { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";

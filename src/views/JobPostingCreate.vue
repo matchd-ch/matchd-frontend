@@ -63,7 +63,7 @@ import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
 import JobPostingStep3 from "@/views/jobposting/JobPostingStep3.vue";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
 

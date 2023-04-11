@@ -1,7 +1,7 @@
 import type { Employee } from "@/api/models/types";
 import { ChallengeState } from "@/api/models/types";
-import { ChallengeStep3Form } from "@/models/ChallengeStep3Form";
-import { ChallengeChallengeFragment } from "../queries/challengeFragment.generated";
+import type { ChallengeStep3Form } from "@/models/ChallengeStep3Form";
+import type { ChallengeChallengeFragment } from "../queries/challengeFragment.generated";
 
 export function challengeStep3FormMapper(
   challenge: ChallengeChallengeFragment,

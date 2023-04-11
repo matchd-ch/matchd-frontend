@@ -1,5 +1,5 @@
 import { createApolloClient } from "@/api/apollo-client";
-import {
+import type {
   ChallengeAllocationInput,
   ChallengeBaseDataInput,
   ChallengeSpecificDataInput,
@@ -10,11 +10,11 @@ import { ChallengeBaseDataDocument } from "@/api/mutations/challengeBaseData.gen
 import { ChallengeSpecificDataDocument } from "@/api/mutations/challengeSpecificData.generated";
 import { DeleteChallengeDocument } from "@/api/mutations/deleteChallenge.generated";
 import { ChallengeDocument } from "@/api/queries/challenge.generated";
-import { RootState } from "@/store";
+import type { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/challenge/mutation-types";
-import { Mutations } from "@/store/modules/challenge/mutations";
-import { State } from "@/store/modules/challenge/state";
-import { ActionContext, ActionTree } from "vuex";
+import type { Mutations } from "@/store/modules/challenge/mutations";
+import type { State } from "@/store/modules/challenge/state";
+import type { ActionContext, ActionTree } from "vuex";
 import { config } from "../../../config";
 import { ActionTypes } from "./action-types";
 

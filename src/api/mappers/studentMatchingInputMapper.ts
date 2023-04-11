@@ -1,5 +1,5 @@
-import { MatchingInput } from "@/models/MatchingInput";
-import { StudentMatchingFilters } from "@/models/StudentMatchingFilters";
+import type { MatchingInput } from "@/models/MatchingInput";
+import type { StudentMatchingFilters } from "@/models/StudentMatchingFilters";
 
 export function studentMatchingInputMapper(filters: StudentMatchingFilters): MatchingInput {
   return {

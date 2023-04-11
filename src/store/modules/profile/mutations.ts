@@ -19,10 +19,10 @@ import type {
   UpdateUserMutationPayload,
   ZipCity,
 } from "@/api/models/types";
-import { PasswordChangeMutation } from "@/api/mutations/passwordChange.generated";
+import type { PasswordChangeMutation } from "@/api/mutations/passwordChange.generated";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { State } from "@/store/modules/profile/state";
-import { MutationTree } from "vuex";
+import type { State } from "@/store/modules/profile/state";
+import type { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 
 export type StudentProfileStep =

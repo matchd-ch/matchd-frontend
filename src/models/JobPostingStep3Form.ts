@@ -1,4 +1,4 @@
-import { JobPostingState } from "@/api/models/types";
+import type { JobPostingState } from "@/api/models/types";
 
 export interface AddEmployeeSubForm {
   firstName: string;

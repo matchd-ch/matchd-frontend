@@ -97,7 +97,7 @@ import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import NicknameSuggestions from "@/components/NicknameSuggestions.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
+import type { StudentProfileStep5Form } from "@/models/StudentProfileStep5Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";

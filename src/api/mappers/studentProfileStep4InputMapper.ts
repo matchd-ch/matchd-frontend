@@ -1,5 +1,5 @@
-import { StudentProfileAbilitiesInput } from "@/api/models/types";
-import { StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
+import type { StudentProfileAbilitiesInput } from "@/api/models/types";
+import type { StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 
 export function studentProfileStep4InputMapper(
   studentProfileForm: StudentProfileStep4Form

@@ -1,6 +1,6 @@
 import { useStore } from "@/store";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import { Routes } from "..";
 
 export async function needsStateResetBeforePasswordResetGuard(

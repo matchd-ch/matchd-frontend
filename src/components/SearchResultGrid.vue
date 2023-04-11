@@ -35,7 +35,7 @@
 import GridTile from "@/components/GridTile.vue";
 import fetchAttachmentDataUri from "@/helpers/fetchAttachmentDataUri";
 import { replaceStack } from "@/helpers/replaceStack";
-import { SearchResult } from "@/models/SearchResult";
+import type { SearchResult } from "@/models/SearchResult";
 import { Routes } from "@/router";
 import { computed, ref, watch } from "vue";
 

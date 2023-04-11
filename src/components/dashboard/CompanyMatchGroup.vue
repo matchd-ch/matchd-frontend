@@ -46,9 +46,12 @@
 </template>
 
 <script setup lang="ts">
-import { Student } from "@/api/models/types";
+import type { Student } from "@/api/models/types";
 import ArrowFrontIcon from "@/assets/icons/arrow-front.svg";
-import { GroupedChallengeMatching, GroupedJobPostingMatching } from "@/models/CompanyDashboard";
+import type {
+  GroupedChallengeMatching,
+  GroupedJobPostingMatching,
+} from "@/models/CompanyDashboard";
 
 defineProps<{
   matches: GroupedJobPostingMatching[] | GroupedChallengeMatching[];

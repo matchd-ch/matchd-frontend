@@ -41,5 +41,6 @@ module.exports = {
   ],
   rules: {
     "vue/multi-word-component-names": 0,
+    "@typescript-eslint/consistent-type-imports": "error",
   },
 };

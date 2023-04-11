@@ -6,12 +6,12 @@ import type {
   JobPostingBaseDataPayload,
   JobPostingRequirementsPayload,
 } from "@/api/models/types";
-import { EmployeesQuery } from "@/api/queries/employees.generated";
-import { JobPostingQuery } from "@/api/queries/jobPosting.generated";
+import type { EmployeesQuery } from "@/api/queries/employees.generated";
+import type { JobPostingQuery } from "@/api/queries/jobPosting.generated";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
-import { State } from "@/store/modules/jobposting/state";
-import { MutationTree } from "vuex";
+import type { State } from "@/store/modules/jobposting/state";
+import type { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 
 export type JobPostingStep =

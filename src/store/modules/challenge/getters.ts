@@ -1,9 +1,9 @@
-import { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
-import { ChallengeState } from "@/models/ChallengeState";
-import { DeleteChallengeState } from "@/models/DeleteChallengeState";
-import { RootState } from "@/store";
-import { GetterTree } from "vuex";
-import { State } from "./state";
+import type { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
+import type { ChallengeState } from "@/models/ChallengeState";
+import type { DeleteChallengeState } from "@/models/DeleteChallengeState";
+import type { RootState } from "@/store";
+import type { GetterTree } from "vuex";
+import type { State } from "./state";
 
 export type Getters = {
   challengeLoading(state: State): boolean;

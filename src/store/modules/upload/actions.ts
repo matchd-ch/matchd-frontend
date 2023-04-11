@@ -1,16 +1,16 @@
 import { createApolloClient } from "@/api/apollo-client";
-import { AttachmentKey } from "@/api/models/types";
+import type { AttachmentKey } from "@/api/models/types";
 import deleteAttachmentMutation from "@/api/mutations/deleteAttachment.gql";
 import { UploadDocument } from "@/api/mutations/upload.generated";
 import { UploadChallengeDocument } from "@/api/mutations/uploadChallenge.generated";
 import attachmentsQuery from "@/api/queries/attachments.gql";
 import attachmentsChallengeQuery from "@/api/queries/attachmentsChallenge.gql";
 import uploadTypesQuery from "@/api/queries/uploadConfigurations.gql";
-import { RootState } from "@/store";
+import type { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/upload/mutation-types";
-import { Mutations } from "@/store/modules/upload/mutations";
-import { State } from "@/store/modules/upload/state";
-import { ActionContext, ActionTree } from "vuex";
+import type { Mutations } from "@/store/modules/upload/mutations";
+import type { State } from "@/store/modules/upload/state";
+import type { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
 

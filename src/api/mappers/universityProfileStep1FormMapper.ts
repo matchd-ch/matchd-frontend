@@ -1,5 +1,5 @@
-import { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1Form";
-import { MeQuery } from "../queries/me.generated";
+import type { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1Form";
+import type { MeQuery } from "../queries/me.generated";
 
 export function universityProfileStep1FormMapper(
   user: NonNullable<MeQuery["me"]>

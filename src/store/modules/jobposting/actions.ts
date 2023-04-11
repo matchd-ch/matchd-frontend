@@ -15,11 +15,11 @@ import { JobPostingBaseDataDocument } from "@/api/mutations/jobPostingBaseData.g
 import { JobPostingRequirementsDocument } from "@/api/mutations/jobPostingRequirements.generated";
 import { EmployeesDocument } from "@/api/queries/employees.generated";
 import { JobPostingDocument } from "@/api/queries/jobPosting.generated";
-import { RootState } from "@/store";
+import type { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
-import { Mutations } from "@/store/modules/jobposting/mutations";
-import { State } from "@/store/modules/jobposting/state";
-import { ActionContext, ActionTree } from "vuex";
+import type { Mutations } from "@/store/modules/jobposting/mutations";
+import type { State } from "@/store/modules/jobposting/state";
+import type { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
 

@@ -1,4 +1,4 @@
-import { MatchdApiError } from "@/models/MatchdApiError";
+import type { MatchdApiError } from "@/models/MatchdApiError";
 
 export interface CompanyRegistrationState {
   success: boolean;

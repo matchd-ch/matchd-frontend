@@ -1,5 +1,6 @@
 <template>
   <label
+    v-if="uploadConfiguration"
     class="matchd-file-upload block border border-dashed p-14 rounded-30 text-center cursor-pointer"
     :class="{
       'border-black bg-grey-3': isDragOver,

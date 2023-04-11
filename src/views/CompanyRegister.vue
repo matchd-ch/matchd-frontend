@@ -211,14 +211,15 @@ import MatchdStep from "@/components/MatchdStep.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import { useRegistration } from "@/composables/Registration";
 import { config } from "@/config";
-import { CompanyRegistrationState } from "@/models/CompanyRegistrationState";
-import { NewCompanyAccount } from "@/models/NewAccount";
-import {
+import type { CompanyRegistrationState } from "@/models/CompanyRegistrationState";
+import type { NewCompanyAccount } from "@/models/NewAccount";
+import type {
   RegistrationCompanyFormData,
   RegistrationCompanyFormUid,
 } from "@/models/RegistrationCompanyForm";
 import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
-import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
+import type { FormActions } from "vee-validate";
+import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 

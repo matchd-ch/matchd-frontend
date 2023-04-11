@@ -86,7 +86,7 @@ import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
+import type { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";

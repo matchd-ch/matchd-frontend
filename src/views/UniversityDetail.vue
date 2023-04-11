@@ -190,10 +190,10 @@ import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import { CompanyAttachment } from "@/store/modules/content/state";
+import type { CompanyAttachment } from "@/store/modules/content/state";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 

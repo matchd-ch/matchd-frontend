@@ -4,12 +4,12 @@ import registerCompanyMutation from "@/api/mutations/registerCompany.gql";
 import registerStudentMutation from "@/api/mutations/registerStudent.gql";
 import userRequestMutation from "@/api/mutations/userRequest.gql";
 import verifyAccountMutation from "@/api/mutations/verifyAccount.gql";
-import { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
-import { RootState } from "@/store";
+import type { NewCompanyAccount, NewStudentAccount } from "@/models/NewAccount";
+import type { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/registration/mutation-types";
-import { Mutations } from "@/store/modules/registration/mutations";
-import { State } from "@/store/modules/registration/state";
-import { ActionContext, ActionTree } from "vuex";
+import type { Mutations } from "@/store/modules/registration/mutations";
+import type { State } from "@/store/modules/registration/state";
+import type { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
 

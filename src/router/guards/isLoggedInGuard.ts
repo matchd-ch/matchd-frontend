@@ -1,7 +1,7 @@
 import useImpersonator from "@/helpers/useImpersonator";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/login/action-types";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import { Routes } from "..";
 
 export async function isLoggedInGuard(

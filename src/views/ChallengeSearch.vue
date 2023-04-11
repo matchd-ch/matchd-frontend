@@ -132,8 +132,8 @@
 </template>
 
 <script setup lang="ts">
-import { ChallengeTypesChallengeTypeFragment } from "@/api/queries/challengeTypesFragment.generated";
-import { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
+import type { ChallengeTypesChallengeTypeFragment } from "@/api/queries/challengeTypesFragment.generated";
+import type { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
 import ChallengeSearchFilters from "@/components/ChallengeSearchFilters.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
