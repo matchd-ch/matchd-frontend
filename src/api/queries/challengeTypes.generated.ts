@@ -1,7 +1,6 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { ChallengeTypesChallengeTypeFragmentDoc } from "./challengeTypesFragment.generated";
 export type ChallengeTypesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type ChallengeTypesQuery = {
@@ -66,6 +65,17 @@ export const ChallengeTypesDocument = {
         ],
       },
     },
-    ...ChallengeTypesChallengeTypeFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "challengeTypesChallengeType" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "ChallengeType" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<ChallengeTypesQuery, ChallengeTypesQueryVariables>;

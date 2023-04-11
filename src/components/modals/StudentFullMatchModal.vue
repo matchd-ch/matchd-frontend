@@ -32,12 +32,12 @@
 </template>
 
 <script setup lang="ts">
-import { StudentStudentFragment } from "@/api/queries/studentFragment.generated";
+import { type StudentStudentFragment } from "@/api/queries/studentFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import TadaIcon from "@/components/TadaIcon.vue";
 
-const props = defineProps<{
+defineProps<{
   student: StudentStudentFragment;
 }>();
 

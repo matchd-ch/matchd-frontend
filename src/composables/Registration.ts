@@ -1,4 +1,4 @@
-import { AccountType } from "@/models/AccountType";
+import type { AccountType } from "@/models/AccountType";
 import { Routes } from "@/router";
 import { ref } from "vue";
 import { useRouter } from "vue-router";

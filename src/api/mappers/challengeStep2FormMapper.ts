@@ -1,6 +1,6 @@
-import { ChallengeStep2Form } from "@/models/ChallengeStep2Form";
+import type { ChallengeStep2Form } from "@/models/ChallengeStep2Form";
 import { DateTime } from "luxon";
-import { ChallengeChallengeFragment } from "../queries/challengeFragment.generated";
+import type { ChallengeChallengeFragment } from "../queries/challengeFragment.generated";
 
 export function challengeStep2FormMapper(
   challenge: ChallengeChallengeFragment | null

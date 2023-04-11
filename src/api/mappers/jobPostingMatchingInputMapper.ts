@@ -1,5 +1,5 @@
-import { JobPostingMatchingFilters } from "@/models/JobPostingMatchingFilters";
-import { MatchingInput } from "@/models/MatchingInput";
+import type { JobPostingMatchingFilters } from "@/models/JobPostingMatchingFilters";
+import type { MatchingInput } from "@/models/MatchingInput";
 
 export function jobPostingMatchingInputMapper(filters: JobPostingMatchingFilters): MatchingInput {
   return {

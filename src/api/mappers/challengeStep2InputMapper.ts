@@ -1,5 +1,5 @@
-import { ChallengeSpecificDataInput } from "@/api/models/types";
-import { ChallengeStep2Form } from "@/models/ChallengeStep2Form";
+import type { ChallengeSpecificDataInput } from "@/api/models/types";
+import type { ChallengeStep2Form } from "@/models/ChallengeStep2Form";
 
 export function challengeStep2InputMapper(
   id: string | undefined,

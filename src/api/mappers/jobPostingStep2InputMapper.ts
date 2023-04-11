@@ -1,5 +1,5 @@
-import { JobPostingRequirementsInput } from "@/api/models/types";
-import { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
+import type { JobPostingRequirementsInput } from "@/api/models/types";
+import type { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 
 export function jobPostingStep2InputMapper(
   id: string,

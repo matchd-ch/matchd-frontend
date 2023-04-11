@@ -1,5 +1,5 @@
 import { useStore } from "@/store";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import { Routes } from "..";
 
 export async function isProfileCompleteGuard(

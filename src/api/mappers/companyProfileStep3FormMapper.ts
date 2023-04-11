@@ -1,5 +1,5 @@
-import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
-import { MeQuery } from "../queries/me.generated";
+import type { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
+import type { MeQuery } from "../queries/me.generated";
 
 export function companyProfileStep3FormMapper(
   user: NonNullable<MeQuery["me"]>

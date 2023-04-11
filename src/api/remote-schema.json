@@ -194,7 +194,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -410,7 +410,7 @@
         "fields": [
           {
             "name": "icon",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -426,7 +426,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -442,7 +442,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -696,7 +696,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -712,7 +712,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -968,7 +968,7 @@
           },
           {
             "name": "challengeFromDate",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -980,7 +980,7 @@
           },
           {
             "name": "challengeType",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -996,7 +996,7 @@
           },
           {
             "name": "company",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -1044,7 +1044,7 @@
           },
           {
             "name": "description",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1088,7 +1088,7 @@
           },
           {
             "name": "formStep",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1104,7 +1104,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1164,7 +1164,7 @@
           },
           {
             "name": "slug",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1196,7 +1196,7 @@
           },
           {
             "name": "student",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -1236,7 +1236,7 @@
           },
           {
             "name": "website",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1288,7 +1288,7 @@
               "name": "EmployeeInput",
               "ofType": null
             },
-            "defaultValue": null,
+            "defaultValue": "null",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -1750,7 +1750,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1975,7 +1975,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1991,7 +1991,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2149,7 +2149,7 @@
         "fields": [
           {
             "name": "benefits",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "after",
@@ -2226,7 +2226,7 @@
           },
           {
             "name": "branches",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "after",
@@ -2327,7 +2327,7 @@
           },
           {
             "name": "city",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2363,7 +2363,7 @@
           },
           {
             "name": "description",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2419,7 +2419,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2459,7 +2459,7 @@
           },
           {
             "name": "linkChallenges",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2471,7 +2471,7 @@
           },
           {
             "name": "linkEducation",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2483,7 +2483,7 @@
           },
           {
             "name": "linkThesis",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2495,7 +2495,7 @@
           },
           {
             "name": "memberItStGallen",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2527,7 +2527,7 @@
           },
           {
             "name": "phone",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2543,7 +2543,7 @@
           },
           {
             "name": "profileStep",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2559,7 +2559,7 @@
           },
           {
             "name": "services",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2575,7 +2575,7 @@
           },
           {
             "name": "slug",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2627,7 +2627,7 @@
           },
           {
             "name": "street",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2643,7 +2643,7 @@
           },
           {
             "name": "topLevelOrganisationDescription",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2659,7 +2659,7 @@
           },
           {
             "name": "topLevelOrganisationWebsite",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2691,7 +2691,7 @@
           },
           {
             "name": "uid",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2707,7 +2707,7 @@
           },
           {
             "name": "website",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2723,7 +2723,7 @@
           },
           {
             "name": "zip",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3276,7 +3276,7 @@
         "fields": [
           {
             "name": "company",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3292,7 +3292,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3308,7 +3308,7 @@
           },
           {
             "name": "student",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3745,6 +3745,59 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "DbUserTypeChoices",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "COLLEGE_STUDENT",
+            "description": "College Student",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "COMPANY",
+            "description": "Company",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "INTERNAL",
+            "description": "Internal",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "JUNIOR",
+            "description": "Junior",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OTHER",
+            "description": "Other",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "STUDENT",
+            "description": "Student",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "UNIVERSITY",
+            "description": "University",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -4188,7 +4241,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4228,7 +4281,7 @@
           },
           {
             "name": "role",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4306,7 +4359,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4322,7 +4375,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4461,7 +4514,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4477,7 +4530,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4589,7 +4642,7 @@
           },
           {
             "name": "company",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4629,7 +4682,7 @@
           },
           {
             "name": "description",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4673,7 +4726,7 @@
           },
           {
             "name": "formStep",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4689,7 +4742,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4705,7 +4758,7 @@
           },
           {
             "name": "jobFromDate",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4721,7 +4774,7 @@
           },
           {
             "name": "jobRequirements",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "after",
@@ -4798,7 +4851,7 @@
           },
           {
             "name": "jobToDate",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4810,7 +4863,7 @@
           },
           {
             "name": "jobType",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4890,7 +4943,7 @@
           },
           {
             "name": "slug",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4938,7 +4991,7 @@
           },
           {
             "name": "url",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -5460,7 +5513,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5476,7 +5529,7 @@
           },
           {
             "name": "language",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5492,7 +5545,7 @@
           },
           {
             "name": "languageLevel",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5572,7 +5625,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5644,7 +5697,7 @@
               "name": "BranchInput",
               "ofType": null
             },
-            "defaultValue": null,
+            "defaultValue": "null",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -5656,7 +5709,7 @@
               "name": "JobTypeInput",
               "ofType": null
             },
-            "defaultValue": null,
+            "defaultValue": "null",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -5680,7 +5733,7 @@
               "name": "ZipCityInput",
               "ofType": null
             },
-            "defaultValue": null,
+            "defaultValue": "null",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -5873,7 +5926,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5889,7 +5942,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6133,7 +6186,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6165,7 +6218,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6335,7 +6388,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6351,7 +6404,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6509,7 +6562,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6525,7 +6578,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6644,7 +6697,7 @@
         "fields": [
           {
             "name": "description",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -6656,7 +6709,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6672,7 +6725,7 @@
           },
           {
             "name": "level",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8102,13 +8155,9 @@
                 "name": "refreshToken",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -8454,13 +8503,9 @@
                 "name": "refreshToken",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -8683,18 +8728,6 @@
             "description": "Obtain JSON web token for given user.\n\nAllow to perform login with different fields,\nand secondary email if set. The fields are\ndefined on settings.\n\nNot verified users can login by default. This\ncan be changes on settings.\n\nIf user is archived, make it unarchive and\nreturn `unarchiving=True` on output.",
             "args": [
               {
-                "name": "email",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
                 "name": "password",
                 "description": null,
                 "type": {
@@ -8714,9 +8747,13 @@
                 "name": "username",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -9034,7 +9071,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -9275,7 +9312,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -9291,7 +9328,7 @@
           },
           {
             "name": "url",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11131,9 +11168,29 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "GenericScalar",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "GenericScalar",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refreshExpiresIn",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -11143,9 +11200,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -11167,9 +11228,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -11405,9 +11470,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -11460,7 +11529,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11476,7 +11545,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11720,7 +11789,7 @@
         "fields": [
           {
             "name": "company",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11736,7 +11805,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11752,7 +11821,7 @@
           },
           {
             "name": "student",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11994,7 +12063,7 @@
         "fields": [
           {
             "name": "branch",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -12042,7 +12111,7 @@
           },
           {
             "name": "culturalFits",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "after",
@@ -12211,7 +12280,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -12243,7 +12312,7 @@
           },
           {
             "name": "jobFromDate",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -12255,7 +12324,7 @@
           },
           {
             "name": "jobToDate",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -12267,7 +12336,7 @@
           },
           {
             "name": "jobType",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -12279,7 +12348,7 @@
           },
           {
             "name": "languages",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "after",
@@ -12392,7 +12461,7 @@
           },
           {
             "name": "nickname",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -12424,7 +12493,7 @@
           },
           {
             "name": "profileStep",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -12452,7 +12521,7 @@
           },
           {
             "name": "skills",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "after",
@@ -12529,7 +12598,7 @@
           },
           {
             "name": "slug",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -12545,7 +12614,7 @@
           },
           {
             "name": "softSkills",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "after",
@@ -13244,7 +13313,7 @@
               "name": "BranchInput",
               "ofType": null
             },
-            "defaultValue": null,
+            "defaultValue": "null",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -14072,7 +14141,7 @@
               "name": "ProfileState",
               "ofType": null
             },
-            "defaultValue": null,
+            "defaultValue": "null",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -14463,7 +14532,7 @@
         "fields": [
           {
             "name": "company",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -14475,7 +14544,7 @@
           },
           {
             "name": "dateJoined",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14491,7 +14560,7 @@
           },
           {
             "name": "email",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14519,7 +14588,7 @@
           },
           {
             "name": "firstName",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14535,7 +14604,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14599,7 +14668,7 @@
           },
           {
             "name": "lastLogin",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -14611,7 +14680,7 @@
           },
           {
             "name": "lastName",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14627,7 +14696,7 @@
           },
           {
             "name": "password",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14704,7 +14773,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14720,7 +14789,7 @@
           },
           {
             "name": "language",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14736,7 +14805,7 @@
           },
           {
             "name": "languageLevel",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14914,7 +14983,7 @@
           },
           {
             "name": "company",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -14926,7 +14995,7 @@
           },
           {
             "name": "email",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14954,7 +15023,7 @@
           },
           {
             "name": "firstName",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14970,7 +15039,7 @@
           },
           {
             "name": "id",
-            "description": "The ID of the object.",
+            "description": "The ID of the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -14986,7 +15055,7 @@
           },
           {
             "name": "lastName",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -15038,14 +15107,14 @@
           },
           {
             "name": "type",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "ENUM",
-                "name": "UserType",
+                "name": "DbUserTypeChoices",
                 "ofType": null
               }
             },
@@ -15208,59 +15277,6 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "UserType",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "COLLEGE_STUDENT",
-            "description": "College Student",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "COMPANY",
-            "description": "Company",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "INTERNAL",
-            "description": "Internal",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "JUNIOR",
-            "description": "Junior",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "OTHER",
-            "description": "Other",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "STUDENT",
-            "description": "Student",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "UNIVERSITY",
-            "description": "University",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
         "possibleTypes": null
       },
       {
@@ -16420,6 +16436,31 @@
     ],
     "directives": [
       {
+        "name": "deprecated",
+        "description": "Marks an element of a GraphQL schema as no longer supported.",
+        "isRepeatable": false,
+        "locations": [
+          "ARGUMENT_DEFINITION",
+          "ENUM_VALUE",
+          "FIELD_DEFINITION",
+          "INPUT_FIELD_DEFINITION"
+        ],
+        "args": [
+          {
+            "name": "reason",
+            "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": "\"No longer supported\"",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ]
+      },
+      {
         "name": "include",
         "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
         "isRepeatable": false,
@@ -16458,6 +16499,30 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ]
+      },
+      {
+        "name": "specifiedBy",
+        "description": "Exposes a URL that specifies the behaviour of this scalar.",
+        "isRepeatable": false,
+        "locations": ["SCALAR"],
+        "args": [
+          {
+            "name": "url",
+            "description": "The URL that specifies the behaviour of this scalar.",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },

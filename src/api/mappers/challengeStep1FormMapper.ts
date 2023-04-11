@@ -1,5 +1,5 @@
-import { ChallengeStep1Form } from "@/models/ChallengeStep1Form";
-import { ChallengeChallengeFragment } from "../queries/challengeFragment.generated";
+import type { ChallengeStep1Form } from "@/models/ChallengeStep1Form";
+import type { ChallengeChallengeFragment } from "../queries/challengeFragment.generated";
 
 export function challengeStep1FormMapper(
   challenge: ChallengeChallengeFragment | null

@@ -233,7 +233,7 @@ const updatePassword = async (formData: FormData) => {
   form.setFieldValue("newPassword2", "");
 };
 
-const updateStudent = async (formData: FormData) => {
+const updateStudent = async () => {
   if (!isStudent.value) {
     return;
   }
@@ -269,7 +269,7 @@ const handleFormSubmit = form.handleSubmit(async (formData) => {
     return;
   }
   try {
-    await updateStudent(formData);
+    await updateStudent();
     await updatePassword(formData);
     await updateEmail(formData);
     await store.dispatch(ActionTypes.ME);

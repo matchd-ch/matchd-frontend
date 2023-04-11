@@ -35,7 +35,7 @@
   <MatchdButton variant="outline" @click="showDeletionModal = true"> Konto löschen </MatchdButton>
 </template>
 <script setup lang="ts">
-import { MeQuery } from "@/api/queries/me.generated";
+import type { MeQuery } from "@/api/queries/me.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import { Routes } from "@/router";

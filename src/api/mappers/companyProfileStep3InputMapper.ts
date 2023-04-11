@@ -1,5 +1,5 @@
-import { CompanyProfileAdvantagesInput } from "@/api/models/types";
-import { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
+import type { CompanyProfileAdvantagesInput } from "@/api/models/types";
+import type { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 
 export function companyProfileStep3InputMapper(
   companyProfileForm: CompanyProfileStep3Form

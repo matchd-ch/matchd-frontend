@@ -4,10 +4,10 @@ import type {
   RefreshToken,
   SendPasswordResetEmail,
 } from "@/api/models/types";
-import { MeQuery } from "@/api/queries/me.generated";
+import type { MeQuery } from "@/api/queries/me.generated";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { State } from "@/store/modules/login/state";
-import { MutationTree } from "vuex";
+import type { State } from "@/store/modules/login/state";
+import type { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 
 export type Mutations<S = State> = {

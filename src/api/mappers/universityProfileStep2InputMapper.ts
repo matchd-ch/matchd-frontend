@@ -1,5 +1,5 @@
-import { UniversityProfileSpecificDataInput } from "@/api/models/types";
-import { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
+import type { UniversityProfileSpecificDataInput } from "@/api/models/types";
+import type { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
 
 export function universityProfileStep2InputMapper(
   universityProfileForm: UniversityProfileStep2Form

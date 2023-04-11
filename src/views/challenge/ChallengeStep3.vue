@@ -90,7 +90,7 @@ import DeleteChallenge from "@/components/DeleteChallenge.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import AddEmployeeForm from "@/containers/AddEmployeeForm.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { ChallengeStep3Form } from "@/models/ChallengeStep3Form";
+import type { ChallengeStep3Form } from "@/models/ChallengeStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/challenge/action-types";
 import { ActionTypes as JobPostingActionTypes } from "@/store/modules/jobposting/action-types";

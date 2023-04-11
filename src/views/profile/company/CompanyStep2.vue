@@ -62,7 +62,7 @@
         type="checkbox"
         value="true"
         :checked="veeForm.memberItStGallen"
-        @change="onToggleMemberItStGallen($event.target.checked)"
+        @change="onToggleMemberItStGallen(($event.target as HTMLInputElement).checked)"
       />
       <template v-if="veeForm.memberItStGallen" #value>
         <span class="text-pink-1">Ja</span>
@@ -126,12 +126,12 @@ import MatchdToggle from "@/components/MatchdToggle.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
+import type { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
+import { Options, Vue, prop, setup } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 class Props {

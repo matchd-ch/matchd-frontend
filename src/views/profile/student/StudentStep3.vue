@@ -84,10 +84,11 @@ import { studentProfileStep3InputMapper } from "@/api/mappers/studentProfileStep
 import type { CulturalFit, SoftSkill } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import SelectPillMultiple, { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import type { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
+import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { OnboardingState } from "@/models/OnboardingState";
-import { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
+import type { OnboardingState } from "@/models/OnboardingState";
+import type { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";

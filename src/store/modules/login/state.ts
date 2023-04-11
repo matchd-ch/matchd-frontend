@@ -1,5 +1,5 @@
-import { MeQuery } from "@/api/queries/me.generated";
-import { MatchdApiError } from "@/models/MatchdApiError";
+import type { MeQuery } from "@/api/queries/me.generated";
+import type { MatchdApiError } from "@/models/MatchdApiError";
 
 export type State = {
   login: {

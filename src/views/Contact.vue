@@ -47,7 +47,7 @@ import { ActionTypes } from "@/store/modules/registration/action-types";
 import { computed } from "vue";
 import { useMeta } from "vue-meta";
 
-const meta = useMeta({
+useMeta({
   title: "Kontakt",
 });
 

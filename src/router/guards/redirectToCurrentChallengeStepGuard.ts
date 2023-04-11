@@ -2,7 +2,7 @@ import { parseStepName } from "@/helpers/parseStepName";
 import { ParamStrings } from "@/router/paramStrings";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/challenge/action-types";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import { Routes } from "..";
 
 export async function redirectToCurrentChallengeStepGuard(

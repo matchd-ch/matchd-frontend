@@ -1,4 +1,4 @@
-import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
+import type { SelectedLanguage } from "@/models/StudentProfileStep4Form";
 
 export interface JobPostingStep2Form {
   jobRequirements: string[];

@@ -1,5 +1,5 @@
-import { StudentProfileBaseDataInput } from "@/api/models/types";
-import { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
+import type { StudentProfileBaseDataInput } from "@/api/models/types";
+import type { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
 
 export function studentProfileStep1InputMapper(
   studentProfileForm: StudentProfileStep1Form

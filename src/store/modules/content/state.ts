@@ -13,25 +13,25 @@ import type {
   Skill,
   SoftSkill,
 } from "@/api/models/types";
-import {
+import type {
   ChallengeChallengeFragment,
   ChallengeDocumentFragment,
   ChallengeImageFallbackFragment,
   ChallengeImageFragment,
 } from "@/api/queries/challengeFragment.generated";
-import { ChallengesChallengeFragment } from "@/api/queries/challengesFragment.generated";
-import { ChallengeTypesChallengeTypeFragment } from "@/api/queries/challengeTypesFragment.generated";
-import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
-import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsFragment.generated";
-import { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
-import { MatchingQuery } from "@/api/queries/matching.generated";
-import {
+import type { ChallengesChallengeFragment } from "@/api/queries/challengesFragment.generated";
+import type { ChallengeTypesChallengeTypeFragment } from "@/api/queries/challengeTypesFragment.generated";
+import type { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import type { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsFragment.generated";
+import type { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
+import type { MatchingQuery } from "@/api/queries/matching.generated";
+import type {
   StudentAvatarFallbackFragment,
   StudentAvatarFragment,
   StudentCertificatesFragment,
   StudentStudentFragment,
 } from "@/api/queries/studentFragment.generated";
-import { ZipCityZipCityFragment } from "@/api/queries/zipCityFragment.generated";
+import type { ZipCityZipCityFragment } from "@/api/queries/zipCityFragment.generated";
 
 export type CompanyAttachment = Pick<Attachment, "id" | "mimeType" | "url">;
 

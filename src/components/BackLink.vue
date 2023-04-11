@@ -11,7 +11,7 @@
 <script lang="ts">
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import { Options, prop, Vue } from "vue-class-component";
-import { RouteLocationRaw } from "vue-router";
+import type { RouteLocationRaw } from "vue-router";
 
 class Props {
   to = prop<RouteLocationRaw>({ required: true });

@@ -11,8 +11,8 @@ export type RefreshTokenMutation = {
     __typename?: "RefreshToken";
     success?: boolean | null;
     errors?: unknown | null;
-    token?: string | null;
-    refreshToken?: string | null;
+    token: string;
+    refreshToken: string;
   } | null;
 };
 

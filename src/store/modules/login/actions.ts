@@ -6,12 +6,12 @@ import sendPasswordResetEmailMutation from "@/api/mutations/sendPasswordResetEma
 import tokenAuthMutation from "@/api/mutations/tokenAuth.gql";
 import { MeDocument } from "@/api/queries/me.generated";
 import verifyPasswordResetTokenQuery from "@/api/queries/verifyPasswordResetToken.gql";
-import { RootState } from "@/store";
+import type { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
-import { Mutations } from "@/store/modules/login/mutations";
-import { State } from "@/store/modules/login/state";
+import type { Mutations } from "@/store/modules/login/mutations";
+import type { State } from "@/store/modules/login/state";
 import jwtDecode from "jwt-decode";
-import { ActionContext, ActionTree } from "vuex";
+import type { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
 

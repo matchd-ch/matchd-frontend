@@ -6,7 +6,8 @@
 
 <script lang="ts">
 import type { Attachment } from "@/api/models/types";
-import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
+// import type { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
+import videojs from "video.js";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
@@ -16,7 +17,7 @@ class Props {
 
 @Options({})
 export default class MatchdVideo extends Vue.with(Props) {
-  private player!: VideoJsPlayer;
+  private player!: ReturnType<typeof videojs>;
 
   get elementId(): string {
     if (!this.attachment) {
@@ -25,7 +26,7 @@ export default class MatchdVideo extends Vue.with(Props) {
     return `video-${this.attachment.id}-${this.type}`;
   }
 
-  get playerOptions(): VideoJsPlayerOptions {
+  get playerOptions(): Parameters<typeof videojs>["1"] {
     return {
       techOrder: ["html5"],
       language: "de",

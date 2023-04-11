@@ -1,8 +1,8 @@
 import type { Attachment, UploadConfiguration } from "@/api/models/types";
-import { AttachmentKey } from "@/api/models/types";
-import { RootState } from "@/store";
-import { GetterTree } from "vuex";
-import { QueuedFile, State } from "./state";
+import type { AttachmentKey } from "@/api/models/types";
+import type { RootState } from "@/store";
+import type { GetterTree } from "vuex";
+import type { QueuedFile, State } from "./state";
 
 export type Getters = {
   uploadQueueByKey(state: State): (payload: { key: AttachmentKey }) => QueuedFile[];

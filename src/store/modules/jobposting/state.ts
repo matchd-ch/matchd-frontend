@@ -1,7 +1,7 @@
 import type { Employee } from "@/api/models/types";
-import { EmployeesEmployeeFragment } from "@/api/queries/employeesFragment.generated";
-import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
-import { MatchdApiError } from "@/models/MatchdApiError";
+import type { EmployeesEmployeeFragment } from "@/api/queries/employeesFragment.generated";
+import type { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import type { MatchdApiError } from "@/models/MatchdApiError";
 
 export type State = {
   jobPosting: {

@@ -28,7 +28,7 @@
   <MatchdButton variant="outline" @click="showDeletionModal = true">Stelle löschen</MatchdButton>
 </template>
 <script setup lang="ts">
-import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import type { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import { Routes } from "@/router";

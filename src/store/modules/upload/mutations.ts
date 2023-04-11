@@ -4,11 +4,11 @@ import type {
   UploadConfiguration,
   UserUploadPayload,
 } from "@/api/models/types";
-import { AttachmentKey } from "@/api/models/types";
+import type { AttachmentKey } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
-import { State } from "@/store/modules/upload/state";
-import { MutationTree } from "vuex";
+import type { State } from "@/store/modules/upload/state";
+import type { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 
 export type Mutations<S = State> = {

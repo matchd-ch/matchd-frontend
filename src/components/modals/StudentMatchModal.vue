@@ -35,14 +35,14 @@
 </template>
 
 <script setup lang="ts">
-import { MeQuery } from "@/api/queries/me.generated";
-import { StudentStudentFragment } from "@/api/queries/studentFragment.generated";
+import { type MeQuery } from "@/api/queries/me.generated";
+import { type StudentStudentFragment } from "@/api/queries/studentFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { computed } from "vue";
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     user: MeQuery["me"];
     student: StudentStudentFragment;

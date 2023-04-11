@@ -68,10 +68,11 @@
 <script setup lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import { AddEmployeeSubForm } from "@/models/JobPostingStep3Form";
+import type { AddEmployeeSubForm } from "@/models/JobPostingStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import { Field, Form, FormActions } from "vee-validate";
+import type { FormActions } from "vee-validate";
+import { Field, Form } from "vee-validate";
 import { computed } from "vue";
 
 const store = useStore();

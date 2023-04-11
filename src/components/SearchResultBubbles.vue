@@ -8,9 +8,13 @@
 
 import type { Attachment } from "@/api/models/types";
 import fetchAttachmentDataUri from "@/helpers/fetchAttachmentDataUri";
-import { SearchLink, SearchNode, SearchResultBubbleData } from "@/models/SearchResultBubbleData";
+import {
+  type SearchLink,
+  type SearchNode,
+  type SearchResultBubbleData,
+} from "@/models/SearchResultBubbleData";
 import * as d3 from "d3";
-import { Options, prop, Vue } from "vue-class-component";
+import { Options, Vue, prop } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 class Props {

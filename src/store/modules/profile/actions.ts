@@ -23,10 +23,8 @@ import { CompanyProfileBaseDataDocument } from "@/api/mutations/companyProfileBa
 import { CompanyProfileRelationsDocument } from "@/api/mutations/companyProfileRelations.generated";
 import { CompanyProfileValuesDocument } from "@/api/mutations/companyProfileValues.generated";
 import { DeleteUserDocument } from "@/api/mutations/deleteUser.generated";
-import {
-  PasswordChangeDocument,
-  PasswordChangeMutationVariables,
-} from "@/api/mutations/passwordChange.generated";
+import type { PasswordChangeMutationVariables } from "@/api/mutations/passwordChange.generated";
+import { PasswordChangeDocument } from "@/api/mutations/passwordChange.generated";
 import { StudentProfileAbilitiesDocument } from "@/api/mutations/studentProfileAbilities.generated";
 import { StudentProfileBaseDataDocument } from "@/api/mutations/studentProfileBaseData.generated";
 import { StudentProfileCharacterDocument } from "@/api/mutations/studentProfileCharacter.generated";
@@ -41,11 +39,11 @@ import { UpdateStudentDocument } from "@/api/mutations/updateStudent.generated";
 import { UpdateUserDocument } from "@/api/mutations/updateUser.generated";
 import { ZipCityDocument } from "@/api/queries/zipCity.generated";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
-import { RootState } from "@/store";
+import type { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/profile/mutation-types";
-import { Mutations } from "@/store/modules/profile/mutations";
-import { State } from "@/store/modules/profile/state";
-import { ActionContext, ActionTree } from "vuex";
+import type { Mutations } from "@/store/modules/profile/mutations";
+import type { State } from "@/store/modules/profile/state";
+import type { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
 

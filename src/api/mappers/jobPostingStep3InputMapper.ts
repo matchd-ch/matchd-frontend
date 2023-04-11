@@ -1,5 +1,5 @@
-import { JobPostingAllocationInput } from "@/api/models/types";
-import { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
+import type { JobPostingAllocationInput } from "@/api/models/types";
+import type { JobPostingStep3Form } from "@/models/JobPostingStep3Form";
 
 export function jobPostingStep3InputMapper(
   id: string,

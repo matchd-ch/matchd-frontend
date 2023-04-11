@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import type { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
 import TadaIcon from "@/components/TadaIcon.vue";

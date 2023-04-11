@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { Employee } from "@/api/models/types";
+import type { Employee } from "@/api/models/types";
 import MatchingModal from "@/components/MatchingModal.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { useStore } from "@/store";

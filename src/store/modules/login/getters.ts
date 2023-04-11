@@ -1,12 +1,12 @@
 import { ProfileType } from "@/api/models/types";
-import { MeQuery } from "@/api/queries/me.generated";
+import type { MeQuery } from "@/api/queries/me.generated";
 import type { LoginState } from "@/models/LoginState";
 import type { LogoutState } from "@/models/LogoutState";
-import { PasswordResetState } from "@/models/PasswordResetState";
+import type { PasswordResetState } from "@/models/PasswordResetState";
 import type { SendPasswordResetEmailState } from "@/models/SendPasswordResetEmailState";
-import { RootState } from "@/store";
-import { GetterTree } from "vuex";
-import { State } from "./state";
+import type { RootState } from "@/store";
+import type { GetterTree } from "vuex";
+import type { State } from "./state";
 
 export type Getters = {
   loginLoading(state: State): boolean;

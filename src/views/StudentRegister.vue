@@ -160,11 +160,12 @@ import MatchdStep from "@/components/MatchdStep.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import { useRegistration } from "@/composables/Registration";
 import { config } from "@/config";
-import { NewStudentAccount } from "@/models/NewAccount";
-import { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
-import { StudentRegistrationState } from "@/models/StudentRegistrationState";
+import type { NewStudentAccount } from "@/models/NewAccount";
+import type { RegistrationStudentFormData } from "@/models/RegistrationStudentForm";
+import type { StudentRegistrationState } from "@/models/StudentRegistrationState";
 import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
-import { ErrorMessage, Field, Form, FormActions } from "vee-validate";
+import type { FormActions } from "vee-validate";
+import { ErrorMessage, Field, Form } from "vee-validate";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
 

@@ -125,12 +125,12 @@ import type { Attachment } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { ChallengeStep2Form } from "@/models/ChallengeStep2Form";
+import { type ChallengeStep2Form } from "@/models/ChallengeStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/challenge/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { MutationTypes as UploadMutationTypes } from "@/store/modules/upload/mutation-types";
-import { Field, Form, useForm } from "vee-validate";
+import { Field, useForm } from "vee-validate";
 import { computed, onBeforeMount, onMounted, watch } from "vue";
 import FormSaveError from "../../components/FormSaveError.vue";
 import MatchdField from "../../components/MatchdField.vue";
@@ -198,7 +198,6 @@ const validYears = computed(() => {
   return validYears;
 });
 
-const user = computed(() => store.getters["user"]);
 const challengeImagesQueue = computed(() =>
   store.getters["uploadQueueByKey"]({ key: AttachmentKey.ChallengeImages })
 );

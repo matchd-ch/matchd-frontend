@@ -5,8 +5,8 @@ import type {
   VerifyAccount,
 } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
-import { State } from "@/store/modules/registration/state";
-import { MutationTree } from "vuex";
+import type { State } from "@/store/modules/registration/state";
+import type { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 
 export type Mutations<S = State> = {

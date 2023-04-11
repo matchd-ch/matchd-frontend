@@ -1,4 +1,4 @@
-import { ProfileType } from "@/api/models/types";
+import type { ProfileType } from "@/api/models/types";
 
 export interface SearchResult {
   id: string;

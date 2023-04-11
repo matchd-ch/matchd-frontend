@@ -38,7 +38,7 @@
     <SelectPillGroup v-if="selectedLanguages.length > 0">
       <SelectPill
         v-for="selectedLanguage in selectedLanguages"
-        :key="selectedLanguage.name"
+        :key="`${selectedLanguage.language}-${selectedLanguage.level}`"
         :has-delete="true"
         @remove="$emit('clickRemoveLanguage', selectedLanguage)"
         >{{ selectedLanguage.language.name }} {{ selectedLanguage.level.level }}</SelectPill
@@ -51,8 +51,8 @@
 import type { Language, LanguageLevel } from "@/api/models/types";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
-import { SelectedLanguage } from "@/models/StudentProfileStep4Form";
-import { Options, prop, Vue } from "vue-class-component";
+import type { SelectedLanguage } from "@/models/StudentProfileStep4Form";
+import { Options, Vue, prop } from "vue-class-component";
 
 class Props {
   id = prop<string>({});

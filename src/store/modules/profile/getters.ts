@@ -1,12 +1,12 @@
 import type { ZipCity } from "@/api/models/types";
-import { DeleteUserState } from "@/models/DeleteUserState";
+import type { DeleteUserState } from "@/models/DeleteUserState";
 import type { OnboardingState } from "@/models/OnboardingState";
 import type { PasswordChangeState } from "@/models/PasswordChangeState";
 import type { UpdateStudentState } from "@/models/UpdateStudentState";
 import type { UpdateUserState } from "@/models/UpdateUserState";
-import { RootState } from "@/store";
-import { GetterTree } from "vuex";
-import { State } from "./state";
+import type { RootState } from "@/store";
+import type { GetterTree } from "vuex";
+import type { State } from "./state";
 
 export type Getters = {
   onboardingLoading(state: State): boolean;

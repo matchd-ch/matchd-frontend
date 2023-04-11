@@ -1,6 +1,6 @@
-import { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
+import type { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { DateTime } from "luxon";
-import { JobPostingJobPostingFragment } from "../queries/jobPostingFragment.generated";
+import type { JobPostingJobPostingFragment } from "../queries/jobPostingFragment.generated";
 
 export function jobPostingStep1FormMapper(
   jobPosting: JobPostingJobPostingFragment | null

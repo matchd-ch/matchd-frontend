@@ -1,10 +1,10 @@
-import { ActivationState } from "@/models/ActivationState";
+import type { ActivationState } from "@/models/ActivationState";
 import type { CompanyRegistrationState } from "@/models/CompanyRegistrationState";
 import type { StudentRegistrationState } from "@/models/StudentRegistrationState";
-import { RootState } from "@/store";
-import { AccountType } from "@/models/AccountType";
-import { GetterTree } from "vuex";
-import { State } from "./state";
+import type { RootState } from "@/store";
+import type { AccountType } from "@/models/AccountType";
+import type { GetterTree } from "vuex";
+import type { State } from "./state";
 
 export type Getters = {
   type(state: State): AccountType;

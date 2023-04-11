@@ -1,17 +1,18 @@
-import { Store as VuexStore, CommitOptions, DispatchOptions, Module } from "vuex";
+import type { Store as VuexStore } from "vuex";
+import { type CommitOptions, type DispatchOptions, type Module } from "vuex";
 
 // TODO: How to surpass cyclical dependency linting errors cleanly?
-import { RootState } from "@/store";
+import { type RootState } from "@/store";
 
+import { actions, type Actions } from "./actions";
+import { getters, type Getters } from "./getters";
+import { mutations, type Mutations } from "./mutations";
 import { state } from "./state";
-import { getters, Getters } from "./getters";
-import { mutations, Mutations } from "./mutations";
-import { actions, Actions } from "./actions";
 
 // eslint-disable-next-line prettier/prettier
 import type { State } from "./state";
 
-export { State };
+export type { State };
 
 export type JobPostingStore<S = State> = Omit<VuexStore<S>, "getters" | "commit" | "dispatch"> & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(

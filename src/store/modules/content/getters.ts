@@ -17,19 +17,19 @@ import type {
   SoftSkill,
   ZipCity,
 } from "@/api/models/types";
-import { ChallengesChallengeFragment } from "@/api/queries/challengesFragment.generated";
-import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
-import { JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsFragment.generated";
+import { type ChallengesChallengeFragment } from "@/api/queries/challengesFragment.generated";
+import { type JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import { type JobPostingsJobPostingFragment } from "@/api/queries/jobPostingsFragment.generated";
 import {
-  CompanyDashboard,
-  GroupedChallengeMatching,
-  GroupedJobPostingMatching,
+  type CompanyDashboard,
+  type GroupedChallengeMatching,
+  type GroupedJobPostingMatching,
 } from "@/models/CompanyDashboard";
-import { SearchResult } from "@/models/SearchResult";
-import { SearchResultBubbleData } from "@/models/SearchResultBubbleData";
-import { RootState } from "@/store";
-import { GetterTree } from "vuex";
-import { CompanyAttachment, State } from "./state";
+import { type SearchResult } from "@/models/SearchResult";
+import { type SearchResultBubbleData } from "@/models/SearchResultBubbleData";
+import { type RootState } from "@/store";
+import { type GetterTree } from "vuex";
+import { type CompanyAttachment, type State } from "./state";
 
 export type Getters = {
   benefits(state: State): Benefit[];

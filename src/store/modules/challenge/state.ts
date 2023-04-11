@@ -1,6 +1,6 @@
 import type { Employee } from "@/api/models/types";
-import { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
-import { MatchdApiError } from "@/models/MatchdApiError";
+import type { ChallengeChallengeFragment } from "@/api/queries/challengeFragment.generated";
+import type { MatchdApiError } from "@/models/MatchdApiError";
 
 export type State = {
   challenge: {

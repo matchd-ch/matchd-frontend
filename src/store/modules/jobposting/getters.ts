@@ -1,12 +1,12 @@
 import type { Employee } from "@/api/models/types";
-import { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
-import { AddEmployeeState } from "@/models/AddEmployeeState";
-import { DeleteEmployeeState } from "@/models/DeleteEmployeeState";
-import { DeleteJobPostingState } from "@/models/DeleteJobPostingState";
-import { JobPostingState } from "@/models/JobPostingState";
-import { RootState } from "@/store";
-import { GetterTree } from "vuex";
-import { State } from "./state";
+import type { JobPostingJobPostingFragment } from "@/api/queries/jobPostingFragment.generated";
+import type { AddEmployeeState } from "@/models/AddEmployeeState";
+import type { DeleteEmployeeState } from "@/models/DeleteEmployeeState";
+import type { DeleteJobPostingState } from "@/models/DeleteJobPostingState";
+import type { JobPostingState } from "@/models/JobPostingState";
+import type { RootState } from "@/store";
+import type { GetterTree } from "vuex";
+import type { State } from "./state";
 
 export type Getters = {
   jobPostingLoading(state: State): boolean;

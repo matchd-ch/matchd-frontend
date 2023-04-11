@@ -5,12 +5,12 @@ import type {
   ChallengeSpecificDataPayload,
   DeleteChallengePayload,
 } from "@/api/models/types";
-import { ChallengeQuery } from "@/api/queries/challenge.generated";
-import { EmployeesQuery } from "@/api/queries/employees.generated";
+import type { ChallengeQuery } from "@/api/queries/challenge.generated";
+import type { EmployeesQuery } from "@/api/queries/employees.generated";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
-import { State } from "@/store/modules/challenge/state";
-import { MutationTree } from "vuex";
+import type { State } from "@/store/modules/challenge/state";
+import type { MutationTree } from "vuex";
 import { MutationTypes } from "./mutation-types";
 
 type ChallengeSteps =

@@ -18,7 +18,7 @@ export type TokenAuthMutation = {
       __typename?: "UserNode";
       firstName: string;
       lastName: string;
-      type: Types.UserType;
+      type: Types.DbUserTypeChoices;
       email: string;
     } | null;
   } | null;
