@@ -21,10 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { AttachmentKey } from "@/api/models/types";
-import { ChallengesChallengeFragment } from "@/api/queries/challengesFragment.generated";
-import { useStore } from "@/store";
-import { computed } from "vue";
+import { type ChallengesChallengeFragment } from "@/api/queries/challengesFragment.generated";
 import ChallengeGridTile from "./ChallengeGridTile.vue";
 
 withDefaults(
@@ -36,23 +33,6 @@ withDefaults(
     color: "pink",
   }
 );
-
-const store = useStore();
-const isStudent = computed(() => store.getters["isStudent"]);
-
-const avatar = computed(() => {
-  return (
-    store.getters["attachmentsByKey"]({
-      key: isStudent.value ? AttachmentKey.StudentAvatar : AttachmentKey.CompanyAvatar,
-    })?.[0] ||
-    store.getters["attachmentsByKey"]({
-      key: isStudent.value
-        ? AttachmentKey.StudentAvatarFallback
-        : AttachmentKey.CompanyAvatarFallback,
-    })?.[0] ||
-    undefined
-  );
-});
 </script>
 
 <style lang="postcss" scoped>

@@ -218,13 +218,16 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { isValidUrl } from "@/helpers/isValidUrl";
-import { SelectedLanguage, StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
+import {
+  type SelectedLanguage,
+  type StudentProfileStep4Form,
+} from "@/models/StudentProfileStep4Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { Field, useField, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
+import { Options, Vue, prop, setup } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 class Props {
@@ -288,6 +291,7 @@ export default class StudentStep4 extends Vue.with(Props) {
       languages,
       onlineChallenges: onlineChallenges,
       skills,
+      distinction,
     };
   });
 

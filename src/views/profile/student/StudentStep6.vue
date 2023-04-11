@@ -116,13 +116,13 @@ import { ProfileState } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import { StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
+import { type StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { useField, useForm } from "vee-validate";
 import { computed, onMounted, watch } from "vue";
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     edit: boolean;
   }>(),
@@ -158,7 +158,6 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const showError = computed(() => !!onboardingState.value.errors);
 const onboardingState = computed(() => store.getters["onboardingState"]);
-const currentStep = computed(() => store.getters["profileStep"]);
 const isAnonymous = computed(() => state.value === ProfileState.Anonymous);
 const user = computed(() => store.getters["user"]);
 const profileData = computed(() =>

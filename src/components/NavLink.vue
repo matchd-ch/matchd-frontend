@@ -7,9 +7,9 @@
   </router-link>
 </template>
 <script setup lang="ts">
-import { RouteLocationRaw } from "vue-router";
+import { type RouteLocationRaw } from "vue-router";
 
-const props = defineProps<{
+defineProps<{
   to: RouteLocationRaw;
 }>();
 </script>

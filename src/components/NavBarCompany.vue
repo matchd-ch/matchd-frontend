@@ -27,7 +27,7 @@ import NavBar from "./NavBar.vue";
 import NavDropdown from "./NavDropdown.vue";
 import NavLink from "./NavLink.vue";
 
-const props = defineProps<{
+defineProps<{
   user: User;
 }>();
 
