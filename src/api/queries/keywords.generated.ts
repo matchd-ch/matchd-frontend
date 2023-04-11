@@ -1,7 +1,6 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { KeywordsKeywordFragmentDoc } from "./keywordsFragment.generated";
 export type KeywordsQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type KeywordsQuery = {
@@ -66,6 +65,17 @@ export const KeywordsDocument = {
         ],
       },
     },
-    ...KeywordsKeywordFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "keywordsKeyword" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Keyword" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<KeywordsQuery, KeywordsQueryVariables>;

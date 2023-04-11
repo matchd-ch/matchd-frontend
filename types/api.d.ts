@@ -39,7 +39,7 @@ type Attachment = Node & {
   __typename?: "Attachment";
   fileName: Scalars["String"];
   fileSize: Scalars["Int"];
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   mimeType: Scalars["String"];
   url: Scalars["String"];
@@ -77,7 +77,7 @@ enum AttachmentKey {
 type Benefit = Node & {
   __typename?: "Benefit";
   icon: Scalars["String"];
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -123,7 +123,7 @@ type BenefitInput = {
 
 type Branch = Node & {
   __typename?: "Branch";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -180,7 +180,7 @@ type Challenge = Node & {
   displayTitle: Scalars["String"];
   employee?: Maybe<Employee>;
   formStep: Scalars["Int"];
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   keywords?: Maybe<Array<Keyword>>;
   matchHints?: Maybe<MatchHints>;
@@ -261,7 +261,7 @@ type ChallengeMatchInfo = Node & {
   __typename?: "ChallengeMatchInfo";
   challenge: Challenge;
   company?: Maybe<Company>;
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   student?: Maybe<Student>;
 };
@@ -294,7 +294,7 @@ enum ChallengeState {
 
 type ChallengeType = Node & {
   __typename?: "ChallengeType";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -331,7 +331,7 @@ type Company = Node & {
   description: Scalars["String"];
   displayName: Scalars["String"];
   employees: Array<Employee>;
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   jobPostings: Array<JobPosting>;
   linkChallenges?: Maybe<Scalars["String"]>;
@@ -453,7 +453,7 @@ type CompanyProfileValuesPayload = {
 type CulturalFit = Node & {
   __typename?: "CulturalFit";
   company: Scalars["String"];
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   student: Scalars["String"];
 };
@@ -511,6 +511,23 @@ type Dashboard = {
 enum DateMode {
   DateFrom = "DATE_FROM",
   DateRange = "DATE_RANGE",
+}
+
+enum DbUserTypeChoices {
+  /** College Student */
+  CollegeStudent = "COLLEGE_STUDENT",
+  /** Company */
+  Company = "COMPANY",
+  /** Internal */
+  Internal = "INTERNAL",
+  /** Junior */
+  Junior = "JUNIOR",
+  /** Other */
+  Other = "OTHER",
+  /** Student */
+  Student = "STUDENT",
+  /** University */
+  University = "UNIVERSITY",
 }
 
 type DeleteAttachmentInput = {
@@ -580,7 +597,7 @@ type Employee = Node & {
   __typename?: "Employee";
   email?: Maybe<Scalars["String"]>;
   firstName?: Maybe<Scalars["String"]>;
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   lastName?: Maybe<Scalars["String"]>;
   phone?: Maybe<Scalars["String"]>;
@@ -595,7 +612,7 @@ type EmployeeInput = {
 
 type FaqCategory = Node & {
   __typename?: "FAQCategory";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -619,7 +636,7 @@ type FaqCategoryEdge = {
 
 type Hobby = Node & {
   __typename?: "Hobby";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -639,7 +656,7 @@ type JobPosting = Node & {
   displayTitle: Scalars["String"];
   employee?: Maybe<Employee>;
   formStep: Scalars["Int"];
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   jobFromDate: Scalars["Date"];
   jobRequirements: JobRequirementConnection;
@@ -731,7 +748,7 @@ type JobPostingInput = {
 
 type JobPostingLanguageRelation = Node & {
   __typename?: "JobPostingLanguageRelation";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   language: Language;
   languageLevel: LanguageLevel;
@@ -745,7 +762,7 @@ type JobPostingLanguageRelationInput = {
 
 type JobPostingMatchInfo = Node & {
   __typename?: "JobPostingMatchInfo";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   jobPosting: JobPosting;
   student: Student;
@@ -783,7 +800,7 @@ enum JobPostingState {
 
 type JobRequirement = Node & {
   __typename?: "JobRequirement";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -829,7 +846,7 @@ type JobRequirementInput = {
 
 type JobType = Node & {
   __typename?: "JobType";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   mode: DateMode;
   name: Scalars["String"];
@@ -860,7 +877,7 @@ type JobTypeInput = {
 
 type Keyword = Node & {
   __typename?: "Keyword";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -889,7 +906,7 @@ type KeywordInput = {
 
 type Language = Node & {
   __typename?: "Language";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -914,7 +931,7 @@ type LanguageEdge = {
 type LanguageLevel = Node & {
   __typename?: "LanguageLevel";
   description?: Maybe<Scalars["String"]>;
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   level: Scalars["String"];
 };
@@ -1244,7 +1261,7 @@ type MutationPasswordResetArgs = {
 };
 
 type MutationRefreshTokenArgs = {
-  refreshToken: Scalars["String"];
+  refreshToken?: InputMaybe<Scalars["String"]>;
 };
 
 type MutationRegisterCompanyArgs = {
@@ -1275,7 +1292,7 @@ type MutationResendActivationEmailArgs = {
 };
 
 type MutationRevokeTokenArgs = {
-  refreshToken: Scalars["String"];
+  refreshToken?: InputMaybe<Scalars["String"]>;
 };
 
 type MutationSendPasswordResetEmailArgs = {
@@ -1307,9 +1324,8 @@ type MutationStudentProfileSpecificDataArgs = {
 };
 
 type MutationTokenAuthArgs = {
-  email?: InputMaybe<Scalars["String"]>;
   password: Scalars["String"];
-  username?: InputMaybe<Scalars["String"]>;
+  username: Scalars["String"];
 };
 
 type MutationUniversityProfileBaseDataArgs = {
@@ -1354,7 +1370,7 @@ type MutationVerifyAccountArgs = {
 
 /** An object with an ID */
 type Node = {
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
 };
 
@@ -1383,7 +1399,7 @@ type ObtainJsonWebToken = {
 
 type OnlineChallenge = Node & {
   __typename?: "OnlineChallenge";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   url: Scalars["String"];
 };
@@ -1648,10 +1664,11 @@ type QueryZipCityJobsArgs = {
 type RefreshToken = {
   __typename?: "RefreshToken";
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  payload?: Maybe<Scalars["GenericScalar"]>;
-  refreshToken?: Maybe<Scalars["String"]>;
+  payload: Scalars["GenericScalar"];
+  refreshExpiresIn: Scalars["Int"];
+  refreshToken: Scalars["String"];
   success?: Maybe<Scalars["Boolean"]>;
-  token?: Maybe<Scalars["String"]>;
+  token: Scalars["String"];
 };
 
 /** Creates a new user with company */
@@ -1703,7 +1720,7 @@ type ResendActivationEmail = {
 
 type Revoke = {
   __typename?: "Revoke";
-  revoked?: Maybe<Scalars["Int"]>;
+  revoked: Scalars["Int"];
 };
 
 /**
@@ -1725,7 +1742,7 @@ type SendPasswordResetEmail = {
 
 type Skill = Node & {
   __typename?: "Skill";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   name: Scalars["String"];
 };
@@ -1772,7 +1789,7 @@ type SkillInput = {
 type SoftSkill = Node & {
   __typename?: "SoftSkill";
   company: Scalars["String"];
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   student: Scalars["String"];
 };
@@ -1828,7 +1845,7 @@ type Student = Node & {
   firstName?: Maybe<Scalars["String"]>;
   graduation?: Maybe<Scalars["String"]>;
   hobbies?: Maybe<Array<Hobby>>;
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   isMatchable: Scalars["Boolean"];
   jobFromDate?: Maybe<Scalars["Date"]>;
@@ -2149,7 +2166,7 @@ type User = Node & {
   email: Scalars["String"];
   employee?: Maybe<Employee>;
   firstName: Scalars["String"];
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
   isActive: Scalars["Boolean"];
@@ -2168,7 +2185,7 @@ type User = Node & {
 
 type UserLanguageRelation = Node & {
   __typename?: "UserLanguageRelation";
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   language: Language;
   languageLevel: LanguageLevel;
@@ -2204,13 +2221,13 @@ type UserNode = Node & {
   email: Scalars["String"];
   employee?: Maybe<Employee>;
   firstName: Scalars["String"];
-  /** The ID of the object. */
+  /** The ID of the object */
   id: Scalars["ID"];
   lastName: Scalars["String"];
   pk?: Maybe<Scalars["Int"]>;
   secondaryEmail?: Maybe<Scalars["String"]>;
   student?: Maybe<Student>;
-  type: UserType;
+  type: DbUserTypeChoices;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
   username: Scalars["String"];
   verified?: Maybe<Scalars["Boolean"]>;
@@ -2233,23 +2250,6 @@ type UserRequestPayload = {
   errors?: Maybe<Scalars["ExpectedErrorType"]>;
   success?: Maybe<Scalars["Boolean"]>;
 };
-
-enum UserType {
-  /** College Student */
-  CollegeStudent = "COLLEGE_STUDENT",
-  /** Company */
-  Company = "COMPANY",
-  /** Internal */
-  Internal = "INTERNAL",
-  /** Junior */
-  Junior = "JUNIOR",
-  /** Other */
-  Other = "OTHER",
-  /** Student */
-  Student = "STUDENT",
-  /** University */
-  University = "UNIVERSITY",
-}
 
 type UserUploadInput = {
   challenge?: InputMaybe<ChallengeInput>;

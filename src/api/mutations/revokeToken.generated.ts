@@ -5,7 +5,7 @@ export type RevokeTokenMutationVariables = Types.Exact<{ [key: string]: never }>
 
 export type RevokeTokenMutation = {
   __typename?: "Mutation";
-  revokeToken?: { __typename?: "Revoke"; revoked?: number | null } | null;
+  revokeToken?: { __typename?: "Revoke"; revoked: number } | null;
 };
 
 export const RevokeTokenDocument = {

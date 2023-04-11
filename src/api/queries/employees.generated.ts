@@ -1,7 +1,6 @@
 import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { EmployeesEmployeeFragmentDoc } from "./employeesFragment.generated";
 export type EmployeesQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type EmployeesQuery = {
@@ -67,6 +66,21 @@ export const EmployeesDocument = {
         ],
       },
     },
-    ...EmployeesEmployeeFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "employeesEmployee" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Employee" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "role" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "phone" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<EmployeesQuery, EmployeesQueryVariables>;

@@ -414,8 +414,37 @@ export const DashboardChallengeFragmentDoc = {
         ],
       },
     },
-    ...DashboardCompanyFragmentDoc.definitions,
-    ...DashboardStudentFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "dashboardCompany" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Company" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "city" } },
+          { kind: "Field", name: { kind: "Name", value: "zip" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "dashboardStudent" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Student" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "nickname" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "zip" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<DashboardChallengeFragment, unknown>;
 export const DashboardJobPostingFragmentDoc = {
@@ -448,7 +477,21 @@ export const DashboardJobPostingFragmentDoc = {
         ],
       },
     },
-    ...DashboardCompanyFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "dashboardCompany" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Company" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "city" } },
+          { kind: "Field", name: { kind: "Name", value: "zip" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<DashboardJobPostingFragment, unknown>;
 export const DashboardDocument = {
@@ -678,9 +721,122 @@ export const DashboardDocument = {
         ],
       },
     },
-    ...DashboardChallengeFragmentDoc.definitions,
-    ...DashboardStudentFragmentDoc.definitions,
-    ...DashboardCompanyFragmentDoc.definitions,
-    ...DashboardJobPostingFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "dashboardCompany" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Company" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "city" } },
+          { kind: "Field", name: { kind: "Name", value: "zip" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "dashboardStudent" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Student" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "nickname" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "zip" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "dashboardChallenge" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Challenge" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "displayTitle" } },
+          { kind: "Field", name: { kind: "Name", value: "datePublished" } },
+          { kind: "Field", name: { kind: "Name", value: "dateCreated" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "state" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "keywords" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "challengeType" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "company" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "FragmentSpread", name: { kind: "Name", value: "dashboardCompany" } },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "student" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "FragmentSpread", name: { kind: "Name", value: "dashboardStudent" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "dashboardJobPosting" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "JobPosting" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "displayTitle" } },
+          { kind: "Field", name: { kind: "Name", value: "datePublished" } },
+          { kind: "Field", name: { kind: "Name", value: "dateCreated" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "state" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "company" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "FragmentSpread", name: { kind: "Name", value: "dashboardCompany" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<DashboardQuery, DashboardQueryVariables>;
