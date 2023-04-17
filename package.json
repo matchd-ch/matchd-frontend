@@ -24,7 +24,7 @@
     "@gtm-support/vue-gtm": "^2.0.0",
     "@sentry/tracing": "^7.48.0",
     "@sentry/vue": "^7.48.0",
-    "@vee-validate/i18n": "^4.8.3",
+    "@vee-validate/i18n": "^4.8.6",
     "@vee-validate/rules": "^4.8.4",
     "@vueform/slider": "^2.1.7",
     "@vueuse/core": "^9.13.0",
