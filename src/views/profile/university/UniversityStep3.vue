@@ -41,7 +41,7 @@
         id="services"
         name="services"
         as="textarea"
-        maxlength="300"
+        maxlength="3000"
         label="Services"
         class="h-72"
       />
@@ -122,7 +122,7 @@ import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ErrorMessage, Field, useField, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
+import { Options, Vue, prop, setup } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 class Props {

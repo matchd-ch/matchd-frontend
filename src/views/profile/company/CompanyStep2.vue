@@ -13,7 +13,7 @@
         id="description"
         name="description"
         as="textarea"
-        maxlength="1000"
+        maxlength="3000"
         label="Kurzsteckbrief Ihres Unternehmens"
         rows="10"
       />

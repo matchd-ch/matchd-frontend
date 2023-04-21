@@ -11,7 +11,7 @@
         id="description"
         name="description"
         as="textarea"
-        maxlength="1000"
+        maxlength="3000"
         label="Das zeichnet mich sonst noch aus"
         class="h-72"
       />
@@ -116,7 +116,7 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { ErrorMessage, Field, Form, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
+import { Options, Vue, prop, setup } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 class Props {

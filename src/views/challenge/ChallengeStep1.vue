@@ -86,7 +86,7 @@
         name="description"
         as="textarea"
         label="Beschreibung des Themenschwerpunktes"
-        maxlength="300"
+        maxlength="3000"
         rules="required"
         class="h-72"
       />
@@ -106,7 +106,7 @@
         name="compensation"
         as="textarea"
         label="Vergütung"
-        maxlength="300"
+        maxlength="3000"
         class="h-72"
         rules="required"
       />

@@ -149,7 +149,7 @@
         v-model="veeForm.values.distinction"
         name="distinction"
         as="textarea"
-        maxlength="1000"
+        maxlength="3000"
         label="Das zeichnet mich sonst noch aus"
         class="h-72"
         placeholder="4-5 Sätze zu deiner Spezialität"
