@@ -137,7 +137,14 @@
     <!-- Beschreibung Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
       <template #label>Beschreiben Sie die Besonderheiten der Stelle</template>
-      <Field id="description" name="description" as="textarea" label="Beschreibung" class="h-72" />
+      <Field
+        id="description"
+        name="description"
+        as="textarea"
+        label="Beschreibung"
+        class="h-72"
+        maxlength="3000"
+      />
     </MatchdField>
     <!-- Link Ausschreibung Field -->
     <MatchdField id="url" class="mb-10" :errors="veeForm.errors.url">
@@ -191,7 +198,7 @@ import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/acti
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
-import { Options, setup, Vue } from "vue-class-component";
+import { Options, Vue, setup } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 @Options({

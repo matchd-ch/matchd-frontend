@@ -41,6 +41,7 @@
           label="Nachricht"
           rules="required"
           class="form-textarea"
+          maxlength="3000"
           :class="{ invalid: errors.message }"
         />
       </div>
