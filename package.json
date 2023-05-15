@@ -23,7 +23,7 @@
     "@cypress/webpack-dev-server": "^3.4.1",
     "@gtm-support/vue-gtm": "^2.0.0",
     "@sentry/tracing": "^7.51.2",
-    "@sentry/vue": "^7.51.2",
+    "@sentry/vue": "^7.52.1",
     "@vee-validate/i18n": "^4.9.3",
     "@vee-validate/rules": "^4.9.3",
     "@vueform/slider": "^2.1.7",
