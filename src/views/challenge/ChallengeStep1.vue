@@ -14,15 +14,15 @@
         Studierenden, die dazu passen.
       </template>
     </p>
-    <!-- Art der Challange Field -->
+    <!-- Art der Challenge Field -->
     <SelectPillGroup :errors="veeForm.errors.value.challengeTypeId" class="mb-10">
-      <template #label>Art der Challange*</template>
+      <template #label>Art der Challenge*</template>
       <template #field>
         <Field
           id="challengeTypeId"
           name="challengeTypeId"
           as="input"
-          label="Art der Challange"
+          label="Art der Challenge"
           type="hidden"
           rules="required"
         />
