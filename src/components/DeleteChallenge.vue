@@ -9,7 +9,7 @@
     <template #title>Challenge löschen?</template>
     <p>
       Soll die Challenge <strong>{{ challenge.title }}</strong> wirklich gelöscht werden? Gelöschte
-      Challanges können nicht wiederhergestellt werden.
+      Challenges können nicht wiederhergestellt werden.
     </p>
   </ConfirmModal>
 
