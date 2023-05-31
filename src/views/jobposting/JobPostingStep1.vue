@@ -50,6 +50,8 @@
       <template #label>In diesem Bereich wird das junge Talent tätig sein*</template>
     </SelectPillMultiple>
     <!-- Stellenprozent Field -->
+
+    <!-- TODO: Remove the following MatchdSelect -->
     <MatchdSelect id="workload" :errors="veeForm.errors.workload" class="mb-10">
       <template #label>Stellenprozent</template>
       <Field id="workload" name="workload" as="select" label="Stellenprozent" rules="required">
@@ -57,6 +59,31 @@
         <option v-for="(n, index) in 10" :key="index" :value="n * 10">{{ n * 10 }}%</option>
       </Field>
     </MatchdSelect>
+
+    <MatchdSelect id="positionDateFrom" class="mb-10 grow" :errors="false">
+      <template #label>Stellenprozent</template>
+      <fieldset id="positionDateFrom" class="flex">
+        <Field
+          id="workloadFrom"
+          name="workloadFrom"
+          as="select"
+          label="Stellenprozent von"
+          class="mr-3"
+        >
+          <option value disabled selected hidden>von</option>
+          <option v-for="(n, index) in 10" :key="`workloadFrom_${index}`" :value="n * 10">
+            {{ n * 10 }}%
+          </option>
+        </Field>
+        <Field id="workloadTo" name="workloadTo" as="select" label="Stellenprozent bis">
+          <option value disabled selected hidden>bis</option>
+          <option v-for="(n, index) in 10" :key="`workloadTo_${index}`" :value="n * 10">
+            {{ n * 10 }}%
+          </option>
+        </Field>
+      </fieldset>
+    </MatchdSelect>
+
     <!-- Stellenantritt -->
     <MatchdSelect
       id="positionDateFrom"
@@ -262,7 +289,7 @@ export default class JobPostingStep1 extends Vue {
         if (jobPostingState.success) {
           this.$emit("submitComplete");
         } else if (jobPostingState.errors) {
-          form.setErrors(jobPostingState.errors);
+          // form.setErrors(jobPostingState.errors);
           if (jobPostingState.errors?.jobFromDate) {
             form.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
           }
