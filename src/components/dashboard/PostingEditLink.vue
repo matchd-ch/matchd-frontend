@@ -77,7 +77,6 @@ const params = computed(() => {
     margin-right: 2px;
     &.is-public {
       @apply text-green-1;
-      /* fill: red; */
     }
   }
   .no-underline2 {
