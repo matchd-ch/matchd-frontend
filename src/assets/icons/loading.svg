@@ -1,7 +1,6 @@
 <svg id="icon_loading" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <g id="loader">
-        <path d="M12.5,3a9,9,0,1,0,9,9A8.958,8.958,0,0,0,12.5,3ZM.5,12a12,12,0,1,1,12,12A12,12,0,0,1,.5,12Z"
-              transform="translate(-0.5)"/>
+        <path fill="currentColor" id="icon-loader-ring" d="M12.5,3a9,9,0,1,0,9,9A8.958,8.958,0,0,0,12.5,3ZM.5,12a12,12,0,1,1,12,12A12,12,0,0,1,.5,12Z" transform="translate(-0.5)"/>
         <path fill="currentColor" d="M21.5,12a9,9,0,0,0-9-9V0a12,12,0,0,1,12,12Z" transform="translate(-0.5)"/>
     </g>
 </svg>

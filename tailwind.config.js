@@ -1,4 +1,8 @@
 /* eslint-disable */
+
+/* Converts HEX color to RGB */
+const toRGB = (value) => parseColor(value).color.join(" ");
+
 module.exports = {
   content: ["./public/**/*.html", "./src/**/*.vue"],
   theme: {

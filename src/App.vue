@@ -24,10 +24,10 @@
       <NavBarPublic v-else-if="showNavbar" />
       <ImpersonateBar v-if="impersonator" />
     </header>
-    <div class="mt-fixed-header mb-fixed-footer">
+    <div class="main-view mt-fixed-header mb-fixed-footer">
       <router-view />
     </div>
-    <footer class="footer fixed bottom-0 left-0 right-0 z-20 shadow-black-20"></footer>
+    <footer class="footer fixed bottom-0 left-0 right-0 z-20 shadow-black-20" />
   </div>
 </template>
 
@@ -74,4 +74,9 @@ onUnmounted(() => {
 
 <style lang="postcss">
 @import "./styles/index.css";
+</style>
+<style lang="postcss" scoped>
+.main-view {
+  min-height: calc(100vh - var(--contentMarginTop) - var(--contentMarginBottom));
+}
 </style>
