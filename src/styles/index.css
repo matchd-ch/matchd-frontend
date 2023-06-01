@@ -6,27 +6,15 @@
 }
 
 .theme-student {
-  --color-primary-1: #fff;
-  --color-primary-2: #fff;
-  --color-primary-3: #fff;
-  --color-primary-5: #fff;
-}
-
-.theme-student {
   --color-primary-1: #1fac01;
   --color-primary-2: #58b624;
   --color-primary-3: #95cc3c;
   --color-primary-5: #e0f3de;
 }
 
+.theme-public,
 .theme-university,
 .theme-company {
-  --color-primary-1: #f21d5e;
-  --color-primary-2: #fc3f78;
-  --color-primary-3: #fb617b;
-  --color-primary-5: #ffe9e9;
-}
-.theme-public {
   --color-primary-1: #f21d5e;
   --color-primary-2: #fc3f78;
   --color-primary-3: #fb617b;
