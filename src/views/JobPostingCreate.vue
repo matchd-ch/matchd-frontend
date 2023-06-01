@@ -50,147 +50,117 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+// import LoadingBox from "@/components/LoadingBox.vue";
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
 import { parseStepName } from "@/helpers/parseStepName";
 import { Routes } from "@/router/index";
 import { ParamStrings } from "@/router/paramStrings";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { MutationTypes } from "@/store/modules/jobposting/mutation-types";
 import JobPostingStep1 from "@/views/jobposting/JobPostingStep1.vue";
 import JobPostingStep2 from "@/views/jobposting/JobPostingStep2.vue";
 import JobPostingStep3 from "@/views/jobposting/JobPostingStep3.vue";
-import { Options, setup, Vue } from "vue-class-component";
+import { computed, onMounted, ref } from "vue";
 import { useMeta } from "vue-meta";
-import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 
-Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const meta = useMeta({});
+const dirty = ref(false);
+const urlStepNumber = ref<number | null>(null);
+const requestedCurrentJobPosting = ref(false);
+const currentStep = computed(() => urlStepNumber.value);
+const currentJobPosting = computed(() => store.getters["currentJobPosting"]);
 
-@Options({
-  components: {
-    ProfileNavigation,
-    ProfileNavigationItem,
-    JobPostingStep1,
-    JobPostingStep2,
-    JobPostingStep3,
-  },
-})
-export default class JobPostingCreate extends Vue {
-  meta = setup(() => useMeta({}));
-  dirty = false;
-  urlStepNumber: number | null = null;
-  requestedCurrentJobPosting = false;
-
-  get paramStrings(): typeof ParamStrings {
-    return ParamStrings;
-  }
-
-  get currentStep() {
-    return this.urlStepNumber;
-  }
-
-  get currentJobPosting() {
-    return this.$store.getters["currentJobPosting"];
-  }
-
-  get jobPostingId() {
-    return this.$store.getters["jobPostingId"];
-  }
-
-  async beforeRouteUpdate(
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ): Promise<void> {
-    if (this.dirty && !this.confirmLeaveDirtyForm()) {
-      next(false);
+onBeforeRouteUpdate(async (to, _from, next) => {
+  if (dirty.value && !confirmLeaveDirtyForm()) {
+    next(false);
+  } else {
+    next();
+    urlStepNumber.value = parseStepName(String(to.params.step));
+    if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
+      await loadJobPostingWithSlug(String(to.params.slug));
     } else {
-      next();
-      this.urlStepNumber = parseStepName(String(to.params.step));
-      if (to.params?.slug && to.params?.slug !== ParamStrings.NEW) {
-        await this.loadJobPostingWithSlug(String(to.params.slug));
-      } else {
-        this.clearCurrentJobPosting();
-      }
+      clearCurrentJobPosting();
     }
   }
+});
 
-  async beforeRouteLeave(
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ): Promise<void> {
-    if (this.dirty && !this.confirmLeaveDirtyForm()) {
-      next(false);
-    } else {
-      next();
-    }
+onBeforeRouteLeave((_to, _from, next) => {
+  if (dirty.value && !confirmLeaveDirtyForm()) {
+    next(false);
+  } else {
+    next();
   }
+});
 
-  mounted(): void {
-    this.urlStepNumber = parseStepName(String(this.$route.params.step));
-    if (this.$route.params?.slug && this.$route.params?.slug !== ParamStrings.NEW) {
-      this.meta.meta.title = `Stelle bearbeiten - ${this.currentJobPosting?.title}`;
-    } else {
-      this.meta.meta.title = "Stelle ausschreiben";
-      this.clearCurrentJobPosting();
-    }
+onMounted(() => {
+  urlStepNumber.value = parseStepName(String(route.params.step));
+  if (route.params?.slug && route.params?.slug !== ParamStrings.NEW) {
+    meta.meta.title = `Stelle bearbeiten - ${currentJobPosting.value?.title}`;
+  } else {
+    meta.meta.title = "Stelle ausschreiben";
+    clearCurrentJobPosting();
   }
+});
 
-  async onSubmitComplete(): Promise<void> {
-    this.dirty = false;
-    if (this.$route.params?.slug === ParamStrings.NEW) {
-      await this.$router.replace({
-        params: {
-          step: `${ParamStrings.STEP}1`,
-          slug: this.$store.getters["jobPostingState"].slug,
-        },
-      });
-    }
-    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep >= 3) {
-      this.$router.push({ name: Routes.DASHBOARD });
-    } else if (this.currentStep) {
-      this.$router.push({
-        params: {
-          step: `${ParamStrings.STEP}${this.currentStep + 1}`,
-          slug: this.$store.getters["jobPostingState"].slug,
-        },
-      });
-    }
+const onSubmitComplete = async () => {
+  dirty.value = false;
+  if (route.params?.slug === ParamStrings.NEW) {
+    await router.replace({
+      params: {
+        step: `${ParamStrings.STEP}1`,
+        slug: store.getters["jobPostingState"].slug,
+      },
+    });
   }
+  if (currentJobPosting.value?.formStep && currentJobPosting.value?.formStep >= 3) {
+    router.push({ name: Routes.DASHBOARD });
+  } else if (currentStep.value) {
+    router.push({
+      params: {
+        step: `${ParamStrings.STEP}${currentStep.value + 1}`,
+        slug: store.getters["jobPostingState"].slug,
+      },
+    });
+  }
+};
 
-  async onNavigateBack(): Promise<void> {
-    if (this.currentJobPosting?.formStep && this.currentJobPosting?.formStep >= 3) {
-      this.$router.push({ name: Routes.DASHBOARD });
-    } else if (this.currentStep) {
-      this.$router.push({
-        params: {
-          step: `${ParamStrings.STEP}${this.currentStep - 1}`,
-        },
-      });
-    }
+const onNavigateBack = () => {
+  if (currentJobPosting.value?.formStep && currentJobPosting.value?.formStep >= 3) {
+    router.push({ name: Routes.DASHBOARD });
+  } else if (currentStep.value) {
+    router.push({
+      params: {
+        step: `${ParamStrings.STEP}${currentStep.value - 1}`,
+      },
+    });
   }
+};
 
-  onChangeDirty(dirty: boolean): void {
-    this.dirty = dirty;
-  }
+const onChangeDirty = (isDirty: boolean) => {
+  dirty.value = isDirty;
+};
 
-  confirmLeaveDirtyForm(): boolean {
-    return window.confirm(
-      "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
-    );
-  }
+const confirmLeaveDirtyForm = () => {
+  return window.confirm(
+    "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
+  );
+};
 
-  clearCurrentJobPosting(): void {
-    this.$store.commit(MutationTypes.CLEAR_CURRENT_JOBPOSTING);
-  }
+const clearCurrentJobPosting = () => {
+  store.commit(MutationTypes.CLEAR_CURRENT_JOBPOSTING);
+};
 
-  async loadJobPostingWithSlug(slug: string): Promise<void> {
-    this.requestedCurrentJobPosting = true;
-    await this.$store.dispatch(ActionTypes.JOBPOSTING, { slug });
-  }
-}
+const loadJobPostingWithSlug = async (slug: string) => {
+  requestedCurrentJobPosting.value = true;
+  await store.dispatch(ActionTypes.JOBPOSTING, { slug });
+};
 </script>
 
 <style lang="postcss" scoped>
