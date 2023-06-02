@@ -1,11 +1,11 @@
 <template>
-  <form v-if="branches.length && jobTypes.length" @submit="veeForm.onSubmit">
+  <form v-if="branches.length && jobTypes.length" @submit="onSubmit">
     <FormSaveError v-if="jobPostingState.errors" />
     <p v-if="!hasJobPostings" class="mb-14">
       Den Perfect-Match aus unserem Talentpool finden Sie, wenn Sie hier eine Stelle ausschreiben.
     </p>
     <!-- Bezeichnung Field -->
-    <MatchdField id="title" class="mb-10" :errors="veeForm.errors.title">
+    <MatchdField id="title" class="mb-10" :errors="veeForm.errors.value.title">
       <template #label>Geben Sie der Stelle eine passende Bezeichnung*</template>
       <Field
         id="title"
@@ -17,7 +17,7 @@
       />
     </MatchdField>
     <!-- Art Field -->
-    <SelectPillGroup :errors="veeForm.errors.jobTypeId" class="mb-10">
+    <SelectPillGroup :errors="veeForm.errors.value.jobTypeId" class="mb-10">
       <template #label>Diese Stellen-Art möchten Sie besetzen*</template>
       <template #field>
         <Field
@@ -42,25 +42,20 @@
     <!-- Branch Field -->
     <SelectPillMultiple
       :options="branches"
-      :errors="veeForm.errors.branches"
+      :errors="veeForm.errors.value.branches"
       name="branches"
       class="mb-10"
       @change="onChangeBranch"
     >
       <template #label>In diesem Bereich wird das junge Talent tätig sein*</template>
     </SelectPillMultiple>
+
     <!-- Stellenprozent Field -->
-
-    <!-- TODO: Remove the following MatchdSelect -->
-    <MatchdSelect id="workload" :errors="veeForm.errors.workload" class="mb-10">
-      <template #label>Stellenprozent</template>
-      <Field id="workload" name="workload" as="select" label="Stellenprozent" rules="required">
-        <option value disabled selected hidden>Stellenprozent</option>
-        <option v-for="(n, index) in 10" :key="index" :value="n * 10">{{ n * 10 }}%</option>
-      </Field>
-    </MatchdSelect>
-
-    <MatchdSelect id="positionDateFrom" class="mb-10 grow" :errors="false">
+    <MatchdSelect
+      id="positionDateFrom"
+      class="mb-10 grow"
+      :errors="veeForm.errors.value.workloadTo"
+    >
       <template #label>Stellenprozent</template>
       <fieldset id="positionDateFrom" class="flex">
         <Field
@@ -88,7 +83,7 @@
     <MatchdSelect
       id="positionDateFrom"
       class="mb-10 grow"
-      :errors="veeForm.errors.jobFromDateMonth || veeForm.errors.jobFromDateYear"
+      :errors="veeForm.errors.value.jobFromDateMonth || veeForm.errors.value.jobFromDateYear"
     >
       <template #label>Stellenantritt*</template>
 
@@ -134,7 +129,7 @@
     <MatchdSelect
       id="positionDateTo"
       class="mb-10 grow"
-      :errors="veeForm.errors.jobToDateMonth || veeForm.errors.jobToDateYear"
+      :errors="veeForm.errors.value.jobToDateMonth || veeForm.errors.value.jobToDateYear"
     >
       <template #label>Endtermin</template>
       <MatchdToggle id="jobToDateOpenEnd">
@@ -173,7 +168,7 @@
       </template>
     </MatchdSelect>
     <!-- Beschreibung Field -->
-    <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
+    <MatchdField id="description" class="mb-10" :errors="veeForm.errors.value.description">
       <template #label>Beschreiben Sie die Besonderheiten der Stelle</template>
       <Field
         id="description"
@@ -185,7 +180,7 @@
       />
     </MatchdField>
     <!-- Link Ausschreibung Field -->
-    <MatchdField id="url" class="mb-10" :errors="veeForm.errors.url">
+    <MatchdField id="url" class="mb-10" :errors="veeForm.errors.value.url">
       <template #label>Link zur Ausschreibung</template>
       <Field id="url" name="url" as="input" label="Link zur Ausschreibung" rules="url" />
       <template #info>Link muss auf ein Stelleninserate auf Ihrer Website verlinken.</template>
@@ -205,7 +200,7 @@
           variant="fill"
           :disabled="jobPostingLoading"
           :loading="jobPostingLoading"
-          @click="veeForm.onSubmit"
+          @click="onSubmit"
         >
           <template v-if="currentJobPosting?.formStep && currentJobPosting.formStep > 3">
             Speichern
@@ -217,7 +212,7 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { jobPostingStep1FormMapper } from "@/api/mappers/jobPostingStep1FormMapper";
 import { jobPostingStep1InputMapper } from "@/api/mappers/jobPostingStep1InputMapper";
 import type { Branch } from "@/api/models/types";
@@ -236,181 +231,148 @@ import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/acti
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
-import { Options, Vue, setup } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { computed, onMounted, watch } from "vue";
 
-@Options({
-  components: {
-    Field,
-    FormSaveError,
-    MatchdButton,
-    MatchdField,
-    MatchdSelect,
-    MatchdToggle,
-    SelectPill,
-    SelectPillMultiple,
-    SelectPillGroup,
+const emit = defineEmits<{
+  (event: "submitComplete"): void;
+  (event: "changeDirty", dirty: boolean): void;
+}>();
+
+const store = useStore();
+const veeForm = useForm<JobPostingStep1Form>();
+useField<boolean>("fullTime");
+useField<string[]>(
+  "branches",
+  (value) => {
+    if ((value as string[])?.length === 0) {
+      return "In diesen Bereichen und Challenges wird das junge Talent tätig sein ist ein Pflichtfeld";
+    }
+    return true;
   },
-  emits: ["submitComplete", "changeDirty"],
-})
-export default class JobPostingStep1 extends Vue {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<JobPostingStep1Form>();
-    const { value: fullTime } = useField<boolean>("fullTime");
-    const { value: branches } = useField<string[]>(
-      "branches",
-      (value) => {
-        if ((value as string[])?.length === 0) {
-          return "In diesen Bereichen und Challenges wird das junge Talent tätig sein ist ein Pflichtfeld";
-        }
-        return true;
-      },
-      { label: "In diesen Bereichen und Challenges wird das junge Talent tätig sein" }
-    );
-    const onSubmit = form.handleSubmit(async (formData) => {
-      if (
-        formData.jobFromDateMonth &&
-        formData.jobFromDateYear &&
-        formData.jobToDateMonth &&
-        formData.jobToDateYear
-      ) {
-        const toDate = DateTime.fromObject({
-          month: +formData.jobToDateMonth,
-          year: +formData.jobToDateYear,
-        });
-        const fromDate = DateTime.fromObject({
-          month: +formData.jobFromDateMonth,
-          year: +formData.jobFromDateYear,
-        });
-        if (toDate <= fromDate) {
-          form.setErrors({
-            jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
-          });
-          return;
-        }
-      }
-
-      try {
-        await store.dispatch(
-          ActionTypes.SAVE_JOBPOSTING_STEP1,
-          jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
-        );
-        const jobPostingState = store.getters["jobPostingState"];
-        if (jobPostingState.success) {
-          this.$emit("submitComplete");
-        } else if (jobPostingState.errors) {
-          // form.setErrors(jobPostingState.errors);
-          if (jobPostingState.errors?.jobFromDate) {
-            form.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
-          }
-          if (jobPostingState.errors?.jobToDate) {
-            form.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
-          }
-        }
-      } catch (e) {
-        console.log(e); // todo
-      }
+  { label: "In diesen Bereichen und Challenges wird das junge Talent tätig sein" }
+);
+useField<string>("workloadTo", (value) => {
+  const to = parseInt(value);
+  const from = parseInt(veeForm.values.workloadFrom);
+  if (!to || !from) {
+    return "Die beiden Felder von & bis dürfen nicht leer sein";
+  }
+  if (from > to) {
+    return "Bis darf nicht kleiner sein als von.";
+  }
+  return true;
+});
+const onSubmit = veeForm.handleSubmit(async (formData) => {
+  if (
+    formData.jobFromDateMonth &&
+    formData.jobFromDateYear &&
+    formData.jobToDateMonth &&
+    formData.jobToDateYear
+  ) {
+    const toDate = DateTime.fromObject({
+      month: +formData.jobToDateMonth,
+      year: +formData.jobToDateYear,
     });
+    const fromDate = DateTime.fromObject({
+      month: +formData.jobFromDateMonth,
+      year: +formData.jobFromDateYear,
+    });
+    if (toDate <= fromDate) {
+      veeForm.setErrors({
+        jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
+      });
+      return;
+    }
+  }
 
+  try {
+    await store.dispatch(
+      ActionTypes.SAVE_JOBPOSTING_STEP1,
+      jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
+    );
+    const jobPostingState = store.getters["jobPostingState"];
+    if (jobPostingState.success) {
+      emit("submitComplete");
+    } else if (jobPostingState.errors) {
+      // form.setErrors(jobPostingState.errors);
+      if (jobPostingState.errors?.jobFromDate) {
+        veeForm.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
+      }
+      if (jobPostingState.errors?.jobToDate) {
+        veeForm.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
+      }
+    }
+  } catch (e) {
+    console.log(e); // todo
+  }
+});
+
+const currentJobPosting = computed(() => store.getters["currentJobPosting"]);
+const jobPostingData = computed(() => jobPostingStep1FormMapper(currentJobPosting.value));
+const jobToDateOpenEnd = computed(() => veeForm.values.jobToDateOpenEnd === "true");
+const hasJobPostings = computed(() => !!store.getters["jobPostings"].length);
+const jobTypes = computed(() => store.getters["jobTypes"]);
+const jobPostingLoading = computed(() => store.getters["jobPostingLoading"]);
+const jobPostingState = computed(() => store.getters["jobPostingState"]);
+
+const branches = computed(() => {
+  return store.getters["branches"].map((branch) => {
     return {
-      ...form,
-      onSubmit,
-      fullTime,
-      branches,
+      id: branch.id,
+      name: branch.name,
+      checked: !!veeForm.values.branches?.find(
+        (selectedBranchId) => selectedBranchId === branch.id
+      ),
     };
   });
-  formData = {} as JobPostingStep1Form;
+});
 
-  get currentJobPosting() {
-    return this.$store.getters["currentJobPosting"];
+const validYears = computed(() => {
+  const currentYear = new Date().getFullYear();
+  const maxYear = currentYear + 10;
+  const validYears = [];
+  for (let i = currentYear; maxYear > i; i++) {
+    validYears.push(i);
   }
+  return validYears;
+});
 
-  get jobPostingData() {
-    return jobPostingStep1FormMapper(this.currentJobPosting);
-  }
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(ContentActionsTypes.JOB_TYPE),
+    store.dispatch(ContentActionsTypes.BRANCHES),
+    store.dispatch(ContentActionsTypes.JOB_POSTINGS),
+  ]);
 
-  get jobToDateOpenEnd() {
-    return this.veeForm.values.jobToDateOpenEnd === "true";
-  }
+  veeForm.resetForm({
+    values: jobPostingData.value,
+  });
+  calculateMargins();
+});
 
-  get hasJobPostings() {
-    return !!this.$store.getters["jobPostings"].length;
-  }
+const onChangeJobType = (jobTypeId: string) => {
+  veeForm.setFieldValue("jobTypeId", jobTypeId);
+};
 
-  get jobTypes() {
-    return this.$store.getters["jobTypes"];
-  }
-
-  get branches() {
-    return this.$store.getters["branches"].map((branch) => {
-      return {
-        id: branch.id,
-        name: branch.name,
-        checked: !!this.veeForm.branches?.find(
-          (selectedBranchId) => selectedBranchId === branch.id
-        ),
-      };
-    });
-  }
-
-  get jobPostingLoading() {
-    return this.$store.getters["jobPostingLoading"];
-  }
-
-  get jobPostingState() {
-    return this.$store.getters["jobPostingState"];
-  }
-
-  get user() {
-    return this.$store.getters["user"];
-  }
-
-  get validYears() {
-    const currentYear = new Date().getFullYear();
-    const maxYear = currentYear + 10;
-    const validYears = [];
-    for (let i = currentYear; maxYear > i; i++) {
-      validYears.push(i);
-    }
-    return validYears;
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(ContentActionsTypes.JOB_TYPE),
-      this.$store.dispatch(ContentActionsTypes.BRANCHES),
-      this.$store.dispatch(ContentActionsTypes.JOB_POSTINGS),
-    ]);
-
-    this.veeForm.resetForm({
-      values: this.jobPostingData,
-    });
-    calculateMargins();
-  }
-
-  onChangeJobType(jobTypeId: string) {
-    this.veeForm.setFieldValue("jobTypeId", jobTypeId);
-  }
-
-  onChangeBranch(branch: Branch) {
-    const branchExists = !!this.veeForm.branches.find(
-      (selectedBranchId) => selectedBranchId === branch.id
+const onChangeBranch = (branch: Branch) => {
+  const branchExists = !!veeForm.values.branches.find(
+    (selectedBranchId) => selectedBranchId === branch.id
+  );
+  if (branchExists) {
+    veeForm.values.branches = veeForm.values.branches.filter(
+      (selectedBranchId) => selectedBranchId !== branch.id
     );
-    if (branchExists) {
-      this.veeForm.branches = this.veeForm.branches.filter(
-        (selectedBranchId) => selectedBranchId !== branch.id
-      );
-    } else {
-      this.veeForm.branches = [...this.veeForm.branches, branch.id];
-    }
+  } else {
+    veeForm.values.branches = [...veeForm.values.branches, branch.id];
   }
+};
 
-  @Watch("veeForm.meta.dirty")
-  checkDirty() {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
   }
-}
+);
 </script>
 
 <style></style>

@@ -23,14 +23,14 @@
       </PostingSection>
       <PostingSection title="Stelle">
         <p v-if="hasBranches">{{ branchesLabel }}</p>
-        <p>Arbeitspensum {{ jobPosting.workload }}%</p>
+        <p>Arbeitspensum {{ workloadPercentage }}</p>
         <p>{{ jobPosting.jobType.name }}</p>
         <p>
           <template v-if="jobPosting.jobToDate"
             >{{ formatDate(jobPosting.jobFromDate, "LLLL yyyy") }} bis
             {{ formatDate(jobPosting.jobToDate, "LLLL yyyy") }}</template
           >
-          <template v-else>ab {{ jobPosting.jobFromDate }}</template>
+          <template v-else>ab {{ formatDate(jobPosting.jobFromDate, "dd.MM.yyyy") }}</template>
         </p>
         <p
           v-if="jobPosting.url"
@@ -160,15 +160,21 @@ const showConfirmationModal = ref(false);
 const showFullMatchModal = ref(false);
 
 const isStudent = computed(() => store.getters["isStudent"]);
+const user = computed(() => store.getters["user"]);
+const matchLoading = computed(() => store.getters["matchLoading"]);
+const jobPosting = computed(() => store.getters["jobPostingDetail"]);
+const workloadPercentage = computed(() => {
+  const from = jobPosting.value?.workloadFrom;
+  const to = jobPosting.value?.workloadTo;
+  return from === to ? `${to}%` : `${from}-${to}%`;
+});
+
 const branchesLabel = computed(
   () => jobPosting.value?.branches.map((branch) => branch.name).join(", ") || ""
 );
 const hasBranches = computed(() =>
   jobPosting.value ? jobPosting.value?.branches.length > 0 : false
 );
-const user = computed(() => store.getters["user"]);
-const matchLoading = computed(() => store.getters["matchLoading"]);
-const jobPosting = computed(() => store.getters["jobPostingDetail"]);
 
 const jobRequirements = computed(() => {
   return jobPosting.value?.jobRequirements.edges.map((edge) => edge?.node) || [];

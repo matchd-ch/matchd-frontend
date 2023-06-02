@@ -18,7 +18,8 @@ export type JobPostingQuery = {
     jobToDate?: string | null;
     datePublished?: string | null;
     url?: string | null;
-    workload: number;
+    workloadFrom: number;
+    workloadTo: number;
     formStep: number;
     state: Types.JobPostingState;
     matchStatus?: {
@@ -130,7 +131,8 @@ export const JobPostingDocument = {
           { kind: "Field", name: { kind: "Name", value: "jobToDate" } },
           { kind: "Field", name: { kind: "Name", value: "datePublished" } },
           { kind: "Field", name: { kind: "Name", value: "url" } },
-          { kind: "Field", name: { kind: "Name", value: "workload" } },
+          { kind: "Field", name: { kind: "Name", value: "workloadFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "workloadTo" } },
           { kind: "Field", name: { kind: "Name", value: "formStep" } },
           { kind: "Field", name: { kind: "Name", value: "state" } },
           {

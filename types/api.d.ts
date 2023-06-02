@@ -513,6 +513,7 @@ enum DateMode {
   DateRange = "DATE_RANGE",
 }
 
+/** An enumeration. */
 enum DbUserTypeChoices {
   /** College Student */
   CollegeStudent = "COLLEGE_STUDENT",
@@ -670,7 +671,8 @@ type JobPosting = Node & {
   state: JobPostingState;
   title: Scalars["String"];
   url?: Maybe<Scalars["String"]>;
-  workload: Scalars["Int"];
+  workloadFrom: Scalars["Int"];
+  workloadTo: Scalars["Int"];
 };
 
 type JobPostingJobRequirementsArgs = {
@@ -711,8 +713,10 @@ type JobPostingBaseDataInput = {
   /** Title */
   title: Scalars["String"];
   url?: InputMaybe<Scalars["String"]>;
-  /** Workload */
-  workload: Scalars["Int"];
+  /** Workload from */
+  workloadFrom: Scalars["Int"];
+  /** Workload to */
+  workloadTo: Scalars["Int"];
 };
 
 /** Creates a job posting */
@@ -3170,7 +3174,8 @@ export const JobPostingJobPosting = gql`
     jobToDate
     datePublished
     url
-    workload
+    workloadFrom
+    workloadTo
     formStep
     state
     matchStatus {

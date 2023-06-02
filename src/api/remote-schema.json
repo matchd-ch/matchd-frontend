@@ -3750,7 +3750,7 @@
       {
         "kind": "ENUM",
         "name": "DbUserTypeChoices",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -5002,7 +5002,23 @@
             "deprecationReason": null
           },
           {
-            "name": "workload",
+            "name": "workloadFrom",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "workloadTo",
             "description": null,
             "args": [],
             "type": {
@@ -5302,8 +5318,24 @@
             "deprecationReason": null
           },
           {
-            "name": "workload",
-            "description": "Workload",
+            "name": "workloadFrom",
+            "description": "Workload from",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "workloadTo",
+            "description": "Workload to",
             "type": {
               "kind": "NON_NULL",
               "name": null,
