@@ -107,10 +107,9 @@
         </div>
       </ChallengeSearchFilters>
     </teleport>
-    <div>
-      <LoadingSpinner v-if="isLoading" class="py-20 md:py-40" />
+    <LoadingBox :is-loading="isLoading">
       <SearchResultChallengeGrid
-        v-else-if="challenges.length"
+        v-if="challenges.length"
         class="search-result-challenge-grid"
         :challenges="challenges"
         result-type="student"
@@ -127,7 +126,7 @@
           Leider haben wir kein passendes Challenge gefunden, haben Sie etwas Geduld.
         </div>
       </div>
-    </div>
+    </LoadingBox>
   </div>
 </template>
 
@@ -135,7 +134,7 @@
 import type { ChallengeTypesChallengeTypeFragment } from "@/api/queries/challengeTypesFragment.generated";
 import type { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
 import ChallengeSearchFilters from "@/components/ChallengeSearchFilters.vue";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import LoadingBox from "@/components/LoadingBox.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import SearchResultChallengeGrid from "@/components/SearchResultChallengeGrid.vue";
 import SelectPill from "@/components/SelectPill.vue";
@@ -273,5 +272,8 @@ onMounted(async () => {
 }
 @block select-pill {
   --color-primary-1: var(--color-black);
+}
+.challenge-search-view {
+  min-height: inherit;
 }
 </style>

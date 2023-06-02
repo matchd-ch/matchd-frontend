@@ -44,7 +44,7 @@
         </template>
       </SearchFilters>
     </teleport>
-    <div>
+    <LoadingBox :is-loading="isLoading">
       <SearchResultBubbles
         v-if="
           layout === 'bubbles' &&
@@ -72,7 +72,7 @@
       >
         <div>Leider haben wir kein passendes Talent gefunden, haben Sie etwas Geduld.</div>
       </div>
-    </div>
+    </LoadingBox>
     <teleport to="footer">
       <SearchBoost
         class="search-boost hidden xl:flex"
@@ -89,6 +89,7 @@
 <script lang="ts">
 import { studentMatchingInputMapper } from "@/api/mappers/studentMatchingInputMapper";
 import { AttachmentKey } from "@/api/models/types";
+import LoadingBox from "@/components/LoadingBox.vue";
 import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
@@ -107,6 +108,7 @@ import { useMeta } from "vue-meta";
     SearchResultGrid,
     SearchFilters,
     SearchBoost,
+    LoadingBox,
   },
 })
 export default class StudentSearch extends Vue {
@@ -122,6 +124,10 @@ export default class StudentSearch extends Vue {
 
   get jobPostings() {
     return this.$store.getters["jobPostings"];
+  }
+
+  get isLoading() {
+    return this.$store.getters["matchesLoading"];
   }
 
   get matchesForBubbles() {
@@ -235,3 +241,8 @@ export default class StudentSearch extends Vue {
   }
 }
 </script>
+<style lang="postcss" scoped>
+.student-search-view {
+  min-height: inherit;
+}
+</style>
