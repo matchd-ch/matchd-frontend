@@ -54,7 +54,6 @@ watchEffect(() => {
     loadingState.set("dashboard", !!!companyDashboard.value);
   }
   loadingState.set("user", !!!user.value);
-  console.log(loadingState.loadingState.value);
 });
 
 onMounted(async () => {

@@ -16,7 +16,7 @@
             </select>
           </div>
           <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between">
-            mit Pensum
+            mit Pensum bis
             <label for="workload" class="sr-only">Stellenprozent</label>
             <select id="workload" v-model="workload" name="workload" @change="onChangeWorkload">
               <option v-for="(n, index) in 10" :key="index" :value="n * 10">{{ n * 10 }}%</option>
@@ -65,7 +65,7 @@
         </template>
       </SearchFilters>
     </teleport>
-    <div>
+    <LoadingBox :is-loading="isLoading">
       <SearchResultBubbles
         v-if="
           layout === 'bubbles' &&
@@ -97,7 +97,7 @@
           >.
         </div>
       </div>
-    </div>
+    </LoadingBox>
     <teleport to="footer">
       <SearchBoost
         class="search-boost hidden xl:flex"
@@ -113,6 +113,7 @@
 <script lang="ts">
 import { jobPostingMatchingInputMapper } from "@/api/mappers/jobPostingMatchingInputMapper";
 import { AttachmentKey } from "@/api/models/types";
+import LoadingBox from "@/components/LoadingBox.vue";
 import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
@@ -131,6 +132,7 @@ import { useMeta } from "vue-meta";
     SearchResultBubbles,
     SearchResultGrid,
     SearchBoost,
+    LoadingBox,
   },
 })
 export default class JobPostingSearch extends Vue {
@@ -146,6 +148,10 @@ export default class JobPostingSearch extends Vue {
   jobTypeId = "";
   workload = 100;
   layout = "bubbles";
+
+  get isLoading() {
+    return this.$store.getters["matchesLoading"];
+  }
 
   get matchesForBubbles() {
     return this.$store.getters["matchesForBubbles"];
@@ -299,3 +305,8 @@ export default class JobPostingSearch extends Vue {
   }
 }
 </script>
+<style lang="postcss" scoped>
+.jobposting-search-view {
+  min-height: inherit;
+}
+</style>
