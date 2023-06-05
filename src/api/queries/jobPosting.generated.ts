@@ -14,7 +14,7 @@ export type JobPostingQuery = {
     title: string;
     displayTitle: string;
     description: string;
-    jobFromDate: string;
+    jobFromDate?: string | null;
     jobToDate?: string | null;
     datePublished?: string | null;
     url?: string | null;

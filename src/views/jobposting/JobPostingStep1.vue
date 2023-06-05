@@ -86,17 +86,6 @@
       :errors="veeForm.errors.value.jobFromDateMonth || veeForm.errors.value.jobFromDateYear"
     >
       <template #label>Stellenantritt*</template>
-
-      <MatchdToggle id="jobFromDateByArrangement">
-        <Field
-          id="jobFromDateByArrangement"
-          name="jobFromDateByArrangement"
-          type="checkbox"
-          value="true"
-        />
-        <template #value>nach Vereinbarung</template>
-      </MatchdToggle>
-
       <fieldset id="positionDateFrom" class="flex mt-3">
         <Field
           id="jobFromDateMonth"

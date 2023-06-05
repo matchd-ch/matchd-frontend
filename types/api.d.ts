@@ -659,7 +659,8 @@ type JobPosting = Node & {
   formStep: Scalars["Int"];
   /** The ID of the object */
   id: Scalars["ID"];
-  jobFromDate: Scalars["Date"];
+  jobFromDate?: Maybe<Scalars["Date"]>;
+  jobPeriodByAgreement: Scalars["Boolean"];
   jobRequirements: JobRequirementConnection;
   jobToDate?: Maybe<Scalars["Date"]>;
   jobType: JobType;
@@ -707,7 +708,8 @@ type JobPostingBaseDataInput = {
   /** Description */
   description?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["String"]>;
-  jobFromDate: Scalars["String"];
+  jobFromDate?: InputMaybe<Scalars["String"]>;
+  jobPeriodByAgreement: Scalars["Boolean"];
   jobToDate?: InputMaybe<Scalars["String"]>;
   jobType: JobTypeInput;
   /** Title */

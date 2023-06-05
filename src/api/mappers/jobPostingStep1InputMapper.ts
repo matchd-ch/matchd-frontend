@@ -15,6 +15,7 @@ export function jobPostingStep1InputMapper(
     jobType: {
       id: jobPostingForm.jobTypeId,
     },
+    jobPeriodByAgreement: false,
     branches:
       jobPostingForm.branches?.map((branchId) => {
         return { id: branchId };
