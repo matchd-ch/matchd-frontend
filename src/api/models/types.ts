@@ -513,6 +513,7 @@ export enum DateMode {
   DateRange = "DATE_RANGE",
 }
 
+/** An enumeration. */
 export enum DbUserTypeChoices {
   /** College Student */
   CollegeStudent = "COLLEGE_STUDENT",
@@ -658,7 +659,8 @@ export type JobPosting = Node & {
   formStep: Scalars["Int"];
   /** The ID of the object */
   id: Scalars["ID"];
-  jobFromDate: Scalars["Date"];
+  jobFromDate?: Maybe<Scalars["Date"]>;
+  jobPeriodByAgreement: Scalars["Boolean"];
   jobRequirements: JobRequirementConnection;
   jobToDate?: Maybe<Scalars["Date"]>;
   jobType: JobType;
@@ -670,7 +672,8 @@ export type JobPosting = Node & {
   state: JobPostingState;
   title: Scalars["String"];
   url?: Maybe<Scalars["String"]>;
-  workload: Scalars["Int"];
+  workloadFrom: Scalars["Int"];
+  workloadTo: Scalars["Int"];
 };
 
 export type JobPostingJobRequirementsArgs = {
@@ -705,14 +708,17 @@ export type JobPostingBaseDataInput = {
   /** Description */
   description?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["String"]>;
-  jobFromDate: Scalars["String"];
+  jobFromDate?: InputMaybe<Scalars["String"]>;
+  jobPeriodByAgreement: Scalars["Boolean"];
   jobToDate?: InputMaybe<Scalars["String"]>;
   jobType: JobTypeInput;
   /** Title */
   title: Scalars["String"];
   url?: InputMaybe<Scalars["String"]>;
-  /** Workload */
-  workload: Scalars["Int"];
+  /** Workload from */
+  workloadFrom: Scalars["Int"];
+  /** Workload to */
+  workloadTo: Scalars["Int"];
 };
 
 /** Creates a job posting */

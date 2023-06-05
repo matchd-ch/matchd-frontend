@@ -9,11 +9,13 @@ export function jobPostingStep1InputMapper(
     id: id || null,
     title: jobPostingForm.title,
     description: jobPostingForm.description || null,
-    workload: +jobPostingForm.workload,
+    workloadFrom: +jobPostingForm.workloadFrom,
+    workloadTo: +jobPostingForm.workloadTo,
     url: jobPostingForm.url || null,
     jobType: {
       id: jobPostingForm.jobTypeId,
     },
+    jobPeriodByAgreement: false,
     branches:
       jobPostingForm.branches?.map((branchId) => {
         return { id: branchId };

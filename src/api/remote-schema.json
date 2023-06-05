@@ -3750,7 +3750,7 @@
       {
         "kind": "ENUM",
         "name": "DbUserTypeChoices",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -4761,11 +4761,23 @@
             "description": null,
             "args": [],
             "type": {
+              "kind": "SCALAR",
+              "name": "Date",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "jobPeriodByAgreement",
+            "description": null,
+            "args": [],
+            "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Date",
+                "name": "Boolean",
                 "ofType": null
               }
             },
@@ -5002,7 +5014,23 @@
             "deprecationReason": null
           },
           {
-            "name": "workload",
+            "name": "workloadFrom",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "workloadTo",
             "description": null,
             "args": [],
             "type": {
@@ -5233,11 +5261,23 @@
             "name": "jobFromDate",
             "description": null,
             "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "jobPeriodByAgreement",
+            "description": null,
+            "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "String",
+                "name": "Boolean",
                 "ofType": null
               }
             },
@@ -5302,8 +5342,24 @@
             "deprecationReason": null
           },
           {
-            "name": "workload",
-            "description": "Workload",
+            "name": "workloadFrom",
+            "description": "Workload from",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "workloadTo",
+            "description": "Workload to",
             "type": {
               "kind": "NON_NULL",
               "name": null,

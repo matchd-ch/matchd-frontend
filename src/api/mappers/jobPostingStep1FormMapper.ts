@@ -9,7 +9,8 @@ export function jobPostingStep1FormMapper(
     title: jobPosting?.title ?? "",
     description: jobPosting?.description ?? "",
     url: jobPosting?.url ?? "",
-    workload: String(jobPosting?.workload ?? 100),
+    workloadFrom: String(jobPosting?.workloadFrom ?? 80),
+    workloadTo: String(jobPosting?.workloadTo ?? 100),
     jobTypeId: jobPosting?.jobType?.id ?? "",
     branches: jobPosting?.branches?.map((branch) => branch.id) ?? [],
     jobFromDateMonth: jobPosting?.jobFromDate
