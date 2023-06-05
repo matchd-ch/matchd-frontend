@@ -26,11 +26,13 @@
         <p>Arbeitspensum {{ workloadPercentage }}</p>
         <p>{{ jobPosting.jobType.name }}</p>
         <p>
-          <template v-if="jobPosting.jobToDate"
-            >{{ formatDate(jobPosting.jobFromDate, "LLLL yyyy") }} bis
-            {{ formatDate(jobPosting.jobToDate, "LLLL yyyy") }}</template
-          >
-          <template v-else>ab {{ formatDate(jobPosting.jobFromDate, "dd.MM.yyyy") }}</template>
+          <template v-if="jobPosting.jobToDate && jobPosting.jobFromDate">
+            {{ formatDate(jobPosting.jobFromDate, "LLLL yyyy") }} bis
+            {{ formatDate(jobPosting.jobToDate, "LLLL yyyy") }}
+          </template>
+          <template v-else-if="jobPosting.jobFromDate">
+            ab {{ formatDate(jobPosting.jobFromDate, "dd.MM.yyyy") }}
+          </template>
         </p>
         <p
           v-if="jobPosting.url"
