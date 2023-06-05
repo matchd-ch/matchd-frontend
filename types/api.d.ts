@@ -3172,6 +3172,7 @@ export const JobPostingJobPosting = gql`
     title
     displayTitle
     description
+    jobPeriodByAgreement
     jobFromDate
     jobToDate
     datePublished

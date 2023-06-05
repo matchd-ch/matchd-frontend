@@ -7,6 +7,7 @@ export type JobPostingJobPostingFragment = {
   title: string;
   displayTitle: string;
   description: string;
+  jobPeriodByAgreement: boolean;
   jobFromDate?: string | null;
   jobToDate?: string | null;
   datePublished?: string | null;
@@ -75,6 +76,7 @@ export const JobPostingJobPostingFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "title" } },
           { kind: "Field", name: { kind: "Name", value: "displayTitle" } },
           { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "jobPeriodByAgreement" } },
           { kind: "Field", name: { kind: "Name", value: "jobFromDate" } },
           { kind: "Field", name: { kind: "Name", value: "jobToDate" } },
           { kind: "Field", name: { kind: "Name", value: "datePublished" } },

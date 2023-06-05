@@ -86,7 +86,17 @@
       :errors="veeForm.errors.value.jobFromDateMonth || veeForm.errors.value.jobFromDateYear"
     >
       <template #label>Stellenantritt*</template>
-      <fieldset id="positionDateFrom" class="flex mt-3">
+      <MatchdToggle id="jobPeriodByAgreement">
+        <Field
+          id="jobPeriodByAgreement"
+          name="jobPeriodByAgreement"
+          type="checkbox"
+          :value="true"
+        />
+        <template #value>nach Vereinbarung</template>
+      </MatchdToggle>
+
+      <fieldset v-if="!veeForm.values.jobPeriodByAgreement" id="positionDateFrom" class="flex mt-3">
         <Field
           id="jobFromDateMonth"
           name="jobFromDateMonth"
@@ -122,7 +132,7 @@
     >
       <template #label>Endtermin</template>
       <MatchdToggle id="jobToDateOpenEnd">
-        <Field id="jobToDateOpenEnd" name="jobToDateOpenEnd" type="checkbox" value="true" />
+        <Field id="jobToDateOpenEnd" name="jobToDateOpenEnd" type="checkbox" :value="true" />
         <template v-if="jobToDateOpenEnd" #value>Befristet</template>
         <template v-else #value>Unbefristet</template>
       </MatchdToggle>
@@ -156,6 +166,7 @@
         </fieldset>
       </template>
     </MatchdSelect>
+
     <!-- Beschreibung Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.value.description">
       <template #label>Beschreiben Sie die Besonderheiten der Stelle</template>
@@ -218,7 +229,6 @@ import type { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
 import { computed, onMounted, watch } from "vue";
 
@@ -229,7 +239,6 @@ const emit = defineEmits<{
 
 const store = useStore();
 const veeForm = useForm<JobPostingStep1Form>();
-useField<boolean>("fullTime");
 useField<string[]>(
   "branches",
   (value) => {
@@ -251,54 +260,43 @@ useField<string>("workloadTo", (value) => {
   }
   return true;
 });
-const onSubmit = veeForm.handleSubmit(async (formData) => {
-  if (
-    formData.jobFromDateMonth &&
-    formData.jobFromDateYear &&
-    formData.jobToDateMonth &&
-    formData.jobToDateYear
-  ) {
-    const toDate = DateTime.fromObject({
-      month: +formData.jobToDateMonth,
-      year: +formData.jobToDateYear,
-    });
-    const fromDate = DateTime.fromObject({
-      month: +formData.jobFromDateMonth,
-      year: +formData.jobFromDateYear,
-    });
-    if (toDate <= fromDate) {
-      veeForm.setErrors({
-        jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
-      });
-      return;
-    }
-  }
 
-  try {
-    await store.dispatch(
-      ActionTypes.SAVE_JOBPOSTING_STEP1,
-      jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
-    );
-    const jobPostingState = store.getters["jobPostingState"];
-    if (jobPostingState.success) {
-      emit("submitComplete");
-    } else if (jobPostingState.errors) {
-      // form.setErrors(jobPostingState.errors);
-      if (jobPostingState.errors?.jobFromDate) {
-        veeForm.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
-      }
-      if (jobPostingState.errors?.jobToDate) {
-        veeForm.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
-      }
-    }
-  } catch (e) {
-    console.log(e); // todo
+useField<string>("jobFromDateMonth", (value) => {
+  const month = value;
+  const year = veeForm.values.jobFromDateYear;
+  if (veeForm.values.jobPeriodByAgreement) {
+    return true;
   }
+  if (!month || !year) {
+    return "Stellenantritt darf nicht leer sein.";
+  }
+  return true;
+});
+useField<string>("jobToDateMonth", (value) => {
+  const month = value;
+  const year = veeForm.values.jobToDateYear;
+  const dateTo = new Date(`${year}-${month}-01`);
+  if (veeForm.values.jobPeriodByAgreement || !veeForm.values.jobToDateOpenEnd) {
+    return true;
+  }
+  if (!month || !year) {
+    return "Endtermin darf nicht leer sein.";
+  }
+  if (veeForm.errors.value.jobFromDateMonth) {
+    return true;
+  }
+  const dateFrom = new Date(
+    `${veeForm.values.jobFromDateYear}-${veeForm.values.jobFromDateMonth}-01`
+  );
+  if (dateTo.getTime() <= dateFrom.getTime()) {
+    return "Endtermin muss grösser als Stellenantritt sein.";
+  }
+  return true;
 });
 
 const currentJobPosting = computed(() => store.getters["currentJobPosting"]);
 const jobPostingData = computed(() => jobPostingStep1FormMapper(currentJobPosting.value));
-const jobToDateOpenEnd = computed(() => veeForm.values.jobToDateOpenEnd === "true");
+const jobToDateOpenEnd = computed(() => veeForm.values.jobToDateOpenEnd);
 const hasJobPostings = computed(() => !!store.getters["jobPostings"].length);
 const jobTypes = computed(() => store.getters["jobTypes"]);
 const jobPostingLoading = computed(() => store.getters["jobPostingLoading"]);
@@ -355,6 +353,35 @@ const onChangeBranch = (branch: Branch) => {
     veeForm.values.branches = [...veeForm.values.branches, branch.id];
   }
 };
+
+const onSubmit = veeForm.handleSubmit(async (formData) => {
+  console.log(jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData));
+  try {
+    await store.dispatch(
+      ActionTypes.SAVE_JOBPOSTING_STEP1,
+      jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
+    );
+    const jobPostingState = store.getters["jobPostingState"];
+    if (jobPostingState.success) {
+      emit("submitComplete");
+    } else if (jobPostingState.errors) {
+      Object.entries(jobPostingState.errors).forEach(([key, value]) => {
+        if (!(key in veeForm.values)) {
+          console.error(value);
+        }
+        veeForm.setErrors({ [key]: value.join() });
+      });
+      if (jobPostingState.errors?.jobFromDate) {
+        veeForm.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
+      }
+      if (jobPostingState.errors?.jobToDate) {
+        veeForm.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
+      }
+    }
+  } catch (e) {
+    console.log(e); // todo
+  }
+});
 
 watch(
   () => veeForm.meta.value.dirty,
