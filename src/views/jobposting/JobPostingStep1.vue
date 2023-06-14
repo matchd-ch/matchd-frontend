@@ -262,11 +262,12 @@ useField<string>("workloadTo", (value) => {
 });
 
 useField<string>("jobFromDateMonth", (value) => {
-  const month = value;
-  const year = veeForm.values.jobFromDateYear;
   if (veeForm.values.jobPeriodByAgreement) {
     return true;
   }
+  const month = value;
+  const year = veeForm.values.jobFromDateYear;
+  console.log(month, year);
   if (!month || !year) {
     return "Stellenantritt darf nicht leer sein.";
   }
@@ -372,10 +373,12 @@ const onSubmit = veeForm.handleSubmit(async (formData) => {
         veeForm.setErrors({ [key]: value.join() });
       });
       if (jobPostingState.errors?.jobFromDate) {
-        veeForm.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
+        veeForm.setErrors({ jobFromDateMonth: `Fehler: ${jobPostingState.errors.jobFromDate}` });
       }
       if (jobPostingState.errors?.jobToDate) {
-        veeForm.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
+        veeForm.setErrors({
+          jobToDateMonth: `Fehler: ${jobPostingState.errors.jobToDate}`,
+        });
       }
     }
   } catch (e) {
