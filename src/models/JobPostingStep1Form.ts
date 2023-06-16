@@ -7,7 +7,7 @@ export interface JobPostingStep1Form {
   workloadTo: string;
   jobFromDateMonth: string;
   jobFromDateYear: string;
-  jobToDateOpenEnd: string;
+  jobToDateOpenEnd: boolean;
   jobToDateMonth: string;
   jobToDateYear: string;
   url: string;

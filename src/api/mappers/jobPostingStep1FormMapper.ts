@@ -19,7 +19,7 @@ export function jobPostingStep1FormMapper(
     jobFromDateYear: jobPosting?.jobFromDate
       ? DateTime.fromSQL(jobPosting.jobFromDate).year.toString()
       : "",
-    jobToDateOpenEnd: jobPosting?.jobToDate ? "true" : "false",
+    jobToDateOpenEnd: !!jobPosting?.jobToDate,
     jobToDateMonth: jobPosting?.jobToDate
       ? DateTime.fromSQL(jobPosting.jobToDate).month.toString()
       : "",

@@ -26,13 +26,15 @@
         <p>Arbeitspensum {{ workloadPercentage }}</p>
         <p>{{ jobPosting.jobType.name }}</p>
         <p>
-          <template v-if="jobPosting.jobToDate && jobPosting.jobFromDate">
-            {{ formatDate(jobPosting.jobFromDate, "LLLL yyyy") }} bis
+          <template v-if="jobPosting.jobFromDate">
+            {{ formatDate(jobPosting.jobFromDate, "LLLL yyyy") }}
+          </template>
+          <template v-else> Nach Vereinbarung </template>
+          -
+          <template v-if="jobPosting.jobToDate">
             {{ formatDate(jobPosting.jobToDate, "LLLL yyyy") }}
           </template>
-          <template v-else-if="jobPosting.jobFromDate">
-            ab {{ formatDate(jobPosting.jobFromDate, "dd.MM.yyyy") }}
-          </template>
+          <template v-else> unbefristet </template>
         </p>
         <p
           v-if="jobPosting.url"
