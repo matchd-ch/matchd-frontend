@@ -85,17 +85,22 @@
       class="mb-10 grow"
       :errors="veeForm.errors.value.jobFromDateMonth || veeForm.errors.value.jobFromDateYear"
     >
-      <template #label>Stellenantritt*</template>
-      <fieldset id="positionDateFrom" class="flex mt-3">
+      <template #label>Stellenantritt</template>
+      <MatchdToggle id="jobPeriodByAgreement">
+        <input id="jobPeriodByAgreement" v-model="jobPeriodByAgreement" type="checkbox" />
+        <template #value>nach Vereinbarung</template>
+      </MatchdToggle>
+
+      <fieldset v-show="!jobPeriodByAgreement" id="positionDateFrom" class="flex mt-3">
         <Field
           id="jobFromDateMonth"
           name="jobFromDateMonth"
           as="select"
           label="Stellenantritt Monat"
           class="mr-3"
-          rules="required"
+          rules="requiredIfNotEmpty:jobFromDateYear"
         >
-          <option value disabled selected hidden>Monat</option>
+          <option value disabled hidden>Monat</option>
           <option v-for="n in 12" :key="`jobFromDateMonth_${n}`" :value="n">
             {{ String(n).padStart(2, "0") }}
           </option>
@@ -105,11 +110,11 @@
           name="jobFromDateYear"
           as="select"
           label="Stellenantritt Jahr"
-          rules="required"
+          rules="requiredIfNotEmpty:jobFromDateMonth"
         >
-          <option value disabled selected hidden>Jahr</option>
+          <option value disabled hidden>Jahr</option>
           <option v-for="n in validYears" :key="`jobFromDateYear_${n}`" :value="n">
-            {{ String(n).padStart(2, "0") }}
+            {{ n }}
           </option>
         </Field>
       </fieldset>
@@ -122,7 +127,7 @@
     >
       <template #label>Endtermin</template>
       <MatchdToggle id="jobToDateOpenEnd">
-        <Field id="jobToDateOpenEnd" name="jobToDateOpenEnd" type="checkbox" value="true" />
+        <Field id="jobToDateOpenEnd" name="jobToDateOpenEnd" type="checkbox" :value="true" />
         <template v-if="jobToDateOpenEnd" #value>Befristet</template>
         <template v-else #value>Unbefristet</template>
       </MatchdToggle>
@@ -156,6 +161,7 @@
         </fieldset>
       </template>
     </MatchdSelect>
+
     <!-- Beschreibung Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.value.description">
       <template #label>Beschreiben Sie die Besonderheiten der Stelle</template>
@@ -218,9 +224,8 @@ import type { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
-import { DateTime } from "luxon";
 import { Field, useField, useForm } from "vee-validate";
-import { computed, onMounted, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 const emit = defineEmits<{
   (event: "submitComplete"): void;
@@ -229,7 +234,8 @@ const emit = defineEmits<{
 
 const store = useStore();
 const veeForm = useForm<JobPostingStep1Form>();
-useField<boolean>("fullTime");
+const jobPeriodByAgreement = ref(false);
+
 useField<string[]>(
   "branches",
   (value) => {
@@ -251,54 +257,54 @@ useField<string>("workloadTo", (value) => {
   }
   return true;
 });
-const onSubmit = veeForm.handleSubmit(async (formData) => {
-  if (
-    formData.jobFromDateMonth &&
-    formData.jobFromDateYear &&
-    formData.jobToDateMonth &&
-    formData.jobToDateYear
-  ) {
-    const toDate = DateTime.fromObject({
-      month: +formData.jobToDateMonth,
-      year: +formData.jobToDateYear,
-    });
-    const fromDate = DateTime.fromObject({
-      month: +formData.jobFromDateMonth,
-      year: +formData.jobFromDateYear,
-    });
-    if (toDate <= fromDate) {
-      veeForm.setErrors({
-        jobToDateMonth: 'Muss später als Feld "Stellenantritt" sein',
-      });
-      return;
-    }
-  }
 
-  try {
-    await store.dispatch(
-      ActionTypes.SAVE_JOBPOSTING_STEP1,
-      jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
-    );
-    const jobPostingState = store.getters["jobPostingState"];
-    if (jobPostingState.success) {
-      emit("submitComplete");
-    } else if (jobPostingState.errors) {
-      // form.setErrors(jobPostingState.errors);
-      if (jobPostingState.errors?.jobFromDate) {
-        veeForm.setErrors({ jobFromDateMonth: "Stellenantritt darf nicht leer sein." });
-      }
-      if (jobPostingState.errors?.jobToDate) {
-        veeForm.setErrors({ jobToDateMonth: "Endtermin darf nicht leer sein." });
-      }
-    }
-  } catch (e) {
-    console.log(e); // todo
+useField<string>("jobFromDateMonth", (value) => {
+  if (jobPeriodByAgreement.value) {
+    return true;
   }
+  const month = value;
+  const year = veeForm.values.jobFromDateYear;
+  if (!month || !year) {
+    return "Stellenantritt darf nicht leer sein.";
+  }
+  return true;
+});
+useField<string>("jobFromDateYear", (value) => {
+  if (jobPeriodByAgreement.value) {
+    return true;
+  }
+  const month = value;
+  const year = veeForm.values.jobFromDateYear;
+  if (!month || !year) {
+    return "Stellenantritt darf nicht leer sein.";
+  }
+  return true;
+});
+useField<string>("jobToDateMonth", (value) => {
+  if (!veeForm.values.jobToDateOpenEnd) {
+    return true;
+  }
+  const month = value;
+  const year = veeForm.values.jobToDateYear;
+  const dateTo = new Date(`${year}-${month}-01`);
+  if (!month || !year) {
+    return "Endtermin darf nicht leer sein.";
+  }
+  if (veeForm.errors.value.jobFromDateMonth) {
+    return true;
+  }
+  const dateFrom = new Date(
+    `${veeForm.values.jobFromDateYear}-${veeForm.values.jobFromDateMonth}-01`
+  );
+  if (dateTo.getTime() <= dateFrom.getTime()) {
+    return "Endtermin muss grösser als Stellenantritt sein.";
+  }
+  return true;
 });
 
 const currentJobPosting = computed(() => store.getters["currentJobPosting"]);
 const jobPostingData = computed(() => jobPostingStep1FormMapper(currentJobPosting.value));
-const jobToDateOpenEnd = computed(() => veeForm.values.jobToDateOpenEnd === "true");
+const jobToDateOpenEnd = computed(() => veeForm.values.jobToDateOpenEnd);
 const hasJobPostings = computed(() => !!store.getters["jobPostings"].length);
 const jobTypes = computed(() => store.getters["jobTypes"]);
 const jobPostingLoading = computed(() => store.getters["jobPostingLoading"]);
@@ -316,15 +322,15 @@ const branches = computed(() => {
   });
 });
 
-const validYears = computed(() => {
+const validYears = (() => {
   const currentYear = new Date().getFullYear();
   const maxYear = currentYear + 10;
-  const validYears = [];
+  const years = [];
   for (let i = currentYear; maxYear > i; i++) {
-    validYears.push(i);
+    years.push(i);
   }
-  return validYears;
-});
+  return years;
+})();
 
 onMounted(async () => {
   await Promise.all([
@@ -336,6 +342,8 @@ onMounted(async () => {
   veeForm.resetForm({
     values: jobPostingData.value,
   });
+  jobPeriodByAgreement.value =
+    !jobPostingData.value.jobFromDateMonth && !jobPostingData.value.jobFromDateYear;
   calculateMargins();
 });
 
@@ -355,6 +363,40 @@ const onChangeBranch = (branch: Branch) => {
     veeForm.values.branches = [...veeForm.values.branches, branch.id];
   }
 };
+
+const onSubmit = veeForm.handleSubmit(async (formData) => {
+  try {
+    if (jobPeriodByAgreement.value) {
+      formData.jobFromDateMonth = "";
+      formData.jobFromDateYear = "";
+    }
+    await store.dispatch(
+      ActionTypes.SAVE_JOBPOSTING_STEP1,
+      jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
+    );
+    const jobPostingState = store.getters["jobPostingState"];
+    if (jobPostingState.success) {
+      emit("submitComplete");
+    } else if (jobPostingState.errors) {
+      Object.entries(jobPostingState.errors).forEach(([key, value]) => {
+        if (!(key in veeForm.values)) {
+          console.error(value);
+        }
+        veeForm.setErrors({ [key]: value.join() });
+      });
+      if (jobPostingState.errors?.jobFromDate) {
+        veeForm.setErrors({ jobFromDateMonth: `Fehler: ${jobPostingState.errors.jobFromDate}` });
+      }
+      if (jobPostingState.errors?.jobToDate) {
+        veeForm.setErrors({
+          jobToDateMonth: `Fehler: ${jobPostingState.errors.jobToDate}`,
+        });
+      }
+    }
+  } catch (e) {
+    console.log(e); // todo
+  }
+});
 
 watch(
   () => veeForm.meta.value.dirty,
