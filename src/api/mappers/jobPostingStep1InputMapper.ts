@@ -15,15 +15,15 @@ export function jobPostingStep1InputMapper(
     jobType: {
       id: jobPostingForm.jobTypeId,
     },
-    jobPeriodByAgreement: jobPostingForm.jobPeriodByAgreement ? true : false,
     branches:
       jobPostingForm.branches?.map((branchId) => {
         return { id: branchId };
       }) || [],
     // TODO: T4054
-    jobFromDate: !jobPostingForm.jobPeriodByAgreement
-      ? `${jobPostingForm.jobFromDateMonth}.${jobPostingForm.jobFromDateYear}`
-      : null,
+    jobFromDate:
+      jobPostingForm.jobFromDateMonth && jobPostingForm.jobFromDateYear
+        ? `${jobPostingForm.jobFromDateMonth}.${jobPostingForm.jobFromDateYear}`
+        : null,
     jobToDate: jobPostingForm.jobToDateOpenEnd
       ? `${jobPostingForm.jobToDateMonth}.${jobPostingForm.jobToDateYear}`
       : null,

@@ -660,7 +660,6 @@ type JobPosting = Node & {
   /** The ID of the object */
   id: Scalars["ID"];
   jobFromDate?: Maybe<Scalars["Date"]>;
-  jobPeriodByAgreement: Scalars["Boolean"];
   jobRequirements: JobRequirementConnection;
   jobToDate?: Maybe<Scalars["Date"]>;
   jobType: JobType;
@@ -709,7 +708,6 @@ type JobPostingBaseDataInput = {
   description?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["String"]>;
   jobFromDate?: InputMaybe<Scalars["String"]>;
-  jobPeriodByAgreement: Scalars["Boolean"];
   jobToDate?: InputMaybe<Scalars["String"]>;
   jobType: JobTypeInput;
   /** Title */
@@ -3172,7 +3170,6 @@ export const JobPostingJobPosting = gql`
     title
     displayTitle
     description
-    jobPeriodByAgreement
     jobFromDate
     jobToDate
     datePublished

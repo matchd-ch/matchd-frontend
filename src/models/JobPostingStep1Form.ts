@@ -5,7 +5,6 @@ export interface JobPostingStep1Form {
   branches: string[];
   workloadFrom: string;
   workloadTo: string;
-  jobPeriodByAgreement: boolean;
   jobFromDateMonth: string;
   jobFromDateYear: string;
   jobToDateOpenEnd: boolean;

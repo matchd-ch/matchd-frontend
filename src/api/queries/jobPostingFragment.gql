@@ -3,7 +3,6 @@ fragment jobPostingJobPosting on JobPosting {
   title
   displayTitle
   description
-  jobPeriodByAgreement
   jobFromDate
   jobToDate
   datePublished
