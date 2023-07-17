@@ -13,7 +13,7 @@
       </div>
       <PostingSection
         :edit-step="getStepName(1)"
-        title="Challenge Beschreibung"
+        :title="`${challengeMentoringLabel} Beschreibung`"
         :slug="challenge.data.slug"
       >
         <h1 class="text-heading-sm">{{ challenge.data.displayTitle }}</h1>
@@ -21,7 +21,7 @@
       </PostingSection>
       <!-- Details zur Challenge -->
       <PostingSection
-        title="Details zur Challenge"
+        :title="`Details ${isMentoring ? 'zum' : 'zur'} ${challengeMentoringLabel}`"
         :edit-step="getStepName(1)"
         :slug="challenge.data.slug"
       >
@@ -228,6 +228,8 @@ const user = computed(() => store.getters["user"]);
 const isStudent = computed(() => store.getters["isStudent"]);
 const matchLoading = computed(() => store.getters["matchLoading"]);
 const isLoggedIn = computed(() => store.getters["isLoggedIn"]);
+const isMentoring = computed(() => challenge.value.data?.challengeType.name === "Mentoring");
+const challengeMentoringLabel = computed(() => (isMentoring.value ? "Mentoring" : "Challenge"));
 
 const getStepName = (step: number) => {
   if (!isLoggedIn.value) {
