@@ -21,6 +21,7 @@
           Mentorings sowie den aktuellen Stand deiner Matches. Damit du keinen Match verpasst,
           behalten wir dich auch per E-Mail up-to-date.
         </p>
+        <ProgressIndicator />
       </div>
     </div>
     <div class="flex flex-col min-h-full">
@@ -161,6 +162,7 @@ import type { Dashboard } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import ProgressIndicator from "@/components/ProgressIndicator.vue";
 import PostingDetailLink from "@/components/dashboard/PostingDetailLink.vue";
 import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import { useStore } from "@/store";
