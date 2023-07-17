@@ -20,6 +20,7 @@
           sowie den aktuellen Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir
           Sie jeweils auch per E-Mail.
         </p>
+        <ProgressIndicator />
       </div>
     </div>
     <div class="flex flex-col min-h-full">
@@ -147,6 +148,7 @@ import type { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDash
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import ProgressIndicator from "../ProgressIndicator.vue";
 import DeletionInfoModal from "./DeletionInfoModal.vue";
 
 defineProps<{ dashboard: ICompanyDashboard }>();
