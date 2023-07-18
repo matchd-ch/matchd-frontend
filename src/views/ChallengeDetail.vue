@@ -13,7 +13,7 @@
       </div>
       <PostingSection
         :edit-step="getStepName(1)"
-        title="Challenge Beschreibung"
+        :title="`${challengeMentoringLabel} Beschreibung`"
         :slug="challenge.data.slug"
       >
         <h1 class="text-heading-sm">{{ challenge.data.displayTitle }}</h1>
@@ -21,7 +21,7 @@
       </PostingSection>
       <!-- Details zur Challenge -->
       <PostingSection
-        title="Details zur Challenge"
+        :title="`Details ${isMentoring ? 'zum' : 'zur'} ${challengeMentoringLabel}`"
         :edit-step="getStepName(1)"
         :slug="challenge.data.slug"
       >
@@ -162,7 +162,9 @@
             <template v-if="isStudent">Du hast dein Interesse gezeigt!</template>
             <template v-else>Sie haben Ihr Interesse gezeigt!</template>
           </template>
-          <MatchdButton v-else @click="onClickMatch">Mit dieser Challenge matchen</MatchdButton>
+          <MatchdButton v-else @click="onClickMatch">
+            {{ isMentoring ? "Mit diesem Mentoring matchen" : "Mit dieser Challenge matchen" }}
+          </MatchdButton>
         </MatchingBar>
         <MatchingBar v-else-if="!isLoggedIn" @click="router.push({ name: 'Triage' })">
           <MatchdButton>Neugierig?</MatchdButton>
@@ -205,6 +207,7 @@ import ChallengeStudentMatchModal from "@/components/modals/ChallengeStudentMatc
 import PostingSection from "@/components/PostingSection.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import useChallengeMentoring from "@/composables/useChallengeMentoring";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
@@ -228,6 +231,7 @@ const user = computed(() => store.getters["user"]);
 const isStudent = computed(() => store.getters["isStudent"]);
 const matchLoading = computed(() => store.getters["matchLoading"]);
 const isLoggedIn = computed(() => store.getters["isLoggedIn"]);
+const { challengeMentoringLabel, isMentoring } = useChallengeMentoring();
 
 const getStepName = (step: number) => {
   if (!isLoggedIn.value) {
