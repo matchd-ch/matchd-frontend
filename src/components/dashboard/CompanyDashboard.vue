@@ -16,18 +16,18 @@
           Willkommen zurück bei Matchd! Wir wünschen viel Erfolg bei der Talentsuche
         </h2>
         <p class="mt-4">
-          Auf dieser Seite finden Sie Ihre ausgeschriebenen Challenges und Stellen sowie den
-          aktuellen Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir Sie
-          jeweils auch per E-Mail.
+          Auf dieser Seite finden Sie Ihre ausgeschriebenen Challenges | Mentorings und Stellen
+          sowie den aktuellen Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir
+          Sie jeweils auch per E-Mail.
         </p>
       </div>
     </div>
     <div class="flex flex-col min-h-full">
       <profile-section title="Ihre Ausschreibungen" :pink="true">
-        <h2 class="text-base font-medium text-primary-1 mb-4">Challenges</h2>
+        <h2 class="text-base font-medium text-primary-1 mb-4">Challenges | Mentorings</h2>
         <p v-if="dashboard?.challenges?.length === 0">
-          Momentan haben Sie noch keine Challenges ausgeschrieben. Sobald Sie ein Challenge
-          ausschreiben, kann die Talentsuche beginnen.
+          Momentan haben Sie noch keine Challenges | Mentorings ausgeschrieben. Sobald Sie ein/e
+          Challenge | Mentoring ausschreiben, kann die Talentsuche beginnen.
         </p>
         <ul v-if="dashboard?.challenges?.length">
           <li
@@ -43,7 +43,7 @@
           :to="{ name: 'ChallengeCreate' }"
           tag="router-link"
         >
-          Neue Challenge ausschreiben
+          Challenge | Mentoring ausschreiben
         </matchd-button>
         <h2 class="text-base font-medium text-primary-1 mt-12 mb-4">Stellen</h2>
         <p v-if="dashboard?.jobPostings?.length === 0">
@@ -109,7 +109,7 @@
         :pink="true"
       >
         <template v-if="dashboard?.uniqueChallengeMatchingsWithStudents?.length">
-          <h2 class="text-base font-medium text-primary-1 mb-4">Challenges</h2>
+          <h2 class="text-base font-medium text-primary-1 mb-4">Challenges | Mentorings</h2>
           <CompanyMatchGroup :matches="dashboard?.uniqueChallengeMatchingsWithStudents" />
         </template>
         <template v-if="dashboard?.uniqueJobPostingMatchings?.length">
@@ -121,14 +121,14 @@
     <DeletionInfoModal v-model:showModal="showDeletionInfoModal">
       <template #title>{{
         "challengeDeleted" in route.query
-          ? "Challenge gelöscht"
+          ? "Challenge | Mentoring gelöscht"
           : "jobPostingDeleted" in route.query
           ? "Stelle gelöscht"
           : ""
       }}</template>
       {{
         "challengeDeleted" in route.query
-          ? "Die Challenge wurde erfolgreich gelöscht."
+          ? "Die Challenge | Mentoring wurde erfolgreich gelöscht."
           : "jobPostingDeleted" in route.query
           ? "Die Stelle wurde erfolgreich gelöscht."
           : ""
