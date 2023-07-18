@@ -2,8 +2,9 @@
   <MatchingModal v-if="user">
     <h2 class="text-heading-sm mb-3 px-8">Hey {{ user.firstName }}</h2>
     <p class="mb-3 px-8">
-      Du hast im Matchd-Pool eine spannende Challenge gefunden – Yaay! Jetzt brauchen wir nur noch
-      dein Okay und
+      Du hast im Matchd-Pool
+      {{ isMentoring ? "ein spannendes Mentoring" : "eine spannende Challenge" }} gefunden – Yaay!
+      Jetzt brauchen wir nur noch dein Okay und
       <strong>{{ challenge.employee?.firstName }} {{ challenge.employee?.lastName }}</strong>
       von <strong>{{ challenge.company?.name }}</strong> erhält den Link zu deinem Matchd-Profil.
     </p>
@@ -45,6 +46,7 @@ import type { MeQuery } from "@/api/queries/me.generated";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
 import MatchingModal from "@/components/MatchingModal.vue";
+import useChallengeMentoring from "@/composables/useChallengeMentoring";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
 import { ref } from "vue";
 
@@ -65,4 +67,5 @@ const emits = defineEmits<{
   (event: "clickCancel"): void;
 }>();
 const permissionGranted = ref(false);
+const { isMentoring } = useChallengeMentoring();
 </script>

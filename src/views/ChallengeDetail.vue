@@ -162,7 +162,9 @@
             <template v-if="isStudent">Du hast dein Interesse gezeigt!</template>
             <template v-else>Sie haben Ihr Interesse gezeigt!</template>
           </template>
-          <MatchdButton v-else @click="onClickMatch">Mit dieser Challenge matchen</MatchdButton>
+          <MatchdButton v-else @click="onClickMatch">
+            {{ isMentoring ? "Mit diesem Mentoring matchen" : "Mit dieser Challenge matchen" }}
+          </MatchdButton>
         </MatchingBar>
         <MatchingBar v-else-if="!isLoggedIn" @click="router.push({ name: 'Triage' })">
           <MatchdButton>Neugierig?</MatchdButton>
@@ -205,6 +207,7 @@ import ChallengeStudentMatchModal from "@/components/modals/ChallengeStudentMatc
 import PostingSection from "@/components/PostingSection.vue";
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
+import useChallengeMentoring from "@/composables/useChallengeMentoring";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { nl2br } from "@/helpers/nl2br";
@@ -228,8 +231,7 @@ const user = computed(() => store.getters["user"]);
 const isStudent = computed(() => store.getters["isStudent"]);
 const matchLoading = computed(() => store.getters["matchLoading"]);
 const isLoggedIn = computed(() => store.getters["isLoggedIn"]);
-const isMentoring = computed(() => challenge.value.data?.challengeType.name === "Mentoring");
-const challengeMentoringLabel = computed(() => (isMentoring.value ? "Mentoring" : "Challenge"));
+const { challengeMentoringLabel, isMentoring } = useChallengeMentoring();
 
 const getStepName = (step: number) => {
   if (!isLoggedIn.value) {
