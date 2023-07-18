@@ -3,7 +3,7 @@
     <div class="grow md:flex-row justify-center pb-4 md:pb-0 md:flex md:justify-center">
       <NavLink :to="{ name: Routes.DASHBOARD }">Dashboard</NavLink>
       <NavLink :to="{ name: 'JobPostingSearch' }">Stelle finden</NavLink>
-      <NavLink :to="{ name: Routes.CHALLENGE_SEARCH }">Challenge finden</NavLink>
+      <NavLink :to="{ name: Routes.CHALLENGE_SEARCH }">Challenges | Mentorings</NavLink>
       <NavLink :to="{ name: 'CompanyList' }">Unternehmen entdecken</NavLink>
     </div>
     <NavDropdown :text="user?.firstName">

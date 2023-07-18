@@ -16,13 +16,13 @@
     </p>
     <!-- Art der Challenge Field -->
     <SelectPillGroup :errors="veeForm.errors.value.challengeTypeId" class="mb-10">
-      <template #label>Art der Challenge*</template>
+      <template #label>Art*</template>
       <template #field>
         <Field
           id="challengeTypeId"
           name="challengeTypeId"
           as="input"
-          label="Art der Challenge"
+          label="Art"
           type="hidden"
           rules="required"
         />
@@ -40,7 +40,7 @@
     </SelectPillGroup>
     <!-- Bezeichnung Field -->
     <MatchdField id="title" class="mb-10" :errors="veeForm.errors.value.title">
-      <template #label>Challengetitel*</template>
+      <template #label>Titel*</template>
       <Field
         id="title"
         name="title"
