@@ -1,7 +1,6 @@
 <template>
   <LoadingBox class="loading-box" :is-loading="loadingState.isLoading.value">
     <div>
-      123
       <template v-if="user">
         <StudentDashboard
           v-if="isStudent && studentDashboard"
@@ -69,6 +68,9 @@ onMounted(async () => {
       key: isStudent.value
         ? AttachmentKey.StudentAvatarFallback
         : AttachmentKey.CompanyAvatarFallback,
+    }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyDocuments,
     }),
   ]);
   calculateMargins();
