@@ -7,7 +7,7 @@
         :to="{ params: { step: profile.step } }"
         :active="route.params.step === profile.step"
       >
-        {{ profile.label }}
+        <ProgressIndicatorIcon :label="profile.label" :progress="profile.progress" />
       </ProfileNavigationItem>
     </ProfileNavigation>
     <ProfileNavigation v-else-if="isCompany">
@@ -17,7 +17,7 @@
         :to="{ params: { step: profile.step } }"
         :active="route.params.step === profile.step"
       >
-        {{ profile.label }}
+        <ProgressIndicatorIcon :label="profile.label" :progress="profile.progress" />
       </ProfileNavigationItem>
     </ProfileNavigation>
     <ProfileNavigation v-else-if="isUniversity">
@@ -27,7 +27,7 @@
         :to="{ params: { step: profile.step } }"
         :active="route.params.step === profile.step"
       >
-        {{ profile.label }}
+        <ProgressIndicatorIcon :label="profile.label" :progress="profile.progress" />
       </ProfileNavigationItem>
     </ProfileNavigation>
   </teleport>
@@ -48,6 +48,8 @@
 <script setup lang="ts">
 import ProfileNavigation from "@/components/ProfileNavigation.vue";
 import ProfileNavigationItem from "@/components/ProfileNavigationItem.vue";
+import ProgressIndicatorIcon from "@/components/ProgressIndicatorIcon.vue";
+import useProgressIndicator from "@/helpers/useProgressIndicator";
 import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { MutationTypes } from "@/store/modules/profile/mutation-types";
@@ -100,6 +102,7 @@ interface ProfileItem {
     | typeof UniversitySettingsAccount;
   label: string;
   step: string;
+  progress?: number;
   /** Is set to true it disables the isDirty confirmation dialog before */
   disableIsDirtyCheck?: boolean;
 }
@@ -110,27 +113,33 @@ interface Profiles {
   university: ProfileItem[];
 }
 
-const profiles: Profiles = {
+const { companyProgress, studentProgress } = useProgressIndicator();
+
+const profiles = computed<Profiles>(() => ({
   company: [
     {
       component: CompanyStep1,
       step: "schritt1",
       label: "Kontaktdaten",
+      progress: companyProgress.value?.sections.contactData,
     },
     {
       component: CompanyStep2,
       step: "schritt2",
       label: "Kurzsteckbrief",
+      progress: companyProgress.value?.sections.shortProfile,
     },
     {
       component: CompanyStep3,
       step: "schritt3",
       label: "Tätigkeitsbereich & Benefits",
+      progress: companyProgress.value?.sections.activitiesAndBenefits,
     },
     {
       component: CompanyStep4,
       step: "schritt4",
       label: "Set-up Talentsuche",
+      progress: companyProgress.value?.sections.setupTalentSearch,
     },
     {
       component: CompanySettingsAccount,
@@ -144,26 +153,31 @@ const profiles: Profiles = {
       component: StudentStep1,
       step: "schritt1",
       label: "Persönliche Daten",
+      progress: studentProgress.value?.sections.personalData,
     },
     {
       component: StudentStep2,
       step: "schritt2",
       label: "Ich suche",
+      progress: studentProgress.value?.sections.searchingFor,
     },
     {
       component: StudentStep3,
       step: "schritt3",
       label: "Über mich",
+      progress: studentProgress.value?.sections.aboutMe,
     },
     {
       component: StudentStep4,
       step: "schritt4",
       label: "Skills & Talente",
+      progress: studentProgress.value?.sections.skillsAndTalents,
     },
     {
       component: StudentStep5,
       step: "schritt5",
       label: "Nickname & Foto",
+      progress: studentProgress.value?.sections.nickname,
     },
     {
       component: StudentStep6,
@@ -182,21 +196,25 @@ const profiles: Profiles = {
       component: UniversityStep1,
       step: "schritt1",
       label: "Kontaktdaten",
+      progress: companyProgress.value?.sections.contactData,
     },
     {
       component: UniversityStep2,
       step: "schritt2",
       label: "Kurzsteckbrief",
+      progress: companyProgress.value?.sections.shortProfile,
     },
     {
       component: UniversityStep3,
       step: "schritt3",
       label: "Tätigkeitsbereich & Benefits",
+      progress: companyProgress.value?.sections.activitiesAndBenefits,
     },
     {
       component: UniversityStep4,
       step: "schritt4",
       label: "Set-up Talentsuche",
+      progress: companyProgress.value?.sections.setupTalentSearch,
     },
     {
       component: UniversitySettingsAccount,
@@ -205,7 +223,7 @@ const profiles: Profiles = {
       disableIsDirtyCheck: true,
     },
   ],
-};
+}));
 
 const store = useStore();
 const dirty = ref(false);
@@ -227,11 +245,11 @@ const isUniversity = computed(() => {
 
 const currentProfile = computed(() => {
   if (isUniversity.value) {
-    return profiles.university.find((p) => p.step === route.params.step);
+    return profiles.value.university.find((p) => p.step === route.params.step);
   } else if (isCompany.value) {
-    return profiles.company.find((p) => p.step === route.params.step);
+    return profiles.value.company.find((p) => p.step === route.params.step);
   } else {
-    return profiles.student.find((p) => p.step === route.params.step);
+    return profiles.value.student.find((p) => p.step === route.params.step);
   }
 });
 

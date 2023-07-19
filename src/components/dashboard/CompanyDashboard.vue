@@ -12,15 +12,29 @@
         />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
-        <h2 class="flex-1 xl:mb-0 text-display-xs">
+        <h2 class="flex-1 mb-4 text-display-xs">
           Willkommen zurück bei Matchd! Wir wünschen viel Erfolg bei der Talentsuche
         </h2>
-        <p class="mt-4">
+        <p>
           Auf dieser Seite finden Sie Ihre ausgeschriebenen Challenges | Mentorings und Stellen
           sowie den aktuellen Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir
           Sie jeweils auch per E-Mail.
         </p>
-        <ProgressIndicator />
+        <template v-if="companyProgress && companyProgress.global < 1">
+          <h2 class="flex-1 mt-8 mb-4 text-display-xs">
+            Ihr Profil ist zu {{ formatProgress(companyProgress.global) }} vollständig.
+          </h2>
+          <p class="mb-8">
+            Damit Talents Sie besser finden und sich mit Ihnen verbinden können, sollten Sie zuerst
+            Ihr Profil vervollständigen.
+          </p>
+          <MatchdButton
+            tag="router-link"
+            :to="{ name: 'ProfileEdit', params: { step: 'schritt1' } }"
+          >
+            Profil vervollständigen
+          </MatchdButton>
+        </template>
       </div>
     </div>
     <div class="flex flex-col min-h-full">
@@ -144,11 +158,11 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
+import useProgressIndicator from "@/helpers/useProgressIndicator";
 import type { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import ProgressIndicator from "../ProgressIndicator.vue";
 import DeletionInfoModal from "./DeletionInfoModal.vue";
 
 defineProps<{ dashboard: ICompanyDashboard }>();
@@ -156,6 +170,7 @@ const store = useStore();
 const route = useRoute();
 const user = computed(() => store.getters["user"]);
 const showDeletionInfoModal = ref(false);
+const { companyProgress, formatProgress } = useProgressIndicator();
 
 const avatar = computed(
   () =>
