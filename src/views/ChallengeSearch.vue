@@ -52,7 +52,7 @@
             </SelectPillGroup>
 
             <SelectPillGroup v-if="challengeTypes.length" class="mb-10">
-              <template #label>Challengeart</template>
+              <template #label>Art</template>
               <SelectPill
                 v-for="option in challengeTypes"
                 :key="option.id"

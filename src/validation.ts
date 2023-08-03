@@ -1,10 +1,10 @@
 import { isValidUrl } from "@/helpers/isValidUrl";
-import { DateTime } from "luxon";
-import { configure, defineRule } from "vee-validate";
 import { localize, setLocale } from "@vee-validate/i18n";
 import de from "@vee-validate/i18n/dist/locale/de.json";
+import { DateTime } from "luxon";
+import { configure, defineRule } from "vee-validate";
 
-import { required, email, regex } from "@vee-validate/rules";
+import { email, regex, required } from "@vee-validate/rules";
 
 defineRule("required", required);
 defineRule("email", email);
@@ -60,7 +60,10 @@ defineRule("requiredIfNotEmpty", (value: string, fields, ctx) => {
 
 defineRule("birthday", (value: string, fields, ctx) => {
   const [day, month, year] = fields as string[];
-
+  console.log(ctx.form[day], ctx.form[month], ctx.form[year]);
+  if (!ctx.form[day] && !ctx.form[month] && !ctx.form[year]) {
+    return true;
+  }
   if (ctx.form[day] && ctx.form[month] && ctx.form[year]) {
     const date = DateTime.fromObject({
       month: ctx.form[month] as number,
@@ -73,7 +76,6 @@ defineRule("birthday", (value: string, fields, ctx) => {
       return "Geburtstag muss ein gültiges Datum sein";
     }
   }
-
   return "Geburtstag muss aus Tag, Monat und Jahr bestehen";
 });
 

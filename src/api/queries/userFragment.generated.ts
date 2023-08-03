@@ -27,7 +27,6 @@ export type MeUserFragment = {
     fieldOfStudy?: string | null;
     graduation?: string | null;
     distinction?: string | null;
-    profileStep: number;
     jobFromDate?: string | null;
     jobToDate?: string | null;
     isMatchable: boolean;
@@ -410,7 +409,6 @@ export const MeUserFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "fieldOfStudy" } },
           { kind: "Field", name: { kind: "Name", value: "graduation" } },
           { kind: "Field", name: { kind: "Name", value: "distinction" } },
-          { kind: "Field", name: { kind: "Name", value: "profileStep" } },
           { kind: "Field", name: { kind: "Name", value: "jobFromDate" } },
           { kind: "Field", name: { kind: "Name", value: "jobToDate" } },
           { kind: "Field", name: { kind: "Name", value: "isMatchable" } },

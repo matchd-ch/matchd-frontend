@@ -79,15 +79,14 @@
 import { parseStepName } from "@/helpers/parseStepName";
 import { ParamStrings } from "@/router/paramStrings";
 import {
-  CompanyFinish as CompanyStep5,
   CompanySettingsAccount,
   CompanyStep1,
   CompanyStep2,
   CompanyStep3,
   CompanyStep4,
+  CompanyFinish as CompanyStep5,
 } from "@/views/profile/company";
 import {
-  StudentFinish as StudentStep7,
   StudentSettingsAccount,
   StudentStep1,
   StudentStep2,
@@ -95,16 +94,17 @@ import {
   StudentStep4,
   StudentStep5,
   StudentStep6,
+  StudentFinish as StudentStep7,
 } from "@/views/profile/student";
 import {
-  UniversityFinish as UniversityStep5,
   UniversitySettingsAccount,
   UniversityStep1,
   UniversityStep2,
   UniversityStep3,
   UniversityStep4,
+  UniversityFinish as UniversityStep5,
 } from "@/views/profile/university";
-import { Options, setup, Vue } from "vue-class-component";
+import { Options, Vue, setup } from "vue-class-component";
 import { useMeta } from "vue-meta";
 import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 

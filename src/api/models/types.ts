@@ -62,6 +62,7 @@ export type AttachmentEdge = {
   node?: Maybe<Attachment>;
 };
 
+/** An enumeration. */
 export enum AttachmentKey {
   ChallengeDocuments = "CHALLENGE_DOCUMENTS",
   ChallengeFallback = "CHALLENGE_FALLBACK",
@@ -287,6 +288,7 @@ export type ChallengeSpecificDataPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+/** An enumeration. */
 export enum ChallengeState {
   Draft = "DRAFT",
   Public = "PUBLIC",
@@ -508,6 +510,7 @@ export type Dashboard = {
   unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
 };
 
+/** An enumeration. */
 export enum DateMode {
   DateFrom = "DATE_FROM",
   DateRange = "DATE_RANGE",
@@ -797,6 +800,7 @@ export type JobPostingRequirementsPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+/** An enumeration. */
 export enum JobPostingState {
   Draft = "DRAFT",
   Public = "PUBLIC",
@@ -1027,6 +1031,7 @@ export type MatchStudentPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+/** An enumeration. */
 export enum MatchType {
   Challenge = "CHALLENGE",
   Company = "COMPANY",
@@ -1456,12 +1461,14 @@ export type PasswordReset = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+/** An enumeration. */
 export enum ProfileState {
   Anonymous = "ANONYMOUS",
   Incomplete = "INCOMPLETE",
   Public = "PUBLIC",
 }
 
+/** An enumeration. */
 export enum ProfileType {
   CollegeStudent = "COLLEGE_STUDENT",
   Company = "COMPANY",
@@ -1861,7 +1868,9 @@ export type Student = Node & {
   mobile?: Maybe<Scalars["String"]>;
   nickname?: Maybe<Scalars["String"]>;
   onlineChallenges?: Maybe<Array<OnlineChallenge>>;
-  profileStep: Scalars["Int"];
+  profileCompletedPercentage: Scalars["Float"];
+  profileMissingRelevantFields?: Maybe<Array<Scalars["String"]>>;
+  profileRelevantFields?: Maybe<Array<Scalars["String"]>>;
   schoolName?: Maybe<Scalars["String"]>;
   skills: SkillConnection;
   slug: Scalars["String"];
