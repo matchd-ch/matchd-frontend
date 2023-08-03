@@ -21,7 +21,7 @@
         </p>
         <template v-if="studentProgress && studentProgress.global < 1">
           <h2 class="flex-1 mt-8 mb-4 text-display-xs">
-            Dein Profil ist zu {{ formatProgress(studentProgress.global) }}% vollständig.
+            Dein Profil ist zu {{ formatProgress(studentProgress.global) }} vollständig.
           </h2>
           <p class="mb-8">
             Damit dich Companies & Unis besser finden können, solltest du zuerst dein Profil

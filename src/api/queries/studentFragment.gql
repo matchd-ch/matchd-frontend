@@ -15,7 +15,6 @@ fragment studentStudent on Student {
   fieldOfStudy
   graduation
   distinction
-  profileStep
   jobFromDate
   jobToDate
   isMatchable
