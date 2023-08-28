@@ -107,9 +107,31 @@
         </div>
       </ChallengeSearchFilters>
     </teleport>
-    <LoadingBox :is-loading="isLoading">
+
+    <div
+      v-if="
+        companyOrUniversityProgress && companyOrUniversityProgress.sections.setupTalentSearch < 1
+      "
+      class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5"
+    >
+      <div
+        class="col-start-1 lg:col-start-6 col-span-full lg:col-span-6 px-4 lg:px-5 py-12 text-center"
+      >
+        <h2 class="flex-1 mt-8 mb-4 text-display-xs">
+          Ihr Profil ist zu {{ formatProgress(companyOrUniversityProgress.global) }} vollständig.
+        </h2>
+        <p class="mb-8">
+          Damit Talents Sie besser finden und sich mit Ihnen verbinden können, sollten Sie zuerst
+          Ihr Profil vervollständigen.
+        </p>
+        <MatchdButton tag="router-link" :to="{ name: 'ProfileEdit', params: { step: 'schritt1' } }">
+          Profil vervollständigen
+        </MatchdButton>
+      </div>
+    </div>
+    <LoadingBox v-else :is-loading="isLoading">
       <SearchResultChallengeGrid
-        v-if="challenges.length"
+        v-if="challenges.length > 0"
         class="search-result-challenge-grid"
         :challenges="challenges"
         result-type="student"
@@ -140,6 +162,7 @@ import SearchResultChallengeGrid from "@/components/SearchResultChallengeGrid.vu
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
+import useProgressIndicator from "@/helpers/useProgressIndicator";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Field } from "vee-validate";
@@ -183,9 +206,16 @@ const entities = ref<{ [key in Entities]: { name: string; checked: boolean } }>(
   },
 });
 
+const { companyProgress, universityProgress, formatProgress } = useProgressIndicator();
 const challenges = computed(() => store.getters["challenges"]);
-const isStudent = computed(() => store.getters["isStudent"]);
 const isLoading = computed(() => store.getters["challengesLoading"]);
+const isStudent = computed(() => store.getters["isStudent"]);
+const isCompany = computed(() => store.getters["isCompany"]);
+const isUniversity = computed(() => store.getters["isUniversity"]);
+
+const companyOrUniversityProgress = computed(() =>
+  isCompany.value ? companyProgress.value : isUniversity.value ? universityProgress.value : null
+);
 
 const availableKeywords = computed(() => {
   return keywords.value.filter((keyword) => {

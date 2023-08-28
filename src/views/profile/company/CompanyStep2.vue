@@ -1,10 +1,10 @@
 <template>
-  <form v-if="profileData && companyAvatarUploadConfigurations" @submit="veeForm.onSubmit">
+  <form v-if="profileData && companyAvatarUploadConfigurations" @submit="onSubmit">
     <FormSaveError v-if="showError" />
     <!-- Website Field -->
-    <MatchdField id="website" class="mb-10" :errors="veeForm.errors.website">
-      <template #label>Website*</template>
-      <Field id="website" name="website" as="input" label="Website" rules="required|url" />
+    <MatchdField id="website" class="mb-10" :errors="veeForm.errors.value.website">
+      <template #label>Website</template>
+      <Field id="website" name="website" as="input" label="Website" rules="url" />
     </MatchdField>
     <!-- Description Field -->
     <MatchdField id="description" class="mb-10">
@@ -41,7 +41,7 @@
       >
     </MatchdFileBlock>
     <!-- Products & Services Field -->
-    <MatchdField id="services" class="mb-10" :errors="veeForm.errors.services">
+    <MatchdField id="services" class="mb-10" :errors="veeForm.errors.value.services">
       <template #label>Produkte, Services oder Dienstleistungen Ihres Unternehmens</template>
       <Field
         id="services"
@@ -54,17 +54,21 @@
       <template #info>Maximal 1000 Zeichen</template>
     </MatchdField>
     <!-- ITrockt Field -->
-    <MatchdToggle id="memberItStGallen" class="mb-10" :errors="veeForm.errors.memberItStGallen">
+    <MatchdToggle
+      id="memberItStGallen"
+      class="mb-10"
+      :errors="veeForm.errors.value.memberItStGallen"
+    >
       <template #label>Ihr Unternehmen ist Mitglied im Verein IT St.Gallen «IT rockt!»</template>
       <input
         id="memberItStGallen"
         name="memberItStGallen"
         type="checkbox"
         value="true"
-        :checked="veeForm.memberItStGallen"
+        :checked="veeForm.values.memberItStGallen"
         @change="onToggleMemberItStGallen(($event.target as HTMLInputElement).checked)"
       />
-      <template v-if="veeForm.memberItStGallen" #value>
+      <template v-if="veeForm.values.memberItStGallen" #value>
         <span class="text-pink-1">Ja</span>
       </template>
       <template v-else #value>Nein</template>
@@ -77,7 +81,7 @@
             type="button"
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
+            @click="emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -86,7 +90,7 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
           >
             Speichern
           </MatchdButton>
@@ -94,7 +98,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton
@@ -102,7 +106,7 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
       >
         Speichern und weiter
       </MatchdButton>
@@ -110,7 +114,7 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { companyProfileStep2FormMapper } from "@/api/mappers/companyProfileStep2FormMapper";
 import { companyProfileStep2InputMapper } from "@/api/mappers/companyProfileStep2InputMapper";
 import type { Attachment } from "@/api/models/types";
@@ -121,141 +125,97 @@ import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
-import MatchdSelect from "@/components/MatchdSelect.vue";
 import MatchdToggle from "@/components/MatchdToggle.vue";
-import SelectPill from "@/components/SelectPill.vue";
-import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import type { CompanyProfileStep2Form } from "@/models/CompanyProfileStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { ErrorMessage, Field, useField, useForm } from "vee-validate";
-import { Options, Vue, prop, setup } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Field, useForm } from "vee-validate";
+import { computed, onMounted, watch } from "vue";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
+withDefaults(defineProps<{ edit?: boolean }>(), { edit: false });
 
-@Options({
-  components: {
-    Field,
-    ErrorMessage,
-    FormSaveError,
-    MatchdButton,
-    MatchdToggle,
-    MatchdField,
-    MatchdSelect,
-    MatchdFileBlock,
-    MatchdFileView,
-    MatchdFileUpload,
-    SelectPillGroup,
-    SelectPill,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel", "clickBack"],
-})
-export default class CompanyStep2Form extends Vue.with(Props) {
-  form = {} as CompanyProfileStep2Form;
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<CompanyProfileStep2Form>();
-    const { value: memberItStGallen } = useField<boolean>("memberItStGallen");
+const emit = defineEmits<{
+  (event: "submitComplete", onboardingState: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+  (event: "clickBack"): void;
+}>();
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.COMPANY_ONBOARDING_STEP2,
-          companyProfileStep2InputMapper(formData)
-        );
-        const onboardingState = store.getters["onboardingState"];
-        this.$emit("submitComplete", onboardingState.success);
-      } catch (e) {
-        console.log(e); // todo
-      }
-    });
+const store = useStore();
 
-    return {
-      ...form,
-      memberItStGallen,
-      onSubmit,
-    };
+const veeForm = useForm<CompanyProfileStep2Form>();
+
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    await store.dispatch(
+      ActionTypes.COMPANY_ONBOARDING_STEP2,
+      companyProfileStep2InputMapper(formData)
+    );
+    const onboardingState = store.getters["onboardingState"];
+    emit("submitComplete", onboardingState.success);
+  } catch (e) {
+    console.log(e); // todo
+  }
+});
+
+const onboardingState = computed(() => store.getters["onboardingState"]);
+const showError = computed(() => !!onboardingState.value.errors);
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const user = computed(() => store.getters["user"]);
+const companyAvatarQueue = computed(() =>
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar })
+);
+const companyAvatar = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })
+);
+const companyAvatarUploadConfigurations = computed(() =>
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar })
+);
+
+const profileData = computed(() => {
+  if (!user.value) {
+    return {} as CompanyProfileStep2Form;
+  }
+  return companyProfileStep2FormMapper(user.value);
+});
+
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
+  ]);
+  veeForm.resetForm({
+    values: profileData.value,
   });
+  calculateMargins();
+});
 
-  get showError() {
-    return !!this.onboardingState.errors;
-  }
+const onSelectCompanyAvatar = async (files: FileList) => {
+  await store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+    key: AttachmentKey.CompanyAvatar,
+    files,
+  });
+};
 
-  get onboardingLoading() {
-    return this.$store.getters["onboardingLoading"];
-  }
+const onDeleteCompanyAvatar = async (file: Attachment) => {
+  await store.dispatch(UploadActionTypes.DELETE_FILE, {
+    key: AttachmentKey.CompanyAvatar,
+    id: file.id,
+  });
+};
 
-  get onboardingState() {
-    return this.$store.getters["onboardingState"];
-  }
+const onToggleMemberItStGallen = (value: boolean) => {
+  veeForm.values.memberItStGallen = value;
+};
 
-  get currentStep() {
-    return this.$store.getters["profileStep"];
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
   }
-
-  get user() {
-    return this.$store.getters["user"];
-  }
-
-  get companyAvatarQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar });
-  }
-
-  get companyAvatar() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
-  }
-
-  get companyAvatarUploadConfigurations() {
-    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar });
-  }
-
-  get profileData() {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as CompanyProfileStep2Form;
-    }
-    return companyProfileStep2FormMapper(user);
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
-    ]);
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
-    calculateMargins();
-  }
-
-  async onSelectCompanyAvatar(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
-      key: AttachmentKey.CompanyAvatar,
-      files,
-    });
-  }
-
-  async onDeleteCompanyAvatar(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
-      key: AttachmentKey.CompanyAvatar,
-      id: file.id,
-    });
-  }
-
-  onToggleMemberItStGallen(value: boolean) {
-    this.veeForm.memberItStGallen = value;
-  }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+);
 </script>
 
 <style></style>
