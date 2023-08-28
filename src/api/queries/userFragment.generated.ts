@@ -99,7 +99,6 @@ export type MeUserFragment = {
     city: string;
     zip: string;
     street: string;
-    profileStep: number;
     state: Types.ProfileState;
     description: string;
     website: string;
@@ -207,7 +206,6 @@ export const MeUserFragmentDoc = {
                 { kind: "Field", name: { kind: "Name", value: "city" } },
                 { kind: "Field", name: { kind: "Name", value: "zip" } },
                 { kind: "Field", name: { kind: "Name", value: "street" } },
-                { kind: "Field", name: { kind: "Name", value: "profileStep" } },
                 { kind: "Field", name: { kind: "Name", value: "state" } },
                 { kind: "Field", name: { kind: "Name", value: "description" } },
                 { kind: "Field", name: { kind: "Name", value: "website" } },

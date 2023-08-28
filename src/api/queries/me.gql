@@ -26,7 +26,6 @@ query me {
       city
       zip
       street
-      profileStep
       state
       description
       website

@@ -85,7 +85,6 @@ import { universityProfileStep4InputMapper } from "@/api/mappers/universityProfi
 import type { CulturalFit, SoftSkill } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import type { SelectPillMultipleItem } from "@/components/SelectPillMultiple.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import type { CompanyProfileStep4Form } from "@/models/CompanyProfileStep4Form";
@@ -94,8 +93,9 @@ import type { UniversityProfileStep4Form } from "@/models/UniversityProfileStep4
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
+import type { SelectPillMultipleItem } from "@/types/selectPillMultiple";
 import { Field, useField, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
+import { Options, Vue, prop, setup } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 class Props {

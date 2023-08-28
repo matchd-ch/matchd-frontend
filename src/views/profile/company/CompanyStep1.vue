@@ -13,8 +13,8 @@
       />
     </MatchdField>
     <MatchdField id="street" class="mb-10" :errors="veeForm.errors.value.street">
-      <template #label>Adresse*</template>
-      <Field id="street" name="street" as="input" label="Adresse" rules="required" />
+      <template #label>Adresse</template>
+      <Field id="street" name="street" as="input" label="Adresse" />
     </MatchdField>
     <div class="lg:flex">
       <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.value.zip">
@@ -46,13 +46,13 @@
       <Field id="role" name="role" as="input" label="Funktion" rules="required" />
     </MatchdField>
     <MatchdField id="phone" class="mb-10" :errors="veeForm.errors.value.phone">
-      <template #label>Telefonnummer*</template>
+      <template #label>Telefonnummer</template>
       <Field
         id="phone"
         name="phone"
         as="input"
         label="Telefonnummer"
-        rules="required|phone"
+        rules="phone"
         placeholder="+41712223344"
       />
     </MatchdField>

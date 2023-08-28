@@ -12,8 +12,8 @@
       />
     </MatchdField>
     <MatchdField id="street" class="mb-10" :errors="veeForm.errors.street">
-      <template #label>Adresse*</template>
-      <Field id="street" name="street" as="input" label="Adresse" rules="required" />
+      <template #label>Adresse</template>
+      <Field id="street" name="street" as="input" label="Adresse" />
     </MatchdField>
     <div class="lg:flex">
       <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.zip">
@@ -45,13 +45,13 @@
       <Field id="role" name="role" as="input" label="Funktion" rules="required" />
     </MatchdField>
     <MatchdField id="mobile" class="mb-10" :errors="veeForm.errors.phone">
-      <template #label>Telefonnummer*</template>
-      <Field id="mobile" name="phone" as="input" label="Telefonnummer" rules="required|phone" />
+      <template #label>Telefonnummer</template>
+      <Field id="mobile" name="phone" as="input" label="Telefonnummer" rules="phone" />
     </MatchdField>
     <!-- Website Field -->
     <MatchdField id="website" class="mb-10" :errors="veeForm.errors.website">
-      <template #label>Website*</template>
-      <Field id="website" name="website" as="input" label="Website" rules="required|url" />
+      <template #label>Website</template>
+      <Field id="website" name="website" as="input" label="Website" rules="url" />
     </MatchdField>
     <!-- TopLevel Organisation Field -->
     <MatchdField
@@ -128,7 +128,7 @@ import type { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ErrorMessage, Field, Form, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
+import { Options, Vue, prop, setup } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 class Props {

@@ -1,4 +1,4 @@
-import { AttachmentKey } from "@/api/models/types";
+import { AttachmentKey, ProfileType } from "@/api/models/types";
 import { useStore } from "@/store";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import type { ComputedRef } from "vue";
@@ -12,6 +12,12 @@ export type StudentSections =
   | "nickname";
 
 export type CompanySections =
+  | "contactData"
+  | "shortProfile"
+  | "activitiesAndBenefits"
+  | "setupTalentSearch";
+
+export type UniversitySections =
   | "contactData"
   | "shortProfile"
   | "activitiesAndBenefits"
@@ -85,6 +91,39 @@ export default () => {
     setupTalentSearch: [user.value?.company?.softSkills, user.value?.company?.culturalFits],
   }));
 
+  const universityProgressConfig: ComputedRef<ProgressConfig<UniversitySections>> = computed(
+    () => ({
+      contactData: [
+        user.value?.company?.name,
+        user.value?.company?.street,
+        user.value?.company?.zip,
+        user.value?.company?.city,
+        user.value?.employee?.firstName,
+        user.value?.employee?.lastName,
+        user.value?.employee?.role,
+        user.value?.employee?.phone,
+        user.value?.company?.website,
+        user.value?.company?.topLevelOrganisationWebsite,
+        user.value?.company?.topLevelOrganisationWebsite,
+      ],
+      shortProfile: [
+        user.value?.company?.description,
+        companyAvatar.value,
+        user.value?.company?.services,
+      ],
+      activitiesAndBenefits: [
+        user.value?.company?.branches.edges,
+        user.value?.company?.benefits.edges,
+        user.value?.company?.linkChallenges,
+        user.value?.company?.linkEducation,
+        user.value?.company?.linkThesis,
+        user.value?.company?.services,
+        companyDocuments.value,
+      ],
+      setupTalentSearch: [user.value?.company?.softSkills, user.value?.company?.culturalFits],
+    })
+  );
+
   const studentProgress = computed(() => {
     if (!user.value?.student) {
       return null;
@@ -97,6 +136,13 @@ export default () => {
       return null;
     }
     return getProgressDataByConfig(companyProgressConfig.value);
+  });
+
+  const universityProgress = computed(() => {
+    if (!user.value?.company) {
+      return null;
+    }
+    return getProgressDataByConfig(universityProgressConfig.value);
   });
 
   const getProgressDataByConfig = <T extends string>(config: ProgressConfig<T>) => {
@@ -168,6 +214,24 @@ export default () => {
     return `${Math.floor(value * 100)}${postfix ? "%" : ""}`;
   };
 
+  const progress = computed(() => {
+    switch (user.value?.type) {
+      case ProfileType.Student:
+        console.log("STUDENT");
+        return studentProgress.value;
+      case ProfileType.University:
+        console.log("UNIVERSITY");
+        return universityProgress.value;
+      case ProfileType.Company:
+        console.log("COMPANY");
+        return companyProgress.value;
+      default:
+        return null;
+    }
+  });
+
+  const isType = (type: ProfileType) => computed(() => user.value?.type === type);
+
   watch(
     user,
     () => {
@@ -190,9 +254,12 @@ export default () => {
   );
 
   return {
+    progress,
     studentProgress,
     companyProgress,
+    universityProgress,
     useProgressFormatted,
     formatProgress,
+    isType,
   };
 };

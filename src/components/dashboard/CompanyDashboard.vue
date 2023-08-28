@@ -20,9 +20,9 @@
           sowie den aktuellen Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir
           Sie jeweils auch per E-Mail.
         </p>
-        <template v-if="companyProgress && companyProgress.global < 1">
+        <template v-if="progress && progress.global < 1">
           <h2 class="flex-1 mt-8 mb-4 text-display-xs">
-            Ihr Profil ist zu {{ formatProgress(companyProgress.global) }} vollständig.
+            Ihr Profil ist zu {{ formatProgress(progress.global) }} vollständig.
           </h2>
           <p class="mb-8">
             Damit Talents Sie besser finden und sich mit Ihnen verbinden können, sollten Sie zuerst
@@ -170,7 +170,7 @@ const store = useStore();
 const route = useRoute();
 const user = computed(() => store.getters["user"]);
 const showDeletionInfoModal = ref(false);
-const { companyProgress, formatProgress } = useProgressIndicator();
+const { progress, formatProgress } = useProgressIndicator();
 
 const avatar = computed(
   () =>

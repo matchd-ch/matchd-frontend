@@ -113,7 +113,7 @@ interface Profiles {
   university: ProfileItem[];
 }
 
-const { companyProgress, studentProgress } = useProgressIndicator();
+const { companyProgress, studentProgress, universityProgress } = useProgressIndicator();
 
 const profiles = computed<Profiles>(() => ({
   company: [
@@ -196,25 +196,25 @@ const profiles = computed<Profiles>(() => ({
       component: UniversityStep1,
       step: "schritt1",
       label: "Kontaktdaten",
-      progress: companyProgress.value?.sections.contactData,
+      progress: universityProgress.value?.sections.contactData,
     },
     {
       component: UniversityStep2,
       step: "schritt2",
       label: "Kurzsteckbrief",
-      progress: companyProgress.value?.sections.shortProfile,
+      progress: universityProgress.value?.sections.shortProfile,
     },
     {
       component: UniversityStep3,
       step: "schritt3",
       label: "Tätigkeitsbereich & Benefits",
-      progress: companyProgress.value?.sections.activitiesAndBenefits,
+      progress: universityProgress.value?.sections.activitiesAndBenefits,
     },
     {
       component: UniversityStep4,
       step: "schritt4",
       label: "Set-up Talentsuche",
-      progress: companyProgress.value?.sections.setupTalentSearch,
+      progress: universityProgress.value?.sections.setupTalentSearch,
     },
     {
       component: UniversitySettingsAccount,
