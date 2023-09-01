@@ -12,15 +12,6 @@
       @change="onChangeSoftSkill"
     >
       <template #label>Das Talent mag es ...</template>
-      <template v-if="remainingSoftSkillCount > 0" #info>
-        <template v-if="remainingSoftSkillCount === 1">
-          Wählen Sie noch 1 für Sie passende Aussage aus
-        </template>
-        <template v-else>
-          Wählen Sie {{ minSoftSkills - veeForm.values.softSkills?.length }} für Sie passende
-          Aussagen aus
-        </template>
-      </template>
     </SelectPillMultiple>
     <SelectPillMultiple
       :options="culturalFits"
@@ -29,15 +20,6 @@
       @change="onChangeCulturalFit"
     >
       <template #label>Ihrem Unternehmen ist es wichtig, dass ...</template>
-      <template v-if="remainingCulturalFits > 0" #info>
-        <template v-if="remainingCulturalFits === 1">
-          Wählen Sie noch 1 für Sie passende Aussage aus
-        </template>
-        <template v-else>
-          Wählen Sie {{ minCulturalFits - veeForm.values.culturalFits?.length }} für Sie passende
-          Aussagen aus
-        </template>
-      </template>
     </SelectPillMultiple>
     <template v-if="edit">
       <teleport to="footer">
@@ -92,7 +74,7 @@ import { ActionTypes as ContentActionTypes } from "@/store/modules/content/actio
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import type { SelectPillMultipleItem } from "@/types/selectPillMultiple";
 import { useForm } from "vee-validate";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 
 withDefaults(
   defineProps<{
@@ -127,15 +109,6 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   }
 });
 
-const minSoftSkills = ref(6);
-const minCulturalFits = ref(6);
-
-const remainingSoftSkillCount = computed(
-  () => minSoftSkills.value - veeForm.values.softSkills?.length ?? 0
-);
-const remainingCulturalFits = computed(
-  () => minCulturalFits.value - veeForm.values.culturalFits?.length ?? 0
-);
 const showError = computed(() => onboardingState.value.errors);
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
@@ -143,7 +116,6 @@ const onboardingState = computed(() => store.getters["onboardingState"]);
 const softSkills = computed(() => {
   return (
     store.getters["softSkills"].map((softSkill) => {
-      // console.log(softSkill, veeForm.values.softSkills);
       return {
         id: softSkill.id,
         name: softSkill.company,
@@ -167,14 +139,15 @@ const culturalFits = computed(() => {
 
 const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
   const softSkillExists = !!veeForm.values.softSkills.find((id) => id === softSkill.id);
+  console.log("softSkillExists:", softSkillExists);
   if (softSkillExists) {
     veeForm.setFieldValue(
       "softSkills",
       veeForm.values.softSkills.filter((id) => id !== softSkill.id)
     );
-  } else if (remainingSoftSkillCount.value > 0) {
-    veeForm.setFieldValue("softSkills", [...veeForm.values.softSkills, softSkill.id]);
+    return;
   }
+  veeForm.setFieldValue("softSkills", [...veeForm.values.softSkills, softSkill.id]);
 };
 
 const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
@@ -184,9 +157,9 @@ const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
       "culturalFits",
       veeForm.values.culturalFits.filter((id) => id !== culturalFit.id)
     );
-  } else if (remainingCulturalFits.value > 0) {
-    veeForm.setFieldValue("culturalFits", [...veeForm.values.culturalFits, culturalFit.id]);
+    return;
   }
+  veeForm.setFieldValue("culturalFits", [...veeForm.values.culturalFits, culturalFit.id]);
 };
 
 const profileData = computed(() => {
