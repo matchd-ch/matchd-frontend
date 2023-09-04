@@ -1,8 +1,8 @@
 <template>
-  <form v-if="branches.length" @submit="veeForm.onSubmit">
+  <form v-if="branches.length" @submit="onSubmit">
     <FormSaveError v-if="showError" />
     <!-- Link Education Field -->
-    <MatchdField id="linkEducation" class="mb-10" :errors="veeForm.errors.linkEducation">
+    <MatchdField id="linkEducation" class="mb-10" :errors="veeForm.errors.value.linkEducation">
       <template #label>Wissenswertes zur Aus- und Weiterbildung</template>
       <Field
         id="linkEducation"
@@ -13,7 +13,7 @@
       />
     </MatchdField>
     <!-- Link Challenges Field -->
-    <MatchdField id="linkChallenges" class="mb-10" :errors="veeForm.errors.linkChallenges">
+    <MatchdField id="linkChallenges" class="mb-10" :errors="veeForm.errors.value.linkChallenges">
       <template #label>Wissenswertes zum Thema Praxisprojekte</template>
       <Field
         id="linkChallenges"
@@ -24,7 +24,7 @@
       />
     </MatchdField>
     <!-- Link Thesis Field -->
-    <MatchdField id="linkThesis" class="mb-10" :errors="veeForm.errors.linkThesis">
+    <MatchdField id="linkThesis" class="mb-10" :errors="veeForm.errors.value.linkThesis">
       <template #label>Wissenswertes zur Thema Abschlussarbeiten</template>
       <Field
         id="linkThesis"
@@ -35,7 +35,7 @@
       />
     </MatchdField>
     <!-- Description Field -->
-    <MatchdField id="services" class="mb-10" :errors="veeForm.errors.services">
+    <MatchdField id="services" class="mb-10" :errors="veeForm.errors.value.services">
       <template #label>Unser Angebot</template>
       <Field
         id="services"
@@ -52,7 +52,7 @@
       :options="branches"
       name="branches"
       class="mb-10"
-      :errors="veeForm.errors.branches"
+      :errors="veeForm.errors.value.branches"
       @change="onChangeBranch"
     >
       <template #label
@@ -71,7 +71,7 @@
             type="button"
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
+            @click="emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -80,7 +80,7 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
           >
             Speichern
           </MatchdButton>
@@ -88,7 +88,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton
@@ -96,7 +96,7 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
       >
         Speichern und weiter
       </MatchdButton>
@@ -104,16 +104,13 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { universityProfileStep3FormMapper } from "@/api/mappers/universityProfileStep3FormMapper";
 import { universityProfileStep3InputMapper } from "@/api/mappers/universityProfileStep3InputMapper";
 import type { Benefit, Branch } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
-import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
-import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
-import MatchdFileView from "@/components/MatchdFileView.vue";
 import SelectIconGroup from "@/components/SelectIconGroup.vue";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
@@ -121,149 +118,111 @@ import type { UniversityProfileStep3Form } from "@/models/UniversityProfileStep3
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { ErrorMessage, Field, useField, useForm } from "vee-validate";
-import { Options, Vue, prop, setup } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Field, useForm } from "vee-validate";
+import { computed, onMounted, watch } from "vue";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
+withDefaults(defineProps<{ edit?: boolean }>(), { edit: false });
 
-@Options({
-  components: {
-    Field,
-    ErrorMessage,
-    FormSaveError,
-    MatchdButton,
-    SelectPillMultiple,
-    SelectIconGroup,
-    MatchdFileBlock,
-    MatchdFileView,
-    MatchdFileUpload,
-    MatchdField,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel", "clickBack"],
-})
-export default class UniversityStep3Form extends Vue.with(Props) {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<UniversityProfileStep3Form>();
-    const { value: branches } = useField<string[]>("branches");
-    const { value: benefits } = useField<string[]>("benefits");
+const emit = defineEmits<{
+  (event: "submitComplete", onboardingState: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+  (event: "clickBack"): void;
+}>();
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.UNIVERSITY_ONBOARDING_STEP3,
-          universityProfileStep3InputMapper(formData)
-        );
-        const onboardingState = store.getters["onboardingState"];
-        this.$emit("submitComplete", onboardingState.success);
-      } catch (e) {
-        console.log(e);
-      }
-    });
+const store = useStore();
+const veeForm = useForm<UniversityProfileStep3Form>({});
+const showError = computed(() => !!onboardingState.value.errors);
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const onboardingState = computed(() => store.getters["onboardingState"]);
 
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    await store.dispatch(
+      ActionTypes.UNIVERSITY_ONBOARDING_STEP3,
+      universityProfileStep3InputMapper(formData)
+    );
+    const onboardingState = store.getters["onboardingState"];
+    emit("submitComplete", onboardingState.success);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+const branches = computed(() => {
+  return store.getters["branches"].map((branch) => {
     return {
-      ...form,
-      onSubmit,
-      branches,
-      benefits,
+      id: branch.id,
+      name: branch.name,
+      checked: !!veeForm.values.branches?.find(
+        (selectedBranchId) => selectedBranchId === branch.id
+      ),
     };
   });
+});
 
-  formData = {} as UniversityProfileStep3Form;
+const benefits = computed(() => {
+  return store.getters["benefits"].map((benefit) => {
+    return {
+      ...benefit,
+      checked: !!veeForm.values.benefits?.find(
+        (selectedBenefitId) => selectedBenefitId === benefit.id
+      ),
+    };
+  });
+});
 
-  get branches() {
-    return this.$store.getters["branches"].map((branch) => {
-      return {
-        id: branch.id,
-        name: branch.name,
-        checked: !!this.veeForm.branches?.find(
-          (selectedBranchId) => selectedBranchId === branch.id
-        ),
-      };
-    });
+const profileData = computed(() => {
+  const user = store.getters["user"];
+  if (!user) {
+    return {} as UniversityProfileStep3Form;
   }
+  return universityProfileStep3FormMapper(user);
+});
 
-  get benefits() {
-    return this.$store.getters["benefits"].map((benefit) => {
-      return {
-        ...benefit,
-        checked: !!this.veeForm.benefits?.find(
-          (selectedBenefitId) => selectedBenefitId === benefit.id
-        ),
-      };
-    });
-  }
-
-  get showError() {
-    return !!this.onboardingState.errors;
-  }
-
-  get onboardingLoading() {
-    return this.$store.getters["onboardingLoading"];
-  }
-
-  get onboardingState() {
-    return this.$store.getters["onboardingState"];
-  }
-
-  get currentStep() {
-    return this.$store.getters["profileStep"];
-  }
-
-  get profileData() {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as UniversityProfileStep3Form;
-    }
-    return universityProfileStep3FormMapper(user);
-  }
-
-  onChangeBranch(branch: Branch) {
-    const branchExists = !!this.veeForm.branches.find(
-      (selectedBranchId) => selectedBranchId === branch.id
+const onChangeBranch = (branch: Branch) => {
+  const branchExists = !!veeForm.values.branches.find(
+    (selectedBranchId) => selectedBranchId === branch.id
+  );
+  if (branchExists) {
+    veeForm.values.branches = veeForm.values.branches.filter(
+      (selectedBranchId) => selectedBranchId !== branch.id
     );
-    if (branchExists) {
-      this.veeForm.branches = this.veeForm.branches.filter(
-        (selectedBranchId) => selectedBranchId !== branch.id
-      );
-    } else {
-      this.veeForm.branches = [...this.veeForm.branches, branch.id];
-    }
+  } else {
+    veeForm.values.branches = [...veeForm.values.branches, branch.id];
   }
+};
 
-  onChangeBenefits(benefit: Benefit) {
-    const benefitExists = !!this.veeForm.benefits.find(
-      (selectedBenefitId) => selectedBenefitId === benefit.id
+const onChangeBenefits = (benefit: Benefit) => {
+  const benefitExists = !!veeForm.values.benefits.find(
+    (selectedBenefitId) => selectedBenefitId === benefit.id
+  );
+  if (benefitExists) {
+    veeForm.values.benefits = veeForm.values.benefits.filter(
+      (selectedBenefitId) => selectedBenefitId !== benefit.id
     );
-    if (benefitExists) {
-      this.veeForm.benefits = this.veeForm.benefits.filter(
-        (selectedBenefitId) => selectedBenefitId !== benefit.id
-      );
-    } else {
-      this.veeForm.benefits = [...this.veeForm.benefits, benefit.id];
-    }
+  } else {
+    veeForm.values.benefits = [...veeForm.values.benefits, benefit.id];
   }
+};
 
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(ContentActionTypes.BRANCHES),
-      this.$store.dispatch(ContentActionTypes.BENEFITS),
-    ]);
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(ContentActionTypes.BRANCHES),
+    store.dispatch(ContentActionTypes.BENEFITS),
+  ]);
 
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
+  veeForm.resetForm({
+    values: profileData.value,
+  });
+  calculateMargins();
+});
 
-    calculateMargins();
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
   }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty() {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+);
 </script>
 <style></style>

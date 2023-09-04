@@ -94,6 +94,9 @@ const emit = defineEmits<{
 
 const store = useStore();
 const veeForm = useForm<CompanyProfileStep4Form>({});
+const showError = computed(() => onboardingState.value.errors);
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const onboardingState = computed(() => store.getters["onboardingState"]);
 
 const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
@@ -108,10 +111,6 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
     console.log(e);
   }
 });
-
-const showError = computed(() => onboardingState.value.errors);
-const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
-const onboardingState = computed(() => store.getters["onboardingState"]);
 
 const softSkills = computed(() => {
   return (
@@ -139,7 +138,6 @@ const culturalFits = computed(() => {
 
 const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
   const softSkillExists = !!veeForm.values.softSkills.find((id) => id === softSkill.id);
-  console.log("softSkillExists:", softSkillExists);
   if (softSkillExists) {
     veeForm.setFieldValue(
       "softSkills",
