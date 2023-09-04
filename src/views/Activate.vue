@@ -1,6 +1,6 @@
 <template>
   <div class="activate min-h-screen flex flex-col px-4 lg:px-5">
-    <BackLink :to="{ name: 'Login' }" />
+    <BackLink :to="{ name: Routes.LOGIN }" />
     <h1 class="text-display-xl-fluid text-black">Matchd starten</h1>
     <div class="grow flex justify-center items-center">
       <div class="max-w-2xl my-8 w-full">
@@ -37,43 +37,29 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import BackLink from "@/components/BackLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import type { ActivationState } from "@/models/ActivationState";
+import { Routes } from "@/router";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/registration/action-types";
-import { Options, setup, Vue } from "vue-class-component";
+import { computed, onMounted } from "vue";
 import { useMeta } from "vue-meta";
+import { useRoute } from "vue-router";
+useMeta({ title: "Kontoaktivierung" });
+const store = useStore();
+const route = useRoute();
 
-@Options({
-  components: {
-    BackLink,
-    MatchdButton,
-  },
-})
-export default class Home extends Vue {
-  meta = setup(() =>
-    useMeta({
-      title: "Kontoaktivierung",
-    })
-  );
+const activationLoading = computed(() => store.getters["activationLoading"]);
+const activationState = computed(() => store.getters["activationState"]);
 
-  get activationLoading(): boolean {
-    return this.$store.getters["activationLoading"];
+onMounted(() => {
+  if (route.params?.token && typeof route.params.token === "string") {
+    store.dispatch(ActionTypes.VERIFY_ACCOUNT_WITH_TOKEN, {
+      token: route.params.token,
+    });
   }
-
-  get activationState(): ActivationState {
-    return this.$store.getters["activationState"];
-  }
-
-  mounted(): void {
-    if (this.$route.params?.token && typeof this.$route.params.token === "string") {
-      this.$store.dispatch(ActionTypes.VERIFY_ACCOUNT_WITH_TOKEN, {
-        token: this.$route.params.token,
-      });
-    }
-  }
-}
+});
 </script>
 
 <style lang="postcss" scoped></style>

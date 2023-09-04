@@ -129,7 +129,7 @@
         <ul class="list">
           <li v-for="challenge in student.data.challenges" :key="challenge.id">
             <router-link
-              :to="{ name: 'ChallengeDetail', params: { slug: challenge.slug } }"
+              :to="{ name: Routes.CHALLENGE_DETAIL, params: { slug: challenge.slug } }"
               class="block text-lg underline hover:text-green-1 font-medium mb-2 transition-colors"
             >
               {{ challenge.title }},
@@ -176,7 +176,6 @@
     />
   </div>
 </template>
-
 <script setup lang="ts">
 import { DateMode, ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
@@ -184,12 +183,13 @@ import ArrowDown from "@/assets/icons/arrow-down.svg";
 import ArrowFront from "@/assets/icons/arrow-front.svg";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
+import ProfileSection from "@/components/ProfileSection.vue";
 import StudentFullMatchModal from "@/components/modals/StudentFullMatchModal.vue";
 import StudentMatchModal from "@/components/modals/StudentMatchModal.vue";
-import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { formatDate } from "@/helpers/formatDate";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
+import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { computed, nextTick, onMounted, ref } from "vue";

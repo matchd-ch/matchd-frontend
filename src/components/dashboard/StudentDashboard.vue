@@ -29,7 +29,7 @@
           </p>
           <MatchdButton
             tag="router-link"
-            :to="{ name: 'ProfileEdit', params: { step: 'schritt1' } }"
+            :to="{ name: Routes.PROFILE_EDIT, params: { step: 'schritt1' } }"
           >
             Profil vervollständigen
           </MatchdButton>
@@ -57,7 +57,7 @@
           </ul>
           <MatchdButton
             class="block w-full mt-8 text-center"
-            :to="{ name: 'JobPostingSearch' }"
+            :to="{ name: Routes.JOB_POSTING_SEARCH }"
             tag="router-link"
           >
             Weitere Stellen finden
@@ -78,10 +78,17 @@
         </ul>
         <MatchdButton
           class="block w-full mt-8 text-center"
-          :to="{ name: 'ChallengeCreate' }"
+          :to="{ name: Routes.CHALLENGE_CREATE }"
           tag="router-link"
         >
           Challenge | Mentoring ausschreiben
+        </MatchdButton>
+        <MatchdButton
+          class="block w-full mt-8 text-center"
+          :to="{ name: Routes.CHALLENGE_SEARCH }"
+          tag="router-link"
+        >
+          Mentoring suchen
         </MatchdButton>
       </profile-section>
       <profile-section v-if="dashboard.challenges?.length" title="Deine Challenge-Ideen">
@@ -179,6 +186,7 @@ import ProfileSection from "@/components/ProfileSection.vue";
 import PostingDetailLink from "@/components/dashboard/PostingDetailLink.vue";
 import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import useProgressIndicator from "@/helpers/useProgressIndicator";
+import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";

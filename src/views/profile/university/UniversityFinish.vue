@@ -22,36 +22,27 @@
     </MatchdButton>
     <p class="mt-5 text-black text-center">
       Falls sie noch Fragen haben,
-      <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
+      <router-link :to="{ name: Routes.CONTACT }" class="text-primary-1 underline"
         >schreiben sie uns</router-link
       >
     </p>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
 import { Routes } from "@/router";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
+import { useRouter } from "vue-router";
 
-@Options({
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-    MatchdButton,
-  },
-})
-export default class UniversityFinish extends Vue {
-  onClickStudentSearch(): void {
-    this.$router.push({ name: Routes.STUDENT_SEARCH });
-  }
+const router = useRouter();
 
-  onClickJobPostingCreate(): void {
-    this.$router.push({ name: Routes.JOB_POSTING_CREATE, params: { step: "schritt1" } });
-  }
-}
+const onClickStudentSearch = () => {
+  router.push({ name: Routes.STUDENT_SEARCH });
+};
+
+const onClickJobPostingCreate = () => {
+  router.push({ name: Routes.JOB_POSTING_CREATE, params: { step: "schritt1" } });
+};
 </script>
 
 <style></style>

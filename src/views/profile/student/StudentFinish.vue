@@ -31,7 +31,7 @@
     </MatchdButton>
     <p class="mt-5 text-black text-center">
       Du hast Fragen oder möchtest uns etwas mitteilen?
-      <router-link :to="{ name: 'Contact' }" class="text-primary-1 underline"
+      <router-link :to="{ name: Routes.CONTACT }" class="text-primary-1 underline"
         >Kontaktier uns</router-link
       >, wir freuen uns von dir zu hören.
     </p>

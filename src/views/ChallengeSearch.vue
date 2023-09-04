@@ -21,7 +21,6 @@
                 placeholder="Challengetitel, Beschreibung, etc."
               />
             </MatchdField>
-
             <MatchdAutocomplete
               id="keywords"
               :class="{ 'mb-3': selectedKeywords.length, 'mb-10': !selectedKeywords.length }"
@@ -121,15 +120,18 @@
           Ihr Profil ist zu {{ formatProgress(companyOrUniversityProgress.global) }} vollständig.
         </h2>
         <p class="mb-8">
-          Damit Talents Sie besser finden und sich mit Ihnen verbinden können, sollten Sie zuerst
-          Ihr Profil vervollständigen.
+          Damit Sie Cahllenges & Mentorings finden können, sollten Sie zuerst Ihr Profil
+          vervollständigen.
         </p>
-        <MatchdButton tag="router-link" :to="{ name: 'ProfileEdit', params: { step: 'schritt1' } }">
+        <MatchdButton
+          tag="router-link"
+          :to="{ name: Routes.PROFILE_EDIT, params: { step: 'schritt4' } }"
+        >
           Profil vervollständigen
         </MatchdButton>
       </div>
     </div>
-    <LoadingBox v-else :is-loading="isLoading">
+    <LoadingBox v-else :is-loading="challengesLoading">
       <SearchResultChallengeGrid
         v-if="challenges.length > 0"
         class="search-result-challenge-grid"
@@ -163,10 +165,11 @@ import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import useProgressIndicator from "@/helpers/useProgressIndicator";
+import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Field } from "vee-validate";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useMeta } from "vue-meta";
 import MatchdAutocomplete from "../components/MatchdAutocomplete.vue";
 import MatchdField from "../components/MatchdField.vue";
@@ -206,9 +209,17 @@ const entities = ref<{ [key in Entities]: { name: string; checked: boolean } }>(
   },
 });
 
+watch(
+  entities,
+  () => {
+    console.log("entities:", entities.value);
+  },
+  { immediate: true }
+);
+
 const { companyProgress, universityProgress, formatProgress } = useProgressIndicator();
 const challenges = computed(() => store.getters["challenges"]);
-const isLoading = computed(() => store.getters["challengesLoading"]);
+const challengesLoading = computed(() => store.getters["challengesLoading"]);
 const isStudent = computed(() => store.getters["isStudent"]);
 const isCompany = computed(() => store.getters["isCompany"]);
 const isUniversity = computed(() => store.getters["isUniversity"]);
@@ -263,7 +274,7 @@ const handleSelectChallengeType = (challengeType: ChallengeTypesChallengeTypeFra
 };
 
 const fetchChallenges = async () => {
-  await store.dispatch(ActionTypes.CHALLENGES, {
+  const payload = {
     ...(textSearch.value && { textSearch: textSearch.value }),
     ...(entities.value.TALENT.checked && { filterTalentChallenges: true }),
     ...(entities.value.COMPANY.checked && { filterCompanyChallenges: true }),
@@ -271,26 +282,30 @@ const fetchChallenges = async () => {
     ...(selectedChallengeTypes.value.length && {
       challengeTypeIds: selectedChallengeTypes.value.map((pt) => pt.id),
     }),
-    ...(selectedKeywords.value.length && { keywordIds: selectedKeywords.value.map((kw) => kw.id) }),
-  });
+    ...(selectedKeywords.value.length && {
+      keywordIds: selectedKeywords.value.map((kw) => kw.id),
+    }),
+  };
+  console.log("payload:", payload);
+  await store.dispatch(ActionTypes.CHALLENGES, payload);
   if (challenges.value.length > 0 && challengeId.value === "") {
     challengeId.value = challenges.value[0].id;
   }
 };
 
-const resetFilter = () => {
+const resetFilter = async () => {
   textSearch.value = "";
   selectedKeywords.value = [];
   selectedChallengeTypes.value = [];
   Object.values(entities.value).forEach((cat) => (cat.checked = false));
-  fetchChallenges();
+  await fetchChallenges();
 };
 
 onMounted(async () => {
   await Promise.all([
     store.dispatch(ActionTypes.KEYWORDS),
     store.dispatch(ActionTypes.CHALLENGE_TYPES),
-    fetchChallenges(),
+    await fetchChallenges(),
   ]);
   calculateMargins();
 });
