@@ -13,15 +13,6 @@
       @change="onChangeSoftSkill"
     >
       <template #label>Ich mag es ...</template>
-      <template v-if="remainingSoftSkillCount > 0" #info>
-        <template v-if="remainingSoftSkillCount === 1">
-          Wähle noch 1 für dich passende Aussage aus
-        </template>
-        <template v-else>
-          Wähle {{ minSoftSkills - veeForm.values.softSkills.length }} für dich passende Aussagen
-          aus
-        </template></template
-      >
     </SelectPillMultiple>
     <SelectPillMultiple
       :options="culturalFits"
@@ -30,15 +21,6 @@
       @change="onChangeCulturalFit"
     >
       <template #label>Es ist mir wichtig, dass ...</template>
-      <template v-if="remainingCulturalFits > 0" #info>
-        <template v-if="remainingCulturalFits === 1">
-          Wähle noch 1 für dich passende Aussage aus
-        </template>
-        <template v-else>
-          Wähle {{ minCulturalFits - veeForm.values.culturalFits.length }} für dich passende
-          Aussagen aus
-        </template></template
-      >
     </SelectPillMultiple>
     <template v-if="edit">
       <teleport to="footer">
@@ -128,18 +110,13 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   }
 });
 
-const minSoftSkills = 6;
-const minCulturalFits = 6;
-
 const user = computed(() => store.getters["user"]);
-const remainingSoftSkillCount = computed(() => minSoftSkills - veeForm.values.softSkills.length);
-const remainingCulturalFits = computed(() => minCulturalFits - veeForm.values.culturalFits.length);
 const softSkills = computed(() =>
   store.getters["softSkills"].map((softSkill) => {
     return {
       id: softSkill.id,
       name: softSkill.student,
-      checked: !!veeForm.values.softSkills.find((id) => id === softSkill.id),
+      checked: !!veeForm.values.softSkills?.find((id) => id === softSkill.id),
     };
   })
 );
@@ -149,7 +126,7 @@ const culturalFits = computed(() =>
     return {
       id: culturalFit.id,
       name: culturalFit.student,
-      checked: !!veeForm.values.culturalFits.find((id) => id === culturalFit.id),
+      checked: !!veeForm.values.culturalFits?.find((id) => id === culturalFit.id),
     };
   })
 );
@@ -159,21 +136,27 @@ const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
 
 const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
-  const softSkillExists = !!veeForm.values.softSkills.find((id) => id === softSkill.id);
+  const softSkillExists = !!veeForm.values.softSkills?.find((id) => id === softSkill.id);
   if (softSkillExists) {
-    veeForm.values.softSkills = veeForm.values.softSkills.filter((id) => id !== softSkill.id);
-  } else if (remainingSoftSkillCount.value > 0) {
-    veeForm.values.softSkills = [...veeForm.values.softSkills, softSkill.id];
+    veeForm.setFieldValue(
+      "softSkills",
+      veeForm.values.softSkills?.filter((id) => id !== softSkill.id)
+    );
+    return;
   }
+  veeForm.setFieldValue("softSkills", [...veeForm.values.softSkills, softSkill.id]);
 };
 
 const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
-  const culturalFitExists = !!veeForm.values.culturalFits.find((id) => id === culturalFit.id);
+  const culturalFitExists = !!veeForm.values.culturalFits?.find((id) => id === culturalFit.id);
   if (culturalFitExists) {
-    veeForm.values.culturalFits = veeForm.values.culturalFits.filter((id) => id !== culturalFit.id);
-  } else if (remainingCulturalFits.value > 0) {
-    veeForm.values.culturalFits = [...veeForm.values.culturalFits, culturalFit.id];
+    veeForm.setFieldValue(
+      "culturalFits",
+      veeForm.values.culturalFits?.filter((id) => id !== culturalFit.id)
+    );
+    return;
   }
+  veeForm.setFieldValue("culturalFits", [...veeForm.values.culturalFits, culturalFit.id]);
 };
 
 const profileData = computed(() => {
