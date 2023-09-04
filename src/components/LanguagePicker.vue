@@ -55,7 +55,7 @@ import type { SelectedLanguage } from "@/models/StudentProfileStep4Form";
 import { Options, Vue, prop } from "vue-class-component";
 
 class Props {
-  id = prop<string>({});
+  id = prop<string>({ default: "" });
   errors = prop<string>({});
   languages = prop<Language[]>({ default: [] });
   languageLevels = prop<LanguageLevel[]>({ default: [] });

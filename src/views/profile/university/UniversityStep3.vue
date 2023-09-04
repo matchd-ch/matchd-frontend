@@ -135,6 +135,7 @@ const veeForm = useForm<UniversityProfileStep3Form>({});
 const showError = computed(() => !!onboardingState.value.errors);
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
+const user = computed(() => store.getters["user"]);
 
 const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
@@ -173,11 +174,10 @@ const benefits = computed(() => {
 });
 
 const profileData = computed(() => {
-  const user = store.getters["user"];
-  if (!user) {
+  if (!user.value) {
     return {} as UniversityProfileStep3Form;
   }
-  return universityProfileStep3FormMapper(user);
+  return universityProfileStep3FormMapper(user.value);
 });
 
 const onChangeBranch = (branch: Branch) => {
@@ -185,11 +185,12 @@ const onChangeBranch = (branch: Branch) => {
     (selectedBranchId) => selectedBranchId === branch.id
   );
   if (branchExists) {
-    veeForm.values.branches = veeForm.values.branches.filter(
-      (selectedBranchId) => selectedBranchId !== branch.id
+    veeForm.setFieldValue(
+      "branches",
+      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id)
     );
   } else {
-    veeForm.values.branches = [...veeForm.values.branches, branch.id];
+    veeForm.setFieldValue("branches", [...veeForm.values.branches, branch.id]);
   }
 };
 
@@ -198,11 +199,13 @@ const onChangeBenefits = (benefit: Benefit) => {
     (selectedBenefitId) => selectedBenefitId === benefit.id
   );
   if (benefitExists) {
-    veeForm.values.benefits = veeForm.values.benefits.filter(
-      (selectedBenefitId) => selectedBenefitId !== benefit.id
-    );
+    veeForm.setValues({
+      benefits: veeForm.values.benefits.filter(
+        (selectedBenefitId) => selectedBenefitId !== benefit.id
+      ),
+    });
   } else {
-    veeForm.values.benefits = [...veeForm.values.benefits, benefit.id];
+    veeForm.setValues({ benefits: [...veeForm.values.benefits, benefit.id] });
   }
 };
 

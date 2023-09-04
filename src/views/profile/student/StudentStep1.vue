@@ -161,16 +161,16 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   }
 });
 
+const user = computed(() => store.getters["user"]);
 const showError = computed(() => onboardingState.value.errors);
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
 
 const profileData = computed(() => {
-  const user = store.getters["user"];
-  if (!user) {
+  if (!user.value) {
     return {} as StudentProfileStep1Form;
   }
-  return studentProfileStep1FormMapper(user);
+  return studentProfileStep1FormMapper(user.value);
 });
 
 const validAges = computed(() => {

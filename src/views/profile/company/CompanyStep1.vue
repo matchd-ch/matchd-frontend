@@ -122,7 +122,6 @@ const emits = defineEmits<{
 }>();
 
 const store = useStore();
-
 const veeForm = useForm<CompanyProfileStep1Form>();
 const onSubmit = veeForm.handleSubmit(async (formData) => {
   try {
@@ -137,17 +136,16 @@ const onSubmit = veeForm.handleSubmit(async (formData) => {
   }
 });
 
+const user = computed(() => store.getters["user"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
 const showError = computed(() => !!onboardingState.value.errors);
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
-const user = computed(() => store.getters["user"]);
 
 const profileData = computed(() => {
-  const user = store.getters["user"];
-  if (!user) {
+  if (!user.value) {
     return {} as CompanyProfileStep1Form;
   }
-  return companyProfileStep1FormMapper(user);
+  return companyProfileStep1FormMapper(user.value);
 });
 
 onMounted(async () => {

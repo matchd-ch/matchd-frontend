@@ -1,5 +1,5 @@
 <template>
-  <form v-if="profileData && softSkills.length && culturalFits.length" @submit="veeForm.onSubmit">
+  <form v-if="profileData && softSkills.length && culturalFits.length" @submit="onSubmit">
     <p class="mb-8">
       Bei der Suche nach deiner Traumstelle kannst du Unternehmen finden, die ähnlich ticken wie du.
       Wähle aus den folgenden Vorschlägen alle Eigenschaften und Werte aus, die dich ausmachen und
@@ -18,7 +18,8 @@
           Wähle noch 1 für dich passende Aussage aus
         </template>
         <template v-else>
-          Wähle {{ minSoftSkills - veeForm.softSkills.length }} für dich passende Aussagen aus
+          Wähle {{ minSoftSkills - veeForm.values.softSkills.length }} für dich passende Aussagen
+          aus
         </template></template
       >
     </SelectPillMultiple>
@@ -34,7 +35,8 @@
           Wähle noch 1 für dich passende Aussage aus
         </template>
         <template v-else>
-          Wähle {{ minCulturalFits - veeForm.culturalFits.length }} für dich passende Aussagen aus
+          Wähle {{ minCulturalFits - veeForm.values.culturalFits.length }} für dich passende
+          Aussagen aus
         </template></template
       >
     </SelectPillMultiple>
@@ -45,7 +47,7 @@
             type="button"
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
+            @click="emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -54,7 +56,7 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
           >
             Speichern
           </MatchdButton>
@@ -62,7 +64,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton
@@ -70,7 +72,7 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
       >
         Speichern und weiter
       </MatchdButton>
@@ -78,164 +80,127 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { studentProfileStep3FormMapper } from "@/api/mappers/studentProfileStep3FormMapper";
 import { studentProfileStep3InputMapper } from "@/api/mappers/studentProfileStep3InputMapper";
-import type { CulturalFit, SoftSkill } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
-import type { SelectPillMultipleItem } from "@/types/selectPillMultiple";
 import SelectPillMultiple from "@/components/SelectPillMultiple.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import type { OnboardingState } from "@/models/OnboardingState";
 import type { StudentProfileStep3Form } from "@/models/StudentProfileStep3Form";
 import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
-import { Field, useField, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import type { SelectPillMultipleItem } from "@/types/selectPillMultiple";
+import { useForm } from "vee-validate";
+import { computed, onMounted, watch } from "vue";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
+withDefaults(
+  defineProps<{
+    edit?: boolean;
+  }>(),
+  {
+    edit: false,
+  }
+);
 
-@Options({
-  components: {
-    Field,
-    MatchdButton,
-    FormSaveError,
-    SelectPillMultiple,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel", "clickBack"],
-})
-export default class StudentStep3 extends Vue.with(Props) {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<StudentProfileStep3Form>({});
+const emit = defineEmits<{
+  (event: "submitComplete", onboardingState: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+  (event: "clickBack"): void;
+}>();
 
-    const { value: softSkills } = useField<string[]>(
-      "softSkills",
-      (value) => (value as string[])?.length >= this.minSoftSkills
+const store = useStore();
+const veeForm = useForm<StudentProfileStep3Form>({});
+
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    await store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP3,
+      studentProfileStep3InputMapper(formData)
     );
-    const { value: culturalFits } = useField<string[]>(
-      "culturalFits",
-      (value) => (value as string[])?.length >= this.minCulturalFits
-    );
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.STUDENT_ONBOARDING_STEP3,
-          studentProfileStep3InputMapper(formData)
-        );
+    const onboardingState = store.getters["onboardingState"];
+    emit("submitComplete", onboardingState.success);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
-        const onboardingState = store.getters["onboardingState"];
-        this.$emit("submitComplete", onboardingState.success);
-      } catch (e) {
-        console.log(e);
-      }
-    });
+const minSoftSkills = 6;
+const minCulturalFits = 6;
 
+const user = computed(() => store.getters["user"]);
+const remainingSoftSkillCount = computed(() => minSoftSkills - veeForm.values.softSkills.length);
+const remainingCulturalFits = computed(() => minCulturalFits - veeForm.values.culturalFits.length);
+const softSkills = computed(() =>
+  store.getters["softSkills"].map((softSkill) => {
     return {
-      ...form,
-      onSubmit,
-      softSkills,
-      culturalFits,
+      id: softSkill.id,
+      name: softSkill.student,
+      checked: !!veeForm.values.softSkills.find((id) => id === softSkill.id),
     };
+  })
+);
+
+const culturalFits = computed(() =>
+  store.getters["culturalFits"].map((culturalFit) => {
+    return {
+      id: culturalFit.id,
+      name: culturalFit.student,
+      checked: !!veeForm.values.culturalFits.find((id) => id === culturalFit.id),
+    };
+  })
+);
+
+const showError = computed(() => !!onboardingState.value.errors);
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const onboardingState = computed(() => store.getters["onboardingState"]);
+
+const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
+  const softSkillExists = !!veeForm.values.softSkills.find((id) => id === softSkill.id);
+  if (softSkillExists) {
+    veeForm.values.softSkills = veeForm.values.softSkills.filter((id) => id !== softSkill.id);
+  } else if (remainingSoftSkillCount.value > 0) {
+    veeForm.values.softSkills = [...veeForm.values.softSkills, softSkill.id];
+  }
+};
+
+const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
+  const culturalFitExists = !!veeForm.values.culturalFits.find((id) => id === culturalFit.id);
+  if (culturalFitExists) {
+    veeForm.values.culturalFits = veeForm.values.culturalFits.filter((id) => id !== culturalFit.id);
+  } else if (remainingCulturalFits.value > 0) {
+    veeForm.values.culturalFits = [...veeForm.values.culturalFits, culturalFit.id];
+  }
+};
+
+const profileData = computed(() => {
+  if (!user.value) {
+    return {} as StudentProfileStep3Form;
+  }
+  return studentProfileStep3FormMapper(user.value);
+});
+
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(ContentActionTypes.SOFT_SKILLS),
+    store.dispatch(ContentActionTypes.CULTURAL_FITS),
+  ]);
+
+  veeForm.resetForm({
+    values: profileData.value,
   });
+  calculateMargins();
+});
 
-  minSoftSkills = 6;
-  minCulturalFits = 6;
-
-  get currentStep(): number | undefined {
-    return this.$store.getters["profileStep"];
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
   }
-
-  get remainingSoftSkillCount(): number {
-    return this.minSoftSkills - this.veeForm?.softSkills?.length;
-  }
-
-  get remainingCulturalFits(): number {
-    return this.minCulturalFits - this.veeForm?.culturalFits?.length;
-  }
-
-  get softSkills(): SelectPillMultipleItem[] {
-    return this.$store.getters["softSkills"].map((softSkill) => {
-      return {
-        id: softSkill.id,
-        name: softSkill.student,
-        checked: !!this.veeForm?.softSkills?.find((id) => id === softSkill.id),
-      };
-    });
-  }
-
-  get culturalFits(): SelectPillMultipleItem[] {
-    return this.$store.getters["culturalFits"].map((culturalFit) => {
-      return {
-        id: culturalFit.id,
-        name: culturalFit.student,
-        checked: !!this.veeForm?.culturalFits?.find((id) => id === culturalFit.id),
-      };
-    });
-  }
-
-  get showError(): boolean {
-    return !!this.onboardingState.errors;
-  }
-
-  get onboardingLoading(): boolean {
-    return this.$store.getters["onboardingLoading"];
-  }
-
-  get onboardingState(): OnboardingState {
-    return this.$store.getters["onboardingState"];
-  }
-
-  onChangeSoftSkill(softSkill: SoftSkill): void {
-    const softSkillExists = !!this.veeForm.softSkills.find((id) => id === softSkill.id);
-    if (softSkillExists) {
-      this.veeForm.softSkills = this.veeForm.softSkills.filter((id) => id !== softSkill.id);
-    } else if (this.remainingSoftSkillCount > 0) {
-      this.veeForm.softSkills = [...this.veeForm.softSkills, softSkill.id];
-    }
-  }
-
-  onChangeCulturalFit(culturalFit: CulturalFit): void {
-    const culturalFitExists = !!this.veeForm.culturalFits.find((id) => id === culturalFit.id);
-    if (culturalFitExists) {
-      this.veeForm.culturalFits = this.veeForm.culturalFits.filter((id) => id !== culturalFit.id);
-    } else if (this.remainingCulturalFits > 0) {
-      this.veeForm.culturalFits = [...this.veeForm.culturalFits, culturalFit.id];
-    }
-  }
-
-  get profileData(): StudentProfileStep3Form {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as StudentProfileStep3Form;
-    }
-    return studentProfileStep3FormMapper(user);
-  }
-
-  async mounted(): Promise<void> {
-    await Promise.all([
-      this.$store.dispatch(ContentActionTypes.SOFT_SKILLS),
-      this.$store.dispatch(ContentActionTypes.CULTURAL_FITS),
-    ]);
-
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
-
-    calculateMargins();
-  }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+);
 </script>
 
 <style></style>

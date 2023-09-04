@@ -97,6 +97,7 @@ const veeForm = useForm<CompanyProfileStep4Form>({});
 const showError = computed(() => onboardingState.value.errors);
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
+const user = computed(() => store.getters["user"]);
 
 const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
@@ -161,11 +162,10 @@ const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
 };
 
 const profileData = computed(() => {
-  const user = store.getters["user"];
-  if (!user) {
+  if (!user.value) {
     return {} as CompanyProfileStep4Form;
   }
-  return companyProfileStep4FormMapper(user);
+  return companyProfileStep4FormMapper(user.value);
 });
 
 onMounted(async () => {
