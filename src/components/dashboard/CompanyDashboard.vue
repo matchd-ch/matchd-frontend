@@ -30,7 +30,7 @@
           </p>
           <MatchdButton
             tag="router-link"
-            :to="{ name: 'ProfileEdit', params: { step: 'schritt1' } }"
+            :to="{ name: Routes.PROFILE_EDIT, params: { step: 'schritt1' } }"
           >
             Profil vervollständigen
           </MatchdButton>
@@ -55,7 +55,7 @@
         </ul>
         <matchd-button
           class="block w-full mt-8 text-center"
-          :to="{ name: 'ChallengeCreate' }"
+          :to="{ name: Routes.CHALLENGE_CREATE }"
           tag="router-link"
         >
           Challenge | Mentoring ausschreiben
@@ -76,7 +76,7 @@
         </ul>
         <matchd-button
           class="block w-full mt-8 text-center"
-          :to="{ name: 'JobPostingCreate' }"
+          :to="{ name: Routes.JOB_POSTING_CREATE }"
           tag="router-link"
         >
           Neue Stelle ausschreiben
@@ -160,6 +160,7 @@ import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import useProgressIndicator from "@/helpers/useProgressIndicator";
 import type { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
+import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";

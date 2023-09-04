@@ -131,7 +131,7 @@
         <ul class="list">
           <li v-for="challenge in user.company.challenges" :key="challenge.id">
             <router-link
-              :to="{ name: 'ChallengeDetail', params: { slug: challenge.slug } }"
+              :to="{ name: Routes.CHALLENGE_DETAIL, params: { slug: challenge.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ challenge.challengeType.name }}
@@ -145,7 +145,7 @@
         <ul class="list">
           <li v-for="position in user.company.jobPostings" :key="position.id">
             <router-link
-              :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
+              :to="{ name: Routes.JOB_POSTING_DETAIL, params: { slug: position.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ position.title }}, {{ position.jobType?.name }}
@@ -191,6 +191,7 @@ import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
+import { Routes } from "@/router";
 import { ParamStrings } from "@/router/paramStrings";
 import { useStore } from "@/store";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";

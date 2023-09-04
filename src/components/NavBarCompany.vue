@@ -2,11 +2,11 @@
   <NavBar :open="open" @toggle-navigation="onToggleNavigation">
     <div class="grow md:flex-row justify-center pb-4 md:pb-0 md:flex md:justify-center">
       <NavLink :to="{ name: Routes.DASHBOARD }">Dashboard</NavLink>
-      <NavLink :to="{ name: 'StudentSearch' }">Talent finden</NavLink>
+      <NavLink :to="{ name: Routes.STUDENT_SEARCH }">Talent finden</NavLink>
       <NavLink :to="{ name: Routes.CHALLENGE_SEARCH }">Challenges | Mentorings</NavLink>
     </div>
     <NavDropdown :text="user?.company?.name ?? ''">
-      <NavLink :to="{ name: 'Profile' }" class="border-b border-grey-2">
+      <NavLink :to="{ name: Routes.PROFILE }" class="border-b border-grey-2">
         Profileinstellungen
       </NavLink>
       <button

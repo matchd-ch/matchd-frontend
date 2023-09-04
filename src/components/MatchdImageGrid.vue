@@ -5,7 +5,7 @@
       :key="media.id"
       href="#"
       class="matchd-image-grid__item"
-      @click.prevent="$emit('clickMedia', media)"
+      @click.prevent="emit('clickMedia', media)"
     >
       <img
         v-if="media.mimeType.includes('image/')"
@@ -22,22 +22,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import type { Attachment } from "@/api/models/types";
+<script setup lang="ts">
 import MatchdVideo from "@/components/MatchdVideo.vue";
-import { Options, prop, Vue } from "vue-class-component";
+import type AttachmentReduced from "@/types/AttachmentReduced";
 
-class Props {
-  attachments = prop<Attachment[]>({});
-}
+withDefaults(defineProps<{ attachments: AttachmentReduced[] }>(), {});
 
-@Options({
-  components: {
-    MatchdVideo,
-  },
-  emits: ["clickMedia"],
-})
-export default class MatchdImageGrid extends Vue.with(Props) {}
+const emit = defineEmits<{
+  (event: "clickMedia", media: AttachmentReduced): void;
+}>();
 </script>
 
 <style lang="postcss">
