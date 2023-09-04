@@ -268,13 +268,14 @@ const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
 const user = computed(() => store.getters["user"]);
 const skills = computed(() => store.getters["skills"]);
+
 const selectedSkills = computed(() =>
-  skills.value.filter((skill) => veeForm.values.skills.some((id) => id === skill.id))
+  skills.value.filter((skill) => veeForm.values.skills?.some((id) => id === skill.id))
 );
 
 const availableSkills = computed(() => {
   return skills.value.filter((skill) => {
-    return !veeForm.values.skills.some((id) => id === skill.id);
+    return !veeForm.values.skills?.some((id) => id === skill.id);
   });
 });
 
