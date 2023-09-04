@@ -132,11 +132,11 @@ const culturalFits = computed(() => {
 });
 
 const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
-  const softSkillExists = !!veeForm.values.softSkills.find((id) => id === softSkill.id);
+  const softSkillExists = !!veeForm.values.softSkills?.find((id) => id === softSkill.id);
   if (softSkillExists) {
     veeForm.setFieldValue(
       "softSkills",
-      veeForm.values.softSkills.filter((id) => id !== softSkill.id)
+      veeForm.values.softSkills?.filter((id) => id !== softSkill.id)
     );
     return;
   }
@@ -144,11 +144,11 @@ const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
 };
 
 const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
-  const culturalFitExists = !!veeForm.values.culturalFits.find((id) => id === culturalFit.id);
+  const culturalFitExists = !!veeForm.values.culturalFits?.find((id) => id === culturalFit.id);
   if (culturalFitExists) {
     veeForm.setFieldValue(
       "culturalFits",
-      veeForm.values.culturalFits.filter((id) => id !== culturalFit.id)
+      veeForm.values.culturalFits?.filter((id) => id !== culturalFit.id)
     );
     return;
   }
