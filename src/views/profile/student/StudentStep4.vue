@@ -7,16 +7,16 @@
       languageLevels.length &&
       studentDocumentsUploadConfigurations
     "
-    @submit="veeForm.onSubmit"
+    @submit="onSubmit"
   >
     <FormSaveError v-if="showError" />
     <!-- Skills Field -->
     <MatchdAutocomplete
       id="skills"
       class="mb-3"
-      :class="{ 'mb-10': veeForm.skills?.length === 0 }"
+      :class="{ 'mb-10': veeForm.values.skills?.length === 0 }"
       :items="filteredSkills"
-      :errors="veeForm.errors.skills"
+      :errors="veeForm.errors.value.skills"
       @select="onSelectSkill"
     >
       <template #label>Technische Skills*</template>
@@ -34,7 +34,7 @@
       <SelectPill
         v-for="selectedSkill in selectedSkills"
         :key="selectedSkill.id"
-        has-delete="true"
+        has-delete
         @remove="onRemoveSkill(selectedSkill)"
       >
         {{ selectedSkill.name }}
@@ -45,8 +45,8 @@
       class="mb-10"
       :languages="languages"
       :language-levels="languageLevels"
-      :selected-languages="veeForm.languages"
-      :errors="veeForm.errors.languages"
+      :selected-languages="veeForm.values.languages"
+      :errors="veeForm.errors.value.languages"
       @click-append-language="onClickAppendLanguage"
       @click-remove-language="onClickRemoveLanguage"
     >
@@ -78,14 +78,15 @@
       >
     </MatchdField>
 
-    <SelectPillGroup v-if="veeForm.onlineChallenges?.length" class="mb-10">
+    <SelectPillGroup v-if="veeForm.values.onlineChallenges?.length" class="mb-10">
       <SelectPill
-        v-for="onlineChallenge in veeForm.onlineChallenges"
-        :key="onlineChallenge.url"
-        has-delete="true"
+        v-for="(onlineChallenge, index) in veeForm.values.onlineChallenges"
+        :key="onlineChallenge.url ?? `onlineChallenge_url_${index}`"
+        has-delete
         @remove="onRemoveOnlineChallenge(onlineChallenge)"
-        >{{ onlineChallenge.url }}</SelectPill
       >
+        {{ onlineChallenge.url }}
+      </SelectPill>
     </SelectPillGroup>
     <!-- Certificates Field -->
     <MatchdFileBlock>
@@ -109,7 +110,11 @@
       >
     </MatchdFileBlock>
     <!-- Hobbies Field -->
-    <MatchdField id="hobbies" class="mb-3" :class="{ 'mb-10': veeForm.hobbies?.length === 0 }">
+    <MatchdField
+      id="hobbies"
+      class="mb-3"
+      :class="{ 'mb-10': veeForm.values.hobbies?.length === 0 }"
+    >
       <template #label>Deine Interessen und Hobbies</template>
       <input
         id="hobbies"
@@ -131,11 +136,11 @@
         </button>
       </template>
     </MatchdField>
-    <SelectPillGroup v-if="veeForm.hobbies?.length > 0" class="mb-10">
+    <SelectPillGroup v-if="veeForm.values.hobbies?.length > 0" class="mb-10">
       <SelectPill
-        v-for="hobby in veeForm.hobbies"
-        :key="hobby.name"
-        has-delete="true"
+        v-for="(hobby, index) in veeForm.values.hobbies"
+        :key="hobby.name ?? `hobby_name_${index}`"
+        has-delete
         @remove="onRemoveHobby(hobby)"
       >
         {{ hobby.name }}
@@ -162,7 +167,7 @@
             type="button"
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
+            @click="emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -171,7 +176,7 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
           >
             Speichern
           </MatchdButton>
@@ -179,7 +184,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton
@@ -187,7 +192,7 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
       >
         Speichern und weiter
       </MatchdButton>
@@ -195,16 +200,10 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { studentProfileStep4FormMapper } from "@/api/mappers/studentProfileStep4FormMapper";
 import { studentProfileStep4InputMapper } from "@/api/mappers/studentProfileStep4InputMapper";
-import type {
-  Attachment,
-  HobbyInput,
-  OnlineChallengeInput,
-  Skill,
-  StudentProfileAbilitiesInput,
-} from "@/api/models/types";
+import type { Attachment, HobbyInput, OnlineChallengeInput, Skill } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import LanguagePicker from "@/components/LanguagePicker.vue";
@@ -226,248 +225,187 @@ import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { Field, useField, useForm } from "vee-validate";
-import { Options, Vue, prop, setup } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Field, useForm } from "vee-validate";
+import { computed, onMounted, ref, watch } from "vue";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
+withDefaults(
+  defineProps<{
+    edit?: boolean;
+  }>(),
+  {
+    edit: false,
+  }
+);
 
-@Options({
-  components: {
-    Field,
-    FormSaveError,
-    MatchdButton,
-    MatchdField,
-    MatchdFileBlock,
-    MatchdFileUpload,
-    MatchdFileView,
-    MatchdAutocomplete,
-    SelectPillGroup,
-    SelectPill,
-    LanguagePicker,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel", "clickBack"],
-})
-export default class StudentStep4 extends Vue.with(Props) {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<StudentProfileStep4Form>();
-    const { value: skills } = useField<string[]>("skills", (value) => {
-      if ((value as string[])?.length === 0) {
-        return "Du musst mindestens einen technischen Skill auswählen.";
-      }
-      return true;
-    });
-    const { value: languages } = useField<SelectedLanguage[]>("languages", (value) => {
-      if ((value as SelectedLanguage[])?.length === 0) {
-        return "Du musst mindestens eine Sprache auswählen.";
-      }
-      return true;
-    });
-    const { value: onlineChallenges } = useField<OnlineChallengeInput[]>("onlineChallenges");
-    const { value: hobbies } = useField<HobbyInput[]>("hobbies");
-    const { value: distinction } =
-      useField<StudentProfileAbilitiesInput["distinction"]>("distinction");
+const emit = defineEmits<{
+  (event: "submitComplete", onboardingState: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+  (event: "clickBack"): void;
+}>();
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.STUDENT_ONBOARDING_STEP4,
-          studentProfileStep4InputMapper(formData)
-        );
-        const onboardingState = store.getters["onboardingState"];
-        this.$emit("submitComplete", onboardingState.success);
-      } catch (e) {
-        console.log(e);
-      }
-    });
+const store = useStore();
+const veeForm = useForm<StudentProfileStep4Form>();
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    await store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP4,
+      studentProfileStep4InputMapper(formData)
+    );
+    const onboardingState = store.getters["onboardingState"];
+    emit("submitComplete", onboardingState.success);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
-    return {
-      ...form,
-      onSubmit,
-      hobbies,
-      languages,
-      onlineChallenges: onlineChallenges,
-      skills,
-      distinction,
-    };
+const filteredSkills = ref<Skill[]>([]);
+const skillInput = ref("");
+const onlineChallengeInput = ref("");
+const hobbyInput = ref("");
+const showError = computed(() => !!onboardingState.value.errors);
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const onboardingState = computed(() => store.getters["onboardingState"]);
+const user = computed(() => store.getters["user"]);
+const skills = computed(() => store.getters["skills"]);
+const selectedSkills = computed(() =>
+  skills.value.filter((skill) => veeForm.values.skills.some((id) => id === skill.id))
+);
+
+const availableSkills = computed(() => {
+  return skills.value.filter((skill) => {
+    return !veeForm.values.skills.some((id) => id === skill.id);
   });
+});
 
-  filteredSkills: Skill[] = [];
-  skillInput = "";
-  onlineChallengeInput = "";
-  hobbyInput = "";
+const languages = computed(() => store.getters["languages"]);
+const languageLevels = computed(() => store.getters["languageLevels"]);
+const isValidOnlineChallengeUrl = computed(
+  () => onlineChallengeInput.value.length > 0 && isValidUrl(onlineChallengeInput.value)
+);
+const studentDocumentsQueue = computed(() =>
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentDocuments })
+);
+const studentDocuments = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments })
+);
+const studentDocumentsUploadConfigurations = computed(() =>
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentDocuments })
+);
 
-  get showError() {
-    return !!this.onboardingState.errors;
-  }
-
-  get onboardingLoading() {
-    return this.$store.getters["onboardingLoading"];
-  }
-
-  get onboardingState() {
-    return this.$store.getters["onboardingState"];
-  }
-
-  get currentStep() {
-    return this.$store.getters["profileStep"];
-  }
-
-  get skills() {
-    return this.$store.getters["skills"];
-  }
-
-  get selectedSkills() {
-    return this.skills.filter((skill) => this.veeForm.skills?.some((id) => id === skill.id));
-  }
-
-  get availableSkills() {
-    return this.skills.filter((skill) => {
-      return !this.veeForm.skills.some((id) => id === skill.id);
-    });
-  }
-
-  get languages() {
-    return this.$store.getters["languages"];
-  }
-
-  get languageLevels() {
-    return this.$store.getters["languageLevels"];
-  }
-
-  get isValidOnlineChallengeUrl() {
-    return this.onlineChallengeInput.length > 0 && isValidUrl(this.onlineChallengeInput);
-  }
-
-  get studentDocumentsQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentDocuments });
-  }
-
-  get studentDocuments() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments });
-  }
-
-  get studentDocumentsUploadConfigurations() {
-    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentDocuments });
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(ContentActionTypes.SKILLS),
-      this.$store.dispatch(ContentActionTypes.LANGUAGES),
-      this.$store.dispatch(ContentActionTypes.LANGUAGE_LEVELS),
-      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.StudentDocuments,
-      }),
-    ]);
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
-
-    calculateMargins();
-  }
-
-  onInputSkill() {
-    if (this.skillInput.length < 1) {
-      this.filteredSkills = [];
-      return;
-    }
-    this.filteredSkills = this.availableSkills.filter((item) =>
-      item.name.toLowerCase().startsWith(this.skillInput.toLowerCase())
-    );
-  }
-
-  onSelectSkill(skill: Skill) {
-    this.skillInput = "";
-    this.veeForm.skills = [...this.veeForm.skills, skill.id];
-    this.onInputSkill();
-  }
-
-  onPressEnterSkill() {
-    if (this.filteredSkills.length === 1) {
-      this.onSelectSkill(this.filteredSkills[0]);
-    }
-  }
-
-  onRemoveSkill(skill: Skill) {
-    this.veeForm.skills = this.veeForm.skills.filter((id) => id !== skill.id);
-  }
-
-  onClickAppendLanguage(language: SelectedLanguage) {
-    if (language && language.level) {
-      this.veeForm.languages = [...this.veeForm.languages, language];
-    }
-  }
-
-  onClickRemoveLanguage(language: SelectedLanguage) {
-    this.veeForm.languages = this.veeForm.languages.filter(
-      (selectedLanguage) => selectedLanguage.language !== language.language
-    );
-  }
-
-  onAppendOnlineChallenge() {
-    if (this.isValidOnlineChallengeUrl) {
-      this.veeForm.onlineChallenges = [
-        ...this.veeForm.onlineChallenges,
-        { url: this.onlineChallengeInput },
-      ];
-      this.onlineChallengeInput = "";
-    }
-  }
-
-  onRemoveOnlineChallenge(onlineChallenge: OnlineChallengeInput) {
-    this.veeForm.onlineChallenges = this.veeForm.onlineChallenges.filter(
-      (selectedOnlineChallenge) => selectedOnlineChallenge.url !== onlineChallenge.url
-    );
-  }
-
-  onAppendHobby() {
-    if (
-      this.hobbyInput.length > 0 &&
-      !this.veeForm.hobbies.find((hobby) => hobby.name === this.hobbyInput)
-    ) {
-      this.veeForm.hobbies = [...this.veeForm.hobbies, { name: this.hobbyInput }];
-      this.hobbyInput = "";
-    }
-  }
-
-  onRemoveHobby(hobby: HobbyInput) {
-    this.veeForm.hobbies = this.veeForm.hobbies.filter(
-      (selectedHobby) => selectedHobby.name !== hobby.name
-    );
-  }
-
-  async onSelectStudentDocuments(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(ContentActionTypes.SKILLS),
+    store.dispatch(ContentActionTypes.LANGUAGES),
+    store.dispatch(ContentActionTypes.LANGUAGE_LEVELS),
+    store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
       key: AttachmentKey.StudentDocuments,
-      files,
-    });
-  }
+    }),
+  ]);
+  veeForm.resetForm({
+    values: profileData.value,
+  });
+  calculateMargins();
+});
 
-  async onDeleteStudentDocument(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
-      key: AttachmentKey.StudentDocuments,
-      id: file.id,
-    });
+const onInputSkill = () => {
+  if (skillInput.value.length < 1) {
+    filteredSkills.value = [];
+    return;
   }
+  filteredSkills.value = availableSkills.value.filter((item) =>
+    item.name.toLowerCase().startsWith(skillInput.value.toLowerCase())
+  );
+};
 
-  get profileData() {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as StudentProfileStep4Form;
-    }
-    return studentProfileStep4FormMapper(user);
-  }
+const onSelectSkill = (skill: Skill) => {
+  skillInput.value = "";
+  veeForm.setFieldValue("skills", [...veeForm.values.skills, skill.id]);
+  onInputSkill();
+};
 
-  @Watch("veeForm.meta.dirty")
-  checkDirty() {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
+const onPressEnterSkill = () => {
+  if (filteredSkills.value.length === 1) {
+    onSelectSkill(filteredSkills.value[0]);
   }
-}
+};
+
+const onRemoveSkill = (skill: Skill) => {
+  veeForm.values.skills = veeForm.values.skills.filter((id) => id !== skill.id);
+};
+
+const onClickAppendLanguage = (language: SelectedLanguage) => {
+  if (language && language.level) {
+    veeForm.values.languages = [...veeForm.values.languages, language];
+  }
+};
+
+const onClickRemoveLanguage = (language: SelectedLanguage) => {
+  veeForm.values.languages = veeForm.values.languages.filter(
+    (selectedLanguage) => selectedLanguage.language !== language.language
+  );
+};
+
+const onAppendOnlineChallenge = () => {
+  if (isValidOnlineChallengeUrl.value) {
+    veeForm.values.onlineChallenges = [
+      ...veeForm.values.onlineChallenges,
+      { url: onlineChallengeInput.value },
+    ];
+    onlineChallengeInput.value = "";
+  }
+};
+
+const onRemoveOnlineChallenge = (onlineChallenge: OnlineChallengeInput) => {
+  veeForm.values.onlineChallenges = veeForm.values.onlineChallenges.filter(
+    (selectedOnlineChallenge) => selectedOnlineChallenge.url !== onlineChallenge.url
+  );
+};
+
+const onAppendHobby = () => {
+  if (
+    hobbyInput.value.length > 0 &&
+    !veeForm.values.hobbies.find((hobby) => hobby.name === hobbyInput.value)
+  ) {
+    veeForm.values.hobbies = [...veeForm.values.hobbies, { name: hobbyInput.value }];
+    hobbyInput.value = "";
+  }
+};
+
+const onRemoveHobby = (hobby: HobbyInput) => {
+  veeForm.values.hobbies = veeForm.values.hobbies.filter(
+    (selectedHobby) => selectedHobby.name !== hobby.name
+  );
+};
+
+const onSelectStudentDocuments = async (files: FileList) => {
+  await store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+    key: AttachmentKey.StudentDocuments,
+    files,
+  });
+};
+
+const onDeleteStudentDocument = async (file: Attachment) => {
+  await store.dispatch(UploadActionTypes.DELETE_FILE, {
+    key: AttachmentKey.StudentDocuments,
+    id: file.id,
+  });
+};
+
+const profileData = computed(() => {
+  if (!user.value) {
+    return {} as StudentProfileStep4Form;
+  }
+  return studentProfileStep4FormMapper(user.value);
+});
+
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
+  }
+);
 </script>
 
 <style></style>

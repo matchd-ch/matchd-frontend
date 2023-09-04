@@ -356,11 +356,12 @@ const onChangeBranch = (branch: Branch) => {
     (selectedBranchId) => selectedBranchId === branch.id
   );
   if (branchExists) {
-    veeForm.values.branches = veeForm.values.branches.filter(
-      (selectedBranchId) => selectedBranchId !== branch.id
+    veeForm.setFieldValue(
+      "branches",
+      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id)
     );
   } else {
-    veeForm.values.branches = [...veeForm.values.branches, branch.id];
+    veeForm.setFieldValue("branches", [...veeForm.values.branches, branch.id]);
   }
 };
 
