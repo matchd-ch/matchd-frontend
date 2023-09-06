@@ -778,7 +778,7 @@ export type JobPostingMatchingInput = {
   branch?: InputMaybe<BranchInput>;
   jobType?: InputMaybe<JobTypeInput>;
   workload?: InputMaybe<Scalars["Int"]>;
-  zip?: InputMaybe<ZipCityInput>;
+  zip?: InputMaybe<Scalars["String"]>;
 };
 
 export type JobPostingRequirementsInput = {
@@ -2291,9 +2291,5 @@ export type ZipCity = {
   __typename?: "ZipCity";
   canton: Scalars["String"];
   city: Scalars["String"];
-  zip: Scalars["String"];
-};
-
-export type ZipCityInput = {
   zip: Scalars["String"];
 };

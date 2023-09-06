@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "@/api/models/types";
+import type { MeQuery } from "@/api/queries/me.generated";
 import { Routes } from "@/router";
 import { ref } from "vue";
 import NavBar from "./NavBar.vue";
@@ -28,7 +28,7 @@ import NavDropdown from "./NavDropdown.vue";
 import NavLink from "./NavLink.vue";
 
 defineProps<{
-  user: User;
+  user: MeQuery["me"];
 }>();
 
 const emit = defineEmits<{

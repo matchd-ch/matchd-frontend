@@ -15,9 +15,7 @@ export function jobPostingMatchingInputMapper(filters: JobPostingMatchingFilters
         },
       }),
       ...(filters.zip && {
-        zip: {
-          zip: filters.zip,
-        },
+        zip: filters.zip,
       }),
       ...(filters.workload && {
         workload: filters.workload,
