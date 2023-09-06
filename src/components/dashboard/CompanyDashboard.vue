@@ -53,13 +53,14 @@
             <PostingEditLink :posting="challenge" />
           </li>
         </ul>
-        <matchd-button
+        <MatchdButton
           class="block w-full mt-8 text-center"
           :to="{ name: Routes.CHALLENGE_CREATE }"
           tag="router-link"
         >
           Challenge | Mentoring ausschreiben
-        </matchd-button>
+        </MatchdButton>
+        <ChallengeTypeMentoringButton />
         <h2 class="text-base font-medium text-primary-1 mt-12 mb-4">Stellen</h2>
         <p v-if="dashboard?.jobPostings?.length === 0">
           Momentan haben Sie noch keine Stelle ausgeschrieben. Sobald Sie eine Stelle ausschreiben,
@@ -74,13 +75,13 @@
             <PostingEditLink :posting="jobPosting" />
           </li>
         </ul>
-        <matchd-button
+        <MatchdButton
           class="block w-full mt-8 text-center"
           :to="{ name: Routes.JOB_POSTING_CREATE }"
           tag="router-link"
         >
           Neue Stelle ausschreiben
-        </matchd-button>
+        </MatchdButton>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
         <p v-if="dashboard?.requestedMatches?.length">
@@ -164,6 +165,7 @@ import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import ChallengeTypeMentoringButton from "../ChallengeTypeMentoringButton.vue";
 import DeletionInfoModal from "./DeletionInfoModal.vue";
 
 defineProps<{ dashboard: ICompanyDashboard }>();
