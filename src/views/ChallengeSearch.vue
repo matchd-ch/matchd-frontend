@@ -155,6 +155,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ChallengeType } from "@/api/models/types";
 import type { ChallengeTypesChallengeTypeFragment } from "@/api/queries/challengeTypesFragment.generated";
 import type { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
 import ChallengeSearchFilters from "@/components/ChallengeSearchFilters.vue";
@@ -169,10 +170,19 @@ import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Field } from "vee-validate";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useMeta } from "vue-meta";
 import MatchdAutocomplete from "../components/MatchdAutocomplete.vue";
 import MatchdField from "../components/MatchdField.vue";
+
+const props = withDefaults(
+  defineProps<{
+    challengeTypeId?: ChallengeType["id"];
+  }>(),
+  {
+    challengeTypeId: undefined,
+  }
+);
 
 useMeta({
   title: "Challenges suchen",
@@ -286,7 +296,6 @@ const fetchChallenges = async () => {
       keywordIds: selectedKeywords.value.map((kw) => kw.id),
     }),
   };
-  console.log("payload:", payload);
   await store.dispatch(ActionTypes.CHALLENGES, payload);
   if (challenges.value.length > 0 && challengeId.value === "") {
     challengeId.value = challenges.value[0].id;
@@ -300,6 +309,13 @@ const resetFilter = async () => {
   Object.values(entities.value).forEach((cat) => (cat.checked = false));
   await fetchChallenges();
 };
+
+watchEffect(() => {
+  const challengeType = challengeTypes.value?.find((ct) => ct.id === props.challengeTypeId);
+  if (challengeType) {
+    selectedChallengeTypes.value = [challengeType];
+  }
+});
 
 onMounted(async () => {
   await Promise.all([

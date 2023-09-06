@@ -83,13 +83,7 @@
         >
           Challenge | Mentoring ausschreiben
         </MatchdButton>
-        <MatchdButton
-          class="block w-full mt-8 text-center"
-          :to="{ name: Routes.CHALLENGE_SEARCH }"
-          tag="router-link"
-        >
-          Mentoring suchen
-        </MatchdButton>
+        <ChallengeTypeMentoringButton />
       </profile-section>
       <profile-section v-if="dashboard.challenges?.length" title="Deine Challenge-Ideen">
         <p v-if="dashboard.challenges?.length === 0">
@@ -190,6 +184,7 @@ import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import ChallengeTypeMentoringButton from "../ChallengeTypeMentoringButton.vue";
 import StackImage from "../StackImage.vue";
 import DeletionInfoModal from "./DeletionInfoModal.vue";
 
@@ -219,7 +214,6 @@ onMounted(() => {
   }
 });
 </script>
-
 <style lang="postcss" scoped>
 .avatar {
   height: 15rem;
