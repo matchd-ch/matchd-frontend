@@ -6,7 +6,7 @@
       <NavLink :to="{ name: Routes.CHALLENGE_SEARCH }">Challenges | Mentorings</NavLink>
       <NavLink :to="{ name: Routes.COMPANY_LIST }">Unternehmen entdecken</NavLink>
     </div>
-    <NavDropdown :text="user?.firstName">
+    <NavDropdown :text="user?.firstName ?? ''">
       <NavLink :to="{ name: Routes.PROFILE }" class="border-b border-grey-2">Mein Profil</NavLink>
       <button
         class="block focus:bg-gray-200 focus:outline-none focus:shadow-outline focus:text-gray-900 hover:text-primary-1 bg-transparent md:mt-0 md:text-lg mt-2 px-4 py-2 text-sm transition-colors"
@@ -19,14 +19,14 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "@/api/models/types";
+import type { MeQuery } from "@/api/queries/me.generated";
 import { Routes } from "@/router";
 import { ref } from "vue";
 import NavBar from "./NavBar.vue";
 import NavDropdown from "./NavDropdown.vue";
 import NavLink from "./NavLink.vue";
 
-defineProps<{ user: User }>();
+defineProps<{ user: MeQuery["me"] }>();
 
 const emit = defineEmits<{
   (event: "clickLogout"): void;
