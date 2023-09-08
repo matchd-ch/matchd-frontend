@@ -217,13 +217,10 @@ export default () => {
   const progress = computed(() => {
     switch (user.value?.type) {
       case ProfileType.Student:
-        console.log("STUDENT");
         return studentProgress.value;
       case ProfileType.University:
-        console.log("UNIVERSITY");
         return universityProgress.value;
       case ProfileType.Company:
-        console.log("COMPANY");
         return companyProgress.value;
       default:
         return null;
