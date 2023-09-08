@@ -123,7 +123,6 @@ const routes: Array<RouteRecordRaw> = [
     name: Routes.CHALLENGE_SEARCH,
     component: () =>
       import(/* webpackChunkName: "challenge-search" */ "../views/ChallengeSearch.vue"),
-    props: true,
     meta: {
       accessType: ["student", "company", "university"],
       public: true,
