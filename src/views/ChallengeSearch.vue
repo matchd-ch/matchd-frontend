@@ -155,7 +155,6 @@
 </template>
 
 <script setup lang="ts">
-import type { ChallengeType } from "@/api/models/types";
 import type { ChallengeTypesChallengeTypeFragment } from "@/api/queries/challengeTypesFragment.generated";
 import type { KeywordsKeywordFragment } from "@/api/queries/keywordsFragment.generated";
 import ChallengeSearchFilters from "@/components/ChallengeSearchFilters.vue";
@@ -170,24 +169,17 @@ import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Field } from "vee-validate";
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import { useMeta } from "vue-meta";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import MatchdAutocomplete from "../components/MatchdAutocomplete.vue";
 import MatchdField from "../components/MatchdField.vue";
-
-const props = withDefaults(
-  defineProps<{
-    challengeTypeId?: ChallengeType["id"];
-  }>(),
-  {
-    challengeTypeId: undefined,
-  }
-);
 
 useMeta({
   title: "Challenges suchen",
 });
 const store = useStore();
+const route = useRoute();
 const challengeSearchFiltersRef = ref<typeof ChallengeSearchFilters | null>(null);
 const filteredKeywords = ref<KeywordsKeywordFragment[]>([]);
 const keywords = computed(() => store.getters["keywords"]);
@@ -218,14 +210,6 @@ const entities = ref<{ [key in Entities]: { name: string; checked: boolean } }>(
     checked: false,
   },
 });
-
-watch(
-  entities,
-  () => {
-    console.log("entities:", entities.value);
-  },
-  { immediate: true }
-);
 
 const { companyProgress, universityProgress, formatProgress } = useProgressIndicator();
 const challenges = computed(() => store.getters["challenges"]);
@@ -311,19 +295,25 @@ const resetFilter = async () => {
 };
 
 watchEffect(() => {
-  const challengeType = challengeTypes.value?.find((ct) => ct.id === props.challengeTypeId);
-  if (challengeType) {
-    selectedChallengeTypes.value = [challengeType];
+  const challengeType = challengeTypes.value?.find((ct) => ct.id === route.query?.challengeTypeId);
+  if (!challengeType) {
+    selectedChallengeTypes.value = [];
+    return;
   }
+  selectedChallengeTypes.value = [challengeType];
 });
 
 onMounted(async () => {
   await Promise.all([
-    store.dispatch(ActionTypes.KEYWORDS),
-    store.dispatch(ActionTypes.CHALLENGE_TYPES),
+    await store.dispatch(ActionTypes.KEYWORDS),
+    await store.dispatch(ActionTypes.CHALLENGE_TYPES),
     await fetchChallenges(),
   ]);
   calculateMargins();
+});
+
+onBeforeRouteUpdate(async () => {
+  await resetFilter();
 });
 </script>
 

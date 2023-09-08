@@ -4,7 +4,7 @@
     class="block w-full mt-8 text-center"
     :to="{
       name: Routes.CHALLENGE_SEARCH,
-      params: { challengeTypeId: challengeTypeMentoring.id },
+      query: { challengeTypeId: challengeTypeMentoring.id },
     }"
     tag="router-link"
   >
