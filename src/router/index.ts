@@ -119,7 +119,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/challenges/:challengeTypeId?",
+    path: "/challenges",
     name: Routes.CHALLENGE_SEARCH,
     component: () =>
       import(/* webpackChunkName: "challenge-search" */ "../views/ChallengeSearch.vue"),
