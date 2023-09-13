@@ -2,14 +2,13 @@
   <form v-if="profileData && studentAvatarUploadConfigurations" @submit="onSubmit">
     <FormSaveError v-if="showError" />
     <MatchdField id="nickname" class="mb-10" :errors="veeForm.errors.value.nickname">
-      <template #label>Dein Nickname*</template>
+      <template #label>Dein Nickname</template>
       <Field
         id="nickname"
         name="nickname"
         as="input"
         type="nickname"
         label="Nickname"
-        rules="required"
         autocomplete="off"
       />
       <template v-if="onboardingState.errors?.nickname?.[0] === 'unique'" #info>

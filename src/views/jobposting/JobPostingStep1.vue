@@ -164,7 +164,7 @@
 
     <!-- Beschreibung Field -->
     <MatchdField id="description" class="mb-10" :errors="veeForm.errors.value.description">
-      <template #label>Beschreiben Sie die Besonderheiten der Stelle</template>
+      <template #label>Beschreiben Sie die Besonderheiten der Stelle*</template>
       <Field
         id="description"
         name="description"
@@ -172,6 +172,7 @@
         label="Beschreibung"
         class="h-72"
         maxlength="3000"
+        rules="required"
       />
     </MatchdField>
     <!-- Link Ausschreibung Field -->
