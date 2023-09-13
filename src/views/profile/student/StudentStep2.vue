@@ -3,6 +3,16 @@
     <FormSaveError v-if="showError" />
     <SelectPillGroup :errors="veeForm.errors.value.jobTypeId" class="mb-10">
       <template #label>Ich suche nach*</template>
+      <template #field>
+        <Field
+          id="jobTypeId"
+          name="jobTypeId"
+          as="input"
+          label="Art"
+          type="hidden"
+          rules="required"
+        />
+      </template>
       <SelectPill
         v-for="option in jobTypes"
         :key="option.id"
@@ -10,8 +20,9 @@
         :value="option.id"
         :checked="option.id === veeForm.values.jobTypeId"
         @change="onChangeJobType"
-        >{{ option.name }}</SelectPill
       >
+        {{ option.name }}
+      </SelectPill>
     </SelectPillGroup>
     <div class="lg:flex">
       <MatchdSelect
@@ -83,7 +94,7 @@
       </MatchdSelect>
     </div>
     <SelectPillGroup :errors="veeForm.errors.value.branchId" class="mb-10">
-      <template #label>Fachrichtung*</template>
+      <template #label>Fachrichtung</template>
       <SelectPill
         v-for="option in branches"
         :key="option.id"
@@ -91,8 +102,9 @@
         :value="option.id"
         :checked="option.id === veeForm.values?.branchId"
         @change="onChangeBranch"
-        >{{ option.name }}</SelectPill
       >
+        {{ option.name }}
+      </SelectPill>
     </SelectPillGroup>
     <template v-if="edit">
       <teleport to="footer">
