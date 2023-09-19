@@ -274,10 +274,10 @@ const onClickCancel = () => {
   router.push({ name: Routes.PROFILE });
 };
 
-const onSubmitComplete = (success: boolean) => {
+const onSubmitComplete = async (success: boolean) => {
   if (success) {
     dirty.value = false;
-    router.push({ name: Routes.PROFILE });
+    router.go(0);
   }
 };
 
