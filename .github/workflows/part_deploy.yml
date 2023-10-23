@@ -82,7 +82,7 @@ jobs:
           echo "HELM_VERSION=${HELM_VERSION}" >> $GITHUB_ENV
 
       - name: Setup helmfile
-        uses: mamezou-tech/setup-helmfile@v1.2.0
+        uses: mamezou-tech/setup-helmfile@v1.3.0
         with:
           helmfile-version: "v${{ env.HELMFILE_VERSION }}"
           helm-version: "v${{ env.HELM_VERSION }}"
