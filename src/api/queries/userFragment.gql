@@ -25,7 +25,6 @@ fragment MeUser on User {
     city
     zip
     street
-    profileStep
     state
     description
     website

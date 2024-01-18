@@ -103,7 +103,7 @@
       <PostingSection v-if="isLoggedIn" title="Neugierig? Dann lassen wir es matchen!">
         <template v-if="challenge.data.company">
           <router-link
-            :to="{ name: 'CompanyDetail', params: { slug: challenge.data.company.slug } }"
+            :to="{ name: Routes.COMPANY_DETAIL, params: { slug: challenge.data.company.slug } }"
           >
             <address
               class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg"
@@ -135,7 +135,7 @@
         </template>
         <template v-else>
           <router-link
-            :to="{ name: 'StudentDetail', params: { slug: challenge.data.student?.slug } }"
+            :to="{ name: Routes.STUDENT_DETAIL, params: { slug: challenge.data.student?.slug } }"
             class="underline font-medium text-black hover:text-orange-1 transition-colors"
           >
             <h3 class="text-heading-sm flex">
@@ -214,6 +214,7 @@ import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
 import { getTeamSize } from "@/helpers/teamSize";
 import { MatchTypeEnum } from "@/models/MatchTypeEnum";
+import { Routes } from "@/router";
 import { ParamStrings } from "@/router/paramStrings";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";

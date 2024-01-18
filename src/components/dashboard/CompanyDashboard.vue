@@ -12,14 +12,29 @@
         />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
-        <h2 class="flex-1 xl:mb-0 text-display-xs">
+        <h2 class="flex-1 mb-4 text-display-xs">
           Willkommen zurück bei Matchd! Wir wünschen viel Erfolg bei der Talentsuche
         </h2>
-        <p class="mt-4">
+        <p>
           Auf dieser Seite finden Sie Ihre ausgeschriebenen Challenges | Mentorings und Stellen
           sowie den aktuellen Stand Ihrer Matches. Damit Sie keinen Match verpassen, informieren wir
           Sie jeweils auch per E-Mail.
         </p>
+        <template v-if="progress && progress.global < 1">
+          <h2 class="flex-1 mt-8 mb-4 text-display-xs">
+            Ihr Profil ist zu {{ formatProgress(progress.global) }} vollständig.
+          </h2>
+          <p class="mb-8">
+            Damit Talents Sie besser finden und sich mit Ihnen verbinden können, sollten Sie zuerst
+            Ihr Profil vervollständigen.
+          </p>
+          <MatchdButton
+            tag="router-link"
+            :to="{ name: Routes.PROFILE_EDIT, params: { step: 'schritt1' } }"
+          >
+            Profil vervollständigen
+          </MatchdButton>
+        </template>
       </div>
     </div>
     <div class="flex flex-col min-h-full">
@@ -38,13 +53,14 @@
             <PostingEditLink :posting="challenge" />
           </li>
         </ul>
-        <matchd-button
+        <MatchdButton
           class="block w-full mt-8 text-center"
-          :to="{ name: 'ChallengeCreate' }"
+          :to="{ name: Routes.CHALLENGE_CREATE }"
           tag="router-link"
         >
           Challenge | Mentoring ausschreiben
-        </matchd-button>
+        </MatchdButton>
+        <ChallengeTypeMentoringButton />
         <h2 class="text-base font-medium text-primary-1 mt-12 mb-4">Stellen</h2>
         <p v-if="dashboard?.jobPostings?.length === 0">
           Momentan haben Sie noch keine Stelle ausgeschrieben. Sobald Sie eine Stelle ausschreiben,
@@ -59,13 +75,13 @@
             <PostingEditLink :posting="jobPosting" />
           </li>
         </ul>
-        <matchd-button
+        <MatchdButton
           class="block w-full mt-8 text-center"
-          :to="{ name: 'JobPostingCreate' }"
+          :to="{ name: Routes.JOB_POSTING_CREATE }"
           tag="router-link"
         >
           Neue Stelle ausschreiben
-        </matchd-button>
+        </MatchdButton>
       </profile-section>
       <profile-section title="Ihre offenen Matches" :pink="true">
         <p v-if="dashboard?.requestedMatches?.length">
@@ -143,10 +159,13 @@ import MatchdButton from "@/components/MatchdButton.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import CompanyMatchGroup from "@/components/dashboard/CompanyMatchGroup.vue";
 import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
+import useProgressIndicator from "@/helpers/useProgressIndicator";
 import type { CompanyDashboard as ICompanyDashboard } from "@/models/CompanyDashboard";
+import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import ChallengeTypeMentoringButton from "../ChallengeTypeMentoringButton.vue";
 import DeletionInfoModal from "./DeletionInfoModal.vue";
 
 defineProps<{ dashboard: ICompanyDashboard }>();
@@ -154,6 +173,7 @@ const store = useStore();
 const route = useRoute();
 const user = computed(() => store.getters["user"]);
 const showDeletionInfoModal = ref(false);
+const { progress, formatProgress } = useProgressIndicator();
 
 const avatar = computed(
   () =>

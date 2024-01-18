@@ -21,7 +21,6 @@
                 placeholder="Challengetitel, Beschreibung, etc."
               />
             </MatchdField>
-
             <MatchdAutocomplete
               id="keywords"
               :class="{ 'mb-3': selectedKeywords.length, 'mb-10': !selectedKeywords.length }"
@@ -52,7 +51,7 @@
             </SelectPillGroup>
 
             <SelectPillGroup v-if="challengeTypes.length" class="mb-10">
-              <template #label>Challengeart</template>
+              <template #label>Art</template>
               <SelectPill
                 v-for="option in challengeTypes"
                 :key="option.id"
@@ -107,9 +106,34 @@
         </div>
       </ChallengeSearchFilters>
     </teleport>
-    <LoadingBox :is-loading="isLoading">
+
+    <div
+      v-if="
+        companyOrUniversityProgress && companyOrUniversityProgress.sections.setupTalentSearch < 1
+      "
+      class="grid grid-cols-8 lg:grid-cols-16 gap-x-4 lg:gap-x-5"
+    >
+      <div
+        class="col-start-1 lg:col-start-6 col-span-full lg:col-span-6 px-4 lg:px-5 py-12 text-center"
+      >
+        <h2 class="flex-1 mt-8 mb-4 text-display-xs">
+          Ihr Profil ist zu {{ formatProgress(companyOrUniversityProgress.global) }} vollständig.
+        </h2>
+        <p class="mb-8">
+          Damit Sie Cahllenges & Mentorings finden können, sollten Sie zuerst Ihr Profil
+          vervollständigen.
+        </p>
+        <MatchdButton
+          tag="router-link"
+          :to="{ name: Routes.PROFILE_EDIT, params: { step: 'schritt4' } }"
+        >
+          Profil vervollständigen
+        </MatchdButton>
+      </div>
+    </div>
+    <LoadingBox v-else :is-loading="challengesLoading">
       <SearchResultChallengeGrid
-        v-if="challenges.length"
+        v-if="challenges.length > 0"
         class="search-result-challenge-grid"
         :challenges="challenges"
         result-type="student"
@@ -140,11 +164,14 @@ import SearchResultChallengeGrid from "@/components/SearchResultChallengeGrid.vu
 import SelectPill from "@/components/SelectPill.vue";
 import SelectPillGroup from "@/components/SelectPillGroup.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
+import useProgressIndicator from "@/helpers/useProgressIndicator";
+import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { Field } from "vee-validate";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import { useMeta } from "vue-meta";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import MatchdAutocomplete from "../components/MatchdAutocomplete.vue";
 import MatchdField from "../components/MatchdField.vue";
 
@@ -152,6 +179,7 @@ useMeta({
   title: "Challenges suchen",
 });
 const store = useStore();
+const route = useRoute();
 const challengeSearchFiltersRef = ref<typeof ChallengeSearchFilters | null>(null);
 const filteredKeywords = ref<KeywordsKeywordFragment[]>([]);
 const keywords = computed(() => store.getters["keywords"]);
@@ -183,9 +211,16 @@ const entities = ref<{ [key in Entities]: { name: string; checked: boolean } }>(
   },
 });
 
+const { companyProgress, universityProgress, formatProgress } = useProgressIndicator();
 const challenges = computed(() => store.getters["challenges"]);
+const challengesLoading = computed(() => store.getters["challengesLoading"]);
 const isStudent = computed(() => store.getters["isStudent"]);
-const isLoading = computed(() => store.getters["challengesLoading"]);
+const isCompany = computed(() => store.getters["isCompany"]);
+const isUniversity = computed(() => store.getters["isUniversity"]);
+
+const companyOrUniversityProgress = computed(() =>
+  isCompany.value ? companyProgress.value : isUniversity.value ? universityProgress.value : null
+);
 
 const availableKeywords = computed(() => {
   return keywords.value.filter((keyword) => {
@@ -233,7 +268,7 @@ const handleSelectChallengeType = (challengeType: ChallengeTypesChallengeTypeFra
 };
 
 const fetchChallenges = async () => {
-  await store.dispatch(ActionTypes.CHALLENGES, {
+  const payload = {
     ...(textSearch.value && { textSearch: textSearch.value }),
     ...(entities.value.TALENT.checked && { filterTalentChallenges: true }),
     ...(entities.value.COMPANY.checked && { filterCompanyChallenges: true }),
@@ -241,28 +276,44 @@ const fetchChallenges = async () => {
     ...(selectedChallengeTypes.value.length && {
       challengeTypeIds: selectedChallengeTypes.value.map((pt) => pt.id),
     }),
-    ...(selectedKeywords.value.length && { keywordIds: selectedKeywords.value.map((kw) => kw.id) }),
-  });
+    ...(selectedKeywords.value.length && {
+      keywordIds: selectedKeywords.value.map((kw) => kw.id),
+    }),
+  };
+  await store.dispatch(ActionTypes.CHALLENGES, payload);
   if (challenges.value.length > 0 && challengeId.value === "") {
     challengeId.value = challenges.value[0].id;
   }
 };
 
-const resetFilter = () => {
+const resetFilter = async () => {
   textSearch.value = "";
   selectedKeywords.value = [];
   selectedChallengeTypes.value = [];
   Object.values(entities.value).forEach((cat) => (cat.checked = false));
-  fetchChallenges();
+  await fetchChallenges();
 };
+
+watchEffect(() => {
+  const challengeType = challengeTypes.value?.find((ct) => ct.id === route.query?.challengeTypeId);
+  if (!challengeType) {
+    selectedChallengeTypes.value = [];
+    return;
+  }
+  selectedChallengeTypes.value = [challengeType];
+});
 
 onMounted(async () => {
   await Promise.all([
-    store.dispatch(ActionTypes.KEYWORDS),
-    store.dispatch(ActionTypes.CHALLENGE_TYPES),
-    fetchChallenges(),
+    await store.dispatch(ActionTypes.KEYWORDS),
+    await store.dispatch(ActionTypes.CHALLENGE_TYPES),
+    await fetchChallenges(),
   ]);
   calculateMargins();
+});
+
+onBeforeRouteUpdate(async () => {
+  await resetFilter();
 });
 </script>
 

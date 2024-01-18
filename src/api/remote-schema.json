@@ -341,7 +341,7 @@
       {
         "kind": "ENUM",
         "name": "AttachmentKey",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1948,7 +1948,7 @@
       {
         "kind": "ENUM",
         "name": "ChallengeState",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -2542,22 +2542,6 @@
             "deprecationReason": null
           },
           {
-            "name": "profileStep",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "services",
             "description": null,
             "args": [],
@@ -2861,13 +2845,9 @@
             "name": "city",
             "description": "City",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2889,13 +2869,9 @@
             "name": "firstName",
             "description": "First name",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2905,13 +2881,9 @@
             "name": "lastName",
             "description": "Last name",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2945,13 +2917,9 @@
             "name": "role",
             "description": "role",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2961,13 +2929,9 @@
             "name": "street",
             "description": "Street",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2977,13 +2941,9 @@
             "name": "zip",
             "description": "Zip",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -3075,13 +3035,9 @@
             "name": "memberItStGallen",
             "description": "memeber IT St. Gallen",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -3103,13 +3059,9 @@
             "name": "website",
             "description": "website",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -3717,7 +3669,7 @@
       {
         "kind": "ENUM",
         "name": "DateMode",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -5753,11 +5705,11 @@
             "name": "zip",
             "description": null,
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ZipCityInput",
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
-            "defaultValue": "null",
+            "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -5923,7 +5875,7 @@
       {
         "kind": "ENUM",
         "name": "JobPostingState",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -7443,7 +7395,7 @@
       {
         "kind": "ENUM",
         "name": "MatchType",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -9577,19 +9529,13 @@
       {
         "kind": "ENUM",
         "name": "ProfileState",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "ANONYMOUS",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "INCOMPLETE",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -9606,7 +9552,7 @@
       {
         "kind": "ENUM",
         "name": "ProfileType",
-        "description": null,
+        "description": "An enumeration.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -11314,13 +11260,9 @@
             "name": "city",
             "description": "City",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -11330,13 +11272,9 @@
             "name": "name",
             "description": "Name",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -11358,13 +11296,9 @@
             "name": "zip",
             "description": "ZIP",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -12516,22 +12450,6 @@
             "deprecationReason": null
           },
           {
-            "name": "profileStep",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "schoolName",
             "description": null,
             "args": [],
@@ -12869,16 +12787,12 @@
             "name": "languages",
             "description": "Languages",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "UserLanguageRelationInput",
-                  "ofType": null
-                }
+                "kind": "INPUT_OBJECT",
+                "name": "UserLanguageRelationInput",
+                "ofType": null
               }
             },
             "defaultValue": null,
@@ -13003,13 +12917,9 @@
             "name": "dateOfBirth",
             "description": "Date of birth",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13019,13 +12929,9 @@
             "name": "firstName",
             "description": "First name",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13035,13 +12941,9 @@
             "name": "lastName",
             "description": "Last name",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13381,15 +13283,11 @@
             "name": "jobType",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "JobTypeInput",
-                "ofType": null
-              }
+              "kind": "INPUT_OBJECT",
+              "name": "JobTypeInput",
+              "ofType": null
             },
-            "defaultValue": null,
+            "defaultValue": "null",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -13467,13 +13365,9 @@
             "name": "nickname",
             "description": "Nickname",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13557,13 +13451,9 @@
             "name": "city",
             "description": "City",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13585,13 +13475,9 @@
             "name": "firstName",
             "description": "First name",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13601,13 +13487,9 @@
             "name": "lastName",
             "description": "Last name",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13617,9 +13499,13 @@
             "name": "name",
             "description": "Name",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13641,13 +13527,9 @@
             "name": "role",
             "description": "role",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13657,13 +13539,9 @@
             "name": "street",
             "description": "Street",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13697,13 +13575,9 @@
             "name": "website",
             "description": "website",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -13713,13 +13587,9 @@
             "name": "zip",
             "description": "Zip",
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -15520,33 +15390,6 @@
         ],
         "inputFields": null,
         "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "ZipCityInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "zip",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },

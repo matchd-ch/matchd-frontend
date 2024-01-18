@@ -1,15 +1,14 @@
 <template>
-  <form v-if="profileData && studentAvatarUploadConfigurations" @submit="veeForm.onSubmit">
+  <form v-if="profileData && studentAvatarUploadConfigurations" @submit="onSubmit">
     <FormSaveError v-if="showError" />
-    <MatchdField id="nickname" class="mb-10" :errors="veeForm.errors.nickname">
-      <template #label>Dein Nickname*</template>
+    <MatchdField id="nickname" class="mb-10" :errors="veeForm.errors.value.nickname">
+      <template #label>Dein Nickname</template>
       <Field
         id="nickname"
         name="nickname"
         as="input"
         type="nickname"
         label="Nickname"
-        rules="required"
         autocomplete="off"
       />
       <template v-if="onboardingState.errors?.nickname?.[0] === 'unique'" #info>
@@ -51,7 +50,7 @@
             type="button"
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
+            @click="emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -60,7 +59,7 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
           >
             Speichern
           </MatchdButton>
@@ -68,7 +67,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton
@@ -76,7 +75,7 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
       >
         Speichern und weiter
       </MatchdButton>
@@ -84,10 +83,10 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { studentProfileStep5FormMapper } from "@/api/mappers/studentProfileStep5FormMapper";
 import { studentProfileStep5InputMapper } from "@/api/mappers/studentProfileStep5InputMapper";
-import type { Attachment, UploadConfiguration } from "@/api/models/types";
+import type { Attachment } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
@@ -102,135 +101,107 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
 import { Field, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { computed, onMounted, watch } from "vue";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
-
-@Options({
-  components: {
-    Field,
-    FormSaveError,
-    MatchdButton,
-    MatchdField,
-    MatchdFileBlock,
-    MatchdFileUpload,
-    MatchdFileView,
-    NicknameSuggestions,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel", "clickBack"],
-})
-export default class StudentStep5 extends Vue.with(Props) {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<StudentProfileStep5Form>();
-
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.STUDENT_ONBOARDING_STEP5,
-          studentProfileStep5InputMapper(formData)
-        );
-        if (store.getters["onboardingState"]?.errors?.nickname[0] === "unique") {
-          form.setErrors({
-            nickname: "Dieser Nickname ist bereits vergeben.",
-          });
-        } else {
-          const onboardingState = store.getters["onboardingState"];
-          this.$emit("submitComplete", onboardingState.success);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    });
-
-    return {
-      ...form,
-      onSubmit,
-    };
-  });
-
-  get showError() {
-    return !!this.onboardingState.errors;
+withDefaults(
+  defineProps<{
+    edit?: boolean;
+  }>(),
+  {
+    edit: false,
   }
+);
 
-  get onboardingLoading() {
-    return this.$store.getters["onboardingLoading"];
-  }
+const emit = defineEmits<{
+  (event: "submitComplete", onboardingState: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+  (event: "clickBack"): void;
+}>();
 
-  get onboardingState() {
-    return this.$store.getters["onboardingState"];
-  }
+const store = useStore();
+const veeForm = useForm<StudentProfileStep5Form>();
 
-  get currentStep() {
-    return this.$store.getters["profileStep"];
-  }
-
-  get nicknameSuggestions() {
-    return this.$store.getters["nicknameSuggestions"];
-  }
-
-  get studentAvatarQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentAvatar });
-  }
-
-  get studentAvatar() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar });
-  }
-
-  get studentAvatarUploadConfigurations(): UploadConfiguration | undefined {
-    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar });
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.StudentDocuments,
-      }),
-    ]);
-
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
-
-    calculateMargins();
-  }
-
-  onClickNickname(nickname: string) {
-    this.veeForm.setFieldValue("nickname", nickname);
-  }
-
-  async onSelectStudentAvatar(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
-      key: AttachmentKey.StudentAvatar,
-      files,
-    });
-  }
-
-  async onDeleteStudentAvatar(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
-      key: AttachmentKey.StudentAvatar,
-      id: file.id,
-    });
-  }
-
-  get profileData() {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as StudentProfileStep5Form;
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    await store.dispatch(
+      ActionTypes.STUDENT_ONBOARDING_STEP5,
+      studentProfileStep5InputMapper(formData)
+    );
+    if (store.getters["onboardingState"]?.errors?.nickname[0] === "unique") {
+      veeForm.setErrors({
+        nickname: "Dieser Nickname ist bereits vergeben.",
+      });
+    } else {
+      const onboardingState = store.getters["onboardingState"];
+      emit("submitComplete", onboardingState.success);
     }
-    return studentProfileStep5FormMapper(user);
+  } catch (e) {
+    console.log(e);
   }
+});
 
-  @Watch("veeForm.meta.dirty")
-  checkDirty() {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
+const user = computed(() => store.getters["user"]);
+const showError = computed(() => !!onboardingState.value.errors);
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const onboardingState = computed(() => store.getters["onboardingState"]);
+const nicknameSuggestions = computed(() => store.getters["nicknameSuggestions"]);
+const studentAvatarQueue = computed(() =>
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentAvatar })
+);
+const studentAvatar = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar })
+);
+const studentAvatarUploadConfigurations = computed(() =>
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar })
+);
+
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.StudentAvatar }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.StudentDocuments,
+    }),
+  ]);
+
+  veeForm.resetForm({
+    values: profileData.value,
+  });
+  calculateMargins();
+});
+
+const onClickNickname = (nickname: string) => {
+  veeForm.setFieldValue("nickname", nickname);
+};
+
+const onSelectStudentAvatar = async (files: FileList) => {
+  await store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+    key: AttachmentKey.StudentAvatar,
+    files,
+  });
+};
+
+const onDeleteStudentAvatar = async (file: Attachment) => {
+  await store.dispatch(UploadActionTypes.DELETE_FILE, {
+    key: AttachmentKey.StudentAvatar,
+    id: file.id,
+  });
+};
+
+const profileData = computed(() => {
+  if (!user.value) {
+    return {} as StudentProfileStep5Form;
   }
-}
+  return studentProfileStep5FormMapper(user.value);
+});
+
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
+  }
+);
 </script>
 
 <style></style>

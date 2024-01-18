@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts">
-import type { Attachment } from "@/api/models/types";
+import type AttachmentReduced from "@/types/AttachmentReduced";
 // import type { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
 import videojs from "video.js";
 import { Options, prop, Vue } from "vue-class-component";
 
 class Props {
-  attachment = prop<Attachment>({});
+  attachment = prop<AttachmentReduced>({});
   type = prop<string>({ default: "default" });
 }
 

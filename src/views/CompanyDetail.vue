@@ -83,7 +83,7 @@
         <ul class="list">
           <li v-for="position in company.data.jobPostings" :key="position.id">
             <router-link
-              :to="{ name: 'JobPostingDetail', params: { slug: position.slug } }"
+              :to="{ name: Routes.JOB_POSTING_DETAIL, params: { slug: position.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ position.title }}, {{ position.jobType?.name }}
@@ -101,7 +101,7 @@
         <ul class="list">
           <li v-for="challenge in company.data.challenges" :key="challenge.id">
             <router-link
-              :to="{ name: 'ChallengeDetail', params: { slug: challenge.slug } }"
+              :to="{ name: Routes.CHALLENGE_DETAIL, params: { slug: challenge.slug } }"
               class="block text-lg underline hover:text-pink-1 font-medium mb-2 transition-colors"
             >
               {{ challenge.title }},
@@ -115,92 +115,72 @@
   </div>
 </template>
 
-<script lang="ts">
-import type { Attachment } from "@/api/models/types";
+<script setup lang="ts">
 import ArrowFront from "@/assets/icons/arrow-front.svg";
 import CompanyLogo from "@/components/CompanyLogo.vue";
-import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdImageGrid from "@/components/MatchdImageGrid.vue";
 import MatchdVideo from "@/components/MatchdVideo.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { nl2br } from "@/helpers/nl2br";
 import { replaceStack } from "@/helpers/replaceStack";
+import { Routes } from "@/router";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
-import { Options, setup, Vue } from "vue-class-component";
+import type AttachmentReduced from "@/types/AttachmentReduced";
+import { computed, onMounted, ref } from "vue";
+import { Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import {
+  onBeforeRouteUpdate,
+  useRoute,
+  useRouter,
+  type NavigationGuardNext,
+  type RouteLocationNormalized,
+} from "vue-router";
 
 Vue.registerHooks(["beforeRouteUpdate"]);
 
-@Options({
-  components: {
-    CompanyLogo,
-    ArrowFront,
-    MatchdButton,
-    MatchdVideo,
-    MatchdImageGrid,
-    ProfileSection,
-  },
-})
-export default class CompanyDetail extends Vue {
-  meta = setup(() => useMeta({}));
-  currentMedia: Attachment | null = null;
+const meta = useMeta({});
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+const currentMedia = ref<AttachmentReduced | null>(null);
 
-  get mainMedia() {
-    return this.currentMedia || this.company.media[0];
+const company = computed(() => store.getters["company"]);
+const mainMedia = computed(() => currentMedia.value || company.value.media[0]);
+const avatarSrc = computed(() => company.value.logo?.url || company.value.logoFallback?.url || "");
+const additionalMedia = computed(() => {
+  const [, ...additionalMedia] = company.value.media;
+  return additionalMedia;
+});
+
+const onClickMedia = (item: AttachmentReduced) => {
+  currentMedia.value = item;
+};
+
+const loadData = async (slug: string) => {
+  try {
+    await store.dispatch(ActionTypes.COMPANY, { slug });
+    meta.meta.title = company.value.data?.name;
+  } catch (e) {
+    router.replace("/404");
   }
+};
 
-  get additionalMedia() {
-    const [, ...additionalMedia] = this.company.media;
-    return additionalMedia;
-  }
-
-  get company() {
-    return this.$store.getters["company"];
-  }
-
-  get avatarSrc() {
-    return this.company.logo?.url || this.company.logoFallback?.url || "";
-  }
-
-  replaceStack(url: string, stack: string) {
-    return replaceStack(url, stack);
-  }
-
-  nl2br(text: string) {
-    return nl2br(text);
-  }
-
-  onClickMedia(item: Attachment) {
-    this.currentMedia = item;
-  }
-
-  async beforeRouteUpdate(
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext
-  ) {
+onBeforeRouteUpdate(
+  async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     if (to.params.slug) {
-      await this.loadData(String(to.params.slug));
+      await loadData(String(to.params.slug));
     }
     next();
   }
+);
 
-  async mounted() {
-    if (this.$route.params.slug) {
-      await this.loadData(String(this.$route.params.slug));
-      calculateMargins();
-    }
+onMounted(async () => {
+  if (route.params.slug) {
+    await loadData(String(route.params.slug));
+    calculateMargins();
   }
-
-  async loadData(slug: string) {
-    try {
-      await this.$store.dispatch(ActionTypes.COMPANY, { slug });
-      this.meta.meta.title = this.company.data?.name;
-    } catch (e) {
-      this.$router.replace("/404");
-    }
-  }
-}
+});
 </script>

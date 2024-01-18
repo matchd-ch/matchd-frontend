@@ -32,20 +32,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, Vue } from "vue-class-component";
-
-@Options({
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-    MatchdButton,
-  },
-})
-export default class CompanyFinish extends Vue {}
 </script>
 
 <style></style>

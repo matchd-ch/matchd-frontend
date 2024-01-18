@@ -1,17 +1,19 @@
 <template>
   <LoadingBox class="loading-box" :is-loading="loadingState.isLoading.value">
-    <template v-if="user">
-      <StudentDashboard
-        v-if="isStudent && studentDashboard"
-        :dashboard="studentDashboard"
-        class="min-h-content-with-fixed-bars"
-      />
-      <CompanyDashboard
-        v-else-if="companyDashboard"
-        :dashboard="companyDashboard"
-        class="min-h-content-with-fixed-bars"
-      />
-    </template>
+    <div>
+      <template v-if="user">
+        <StudentDashboard
+          v-if="isStudent && studentDashboard"
+          :dashboard="studentDashboard"
+          class="min-h-content-with-fixed-bars"
+        />
+        <CompanyDashboard
+          v-else-if="companyDashboard"
+          :dashboard="companyDashboard"
+          class="min-h-content-with-fixed-bars"
+        />
+      </template>
+    </div>
   </LoadingBox>
 </template>
 
@@ -66,6 +68,9 @@ onMounted(async () => {
       key: isStudent.value
         ? AttachmentKey.StudentAvatarFallback
         : AttachmentKey.CompanyAvatarFallback,
+    }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyDocuments,
     }),
   ]);
   calculateMargins();

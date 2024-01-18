@@ -220,7 +220,7 @@ import type {
 import { ActionTypes as RegistrationActionTypes } from "@/store/modules/registration/action-types";
 import type { FormActions } from "vee-validate";
 import { ErrorMessage, Field, Form } from "vee-validate";
-import { Options, setup, Vue } from "vue-class-component";
+import { Options, Vue, setup } from "vue-class-component";
 import { useMeta } from "vue-meta";
 
 @Options({
