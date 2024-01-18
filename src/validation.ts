@@ -60,7 +60,6 @@ defineRule("requiredIfNotEmpty", (value: string, fields, ctx) => {
 
 defineRule("birthday", (value: string, fields, ctx) => {
   const [day, month, year] = fields as string[];
-  console.log(ctx.form[day], ctx.form[month], ctx.form[year]);
   if (!ctx.form[day] && !ctx.form[month] && !ctx.form[year]) {
     return true;
   }
