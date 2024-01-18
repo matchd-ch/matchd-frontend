@@ -274,6 +274,7 @@ const handleFormSubmit = form.handleSubmit(async (formData) => {
     await updateEmail(formData);
     await store.dispatch(ActionTypes.ME);
     form.resetForm({ values: getInitialFormValues() });
+    router.go(0);
   } catch (e) {
     console.error(e);
   }

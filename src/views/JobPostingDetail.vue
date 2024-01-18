@@ -1,136 +1,145 @@
 <template>
-  <div v-if="jobPosting" class="jobPosting-detail flex flex-col min-h-content-with-fixed-bars">
-    <div class="border-b border-orange-1 p-9">
-      <button class="text-black hover:text-orange-1 transition-colors" @click="$router.back()">
-        <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Zurück zur Übersicht
-      </button>
+  <LoadingBox :is-loading="!!!jobPosting">
+    <div v-if="jobPosting" class="jobPosting-detail flex flex-col min-h-content-with-fixed-bars">
+      <div class="border-b border-orange-1 p-9">
+        <button class="text-black hover:text-orange-1 transition-colors" @click="$router.back()">
+          <ArrowBack class="w-5 mr-2 xl:mr-1 mb-1 shrink-0 inline-block" />Zurück zur Übersicht
+        </button>
+      </div>
+      <div class="border-b border-orange-1 p-9">
+        <h1 class="text-display-lg-fluid break-words text-orange-1">
+          {{ jobPosting.displayTitle }}
+        </h1>
+      </div>
+
+      <PostingSection v-if="jobPosting.datePublished" title="Veröffentlicht am">{{
+        formatDate(jobPosting.datePublished, "DDD")
+      }}</PostingSection>
+
+      <PostingSection title="Beschreibung">
+        <!-- TODO: Check if this is necessary. -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <p v-html="nl2br(jobPosting.description)"></p>
+      </PostingSection>
+      <PostingSection title="Stelle">
+        <p v-if="hasBranches">{{ branchesLabel }}</p>
+        <p>Arbeitspensum {{ workloadPercentage }}</p>
+        <p>{{ jobPosting.jobType.name }}</p>
+        <p>
+          <template v-if="jobPosting.jobFromDate">
+            {{ formatDate(jobPosting.jobFromDate, "LLLL yyyy") }}
+          </template>
+          <template v-else> Nach Vereinbarung </template>
+          -
+          <template v-if="jobPosting.jobToDate">
+            {{ formatDate(jobPosting.jobToDate, "LLLL yyyy") }}
+          </template>
+          <template v-else> unbefristet </template>
+        </p>
+        <p
+          v-if="jobPosting.url"
+          class="flex items-center mt-4 text-black hover:text-orange-1 transition-colors"
+        >
+          <span class="material-icons mr-2">open_in_new</span>
+          <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
+        </p>
+      </PostingSection>
+
+      <PostingSection title="Das bringst du mit">
+        <template v-if="jobRequirements.length">
+          <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
+          <ul class="list-disc list-inside marker-orange-1 text-lg">
+            <li v-for="jobRequirement in jobRequirements" :key="jobRequirement?.id">
+              {{ jobRequirement?.name }}
+            </li>
+          </ul>
+        </template>
+
+        <template v-if="jobPosting.languages?.length">
+          <h3 class="text-heading-sm mb-3 mt-8">Sprachen</h3>
+          <ul class="list-disc list-inside marker-orange-1 text-lg">
+            <li v-for="language in jobPosting.languages" :key="language.id">
+              {{ language.language.name }} {{ language.languageLevel.level }}
+            </li>
+          </ul>
+        </template>
+
+        <template v-if="jobPosting.skills?.length">
+          <h3 class="text-heading-sm mb-3 mt-8">Skills</h3>
+          <ul class="list-disc list-inside marker-orange-1 text-lg">
+            <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill.name }}</li>
+          </ul>
+        </template>
+      </PostingSection>
+      <PostingSection title="Unternehmen">
+        <router-link
+          :to="{
+            name: detailSiteRoute(jobPosting.company.type),
+            params: { slug: jobPosting.company.slug },
+          }"
+        >
+          <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
+            <div>
+              <h3 class="text-heading-sm mb-3">{{ jobPosting.company.name }}</h3>
+              {{ jobPosting.company.street }}
+              <br />
+              {{ jobPosting.company.zip }}
+              {{ jobPosting.company.city }}
+            </div>
+            <IconArrow class="w-8 ml-8" />
+          </address>
+        </router-link>
+      </PostingSection>
+      <PostingSection title="Deine Ansprechperson für Fragen">
+        <p>
+          <span class="block text-heading-sm mb-3"
+            >{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</span
+          >
+          <a
+            :href="`mailto:${jobPosting.employee?.email}`"
+            target="_blank"
+            class="underline font-medium text-black hover:text-orange-1 transition-colors"
+            >{{ jobPosting.employee?.email }}</a
+          >
+        </p>
+      </PostingSection>
+      <teleport to="footer">
+        <MatchingBar v-if="isStudent">
+          <template v-if="matchType === MatchTypeEnum.HalfOwnMatch"
+            >Du hast bereits Interesse gezeigt, fingers crossed! 🤞</template
+          >
+          <template v-else-if="matchType === MatchTypeEnum.FullMatch"
+            >Gratulation, it’s a Match!</template
+          >
+          <MatchdButton v-else-if="matchType === MatchTypeEnum.HalfMatch" @click="onClickMatch"
+            >Match bestätigen</MatchdButton
+          >
+          <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
+        </MatchingBar>
+      </teleport>
+      <JobPostingMatchModal
+        v-if="showConfirmationModal"
+        :user="user"
+        :job-posting="jobPosting"
+        :loading="matchLoading"
+        :match-type="matchType"
+        @click-confirm="onClickMatchConfirm"
+        @click-cancel="onClickCancel"
+      />
+      <JobPostingFullMatchModal
+        v-if="showFullMatchModal"
+        :job-posting="jobPosting"
+        @click-close="onClickClose"
+      />
     </div>
-    <div class="border-b border-orange-1 p-9">
-      <h1 class="text-display-lg-fluid break-words text-orange-1">{{ jobPosting.displayTitle }}</h1>
-    </div>
-
-    <PostingSection v-if="jobPosting.datePublished" title="Veröffentlicht am">{{
-      formatDate(jobPosting.datePublished, "DDD")
-    }}</PostingSection>
-
-    <PostingSection title="Beschreibung">
-      <!-- TODO: Check if this is necessary. -->
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <p v-html="nl2br(jobPosting.description)"></p>
-    </PostingSection>
-    <PostingSection title="Stelle">
-      <p v-if="hasBranches">{{ branchesLabel }}</p>
-      <p>Arbeitspensum {{ jobPosting.workload }}%</p>
-      <p>{{ jobPosting.jobType.name }}</p>
-      <p>
-        <template v-if="jobPosting.jobToDate"
-          >{{ formatDate(jobPosting.jobFromDate, "LLLL yyyy") }} bis
-          {{ formatDate(jobPosting.jobToDate, "LLLL yyyy") }}</template
-        >
-        <template v-else>ab {{ jobPosting.jobFromDate }}</template>
-      </p>
-      <p
-        v-if="jobPosting.url"
-        class="flex items-center mt-4 text-black hover:text-orange-1 transition-colors"
-      >
-        <span class="material-icons mr-2">open_in_new</span>
-        <a :href="jobPosting.url" target="_blank" class="underline">weitere Informationen</a>
-      </p>
-    </PostingSection>
-
-    <PostingSection title="Das bringst du mit">
-      <template v-if="jobRequirements.length">
-        <h3 class="text-heading-sm mb-3">Erforderlicher Abschluss</h3>
-        <ul class="list-disc list-inside marker-orange-1 text-lg">
-          <li v-for="jobRequirement in jobRequirements" :key="jobRequirement?.id">
-            {{ jobRequirement?.name }}
-          </li>
-        </ul>
-      </template>
-
-      <template v-if="jobPosting.languages?.length">
-        <h3 class="text-heading-sm mb-3 mt-8">Sprachen</h3>
-        <ul class="list-disc list-inside marker-orange-1 text-lg">
-          <li v-for="language in jobPosting.languages" :key="language.id">
-            {{ language.language.name }} {{ language.languageLevel.level }}
-          </li>
-        </ul>
-      </template>
-
-      <template v-if="jobPosting.skills?.length">
-        <h3 class="text-heading-sm mb-3 mt-8">Skills</h3>
-        <ul class="list-disc list-inside marker-orange-1 text-lg">
-          <li v-for="skill in jobPosting.skills" :key="skill.id">{{ skill.name }}</li>
-        </ul>
-      </template>
-    </PostingSection>
-    <PostingSection title="Unternehmen">
-      <router-link
-        :to="{
-          name: detailSiteRoute(jobPosting.company.type),
-          params: { slug: jobPosting.company.slug },
-        }"
-      >
-        <address class="not-italic text-black hover:text-orange-1 transition-colors flex text-lg">
-          <div>
-            <h3 class="text-heading-sm mb-3">{{ jobPosting.company.name }}</h3>
-            {{ jobPosting.company.street }}
-            <br />
-            {{ jobPosting.company.zip }}
-            {{ jobPosting.company.city }}
-          </div>
-          <IconArrow class="w-8 ml-8" />
-        </address>
-      </router-link>
-    </PostingSection>
-    <PostingSection title="Deine Ansprechperson für Fragen">
-      <p>
-        <span class="block text-heading-sm mb-3"
-          >{{ jobPosting.employee?.firstName }} {{ jobPosting.employee?.lastName }}</span
-        >
-        <a
-          :href="`mailto:${jobPosting.employee?.email}`"
-          target="_blank"
-          class="underline font-medium text-black hover:text-orange-1 transition-colors"
-          >{{ jobPosting.employee?.email }}</a
-        >
-      </p>
-    </PostingSection>
-    <teleport to="footer">
-      <MatchingBar v-if="isStudent">
-        <template v-if="matchType === MatchTypeEnum.HalfOwnMatch"
-          >Du hast bereits Interesse gezeigt, fingers crossed! 🤞</template
-        >
-        <template v-else-if="matchType === MatchTypeEnum.FullMatch"
-          >Gratulation, it’s a Match!</template
-        >
-        <MatchdButton v-else-if="matchType === MatchTypeEnum.HalfMatch" @click="onClickMatch"
-          >Match bestätigen</MatchdButton
-        >
-        <MatchdButton v-else @click="onClickMatch">Mit dieser Stelle matchen</MatchdButton>
-      </MatchingBar>
-    </teleport>
-    <JobPostingMatchModal
-      v-if="showConfirmationModal"
-      :user="user"
-      :job-posting="jobPosting"
-      :loading="matchLoading"
-      :match-type="matchType"
-      @click-confirm="onClickMatchConfirm"
-      @click-cancel="onClickCancel"
-    />
-    <JobPostingFullMatchModal
-      v-if="showFullMatchModal"
-      :job-posting="jobPosting"
-      @click-close="onClickClose"
-    />
-  </div>
+  </LoadingBox>
 </template>
 
 <script setup lang="ts">
 import { ProfileType } from "@/api/models/types";
 import ArrowBack from "@/assets/icons/arrow-back.svg";
 import IconArrow from "@/assets/icons/arrow.svg";
+import LoadingBox from "@/components/LoadingBox.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchingBar from "@/components/MatchingBar.vue";
 import JobPostingFullMatchModal from "@/components/modals/JobPostingFullMatchModal.vue";
@@ -155,15 +164,21 @@ const showConfirmationModal = ref(false);
 const showFullMatchModal = ref(false);
 
 const isStudent = computed(() => store.getters["isStudent"]);
+const user = computed(() => store.getters["user"]);
+const matchLoading = computed(() => store.getters["matchLoading"]);
+const jobPosting = computed(() => store.getters["jobPostingDetail"]);
+const workloadPercentage = computed(() => {
+  const from = jobPosting.value?.workloadFrom;
+  const to = jobPosting.value?.workloadTo;
+  return from === to ? `${to}%` : `${from}-${to}%`;
+});
+
 const branchesLabel = computed(
   () => jobPosting.value?.branches.map((branch) => branch.name).join(", ") || ""
 );
 const hasBranches = computed(() =>
   jobPosting.value ? jobPosting.value?.branches.length > 0 : false
 );
-const user = computed(() => store.getters["user"]);
-const matchLoading = computed(() => store.getters["matchLoading"]);
-const jobPosting = computed(() => store.getters["jobPostingDetail"]);
 
 const jobRequirements = computed(() => {
   return jobPosting.value?.jobRequirements.edges.map((edge) => edge?.node) || [];

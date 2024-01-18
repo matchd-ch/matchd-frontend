@@ -62,6 +62,7 @@ type AttachmentEdge = {
   node?: Maybe<Attachment>;
 };
 
+/** An enumeration. */
 enum AttachmentKey {
   ChallengeDocuments = "CHALLENGE_DOCUMENTS",
   ChallengeFallback = "CHALLENGE_FALLBACK",
@@ -287,6 +288,7 @@ type ChallengeSpecificDataPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+/** An enumeration. */
 enum ChallengeState {
   Draft = "DRAFT",
   Public = "PUBLIC",
@@ -340,7 +342,6 @@ type Company = Node & {
   memberItStGallen: Scalars["Boolean"];
   name: Scalars["String"];
   phone: Scalars["String"];
-  profileStep: Scalars["Int"];
   services: Scalars["String"];
   slug: Scalars["String"];
   softSkills?: Maybe<Array<SoftSkill>>;
@@ -388,22 +389,22 @@ type CompanyProfileAdvantagesPayload = {
 
 type CompanyProfileBaseDataInput = {
   /** City */
-  city: Scalars["String"];
+  city?: InputMaybe<Scalars["String"]>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
   /** First name */
-  firstName: Scalars["String"];
+  firstName?: InputMaybe<Scalars["String"]>;
   /** Last name */
-  lastName: Scalars["String"];
+  lastName?: InputMaybe<Scalars["String"]>;
   /** Name */
   name?: InputMaybe<Scalars["String"]>;
   /** Phone Number */
   phone?: InputMaybe<Scalars["String"]>;
   /** role */
-  role: Scalars["String"];
+  role?: InputMaybe<Scalars["String"]>;
   /** Street */
-  street: Scalars["String"];
+  street?: InputMaybe<Scalars["String"]>;
   /** Zip */
-  zip: Scalars["String"];
+  zip?: InputMaybe<Scalars["String"]>;
 };
 
 /** Updates the profile of a Company */
@@ -419,11 +420,11 @@ type CompanyProfileRelationsInput = {
   /** description */
   description?: InputMaybe<Scalars["String"]>;
   /** memeber IT St. Gallen */
-  memberItStGallen: Scalars["Boolean"];
+  memberItStGallen?: InputMaybe<Scalars["Boolean"]>;
   /** services */
   services?: InputMaybe<Scalars["String"]>;
   /** website */
-  website: Scalars["String"];
+  website?: InputMaybe<Scalars["String"]>;
 };
 
 /** Updates website url, description, services, member IT St.Gallen */
@@ -508,11 +509,13 @@ type Dashboard = {
   unconfirmedMatches?: Maybe<Array<JobPostingMatchInfo>>;
 };
 
+/** An enumeration. */
 enum DateMode {
   DateFrom = "DATE_FROM",
   DateRange = "DATE_RANGE",
 }
 
+/** An enumeration. */
 enum DbUserTypeChoices {
   /** College Student */
   CollegeStudent = "COLLEGE_STUDENT",
@@ -658,7 +661,7 @@ type JobPosting = Node & {
   formStep: Scalars["Int"];
   /** The ID of the object */
   id: Scalars["ID"];
-  jobFromDate: Scalars["Date"];
+  jobFromDate?: Maybe<Scalars["Date"]>;
   jobRequirements: JobRequirementConnection;
   jobToDate?: Maybe<Scalars["Date"]>;
   jobType: JobType;
@@ -670,7 +673,8 @@ type JobPosting = Node & {
   state: JobPostingState;
   title: Scalars["String"];
   url?: Maybe<Scalars["String"]>;
-  workload: Scalars["Int"];
+  workloadFrom: Scalars["Int"];
+  workloadTo: Scalars["Int"];
 };
 
 type JobPostingJobRequirementsArgs = {
@@ -705,14 +709,16 @@ type JobPostingBaseDataInput = {
   /** Description */
   description?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["String"]>;
-  jobFromDate: Scalars["String"];
+  jobFromDate?: InputMaybe<Scalars["String"]>;
   jobToDate?: InputMaybe<Scalars["String"]>;
   jobType: JobTypeInput;
   /** Title */
   title: Scalars["String"];
   url?: InputMaybe<Scalars["String"]>;
-  /** Workload */
-  workload: Scalars["Int"];
+  /** Workload from */
+  workloadFrom: Scalars["Int"];
+  /** Workload to */
+  workloadTo: Scalars["Int"];
 };
 
 /** Creates a job posting */
@@ -772,7 +778,7 @@ type JobPostingMatchingInput = {
   branch?: InputMaybe<BranchInput>;
   jobType?: InputMaybe<JobTypeInput>;
   workload?: InputMaybe<Scalars["Int"]>;
-  zip?: InputMaybe<ZipCityInput>;
+  zip?: InputMaybe<Scalars["String"]>;
 };
 
 type JobPostingRequirementsInput = {
@@ -793,6 +799,7 @@ type JobPostingRequirementsPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+/** An enumeration. */
 enum JobPostingState {
   Draft = "DRAFT",
   Public = "PUBLIC",
@@ -1023,6 +1030,7 @@ type MatchStudentPayload = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+/** An enumeration. */
 enum MatchType {
   Challenge = "CHALLENGE",
   Company = "COMPANY",
@@ -1452,12 +1460,13 @@ type PasswordReset = {
   success?: Maybe<Scalars["Boolean"]>;
 };
 
+/** An enumeration. */
 enum ProfileState {
   Anonymous = "ANONYMOUS",
-  Incomplete = "INCOMPLETE",
   Public = "PUBLIC",
 }
 
+/** An enumeration. */
 enum ProfileType {
   CollegeStudent = "COLLEGE_STUDENT",
   Company = "COMPANY",
@@ -1680,13 +1689,13 @@ type RegisterCompany = {
 
 type RegisterCompanyInput = {
   /** City */
-  city: Scalars["String"];
+  city?: InputMaybe<Scalars["String"]>;
   /** Name */
-  name: Scalars["String"];
+  name?: InputMaybe<Scalars["String"]>;
   /** UID */
   uid?: InputMaybe<Scalars["String"]>;
   /** ZIP */
-  zip: Scalars["String"];
+  zip?: InputMaybe<Scalars["String"]>;
 };
 
 /** Creates a new user as student */
@@ -1857,7 +1866,6 @@ type Student = Node & {
   mobile?: Maybe<Scalars["String"]>;
   nickname?: Maybe<Scalars["String"]>;
   onlineChallenges?: Maybe<Array<OnlineChallenge>>;
-  profileStep: Scalars["Int"];
   schoolName?: Maybe<Scalars["String"]>;
   skills: SkillConnection;
   slug: Scalars["String"];
@@ -1914,7 +1922,7 @@ type StudentProfileAbilitiesInput = {
   /** Hobbies */
   hobbies?: InputMaybe<Array<InputMaybe<HobbyInput>>>;
   /** Languages */
-  languages: Array<InputMaybe<UserLanguageRelationInput>>;
+  languages?: InputMaybe<Array<InputMaybe<UserLanguageRelationInput>>>;
   /** Online_Challenges */
   onlineChallenges?: InputMaybe<Array<InputMaybe<OnlineChallengeInput>>>;
   /** Skills */
@@ -1934,11 +1942,11 @@ type StudentProfileBaseDataInput = {
   city?: InputMaybe<Scalars["String"]>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
   /** Date of birth */
-  dateOfBirth: Scalars["String"];
+  dateOfBirth?: InputMaybe<Scalars["String"]>;
   /** First name */
-  firstName: Scalars["String"];
+  firstName?: InputMaybe<Scalars["String"]>;
   /** Last name */
-  lastName: Scalars["String"];
+  lastName?: InputMaybe<Scalars["String"]>;
   /** Date of birth */
   mobile?: InputMaybe<Scalars["String"]>;
   /** street */
@@ -1988,7 +1996,7 @@ type StudentProfileEmploymentInput = {
   clientMutationId?: InputMaybe<Scalars["String"]>;
   jobFromDate?: InputMaybe<Scalars["String"]>;
   jobToDate?: InputMaybe<Scalars["String"]>;
-  jobType: JobTypeInput;
+  jobType?: InputMaybe<JobTypeInput>;
 };
 
 /** Updates job option, date (start or range) and branch of a student */
@@ -2002,7 +2010,7 @@ type StudentProfileEmploymentPayload = {
 type StudentProfileSpecificDataInput = {
   clientMutationId?: InputMaybe<Scalars["String"]>;
   /** Nickname */
-  nickname: Scalars["String"];
+  nickname?: InputMaybe<Scalars["String"]>;
 };
 
 /** Updates the nickname of a student */
@@ -2016,28 +2024,28 @@ type StudentProfileSpecificDataPayload = {
 
 type UniversityProfileBaseDataInput = {
   /** City */
-  city: Scalars["String"];
+  city?: InputMaybe<Scalars["String"]>;
   clientMutationId?: InputMaybe<Scalars["String"]>;
   /** First name */
-  firstName: Scalars["String"];
+  firstName?: InputMaybe<Scalars["String"]>;
   /** Last name */
-  lastName: Scalars["String"];
+  lastName?: InputMaybe<Scalars["String"]>;
   /** Name */
-  name?: InputMaybe<Scalars["String"]>;
+  name: Scalars["String"];
   /** Phone Number */
   phone?: InputMaybe<Scalars["String"]>;
   /** role */
-  role: Scalars["String"];
+  role?: InputMaybe<Scalars["String"]>;
   /** Street */
-  street: Scalars["String"];
+  street?: InputMaybe<Scalars["String"]>;
   /** description */
   topLevelOrganisationDescription?: InputMaybe<Scalars["String"]>;
   /** website dachorganisation */
   topLevelOrganisationWebsite?: InputMaybe<Scalars["String"]>;
   /** website */
-  website: Scalars["String"];
+  website?: InputMaybe<Scalars["String"]>;
   /** Zip */
-  zip: Scalars["String"];
+  zip?: InputMaybe<Scalars["String"]>;
 };
 
 /** Updates the profile of a university */
@@ -2283,10 +2291,6 @@ type ZipCity = {
   __typename?: "ZipCity";
   canton: Scalars["String"];
   city: Scalars["String"];
-  zip: Scalars["String"];
-};
-
-type ZipCityInput = {
   zip: Scalars["String"];
 };
 
@@ -3170,7 +3174,8 @@ export const JobPostingJobPosting = gql`
     jobToDate
     datePublished
     url
-    workload
+    workloadFrom
+    workloadTo
     formStep
     state
     matchStatus {
@@ -3281,7 +3286,6 @@ export const StudentStudent = gql`
     fieldOfStudy
     graduation
     distinction
-    profileStep
     jobFromDate
     jobToDate
     isMatchable
@@ -3389,7 +3393,6 @@ export const MeUser = gql`
       city
       zip
       street
-      profileStep
       state
       description
       website
@@ -4364,7 +4367,6 @@ const Me = gql`
         city
         zip
         street
-        profileStep
         state
         description
         website

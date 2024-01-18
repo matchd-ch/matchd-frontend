@@ -21,7 +21,7 @@
             class="appearance-none"
             :value="option"
             :checked="option.checked"
-            @change="$emit('change', option)"
+            @change="emit('change', option)"
           />
           {{ option.name }}
         </label>
@@ -35,29 +35,26 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import IconInfo from "@/assets/icons/info.svg";
-import { Options, prop, Vue } from "vue-class-component";
+import type { SelectPillMultipleItem } from "@/types/selectPillMultiple";
 
-export interface SelectPillMultipleItem {
-  id: string;
-  name: string;
-  checked: boolean;
-}
+withDefaults(
+  defineProps<{
+    name?: string;
+    options?: SelectPillMultipleItem[];
+    errors?: string;
+  }>(),
+  {
+    name: "",
+    options: () => [],
+    errors: undefined,
+  }
+);
 
-class Props {
-  name = prop<string>({ default: "" });
-  options = prop<SelectPillMultipleItem[]>({});
-  errors = prop<string>({});
-}
-
-@Options({
-  emits: ["change"],
-  components: {
-    IconInfo,
-  },
-})
-export default class SelectPillMultiple extends Vue.with(Props) {}
+const emit = defineEmits<{
+  (event: "change", option: SelectPillMultipleItem): void;
+}>();
 </script>
 
 <style lang="postcss" scoped>

@@ -13,20 +13,33 @@
         />
       </div>
       <div class="xl:flex items-start lg:pl-16 lg:pr-16 flex-col">
-        <h2 class="flex-1 mb-8 xl:mb-0 text-display-xs">
-          Hey {{ user?.firstName }}, ready to match?
-        </h2>
-        <p class="mt-4">
-          Auf dieser Seite findest du die neuesten Stellenausschreibungen, neue Challenges sowie den
-          aktuellen Stand deiner Matches. Damit du keinen Match verpasst, behalten wir dich auch per
-          E-Mail up-to-date.
+        <h2 class="flex-1 mb-4 text-display-xs">Hey {{ user?.firstName }}, ready to match?</h2>
+        <p>
+          Auf dieser Seite findest du die neuesten Stellenausschreibungen, neue Challenges |
+          Mentorings sowie den aktuellen Stand deiner Matches. Damit du keinen Match verpasst,
+          behalten wir dich auch per E-Mail up-to-date.
         </p>
+        <template v-if="studentProgress && studentProgress.global < 1">
+          <h2 class="flex-1 mt-8 mb-4 text-display-xs">
+            Dein Profil ist zu {{ formatProgress(studentProgress.global) }} vollständig.
+          </h2>
+          <p class="mb-8">
+            Damit dich Companies & Unis besser finden können, solltest du zuerst dein Profil
+            vervollständigen.
+          </p>
+          <MatchdButton
+            tag="router-link"
+            :to="{ name: Routes.PROFILE_EDIT, params: { step: 'schritt1' } }"
+          >
+            Profil vervollständigen
+          </MatchdButton>
+        </template>
       </div>
     </div>
     <div class="flex flex-col min-h-full">
       <profile-section
         v-if="dashboard.latestJobPostings?.length || dashboard.latestChallenges?.length"
-        title="Neue Stellen und Challenges"
+        title="Neue Stellen und Challenges&nbsp;| Mentorings"
       >
         <h2 class="text-base font-medium text-primary-1 mb-4">Stellen</h2>
         <p v-if="dashboard.latestJobPostings?.length === 0">
@@ -42,16 +55,17 @@
               <PostingDetailLink :posting="jobPosting"></PostingDetailLink>
             </li>
           </ul>
-          <matchd-button
+          <MatchdButton
             class="block w-full mt-8 text-center"
-            :to="{ name: 'JobPostingSearch' }"
+            :to="{ name: Routes.JOB_POSTING_SEARCH }"
             tag="router-link"
-            >Weitere Stellen finden</matchd-button
           >
+            Weitere Stellen finden
+          </MatchdButton>
         </template>
-        <h2 class="text-base font-medium text-primary-1 mb-4 mt-12">Challenges</h2>
+        <h2 class="text-base font-medium text-primary-1 mb-4 mt-12">Challenges | Mentorings</h2>
         <p v-if="dashboard.latestChallenges?.length === 0">
-          Momentan sind keine zu dir passenden Challenges ausgeschrieben.
+          Momentan sind keine zu dir passenden Challenges | Mentorings ausgeschrieben.
         </p>
         <ul v-if="dashboard.latestChallenges?.length">
           <li
@@ -62,16 +76,18 @@
             <PostingDetailLink :posting="challenge"></PostingDetailLink>
           </li>
         </ul>
-        <matchd-button
+        <MatchdButton
           class="block w-full mt-8 text-center"
-          :to="{ name: 'ChallengeCreate' }"
+          :to="{ name: Routes.CHALLENGE_CREATE }"
           tag="router-link"
-          >Neue Challenge ausschreiben</matchd-button
         >
+          Challenge | Mentoring ausschreiben
+        </MatchdButton>
+        <ChallengeTypeMentoringButton />
       </profile-section>
       <profile-section v-if="dashboard.challenges?.length" title="Deine Challenge-Ideen">
         <p v-if="dashboard.challenges?.length === 0">
-          Momentan sind keine zu dir passenden Challenges ausgeschrieben.
+          Momentan sind keine zu dir passenden Challenges | Mentorings ausgeschrieben.
         </p>
         <ul v-if="dashboard.challenges?.length">
           <li v-for="challenge in dashboard.challenges" :key="challenge.id" class="link-list__item">
@@ -121,7 +137,7 @@
         title="Hier hats gematchd!"
       >
         <template v-if="dashboard.challengeMatches?.length">
-          <h2 class="text-base font-medium text-primary-1 mb-4">Challenges</h2>
+          <h2 class="text-base font-medium text-primary-1 mb-4">Challenges | Mentorings</h2>
           <ul>
             <li
               v-for="match in dashboard.challengeMatches"
@@ -150,8 +166,8 @@
       </profile-section>
     </div>
     <DeletionInfoModal v-model:showModal="showDeletionInfoModal">
-      <template #title>Challenge gelöscht</template>
-      Die Challenge wurde erfolgreich gelöscht.
+      <template #title>Challenge | Mentoring gelöscht</template>
+      Die Challenge | Mentoring wurde erfolgreich gelöscht.
     </DeletionInfoModal>
   </div>
 </template>
@@ -159,13 +175,16 @@
 <script setup lang="ts">
 import type { Dashboard } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
-import PostingDetailLink from "@/components/dashboard/PostingDetailLink.vue";
-import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import ProfileSection from "@/components/ProfileSection.vue";
+import PostingDetailLink from "@/components/dashboard/PostingDetailLink.vue";
+import PostingEditLink from "@/components/dashboard/PostingEditLink.vue";
+import useProgressIndicator from "@/helpers/useProgressIndicator";
+import { Routes } from "@/router";
 import { useStore } from "@/store";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import ChallengeTypeMentoringButton from "../ChallengeTypeMentoringButton.vue";
 import StackImage from "../StackImage.vue";
 import DeletionInfoModal from "./DeletionInfoModal.vue";
 
@@ -174,6 +193,7 @@ defineProps<{ dashboard: Dashboard }>();
 const store = useStore();
 const route = useRoute();
 const showDeletionInfoModal = ref(false);
+const { formatProgress, studentProgress } = useProgressIndicator();
 
 const user = computed(() => store.getters["user"]);
 
@@ -194,7 +214,6 @@ onMounted(() => {
   }
 });
 </script>
-
 <style lang="postcss" scoped>
 .avatar {
   height: 15rem;

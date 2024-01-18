@@ -27,7 +27,6 @@ export type MeUserFragment = {
     fieldOfStudy?: string | null;
     graduation?: string | null;
     distinction?: string | null;
-    profileStep: number;
     jobFromDate?: string | null;
     jobToDate?: string | null;
     isMatchable: boolean;
@@ -100,7 +99,6 @@ export type MeUserFragment = {
     city: string;
     zip: string;
     street: string;
-    profileStep: number;
     state: Types.ProfileState;
     description: string;
     website: string;
@@ -208,7 +206,6 @@ export const MeUserFragmentDoc = {
                 { kind: "Field", name: { kind: "Name", value: "city" } },
                 { kind: "Field", name: { kind: "Name", value: "zip" } },
                 { kind: "Field", name: { kind: "Name", value: "street" } },
-                { kind: "Field", name: { kind: "Name", value: "profileStep" } },
                 { kind: "Field", name: { kind: "Name", value: "state" } },
                 { kind: "Field", name: { kind: "Name", value: "description" } },
                 { kind: "Field", name: { kind: "Name", value: "website" } },
@@ -410,7 +407,6 @@ export const MeUserFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "fieldOfStudy" } },
           { kind: "Field", name: { kind: "Name", value: "graduation" } },
           { kind: "Field", name: { kind: "Name", value: "distinction" } },
-          { kind: "Field", name: { kind: "Name", value: "profileStep" } },
           { kind: "Field", name: { kind: "Name", value: "jobFromDate" } },
           { kind: "Field", name: { kind: "Name", value: "jobToDate" } },
           { kind: "Field", name: { kind: "Name", value: "isMatchable" } },

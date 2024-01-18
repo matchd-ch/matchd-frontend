@@ -51,9 +51,11 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   profileStep(state: State, getters: Getters): number | undefined {
     if (getters["isStudent"]) {
-      return state.user?.student?.profileStep;
+      // return state.user?.student?.profileStep;
+      return 1;
     } else if (getters["isCompany"] || getters["isUniversity"]) {
-      return state.user?.company?.profileStep;
+      // return state.user?.company?.profileStep;
+      return 1;
     } else {
       return;
     }

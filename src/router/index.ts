@@ -4,7 +4,7 @@ import { isProfileCompleteGuard } from "@/router/guards/isProfileCompleteGuard";
 import { needsStateResetBeforePasswordResetGuard } from "@/router/guards/needsStateResetBeforePasswordResetGuard";
 import { redirectToCurrentChallengeStepGuard } from "@/router/guards/redirectToCurrentChallengeStepGuard";
 import { redirectToCurrentJobPostingStepGuard } from "@/router/guards/redirectToCurrentJobPostingStepGuard";
-import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectToCurrentOnboardingStepGuard";
+// import { redirectToCurrentOnboardingStepGuard } from "@/router/guards/redirectToCurrentOnboardingStepGuard";
 import { studentDetailOnlyWithPublishedJobOrChallengeGuard } from "@/router/guards/studentDetailOnlyWithPublishedJobOrChallengeGuard";
 import { talentsOnlyWithPublishedJobPostingGuard } from "@/router/guards/talentsOnlyWithPublishedJobPostingGuard";
 import type { RouteRecordRaw } from "vue-router";
@@ -70,15 +70,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "activate" */ "../views/Activate.vue"),
     meta: {
       public: true,
-      hideNavigation: true,
-    },
-  },
-  {
-    path: "/onboarding/:step?",
-    name: Routes.ONBOARDING,
-    component: () => import(/* webpackChunkName: "onboarding" */ "../views/Onboarding.vue"),
-    beforeEnter: redirectToCurrentOnboardingStepGuard,
-    meta: {
       hideNavigation: true,
     },
   },

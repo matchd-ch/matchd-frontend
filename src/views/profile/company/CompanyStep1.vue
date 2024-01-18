@@ -13,8 +13,8 @@
       />
     </MatchdField>
     <MatchdField id="street" class="mb-10" :errors="veeForm.errors.value.street">
-      <template #label>Adresse*</template>
-      <Field id="street" name="street" as="input" label="Adresse" rules="required" />
+      <template #label>Adresse</template>
+      <Field id="street" name="street" as="input" label="Adresse" />
     </MatchdField>
     <div class="lg:flex">
       <MatchdField id="zip" class="lg:mr-3 mb-10 lg:w-40" :errors="veeForm.errors.value.zip">
@@ -46,13 +46,13 @@
       <Field id="role" name="role" as="input" label="Funktion" rules="required" />
     </MatchdField>
     <MatchdField id="phone" class="mb-10" :errors="veeForm.errors.value.phone">
-      <template #label>Telefonnummer*</template>
+      <template #label>Telefonnummer</template>
       <Field
         id="phone"
         name="phone"
         as="input"
         label="Telefonnummer"
-        rules="required|phone"
+        rules="phone"
         placeholder="+41712223344"
       />
     </MatchdField>
@@ -122,7 +122,6 @@ const emits = defineEmits<{
 }>();
 
 const store = useStore();
-
 const veeForm = useForm<CompanyProfileStep1Form>();
 const onSubmit = veeForm.handleSubmit(async (formData) => {
   try {
@@ -137,17 +136,16 @@ const onSubmit = veeForm.handleSubmit(async (formData) => {
   }
 });
 
+const user = computed(() => store.getters["user"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
 const showError = computed(() => !!onboardingState.value.errors);
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
-const user = computed(() => store.getters["user"]);
 
 const profileData = computed(() => {
-  const user = store.getters["user"];
-  if (!user) {
+  if (!user.value) {
     return {} as CompanyProfileStep1Form;
   }
-  return companyProfileStep1FormMapper(user);
+  return companyProfileStep1FormMapper(user.value);
 });
 
 onMounted(async () => {

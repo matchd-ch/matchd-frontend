@@ -1,11 +1,11 @@
 <template>
   <form
     v-if="universityAvatarUploadConfigurations && universityDocumentsUploadConfigurations"
-    @submit="veeForm.onSubmit"
+    @submit="onSubmit"
   >
     <FormSaveError v-if="showError" />
     <!-- Description Field -->
-    <MatchdField id="description" class="mb-10" :errors="veeForm.errors.description">
+    <MatchdField id="description" class="mb-10" :errors="veeForm.errors.value.description">
       <template #label>Kurzbeschreibung der Bildungsinstitution</template>
       <Field
         id="description"
@@ -67,7 +67,7 @@
             type="button"
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
+            @click="emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -76,7 +76,7 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
           >
             Speichern
           </MatchdButton>
@@ -89,180 +89,135 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
       >
         Speichern und weiter
       </MatchdButton>
     </template>
   </form>
 </template>
-
-<script lang="ts">
+<script setup lang="ts">
 import { universityProfileStep2FormMapper } from "@/api/mappers/universityProfileStep2FormMapper";
 import { universityProfileStep2InputMapper } from "@/api/mappers/universityProfileStep2InputMapper";
-import type { Attachment, UploadConfiguration } from "@/api/models/types";
+import type { Attachment } from "@/api/models/types";
 import { AttachmentKey } from "@/api/models/types";
 import FormSaveError from "@/components/FormSaveError.vue";
-import GenericError from "@/components/GenericError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import MatchdField from "@/components/MatchdField.vue";
 import MatchdFileBlock from "@/components/MatchdFileBlock.vue";
 import MatchdFileUpload from "@/components/MatchdFileUpload.vue";
 import MatchdFileView from "@/components/MatchdFileView.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
-import type { UniversityProfileStep1Form } from "@/models/UniversityProfileStep1Form";
 import type { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2Form";
 import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { ErrorMessage, Field, Form, useForm } from "vee-validate";
-import { Options, Vue, prop, setup } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import { Field, useForm } from "vee-validate";
+import { computed, onMounted, watch } from "vue";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
+withDefaults(defineProps<{ edit?: boolean }>(), { edit: false });
 
-@Options({
-  components: {
-    FormSaveError,
-    Form,
-    Field,
-    ErrorMessage,
-    GenericError,
-    MatchdButton,
-    MatchdField,
-    MatchdFileBlock,
-    MatchdFileView,
-    MatchdFileUpload,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel"],
-})
-export default class UniversityStep2 extends Vue.with(Props) {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<UniversityProfileStep2Form>();
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.UNIVERSITY_ONBOARDING_STEP2,
-          universityProfileStep2InputMapper(formData)
-        );
-        const onboardingState = store.getters["onboardingState"];
-        this.$emit("submitComplete", onboardingState.success);
-      } catch (e) {
-        console.log(e); // todo
-      }
-    });
+const emit = defineEmits<{
+  (event: "submitComplete", onboardingState: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+}>();
 
-    return {
-      ...form,
-      onSubmit,
-    };
+const store = useStore();
+const veeForm = useForm<UniversityProfileStep2Form>({});
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    await store.dispatch(
+      ActionTypes.UNIVERSITY_ONBOARDING_STEP2,
+      universityProfileStep2InputMapper(formData)
+    );
+    const onboardingState = store.getters["onboardingState"];
+    emit("submitComplete", onboardingState.success);
+  } catch (e) {
+    console.log(e); // todo
+  }
+});
+
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const onboardingState = computed(() => store.getters["onboardingState"]);
+const user = computed(() => store.getters["user"]);
+const showError = computed(() => !!onboardingState.value.errors);
+
+const profileData = computed(() => {
+  if (!user.value) {
+    return {} as UniversityProfileStep2Form;
+  }
+  return universityProfileStep2FormMapper(user.value);
+});
+
+const universityAvatarQueue = computed(() =>
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar })
+);
+const universityAvatar = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })
+);
+const universityAvatarUploadConfigurations = computed(() =>
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar })
+);
+const universityDocumentsQueue = computed(() =>
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments })
+);
+const universityDocuments = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
+);
+const universityDocumentsUploadConfigurations = computed(() =>
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments })
+);
+
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyDocuments,
+    }),
+  ]);
+
+  veeForm.resetForm({
+    values: profileData.value,
   });
-  formData = {} as UniversityProfileStep1Form;
+  calculateMargins();
+});
 
-  get onboardingLoading() {
-    return this.$store.getters["onboardingLoading"];
+const onSelectUniversityAvatar = async (files: FileList) => {
+  await store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+    key: AttachmentKey.CompanyAvatar,
+    files,
+  });
+};
+
+const onDeleteUniversityAvatar = async (file: Attachment) => {
+  await store.dispatch(UploadActionTypes.DELETE_FILE, {
+    key: AttachmentKey.CompanyAvatar,
+    id: file.id,
+  });
+};
+
+const onSelectUniversityDocuments = async (files: FileList) => {
+  await store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+    key: AttachmentKey.CompanyDocuments,
+    files,
+  });
+};
+
+const onDeleteUniversityDocuments = async (file: Attachment) => {
+  await store.dispatch(UploadActionTypes.DELETE_FILE, {
+    key: AttachmentKey.CompanyDocuments,
+    id: file.id,
+  });
+};
+
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
   }
-
-  get onboardingState() {
-    return this.$store.getters["onboardingState"];
-  }
-
-  get user() {
-    return this.$store.getters["user"];
-  }
-
-  get showError() {
-    return !!this.onboardingState.errors;
-  }
-
-  get currentStep() {
-    return this.$store.getters["profileStep"];
-  }
-
-  get profileData() {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as UniversityProfileStep2Form;
-    }
-    return universityProfileStep2FormMapper(user);
-  }
-
-  get universityAvatarQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar });
-  }
-
-  get universityAvatar() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar });
-  }
-
-  get universityAvatarUploadConfigurations(): UploadConfiguration | undefined {
-    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar });
-  }
-
-  get universityDocumentsQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  get universityDocuments() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  get universityDocumentsUploadConfigurations() {
-    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, { key: AttachmentKey.CompanyAvatar }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyDocuments,
-      }),
-    ]);
-
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
-
-    calculateMargins();
-  }
-
-  async onSelectUniversityAvatar(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
-      key: AttachmentKey.CompanyAvatar,
-      files,
-    });
-  }
-
-  async onDeleteUniversityAvatar(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
-      key: AttachmentKey.CompanyAvatar,
-      id: file.id,
-    });
-  }
-
-  async onSelectUniversityDocuments(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
-      key: AttachmentKey.CompanyDocuments,
-      files,
-    });
-  }
-
-  async onDeleteUniversityDocuments(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
-      key: AttachmentKey.CompanyDocuments,
-      id: file.id,
-    });
-  }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty(): void {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+);
 </script>
 
 <style></style>

@@ -9,7 +9,8 @@ export function jobPostingStep1InputMapper(
     id: id || null,
     title: jobPostingForm.title,
     description: jobPostingForm.description || null,
-    workload: +jobPostingForm.workload,
+    workloadFrom: +jobPostingForm.workloadFrom,
+    workloadTo: +jobPostingForm.workloadTo,
     url: jobPostingForm.url || null,
     jobType: {
       id: jobPostingForm.jobTypeId,
@@ -18,10 +19,13 @@ export function jobPostingStep1InputMapper(
       jobPostingForm.branches?.map((branchId) => {
         return { id: branchId };
       }) || [],
-    jobFromDate: `${jobPostingForm.jobFromDateMonth}.${jobPostingForm.jobFromDateYear}`,
-    jobToDate:
-      jobPostingForm.jobToDateMonth && jobPostingForm.jobToDateYear
-        ? `${jobPostingForm.jobToDateMonth}.${jobPostingForm.jobToDateYear}`
+    // TODO: T4054
+    jobFromDate:
+      jobPostingForm.jobFromDateMonth && jobPostingForm.jobFromDateYear
+        ? `${jobPostingForm.jobFromDateMonth}.${jobPostingForm.jobFromDateYear}`
         : null,
+    jobToDate: jobPostingForm.jobToDateOpenEnd
+      ? `${jobPostingForm.jobToDateMonth}.${jobPostingForm.jobToDateYear}`
+      : null,
   };
 }

@@ -35,6 +35,7 @@ export type Getters = {
   benefits(state: State): Benefit[];
   branches(state: State): Branch[];
   companyMatching(state: State): { data: Match[] };
+  companyMatchingLoading(state: State): boolean;
   company(state: State): {
     data: Company | null;
     logo: CompanyAttachment | null;
@@ -54,6 +55,7 @@ export type Getters = {
   matchesForBubbles(state: State): SearchResultBubbleData;
   matchesForGrid(state: State): SearchResult[];
   matchLoading(state: State): boolean;
+  matchesLoading(state: State): boolean;
   challengeDetail(state: State): State["challenge"];
   challenges(state: State): ChallengesChallengeFragment[];
   challengesLoading(state: State): boolean;
@@ -81,6 +83,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   companyMatching(state: State) {
     return state.companyMatching;
+  },
+  companyMatchingLoading(state: State) {
+    return state.companyMatching.loading;
   },
   culturalFits(state: State) {
     return state.culturalFits.data;
@@ -214,6 +219,9 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
   matchLoading(state: State) {
     return state.match.loading;
+  },
+  matchesLoading(state: State) {
+    return state.matches.loading;
   },
   challengeDetail(state: State) {
     return state.challenge;

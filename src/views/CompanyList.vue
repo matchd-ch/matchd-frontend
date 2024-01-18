@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <LoadingBox :is-loading="isLoading">
     <ul
       v-if="companyMatching.data.length"
       class="search-result-grid--company search-result-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-px"
@@ -17,13 +17,14 @@
         </div>
       </grid-tile>
     </ul>
-  </div>
+  </LoadingBox>
 </template>
 
 <script lang="ts">
 import type { Match } from "@/api/models/types";
 import { ProfileType } from "@/api/models/types";
 import GridTile from "@/components/GridTile.vue";
+import LoadingBox from "@/components/LoadingBox.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { replaceStack } from "@/helpers/replaceStack";
 import { Routes } from "@/router";
@@ -34,6 +35,7 @@ import { useMeta } from "vue-meta";
 @Options({
   components: {
     GridTile,
+    LoadingBox,
   },
 })
 export default class CompanyList extends Vue {
@@ -42,6 +44,10 @@ export default class CompanyList extends Vue {
   async mounted(): Promise<void> {
     await this.loadData();
     calculateMargins();
+  }
+
+  get isLoading() {
+    return this.$store.getters["companyMatchingLoading"];
   }
 
   get companyMatching(): { data: Match[] } {

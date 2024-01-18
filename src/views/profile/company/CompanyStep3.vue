@@ -1,11 +1,11 @@
 <template>
-  <form v-if="branches.length && companyDocumentsUploadConfigurations" @submit="veeForm.onSubmit">
+  <form v-if="branches.length && companyDocumentsUploadConfigurations" @submit="onSubmit">
     <FormSaveError v-if="showError" />
     <!-- Branch Field -->
     <SelectPillMultiple :options="branches" name="branches" class="mb-10" @change="onChangeBranch">
-      <template #label
-        >In diesen Bereichen und Challenges können Talente bei Ihnen tätig werden</template
-      >
+      <template #label>
+        In diesen Bereichen und Challenges können Talente bei Ihnen tätig werden
+      </template>
     </SelectPillMultiple>
     <!-- Benefits Field -->
     <SelectIconGroup class="mb-10" :icons="benefits" name="benefits" @change="onChangeBenefits">
@@ -40,7 +40,7 @@
             type="button"
             variant="outline"
             class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
+            @click="emit('clickCancel')"
           >
             Abbrechen
           </MatchdButton>
@@ -49,7 +49,7 @@
             variant="fill"
             :disabled="onboardingLoading"
             :loading="onboardingLoading"
-            @click="veeForm.onSubmit"
+            @click="onSubmit"
           >
             Speichern
           </MatchdButton>
@@ -57,7 +57,7 @@
       </teleport>
     </template>
     <template v-else>
-      <MatchdButton type="button" variant="outline" class="mr-4" @click="$emit('clickBack')">
+      <MatchdButton type="button" variant="outline" class="mr-4" @click="emit('clickBack')">
         Zurück
       </MatchdButton>
       <MatchdButton
@@ -65,7 +65,7 @@
         variant="fill"
         :disabled="onboardingLoading"
         :loading="onboardingLoading"
-        @click="veeForm.onSubmit"
+        @click="onSubmit"
       >
         Speichern und weiter
       </MatchdButton>
@@ -73,7 +73,7 @@
   </form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { companyProfileStep3FormMapper } from "@/api/mappers/companyProfileStep3FormMapper";
 import { companyProfileStep3InputMapper } from "@/api/mappers/companyProfileStep3InputMapper";
 import type { Attachment, Benefit, Branch } from "@/api/models/types";
@@ -91,179 +91,151 @@ import { useStore } from "@/store";
 import { ActionTypes as ContentActionTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { ErrorMessage, Field, useField, useForm } from "vee-validate";
-import { Options, prop, setup, Vue } from "vue-class-component";
-import { Watch } from "vue-property-decorator";
+import type { SelectPillMultipleItem } from "@/types/selectPillMultiple";
+import { useForm } from "vee-validate";
+import { computed, onMounted, watch } from "vue";
 
-class Props {
-  edit = prop<boolean>({ default: false });
-}
+const props = withDefaults(
+  defineProps<{
+    edit?: boolean;
+  }>(),
+  {
+    edit: false,
+  }
+);
 
-@Options({
-  components: {
-    Field,
-    ErrorMessage,
-    FormSaveError,
-    MatchdButton,
-    SelectPillMultiple,
-    SelectIconGroup,
-    MatchdFileBlock,
-    MatchdFileView,
-    MatchdFileUpload,
-  },
-  emits: ["submitComplete", "changeDirty", "clickCancel", "clickBack"],
-})
-export default class CompanyStep3Form extends Vue.with(Props) {
-  veeForm = setup(() => {
-    const store = useStore();
-    const form = useForm<CompanyProfileStep3Form>();
-    const { value: branches } = useField<string[]>("branches");
-    const { value: benefits } = useField<string[]>("benefits");
+const emit = defineEmits<{
+  (event: "submitComplete", onboardingState: boolean): void;
+  (event: "changeDirty", dirty: boolean): void;
+  (event: "clickCancel"): void;
+  (event: "clickBack"): void;
+}>();
 
-    const onSubmit = form.handleSubmit(async (formData): Promise<void> => {
-      try {
-        await store.dispatch(
-          ActionTypes.COMPANY_ONBOARDING_STEP3,
-          companyProfileStep3InputMapper(formData)
-        );
-        const onboardingState = store.getters["onboardingState"];
-        this.$emit("submitComplete", onboardingState.success);
-      } catch (e) {
-        console.log(e);
-      }
-    });
+const store = useStore();
+const veeForm = useForm<CompanyProfileStep3Form>();
 
+const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
+  try {
+    await store.dispatch(
+      ActionTypes.COMPANY_ONBOARDING_STEP3,
+      companyProfileStep3InputMapper(formData)
+    );
+    const onboardingState = store.getters["onboardingState"];
+    emit("submitComplete", onboardingState.success);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+const branches = computed((): SelectPillMultipleItem[] => {
+  return store.getters["branches"].map((branch) => {
     return {
-      ...form,
-      onSubmit,
-      branches,
-      benefits,
+      id: branch.id,
+      name: branch.name,
+      checked: !!veeForm.values.branches?.find(
+        (selectedBranchId) => selectedBranchId === branch.id
+      ),
     };
   });
+});
 
-  formData = {} as CompanyProfileStep3Form;
+const benefits = computed(() => {
+  return store.getters["benefits"].map((benefit) => {
+    return {
+      ...benefit,
+      checked: !!veeForm.values.benefits?.find(
+        (selectedBenefitId) => selectedBenefitId === benefit.id
+      ),
+    };
+  });
+});
 
-  get branches() {
-    return this.$store.getters["branches"].map((branch) => {
-      return {
-        id: branch.id,
-        name: branch.name,
-        checked: !!this.veeForm.branches?.find(
-          (selectedBranchId) => selectedBranchId === branch.id
-        ),
-      };
-    });
+const user = computed(() => store.getters["user"]);
+const showError = computed(() => !!onboardingState.value.errors);
+const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
+const onboardingState = computed(() => store.getters["onboardingState"]);
+const companyDocumentsQueue = computed(() =>
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments })
+);
+const companyDocuments = computed(() =>
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
+);
+const companyDocumentsUploadConfigurations = computed(() =>
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments })
+);
+
+const profileData = computed(() => {
+  if (!user.value) {
+    return {} as CompanyProfileStep3Form;
   }
+  return companyProfileStep3FormMapper(user.value);
+});
 
-  get benefits() {
-    return this.$store.getters["benefits"].map((benefit) => {
-      return {
-        ...benefit,
-        checked: !!this.veeForm.benefits?.find(
-          (selectedBenefitId) => selectedBenefitId === benefit.id
-        ),
-      };
-    });
-  }
-
-  get showError() {
-    return !!this.onboardingState.errors;
-  }
-
-  get onboardingLoading() {
-    return this.$store.getters["onboardingLoading"];
-  }
-
-  get onboardingState() {
-    return this.$store.getters["onboardingState"];
-  }
-
-  get currentStep() {
-    return this.$store.getters["profileStep"];
-  }
-
-  get companyDocumentsQueue() {
-    return this.$store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  get companyDocuments() {
-    return this.$store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  get companyDocumentsUploadConfigurations() {
-    return this.$store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments });
-  }
-
-  get profileData() {
-    const user = this.$store.getters["user"];
-    if (!user) {
-      return {} as CompanyProfileStep3Form;
-    }
-    return companyProfileStep3FormMapper(user);
-  }
-
-  onChangeBranch(branch: Branch) {
-    const branchExists = !!this.veeForm.branches.find(
-      (selectedBranchId) => selectedBranchId === branch.id
+const onChangeBranch = (branch: Branch) => {
+  const branchExists = !!veeForm.values.branches.find(
+    (selectedBranchId) => selectedBranchId === branch.id
+  );
+  if (branchExists) {
+    veeForm.setFieldValue(
+      "branches",
+      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id)
     );
-    if (branchExists) {
-      this.veeForm.branches = this.veeForm.branches.filter(
-        (selectedBranchId) => selectedBranchId !== branch.id
-      );
-    } else {
-      this.veeForm.branches = [...this.veeForm.branches, branch.id];
-    }
+  } else {
+    veeForm.setFieldValue("branches", [...veeForm.values.branches, branch.id]);
   }
+};
 
-  onChangeBenefits(benefit: Benefit) {
-    const benefitExists = !!this.veeForm.benefits.find(
-      (selectedBenefitId) => selectedBenefitId === benefit.id
-    );
-    if (benefitExists) {
-      this.veeForm.benefits = this.veeForm.benefits.filter(
+const onChangeBenefits = (benefit: Benefit) => {
+  const benefitExists = !!veeForm.values.benefits.find(
+    (selectedBenefitId) => selectedBenefitId === benefit.id
+  );
+  if (benefitExists) {
+    veeForm.setValues({
+      benefits: veeForm.values.benefits.filter(
         (selectedBenefitId) => selectedBenefitId !== benefit.id
-      );
-    } else {
-      this.veeForm.benefits = [...this.veeForm.benefits, benefit.id];
-    }
+      ),
+    });
+  } else {
+    veeForm.setValues({ benefits: [...veeForm.values.benefits, benefit.id] });
   }
+};
 
-  async onSelectCompanyDocuments(files: FileList) {
-    await this.$store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+const onSelectCompanyDocuments = async (files: FileList) => {
+  await store.dispatch(UploadActionTypes.UPLOAD_FILE, {
+    key: AttachmentKey.CompanyDocuments,
+    files,
+  });
+};
+
+const onDeleteCompanyDocuments = async (file: Attachment) => {
+  await store.dispatch(UploadActionTypes.DELETE_FILE, {
+    key: AttachmentKey.CompanyDocuments,
+    id: file.id,
+  });
+};
+
+onMounted(async () => {
+  await Promise.all([
+    store.dispatch(ContentActionTypes.BRANCHES),
+    store.dispatch(ContentActionTypes.BENEFITS),
+    store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
       key: AttachmentKey.CompanyDocuments,
-      files,
-    });
+    }),
+  ]);
+  veeForm.resetForm({
+    values: profileData.value,
+  });
+
+  calculateMargins();
+});
+
+watch(
+  () => veeForm.meta.value.dirty,
+  () => {
+    emit("changeDirty", veeForm.meta.value.dirty);
   }
-
-  async onDeleteCompanyDocuments(file: Attachment) {
-    await this.$store.dispatch(UploadActionTypes.DELETE_FILE, {
-      key: AttachmentKey.CompanyDocuments,
-      id: file.id,
-    });
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.$store.dispatch(ContentActionTypes.BRANCHES),
-      this.$store.dispatch(ContentActionTypes.BENEFITS),
-      this.$store.dispatch(UploadActionTypes.UPLOAD_CONFIGURATIONS),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyDocuments,
-      }),
-    ]);
-
-    this.veeForm.resetForm({
-      values: this.profileData,
-    });
-
-    calculateMargins();
-  }
-
-  @Watch("veeForm.meta.dirty")
-  checkDirty() {
-    this.$emit("changeDirty", this.veeForm.meta.dirty);
-  }
-}
+);
 </script>
 
 <style></style>
