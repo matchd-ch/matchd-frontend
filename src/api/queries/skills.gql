@@ -1,5 +1,5 @@
 query skills {
-  skills(first: 100) {
+  skills(first: 2000) {
     edges {
       node {
         id

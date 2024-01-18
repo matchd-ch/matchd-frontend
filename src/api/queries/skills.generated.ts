@@ -31,7 +31,7 @@ export const SkillsDocument = {
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "first" },
-                value: { kind: "IntValue", value: "100" },
+                value: { kind: "IntValue", value: "2000" },
               },
             ],
             selectionSet: {

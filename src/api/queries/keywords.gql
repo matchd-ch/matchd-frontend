@@ -1,7 +1,7 @@
 #import "./keywordsFragment.gql"
 
 query keywords {
-  keywords(first: 100) {
+  keywords(first: 2000) {
     edges {
       node {
         ...keywordsKeyword

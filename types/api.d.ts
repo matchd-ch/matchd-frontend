@@ -4267,7 +4267,7 @@ const JobTypes = gql`
 `;
 const Keywords = gql`
   query keywords {
-    keywords(first: 100) {
+    keywords(first: 2000) {
       edges {
         node {
           ...keywordsKeyword
@@ -4438,7 +4438,7 @@ const Me = gql`
 `;
 const Skills = gql`
   query skills {
-    skills(first: 100) {
+    skills(first: 2000) {
       edges {
         node {
           id
