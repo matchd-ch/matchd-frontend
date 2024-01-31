@@ -3,7 +3,7 @@ import type { ChallengeStep3Form } from "@/models/ChallengeStep3Form";
 
 export function challengeStep3InputMapper(
   id: string,
-  challengeForm: ChallengeStep3Form
+  challengeForm: ChallengeStep3Form,
 ): ChallengeAllocationInput {
   return {
     id,

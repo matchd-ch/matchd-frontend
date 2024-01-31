@@ -2,7 +2,7 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type CompanyQueryVariables = Types.Exact<{
-  slug?: Types.InputMaybe<Types.Scalars["String"]>;
+  slug?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
 }>;
 
 export type CompanyQuery = {

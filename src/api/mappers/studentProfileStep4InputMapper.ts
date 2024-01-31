@@ -2,7 +2,7 @@ import type { StudentProfileAbilitiesInput } from "@/api/models/types";
 import type { StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 
 export function studentProfileStep4InputMapper(
-  studentProfileForm: StudentProfileStep4Form
+  studentProfileForm: StudentProfileStep4Form,
 ): StudentProfileAbilitiesInput {
   return {
     skills: studentProfileForm.skills.map((softSkillId) => {

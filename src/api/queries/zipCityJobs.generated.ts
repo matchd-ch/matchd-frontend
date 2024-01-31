@@ -2,8 +2,8 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type ZipCityJobsQueryVariables = Types.Exact<{
-  branchId?: Types.InputMaybe<Types.Scalars["String"]>;
-  jobTypeId?: Types.InputMaybe<Types.Scalars["String"]>;
+  branchId?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
+  jobTypeId?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
 }>;
 
 export type ZipCityJobsQuery = {

@@ -164,10 +164,10 @@ const showError = computed(
   () =>
     !!updateUserState.value.errors ||
     !!updateStudentState.value.errors ||
-    !!passwordChangeState.value.errors
+    !!passwordChangeState.value.errors,
 );
 const isLoading = computed(
-  () => updateUserLoading.value || updateStudentLoading.value || passwordChangeLoading.value
+  () => updateUserLoading.value || updateStudentLoading.value || passwordChangeLoading.value,
 );
 
 interface FormData {
@@ -288,6 +288,6 @@ watch(
   () => form.errors.value,
   () => {
     emits("changeDirty", form.meta.value.dirty);
-  }
+  },
 );
 </script>

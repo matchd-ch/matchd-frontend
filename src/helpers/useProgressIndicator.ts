@@ -31,15 +31,15 @@ export default () => {
   const store = useStore();
 
   const studentAvatar = computed(() =>
-    store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar })
+    store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar }),
   );
 
   const companyAvatar = computed(() =>
-    store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })
+    store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar }),
   );
 
   const companyDocuments = computed(() =>
-    store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
+    store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments }),
   );
 
   const user = computed(() => {
@@ -121,7 +121,7 @@ export default () => {
         companyDocuments.value,
       ],
       setupTalentSearch: [user.value?.company?.softSkills, user.value?.company?.culturalFits],
-    })
+    }),
   );
 
   const studentProgress = computed(() => {
@@ -176,7 +176,7 @@ export default () => {
       {
         global: 0,
         sections: {},
-      }
+      },
     ) as {
       global: number;
       sections: Record<T, number>;
@@ -194,7 +194,7 @@ export default () => {
     progress: ComputedRef<{
       global: number;
       sections: Record<T, number>;
-    } | null>
+    } | null>,
   ) =>
     computed(() => {
       if (!progress.value) {
@@ -202,7 +202,7 @@ export default () => {
       }
       const sections: Partial<Record<T, number>> = {};
       Object.entries<number>(progress.value.sections).forEach(
-        ([k, v]) => (sections[k as T] = convertToPercent(v))
+        ([k, v]) => (sections[k as T] = convertToPercent(v)),
       );
       return {
         global: convertToPercent(progress.value.global),
@@ -247,7 +247,7 @@ export default () => {
         });
       }
     },
-    { immediate: true }
+    { immediate: true },
   );
 
   return {

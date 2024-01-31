@@ -115,7 +115,7 @@ export default class StudentSearch extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Talente suchen",
-    })
+    }),
   );
   techBoost = 3;
   softBoost = 3;
@@ -198,7 +198,7 @@ export default class StudentSearch extends Vue {
         techBoost: this.techBoost,
         first: 20,
         skip: 0,
-      })
+      }),
     );
   }
 

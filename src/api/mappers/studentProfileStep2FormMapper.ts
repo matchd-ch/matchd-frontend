@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 import type { MeQuery } from "../queries/me.generated";
 
 export function studentProfileStep2FormMapper(
-  user: NonNullable<MeQuery["me"]>
+  user: NonNullable<MeQuery["me"]>,
 ): StudentProfileStep2Form {
   return {
     branchId: user.student?.branch?.id ?? "",

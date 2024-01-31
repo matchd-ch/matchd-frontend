@@ -222,7 +222,7 @@ const logo = computed(() => {
 const logoSrc = computed(() => logo.value?.url || logoFallback.value?.url || "");
 
 const media = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments }),
 );
 const mainMedia = computed(() => media.value[0] ?? undefined);
 const additionalMedia = computed(() => {

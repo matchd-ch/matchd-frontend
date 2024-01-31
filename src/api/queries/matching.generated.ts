@@ -5,10 +5,10 @@ export type MatchingQueryVariables = Types.Exact<{
   studentMatchingInput?: Types.InputMaybe<Types.StudentMatchingInput>;
   jobPostingMatchingInput?: Types.InputMaybe<Types.JobPostingMatchingInput>;
   challengeMatchingInput?: Types.InputMaybe<Types.ChallengeMatchingInput>;
-  softBoost: Types.Scalars["Int"];
-  techBoost: Types.Scalars["Int"];
-  first?: Types.InputMaybe<Types.Scalars["Int"]>;
-  skip?: Types.InputMaybe<Types.Scalars["Int"]>;
+  softBoost: Types.Scalars["Int"]["input"];
+  techBoost: Types.Scalars["Int"]["input"];
+  first?: Types.InputMaybe<Types.Scalars["Int"]["input"]>;
+  skip?: Types.InputMaybe<Types.Scalars["Int"]["input"]>;
 }>;
 
 export type MatchingQuery = {

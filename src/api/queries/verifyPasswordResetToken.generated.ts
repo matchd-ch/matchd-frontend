@@ -2,7 +2,7 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type VerifyPasswordResetTokenQueryVariables = Types.Exact<{
-  token: Types.Scalars["String"];
+  token: Types.Scalars["String"]["input"];
 }>;
 
 export type VerifyPasswordResetTokenQuery = {

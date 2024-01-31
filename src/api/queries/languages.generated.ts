@@ -2,7 +2,7 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type LanguagesQueryVariables = Types.Exact<{
-  shortList?: Types.InputMaybe<Types.Scalars["Boolean"]>;
+  shortList?: Types.InputMaybe<Types.Scalars["Boolean"]["input"]>;
 }>;
 
 export type LanguagesQuery = {

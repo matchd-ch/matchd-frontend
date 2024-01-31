@@ -21,7 +21,7 @@ import MatchdButton from "./MatchdButton.vue";
 const store = useStore();
 
 const challengeTypeMentoring = computed(() =>
-  store.getters["challengeTypes"]?.find((ct) => ct.name === "Mentoring")
+  store.getters["challengeTypes"]?.find((ct) => ct.name === "Mentoring"),
 );
 
 onMounted(async () => {

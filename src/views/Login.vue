@@ -90,7 +90,7 @@ export default class Login extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Login",
-    })
+    }),
   );
 
   get loginLoading(): boolean {

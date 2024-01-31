@@ -93,7 +93,7 @@ const addEmployeeState = computed(() => store.getters["addEmployeeState"]);
 
 const onAddNewEmployee = async (
   _form: Record<string, unknown>,
-  actions: FormActions<Partial<AddEmployeeSubForm>>
+  actions: FormActions<Partial<AddEmployeeSubForm>>,
 ) => {
   try {
     await store.dispatch(ActionTypes.ADD_EMPLOYEE, employeeForm);

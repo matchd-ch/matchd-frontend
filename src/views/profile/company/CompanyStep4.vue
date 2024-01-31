@@ -82,7 +82,7 @@ withDefaults(
   }>(),
   {
     edit: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -103,7 +103,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.COMPANY_ONBOARDING_STEP4,
-      companyProfileStep4InputMapper(formData)
+      companyProfileStep4InputMapper(formData),
     );
 
     const onboardingState = store.getters["onboardingState"];
@@ -142,7 +142,7 @@ const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
   if (softSkillExists) {
     veeForm.setFieldValue(
       "softSkills",
-      veeForm.values.softSkills?.filter((id) => id !== softSkill.id)
+      veeForm.values.softSkills?.filter((id) => id !== softSkill.id),
     );
     return;
   }
@@ -154,7 +154,7 @@ const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
   if (culturalFitExists) {
     veeForm.setFieldValue(
       "culturalFits",
-      veeForm.values.culturalFits?.filter((id) => id !== culturalFit.id)
+      veeForm.values.culturalFits?.filter((id) => id !== culturalFit.id),
     );
     return;
   }
@@ -185,7 +185,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

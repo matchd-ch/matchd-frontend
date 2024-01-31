@@ -31,21 +31,21 @@ export const config = {
   API_URL: runtimeConfig.VUE_APP_API_URL
     ? runtimeConfig.VUE_APP_API_URL
     : process.env.VUE_APP_API_URL
-    ? process.env.VUE_APP_API_URL
-    : defaultConfig.VUE_APP_API_URL,
+      ? process.env.VUE_APP_API_URL
+      : defaultConfig.VUE_APP_API_URL,
   DATA_PROTECTION_URL: runtimeConfig.VUE_APP_DATA_PROTECTION_URL
     ? runtimeConfig.VUE_APP_DATA_PROTECTION_URL
     : process.env.VUE_APP_DATA_PROTECTION_URL
-    ? process.env.VUE_APP_DATA_PROTECTION_URL
-    : defaultConfig.VUE_APP_DATA_PROTECTION_URL,
+      ? process.env.VUE_APP_DATA_PROTECTION_URL
+      : defaultConfig.VUE_APP_DATA_PROTECTION_URL,
   BASE_URL: runtimeConfig.VUE_APP_BASE_URL
     ? runtimeConfig.VUE_APP_BASE_URL
     : process.env.VUE_APP_BASE_URL
-    ? process.env.VUE_APP_BASE_URL
-    : defaultConfig.VUE_APP_BASE_URL,
+      ? process.env.VUE_APP_BASE_URL
+      : defaultConfig.VUE_APP_BASE_URL,
   NODE_ENV: runtimeConfig.NODE_ENV
     ? runtimeConfig.NODE_ENV
     : process.env.NODE_ENV
-    ? process.env.NODE_ENV
-    : defaultConfig.NODE_ENV,
+      ? process.env.NODE_ENV
+      : defaultConfig.NODE_ENV,
 };

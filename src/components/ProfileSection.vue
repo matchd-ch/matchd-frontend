@@ -41,7 +41,7 @@ withDefaults(
     rows: false,
     editStep: undefined,
     to: null,
-  }
+  },
 );
 </script>
 

@@ -18,13 +18,13 @@ export type UploadStore<S = State> = Omit<VuexStore<S>, "getters" | "commit" | "
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
     key: K,
     payload?: P,
-    options?: CommitOptions
+    options?: CommitOptions,
   ): ReturnType<Mutations[K]>;
 } & {
   dispatch<K extends keyof Actions>(
     key: K,
     payload?: Parameters<Actions[K]>[1],
-    options?: DispatchOptions
+    options?: DispatchOptions,
   ): ReturnType<Actions[K]>;
 } & {
   getters: {

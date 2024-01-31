@@ -97,7 +97,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.UNIVERSITY_ONBOARDING_STEP4,
-      universityProfileStep4InputMapper(formData)
+      universityProfileStep4InputMapper(formData),
     );
 
     const onboardingState = store.getters["onboardingState"];
@@ -136,7 +136,7 @@ const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
   if (softSkillExists) {
     veeForm.setFieldValue(
       "softSkills",
-      veeForm.values.softSkills?.filter((id) => id !== softSkill.id)
+      veeForm.values.softSkills?.filter((id) => id !== softSkill.id),
     );
     return;
   }
@@ -148,7 +148,7 @@ const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
   if (culturalFitExists) {
     veeForm.setFieldValue(
       "culturalFits",
-      veeForm.values.culturalFits?.filter((id) => id !== culturalFit.id)
+      veeForm.values.culturalFits?.filter((id) => id !== culturalFit.id),
     );
     return;
   }
@@ -177,7 +177,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 <style></style>

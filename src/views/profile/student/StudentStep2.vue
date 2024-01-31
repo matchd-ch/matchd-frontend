@@ -167,7 +167,7 @@ withDefaults(
   }>(),
   {
     edit: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -205,7 +205,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP2,
-      studentProfileStep2InputMapper(formData)
+      studentProfileStep2InputMapper(formData),
     );
 
     const onboardingState = store.getters["onboardingState"];
@@ -242,7 +242,7 @@ const validYears = computed(() => {
 const modeIsDateRange = computed(
   () =>
     jobTypes.value?.find((option) => option.id === veeForm.values?.jobTypeId)?.mode ===
-    DateMode.DateRange
+    DateMode.DateRange,
 );
 
 const branches = computed(() => store.getters["branches"]);
@@ -279,7 +279,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

@@ -1,20 +1,20 @@
 #import "./challengesFragment.gql"
 
 query challenges(
-  $textSearch: String,
-  $challengeTypeIds: [String],
-  $keywordIds: [String],
-  $filterTalentChallenges: Boolean,
-  $filterCompanyChallenges: Boolean,
+  $textSearch: String
+  $challengeTypeIds: [String]
+  $keywordIds: [String]
+  $filterTalentChallenges: Boolean
+  $filterCompanyChallenges: Boolean
   $filterUniversityChallenges: Boolean
 ) {
   challenges(
-    first: 1000,
-    textSearch: $textSearch,
-    challengeTypeIds: $challengeTypeIds,
-    keywordIds: $keywordIds,
-    filterTalentChallenges: $filterTalentChallenges,
-    filterCompanyChallenges: $filterCompanyChallenges,
+    first: 1000
+    textSearch: $textSearch
+    challengeTypeIds: $challengeTypeIds
+    keywordIds: $keywordIds
+    filterTalentChallenges: $filterTalentChallenges
+    filterCompanyChallenges: $filterCompanyChallenges
     filterUniversityChallenges: $filterUniversityChallenges
   ) {
     edges {

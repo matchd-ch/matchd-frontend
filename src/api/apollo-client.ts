@@ -10,7 +10,7 @@ import {
 } from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { onError } from "@apollo/client/link/error";
-import { createUploadLink } from "apollo-upload-client";
+import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
 import * as omitDeep from "omit-deep";
 
 // eslint-disable-next-line
@@ -46,7 +46,7 @@ export function createApolloClient(baseUrl: string): ApolloClient<any> {
       return operation.getContext().batch;
     },
     batchLink,
-    httpLink
+    httpLink,
   );
 
   const cleanTypeNameLink = new ApolloLink((operation, forward) => {

@@ -5,7 +5,7 @@ import type { JobPostingJobPostingFragment } from "../queries/jobPostingFragment
 
 export function jobPostingStep3FormMapper(
   jobPosting: JobPostingJobPostingFragment,
-  employee: Employee
+  employee: Employee,
 ): JobPostingStep3Form {
   return {
     employeeId: jobPosting.employee?.id || employee.id,

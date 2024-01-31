@@ -43,7 +43,7 @@ import { ActionTypes } from "./action-types";
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,
-    payload?: Parameters<Mutations[K]>[1]
+    payload?: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
@@ -54,59 +54,59 @@ export interface Actions {
   [ActionTypes.BRANCHES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.COMPANY](
     { commit }: AugmentedActionContext,
-    payload: { slug: string }
+    payload: { slug: string },
   ): Promise<void>;
   [ActionTypes.COMPANY_MATCHING]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.CULTURAL_FITS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.DASHBOARD]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_POSTING](
     { commit }: AugmentedActionContext,
-    payload: { slug: string }
+    payload: { slug: string },
   ): Promise<void>;
   [ActionTypes.JOB_POSTINGS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_REQUIREMENTS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.JOB_TYPE]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.LANGUAGES](
     { commit }: AugmentedActionContext,
-    payload: { shortList: boolean }
+    payload: { shortList: boolean },
   ): Promise<void>;
   [ActionTypes.LANGUAGE_LEVELS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.KEYWORDS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.MATCH_JOB_POSTING](
     { commit }: AugmentedActionContext,
-    payload: MatchJobPostingInput
+    payload: MatchJobPostingInput,
   ): Promise<void>;
   [ActionTypes.MATCH_CHALLENGE](
     { commit }: AugmentedActionContext,
-    payload: MatchChallengeInput
+    payload: MatchChallengeInput,
   ): Promise<void>;
   [ActionTypes.MATCH_STUDENT](
     { commit }: AugmentedActionContext,
-    payload: MatchStudentInput
+    payload: MatchStudentInput,
   ): Promise<void>;
   [ActionTypes.MATCHING]({ commit }: AugmentedActionContext, payload: MatchingInput): Promise<void>;
   [ActionTypes.CHALLENGE](
     { commit }: AugmentedActionContext,
-    payload: { slug: string }
+    payload: { slug: string },
   ): Promise<void>;
   [ActionTypes.CHALLENGE_PUBLIC](
     { commit }: AugmentedActionContext,
-    payload: { slug: string }
+    payload: { slug: string },
   ): Promise<void>;
   [ActionTypes.CHALLENGES](
     { commit }: AugmentedActionContext,
-    payload: ChallengesQueryVariables
+    payload: ChallengesQueryVariables,
   ): Promise<void>;
   [ActionTypes.CHALLENGE_TYPES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.SOFT_SKILLS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.STUDENT](
     { commit }: AugmentedActionContext,
-    payload: { slug: string; jobPostingId?: string }
+    payload: { slug: string; jobPostingId?: string },
   ): Promise<void>;
   [ActionTypes.ZIP_CITY_JOBS](
     { commit }: AugmentedActionContext,
-    payload: ZipCityJobsInput
+    payload: ZipCityJobsInput,
   ): Promise<void>;
 }
 

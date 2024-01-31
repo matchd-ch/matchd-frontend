@@ -2,7 +2,7 @@ import type { StudentProfileEmploymentInput } from "@/api/models/types";
 import type { StudentProfileStep2Form } from "@/models/StudentProfileStep2Form";
 
 export function studentProfileStep2InputMapper(
-  studentProfileForm: StudentProfileStep2Form
+  studentProfileForm: StudentProfileStep2Form,
 ): StudentProfileEmploymentInput {
   return {
     jobType: { id: studentProfileForm.jobTypeId },

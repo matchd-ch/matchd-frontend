@@ -5,7 +5,7 @@ import type { ChallengeChallengeFragment } from "../queries/challengeFragment.ge
 
 export function challengeStep3FormMapper(
   challenge: ChallengeChallengeFragment,
-  employee?: Employee | null | undefined
+  employee?: Employee | null | undefined,
 ): ChallengeStep3Form {
   return {
     employeeId: challenge.employee?.id || employee?.id,

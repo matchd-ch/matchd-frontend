@@ -2,7 +2,7 @@ import type { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 import type { JobPostingJobPostingFragment } from "../queries/jobPostingFragment.generated";
 
 export function jobPostingStep2FormMapper(
-  jobPosting: JobPostingJobPostingFragment
+  jobPosting: JobPostingJobPostingFragment,
 ): JobPostingStep2Form {
   return {
     languages:

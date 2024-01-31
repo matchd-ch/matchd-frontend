@@ -5,7 +5,7 @@ type GraphQLErrorObject = { message: string; code: string };
 type GraphQLError = GraphQLErrorObject | string;
 
 export function errorCodeMapper(
-  graphQLErrors: Maybe<Scalars["ExpectedErrorType"]>
+  graphQLErrors: Maybe<Scalars["ExpectedErrorType"]["output"]>,
 ): MatchdApiError | null {
   const mappedErrors: MatchdApiError = {};
 
@@ -15,7 +15,7 @@ export function errorCodeMapper(
 
   for (const [key, value] of Object.entries(graphQLErrors)) {
     mappedErrors[key] = (value as GraphQLError[]).map((error) =>
-      typeof error === "string" ? error : error.code
+      typeof error === "string" ? error : error.code,
     );
   }
   return mappedErrors;

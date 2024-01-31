@@ -83,7 +83,7 @@ withDefaults(
   }>(),
   {
     edit: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -100,7 +100,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP3,
-      studentProfileStep3InputMapper(formData)
+      studentProfileStep3InputMapper(formData),
     );
 
     const onboardingState = store.getters["onboardingState"];
@@ -118,7 +118,7 @@ const softSkills = computed(() =>
       name: softSkill.student,
       checked: !!veeForm.values.softSkills?.find((id) => id === softSkill.id),
     };
-  })
+  }),
 );
 
 const culturalFits = computed(() =>
@@ -128,7 +128,7 @@ const culturalFits = computed(() =>
       name: culturalFit.student,
       checked: !!veeForm.values.culturalFits?.find((id) => id === culturalFit.id),
     };
-  })
+  }),
 );
 
 const showError = computed(() => !!onboardingState.value.errors);
@@ -140,7 +140,7 @@ const onChangeSoftSkill = (softSkill: SelectPillMultipleItem) => {
   if (softSkillExists) {
     veeForm.setFieldValue(
       "softSkills",
-      veeForm.values.softSkills?.filter((id) => id !== softSkill.id)
+      veeForm.values.softSkills?.filter((id) => id !== softSkill.id),
     );
     return;
   }
@@ -152,7 +152,7 @@ const onChangeCulturalFit = (culturalFit: SelectPillMultipleItem) => {
   if (culturalFitExists) {
     veeForm.setFieldValue(
       "culturalFits",
-      veeForm.values.culturalFits?.filter((id) => id !== culturalFit.id)
+      veeForm.values.culturalFits?.filter((id) => id !== culturalFit.id),
     );
     return;
   }
@@ -182,7 +182,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

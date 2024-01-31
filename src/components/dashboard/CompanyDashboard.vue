@@ -139,15 +139,15 @@
         "challengeDeleted" in route.query
           ? "Challenge | Mentoring gelöscht"
           : "jobPostingDeleted" in route.query
-          ? "Stelle gelöscht"
-          : ""
+            ? "Stelle gelöscht"
+            : ""
       }}</template>
       {{
         "challengeDeleted" in route.query
           ? "Die Challenge | Mentoring wurde erfolgreich gelöscht."
           : "jobPostingDeleted" in route.query
-          ? "Die Stelle wurde erfolgreich gelöscht."
-          : ""
+            ? "Die Stelle wurde erfolgreich gelöscht."
+            : ""
       }}
     </DeletionInfoModal>
   </div>
@@ -183,7 +183,7 @@ const avatar = computed(
     store.getters["attachmentsByKey"]({
       key: AttachmentKey.CompanyAvatarFallback,
     })?.[0] ||
-    undefined
+    undefined,
 );
 
 onMounted(() => {

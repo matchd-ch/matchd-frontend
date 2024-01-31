@@ -308,7 +308,7 @@ export default class CompanyRegister extends Vue {
 
   async onSubmitCompanyData(
     form: RegistrationCompanyFormData,
-    actions: FormActions<Partial<RegistrationCompanyFormData>>
+    actions: FormActions<Partial<RegistrationCompanyFormData>>,
   ): Promise<void> {
     this.form = {
       ...this.form,

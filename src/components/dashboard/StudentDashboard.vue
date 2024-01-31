@@ -205,7 +205,7 @@ const avatar = computed(
     store.getters["attachmentsByKey"]({
       key: AttachmentKey.StudentAvatarFallback,
     })?.[0] ||
-    undefined
+    undefined,
 );
 
 onMounted(() => {

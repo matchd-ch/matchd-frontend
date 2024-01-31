@@ -6,7 +6,7 @@ import type { QueuedFile, State } from "./state";
 export type Getters = {
   uploadQueueByKey(state: State): (payload: { key: AttachmentKey }) => QueuedFile[];
   uploadConfigurationByKey(
-    state: State
+    state: State,
   ): (payload: { key: AttachmentKey }) => UploadConfiguration | undefined;
   attachmentsByKey(state: State): (payload: { key: AttachmentKey }) => Attachment[];
 };

@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 import type { ChallengeChallengeFragment } from "../queries/challengeFragment.generated";
 
 export function challengeStep2FormMapper(
-  challenge: ChallengeChallengeFragment | null
+  challenge: ChallengeChallengeFragment | null,
 ): ChallengeStep2Form {
   return {
     website: challenge?.website || "",

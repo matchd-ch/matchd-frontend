@@ -139,7 +139,7 @@ export default class JobPostingSearch extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Stellen suchen",
-    })
+    }),
   );
   techBoost = 3;
   softBoost = 3;
@@ -243,7 +243,7 @@ export default class JobPostingSearch extends Vue {
         techBoost: this.techBoost,
         first: 20,
         skip: 0,
-      })
+      }),
     );
   }
 

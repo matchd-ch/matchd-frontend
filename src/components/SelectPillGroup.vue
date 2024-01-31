@@ -27,7 +27,7 @@ withDefaults(
   }>(),
   {
     errors: "",
-  }
+  },
 );
 </script>
 

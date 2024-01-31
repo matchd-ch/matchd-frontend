@@ -26,7 +26,7 @@ import { ActionTypes } from "./action-types";
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,
-    payload?: Parameters<Mutations[K]>[1]
+    payload?: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
@@ -35,32 +35,32 @@ const apiClient = createApolloClient(config.API_URL);
 export interface Actions {
   [ActionTypes.SAVE_JOBPOSTING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: JobPostingBaseDataInput
+    payload: JobPostingBaseDataInput,
   ): Promise<void>;
   [ActionTypes.SAVE_JOBPOSTING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: JobPostingRequirementsInput
+    payload: JobPostingRequirementsInput,
   ): Promise<void>;
   [ActionTypes.SAVE_JOBPOSTING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: JobPostingAllocationInput
+    payload: JobPostingAllocationInput,
   ): Promise<void>;
   [ActionTypes.JOBPOSTING](
     { commit }: AugmentedActionContext,
-    payload: { slug: string }
+    payload: { slug: string },
   ): Promise<void>;
   [ActionTypes.ADD_EMPLOYEE](
     { commit }: AugmentedActionContext,
-    payload: AddEmployeeInput
+    payload: AddEmployeeInput,
   ): Promise<void>;
   [ActionTypes.DELETE_EMPLOYEE](
     { commit }: AugmentedActionContext,
-    payload: DeleteEmployeeInput
+    payload: DeleteEmployeeInput,
   ): Promise<void>;
   [ActionTypes.EMPLOYEES]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.DELETE_JOBPOSTING](
     { commit }: AugmentedActionContext,
-    payload: DeleteJobPostingInput
+    payload: DeleteJobPostingInput,
   ): Promise<void>;
 }
 
@@ -81,7 +81,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.JOBPOSTING_STEP_LOADED,
-      response.data?.jobPostingRequirements ?? undefined
+      response.data?.jobPostingRequirements ?? undefined,
     );
   },
   async [ActionTypes.SAVE_JOBPOSTING_STEP3]({ commit }, payload: JobPostingAllocationInput) {

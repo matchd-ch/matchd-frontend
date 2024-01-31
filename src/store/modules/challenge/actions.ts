@@ -21,7 +21,7 @@ import { ActionTypes } from "./action-types";
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,
-    payload?: Parameters<Mutations[K]>[1]
+    payload?: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
@@ -30,23 +30,23 @@ const apiClient = createApolloClient(config.API_URL);
 export interface Actions {
   [ActionTypes.SAVE_CHALLENGE_STEP1](
     { commit }: AugmentedActionContext,
-    payload: ChallengeBaseDataInput
+    payload: ChallengeBaseDataInput,
   ): Promise<void>;
   [ActionTypes.SAVE_CHALLENGE_STEP2](
     { commit }: AugmentedActionContext,
-    payload: ChallengeSpecificDataInput
+    payload: ChallengeSpecificDataInput,
   ): Promise<void>;
   [ActionTypes.SAVE_CHALLENGE_STEP3](
     { commit }: AugmentedActionContext,
-    payload: ChallengeAllocationInput
+    payload: ChallengeAllocationInput,
   ): Promise<void>;
   [ActionTypes.CHALLENGE](
     { commit }: AugmentedActionContext,
-    payload: { slug: string }
+    payload: { slug: string },
   ): Promise<void>;
   [ActionTypes.DELETE_CHALLENGE](
     { commit }: AugmentedActionContext,
-    payload: DeleteChallengeInput
+    payload: DeleteChallengeInput,
   ): Promise<void>;
 }
 

@@ -219,7 +219,7 @@ const isCompany = computed(() => store.getters["isCompany"]);
 const isUniversity = computed(() => store.getters["isUniversity"]);
 
 const companyOrUniversityProgress = computed(() =>
-  isCompany.value ? companyProgress.value : isUniversity.value ? universityProgress.value : null
+  isCompany.value ? companyProgress.value : isUniversity.value ? universityProgress.value : null,
 );
 
 const availableKeywords = computed(() => {
@@ -234,7 +234,7 @@ const handleInputKeyword = () => {
     return;
   }
   filteredKeywords.value = availableKeywords.value.filter((item) =>
-    item.name.toLowerCase().startsWith(keywordsInput.value.toLowerCase())
+    item.name.toLowerCase().startsWith(keywordsInput.value.toLowerCase()),
   );
 };
 
@@ -260,7 +260,7 @@ const handleRemoveKeyword = (keyword: KeywordsKeywordFragment) => {
 const handleSelectChallengeType = (challengeType: ChallengeTypesChallengeTypeFragment) => {
   if (selectedChallengeTypes.value.find((pt) => pt.id === challengeType.id)) {
     selectedChallengeTypes.value = selectedChallengeTypes.value.filter(
-      (kw) => kw.id !== challengeType.id
+      (kw) => kw.id !== challengeType.id,
     );
     return;
   }

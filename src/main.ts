@@ -39,7 +39,7 @@ if (process.env.VUE_APP_GTM_CONTAINER_ID) {
       debug: process.env.VUE_APP_GTM_DEBUG === "true",
       loadScript: true,
       vueRouter: router,
-    })
+    }),
   );
 }
 

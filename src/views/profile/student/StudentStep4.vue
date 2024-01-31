@@ -234,7 +234,7 @@ withDefaults(
   }>(),
   {
     edit: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -250,7 +250,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP4,
-      studentProfileStep4InputMapper(formData)
+      studentProfileStep4InputMapper(formData),
     );
     const onboardingState = store.getters["onboardingState"];
     emit("submitComplete", onboardingState.success);
@@ -270,7 +270,7 @@ const user = computed(() => store.getters["user"]);
 const skills = computed(() => store.getters["skills"]);
 
 const selectedSkills = computed(() =>
-  skills.value.filter((skill) => veeForm.values.skills?.some((id) => id === skill.id))
+  skills.value.filter((skill) => veeForm.values.skills?.some((id) => id === skill.id)),
 );
 
 const availableSkills = computed(() => {
@@ -282,16 +282,16 @@ const availableSkills = computed(() => {
 const languages = computed(() => store.getters["languages"]);
 const languageLevels = computed(() => store.getters["languageLevels"]);
 const isValidOnlineChallengeUrl = computed(
-  () => onlineChallengeInput.value.length > 0 && isValidUrl(onlineChallengeInput.value)
+  () => onlineChallengeInput.value.length > 0 && isValidUrl(onlineChallengeInput.value),
 );
 const studentDocumentsQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentDocuments })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentDocuments }),
 );
 const studentDocuments = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentDocuments }),
 );
 const studentDocumentsUploadConfigurations = computed(() =>
-  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentDocuments })
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentDocuments }),
 );
 
 onMounted(async () => {
@@ -316,7 +316,7 @@ const onInputSkill = () => {
     return;
   }
   filteredSkills.value = availableSkills.value.filter((item) =>
-    item.name.toLowerCase().startsWith(skillInput.value.toLowerCase())
+    item.name.toLowerCase().startsWith(skillInput.value.toLowerCase()),
   );
 };
 
@@ -333,34 +333,43 @@ const onPressEnterSkill = () => {
 };
 
 const onRemoveSkill = (skill: Skill) => {
-  veeForm.values.skills = veeForm.values.skills.filter((id) => id !== skill.id);
+  veeForm.setFieldValue(
+    "skills",
+    veeForm.values.skills.filter((id) => id !== skill.id),
+  );
 };
 
 const onClickAppendLanguage = (language: SelectedLanguage) => {
   if (language && language.level) {
-    veeForm.values.languages = [...veeForm.values.languages, language];
+    veeForm.setFieldValue("languages", [...veeForm.values.languages, language]);
   }
 };
 
 const onClickRemoveLanguage = (language: SelectedLanguage) => {
-  veeForm.values.languages = veeForm.values.languages.filter(
-    (selectedLanguage) => selectedLanguage.language !== language.language
+  veeForm.setFieldValue(
+    "languages",
+    veeForm.values.languages.filter(
+      (selectedLanguage) => selectedLanguage.language !== language.language,
+    ),
   );
 };
 
 const onAppendOnlineChallenge = () => {
   if (isValidOnlineChallengeUrl.value) {
-    veeForm.values.onlineChallenges = [
+    veeForm.setFieldValue("onlineChallenges", [
       ...veeForm.values.onlineChallenges,
       { url: onlineChallengeInput.value },
-    ];
+    ]);
     onlineChallengeInput.value = "";
   }
 };
 
 const onRemoveOnlineChallenge = (onlineChallenge: OnlineChallengeInput) => {
-  veeForm.values.onlineChallenges = veeForm.values.onlineChallenges.filter(
-    (selectedOnlineChallenge) => selectedOnlineChallenge.url !== onlineChallenge.url
+  veeForm.setFieldValue(
+    "onlineChallenges",
+    veeForm.values.onlineChallenges.filter(
+      (selectedOnlineChallenge) => selectedOnlineChallenge.url !== onlineChallenge.url,
+    ),
   );
 };
 
@@ -369,14 +378,15 @@ const onAppendHobby = () => {
     hobbyInput.value.length > 0 &&
     !veeForm.values.hobbies.find((hobby) => hobby.name === hobbyInput.value)
   ) {
-    veeForm.values.hobbies = [...veeForm.values.hobbies, { name: hobbyInput.value }];
+    veeForm.setFieldValue("hobbies", [...veeForm.values.hobbies, { name: hobbyInput.value }]);
     hobbyInput.value = "";
   }
 };
 
 const onRemoveHobby = (hobby: HobbyInput) => {
-  veeForm.values.hobbies = veeForm.values.hobbies.filter(
-    (selectedHobby) => selectedHobby.name !== hobby.name
+  veeForm.setFieldValue(
+    "hobbies",
+    veeForm.values.hobbies.filter((selectedHobby) => selectedHobby.name !== hobby.name),
   );
 };
 
@@ -405,7 +415,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

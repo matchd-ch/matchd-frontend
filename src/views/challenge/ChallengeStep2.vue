@@ -199,10 +199,10 @@ const validYears = computed(() => {
 });
 
 const challengeImagesQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ChallengeImages })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ChallengeImages }),
 );
 const challengeImages = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.ChallengeImages })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.ChallengeImages }),
 );
 
 const challengeImagesUploadConfigurations = computed(() => {
@@ -212,11 +212,11 @@ const challengeImagesUploadConfigurations = computed(() => {
 });
 
 const challengeDocumentsQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ChallengeDocuments })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.ChallengeDocuments }),
 );
 
 const challengeDocuments = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.ChallengeDocuments })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.ChallengeDocuments }),
 );
 
 const challengeDocumentsUploadConfigurations = computed(() => {
@@ -265,7 +265,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emits("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 
 onBeforeMount(() => {

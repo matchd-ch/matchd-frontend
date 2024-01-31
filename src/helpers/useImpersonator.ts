@@ -1,5 +1,5 @@
 import { useStore } from "@/store";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { computed, ref, watch } from "vue";
 
 type ImpersonatorToken = {
@@ -12,7 +12,7 @@ type ImpersonatorToken = {
 const createImpersonatorStore = () => {
   const store = useStore();
   const timer = ref<null | string>(null);
-  const interval = ref<NodeJS.Timer | number | undefined>(undefined);
+  const interval = ref<NodeJS.Timeout | number | undefined>(undefined);
 
   const impersonator = computed(() => {
     if (!store.getters["accessToken"]) {
@@ -69,7 +69,7 @@ const createImpersonatorStore = () => {
       }
       interval.value = setInterval(setTime, 1000);
     },
-    { immediate: true }
+    { immediate: true },
   );
 
   return {

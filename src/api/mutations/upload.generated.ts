@@ -2,7 +2,7 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type UploadMutationVariables = Types.Exact<{
-  file: Types.Scalars["Upload"];
+  file: Types.Scalars["Upload"]["input"];
   key: Types.AttachmentKey;
 }>;
 

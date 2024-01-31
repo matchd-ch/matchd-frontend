@@ -174,7 +174,7 @@ onBeforeRouteUpdate(
       await loadData(String(to.params.slug));
     }
     next();
-  }
+  },
 );
 
 onMounted(async () => {

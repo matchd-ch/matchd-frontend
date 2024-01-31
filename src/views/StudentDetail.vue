@@ -215,7 +215,7 @@ const showMatchModal = ref(false);
 
 const user = computed(() => store.getters["user"]);
 const hasMatchingBar = computed(
-  () => !!route.query.jobPostingId || (route.query.challengeId && isChallengeFullMatch.value)
+  () => !!route.query.jobPostingId || (route.query.challengeId && isChallengeFullMatch.value),
 );
 const matchLoading = computed(() => store.getters["matchLoading"]);
 const matchTypeEnum = computed(() => MatchTypeEnum);
@@ -315,7 +315,7 @@ onBeforeRouteUpdate(async (to, _from, next) => {
   if (to.params.slug) {
     await loadData(
       String(to.params.slug),
-      to.query.jobPostingId ? String(to.query.jobPostingId) : undefined
+      to.query.jobPostingId ? String(to.query.jobPostingId) : undefined,
     );
   }
   next();
@@ -325,7 +325,7 @@ onMounted(async () => {
   if (route.params.slug) {
     await loadData(
       String(route.params.slug),
-      route.query.jobPostingId ? String(route.query.jobPostingId) : undefined
+      route.query.jobPostingId ? String(route.query.jobPostingId) : undefined,
     );
     calculateMargins();
   }
@@ -343,7 +343,7 @@ const mutateMatch = async () => {
     });
     await loadData(
       String(route.params.slug),
-      route.query.jobPostingId ? String(route.query.jobPostingId) : undefined
+      route.query.jobPostingId ? String(route.query.jobPostingId) : undefined,
     );
     showConfirmationModal.value = false;
     showMatchModal.value = matchType.value === MatchTypeEnum.FullMatch;

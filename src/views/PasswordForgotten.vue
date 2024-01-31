@@ -78,7 +78,7 @@ export default class PasswordForgotten extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Passwort vergessen",
-    })
+    }),
   );
 
   get passwordForgottenLoading(): boolean {
@@ -95,7 +95,7 @@ export default class PasswordForgotten extends Vue {
 
   async onSubmit(
     form: { email: string },
-    { resetForm }: { resetForm: typeof Function }
+    { resetForm }: { resetForm: typeof Function },
   ): Promise<void> {
     await this.$store.dispatch(ActionTypes.SEND_PASSWORD_RESET_EMAIL, {
       ...form,

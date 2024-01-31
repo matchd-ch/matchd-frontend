@@ -37,7 +37,7 @@ withDefaults(
   {
     errors: "",
     items: () => [],
-  }
+  },
 );
 
 const emits = defineEmits<{ (event: "select", item: Item): void }>();

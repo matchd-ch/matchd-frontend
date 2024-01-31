@@ -1,10 +1,10 @@
 import type {
   AttachmentConnection,
+  AttachmentKey,
   DeleteAttachmentPayload,
   UploadConfiguration,
   UserUploadPayload,
 } from "@/api/models/types";
-import type { AttachmentKey } from "@/api/models/types";
 import { errorCodeMapper } from "@/helpers/errorCodeMapper";
 import { ensureNoNullsAndUndefineds } from "@/helpers/typeHelpers";
 import type { State } from "@/store/modules/upload/state";
@@ -16,23 +16,23 @@ export type Mutations<S = State> = {
   [MutationTypes.CONFIGURATIONS_LOADED](state: S, payload: UploadConfiguration[]): void;
   [MutationTypes.ADD_FILE_TO_QUEUE](
     state: S,
-    payload: { key: AttachmentKey; files: FileList }
+    payload: { key: AttachmentKey; files: FileList },
   ): void;
   [MutationTypes.CLEAR_FILES_FOR_KEY](state: S, payload: { key: AttachmentKey }): void;
   [MutationTypes.UPLOAD_FILE_START](state: S, payload: { key: AttachmentKey; file: File }): void;
   [MutationTypes.UPLOAD_FILE_COMPLETE](
     state: S,
-    payload: { key: AttachmentKey; file: File; response: UserUploadPayload }
+    payload: { key: AttachmentKey; file: File; response: UserUploadPayload },
   ): void;
   [MutationTypes.UPLOADED_FILES_LOADING](state: S, payload: { key: AttachmentKey }): void;
   [MutationTypes.UPLOADED_FILES_LOADED](
     state: S,
-    payload: { key: AttachmentKey; data: AttachmentConnection }
+    payload: { key: AttachmentKey; data: AttachmentConnection },
   ): void;
   [MutationTypes.DELETE_FILE_LOADING](state: S, payload: { key: AttachmentKey }): void;
   [MutationTypes.DELETE_FILE_LOADED](
     state: S,
-    payload: { key: AttachmentKey; data: DeleteAttachmentPayload }
+    payload: { key: AttachmentKey; data: DeleteAttachmentPayload },
   ): void;
 };
 
@@ -53,7 +53,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.ADD_FILE_TO_QUEUE](
     state: State,
-    payload: { key: AttachmentKey; files: FileList }
+    payload: { key: AttachmentKey; files: FileList },
   ) {
     state.uploadFile[payload.key] = [...payload.files].map((file) => {
       return {
@@ -77,7 +77,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.UPLOAD_FILE_COMPLETE](
     state: State,
-    payload: { key: AttachmentKey; file: File; response: UserUploadPayload }
+    payload: { key: AttachmentKey; file: File; response: UserUploadPayload },
   ) {
     state.uploadFile[payload.key] = state.uploadFile[payload.key].map((queuedFile) => {
       if (queuedFile.file === payload.file) {
@@ -104,11 +104,11 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.UPLOADED_FILES_LOADED](
     state: State,
-    payload: { key: AttachmentKey; data: AttachmentConnection }
+    payload: { key: AttachmentKey; data: AttachmentConnection },
   ) {
     state.attachments[payload.key].loading = false;
     state.attachments[payload.key].data = ensureNoNullsAndUndefineds(
-      payload.data.edges.filter((edge) => edge?.node).map((edge) => edge?.node)
+      payload.data.edges.filter((edge) => edge?.node).map((edge) => edge?.node),
     );
   },
   [MutationTypes.DELETE_FILE_LOADING](state: State, payload: { key: AttachmentKey }) {
@@ -119,7 +119,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.DELETE_FILE_LOADED](
     state: State,
-    payload: { key: AttachmentKey; data: DeleteAttachmentPayload }
+    payload: { key: AttachmentKey; data: DeleteAttachmentPayload },
   ) {
     state.attachments[payload.key] = {
       ...state.attachments[payload.key],

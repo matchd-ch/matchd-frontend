@@ -50,7 +50,7 @@ import { ActionTypes } from "./action-types";
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,
-    payload?: Parameters<Mutations[K]>[1]
+    payload?: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
@@ -59,75 +59,75 @@ const apiClient = createApolloClient(config.API_URL);
 export interface Actions {
   [ActionTypes.STUDENT_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: StudentProfileBaseDataInput
+    payload: StudentProfileBaseDataInput,
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: StudentProfileEmploymentInput
+    payload: StudentProfileEmploymentInput,
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: StudentProfileCharacterInput
+    payload: StudentProfileCharacterInput,
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP4](
     { commit }: AugmentedActionContext,
-    payload: StudentProfileAbilitiesInput
+    payload: StudentProfileAbilitiesInput,
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP5](
     { commit }: AugmentedActionContext,
-    payload: StudentProfileSpecificDataInput
+    payload: StudentProfileSpecificDataInput,
   ): Promise<void>;
   [ActionTypes.STUDENT_ONBOARDING_STEP6](
     { commit }: AugmentedActionContext,
-    payload: StudentProfileConditionInput
+    payload: StudentProfileConditionInput,
   ): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: CompanyProfileBaseDataInput
+    payload: CompanyProfileBaseDataInput,
   ): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: CompanyProfileRelationsInput
+    payload: CompanyProfileRelationsInput,
   ): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: CompanyProfileAdvantagesInput
+    payload: CompanyProfileAdvantagesInput,
   ): Promise<void>;
   [ActionTypes.COMPANY_ONBOARDING_STEP4](
     { commit }: AugmentedActionContext,
-    payload: CompanyProfileValuesInput
+    payload: CompanyProfileValuesInput,
   ): Promise<void>;
   [ActionTypes.UPDATE_USER](
     { commit }: AugmentedActionContext,
-    payload: UpdateUserMutationInput
+    payload: UpdateUserMutationInput,
   ): Promise<void>;
   [ActionTypes.UPDATE_STUDENT](
     { commit }: AugmentedActionContext,
-    payload: UpdateStudentMutationInput
+    payload: UpdateStudentMutationInput,
   ): Promise<void>;
   [ActionTypes.DELETE_USER](
     { commit }: AugmentedActionContext,
-    payload: DeleteUserMutationInput
+    payload: DeleteUserMutationInput,
   ): Promise<void>;
   [ActionTypes.PASSWORD_CHANGE](
     { commit }: AugmentedActionContext,
-    payload: PasswordChangeMutationVariables
+    payload: PasswordChangeMutationVariables,
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit }: AugmentedActionContext,
-    payload: UniversityProfileBaseDataInput
+    payload: UniversityProfileBaseDataInput,
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP2](
     { commit }: AugmentedActionContext,
-    payload: UniversityProfileSpecificDataInput
+    payload: UniversityProfileSpecificDataInput,
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP3](
     { commit }: AugmentedActionContext,
-    payload: UniversityProfileRelationsInput
+    payload: UniversityProfileRelationsInput,
   ): Promise<void>;
   [ActionTypes.UNIVERSITY_ONBOARDING_STEP4](
     { commit }: AugmentedActionContext,
-    payload: CompanyProfileValuesInput
+    payload: CompanyProfileValuesInput,
   ): Promise<void>;
   [ActionTypes.CITY_BY_ZIP]({ commit }: AugmentedActionContext): Promise<void>;
 }
@@ -141,7 +141,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
-      response.data?.studentProfileBaseData ?? undefined
+      response.data?.studentProfileBaseData ?? undefined,
     );
   },
   async [ActionTypes.STUDENT_ONBOARDING_STEP2]({ commit }, payload: StudentProfileEmploymentInput) {
@@ -152,7 +152,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
-      response.data?.studentProfileEmployment ?? undefined
+      response.data?.studentProfileEmployment ?? undefined,
     );
   },
   async [ActionTypes.STUDENT_ONBOARDING_STEP3]({ commit }, payload: StudentProfileCharacterInput) {
@@ -163,7 +163,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
-      response.data?.studentProfileCharacter ?? undefined
+      response.data?.studentProfileCharacter ?? undefined,
     );
   },
   async [ActionTypes.STUDENT_ONBOARDING_STEP4]({ commit }, payload: StudentProfileAbilitiesInput) {
@@ -174,12 +174,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
-      response.data?.studentProfileAbilities ?? undefined
+      response.data?.studentProfileAbilities ?? undefined,
     );
   },
   async [ActionTypes.STUDENT_ONBOARDING_STEP5](
     { commit },
-    payload: StudentProfileSpecificDataInput
+    payload: StudentProfileSpecificDataInput,
   ) {
     commit(MutationTypes.STUDENT_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
@@ -188,15 +188,15 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
-      response.data?.studentProfileSpecificData ?? undefined
+      response.data?.studentProfileSpecificData ?? undefined,
     );
     commit(MutationTypes.STUDENT_ONBOARDING_NICKNAME_SUGGESTIONS, {
       nicknameSuggestions: !response.data?.studentProfileSpecificData?.nicknameSuggestions
         ? []
         : ensureNoNullsAndUndefineds(
             response.data.studentProfileSpecificData.nicknameSuggestions.filter(
-              (elem) => elem !== null
-            )
+              (elem) => elem !== null,
+            ),
           ),
     });
   },
@@ -208,7 +208,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.STUDENT_ONBOARDING_STEP_LOADED,
-      response.data?.studentProfileCondition ?? undefined
+      response.data?.studentProfileCondition ?? undefined,
     );
   },
   async [ActionTypes.COMPANY_ONBOARDING_STEP1]({ commit }, payload: CompanyProfileBaseDataInput) {
@@ -219,7 +219,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
-      response.data?.companyProfileBaseData ?? undefined
+      response.data?.companyProfileBaseData ?? undefined,
     );
   },
   async [ActionTypes.COMPANY_ONBOARDING_STEP2]({ commit }, payload: CompanyProfileRelationsInput) {
@@ -230,7 +230,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
-      response.data?.companyProfileRelations ?? undefined
+      response.data?.companyProfileRelations ?? undefined,
     );
   },
   async [ActionTypes.COMPANY_ONBOARDING_STEP3]({ commit }, payload: CompanyProfileAdvantagesInput) {
@@ -241,7 +241,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
-      response.data?.companyProfileAdvantages ?? undefined
+      response.data?.companyProfileAdvantages ?? undefined,
     );
   },
   async [ActionTypes.COMPANY_ONBOARDING_STEP4]({ commit }, payload: CompanyProfileValuesInput) {
@@ -252,7 +252,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.COMPANY_ONBOARDING_STEP_LOADED,
-      response.data?.companyProfileValues ?? undefined
+      response.data?.companyProfileValues ?? undefined,
     );
   },
   async [ActionTypes.UPDATE_USER]({ commit }, payload: UpdateUserMutationInput) {
@@ -288,7 +288,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP1](
     { commit },
-    payload: UniversityProfileBaseDataInput
+    payload: UniversityProfileBaseDataInput,
   ) {
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
@@ -297,12 +297,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED,
-      response.data?.universityProfileBaseData ?? undefined
+      response.data?.universityProfileBaseData ?? undefined,
     );
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP2](
     { commit },
-    payload: UniversityProfileSpecificDataInput
+    payload: UniversityProfileSpecificDataInput,
   ) {
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
@@ -311,12 +311,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED,
-      response.data?.universityProfileSpecificData ?? undefined
+      response.data?.universityProfileSpecificData ?? undefined,
     );
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP3](
     { commit },
-    payload: UniversityProfileRelationsInput
+    payload: UniversityProfileRelationsInput,
   ) {
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
@@ -325,12 +325,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED,
-      response.data?.universityProfileRelations ?? undefined
+      response.data?.universityProfileRelations ?? undefined,
     );
   },
   async [ActionTypes.UNIVERSITY_ONBOARDING_STEP4](
     { commit },
-    payload: UniversityProfileValuesInput
+    payload: UniversityProfileValuesInput,
   ) {
     commit(MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADING);
     const response = await apiClient.mutate({
@@ -339,7 +339,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
     commit(
       MutationTypes.UNIVERSITY_ONBOARDING_STEP_LOADED,
-      response.data?.universityProfileValues ?? undefined
+      response.data?.universityProfileValues ?? undefined,
     );
   },
   async [ActionTypes.CITY_BY_ZIP]({ commit }) {

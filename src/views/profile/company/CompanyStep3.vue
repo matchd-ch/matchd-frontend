@@ -95,13 +95,13 @@ import type { SelectPillMultipleItem } from "@/types/selectPillMultiple";
 import { useForm } from "vee-validate";
 import { computed, onMounted, watch } from "vue";
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     edit?: boolean;
   }>(),
   {
     edit: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -118,7 +118,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.COMPANY_ONBOARDING_STEP3,
-      companyProfileStep3InputMapper(formData)
+      companyProfileStep3InputMapper(formData),
     );
     const onboardingState = store.getters["onboardingState"];
     emit("submitComplete", onboardingState.success);
@@ -133,7 +133,7 @@ const branches = computed((): SelectPillMultipleItem[] => {
       id: branch.id,
       name: branch.name,
       checked: !!veeForm.values.branches?.find(
-        (selectedBranchId) => selectedBranchId === branch.id
+        (selectedBranchId) => selectedBranchId === branch.id,
       ),
     };
   });
@@ -144,7 +144,7 @@ const benefits = computed(() => {
     return {
       ...benefit,
       checked: !!veeForm.values.benefits?.find(
-        (selectedBenefitId) => selectedBenefitId === benefit.id
+        (selectedBenefitId) => selectedBenefitId === benefit.id,
       ),
     };
   });
@@ -155,13 +155,13 @@ const showError = computed(() => !!onboardingState.value.errors);
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
 const companyDocumentsQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments }),
 );
 const companyDocuments = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments }),
 );
 const companyDocumentsUploadConfigurations = computed(() =>
-  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments })
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments }),
 );
 
 const profileData = computed(() => {
@@ -173,12 +173,12 @@ const profileData = computed(() => {
 
 const onChangeBranch = (branch: Branch) => {
   const branchExists = !!veeForm.values.branches.find(
-    (selectedBranchId) => selectedBranchId === branch.id
+    (selectedBranchId) => selectedBranchId === branch.id,
   );
   if (branchExists) {
     veeForm.setFieldValue(
       "branches",
-      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id)
+      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id),
     );
   } else {
     veeForm.setFieldValue("branches", [...veeForm.values.branches, branch.id]);
@@ -187,12 +187,12 @@ const onChangeBranch = (branch: Branch) => {
 
 const onChangeBenefits = (benefit: Benefit) => {
   const benefitExists = !!veeForm.values.benefits.find(
-    (selectedBenefitId) => selectedBenefitId === benefit.id
+    (selectedBenefitId) => selectedBenefitId === benefit.id,
   );
   if (benefitExists) {
     veeForm.setValues({
       benefits: veeForm.values.benefits.filter(
-        (selectedBenefitId) => selectedBenefitId !== benefit.id
+        (selectedBenefitId) => selectedBenefitId !== benefit.id,
       ),
     });
   } else {
@@ -234,7 +234,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

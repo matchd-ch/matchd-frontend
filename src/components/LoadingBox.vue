@@ -16,7 +16,7 @@ withDefaults(
   {
     isLoading: false,
     spinnerSize: "60px",
-  }
+  },
 );
 </script>
 <style lang="postcss" scoped>

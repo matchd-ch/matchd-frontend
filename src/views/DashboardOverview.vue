@@ -34,7 +34,7 @@ import { useMeta } from "vue-meta";
 setup(() =>
   useMeta({
     title: "Dashboard",
-  })
+  }),
 );
 
 const store = useStore();

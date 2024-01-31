@@ -2,10 +2,10 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type AddEmployeeMutationVariables = Types.Exact<{
-  firstName: Types.Scalars["String"];
-  lastName: Types.Scalars["String"];
-  email: Types.Scalars["String"];
-  role: Types.Scalars["String"];
+  firstName: Types.Scalars["String"]["input"];
+  lastName: Types.Scalars["String"]["input"];
+  email: Types.Scalars["String"]["input"];
+  role: Types.Scalars["String"]["input"];
 }>;
 
 export type AddEmployeeMutation = {

@@ -3,7 +3,7 @@ import type { ChallengeStep2Form } from "@/models/ChallengeStep2Form";
 
 export function challengeStep2InputMapper(
   id: string | undefined,
-  challenge: ChallengeStep2Form
+  challenge: ChallengeStep2Form,
 ): ChallengeSpecificDataInput {
   return {
     id: id || null,

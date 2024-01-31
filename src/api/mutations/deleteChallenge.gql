@@ -1,5 +1,5 @@
 mutation deleteChallenge($id: String!) {
-  deleteChallenge(input:{id: $id}) {
+  deleteChallenge(input: { id: $id }) {
     success
     errors
   }

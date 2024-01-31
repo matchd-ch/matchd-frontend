@@ -248,7 +248,7 @@ export default class CompanyDetail extends Vue {
   async beforeRouteUpdate(
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
-    next: NavigationGuardNext
+    next: NavigationGuardNext,
   ): Promise<void> {
     if (to.params.slug) {
       await this.loadData(String(to.params.slug));

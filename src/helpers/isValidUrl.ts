@@ -39,7 +39,7 @@ export function isValidUrl(url: string): boolean {
       // resource path (optional)
       "(?:[/?#]\\S*)?" +
       "$",
-    "i"
+    "i",
   );
 
   return !!url.match(regexp);

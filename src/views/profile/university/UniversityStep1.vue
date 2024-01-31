@@ -144,7 +144,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.UNIVERSITY_ONBOARDING_STEP1,
-      universityProfileStep1InputMapper(formData)
+      universityProfileStep1InputMapper(formData),
     );
     const onboardingState = store.getters["onboardingState"];
     emit("submitComplete", onboardingState.success);
@@ -184,7 +184,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

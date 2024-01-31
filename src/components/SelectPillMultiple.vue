@@ -49,7 +49,7 @@ withDefaults(
     name: "",
     options: () => [],
     errors: undefined,
-  }
+  },
 );
 
 const emit = defineEmits<{

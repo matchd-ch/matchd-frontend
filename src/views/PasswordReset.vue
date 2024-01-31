@@ -89,7 +89,7 @@ export default class PasswordReset extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Neues Passwort festlegen",
-    })
+    }),
   );
 
   passwordFieldType = "password";
@@ -121,7 +121,7 @@ export default class PasswordReset extends Vue {
 
   async onSubmit(
     form: { password: string },
-    { resetForm }: { resetForm: typeof Function }
+    { resetForm }: { resetForm: typeof Function },
   ): Promise<void> {
     await this.$store.dispatch(ActionTypes.PASSWORD_RESET, {
       ...form,

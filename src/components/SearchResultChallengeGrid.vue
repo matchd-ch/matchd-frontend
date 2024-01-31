@@ -31,7 +31,7 @@ withDefaults(
   }>(),
   {
     color: "pink",
-  }
+  },
 );
 </script>
 

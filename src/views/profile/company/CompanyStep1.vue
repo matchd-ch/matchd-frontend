@@ -112,7 +112,7 @@ const props = withDefaults(
   }>(),
   {
     edit: false,
-  }
+  },
 );
 
 const emits = defineEmits<{
@@ -127,7 +127,7 @@ const onSubmit = veeForm.handleSubmit(async (formData) => {
   try {
     await store.dispatch(
       ActionTypes.COMPANY_ONBOARDING_STEP1,
-      companyProfileStep1InputMapper(formData)
+      companyProfileStep1InputMapper(formData),
     );
     const onboardingState = store.getters["onboardingState"];
     emits("submitComplete", onboardingState.success);
@@ -167,7 +167,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emits("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

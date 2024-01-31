@@ -118,7 +118,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
     if (store.getters["currentJobPosting"]?.id) {
       await store.dispatch(
         ActionTypes.SAVE_JOBPOSTING_STEP3,
-        jobPostingStep3InputMapper(store.getters["currentJobPosting"]?.id, formData)
+        jobPostingStep3InputMapper(store.getters["currentJobPosting"]?.id, formData),
       );
       const jobPostingState = store.getters["jobPostingState"];
       if (jobPostingState.success) {
@@ -181,7 +181,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

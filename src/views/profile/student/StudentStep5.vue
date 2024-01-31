@@ -109,7 +109,7 @@ withDefaults(
   }>(),
   {
     edit: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -126,7 +126,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP5,
-      studentProfileStep5InputMapper(formData)
+      studentProfileStep5InputMapper(formData),
     );
     if (store.getters["onboardingState"]?.errors?.nickname[0] === "unique") {
       veeForm.setErrors({
@@ -147,13 +147,13 @@ const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const onboardingState = computed(() => store.getters["onboardingState"]);
 const nicknameSuggestions = computed(() => store.getters["nicknameSuggestions"]);
 const studentAvatarQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentAvatar })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.StudentAvatar }),
 );
 const studentAvatar = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.StudentAvatar }),
 );
 const studentAvatarUploadConfigurations = computed(() =>
-  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar })
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.StudentAvatar }),
 );
 
 onMounted(async () => {
@@ -200,7 +200,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

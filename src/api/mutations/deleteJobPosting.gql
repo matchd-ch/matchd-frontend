@@ -1,5 +1,5 @@
 mutation deleteJobPosting($id: String!) {
-  deleteJobPosting(input:{id: $id}) {
+  deleteJobPosting(input: { id: $id }) {
     success
     errors
   }

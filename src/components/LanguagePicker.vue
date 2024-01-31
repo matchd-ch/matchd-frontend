@@ -76,7 +76,7 @@ export default class LanguagePicker extends Vue.with(Props) {
   get availableLanguages(): Language[] {
     return this.languages.filter((language) => {
       return !this.selectedLanguages.find(
-        (selectedLanguage) => selectedLanguage.language?.id === language.id
+        (selectedLanguage) => selectedLanguage.language?.id === language.id,
       );
     });
   }

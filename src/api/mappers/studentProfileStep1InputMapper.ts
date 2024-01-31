@@ -2,7 +2,7 @@ import type { StudentProfileBaseDataInput } from "@/api/models/types";
 import type { StudentProfileStep1Form } from "@/models/StudentProfileStep1Form";
 
 export function studentProfileStep1InputMapper(
-  studentProfileForm: StudentProfileStep1Form
+  studentProfileForm: StudentProfileStep1Form,
 ): StudentProfileBaseDataInput {
   const dateOfBirth = [
     studentProfileForm.year,

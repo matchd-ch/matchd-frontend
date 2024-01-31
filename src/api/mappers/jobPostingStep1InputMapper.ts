@@ -3,7 +3,7 @@ import type { JobPostingStep1Form } from "@/models/JobPostingStep1Form";
 
 export function jobPostingStep1InputMapper(
   id: string | undefined,
-  jobPostingForm: JobPostingStep1Form
+  jobPostingForm: JobPostingStep1Form,
 ): JobPostingBaseDataInput {
   return {
     id: id || null,

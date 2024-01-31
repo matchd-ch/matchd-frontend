@@ -149,7 +149,7 @@ const onChangeDirty = (isDirty: boolean) => {
 
 const confirmLeaveDirtyForm = () => {
   return window.confirm(
-    "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
+    "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?",
   );
 };
 

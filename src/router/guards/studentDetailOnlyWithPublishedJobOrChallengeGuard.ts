@@ -3,7 +3,7 @@ import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 export async function studentDetailOnlyWithPublishedJobOrChallengeGuard(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext
+  next: NavigationGuardNext,
 ): Promise<void> {
   next();
   // const store = useStore();

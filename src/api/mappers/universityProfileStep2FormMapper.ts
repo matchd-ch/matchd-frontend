@@ -2,7 +2,7 @@ import type { UniversityProfileStep2Form } from "@/models/UniversityProfileStep2
 import type { MeQuery } from "../queries/me.generated";
 
 export function universityProfileStep2FormMapper(
-  user: NonNullable<MeQuery["me"]>
+  user: NonNullable<MeQuery["me"]>,
 ): UniversityProfileStep2Form {
   return {
     description: user.company?.description || "",

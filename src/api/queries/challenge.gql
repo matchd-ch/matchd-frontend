@@ -11,22 +11,14 @@ query challenge($id: String, $slug: String) {
       }
     }
   }
-  imageFallback: attachments(
-    key: CHALLENGE_FALLBACK
-    slug: $slug
-    first: 100
-  ) {
+  imageFallback: attachments(key: CHALLENGE_FALLBACK, slug: $slug, first: 100) {
     edges {
       node {
         ...challengeImageFallback
       }
     }
   }
-  documents: attachments(
-    key: CHALLENGE_DOCUMENTS
-    slug: $slug
-    first: 100
-  ) {
+  documents: attachments(key: CHALLENGE_DOCUMENTS, slug: $slug, first: 100) {
     edges {
       node {
         ...challengeDocument

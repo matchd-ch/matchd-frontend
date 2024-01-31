@@ -51,7 +51,7 @@ const props = withDefaults(
     resultType: "",
     jobPostingId: "",
     color: "",
-  }
+  },
 );
 
 const formattedMatches = ref<SearchResult[]>(props.matches);
@@ -81,14 +81,14 @@ watch(
         if (match.img) {
           match.img = await fetchAttachmentDataUri(
             match.img,
-            props.resultType === "student" ? "avatar" : "logo"
+            props.resultType === "student" ? "avatar" : "logo",
           );
         }
         return match;
-      })
+      }),
     );
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 

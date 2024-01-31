@@ -128,7 +128,7 @@ withDefaults(
   }>(),
   {
     edit: false,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -146,7 +146,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.STUDENT_ONBOARDING_STEP6,
-      studentProfileStep6InputMapper(formData)
+      studentProfileStep6InputMapper(formData),
     );
     const onboardingState = store.getters["onboardingState"];
     emit("submitComplete", onboardingState.success);
@@ -161,7 +161,7 @@ const onboardingState = computed(() => store.getters["onboardingState"]);
 const isAnonymous = computed(() => state.value === ProfileState.Anonymous);
 const user = computed(() => store.getters["user"]);
 const profileData = computed(() =>
-  !user.value ? ({} as StudentProfileStep6Form) : studentProfileStep6FormMapper(user.value)
+  !user.value ? ({} as StudentProfileStep6Form) : studentProfileStep6FormMapper(user.value),
 );
 const onToggleUserState = () =>
   (state.value = isAnonymous.value ? ProfileState.Public : ProfileState.Anonymous);
@@ -177,7 +177,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

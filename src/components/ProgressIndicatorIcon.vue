@@ -16,7 +16,7 @@ withDefaults(
   {
     label: undefined,
     progress: undefined,
-  }
+  },
 );
 const { formatProgress } = useProgressIndicator();
 </script>

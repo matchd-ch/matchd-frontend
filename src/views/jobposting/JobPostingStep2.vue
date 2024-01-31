@@ -44,7 +44,7 @@
         <SelectPill
           v-for="selectedSkill in selectedSkills"
           :key="selectedSkill.id"
-          has-delete="true"
+          has-delete
           @remove="onRemoveSkill(selectedSkill)"
           >{{ selectedSkill.name }}</SelectPill
         >
@@ -112,7 +112,7 @@ import { useStore } from "@/store";
 import { ActionTypes as ContentActionsTypes } from "@/store/modules/content/action-types";
 import { ActionTypes } from "@/store/modules/jobposting/action-types";
 import { Field, useField, useForm } from "vee-validate";
-import { Options, setup, Vue } from "vue-class-component";
+import { Options, Vue, setup } from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
 @Options({
@@ -152,7 +152,7 @@ export default class JobPostingStep2 extends Vue {
         if (store.getters["currentJobPosting"]?.id) {
           await store.dispatch(
             ActionTypes.SAVE_JOBPOSTING_STEP2,
-            jobPostingStep2InputMapper(store.getters["currentJobPosting"]?.id, formData)
+            jobPostingStep2InputMapper(store.getters["currentJobPosting"]?.id, formData),
           );
           const jobPostingState = store.getters["jobPostingState"];
           if (jobPostingState.success) {
@@ -192,7 +192,7 @@ export default class JobPostingStep2 extends Vue {
       return {
         ...jobRequirement,
         checked: !!this.veeForm.jobRequirements?.find(
-          (selectedJobRequirementId) => selectedJobRequirementId === jobRequirement.id
+          (selectedJobRequirementId) => selectedJobRequirementId === jobRequirement.id,
         ),
       };
     });
@@ -230,11 +230,11 @@ export default class JobPostingStep2 extends Vue {
 
   onChangeJobRequirement(jobRequirement: JobRequirement) {
     const jobRequirementExists = !!this.veeForm.jobRequirements?.find(
-      (selectedJobRequirementsId) => selectedJobRequirementsId === jobRequirement.id
+      (selectedJobRequirementsId) => selectedJobRequirementsId === jobRequirement.id,
     );
     if (jobRequirementExists) {
       this.veeForm.jobRequirements = this.veeForm.jobRequirements?.filter(
-        (selectedJobRequirementsId) => selectedJobRequirementsId !== jobRequirement.id
+        (selectedJobRequirementsId) => selectedJobRequirementsId !== jobRequirement.id,
       );
     } else {
       this.veeForm.jobRequirements = [...this.veeForm.jobRequirements, jobRequirement.id];
@@ -247,7 +247,7 @@ export default class JobPostingStep2 extends Vue {
       return;
     }
     this.filteredSkills = this.availableSkills.filter((item) =>
-      item.name.toLowerCase().startsWith(this.skillInput.toLowerCase())
+      item.name.toLowerCase().startsWith(this.skillInput.toLowerCase()),
     );
   }
 
@@ -275,7 +275,7 @@ export default class JobPostingStep2 extends Vue {
 
   onClickRemoveLanguage(language: SelectedLanguage) {
     this.veeForm.languages = this.veeForm.languages.filter(
-      (selectedLanguage) => selectedLanguage.language !== language.language
+      (selectedLanguage) => selectedLanguage.language !== language.language,
     );
   }
 

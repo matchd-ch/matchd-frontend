@@ -129,7 +129,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.UNIVERSITY_ONBOARDING_STEP2,
-      universityProfileStep2InputMapper(formData)
+      universityProfileStep2InputMapper(formData),
     );
     const onboardingState = store.getters["onboardingState"];
     emit("submitComplete", onboardingState.success);
@@ -151,22 +151,22 @@ const profileData = computed(() => {
 });
 
 const universityAvatarQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar }),
 );
 const universityAvatar = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar }),
 );
 const universityAvatarUploadConfigurations = computed(() =>
-  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar })
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar }),
 );
 const universityDocumentsQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyDocuments }),
 );
 const universityDocuments = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyDocuments }),
 );
 const universityDocumentsUploadConfigurations = computed(() =>
-  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments })
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyDocuments }),
 );
 
 onMounted(async () => {
@@ -216,7 +216,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

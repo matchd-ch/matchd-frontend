@@ -2,7 +2,7 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type DeleteAttachmentMutationVariables = Types.Exact<{
-  id?: Types.InputMaybe<Types.Scalars["String"]>;
+  id?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
 }>;
 
 export type DeleteAttachmentMutation = {

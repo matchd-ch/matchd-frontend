@@ -32,17 +32,6 @@
 <script setup lang="ts">
 import MatchdButton from "@/components/MatchdButton.vue";
 import { Routes } from "@/router";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
-
-const onClickStudentSearch = () => {
-  router.push({ name: Routes.STUDENT_SEARCH });
-};
-
-const onClickJobPostingCreate = () => {
-  router.push({ name: Routes.JOB_POSTING_CREATE, params: { step: "schritt1" } });
-};
 </script>
 
 <style></style>

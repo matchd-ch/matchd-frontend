@@ -198,7 +198,7 @@ const keywords = computed(() => store.getters["keywords"]);
 
 const selectedKeywords = computed(() => {
   return keywords.value.filter((keyword) =>
-    veeForm.values.keywords?.some((id) => id === keyword.id)
+    veeForm.values.keywords?.some((id) => id === keyword.id),
   );
 });
 
@@ -232,13 +232,13 @@ const onInputKeyword = () => {
     return;
   }
   filteredKeywords.value = availableKeywords.value.filter((item) =>
-    item.name.toLowerCase().startsWith(keywordInput.value.toLowerCase())
+    item.name.toLowerCase().startsWith(keywordInput.value.toLowerCase()),
   );
 };
 
 const onSelectKeyword = (keyword: Keyword) => {
   keywordInput.value = "";
-  veeForm.values.keywords = [...veeForm.values.keywords, keyword.id];
+  veeForm.setFieldValue("keywords", [...veeForm.values.keywords, keyword.id]);
   onInputKeyword();
 };
 
@@ -249,7 +249,10 @@ const onPressEnterKeyword = () => {
 };
 
 const onRemoveKeyword = (keyword: Keyword) => {
-  veeForm.values.keywords = veeForm.values.keywords.filter((id) => id !== keyword.id);
+  veeForm.setFieldValue(
+    "keywords",
+    veeForm.values.keywords.filter((id) => id !== keyword.id),
+  );
 };
 
 const onChangeChallengeType = (challengeTypeId: string) => {
@@ -260,7 +263,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emits("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 <style></style>

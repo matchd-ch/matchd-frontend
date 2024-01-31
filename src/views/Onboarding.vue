@@ -138,7 +138,7 @@ export default class Onboarding extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Profil vervollständigen",
-    })
+    }),
   );
 
   urlStepNumber = 0;
@@ -176,7 +176,7 @@ export default class Onboarding extends Vue {
   async beforeRouteUpdate(
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
-    next: NavigationGuardNext
+    next: NavigationGuardNext,
   ): Promise<void> {
     this.urlStepNumber = parseStepName(String(to.params.step));
     next();

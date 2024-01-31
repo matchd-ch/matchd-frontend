@@ -2,9 +2,9 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type UserRequestMutationVariables = Types.Exact<{
-  name: Types.Scalars["String"];
-  email: Types.Scalars["String"];
-  message: Types.Scalars["String"];
+  name: Types.Scalars["String"]["input"];
+  email: Types.Scalars["String"]["input"];
+  message: Types.Scalars["String"]["input"];
 }>;
 
 export type UserRequestMutation = {

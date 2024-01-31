@@ -6,7 +6,7 @@ import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 export async function talentsOnlyWithPublishedJobPostingGuard(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext
+  next: NavigationGuardNext,
 ): Promise<void> {
   const store = useStore();
   await store.dispatch(ActionTypes.JOB_POSTINGS);

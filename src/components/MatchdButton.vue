@@ -29,7 +29,7 @@ withDefaults(
     active: false,
     disabled: false,
     size: undefined,
-  }
+  },
 );
 </script>
 

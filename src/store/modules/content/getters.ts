@@ -97,7 +97,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
 
     function jobPostingReducer(r: GroupedJobPostingMatching[], a: JobPostingMatchInfo) {
       const existingJobPosting = r.find(
-        (groupedJobPosting) => groupedJobPosting.jobPosting.id === a.jobPosting.id
+        (groupedJobPosting) => groupedJobPosting.jobPosting.id === a.jobPosting.id,
       );
       if (!existingJobPosting) {
         r.push({ jobPosting: a.jobPosting, students: [a.student] });
@@ -108,7 +108,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
     }
     function challengeReducer(r: GroupedChallengeMatching[], a: ChallengeMatchInfo) {
       const existingChallenge = r.find(
-        (groupedChallenge) => groupedChallenge.challenge.id === a.challenge.id
+        (groupedChallenge) => groupedChallenge.challenge.id === a.challenge.id,
       );
       if (!existingChallenge) {
         r.push({ challenge: a.challenge, ...(a.student && { students: [a.student] }) });
@@ -122,15 +122,15 @@ export const getters: GetterTree<State, RootState> & Getters = {
       ...state.dashboard.data,
       uniqueUnconfirmedJobPostingMatchings: state.dashboard.data.unconfirmedMatches?.reduce(
         jobPostingReducer,
-        []
+        [],
       ),
       uniqueRequestedJobPostingMatchings: state.dashboard.data.requestedMatches?.reduce(
         jobPostingReducer,
-        []
+        [],
       ),
       uniqueJobPostingMatchings: state.dashboard.data.confirmedMatches?.reduce(
         jobPostingReducer,
-        []
+        [],
       ),
       uniqueChallengeMatchings: state.dashboard.data.challengeMatches?.reduce(challengeReducer, []),
       uniqueChallengeMatchingsWithStudents: state.dashboard.data.challengeMatches

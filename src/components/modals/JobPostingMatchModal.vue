@@ -71,7 +71,7 @@ withDefaults(
   }>(),
   {
     loading: false,
-  }
+  },
 );
 
 const emit = defineEmits<{

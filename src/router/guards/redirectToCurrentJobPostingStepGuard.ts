@@ -8,7 +8,7 @@ import { Routes } from "..";
 export async function redirectToCurrentJobPostingStepGuard(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext
+  next: NavigationGuardNext,
 ): Promise<void> {
   const store = useStore();
   if (

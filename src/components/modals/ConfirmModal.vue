@@ -42,7 +42,7 @@ withDefaults(
     loading: false,
     cancelButtonLabel: null,
     okButtonLabel: null,
-  }
+  },
 );
 
 defineEmits<{

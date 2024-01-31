@@ -16,7 +16,7 @@ import { ActionTypes } from "./action-types";
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,
-    payload?: Parameters<Mutations[K]>[1]
+    payload?: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
@@ -25,19 +25,19 @@ const apiClient = createApolloClient(config.API_URL);
 export interface Actions {
   [ActionTypes.SAVE_COMPANY_REGISTRATION](
     { commit }: AugmentedActionContext,
-    payload: NewCompanyAccount
+    payload: NewCompanyAccount,
   ): Promise<void>;
   [ActionTypes.SAVE_STUDENT_REGISTRATION](
     { commit }: AugmentedActionContext,
-    payload: NewStudentAccount
+    payload: NewStudentAccount,
   ): Promise<void>;
   [ActionTypes.SEND_REGISTRATION_CONTACT_FORM](
     { commit }: AugmentedActionContext,
-    payload: UserRequestInput
+    payload: UserRequestInput,
   ): Promise<void>;
   [ActionTypes.VERIFY_ACCOUNT_WITH_TOKEN](
     { commit }: AugmentedActionContext,
-    payload: { token: string }
+    payload: { token: string },
   ): Promise<void>;
 }
 

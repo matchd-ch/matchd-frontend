@@ -44,7 +44,7 @@ watch(
   () => isOpen.value,
   () => {
     emits("isOpen", isOpen.value);
-  }
+  },
 );
 </script>
 

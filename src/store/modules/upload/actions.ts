@@ -17,7 +17,7 @@ import { ActionTypes } from "./action-types";
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,
-    payload?: Parameters<Mutations[K]>[1]
+    payload?: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
@@ -27,27 +27,27 @@ export interface Actions {
   [ActionTypes.UPLOAD_CONFIGURATIONS]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.UPLOAD_FILE](
     { commit, dispatch }: AugmentedActionContext,
-    payload: { key: AttachmentKey; files: FileList }
+    payload: { key: AttachmentKey; files: FileList },
   ): Promise<void>;
   [ActionTypes.UPLOAD_CHALLENGE_FILE](
     { commit, dispatch }: AugmentedActionContext,
-    payload: { key: AttachmentKey; files: FileList; id: string }
+    payload: { key: AttachmentKey; files: FileList; id: string },
   ): Promise<void>;
   [ActionTypes.UPLOADED_FILES](
     { commit }: AugmentedActionContext,
-    payload: { key: AttachmentKey }
+    payload: { key: AttachmentKey },
   ): Promise<void>;
   [ActionTypes.UPLOADED_CHALLENGE_FILES](
     { commit }: AugmentedActionContext,
-    payload: { key: AttachmentKey; id: string }
+    payload: { key: AttachmentKey; id: string },
   ): Promise<void>;
   [ActionTypes.DELETE_FILE](
     { commit, dispatch }: AugmentedActionContext,
-    payload: { key: AttachmentKey; id: string }
+    payload: { key: AttachmentKey; id: string },
   ): Promise<void>;
   [ActionTypes.DELETE_CHALLENGE_FILE](
     { commit, dispatch }: AugmentedActionContext,
-    payload: { key: AttachmentKey; id: string; challengeId: string }
+    payload: { key: AttachmentKey; id: string; challengeId: string },
   ): Promise<void>;
 }
 
@@ -61,7 +61,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.UPLOAD_FILE](
     { commit, dispatch },
-    payload: { key: AttachmentKey; files: FileList }
+    payload: { key: AttachmentKey; files: FileList },
   ) {
     commit(MutationTypes.ADD_FILE_TO_QUEUE, payload);
     for (const file of payload.files) {
@@ -87,7 +87,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.UPLOAD_CHALLENGE_FILE](
     { commit, dispatch },
-    payload: { key: AttachmentKey; files: FileList; id: string }
+    payload: { key: AttachmentKey; files: FileList; id: string },
   ) {
     commit(MutationTypes.ADD_FILE_TO_QUEUE, payload);
     for (const file of payload.files) {
@@ -129,7 +129,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.UPLOADED_CHALLENGE_FILES](
     { commit },
-    payload: { key: AttachmentKey; id: string }
+    payload: { key: AttachmentKey; id: string },
   ) {
     commit(MutationTypes.UPLOADED_FILES_LOADING, payload);
     const response = await apiClient.query({
@@ -144,7 +144,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.DELETE_FILE](
     { commit, dispatch },
-    payload: { key: AttachmentKey; id: string }
+    payload: { key: AttachmentKey; id: string },
   ) {
     commit(MutationTypes.DELETE_FILE_LOADING, payload);
     const response = await apiClient.mutate({
@@ -161,7 +161,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
   async [ActionTypes.DELETE_CHALLENGE_FILE](
     { commit, dispatch },
-    payload: { key: AttachmentKey; id: string; challengeId: string }
+    payload: { key: AttachmentKey; id: string; challengeId: string },
   ) {
     commit(MutationTypes.DELETE_FILE_LOADING, payload);
     const response = await apiClient.mutate({

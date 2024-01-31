@@ -20,7 +20,7 @@ export default class Profile extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Profil bearbeiten",
-    })
+    }),
   );
 
   get profileComponent(): string {

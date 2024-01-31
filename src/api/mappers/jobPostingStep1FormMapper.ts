@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 import type { JobPostingJobPostingFragment } from "../queries/jobPostingFragment.generated";
 
 export function jobPostingStep1FormMapper(
-  jobPosting: JobPostingJobPostingFragment | null
+  jobPosting: JobPostingJobPostingFragment | null,
 ): JobPostingStep1Form {
   return {
     title: jobPosting?.title ?? "",

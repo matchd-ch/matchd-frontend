@@ -2,8 +2,8 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type ChallengeQueryVariables = Types.Exact<{
-  id?: Types.InputMaybe<Types.Scalars["String"]>;
-  slug?: Types.InputMaybe<Types.Scalars["String"]>;
+  id?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
+  slug?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
 }>;
 
 export type ChallengeQuery = {

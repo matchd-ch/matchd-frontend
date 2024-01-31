@@ -42,7 +42,7 @@ withDefaults(
   }>(),
   {
     loading: false,
-  }
+  },
 );
 
 const emits = defineEmits<{ (event: "clickConfirm"): void; (event: "clickCancel"): void }>();

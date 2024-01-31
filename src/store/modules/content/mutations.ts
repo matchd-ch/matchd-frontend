@@ -62,15 +62,15 @@ export type Mutations<S = State> = {
   [MutationTypes.MATCH_LOADING](state: S): void;
   [MutationTypes.MATCH_JOB_POSTING_LOADED](
     state: S,
-    payload: { id: string; match: MatchJobPostingPayload }
+    payload: { id: string; match: MatchJobPostingPayload },
   ): void;
   [MutationTypes.MATCH_CHALLENGE_LOADED](
     state: S,
-    payload: { id: string; match: MatchChallengePayload }
+    payload: { id: string; match: MatchChallengePayload },
   ): void;
   [MutationTypes.MATCH_STUDENT_LOADED](
     state: S,
-    payload: { id: string; match: MatchStudentPayload }
+    payload: { id: string; match: MatchStudentPayload },
   ): void;
   [MutationTypes.MATCHES_LOADING](state: S): void;
   [MutationTypes.MATCHES_LOADED](state: S, payload: MatchingQuery["matches"]): void;
@@ -98,7 +98,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.BENEFITS_LOADED](state: State, payload: BenefitsQuery) {
     state.benefits.loading = false;
     state.benefits.data = ensureNoNullsAndUndefineds(
-      payload.benefits?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.benefits?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.BRANCHES_LOADING](state: State) {
@@ -107,7 +107,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.BRANCHES_LOADED](state: State, payload: BranchesQuery) {
     state.branches.loading = false;
     state.branches.data = ensureNoNullsAndUndefineds(
-      payload.branches?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.branches?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.COMPANY_LOADING](state: State) {
@@ -126,7 +126,7 @@ export const mutations: MutationTree<State> & Mutations = {
       state.company.logoFallback = payload.logoFallback?.edges[0]?.node ?? null;
     }
     state.company.media = ensureNoNullsAndUndefineds(
-      payload.media?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.media?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.COMPANY_MATCHING_LOADING](state: State) {
@@ -143,7 +143,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.CULTURAL_FITS_LOADED](state: State, payload: CulturalFitsQuery) {
     state.culturalFits.loading = false;
     state.culturalFits.data = ensureNoNullsAndUndefineds(
-      payload.culturalFits?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.culturalFits?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.DASHBOARD_LOADING](state: State) {
@@ -151,7 +151,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.DASHBOARD_LOADED](
     state: State,
-    payload: { dashboard: Dashboard; avatar: Attachment[] | null }
+    payload: { dashboard: Dashboard; avatar: Attachment[] | null },
   ) {
     state.dashboard.loading = false;
     state.dashboard.data = payload.dashboard;
@@ -170,7 +170,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.JOB_POSTINGS_LOADED](state: State, payload: JobPostingsQuery) {
     state.jobPostings.loading = false;
     state.jobPostings.data = ensureNoNullsAndUndefineds(
-      payload.jobPostings?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.jobPostings?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.JOB_REQUIREMENTS_LOADING](state: State) {
@@ -179,7 +179,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.JOB_REQUIREMENTS_LOADED](state: State, payload: JobRequirementsQuery) {
     state.jobRequirements.loading = false;
     state.jobRequirements.data = ensureNoNullsAndUndefineds(
-      payload.jobRequirements?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.jobRequirements?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.JOB_TYPES_LOADING](state: State) {
@@ -188,7 +188,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.JOB_TYPES_LOADED](state: State, payload: JobTypesQuery) {
     state.jobTypes.loading = false;
     state.jobTypes.data = ensureNoNullsAndUndefineds(
-      payload.jobTypes?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.jobTypes?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.LANGUAGES_LOADING](state: State) {
@@ -197,7 +197,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.LANGUAGES_LOADED](state: State, payload: LanguagesQuery) {
     state.languages.loading = false;
     state.languages.data = ensureNoNullsAndUndefineds(
-      payload.languages?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.languages?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.LANGUAGE_LEVELS_LOADING](state: State) {
@@ -206,7 +206,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.LANGUAGE_LEVELS_LOADED](state: State, payload: LanguageLevelsQuery) {
     state.languages.loading = false;
     state.languages.levels = ensureNoNullsAndUndefineds(
-      payload.languageLevels?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.languageLevels?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.KEYWORDS_LOADING](state: State) {
@@ -215,7 +215,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.KEYWORDS_LOADED](state: State, payload: KeywordsQuery) {
     state.keywords.loading = false;
     state.keywords.data = ensureNoNullsAndUndefineds(
-      payload.keywords?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.keywords?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.MATCH_LOADING](state: State) {
@@ -223,7 +223,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.MATCH_JOB_POSTING_LOADED](
     state: State,
-    payload: { id: string; match: MatchJobPostingPayload }
+    payload: { id: string; match: MatchJobPostingPayload },
   ) {
     state.match.loading = false;
     if (state.jobPosting.data?.id === payload.id) {
@@ -239,7 +239,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.MATCH_CHALLENGE_LOADED](
     state: State,
-    payload: { id: string; match: MatchChallengePayload }
+    payload: { id: string; match: MatchChallengePayload },
   ) {
     state.match.loading = false;
     if (state.challenge.data?.id === payload.id) {
@@ -255,7 +255,7 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [MutationTypes.MATCH_STUDENT_LOADED](
     state: State,
-    payload: { id: string; match: MatchStudentPayload }
+    payload: { id: string; match: MatchStudentPayload },
   ) {
     state.match.loading = false;
     if (state.student.data?.id === payload.id) {
@@ -286,11 +286,11 @@ export const mutations: MutationTree<State> & Mutations = {
     state.challenge.loading = false;
     state.challenge.data = payload.challenge || null;
     state.challenge.images = ensureNoNullsAndUndefineds(
-      payload.images?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.images?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
     state.challenge.imageFallback = payload.imageFallback?.edges[0]?.node || null;
     state.challenge.documents = ensureNoNullsAndUndefineds(
-      payload.documents?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.documents?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.CHALLENGES_LOADING](state: State) {
@@ -299,7 +299,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.CHALLENGES_LOADED](state: State, payload: ChallengesQuery) {
     state.challenges.loading = false;
     state.challenges.data = ensureNoNullsAndUndefineds(
-      payload.challenges?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.challenges?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.CHALLENGE_TYPES_LOADING](state: State) {
@@ -308,7 +308,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.CHALLENGE_TYPES_LOADED](state: State, payload: ChallengeTypesQuery) {
     state.challengeTypes.loading = false;
     state.challengeTypes.data = ensureNoNullsAndUndefineds(
-      payload.challengeTypes?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.challengeTypes?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.RESET_MATCHES](state: State) {
@@ -320,7 +320,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.SKILLS_LOADED](state: State, payload: SkillsQuery) {
     state.skills.loading = false;
     state.skills.data = ensureNoNullsAndUndefineds(
-      payload.skills?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.skills?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.SOFT_SKILLS_LOADING](state: State) {
@@ -329,7 +329,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.SOFT_SKILLS_LOADED](state: State, payload: SoftSkillsQuery) {
     state.softSkills.loading = false;
     state.softSkills.data = ensureNoNullsAndUndefineds(
-      payload.softSkills?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+      payload.softSkills?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
     );
   },
   [MutationTypes.STUDENT_LOADING](state: State) {
@@ -346,7 +346,7 @@ export const mutations: MutationTree<State> & Mutations = {
       avatar: payload.avatar?.edges.filter((edge) => edge?.node)[0]?.node ?? null,
       avatarFallback: payload.avatarFallback?.edges.filter((edge) => edge?.node)[0]?.node ?? null,
       certificates: ensureNoNullsAndUndefineds(
-        payload.certificates?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? []
+        payload.certificates?.edges.filter((edge) => edge?.node).map((edge) => edge?.node) ?? [],
       ),
     };
   },

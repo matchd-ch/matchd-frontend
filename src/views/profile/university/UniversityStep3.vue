@@ -141,7 +141,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.UNIVERSITY_ONBOARDING_STEP3,
-      universityProfileStep3InputMapper(formData)
+      universityProfileStep3InputMapper(formData),
     );
     const onboardingState = store.getters["onboardingState"];
     emit("submitComplete", onboardingState.success);
@@ -156,7 +156,7 @@ const branches = computed(() => {
       id: branch.id,
       name: branch.name,
       checked: !!veeForm.values.branches?.find(
-        (selectedBranchId) => selectedBranchId === branch.id
+        (selectedBranchId) => selectedBranchId === branch.id,
       ),
     };
   });
@@ -167,7 +167,7 @@ const benefits = computed(() => {
     return {
       ...benefit,
       checked: !!veeForm.values.benefits?.find(
-        (selectedBenefitId) => selectedBenefitId === benefit.id
+        (selectedBenefitId) => selectedBenefitId === benefit.id,
       ),
     };
   });
@@ -182,12 +182,12 @@ const profileData = computed(() => {
 
 const onChangeBranch = (branch: Branch) => {
   const branchExists = !!veeForm.values.branches.find(
-    (selectedBranchId) => selectedBranchId === branch.id
+    (selectedBranchId) => selectedBranchId === branch.id,
   );
   if (branchExists) {
     veeForm.setFieldValue(
       "branches",
-      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id)
+      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id),
     );
   } else {
     veeForm.setFieldValue("branches", [...veeForm.values.branches, branch.id]);
@@ -196,12 +196,12 @@ const onChangeBranch = (branch: Branch) => {
 
 const onChangeBenefits = (benefit: Benefit) => {
   const benefitExists = !!veeForm.values.benefits.find(
-    (selectedBenefitId) => selectedBenefitId === benefit.id
+    (selectedBenefitId) => selectedBenefitId === benefit.id,
   );
   if (benefitExists) {
     veeForm.setValues({
       benefits: veeForm.values.benefits.filter(
-        (selectedBenefitId) => selectedBenefitId !== benefit.id
+        (selectedBenefitId) => selectedBenefitId !== benefit.id,
       ),
     });
   } else {
@@ -225,7 +225,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 <style></style>

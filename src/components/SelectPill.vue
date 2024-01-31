@@ -44,7 +44,7 @@ withDefaults(
     hasDelete: false,
     hasInput: true,
     backdropOpacity: 1,
-  }
+  },
 );
 
 const emits = defineEmits<{

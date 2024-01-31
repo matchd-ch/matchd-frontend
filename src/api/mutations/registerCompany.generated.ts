@@ -2,16 +2,16 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type RegisterCompanyMutationVariables = Types.Exact<{
-  name: Types.Scalars["String"];
-  email: Types.Scalars["String"];
-  password: Types.Scalars["String"];
-  firstName: Types.Scalars["String"];
-  lastName: Types.Scalars["String"];
-  zip: Types.Scalars["String"];
-  city: Types.Scalars["String"];
-  uid?: Types.InputMaybe<Types.Scalars["String"]>;
-  role: Types.Scalars["String"];
-  type: Types.Scalars["String"];
+  name: Types.Scalars["String"]["input"];
+  email: Types.Scalars["String"]["input"];
+  password: Types.Scalars["String"]["input"];
+  firstName: Types.Scalars["String"]["input"];
+  lastName: Types.Scalars["String"]["input"];
+  zip: Types.Scalars["String"]["input"];
+  city: Types.Scalars["String"]["input"];
+  uid?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
+  role: Types.Scalars["String"]["input"];
+  type: Types.Scalars["String"]["input"];
 }>;
 
 export type RegisterCompanyMutation = {

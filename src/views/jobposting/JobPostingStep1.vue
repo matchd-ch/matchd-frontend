@@ -245,7 +245,7 @@ useField<string[]>(
     }
     return true;
   },
-  { label: "In diesen Bereichen und Challenges wird das junge Talent tätig sein" }
+  { label: "In diesen Bereichen und Challenges wird das junge Talent tätig sein" },
 );
 useField<string>("workloadTo", (value) => {
   const to = parseInt(value);
@@ -295,7 +295,7 @@ useField<string>("jobToDateMonth", (value) => {
     return true;
   }
   const dateFrom = new Date(
-    `${veeForm.values.jobFromDateYear}-${veeForm.values.jobFromDateMonth}-01`
+    `${veeForm.values.jobFromDateYear}-${veeForm.values.jobFromDateMonth}-01`,
   );
   if (dateTo.getTime() <= dateFrom.getTime()) {
     return "Endtermin muss grösser als Stellenantritt sein.";
@@ -317,7 +317,7 @@ const branches = computed(() => {
       id: branch.id,
       name: branch.name,
       checked: !!veeForm.values.branches?.find(
-        (selectedBranchId) => selectedBranchId === branch.id
+        (selectedBranchId) => selectedBranchId === branch.id,
       ),
     };
   });
@@ -354,12 +354,12 @@ const onChangeJobType = (jobTypeId: string) => {
 
 const onChangeBranch = (branch: Branch) => {
   const branchExists = !!veeForm.values.branches.find(
-    (selectedBranchId) => selectedBranchId === branch.id
+    (selectedBranchId) => selectedBranchId === branch.id,
   );
   if (branchExists) {
     veeForm.setFieldValue(
       "branches",
-      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id)
+      veeForm.values.branches.filter((selectedBranchId) => selectedBranchId !== branch.id),
     );
   } else {
     veeForm.setFieldValue("branches", [...veeForm.values.branches, branch.id]);
@@ -374,7 +374,7 @@ const onSubmit = veeForm.handleSubmit(async (formData) => {
     }
     await store.dispatch(
       ActionTypes.SAVE_JOBPOSTING_STEP1,
-      jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData)
+      jobPostingStep1InputMapper(store.getters["currentJobPosting"]?.id, formData),
     );
     const jobPostingState = store.getters["jobPostingState"];
     if (jobPostingState.success) {
@@ -404,7 +404,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

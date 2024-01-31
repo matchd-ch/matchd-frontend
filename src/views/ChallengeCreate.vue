@@ -99,7 +99,7 @@ export default class ChallengeCreate extends Vue {
   async beforeRouteUpdate(
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
-    next: NavigationGuardNext
+    next: NavigationGuardNext,
   ) {
     if (this.dirty && !this.confirmLeaveDirtyForm()) {
       next(false);
@@ -117,7 +117,7 @@ export default class ChallengeCreate extends Vue {
   async beforeRouteLeave(
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
-    next: NavigationGuardNext
+    next: NavigationGuardNext,
   ) {
     if (this.dirty && !this.confirmLeaveDirtyForm()) {
       next(false);
@@ -177,7 +177,7 @@ export default class ChallengeCreate extends Vue {
 
   confirmLeaveDirtyForm() {
     return window.confirm(
-      "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
+      "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?",
     );
   }
 

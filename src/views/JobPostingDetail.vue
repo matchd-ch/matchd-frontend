@@ -174,10 +174,10 @@ const workloadPercentage = computed(() => {
 });
 
 const branchesLabel = computed(
-  () => jobPosting.value?.branches.map((branch) => branch.name).join(", ") || ""
+  () => jobPosting.value?.branches.map((branch) => branch.name).join(", ") || "",
 );
 const hasBranches = computed(() =>
-  jobPosting.value ? jobPosting.value?.branches.length > 0 : false
+  jobPosting.value ? jobPosting.value?.branches.length > 0 : false,
 );
 
 const jobRequirements = computed(() => {

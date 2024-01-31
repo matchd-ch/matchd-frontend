@@ -10,7 +10,7 @@ import type { RootState } from "@/store";
 import { MutationTypes } from "@/store/modules/login/mutation-types";
 import type { Mutations } from "@/store/modules/login/mutations";
 import type { State } from "@/store/modules/login/state";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import type { ActionContext, ActionTree } from "vuex";
 import { config } from "./../../../config";
 import { ActionTypes } from "./action-types";
@@ -18,7 +18,7 @@ import { ActionTypes } from "./action-types";
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
     key: K,
-    payload?: Parameters<Mutations[K]>[1]
+    payload?: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>;
 } & Omit<ActionContext<State, RootState>, "commit">;
 
@@ -27,27 +27,27 @@ const apiClient = createApolloClient(config.API_URL);
 export interface Actions {
   [ActionTypes.LOGIN](
     { commit }: AugmentedActionContext,
-    payload: { username: string; password: string }
+    payload: { username: string; password: string },
   ): Promise<void>;
   [ActionTypes.LOGOUT]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.LOGOUT_CLEAR_STATE]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.REFRESH_LOGIN]({ commit, getters }: AugmentedActionContext): Promise<void>;
   [ActionTypes.IMPERSONATE](
     { commit }: AugmentedActionContext,
-    payload: { token: string }
+    payload: { token: string },
   ): Promise<void>;
   [ActionTypes.ME]({ commit }: AugmentedActionContext): Promise<void>;
   [ActionTypes.VERIFY_PASSWORD_RESET_TOKEN](
     { commit }: AugmentedActionContext,
-    payload: { token: string }
+    payload: { token: string },
   ): Promise<void>;
   [ActionTypes.SEND_PASSWORD_RESET_EMAIL](
     { commit }: AugmentedActionContext,
-    payload: { email: string }
+    payload: { email: string },
   ): Promise<void>;
   [ActionTypes.PASSWORD_RESET](
     { commit }: AugmentedActionContext,
-    payload: { token: string; password: string }
+    payload: { token: string; password: string },
   ): Promise<void>;
 }
 

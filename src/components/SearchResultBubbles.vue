@@ -101,11 +101,11 @@ export default class SearchResultBubbles extends Vue.with(Props) {
         if (node.img) {
           node.img = await fetchAttachmentDataUri(
             node.img,
-            this.resultType === "student" ? "avatar" : "logo"
+            this.resultType === "student" ? "avatar" : "logo",
           );
         }
         return node;
-      })
+      }),
     );
     this.node = this.createNodes(formatedNodes);
     this.drawRoot();
@@ -140,17 +140,17 @@ export default class SearchResultBubbles extends Vue.with(Props) {
           .id((d: any) => d.id)
           // .strength((d: any) => d.value)
           .distance((d: any) => (1 - d.value) * 600)
-          .iterations(2)
+          .iterations(2),
       )
       .force("charge", d3.forceManyBody())
       .force(
         "collisionForce",
         d3
           .forceCollide((d: SearchNode) =>
-            d.main ? this.rootRadius * 1.2 : this.resultRadius * 1.7
+            d.main ? this.rootRadius * 1.2 : this.resultRadius * 1.7,
           )
           .strength(1)
-          .iterations(2)
+          .iterations(2),
       )
       .force("center", d3.forceCenter(this.width / 2, this.height / 2))
       .restart()
@@ -165,7 +165,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .enter()
       .append("svg:g")
       .attr("class", (d: SearchNode) =>
-        d.main ? `root ${this.rootType}` : `node ${this.resultType}`
+        d.main ? `root ${this.rootType}` : `node ${this.resultType}`,
       )
       .merge(node)
       .raise();
@@ -227,7 +227,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       if (this.avatar?.url) {
         this.avatar.url = await fetchAttachmentDataUri(
           this.avatar.url,
-          this.rootType === "student" ? "avatar" : "logo"
+          this.rootType === "student" ? "avatar" : "logo",
         );
       }
       /* Masked Image */
@@ -306,7 +306,7 @@ export default class SearchResultBubbles extends Vue.with(Props) {
       .attr("x", 0)
       .attr("y", 0)
       .attr("href", (d: any) =>
-        d.img.replace("{stack}", this.resultType === "student" ? "avatar" : "logo")
+        d.img.replace("{stack}", this.resultType === "student" ? "avatar" : "logo"),
       )
       .attr("width", this.resultRadius * 2)
       .attr("height", this.resultRadius * 2);

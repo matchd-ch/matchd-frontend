@@ -3,7 +3,7 @@ import type { JobPostingStep2Form } from "@/models/JobPostingStep2Form";
 
 export function jobPostingStep2InputMapper(
   id: string,
-  jobPostingForm: JobPostingStep2Form
+  jobPostingForm: JobPostingStep2Form,
 ): JobPostingRequirementsInput {
   return {
     id,

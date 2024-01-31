@@ -151,7 +151,7 @@ const onSubmit = veeForm.handleSubmit(async (formData): Promise<void> => {
   try {
     await store.dispatch(
       ActionTypes.COMPANY_ONBOARDING_STEP2,
-      companyProfileStep2InputMapper(formData)
+      companyProfileStep2InputMapper(formData),
     );
     const onboardingState = store.getters["onboardingState"];
     emit("submitComplete", onboardingState.success);
@@ -165,13 +165,13 @@ const showError = computed(() => !!onboardingState.value.errors);
 const onboardingLoading = computed(() => store.getters["onboardingLoading"]);
 const user = computed(() => store.getters["user"]);
 const companyAvatarQueue = computed(() =>
-  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar })
+  store.getters["uploadQueueByKey"]({ key: AttachmentKey.CompanyAvatar }),
 );
 const companyAvatar = computed(() =>
-  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar })
+  store.getters["attachmentsByKey"]({ key: AttachmentKey.CompanyAvatar }),
 );
 const companyAvatarUploadConfigurations = computed(() =>
-  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar })
+  store.getters["uploadConfigurationByKey"]({ key: AttachmentKey.CompanyAvatar }),
 );
 
 const profileData = computed(() => {
@@ -214,7 +214,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emit("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

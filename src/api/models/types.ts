@@ -4,45 +4,51 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
+  [_ in K]?: never;
+};
+export type Incremental<T> =
+  | T
+  | { [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Date: string;
-  DateTime: unknown;
-  ExpectedErrorType: unknown;
-  GenericScalar: unknown;
-  Upload: unknown;
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  Date: { input: string; output: string };
+  DateTime: { input: unknown; output: unknown };
+  ExpectedErrorType: { input: unknown; output: unknown };
+  GenericScalar: { input: unknown; output: unknown };
+  Upload: { input: unknown; output: unknown };
 };
 
 export type AddEmployeeInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  email: Scalars["String"];
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  role: Scalars["String"];
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  email: Scalars["String"]["input"];
+  firstName: Scalars["String"]["input"];
+  lastName: Scalars["String"]["input"];
+  role: Scalars["String"]["input"];
 };
 
 /** Adds a new emplyoee to a company */
 export type AddEmployeePayload = {
   __typename?: "AddEmployeePayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
   employee?: Maybe<Employee>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type Attachment = Node & {
   __typename?: "Attachment";
-  fileName: Scalars["String"];
-  fileSize: Scalars["Int"];
+  fileName: Scalars["String"]["output"];
+  fileSize: Scalars["Int"]["output"];
   /** The ID of the object */
-  id: Scalars["ID"];
-  mimeType: Scalars["String"];
-  url: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  mimeType: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type AttachmentConnection = {
@@ -57,7 +63,7 @@ export type AttachmentConnection = {
 export type AttachmentEdge = {
   __typename?: "AttachmentEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Attachment>;
 };
@@ -77,10 +83,10 @@ export enum AttachmentKey {
 
 export type Benefit = Node & {
   __typename?: "Benefit";
-  icon: Scalars["String"];
+  icon: Scalars["String"]["output"];
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type BenefitConnection = {
@@ -103,7 +109,7 @@ export type BenefitConnectionsConnection = {
 export type BenefitConnectionsEdge = {
   __typename?: "BenefitConnectionsEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Benefit>;
 };
@@ -112,21 +118,21 @@ export type BenefitConnectionsEdge = {
 export type BenefitEdge = {
   __typename?: "BenefitEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Benefit>;
 };
 
 export type BenefitInput = {
-  icon?: InputMaybe<Scalars["String"]>;
-  id: Scalars["String"];
+  icon?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
 };
 
 export type Branch = Node & {
   __typename?: "Branch";
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type BranchConnection = {
@@ -149,7 +155,7 @@ export type BranchConnectionsConnection = {
 export type BranchConnectionsEdge = {
   __typename?: "BranchConnectionsEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Branch>;
 };
@@ -158,83 +164,83 @@ export type BranchConnectionsEdge = {
 export type BranchEdge = {
   __typename?: "BranchEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Branch>;
 };
 
 export type BranchInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type Challenge = Node & {
   __typename?: "Challenge";
-  avatarUrl?: Maybe<Scalars["String"]>;
-  challengeFromDate?: Maybe<Scalars["Date"]>;
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
+  challengeFromDate?: Maybe<Scalars["Date"]["output"]>;
   challengeType: ChallengeType;
   company?: Maybe<Company>;
-  compensation?: Maybe<Scalars["String"]>;
-  dateCreated?: Maybe<Scalars["Date"]>;
-  datePublished?: Maybe<Scalars["Date"]>;
-  description: Scalars["String"];
-  displayTitle: Scalars["String"];
+  compensation?: Maybe<Scalars["String"]["output"]>;
+  dateCreated?: Maybe<Scalars["Date"]["output"]>;
+  datePublished?: Maybe<Scalars["Date"]["output"]>;
+  description: Scalars["String"]["output"];
+  displayTitle: Scalars["String"]["output"];
   employee?: Maybe<Employee>;
-  formStep: Scalars["Int"];
+  formStep: Scalars["Int"]["output"];
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
   keywords?: Maybe<Array<Keyword>>;
   matchHints?: Maybe<MatchHints>;
   matchStatus?: Maybe<MatchStatus>;
-  slug: Scalars["String"];
+  slug: Scalars["String"]["output"];
   state: ChallengeState;
   student?: Maybe<Student>;
-  teamSize?: Maybe<Scalars["Int"]>;
-  title: Scalars["String"];
-  website: Scalars["String"];
+  teamSize?: Maybe<Scalars["Int"]["output"]>;
+  title: Scalars["String"]["output"];
+  website: Scalars["String"]["output"];
 };
 
 export type ChallengeAllocationInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   employee?: InputMaybe<EmployeeInput>;
-  id?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
   /** State */
-  state: Scalars["String"];
+  state: Scalars["String"]["input"];
 };
 
 /** Updates a challenge */
 export type ChallengeAllocationPayload = {
   __typename?: "ChallengeAllocationPayload";
-  challengeId?: Maybe<Scalars["String"]>;
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  challengeId?: Maybe<Scalars["String"]["output"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  slug?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type ChallengeBaseDataInput = {
   challengeType: ChallengeTypeInput;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** Compensation */
-  compensation: Scalars["String"];
+  compensation: Scalars["String"]["input"];
   /** Description */
-  description: Scalars["String"];
-  id?: InputMaybe<Scalars["String"]>;
+  description: Scalars["String"]["input"];
+  id?: InputMaybe<Scalars["String"]["input"]>;
   keywords: Array<InputMaybe<KeywordInput>>;
   /** Team size */
-  teamSize: Scalars["Int"];
+  teamSize: Scalars["Int"]["input"];
   /** Title */
-  title: Scalars["String"];
+  title: Scalars["String"]["input"];
 };
 
 /** Creates a challenge */
 export type ChallengeBaseDataPayload = {
   __typename?: "ChallengeBaseDataPayload";
-  challengeId?: Maybe<Scalars["String"]>;
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  challengeId?: Maybe<Scalars["String"]["output"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  slug?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type ChallengeConnection = {
@@ -249,13 +255,13 @@ export type ChallengeConnection = {
 export type ChallengeEdge = {
   __typename?: "ChallengeEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Challenge>;
 };
 
 export type ChallengeInput = {
-  id: Scalars["String"];
+  id: Scalars["String"]["input"];
 };
 
 export type ChallengeMatchInfo = Node & {
@@ -263,7 +269,7 @@ export type ChallengeMatchInfo = Node & {
   challenge: Challenge;
   company?: Maybe<Company>;
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
   student?: Maybe<Student>;
 };
 
@@ -272,20 +278,20 @@ export type ChallengeMatchingInput = {
 };
 
 export type ChallengeSpecificDataInput = {
-  challengeFromDate?: InputMaybe<Scalars["String"]>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["String"]>;
-  website?: InputMaybe<Scalars["String"]>;
+  challengeFromDate?: InputMaybe<Scalars["String"]["input"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  website?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Creates a challenge */
 export type ChallengeSpecificDataPayload = {
   __typename?: "ChallengeSpecificDataPayload";
-  challengeId?: Maybe<Scalars["String"]>;
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  challengeId?: Maybe<Scalars["String"]["output"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  slug?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 /** An enumeration. */
@@ -297,8 +303,8 @@ export enum ChallengeState {
 export type ChallengeType = Node & {
   __typename?: "ChallengeType";
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type ChallengeTypeConnection = {
@@ -313,14 +319,14 @@ export type ChallengeTypeConnection = {
 export type ChallengeTypeEdge = {
   __typename?: "ChallengeTypeEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<ChallengeType>;
 };
 
 export type ChallengeTypeInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type Company = Node & {
@@ -328,47 +334,47 @@ export type Company = Node & {
   benefits: BenefitConnection;
   branches: BranchConnection;
   challenges: Array<Challenge>;
-  city: Scalars["String"];
+  city: Scalars["String"]["output"];
   culturalFits?: Maybe<Array<CulturalFit>>;
-  description: Scalars["String"];
-  displayName: Scalars["String"];
+  description: Scalars["String"]["output"];
+  displayName: Scalars["String"]["output"];
   employees: Array<Employee>;
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
   jobPostings: Array<JobPosting>;
-  linkChallenges?: Maybe<Scalars["String"]>;
-  linkEducation?: Maybe<Scalars["String"]>;
-  linkThesis?: Maybe<Scalars["String"]>;
-  memberItStGallen: Scalars["Boolean"];
-  name: Scalars["String"];
-  phone: Scalars["String"];
-  services: Scalars["String"];
-  slug: Scalars["String"];
+  linkChallenges?: Maybe<Scalars["String"]["output"]>;
+  linkEducation?: Maybe<Scalars["String"]["output"]>;
+  linkThesis?: Maybe<Scalars["String"]["output"]>;
+  memberItStGallen: Scalars["Boolean"]["output"];
+  name: Scalars["String"]["output"];
+  phone: Scalars["String"]["output"];
+  services: Scalars["String"]["output"];
+  slug: Scalars["String"]["output"];
   softSkills?: Maybe<Array<SoftSkill>>;
   state: ProfileState;
-  street: Scalars["String"];
-  topLevelOrganisationDescription: Scalars["String"];
-  topLevelOrganisationWebsite: Scalars["String"];
+  street: Scalars["String"]["output"];
+  topLevelOrganisationDescription: Scalars["String"]["output"];
+  topLevelOrganisationWebsite: Scalars["String"]["output"];
   type: ProfileType;
-  uid: Scalars["String"];
-  website: Scalars["String"];
-  zip: Scalars["String"];
+  uid: Scalars["String"]["output"];
+  website: Scalars["String"]["output"];
+  zip: Scalars["String"]["output"];
 };
 
 export type CompanyBenefitsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type CompanyBranchesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type CompanyProfileAdvantagesInput = {
@@ -376,67 +382,67 @@ export type CompanyProfileAdvantagesInput = {
   benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
   /** Branches */
   branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates the Company Profile with benefits and branches */
 export type CompanyProfileAdvantagesPayload = {
   __typename?: "CompanyProfileAdvantagesPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type CompanyProfileBaseDataInput = {
   /** City */
-  city?: InputMaybe<Scalars["String"]>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]["input"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** First name */
-  firstName?: InputMaybe<Scalars["String"]>;
+  firstName?: InputMaybe<Scalars["String"]["input"]>;
   /** Last name */
-  lastName?: InputMaybe<Scalars["String"]>;
+  lastName?: InputMaybe<Scalars["String"]["input"]>;
   /** Name */
-  name?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
   /** Phone Number */
-  phone?: InputMaybe<Scalars["String"]>;
+  phone?: InputMaybe<Scalars["String"]["input"]>;
   /** role */
-  role?: InputMaybe<Scalars["String"]>;
+  role?: InputMaybe<Scalars["String"]["input"]>;
   /** Street */
-  street?: InputMaybe<Scalars["String"]>;
+  street?: InputMaybe<Scalars["String"]["input"]>;
   /** Zip */
-  zip?: InputMaybe<Scalars["String"]>;
+  zip?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates the profile of a Company */
 export type CompanyProfileBaseDataPayload = {
   __typename?: "CompanyProfileBaseDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type CompanyProfileRelationsInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** description */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
   /** memeber IT St. Gallen */
-  memberItStGallen?: InputMaybe<Scalars["Boolean"]>;
+  memberItStGallen?: InputMaybe<Scalars["Boolean"]["input"]>;
   /** services */
-  services?: InputMaybe<Scalars["String"]>;
+  services?: InputMaybe<Scalars["String"]["input"]>;
   /** website */
-  website?: InputMaybe<Scalars["String"]>;
+  website?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates website url, description, services, member IT St.Gallen */
 export type CompanyProfileRelationsPayload = {
   __typename?: "CompanyProfileRelationsPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type CompanyProfileValuesInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** Cultural Fit */
   culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
   /** Soft Skills */
@@ -446,17 +452,17 @@ export type CompanyProfileValuesInput = {
 /** Updates a company profile with soft skills and cultural fit */
 export type CompanyProfileValuesPayload = {
   __typename?: "CompanyProfileValuesPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type CulturalFit = Node & {
   __typename?: "CulturalFit";
-  company: Scalars["String"];
+  company: Scalars["String"]["output"];
   /** The ID of the object */
-  id: Scalars["ID"];
-  student: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  student: Scalars["String"]["output"];
 };
 
 export type CulturalFitConnection = {
@@ -479,7 +485,7 @@ export type CulturalFitConnectionsConnection = {
 export type CulturalFitConnectionsEdge = {
   __typename?: "CulturalFitConnectionsEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<CulturalFit>;
 };
@@ -488,13 +494,13 @@ export type CulturalFitConnectionsEdge = {
 export type CulturalFitEdge = {
   __typename?: "CulturalFitEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<CulturalFit>;
 };
 
 export type CulturalFitInput = {
-  id: Scalars["String"];
+  id: Scalars["String"]["input"];
 };
 
 export type Dashboard = {
@@ -534,90 +540,90 @@ export enum DbUserTypeChoices {
 }
 
 export type DeleteAttachmentInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type DeleteAttachmentPayload = {
   __typename?: "DeleteAttachmentPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type DeleteChallengeInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id: Scalars["String"];
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
 };
 
 /** Deletes a challenge */
 export type DeleteChallengePayload = {
   __typename?: "DeleteChallengePayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type DeleteEmployeeInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id: Scalars["String"];
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
 };
 
 /** Deletes an employee within the same company */
 export type DeleteEmployeePayload = {
   __typename?: "DeleteEmployeePayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type DeleteJobPostingInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id: Scalars["String"];
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
 };
 
 /** Deletes a job posting */
 export type DeleteJobPostingPayload = {
   __typename?: "DeleteJobPostingPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type DeleteUserMutationInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Deletes the user */
 export type DeleteUserMutationPayload = {
   __typename?: "DeleteUserMutationPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type Employee = Node & {
   __typename?: "Employee";
-  email?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  firstName?: Maybe<Scalars["String"]["output"]>;
   /** The ID of the object */
-  id: Scalars["ID"];
-  lastName?: Maybe<Scalars["String"]>;
-  phone?: Maybe<Scalars["String"]>;
-  role: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  lastName?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
+  role: Scalars["String"]["output"];
 };
 
 export type EmployeeInput = {
-  id?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
   /** Role */
-  role?: InputMaybe<Scalars["String"]>;
+  role?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type FaqCategory = Node & {
   __typename?: "FAQCategory";
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type FaqCategoryConnection = {
@@ -632,7 +638,7 @@ export type FaqCategoryConnection = {
 export type FaqCategoryEdge = {
   __typename?: "FAQCategoryEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<FaqCategory>;
 };
@@ -640,95 +646,95 @@ export type FaqCategoryEdge = {
 export type Hobby = Node & {
   __typename?: "Hobby";
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type HobbyInput = {
-  id?: InputMaybe<Scalars["String"]>;
-  name?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type JobPosting = Node & {
   __typename?: "JobPosting";
   branches: Array<Branch>;
   company: Company;
-  dateCreated?: Maybe<Scalars["Date"]>;
-  datePublished?: Maybe<Scalars["Date"]>;
-  description: Scalars["String"];
-  displayTitle: Scalars["String"];
+  dateCreated?: Maybe<Scalars["Date"]["output"]>;
+  datePublished?: Maybe<Scalars["Date"]["output"]>;
+  description: Scalars["String"]["output"];
+  displayTitle: Scalars["String"]["output"];
   employee?: Maybe<Employee>;
-  formStep: Scalars["Int"];
+  formStep: Scalars["Int"]["output"];
   /** The ID of the object */
-  id: Scalars["ID"];
-  jobFromDate?: Maybe<Scalars["Date"]>;
+  id: Scalars["ID"]["output"];
+  jobFromDate?: Maybe<Scalars["Date"]["output"]>;
   jobRequirements: JobRequirementConnection;
-  jobToDate?: Maybe<Scalars["Date"]>;
+  jobToDate?: Maybe<Scalars["Date"]["output"]>;
   jobType: JobType;
   languages?: Maybe<Array<JobPostingLanguageRelation>>;
   matchHints?: Maybe<MatchHints>;
   matchStatus?: Maybe<MatchStatus>;
   skills?: Maybe<Array<Skill>>;
-  slug: Scalars["String"];
+  slug: Scalars["String"]["output"];
   state: JobPostingState;
-  title: Scalars["String"];
-  url?: Maybe<Scalars["String"]>;
-  workloadFrom: Scalars["Int"];
-  workloadTo: Scalars["Int"];
+  title: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
+  workloadFrom: Scalars["Int"]["output"];
+  workloadTo: Scalars["Int"]["output"];
 };
 
 export type JobPostingJobRequirementsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type JobPostingAllocationInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   employee: EmployeeInput;
-  id?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
   /** State */
-  state: Scalars["String"];
+  state: Scalars["String"]["input"];
 };
 
 /** Updates a job posting */
 export type JobPostingAllocationPayload = {
   __typename?: "JobPostingAllocationPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  jobPostingId?: Maybe<Scalars["String"]["output"]>;
+  slug?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type JobPostingBaseDataInput = {
   branches: Array<InputMaybe<BranchInput>>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** Description */
-  description?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["String"]>;
-  jobFromDate?: InputMaybe<Scalars["String"]>;
-  jobToDate?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  jobFromDate?: InputMaybe<Scalars["String"]["input"]>;
+  jobToDate?: InputMaybe<Scalars["String"]["input"]>;
   jobType: JobTypeInput;
   /** Title */
-  title: Scalars["String"];
-  url?: InputMaybe<Scalars["String"]>;
+  title: Scalars["String"]["input"];
+  url?: InputMaybe<Scalars["String"]["input"]>;
   /** Workload from */
-  workloadFrom: Scalars["Int"];
+  workloadFrom: Scalars["Int"]["input"];
   /** Workload to */
-  workloadTo: Scalars["Int"];
+  workloadTo: Scalars["Int"]["input"];
 };
 
 /** Creates a job posting */
 export type JobPostingBaseDataPayload = {
   __typename?: "JobPostingBaseDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  jobPostingId?: Maybe<Scalars["String"]["output"]>;
+  slug?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type JobPostingConnection = {
@@ -743,33 +749,33 @@ export type JobPostingConnection = {
 export type JobPostingEdge = {
   __typename?: "JobPostingEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<JobPosting>;
 };
 
 export type JobPostingInput = {
-  id: Scalars["String"];
+  id: Scalars["String"]["input"];
 };
 
 export type JobPostingLanguageRelation = Node & {
   __typename?: "JobPostingLanguageRelation";
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
   language: Language;
   languageLevel: LanguageLevel;
 };
 
 export type JobPostingLanguageRelationInput = {
-  id?: InputMaybe<Scalars["String"]>;
-  language?: InputMaybe<Scalars["String"]>;
-  languageLevel?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  languageLevel?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type JobPostingMatchInfo = Node & {
   __typename?: "JobPostingMatchInfo";
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
   jobPosting: JobPosting;
   student: Student;
 };
@@ -777,13 +783,13 @@ export type JobPostingMatchInfo = Node & {
 export type JobPostingMatchingInput = {
   branch?: InputMaybe<BranchInput>;
   jobType?: InputMaybe<JobTypeInput>;
-  workload?: InputMaybe<Scalars["Int"]>;
-  zip?: InputMaybe<Scalars["String"]>;
+  workload?: InputMaybe<Scalars["Int"]["input"]>;
+  zip?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type JobPostingRequirementsInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
   jobRequirements?: InputMaybe<Array<InputMaybe<JobRequirementInput>>>;
   languages?: InputMaybe<Array<InputMaybe<JobPostingLanguageRelationInput>>>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput>>>;
@@ -792,11 +798,11 @@ export type JobPostingRequirementsInput = {
 /** Updates a job posting */
 export type JobPostingRequirementsPayload = {
   __typename?: "JobPostingRequirementsPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  jobPostingId?: Maybe<Scalars["String"]>;
-  slug?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  jobPostingId?: Maybe<Scalars["String"]["output"]>;
+  slug?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 /** An enumeration. */
@@ -808,8 +814,8 @@ export enum JobPostingState {
 export type JobRequirement = Node & {
   __typename?: "JobRequirement";
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type JobRequirementConnection = {
@@ -832,7 +838,7 @@ export type JobRequirementConnectionsConnection = {
 export type JobRequirementConnectionsEdge = {
   __typename?: "JobRequirementConnectionsEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<JobRequirement>;
 };
@@ -841,22 +847,22 @@ export type JobRequirementConnectionsEdge = {
 export type JobRequirementEdge = {
   __typename?: "JobRequirementEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<JobRequirement>;
 };
 
 export type JobRequirementInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type JobType = Node & {
   __typename?: "JobType";
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
   mode: DateMode;
-  name: Scalars["String"];
+  name: Scalars["String"]["output"];
 };
 
 export type JobTypeConnection = {
@@ -871,22 +877,22 @@ export type JobTypeConnection = {
 export type JobTypeEdge = {
   __typename?: "JobTypeEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<JobType>;
 };
 
 export type JobTypeInput = {
-  id: Scalars["String"];
-  mode?: InputMaybe<Scalars["String"]>;
-  name?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"]["input"];
+  mode?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type Keyword = Node & {
   __typename?: "Keyword";
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type KeywordConnection = {
@@ -901,21 +907,21 @@ export type KeywordConnection = {
 export type KeywordEdge = {
   __typename?: "KeywordEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Keyword>;
 };
 
 export type KeywordInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type Language = Node & {
   __typename?: "Language";
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type LanguageConnection = {
@@ -930,17 +936,17 @@ export type LanguageConnection = {
 export type LanguageEdge = {
   __typename?: "LanguageEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Language>;
 };
 
 export type LanguageLevel = Node & {
   __typename?: "LanguageLevel";
-  description?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
   /** The ID of the object */
-  id: Scalars["ID"];
-  level: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  level: Scalars["String"]["output"];
 };
 
 export type LanguageLevelConnection = {
@@ -955,68 +961,68 @@ export type LanguageLevelConnection = {
 export type LanguageLevelEdge = {
   __typename?: "LanguageLevelEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<LanguageLevel>;
 };
 
 export type Match = {
   __typename?: "Match";
-  avatar?: Maybe<Scalars["String"]>;
-  description?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["String"]>;
+  avatar?: Maybe<Scalars["String"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["String"]["output"]>;
   keywords?: Maybe<Array<Keyword>>;
   matchStatus?: Maybe<MatchStatus>;
-  name: Scalars["String"];
-  rawScore: Scalars["Float"];
-  score: Scalars["Float"];
-  slug: Scalars["String"];
-  title?: Maybe<Scalars["String"]>;
+  name: Scalars["String"]["output"];
+  rawScore: Scalars["Float"]["output"];
+  score: Scalars["Float"]["output"];
+  slug: Scalars["String"]["output"];
+  title?: Maybe<Scalars["String"]["output"]>;
   type: MatchType;
 };
 
 export type MatchChallengeInput = {
   challenge: ChallengeInput;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Initiate or confirm Matching */
 export type MatchChallengePayload = {
   __typename?: "MatchChallengePayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  confirmed: Scalars["Boolean"];
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  confirmed: Scalars["Boolean"]["output"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type MatchHints = {
   __typename?: "MatchHints";
-  hasConfirmedMatch: Scalars["Boolean"];
-  hasRequestedMatch: Scalars["Boolean"];
+  hasConfirmedMatch: Scalars["Boolean"]["output"];
+  hasRequestedMatch: Scalars["Boolean"]["output"];
 };
 
 export type MatchJobPostingInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   jobPosting: JobPostingInput;
 };
 
 /** Initiate or confirm Matching */
 export type MatchJobPostingPayload = {
   __typename?: "MatchJobPostingPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  confirmed: Scalars["Boolean"];
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  confirmed: Scalars["Boolean"]["output"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type MatchStatus = {
   __typename?: "MatchStatus";
-  confirmed: Scalars["Boolean"];
+  confirmed: Scalars["Boolean"]["output"];
   initiator: ProfileType;
 };
 
 export type MatchStudentInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   jobPosting: JobPostingInput;
   student: StudentInput;
 };
@@ -1024,10 +1030,10 @@ export type MatchStudentInput = {
 /** Initiate or confirm Matching */
 export type MatchStudentPayload = {
   __typename?: "MatchStudentPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  confirmed: Scalars["Boolean"];
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  confirmed: Scalars["Boolean"]["output"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 /** An enumeration. */
@@ -1072,7 +1078,7 @@ export type Mutation = {
   jobPostingBaseData?: Maybe<JobPostingBaseDataPayload>;
   /** Updates a job posting */
   jobPostingRequirements?: Maybe<JobPostingRequirementsPayload>;
-  logout?: Maybe<Scalars["Boolean"]>;
+  logout?: Maybe<Scalars["Boolean"]["output"]>;
   /** Initiate or confirm Matching */
   matchChallenge?: Maybe<MatchChallengePayload>;
   /** Initiate or confirm Matching */
@@ -1257,54 +1263,54 @@ export type MutationMatchStudentArgs = {
 };
 
 export type MutationPasswordChangeArgs = {
-  newPassword1: Scalars["String"];
-  newPassword2: Scalars["String"];
-  oldPassword: Scalars["String"];
+  newPassword1: Scalars["String"]["input"];
+  newPassword2: Scalars["String"]["input"];
+  oldPassword: Scalars["String"]["input"];
 };
 
 export type MutationPasswordResetArgs = {
-  newPassword1: Scalars["String"];
-  newPassword2: Scalars["String"];
-  token: Scalars["String"];
+  newPassword1: Scalars["String"]["input"];
+  newPassword2: Scalars["String"]["input"];
+  token: Scalars["String"]["input"];
 };
 
 export type MutationRefreshTokenArgs = {
-  refreshToken?: InputMaybe<Scalars["String"]>;
+  refreshToken?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type MutationRegisterCompanyArgs = {
   company: RegisterCompanyInput;
-  email: Scalars["String"];
+  email: Scalars["String"]["input"];
   employee: EmployeeInput;
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  password1: Scalars["String"];
-  password2: Scalars["String"];
-  type: Scalars["String"];
-  username: Scalars["String"];
+  firstName: Scalars["String"]["input"];
+  lastName: Scalars["String"]["input"];
+  password1: Scalars["String"]["input"];
+  password2: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+  username: Scalars["String"]["input"];
 };
 
 export type MutationRegisterStudentArgs = {
-  email: Scalars["String"];
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  password1: Scalars["String"];
-  password2: Scalars["String"];
+  email: Scalars["String"]["input"];
+  firstName: Scalars["String"]["input"];
+  lastName: Scalars["String"]["input"];
+  password1: Scalars["String"]["input"];
+  password2: Scalars["String"]["input"];
   student?: InputMaybe<RegisterStudentInput>;
-  type: Scalars["String"];
-  username: Scalars["String"];
+  type: Scalars["String"]["input"];
+  username: Scalars["String"]["input"];
 };
 
 export type MutationResendActivationEmailArgs = {
-  email: Scalars["String"];
+  email: Scalars["String"]["input"];
 };
 
 export type MutationRevokeTokenArgs = {
-  refreshToken?: InputMaybe<Scalars["String"]>;
+  refreshToken?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type MutationSendPasswordResetEmailArgs = {
-  email: Scalars["String"];
+  email: Scalars["String"]["input"];
 };
 
 export type MutationStudentProfileAbilitiesArgs = {
@@ -1332,8 +1338,8 @@ export type MutationStudentProfileSpecificDataArgs = {
 };
 
 export type MutationTokenAuthArgs = {
-  password: Scalars["String"];
-  username: Scalars["String"];
+  password: Scalars["String"]["input"];
+  username: Scalars["String"]["input"];
 };
 
 export type MutationUniversityProfileBaseDataArgs = {
@@ -1373,13 +1379,13 @@ export type MutationUserRequestArgs = {
 };
 
 export type MutationVerifyAccountArgs = {
-  token: Scalars["String"];
+  token: Scalars["String"]["input"];
 };
 
 /** An object with an ID */
 export type Node = {
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
 };
 
 /**
@@ -1397,37 +1403,37 @@ export type Node = {
  */
 export type ObtainJsonWebToken = {
   __typename?: "ObtainJSONWebToken";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  refreshToken?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-  token?: Maybe<Scalars["String"]>;
-  unarchiving?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  refreshToken?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
+  token?: Maybe<Scalars["String"]["output"]>;
+  unarchiving?: Maybe<Scalars["Boolean"]["output"]>;
   user?: Maybe<UserNode>;
 };
 
 export type OnlineChallenge = Node & {
   __typename?: "OnlineChallenge";
   /** The ID of the object */
-  id: Scalars["ID"];
-  url: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type OnlineChallengeInput = {
-  id?: InputMaybe<Scalars["String"]>;
-  url?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  url?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
 export type PageInfo = {
   __typename?: "PageInfo";
   /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars["String"]>;
+  endCursor?: Maybe<Scalars["String"]["output"]>;
   /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars["Boolean"];
+  hasNextPage: Scalars["Boolean"]["output"];
   /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars["Boolean"];
+  hasPreviousPage: Scalars["Boolean"]["output"];
   /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars["String"]>;
+  startCursor?: Maybe<Scalars["String"]["output"]>;
 };
 
 /**
@@ -1437,10 +1443,10 @@ export type PageInfo = {
  */
 export type PasswordChange = {
   __typename?: "PasswordChange";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  refreshToken?: Maybe<Scalars["String"]>;
-  success?: Maybe<Scalars["Boolean"]>;
-  token?: Maybe<Scalars["String"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  refreshToken?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
+  token?: Maybe<Scalars["String"]["output"]>;
 };
 
 /**
@@ -1456,8 +1462,8 @@ export type PasswordChange = {
  */
 export type PasswordReset = {
   __typename?: "PasswordReset";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 /** An enumeration. */
@@ -1503,212 +1509,212 @@ export type Query = {
   softSkills?: Maybe<SoftSkillConnectionsConnection>;
   student?: Maybe<Student>;
   uploadConfigurations?: Maybe<Array<Maybe<UploadConfiguration>>>;
-  verifyPasswordResetToken?: Maybe<Scalars["Boolean"]>;
+  verifyPasswordResetToken?: Maybe<Scalars["Boolean"]["output"]>;
   zipCity: Array<ZipCity>;
   zipCityJobs: Array<ZipCity>;
 };
 
 export type QueryAttachmentsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  id?: InputMaybe<Scalars["String"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
   key: AttachmentKey;
-  last?: InputMaybe<Scalars["Int"]>;
-  slug?: InputMaybe<Scalars["String"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  slug?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryBenefitsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryBranchesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryChallengeArgs = {
-  id?: InputMaybe<Scalars["String"]>;
-  slug?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  slug?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryChallengeTypesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryChallengesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  challengeFromDate?: InputMaybe<Scalars["Date"]>;
-  challengeTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  datePublished?: InputMaybe<Scalars["Date"]>;
-  filterCompanyChallenges?: InputMaybe<Scalars["Boolean"]>;
-  filterTalentChallenges?: InputMaybe<Scalars["Boolean"]>;
-  filterUniversityChallenges?: InputMaybe<Scalars["Boolean"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  last?: InputMaybe<Scalars["Int"]>;
-  teamSize?: InputMaybe<Scalars["Int"]>;
-  textSearch?: InputMaybe<Scalars["String"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  challengeFromDate?: InputMaybe<Scalars["Date"]["input"]>;
+  challengeTypeIds?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  datePublished?: InputMaybe<Scalars["Date"]["input"]>;
+  filterCompanyChallenges?: InputMaybe<Scalars["Boolean"]["input"]>;
+  filterTalentChallenges?: InputMaybe<Scalars["Boolean"]["input"]>;
+  filterUniversityChallenges?: InputMaybe<Scalars["Boolean"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  keywordIds?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  teamSize?: InputMaybe<Scalars["Int"]["input"]>;
+  textSearch?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryCompanyArgs = {
-  slug?: InputMaybe<Scalars["String"]>;
+  slug?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryCulturalFitsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryFaqCategoriesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryJobPostingArgs = {
-  id?: InputMaybe<Scalars["String"]>;
-  slug?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  slug?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryJobPostingsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  slug?: InputMaybe<Scalars["String"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  slug?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryJobRequirementsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryJobTypesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryKeywordsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryLanguageLevelsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryLanguagesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  shortList?: InputMaybe<Scalars["Boolean"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  shortList?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
 export type QueryMatchesArgs = {
   challengeMatching?: InputMaybe<ChallengeMatchingInput>;
-  first?: InputMaybe<Scalars["Int"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
   jobPostingMatching?: InputMaybe<JobPostingMatchingInput>;
-  skip?: InputMaybe<Scalars["Int"]>;
-  softBoost?: InputMaybe<Scalars["Int"]>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+  softBoost?: InputMaybe<Scalars["Int"]["input"]>;
   studentMatching?: InputMaybe<StudentMatchingInput>;
-  techBoost?: InputMaybe<Scalars["Int"]>;
+  techBoost?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryNodeArgs = {
-  id: Scalars["ID"];
+  id: Scalars["ID"]["input"];
 };
 
 export type QuerySkillsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QuerySoftSkillsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type QueryStudentArgs = {
-  jobPostingId?: InputMaybe<Scalars["String"]>;
-  slug?: InputMaybe<Scalars["String"]>;
+  jobPostingId?: InputMaybe<Scalars["String"]["input"]>;
+  slug?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryVerifyPasswordResetTokenArgs = {
-  token: Scalars["String"];
+  token: Scalars["String"]["input"];
 };
 
 export type QueryZipCityJobsArgs = {
-  branchId?: InputMaybe<Scalars["String"]>;
-  jobTypeId?: InputMaybe<Scalars["String"]>;
+  branchId?: InputMaybe<Scalars["String"]["input"]>;
+  jobTypeId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Same as `grapgql_jwt` implementation, with standard output. */
 export type RefreshToken = {
   __typename?: "RefreshToken";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  payload: Scalars["GenericScalar"];
-  refreshExpiresIn: Scalars["Int"];
-  refreshToken: Scalars["String"];
-  success?: Maybe<Scalars["Boolean"]>;
-  token: Scalars["String"];
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  payload: Scalars["GenericScalar"]["output"];
+  refreshExpiresIn: Scalars["Int"]["output"];
+  refreshToken: Scalars["String"]["output"];
+  success?: Maybe<Scalars["Boolean"]["output"]>;
+  token: Scalars["String"]["output"];
 };
 
 /** Creates a new user with company */
 export type RegisterCompany = {
   __typename?: "RegisterCompany";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type RegisterCompanyInput = {
   /** City */
-  city?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]["input"]>;
   /** Name */
-  name?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
   /** UID */
-  uid?: InputMaybe<Scalars["String"]>;
+  uid?: InputMaybe<Scalars["String"]["input"]>;
   /** ZIP */
-  zip?: InputMaybe<Scalars["String"]>;
+  zip?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Creates a new user as student */
 export type RegisterStudent = {
   __typename?: "RegisterStudent";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type RegisterStudentInput = {
-  id?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
   /** Mobile */
-  mobile: Scalars["String"];
+  mobile: Scalars["String"]["input"];
 };
 
 /**
@@ -1723,13 +1729,13 @@ export type RegisterStudentInput = {
  */
 export type ResendActivationEmail = {
   __typename?: "ResendActivationEmail";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type Revoke = {
   __typename?: "Revoke";
-  revoked: Scalars["Int"];
+  revoked: Scalars["Int"]["output"];
 };
 
 /**
@@ -1745,15 +1751,15 @@ export type Revoke = {
  */
 export type SendPasswordResetEmail = {
   __typename?: "SendPasswordResetEmail";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type Skill = Node & {
   __typename?: "Skill";
   /** The ID of the object */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  name: Scalars["String"]["output"];
 };
 
 export type SkillConnection = {
@@ -1776,7 +1782,7 @@ export type SkillConnectionsConnection = {
 export type SkillConnectionsEdge = {
   __typename?: "SkillConnectionsEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Skill>;
 };
@@ -1785,22 +1791,22 @@ export type SkillConnectionsEdge = {
 export type SkillEdge = {
   __typename?: "SkillEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<Skill>;
 };
 
 export type SkillInput = {
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
+  id: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type SoftSkill = Node & {
   __typename?: "SoftSkill";
-  company: Scalars["String"];
+  company: Scalars["String"]["output"];
   /** The ID of the object */
-  id: Scalars["ID"];
-  student: Scalars["String"];
+  id: Scalars["ID"]["output"];
+  student: Scalars["String"]["output"];
 };
 
 export type SoftSkillConnection = {
@@ -1823,7 +1829,7 @@ export type SoftSkillConnectionsConnection = {
 export type SoftSkillConnectionsEdge = {
   __typename?: "SoftSkillConnectionsEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<SoftSkill>;
 };
@@ -1832,83 +1838,83 @@ export type SoftSkillConnectionsEdge = {
 export type SoftSkillEdge = {
   __typename?: "SoftSkillEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<SoftSkill>;
 };
 
 export type SoftSkillInput = {
-  id: Scalars["String"];
+  id: Scalars["String"]["input"];
 };
 
 export type Student = Node & {
   __typename?: "Student";
   branch?: Maybe<Branch>;
   challenges: Array<Challenge>;
-  city?: Maybe<Scalars["String"]>;
+  city?: Maybe<Scalars["String"]["output"]>;
   culturalFits: CulturalFitConnection;
-  dateOfBirth?: Maybe<Scalars["String"]>;
-  distinction?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
-  fieldOfStudy?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
-  graduation?: Maybe<Scalars["String"]>;
+  dateOfBirth?: Maybe<Scalars["String"]["output"]>;
+  distinction?: Maybe<Scalars["String"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  fieldOfStudy?: Maybe<Scalars["String"]["output"]>;
+  firstName?: Maybe<Scalars["String"]["output"]>;
+  graduation?: Maybe<Scalars["String"]["output"]>;
   hobbies?: Maybe<Array<Hobby>>;
   /** The ID of the object */
-  id: Scalars["ID"];
-  isMatchable: Scalars["Boolean"];
-  jobFromDate?: Maybe<Scalars["Date"]>;
-  jobToDate?: Maybe<Scalars["Date"]>;
+  id: Scalars["ID"]["output"];
+  isMatchable: Scalars["Boolean"]["output"];
+  jobFromDate?: Maybe<Scalars["Date"]["output"]>;
+  jobToDate?: Maybe<Scalars["Date"]["output"]>;
   jobType?: Maybe<JobType>;
   languages: UserLanguageRelationConnection;
-  lastName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]["output"]>;
   matchStatus?: Maybe<MatchStatus>;
-  mobile?: Maybe<Scalars["String"]>;
-  nickname?: Maybe<Scalars["String"]>;
+  mobile?: Maybe<Scalars["String"]["output"]>;
+  nickname?: Maybe<Scalars["String"]["output"]>;
   onlineChallenges?: Maybe<Array<OnlineChallenge>>;
-  schoolName?: Maybe<Scalars["String"]>;
+  schoolName?: Maybe<Scalars["String"]["output"]>;
   skills: SkillConnection;
-  slug: Scalars["String"];
+  slug: Scalars["String"]["output"];
   softSkills: SoftSkillConnection;
   state: ProfileState;
-  street?: Maybe<Scalars["String"]>;
-  zip?: Maybe<Scalars["String"]>;
+  street?: Maybe<Scalars["String"]["output"]>;
+  zip?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type StudentCulturalFitsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type StudentLanguagesArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type StudentSkillsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type StudentSoftSkillsArgs = {
-  after?: InputMaybe<Scalars["String"]>;
-  before?: InputMaybe<Scalars["String"]>;
-  first?: InputMaybe<Scalars["Int"]>;
-  last?: InputMaybe<Scalars["Int"]>;
-  offset?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type StudentInput = {
-  id: Scalars["String"];
+  id: Scalars["String"]["input"];
 };
 
 export type StudentMatchingInput = {
@@ -1916,9 +1922,9 @@ export type StudentMatchingInput = {
 };
 
 export type StudentProfileAbilitiesInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** Distinction */
-  distinction?: InputMaybe<Scalars["String"]>;
+  distinction?: InputMaybe<Scalars["String"]["input"]>;
   /** Hobbies */
   hobbies?: InputMaybe<Array<InputMaybe<HobbyInput>>>;
   /** Languages */
@@ -1932,39 +1938,39 @@ export type StudentProfileAbilitiesInput = {
 /** Updates the profile of a student */
 export type StudentProfileAbilitiesPayload = {
   __typename?: "StudentProfileAbilitiesPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type StudentProfileBaseDataInput = {
   /** City */
-  city?: InputMaybe<Scalars["String"]>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]["input"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** Date of birth */
-  dateOfBirth?: InputMaybe<Scalars["String"]>;
+  dateOfBirth?: InputMaybe<Scalars["String"]["input"]>;
   /** First name */
-  firstName?: InputMaybe<Scalars["String"]>;
+  firstName?: InputMaybe<Scalars["String"]["input"]>;
   /** Last name */
-  lastName?: InputMaybe<Scalars["String"]>;
+  lastName?: InputMaybe<Scalars["String"]["input"]>;
   /** Date of birth */
-  mobile?: InputMaybe<Scalars["String"]>;
+  mobile?: InputMaybe<Scalars["String"]["input"]>;
   /** street */
-  street?: InputMaybe<Scalars["String"]>;
+  street?: InputMaybe<Scalars["String"]["input"]>;
   /** Zip */
-  zip?: InputMaybe<Scalars["String"]>;
+  zip?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates the profile of a student */
 export type StudentProfileBaseDataPayload = {
   __typename?: "StudentProfileBaseDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type StudentProfileCharacterInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
   softSkills?: InputMaybe<Array<InputMaybe<SoftSkillInput>>>;
 };
@@ -1972,88 +1978,88 @@ export type StudentProfileCharacterInput = {
 /** Updates soft skills and cultural fits of a student */
 export type StudentProfileCharacterPayload = {
   __typename?: "StudentProfileCharacterPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type StudentProfileConditionInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** State */
-  state: Scalars["String"];
+  state: Scalars["String"]["input"];
 };
 
 /** Updates the state of a student */
 export type StudentProfileConditionPayload = {
   __typename?: "StudentProfileConditionPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type StudentProfileEmploymentInput = {
   branch?: InputMaybe<BranchInput>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  jobFromDate?: InputMaybe<Scalars["String"]>;
-  jobToDate?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  jobFromDate?: InputMaybe<Scalars["String"]["input"]>;
+  jobToDate?: InputMaybe<Scalars["String"]["input"]>;
   jobType?: InputMaybe<JobTypeInput>;
 };
 
 /** Updates job option, date (start or range) and branch of a student */
 export type StudentProfileEmploymentPayload = {
   __typename?: "StudentProfileEmploymentPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type StudentProfileSpecificDataInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** Nickname */
-  nickname?: InputMaybe<Scalars["String"]>;
+  nickname?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates the nickname of a student */
 export type StudentProfileSpecificDataPayload = {
   __typename?: "StudentProfileSpecificDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  nicknameSuggestions?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  nicknameSuggestions?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UniversityProfileBaseDataInput = {
   /** City */
-  city?: InputMaybe<Scalars["String"]>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]["input"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** First name */
-  firstName?: InputMaybe<Scalars["String"]>;
+  firstName?: InputMaybe<Scalars["String"]["input"]>;
   /** Last name */
-  lastName?: InputMaybe<Scalars["String"]>;
+  lastName?: InputMaybe<Scalars["String"]["input"]>;
   /** Name */
-  name: Scalars["String"];
+  name: Scalars["String"]["input"];
   /** Phone Number */
-  phone?: InputMaybe<Scalars["String"]>;
+  phone?: InputMaybe<Scalars["String"]["input"]>;
   /** role */
-  role?: InputMaybe<Scalars["String"]>;
+  role?: InputMaybe<Scalars["String"]["input"]>;
   /** Street */
-  street?: InputMaybe<Scalars["String"]>;
+  street?: InputMaybe<Scalars["String"]["input"]>;
   /** description */
-  topLevelOrganisationDescription?: InputMaybe<Scalars["String"]>;
+  topLevelOrganisationDescription?: InputMaybe<Scalars["String"]["input"]>;
   /** website dachorganisation */
-  topLevelOrganisationWebsite?: InputMaybe<Scalars["String"]>;
+  topLevelOrganisationWebsite?: InputMaybe<Scalars["String"]["input"]>;
   /** website */
-  website?: InputMaybe<Scalars["String"]>;
+  website?: InputMaybe<Scalars["String"]["input"]>;
   /** Zip */
-  zip?: InputMaybe<Scalars["String"]>;
+  zip?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates the profile of a university */
 export type UniversityProfileBaseDataPayload = {
   __typename?: "UniversityProfileBaseDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UniversityProfileRelationsInput = {
@@ -2061,41 +2067,41 @@ export type UniversityProfileRelationsInput = {
   benefits?: InputMaybe<Array<InputMaybe<BenefitInput>>>;
   /** Branches */
   branches?: InputMaybe<Array<InputMaybe<BranchInput>>>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** website challenges */
-  linkChallenges?: InputMaybe<Scalars["String"]>;
+  linkChallenges?: InputMaybe<Scalars["String"]["input"]>;
   /** website education */
-  linkEducation?: InputMaybe<Scalars["String"]>;
+  linkEducation?: InputMaybe<Scalars["String"]["input"]>;
   /** website thesis */
-  linkThesis?: InputMaybe<Scalars["String"]>;
+  linkThesis?: InputMaybe<Scalars["String"]["input"]>;
   /** services */
-  services?: InputMaybe<Scalars["String"]>;
+  services?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates website services */
 export type UniversityProfileRelationsPayload = {
   __typename?: "UniversityProfileRelationsPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UniversityProfileSpecificDataInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** description */
-  description?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates branches and description */
 export type UniversityProfileSpecificDataPayload = {
   __typename?: "UniversityProfileSpecificDataPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UniversityProfileValuesInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** Cultural Fit */
   culturalFits?: InputMaybe<Array<InputMaybe<CulturalFitInput>>>;
   /** Soft Skills */
@@ -2105,52 +2111,52 @@ export type UniversityProfileValuesInput = {
 /** Updates a company profile with soft skills and cultural fit */
 export type UniversityProfileValuesPayload = {
   __typename?: "UniversityProfileValuesPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UpdateCompanyMutationInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  id: Scalars["String"];
-  name?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  id: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
   state?: InputMaybe<ProfileState>;
 };
 
 /** Updates company information */
 export type UpdateCompanyMutationPayload = {
   __typename?: "UpdateCompanyMutationPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
   company?: Maybe<Company>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UpdateStudentMutationInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  isMatchable?: InputMaybe<Scalars["Boolean"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  isMatchable?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
 /** Updates student information */
 export type UpdateStudentMutationPayload = {
   __typename?: "UpdateStudentMutationPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
   student?: Maybe<Student>;
-  success?: Maybe<Scalars["Boolean"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UpdateUserMutationInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  email?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  email?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 /** Updates user information */
 export type UpdateUserMutationPayload = {
   __typename?: "UpdateUserMutationPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
   user?: Maybe<User>;
 };
 
@@ -2158,43 +2164,43 @@ export type UploadConfiguration = {
   __typename?: "UploadConfiguration";
   contentTypesConfiguration: Array<UploadTypeConfiguration>;
   key: AttachmentKey;
-  maxFiles: Scalars["Int"];
+  maxFiles: Scalars["Int"]["output"];
 };
 
 export type UploadTypeConfiguration = {
   __typename?: "UploadTypeConfiguration";
-  contentTypes: Array<Scalars["String"]>;
-  maxSize: Scalars["Int"];
+  contentTypes: Array<Scalars["String"]["output"]>;
+  maxSize: Scalars["Int"]["output"];
 };
 
 export type User = Node & {
   __typename?: "User";
   company?: Maybe<Company>;
-  dateJoined: Scalars["DateTime"];
-  email: Scalars["String"];
+  dateJoined: Scalars["DateTime"]["output"];
+  email: Scalars["String"]["output"];
   employee?: Maybe<Employee>;
-  firstName: Scalars["String"];
+  firstName: Scalars["String"]["output"];
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
   /** Designates whether this user should be treated as active. Unselect this instead of deleting accounts. */
-  isActive: Scalars["Boolean"];
+  isActive: Scalars["Boolean"]["output"];
   /** Designates whether the user can log into this admin site. */
-  isStaff: Scalars["Boolean"];
+  isStaff: Scalars["Boolean"]["output"];
   /** Designates that this user has all permissions without explicitly assigning them. */
-  isSuperuser: Scalars["Boolean"];
-  lastLogin?: Maybe<Scalars["DateTime"]>;
-  lastName: Scalars["String"];
-  password: Scalars["String"];
+  isSuperuser: Scalars["Boolean"]["output"];
+  lastLogin?: Maybe<Scalars["DateTime"]["output"]>;
+  lastName: Scalars["String"]["output"];
+  password: Scalars["String"]["output"];
   student?: Maybe<Student>;
   type: ProfileType;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
-  username: Scalars["String"];
+  username: Scalars["String"]["output"];
 };
 
 export type UserLanguageRelation = Node & {
   __typename?: "UserLanguageRelation";
   /** The ID of the object */
-  id: Scalars["ID"];
+  id: Scalars["ID"]["output"];
   language: Language;
   languageLevel: LanguageLevel;
 };
@@ -2211,67 +2217,67 @@ export type UserLanguageRelationConnection = {
 export type UserLanguageRelationEdge = {
   __typename?: "UserLanguageRelationEdge";
   /** A cursor for use in pagination */
-  cursor: Scalars["String"];
+  cursor: Scalars["String"]["output"];
   /** The item at the end of the edge */
   node?: Maybe<UserLanguageRelation>;
 };
 
 export type UserLanguageRelationInput = {
-  id?: InputMaybe<Scalars["String"]>;
-  language?: InputMaybe<Scalars["String"]>;
-  languageLevel?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  languageLevel?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type UserNode = Node & {
   __typename?: "UserNode";
-  archived?: Maybe<Scalars["Boolean"]>;
+  archived?: Maybe<Scalars["Boolean"]["output"]>;
   company?: Maybe<Company>;
-  email: Scalars["String"];
+  email: Scalars["String"]["output"];
   employee?: Maybe<Employee>;
-  firstName: Scalars["String"];
+  firstName: Scalars["String"]["output"];
   /** The ID of the object */
-  id: Scalars["ID"];
-  lastName: Scalars["String"];
-  pk?: Maybe<Scalars["Int"]>;
-  secondaryEmail?: Maybe<Scalars["String"]>;
+  id: Scalars["ID"]["output"];
+  lastName: Scalars["String"]["output"];
+  pk?: Maybe<Scalars["Int"]["output"]>;
+  secondaryEmail?: Maybe<Scalars["String"]["output"]>;
   student?: Maybe<Student>;
   type: DbUserTypeChoices;
   /** Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
-  username: Scalars["String"];
-  verified?: Maybe<Scalars["Boolean"]>;
+  username: Scalars["String"]["output"];
+  verified?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UserRequestInput = {
-  clientMutationId?: InputMaybe<Scalars["String"]>;
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
   /** E-Mail */
-  email: Scalars["String"];
+  email: Scalars["String"]["input"];
   /** Message */
-  message: Scalars["String"];
+  message: Scalars["String"]["input"];
   /** Name */
-  name: Scalars["String"];
+  name: Scalars["String"]["input"];
 };
 
 /** Creates a new user user request */
 export type UserRequestPayload = {
   __typename?: "UserRequestPayload";
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type UserUploadInput = {
   challenge?: InputMaybe<ChallengeInput>;
-  clientMutationId?: InputMaybe<Scalars["String"]>;
-  file: Scalars["Upload"];
+  clientMutationId?: InputMaybe<Scalars["String"]["input"]>;
+  file: Scalars["Upload"]["input"];
   key: AttachmentKey;
 };
 
 export type UserUploadPayload = {
   __typename?: "UserUploadPayload";
   attachment?: Maybe<Attachment>;
-  clientMutationId?: Maybe<Scalars["String"]>;
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  clientMutationId?: Maybe<Scalars["String"]["output"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 /**
@@ -2283,13 +2289,13 @@ export type UserUploadPayload = {
  */
 export type VerifyAccount = {
   __typename?: "VerifyAccount";
-  errors?: Maybe<Scalars["ExpectedErrorType"]>;
-  success?: Maybe<Scalars["Boolean"]>;
+  errors?: Maybe<Scalars["ExpectedErrorType"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type ZipCity = {
   __typename?: "ZipCity";
-  canton: Scalars["String"];
-  city: Scalars["String"];
-  zip: Scalars["String"];
+  canton: Scalars["String"]["output"];
+  city: Scalars["String"]["output"];
+  zip: Scalars["String"]["output"];
 };

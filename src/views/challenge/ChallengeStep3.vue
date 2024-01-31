@@ -113,7 +113,7 @@ const onSubmit = veeForm.handleSubmit(async (formData) => {
     if (store.getters["currentChallenge"]?.id) {
       await store.dispatch(
         ActionTypes.SAVE_CHALLENGE_STEP3,
-        challengeStep3InputMapper(store.getters["currentChallenge"]?.id, formData)
+        challengeStep3InputMapper(store.getters["currentChallenge"]?.id, formData),
       );
       const challengeState = store.getters["challengeState"];
       if (challengeState.success) {
@@ -183,7 +183,7 @@ watch(
   () => veeForm.meta.value.dirty,
   () => {
     emits("changeDirty", veeForm.meta.value.dirty);
-  }
+  },
 );
 </script>
 

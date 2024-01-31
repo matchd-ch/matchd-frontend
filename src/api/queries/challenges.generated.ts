@@ -2,16 +2,18 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type ChallengesQueryVariables = Types.Exact<{
-  textSearch?: Types.InputMaybe<Types.Scalars["String"]>;
+  textSearch?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
   challengeTypeIds?: Types.InputMaybe<
-    Array<Types.InputMaybe<Types.Scalars["String"]>> | Types.InputMaybe<Types.Scalars["String"]>
+    | Array<Types.InputMaybe<Types.Scalars["String"]["input"]>>
+    | Types.InputMaybe<Types.Scalars["String"]["input"]>
   >;
   keywordIds?: Types.InputMaybe<
-    Array<Types.InputMaybe<Types.Scalars["String"]>> | Types.InputMaybe<Types.Scalars["String"]>
+    | Array<Types.InputMaybe<Types.Scalars["String"]["input"]>>
+    | Types.InputMaybe<Types.Scalars["String"]["input"]>
   >;
-  filterTalentChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]>;
-  filterCompanyChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]>;
-  filterUniversityChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]>;
+  filterTalentChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]["input"]>;
+  filterCompanyChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]["input"]>;
+  filterUniversityChallenges?: Types.InputMaybe<Types.Scalars["Boolean"]["input"]>;
 }>;
 
 export type ChallengesQuery = {

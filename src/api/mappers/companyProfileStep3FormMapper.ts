@@ -2,7 +2,7 @@ import type { CompanyProfileStep3Form } from "@/models/CompanyProfileStep3Form";
 import type { MeQuery } from "../queries/me.generated";
 
 export function companyProfileStep3FormMapper(
-  user: NonNullable<MeQuery["me"]>
+  user: NonNullable<MeQuery["me"]>,
 ): CompanyProfileStep3Form {
   return {
     branches:

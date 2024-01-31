@@ -2,7 +2,7 @@ import type { StudentProfileStep4Form } from "@/models/StudentProfileStep4Form";
 import type { MeQuery } from "../queries/me.generated";
 
 export function studentProfileStep4FormMapper(
-  user: NonNullable<MeQuery["me"]>
+  user: NonNullable<MeQuery["me"]>,
 ): StudentProfileStep4Form {
   return {
     skills:

@@ -115,7 +115,7 @@ export default class Home extends Vue {
   meta = setup(() =>
     useMeta({
       title: "Registrierung",
-    })
+    }),
   );
 
   get contactFormLoading(): boolean {

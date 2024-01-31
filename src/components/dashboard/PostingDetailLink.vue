@@ -45,7 +45,7 @@ const props = defineProps<{
 }>();
 
 const jobPosting = computed(() =>
-  props.posting.__typename === "JobPosting" ? props.posting : null
+  props.posting.__typename === "JobPosting" ? props.posting : null,
 );
 const challenge = computed(() => (props.posting.__typename === "Challenge" ? props.posting : null));
 </script>

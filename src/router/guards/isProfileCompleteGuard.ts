@@ -5,7 +5,7 @@ import { Routes } from "..";
 export async function isProfileCompleteGuard(
   to: RouteLocationNormalized,
   _from: RouteLocationNormalized,
-  next: NavigationGuardNext
+  next: NavigationGuardNext,
 ): Promise<void> {
   if (to.meta?.public) {
     next();

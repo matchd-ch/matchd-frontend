@@ -2,9 +2,9 @@ import * as Types from "../models/types";
 
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type PasswordChangeMutationVariables = Types.Exact<{
-  oldPassword: Types.Scalars["String"];
-  newPassword1: Types.Scalars["String"];
-  newPassword2: Types.Scalars["String"];
+  oldPassword: Types.Scalars["String"]["input"];
+  newPassword1: Types.Scalars["String"]["input"];
+  newPassword2: Types.Scalars["String"]["input"];
 }>;
 
 export type PasswordChangeMutation = {

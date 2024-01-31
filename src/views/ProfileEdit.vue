@@ -257,7 +257,7 @@ const currentProfile = computed(() => {
 const confirmWhenDirty = (next: NavigationGuardNext) => {
   if (dirty.value) {
     const confirmed = window.confirm(
-      "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?"
+      "Auf dieser Seite gibt es ungespeicherte Angaben. Seite trotzdem verlassen?",
     );
     store.commit(MutationTypes.CLEAR_ONBOARDING_STATE);
     next(confirmed);

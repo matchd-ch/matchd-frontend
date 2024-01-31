@@ -2,7 +2,7 @@ import type { ChallengeStep1Form } from "@/models/ChallengeStep1Form";
 import type { ChallengeChallengeFragment } from "../queries/challengeFragment.generated";
 
 export function challengeStep1FormMapper(
-  challenge: ChallengeChallengeFragment | null
+  challenge: ChallengeChallengeFragment | null,
 ): ChallengeStep1Form {
   return {
     title: challenge?.title || "",
