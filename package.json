@@ -22,7 +22,7 @@
     "@cypress/vue": "^6.0.0",
     "@cypress/webpack-dev-server": "^3.7.4",
     "@gtm-support/vue-gtm": "^2.2.0",
-    "@sentry/tracing": "^7.102.0",
+    "@sentry/tracing": "^7.102.1",
     "@sentry/vue": "^7.102.0",
     "@vee-validate/i18n": "^4.12.5",
     "@vee-validate/rules": "^4.12.5",
