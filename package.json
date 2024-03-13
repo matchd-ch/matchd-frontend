@@ -93,7 +93,7 @@
     "postcss": "^8.4.35",
     "postcss-atrule-bem": "^4.0.0",
     "postcss-import": "^16.0.1",
-    "postcss-nesting": "^12.0.4",
+    "postcss-nesting": "^12.1.0",
     "prettier": "^3.2.5",
     "svgo": "^3.2.0",
     "tailwind-css-variables": "^3.0.1",
