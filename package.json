@@ -18,7 +18,7 @@
     "format:check": "prettier -c ."
   },
   "dependencies": {
-    "@apollo/client": "^3.10.4",
+    "@apollo/client": "^3.10.5",
     "@cypress/vue": "^6.0.1",
     "@cypress/webpack-dev-server": "^3.9.0",
     "@gtm-support/vue-gtm": "^2.2.0",
