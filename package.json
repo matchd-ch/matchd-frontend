@@ -90,7 +90,7 @@
     "eslint-plugin-vue": "^9.27.0",
     "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
-    "postcss": "^8.4.39",
+    "postcss": "^8.4.40",
     "postcss-atrule-bem": "^4.0.0",
     "postcss-import": "^16.1.0",
     "postcss-nesting": "^12.1.5",
