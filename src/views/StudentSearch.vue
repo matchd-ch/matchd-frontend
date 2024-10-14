@@ -65,7 +65,7 @@
         :job-posting-id="jobPostingId"
         result-type="student"
         color="pink"
-      ></SearchResultGrid>
+      />
       <div
         v-else
         class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
@@ -86,7 +86,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { studentMatchingInputMapper } from "@/api/mappers/studentMatchingInputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import LoadingBox from "@/components/LoadingBox.vue";
@@ -94,152 +94,139 @@ import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
+import useDeviceDetector from "@/composables/useDeviceDetector";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { Routes } from "@/router";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { Options, setup, Vue } from "vue-class-component";
+import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
 import { useMeta } from "vue-meta";
+import { useRoute, useRouter } from "vue-router";
 
-@Options({
-  components: {
-    SearchResultBubbles,
-    SearchResultGrid,
-    SearchFilters,
-    SearchBoost,
-    LoadingBox,
-  },
-})
-export default class StudentSearch extends Vue {
-  meta = setup(() =>
-    useMeta({
-      title: "Talente suchen",
+useMeta({
+  title: "Talente suchen",
+});
+
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const techBoost = ref(3);
+const softBoost = ref(3);
+const jobPostingId = ref("");
+const { isMobile } = useDeviceDetector();
+const layout = ref("bubbles");
+
+const jobPostings = computed(() => store.getters["jobPostings"]);
+const isLoading = computed(() => store.getters["matchesLoading"]);
+const matchesForBubbles = computed(() => store.getters["matchesForBubbles"]);
+const matchesForGrid = computed(() => store.getters["matchesForGrid"]);
+
+const avatar = computed(() => {
+  return (
+    store.getters["attachmentsByKey"]({
+      key: AttachmentKey.CompanyAvatar,
+    })?.[0] ??
+    store.getters["attachmentsByKey"]({
+      key: AttachmentKey.CompanyAvatarFallback,
+    })?.[0] ??
+    undefined
+  );
+});
+
+async function searchStudents() {
+  persistFiltersToUrl();
+  await store.dispatch(
+    ActionTypes.MATCHING,
+    studentMatchingInputMapper({
+      jobPostingId: jobPostingId.value,
+      softBoost: softBoost.value,
+      techBoost: techBoost.value,
+      first: 20,
+      skip: 0,
     }),
   );
-  techBoost = 3;
-  softBoost = 3;
-  jobPostingId = "";
-  layout = "bubbles";
-
-  get jobPostings() {
-    return this.$store.getters["jobPostings"];
-  }
-
-  get isLoading() {
-    return this.$store.getters["matchesLoading"];
-  }
-
-  get matchesForBubbles() {
-    return this.$store.getters["matchesForBubbles"];
-  }
-
-  get matchesForGrid() {
-    return this.$store.getters["matchesForGrid"];
-  }
-
-  get isStudent() {
-    return this.$store.getters["isStudent"];
-  }
-
-  get avatar() {
-    return (
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.CompanyAvatar,
-      })?.[0] ??
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.CompanyAvatarFallback,
-      })?.[0] ??
-      undefined
-    );
-  }
-
-  beforeMount() {
-    this.layout = (this.$route.query?.layout as string) || "bubbles";
-    this.softBoost = this.$route.query?.softBoost
-      ? parseInt(this.$route.query?.softBoost as string)
-      : 3;
-    this.techBoost = this.$route.query?.techBoost
-      ? parseInt(this.$route.query?.techBoost as string)
-      : 3;
-    this.jobPostingId = (this.$route.query?.jobPostingId as string) || "";
-    this.persistFiltersToUrl();
-  }
-
-  async mounted() {
-    await this.$store.dispatch(ActionTypes.JOB_POSTINGS);
-    if (this.jobPostings.length > 0 && this.jobPostingId === "") {
-      this.jobPostingId = this.jobPostings[0].id;
-    }
-
-    await Promise.all([
-      this.searchStudents(),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyAvatar,
-      }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.CompanyAvatarFallback,
-      }),
-    ]);
-    calculateMargins();
-  }
-
-  unmounted() {
-    this.$store.commit(MutationTypes.RESET_MATCHES);
-  }
-
-  async searchStudents() {
-    this.persistFiltersToUrl();
-    await this.$store.dispatch(
-      ActionTypes.MATCHING,
-      studentMatchingInputMapper({
-        jobPostingId: this.jobPostingId,
-        softBoost: this.softBoost,
-        techBoost: this.techBoost,
-        first: 20,
-        skip: 0,
-      }),
-    );
-  }
-
-  onClickResult(slug: string) {
-    this.$router.push({
-      name: Routes.STUDENT_DETAIL,
-      params: { slug },
-      query: { jobPostingId: this.jobPostingId },
-    });
-  }
-
-  onChangeLayout(layout: string) {
-    this.layout = layout;
-    this.persistFiltersToUrl();
-  }
-
-  onChangeJobPosting() {
-    this.searchStudents();
-  }
-
-  onChangeSoftBoost(value: number) {
-    this.softBoost = value;
-    this.searchStudents();
-  }
-
-  onChangeTechBoost(value: number) {
-    this.techBoost = value;
-    this.searchStudents();
-  }
-
-  persistFiltersToUrl() {
-    this.$router.replace({
-      query: {
-        layout: this.layout,
-        softBoost: this.softBoost,
-        techBoost: this.techBoost,
-        ...(this.jobPostingId !== "" && { jobPostingId: this.jobPostingId }),
-      },
-    });
-  }
 }
+
+function onClickResult(slug: string) {
+  router.push({
+    name: Routes.STUDENT_DETAIL,
+    params: { slug },
+    query: { jobPostingId: jobPostingId.value },
+  });
+}
+
+function onChangeLayout(value: string) {
+  layout.value = value;
+  persistFiltersToUrl();
+}
+
+function onChangeJobPosting() {
+  searchStudents();
+}
+
+function onChangeSoftBoost(value: number) {
+  softBoost.value = value;
+  searchStudents();
+}
+
+function onChangeTechBoost(value: number) {
+  techBoost.value = value;
+  searchStudents();
+}
+
+function persistFiltersToUrl() {
+  router.replace({
+    query: {
+      layout: layout.value,
+      softBoost: softBoost.value,
+      techBoost: techBoost.value,
+      ...(jobPostingId.value !== "" && { jobPostingId: jobPostingId.value }),
+    },
+  });
+}
+
+function setLayout() {
+  layout.value = isMobile.value ? "grid" : (route.query?.layout as string) || "bubbles";
+}
+
+onBeforeMount(() => {
+  softBoost.value = route.query?.softBoost ? parseInt(route.query?.softBoost as string) : 3;
+  techBoost.value = route.query?.techBoost ? parseInt(route.query?.techBoost as string) : 3;
+  jobPostingId.value = (route.query?.jobPostingId as string) || "";
+  persistFiltersToUrl();
+});
+
+watch(
+  isMobile,
+  () => {
+    setLayout();
+  },
+  { immediate: true },
+);
+
+onMounted(async () => {
+  await store.dispatch(ActionTypes.JOB_POSTINGS);
+  if (jobPostings.value.length > 0 && jobPostingId.value === "") {
+    jobPostingId.value = jobPostings.value[0].id;
+  }
+
+  await Promise.all([
+    searchStudents(),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyAvatar,
+    }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.CompanyAvatarFallback,
+    }),
+  ]);
+  calculateMargins();
+});
+
+onUnmounted(() => {
+  store.commit(MutationTypes.RESET_MATCHES);
+});
 </script>
 <style lang="postcss" scoped>
 .student-search-view {

@@ -84,7 +84,7 @@
         :matches="matchesForGrid"
         result-type="jobposting"
         color="green"
-      ></SearchResultGrid>
+      />
       <div
         v-else
         class="min-h-content-with-fixed-bars flex justify-center items-center px-4 text-xl"
@@ -110,7 +110,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { jobPostingMatchingInputMapper } from "@/api/mappers/jobPostingMatchingInputMapper";
 import { AttachmentKey } from "@/api/models/types";
 import LoadingBox from "@/components/LoadingBox.vue";
@@ -118,191 +118,164 @@ import SearchBoost from "@/components/SearchBoost.vue";
 import SearchFilters from "@/components/SearchFilters.vue";
 import SearchResultBubbles from "@/components/SearchResultBubbles.vue";
 import SearchResultGrid from "@/components/SearchResultGrid.vue";
+import useDeviceDetector from "@/composables/useDeviceDetector";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { Routes } from "@/router";
+import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { Options, setup, Vue } from "vue-class-component";
+import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
 import { useMeta } from "vue-meta";
+import { useRoute, useRouter } from "vue-router";
 
-@Options({
-  components: {
-    SearchFilters,
-    SearchResultBubbles,
-    SearchResultGrid,
-    SearchBoost,
-    LoadingBox,
+useMeta({ title: "Stellen suchen" });
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const techBoost = ref(3);
+const softBoost = ref(3);
+const zip = ref("");
+const branchId = ref("");
+const jobTypeId = ref("");
+const workload = ref(100);
+const { isMobile } = useDeviceDetector();
+const layout = ref("bubbles");
+
+const isLoading = computed(() => store.getters["matchesLoading"]);
+const matchesForBubbles = computed(() => store.getters["matchesForBubbles"]);
+const matchesForGrid = computed(() => store.getters["matchesForGrid"]);
+const user = computed(() => store.getters["user"]);
+const branches = computed(() => store.getters["branches"]);
+const jobTypes = computed(() => store.getters["jobTypes"]);
+const zipCity = computed(() => store.getters["zipCityJobs"]);
+const avatar = computed(() => {
+  return (
+    store.getters["attachmentsByKey"]({
+      key: AttachmentKey.StudentAvatar,
+    })?.[0] ||
+    store.getters["attachmentsByKey"]({
+      key: AttachmentKey.StudentAvatarFallback,
+    })?.[0] ||
+    undefined
+  );
+});
+
+onBeforeMount(() => {
+  jobTypeId.value = (route.query?.jobTypeId as string) || user.value?.student?.jobType?.id || "";
+  softBoost.value = route.query?.softBoost ? parseInt(route.query?.softBoost as string) : 3;
+  techBoost.value = route.query?.techBoost ? parseInt(route.query?.techBoost as string) : 3;
+  zip.value = (route.query?.zip as string) || "";
+  workload.value = parseInt(route.query?.workload as string) || 100;
+  branchId.value = (route.query?.branchId as string) || user.value?.student?.branch?.id || "";
+
+  persistFiltersToUrl();
+});
+
+function setLayout() {
+  layout.value = isMobile.value ? "grid" : (route.query?.layout as string) || "bubbles";
+}
+
+watch(
+  isMobile,
+  () => {
+    setLayout();
   },
-})
-export default class JobPostingSearch extends Vue {
-  meta = setup(() =>
-    useMeta({
-      title: "Stellen suchen",
+  { immediate: true },
+);
+
+onMounted(async () => {
+  await Promise.all([
+    searchJobPostings(),
+    loadZipCity(),
+    store.dispatch(ActionTypes.BRANCHES),
+    store.dispatch(ActionTypes.JOB_TYPE),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.StudentAvatar,
+    }),
+    store.dispatch(UploadActionTypes.UPLOADED_FILES, {
+      key: AttachmentKey.StudentAvatarFallback,
+    }),
+  ]);
+  calculateMargins();
+});
+
+onUnmounted(() => {
+  store.commit(MutationTypes.RESET_MATCHES);
+});
+
+async function searchJobPostings() {
+  persistFiltersToUrl();
+  await store.dispatch(
+    ActionTypes.MATCHING,
+    jobPostingMatchingInputMapper({
+      jobTypeId: jobTypeId.value,
+      branchId: branchId.value,
+      zip: zip.value,
+      workload: workload.value,
+      softBoost: softBoost.value,
+      techBoost: techBoost.value,
+      first: 20,
+      skip: 0,
     }),
   );
-  techBoost = 3;
-  softBoost = 3;
-  zip = "";
-  branchId = "";
-  jobTypeId = "";
-  workload = 100;
-  layout = "bubbles";
+}
 
-  get isLoading() {
-    return this.$store.getters["matchesLoading"];
-  }
+async function loadZipCity() {
+  await store.dispatch(ActionTypes.ZIP_CITY_JOBS, {
+    ...(branchId.value && { branchId: branchId.value }),
+  });
+}
 
-  get matchesForBubbles() {
-    return this.$store.getters["matchesForBubbles"];
-  }
+function onClickResult(slug: string) {
+  router.push({ name: Routes.JOB_POSTING_DETAIL, params: { slug } });
+}
 
-  get matchesForGrid() {
-    return this.$store.getters["matchesForGrid"];
-  }
+function onChangeLayout(value: string) {
+  layout.value = value;
+  persistFiltersToUrl();
+}
 
-  get user() {
-    return this.$store.getters["user"];
-  }
+function onChangeJobType() {
+  zip.value = "";
+  Promise.all([loadZipCity(), searchJobPostings()]);
+}
 
-  get branches() {
-    return this.$store.getters["branches"];
-  }
+function onChangeBranch() {
+  zip.value = "";
+  Promise.all([loadZipCity(), searchJobPostings()]);
+}
 
-  get jobTypes() {
-    return this.$store.getters["jobTypes"];
-  }
+function onChangeZipCity() {
+  searchJobPostings();
+}
 
-  get zipCity() {
-    return this.$store.getters["zipCityJobs"];
-  }
+function onChangeWorkload() {
+  searchJobPostings();
+}
 
-  get isStudent() {
-    return this.$store.getters["isStudent"];
-  }
+function onChangeSoftBoost(value: number) {
+  softBoost.value = value;
+  searchJobPostings();
+}
 
-  get avatar() {
-    return (
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.StudentAvatar,
-      })?.[0] ||
-      this.$store.getters["attachmentsByKey"]({
-        key: AttachmentKey.StudentAvatarFallback,
-      })?.[0] ||
-      undefined
-    );
-  }
+function onChangeTechBoost(value: number) {
+  techBoost.value = value;
+  searchJobPostings();
+}
 
-  beforeMount() {
-    this.layout = (this.$route.query?.layout as string) || "bubbles";
-    this.jobTypeId =
-      (this.$route.query?.jobTypeId as string) || this.user?.student?.jobType?.id || "";
-    this.softBoost = this.$route.query?.softBoost
-      ? parseInt(this.$route.query?.softBoost as string)
-      : 3;
-    this.techBoost = this.$route.query?.techBoost
-      ? parseInt(this.$route.query?.techBoost as string)
-      : 3;
-    this.zip = (this.$route.query?.zip as string) || "";
-    this.workload = parseInt(this.$route.query?.workload as string) || 100;
-    this.branchId = (this.$route.query?.branchId as string) || this.user?.student?.branch?.id || "";
-
-    this.persistFiltersToUrl();
-  }
-
-  async mounted() {
-    await Promise.all([
-      this.searchJobPostings(),
-      this.loadZipCity(),
-      this.$store.dispatch(ActionTypes.BRANCHES),
-      this.$store.dispatch(ActionTypes.JOB_TYPE),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.StudentAvatar,
-      }),
-      this.$store.dispatch(UploadActionTypes.UPLOADED_FILES, {
-        key: AttachmentKey.StudentAvatarFallback,
-      }),
-    ]);
-    calculateMargins();
-  }
-
-  unmounted() {
-    this.$store.commit(MutationTypes.RESET_MATCHES);
-  }
-
-  async searchJobPostings() {
-    this.persistFiltersToUrl();
-    await this.$store.dispatch(
-      ActionTypes.MATCHING,
-      jobPostingMatchingInputMapper({
-        jobTypeId: this.jobTypeId,
-        branchId: this.branchId,
-        zip: this.zip,
-        workload: this.workload,
-        softBoost: this.softBoost,
-        techBoost: this.techBoost,
-        first: 20,
-        skip: 0,
-      }),
-    );
-  }
-
-  async loadZipCity() {
-    await this.$store.dispatch(ActionTypes.ZIP_CITY_JOBS, {
-      ...(this.branchId && { branchId: this.branchId }),
-    });
-  }
-
-  onClickResult(slug: string) {
-    this.$router.push({ name: Routes.JOB_POSTING_DETAIL, params: { slug } });
-  }
-
-  onChangeLayout(layout: string) {
-    this.layout = layout;
-    this.persistFiltersToUrl();
-  }
-
-  onChangeJobType() {
-    this.zip = "";
-    Promise.all([this.loadZipCity(), this.searchJobPostings()]);
-  }
-
-  onChangeBranch() {
-    this.zip = "";
-    Promise.all([this.loadZipCity(), this.searchJobPostings()]);
-  }
-
-  onChangeZipCity() {
-    this.searchJobPostings();
-  }
-
-  onChangeWorkload() {
-    this.searchJobPostings();
-  }
-
-  onChangeSoftBoost(value: number) {
-    this.softBoost = value;
-    this.searchJobPostings();
-  }
-
-  onChangeTechBoost(value: number) {
-    this.techBoost = value;
-    this.searchJobPostings();
-  }
-
-  persistFiltersToUrl() {
-    this.$router.replace({
-      query: {
-        layout: this.layout,
-        softBoost: this.softBoost,
-        techBoost: this.techBoost,
-        ...(this.branchId !== "" && { branchId: this.branchId }),
-        ...(this.jobTypeId !== "" && { jobTypeId: this.jobTypeId }),
-        ...(this.zip !== "" && { zip: this.zip }),
-        workload: this.workload,
-      },
-    });
-  }
+function persistFiltersToUrl() {
+  router.replace({
+    query: {
+      layout: layout.value,
+      softBoost: softBoost.value,
+      techBoost: techBoost.value,
+      ...(branchId.value !== "" && { branchId: branchId.value }),
+      ...(jobTypeId.value !== "" && { jobTypeId: jobTypeId.value }),
+      ...(zip.value !== "" && { zip: zip.value }),
+      workload: workload.value,
+    },
+  });
 }
 </script>
 <style lang="postcss" scoped>

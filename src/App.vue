@@ -79,4 +79,9 @@ onUnmounted(() => {
 .main-view {
   min-height: calc(100vh - var(--contentMarginTop) - var(--contentMarginBottom));
 }
+
+.header {
+  max-height: 100vh;
+  overflow-y: auto;
+}
 </style>

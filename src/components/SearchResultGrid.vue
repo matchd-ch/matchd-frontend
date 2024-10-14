@@ -1,6 +1,6 @@
 <template>
   <ul
-    class="search-result-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-px"
+    class="search-result-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 2xl:grid-cols-8 gap-px"
     :class="{
       'search-result-grid--student': resultType === 'student',
       'search-result-grid--jobposting': resultType === 'jobposting',
