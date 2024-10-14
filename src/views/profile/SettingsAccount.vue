@@ -32,7 +32,13 @@
               Nein
             </div>
             <MatchdToggle id="permissionGranted">
-              <input id="permissionGranted" v-model="form.values.isMatchable" type="checkbox" />
+              <!-- <input id="permissionGranted" v-model="form.values.isMatchable" type="checkbox" /> -->
+              <input
+                id="permissionGranted"
+                :checked="form.values.isMatchable"
+                type="checkbox"
+                @change="() => form.setFieldValue('isMatchable', !form.values.isMatchable)"
+              />
             </MatchdToggle>
             <div
               class="grow text-right ml-8"
