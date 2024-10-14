@@ -82,6 +82,6 @@ onUnmounted(() => {
 
 .header {
   max-height: 100vh;
-  overflow-y: auto;
+  overflow: hidden auto;
 }
 </style>
