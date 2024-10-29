@@ -232,7 +232,6 @@ export default () => {
   watch(
     user,
     () => {
-      console.warn("USER");
       if (user.value?.company) {
         store.dispatch(UploadActionTypes.UPLOADED_FILES, {
           key: AttachmentKey.CompanyAvatar,

@@ -13,7 +13,7 @@
   >
     <header
       id="teleporter-app-header"
-      class="header bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20"
+      class="bg-white fixed top-0 left-0 right-0 z-20 shadow-black-20"
     >
       <component
         :is="navigation"
@@ -78,10 +78,5 @@ onUnmounted(() => {
 <style lang="postcss" scoped>
 .main-view {
   min-height: calc(100vh - var(--contentMarginTop) - var(--contentMarginBottom));
-}
-
-.header {
-  max-height: 100vh;
-  overflow: hidden auto;
 }
 </style>

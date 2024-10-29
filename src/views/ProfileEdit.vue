@@ -106,6 +106,7 @@ interface ProfileItem {
   progress?: number;
   /** Is set to true it disables the isDirty confirmation dialog before */
   disableIsDirtyCheck?: boolean;
+  nextStep?: string;
 }
 
 interface Profiles {
@@ -129,6 +130,8 @@ const profiles = computed<Profiles>(() => ({
       step: "schritt2",
       label: "Kurzsteckbrief",
       progress: companyProgress.value?.sections.shortProfile,
+      // TODO: Use this for redirect to another step after onSubmitComplete
+      // nextStep: "schritt3",
     },
     {
       component: CompanyStep3,
@@ -277,6 +280,10 @@ const onClickCancel = () => {
 const onSubmitComplete = async (success: boolean) => {
   if (success) {
     dirty.value = false;
+    if (currentProfile.value?.nextStep) {
+      router.push({ params: { step: currentProfile.value.nextStep } });
+      return;
+    }
     router.go(0);
   }
 };

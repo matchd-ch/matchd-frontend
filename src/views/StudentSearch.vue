@@ -101,7 +101,7 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/content/action-types";
 import { MutationTypes } from "@/store/modules/content/mutation-types";
 import { ActionTypes as UploadActionTypes } from "@/store/modules/upload/action-types";
-import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch, watchEffect } from "vue";
+import { computed, onBeforeMount, onMounted, onUnmounted, ref, watch } from "vue";
 import { useMeta } from "vue-meta";
 import { useRoute, useRouter } from "vue-router";
 
