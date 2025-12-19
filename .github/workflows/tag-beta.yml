@@ -12,21 +12,8 @@ jobs:
     uses: ./.github/workflows/part_build.yml
 
   deploy:
+    runs-on: ubuntu-latest
     name: "Deploy"
-
-    needs: ["build"]
-
-    uses: ./.github/workflows/part_deploy.yml
-    with:
-      namespace: matchd-frontend-staging
-      release: matchd-frontend
-      environment: staging
-      letsencryptEnabled: true
-      domain: staging.matchd.ch
-      version: "${{ needs.build.outputs.tag }}"
-      apiUrl: "https://api.staging.matchd.ch"
-      gtmContainerId: "${{ vars.GTM_CONTAINER_ID }}"
-      sentryDsn: "${{ vars.SENTRY_DSN }}"
-    secrets:
-      DOCKER_PULL_USERNAME: "${{ secrets.DOCKER_PULL_USERNAME }}"
-      DOCKER_PULL_SECRET: "${{ secrets.DOCKER_PULL_SECRET }}"
+    needs: ['build']
+    steps:
+      - run: echo "Deploying beta version... To be implemented."

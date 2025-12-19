@@ -17,20 +17,8 @@ jobs:
     uses: ./.github/workflows/part_build.yml
 
   deploy:
+    runs-on: ubuntu-latest
     name: "Deploy"
-
-    needs: ["build"]
-
-    uses: ./.github/workflows/part_deploy.yml
-    with:
-      namespace: matchd-frontend-development
-      release: matchd-frontend
-      environment: development
-      letsencryptEnabled: true
-      domain: development.matchd.ch
-      apiUrl: "https://api.development.matchd.ch"
-      gtmContainerId: "${{ vars.GTM_CONTAINER_ID }}"
-      sentryDsn: "${{ vars.SENTRY_DSN }}"
-    secrets:
-      DOCKER_PULL_USERNAME: "${{ secrets.DOCKER_PULL_USERNAME }}"
-      DOCKER_PULL_SECRET: "${{ secrets.DOCKER_PULL_SECRET }}"
+    needs: ['build']
+    steps:
+      - run: echo "Deploying development version... To be implemented."

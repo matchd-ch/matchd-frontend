@@ -21,16 +21,16 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup NodeJS
         id: setup-node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: "${{ env.DEFAULT_NODEJS_VERSION }}"
 
       - id: cache-npm
-        uses: actions/cache@v3.3.3
+        uses: actions/cache@v5
         with:
           path: ~/.npm
           key: npm-${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('package-lock.json') }}
@@ -44,7 +44,7 @@ jobs:
         run: npm run build
 
       - run: tar -czvf dist.tar.gz dist
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v6
         with:
           name: dist
           path: dist.tar.gz
@@ -64,8 +64,8 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
         with:
           name: dist
           path: .
@@ -76,7 +76,7 @@ jobs:
           echo "SOURCE_BRANCH=${GITHUB_REF/refs\/heads\//}" >> $GITHUB_ENV
           echo "SOURCE_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
