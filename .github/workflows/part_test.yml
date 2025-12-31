@@ -7,7 +7,7 @@ name: "Test"
 # * CACHE_VERSION - Set to `date +%s`, set new when the cache should be busted
 
 env:
-  DEFAULT_NODEJS_VERSION: 16.13.1
+  DEFAULT_NODEJS_VERSION: 20.11.0
 
 jobs:
   test:
