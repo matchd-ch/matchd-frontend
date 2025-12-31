@@ -12,7 +12,7 @@ type ImpersonatorToken = {
 const createImpersonatorStore = () => {
   const store = useStore();
   const timer = ref<null | string>(null);
-  const interval = ref<NodeJS.Timeout | number | undefined>(undefined);
+  const interval = ref<number | undefined>(undefined);
 
   const impersonator = computed(() => {
     if (!store.getters["accessToken"]) {

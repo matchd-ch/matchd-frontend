@@ -19,6 +19,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: "Deploy"
-    needs: ['build']
+    needs: ["build"]
     steps:
       - run: echo "Deploying development version... To be implemented."

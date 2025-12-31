@@ -50,7 +50,14 @@ import ChallengeStep2 from "@/views/challenge/ChallengeStep2.vue";
 import ChallengeStep3 from "@/views/challenge/ChallengeStep3.vue";
 import { Options, setup, Vue } from "vue-class-component";
 import { useMeta } from "vue-meta";
-import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized, Router } from "vue-router";
+
+declare module "@vue/runtime-core" {
+  interface ComponentCustomProperties {
+    $router: Router;
+    $route: RouteLocationNormalized;
+  }
+}
 
 Vue.registerHooks(["beforeRouteUpdate", "beforeRouteLeave"]);
 
