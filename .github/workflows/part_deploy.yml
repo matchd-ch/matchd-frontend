@@ -149,7 +149,7 @@ jobs:
           KUBE_CONTEXT: "gke_joshmartin-cluster_europe-west6-a_joshmartin-cluster-next"
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         if: "${{ inputs.commentDeployment }}"
         with:
           message: "Deployed to https://${{ inputs.domain }}"
