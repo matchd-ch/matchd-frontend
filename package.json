@@ -19,7 +19,7 @@
     "graphql:codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
-    "@apollo/client": "^3.14.0",
+    "@apollo/client": "^4.0.13",
     "@cypress/vue": "^6.0.2",
     "@cypress/webpack-dev-server": "^3.11.0",
     "@gtm-support/vue-gtm": "^3.1.0",
