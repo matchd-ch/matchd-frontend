@@ -134,7 +134,7 @@
         </template>
       </profile-section>
     </div>
-    <DeletionInfoModal v-model:showModal="showDeletionInfoModal">
+    <DeletionInfoModal v-model:show-modal="showDeletionInfoModal">
       <template #title>{{
         "challengeDeleted" in route.query
           ? "Challenge | Mentoring gelöscht"

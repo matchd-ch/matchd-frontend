@@ -5,17 +5,18 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "test": "npm run test:lint && npm run test:types && npm run test:prettier && npm run test:ct",
     "test:ct": "cypress run --component --headless --browser chrome",
     "test:ct:prepare": "cypress install",
     "test:ct:open": "cypress open --component --browser chrome",
     "test:lint": "vue-cli-service lint",
     "test:types": "vue-tsc --noEmit",
     "test:types:watch": "vue-tsc --noEmit --watch",
+    "test:prettier": "prettier -c .",
+    "prettier:format": "prettier -w .",
     "graphql": "npm run graphql:introspection && npm run graphql:codegen",
     "graphql:introspection": "graphql-codegen --config codegen-schema.yml",
-    "graphql:codegen": "graphql-codegen --config codegen.yml",
-    "format": "prettier -w .",
-    "format:check": "prettier -c ."
+    "graphql:codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.14.0",
