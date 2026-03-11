@@ -1,4 +1,4 @@
-FROM nginx:1.29.4-alpine
+FROM nginx:1.29.6-alpine
 
 RUN apk add --no-cache jq
 
