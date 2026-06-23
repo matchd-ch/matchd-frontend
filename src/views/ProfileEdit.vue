@@ -36,7 +36,6 @@
       <component
         :is="currentProfile?.component"
         v-if="currentProfile?.component"
-        :edit="true"
         class="col-start-1 lg:col-start-5 col-span-full lg:col-span-8 px-4 lg:px-5 py-12"
         @change-dirty="onChangeDirty"
         @submit-complete="onSubmitComplete"
@@ -124,26 +123,28 @@ const profiles = computed<Profiles>(() => ({
       step: "schritt1",
       label: "Kontaktdaten",
       progress: companyProgress.value?.sections.contactData,
+      nextStep: "schritt2",
     },
     {
       component: CompanyStep2,
       step: "schritt2",
       label: "Kurzsteckbrief",
       progress: companyProgress.value?.sections.shortProfile,
-      // TODO: Use this for redirect to another step after onSubmitComplete
-      // nextStep: "schritt3",
+      nextStep: "schritt3",
     },
     {
       component: CompanyStep3,
       step: "schritt3",
       label: "Tätigkeitsbereich & Benefits",
       progress: companyProgress.value?.sections.activitiesAndBenefits,
+      nextStep: "schritt4",
     },
     {
       component: CompanyStep4,
       step: "schritt4",
       label: "Set-up Talentsuche",
       progress: companyProgress.value?.sections.setupTalentSearch,
+      nextStep: "konto",
     },
     {
       component: CompanySettingsAccount,
@@ -158,35 +159,41 @@ const profiles = computed<Profiles>(() => ({
       step: "schritt1",
       label: "Persönliche Daten",
       progress: studentProgress.value?.sections.personalData,
+      nextStep: "schritt2",
     },
     {
       component: StudentStep2,
       step: "schritt2",
       label: "Ich suche",
       progress: studentProgress.value?.sections.searchingFor,
+      nextStep: "schritt3",
     },
     {
       component: StudentStep3,
       step: "schritt3",
       label: "Über mich",
       progress: studentProgress.value?.sections.aboutMe,
+      nextStep: "schritt4",
     },
     {
       component: StudentStep4,
       step: "schritt4",
       label: "Skills & Talente",
       progress: studentProgress.value?.sections.skillsAndTalents,
+      nextStep: "schritt5",
     },
     {
       component: StudentStep5,
       step: "schritt5",
       label: "Nickname & Foto",
       progress: studentProgress.value?.sections.nickname,
+      nextStep: "schritt6",
     },
     {
       component: StudentStep6,
       step: "schritt6",
       label: "Profilstatus",
+      nextStep: "konto",
     },
     {
       component: StudentSettingsAccount,
@@ -201,24 +208,28 @@ const profiles = computed<Profiles>(() => ({
       step: "schritt1",
       label: "Kontaktdaten",
       progress: universityProgress.value?.sections.contactData,
+      nextStep: "schritt2",
     },
     {
       component: UniversityStep2,
       step: "schritt2",
       label: "Kurzsteckbrief",
       progress: universityProgress.value?.sections.shortProfile,
+      nextStep: "schritt3",
     },
     {
       component: UniversityStep3,
       step: "schritt3",
       label: "Tätigkeitsbereich & Benefits",
       progress: universityProgress.value?.sections.activitiesAndBenefits,
+      nextStep: "schritt4",
     },
     {
       component: UniversityStep4,
       step: "schritt4",
       label: "Set-up Talentsuche",
       progress: universityProgress.value?.sections.setupTalentSearch,
+      nextStep: "konto",
     },
     {
       component: UniversitySettingsAccount,
