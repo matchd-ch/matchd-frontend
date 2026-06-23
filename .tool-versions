@@ -1,5 +1,4 @@
-nodejs 24.11.1
+nodejs 26.2.0
 helmfile 0.150.0
 helm 3.11.0
 kubectl 1.25.6
-#
