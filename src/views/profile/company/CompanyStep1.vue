@@ -56,40 +56,27 @@
         placeholder="+41712223344"
       />
     </MatchdField>
-    <template v-if="props.edit">
-      <teleport to="footer">
-        <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
-          <MatchdButton
-            type="button"
-            variant="outline"
-            class="mb-2 xl:mr-4 xl:mb-0"
-            @click="$emit('clickCancel')"
-          >
-            Abbrechen
-          </MatchdButton>
-          <MatchdButton
-            type="button"
-            variant="fill"
-            :disabled="onboardingLoading"
-            :loading="onboardingLoading"
-            @click="onSubmit"
-          >
-            Speichern
-          </MatchdButton>
-        </div>
-      </teleport>
-    </template>
-    <template v-else>
-      <MatchdButton
-        type="button"
-        variant="fill"
-        :disabled="onboardingLoading"
-        :loading="onboardingLoading"
-        @click="onSubmit"
-      >
-        Speichern und weiter
-      </MatchdButton>
-    </template>
+    <teleport to="footer">
+      <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
+        <MatchdButton
+          type="button"
+          variant="outline"
+          class="mb-2 xl:mr-4 xl:mb-0"
+          @click="$emit('clickCancel')"
+        >
+          Abbrechen
+        </MatchdButton>
+        <MatchdButton
+          type="button"
+          variant="fill"
+          :disabled="onboardingLoading"
+          :loading="onboardingLoading"
+          @click="onSubmit"
+        >
+          Speichern und weiter
+        </MatchdButton>
+      </div>
+    </teleport>
   </form>
 </template>
 
@@ -105,15 +92,6 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { Field, useForm } from "vee-validate";
 import { computed, onMounted, watch } from "vue";
-
-const props = withDefaults(
-  defineProps<{
-    edit?: boolean;
-  }>(),
-  {
-    edit: false,
-  },
-);
 
 const emits = defineEmits<{
   (event: "submitComplete", success: boolean): void;
