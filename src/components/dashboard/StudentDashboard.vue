@@ -165,7 +165,7 @@
         </template>
       </profile-section>
     </div>
-    <DeletionInfoModal v-model:showModal="showDeletionInfoModal">
+    <DeletionInfoModal v-model:show-modal="showDeletionInfoModal">
       <template #title>Challenge | Mentoring gelöscht</template>
       Die Challenge | Mentoring wurde erfolgreich gelöscht.
     </DeletionInfoModal>

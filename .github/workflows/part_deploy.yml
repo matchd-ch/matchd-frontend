@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: "Read .tool-versions"
         id: toolVersions
@@ -83,7 +83,7 @@ jobs:
           echo "HELM_VERSION=${HELM_VERSION}" >> $GITHUB_ENV
 
       - name: Setup helmfile
-        uses: mamezou-tech/setup-helmfile@v1.3.0
+        uses: mamezou-tech/setup-helmfile@v2.2.0
         with:
           helmfile-version: "v${{ env.HELMFILE_VERSION }}"
           helm-version: "v${{ env.HELM_VERSION }}"
@@ -149,7 +149,7 @@ jobs:
           KUBE_CONTEXT: "gke_joshmartin-cluster_europe-west6-a_joshmartin-cluster-next"
 
       - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         if: "${{ inputs.commentDeployment }}"
         with:
           message: "Deployed to https://${{ inputs.domain }}"
