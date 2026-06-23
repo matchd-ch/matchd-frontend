@@ -72,40 +72,27 @@
         </p>
       </template>
     </div>
-    <template v-if="edit">
-      <teleport to="footer">
-        <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
-          <MatchdButton
-            type="button"
-            variant="outline"
-            class="mb-2 xl:mr-4 xl:mb-0"
-            @click="emit('clickCancel')"
-            >Abbrechen</MatchdButton
-          >
-          <MatchdButton
-            type="button"
-            variant="fill"
-            :disabled="onboardingLoading"
-            :loading="onboardingLoading"
-            @click="onSubmit"
-            >Speichern</MatchdButton
-          >
-        </div>
-      </teleport>
-    </template>
-    <template v-else>
-      <MatchdButton type="button" variant="outline" class="mr-4" @click="emit('clickBack')"
-        >Zurück</MatchdButton
-      >
-      <MatchdButton
-        type="button"
-        variant="fill"
-        :disabled="onboardingLoading"
-        :loading="onboardingLoading"
-        @click="onSubmit"
-        >Speichern und weiter</MatchdButton
-      >
-    </template>
+    <teleport to="footer">
+      <div class="p-4 xl:p-8 bg-white flex flex-col xl:flex-row xl:justify-center">
+        <MatchdButton
+          type="button"
+          variant="outline"
+          class="mb-2 xl:mr-4 xl:mb-0"
+          @click="emit('clickCancel')"
+        >
+          Abbrechen
+        </MatchdButton>
+        <MatchdButton
+          type="button"
+          variant="fill"
+          :disabled="onboardingLoading"
+          :loading="onboardingLoading"
+          @click="onSubmit"
+        >
+          Speichern und weiter
+        </MatchdButton>
+      </div>
+    </teleport>
   </form>
 </template>
 
@@ -113,7 +100,6 @@
 import { studentProfileStep6FormMapper } from "@/api/mappers/studentProfileStep6FormMapper";
 import { studentProfileStep6InputMapper } from "@/api/mappers/studentProfileStep6InputMapper";
 import { ProfileState } from "@/api/models/types";
-import FormSaveError from "@/components/FormSaveError.vue";
 import MatchdButton from "@/components/MatchdButton.vue";
 import { calculateMargins } from "@/helpers/calculateMargins";
 import { type StudentProfileStep6Form } from "@/models/StudentProfileStep6Form";
@@ -121,15 +107,6 @@ import { useStore } from "@/store";
 import { ActionTypes } from "@/store/modules/profile/action-types";
 import { useField, useForm } from "vee-validate";
 import { computed, onMounted, watch } from "vue";
-
-withDefaults(
-  defineProps<{
-    edit: boolean;
-  }>(),
-  {
-    edit: false,
-  },
-);
 
 const emit = defineEmits<{
   (event: "submitComplete", success: boolean): void;
